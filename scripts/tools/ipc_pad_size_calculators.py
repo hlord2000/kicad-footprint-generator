@@ -57,8 +57,8 @@ def ipc_body_edge_inside_pull_back(
     # Smin = Lmin - 2*Tmax
     # Smax(RMS) = Smin + Stol(RMS)
 
-    F = manf_tol.manufacturing_tolerance
-    P = manf_tol.placement_tolerance
+    f = manf_tol.manufacturing_tolerance
+    p = manf_tol.placement_tolerance
 
     if lead_outside is None:
         if pull_back is None:
@@ -66,18 +66,18 @@ def ipc_body_edge_inside_pull_back(
         lead_outside = body_size - pull_back * 2
 
     if lead_inside is not None:
-        S = lead_inside
+        s = lead_inside
     elif lead_len is not None:
-        S = lead_outside - lead_len * 2
+        s = lead_outside - lead_len * 2
     elif body_to_inside_lead_edge is not None:
-        S = body_size - body_to_inside_lead_edge * 2
+        s = body_size - body_to_inside_lead_edge * 2
     else:
         raise KeyError("either lead inside distance, lead to body edge or lead length must be given")
 
-    Gmin = S.maximum_RMS - 2 * ipc_offsets.heel + 2 * heel_reduction - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
+    Gmin = s.maximum_RMS - 2 * ipc_offsets.heel + 2 * heel_reduction - math.sqrt(s.ipc_tol_RMS**2 + f**2 + p**2)
 
-    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
-    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
+    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + f**2 + p**2)
+    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + f**2 + p**2)
 
     Zmax = roundToBase(Zmax, ipc_round_base.toe)
     Gmin = roundToBase(Gmin, ipc_round_base.heel)
@@ -107,20 +107,20 @@ def ipc_gull_wing(
     # Smin = Lmin - 2*Tmax
     # Smax(RMS) = Smin + Stol(RMS)
 
-    F = manf_tol.manufacturing_tolerance
-    P = manf_tol.placement_tolerance
+    f = manf_tol.manufacturing_tolerance
+    p = manf_tol.placement_tolerance
 
     if lead_inside is not None:
-        S = lead_inside
+        s = lead_inside
     elif lead_len is not None:
-        S = lead_outside - lead_len * 2
+        s = lead_outside - lead_len * 2
     else:
         raise KeyError("either lead inside distance or lead length must be given")
 
-    Gmin = S.maximum_RMS - 2 * ipc_offsets.heel + 2 * heel_reduction - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
+    Gmin = s.maximum_RMS - 2 * ipc_offsets.heel + 2 * heel_reduction - math.sqrt(s.ipc_tol_RMS**2 + f**2 + p**2)
 
-    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
-    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
+    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + f**2 + p**2)
+    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + f**2 + p**2)
 
     Zmax = roundToBase(Zmax, ipc_round_base.toe)
     Gmin = roundToBase(Gmin, ipc_round_base.heel)
@@ -138,16 +138,16 @@ def ipc_pad_center_plus_size(
     lead_width: TolerancedSize,
 ) -> tuple[float, float, float]:
 
-    F = manf_tol.manufacturing_tolerance
-    P = manf_tol.placement_tolerance
+    f = manf_tol.manufacturing_tolerance
+    p = manf_tol.placement_tolerance
 
-    S = center_position * 2 - lead_length
+    s = center_position * 2 - lead_length
     lead_outside = center_position * 2 + lead_length
 
-    Gmin = S.maximum_RMS - 2 * ipc_offsets.heel - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
-    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
+    Gmin = s.maximum_RMS - 2 * ipc_offsets.heel - math.sqrt(s.ipc_tol_RMS**2 + f**2 + p**2)
+    Zmax = lead_outside.minimum_RMS + 2 * ipc_offsets.toe + math.sqrt(lead_outside.ipc_tol_RMS**2 + f**2 + p**2)
 
-    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
+    Xmax = lead_width.minimum_RMS + 2 * ipc_offsets.side + math.sqrt(lead_width.ipc_tol_RMS**2 + f**2 + p**2)
 
     Zmax = roundToBase(Zmax, ipc_round_base.toe)
     Gmin = roundToBase(Gmin, ipc_round_base.heel)
