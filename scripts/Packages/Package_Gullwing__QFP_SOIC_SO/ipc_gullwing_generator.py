@@ -201,10 +201,10 @@ class GullwingGenerator(FootprintGenerator):
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        manf_tol = {
-            'F': self.configuration.get('manufacturing_tolerance', 0.1),
-            'P': self.configuration.get('placement_tolerance', 0.05)
-        }
+        manf_tol = ipc_rules.ManufacturingTolerance(
+            manufacturing_tolerance=self.configuration.get('manufacturing_tolerance', 0.1),
+            placement_tolerance=self.configuration.get('placement_tolerance', 0.05),
+        )
 
         Gmin_x, Zmax_x, Xmax = ipc_gull_wing(
             ipc_offsets, ipc_round_base, manf_tol,

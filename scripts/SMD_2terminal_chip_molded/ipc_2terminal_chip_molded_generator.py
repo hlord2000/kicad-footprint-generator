@@ -51,7 +51,11 @@ class TwoTerminalSMD:
         self.ipc_definitions = ipc_defs
 
     def calcPadDetails(
-        self, device_dimensions, ipc_offsets, ipc_round_base, footprint_group_data
+        self,
+        device_dimensions,
+        ipc_offsets: ipc_rules.Offsets,
+        ipc_round_base: ipc_rules.Offsets,
+        footprint_group_data,
     ):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
@@ -63,10 +67,12 @@ class TwoTerminalSMD:
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        manf_tol = {
-            "F": self.configuration.get("manufacturing_tolerance", 0.1),
-            "P": self.configuration.get("placement_tolerance", 0.05),
-        }
+        manf_tol = ipc_rules.ManufacturingTolerance(
+            manufacturing_tolerance=self.configuration.get(
+                "manufacturing_tolerance", 0.1
+            ),
+            placement_tolerance=self.configuration.get("placement_tolerance", 0.05),
+        )
 
         if "terminal_width" in device_dimensions:
             lead_width = device_dimensions["terminal_width"]

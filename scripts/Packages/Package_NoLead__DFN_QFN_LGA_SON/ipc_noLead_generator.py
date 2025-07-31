@@ -150,10 +150,12 @@ class NoLeadGenerator(FootprintGenerator):
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        manf_tol = {
-            'F': self.configuration.get('manufacturing_tolerance', 0.1),
-            'P': self.configuration.get('placement_tolerance', 0.05)
-        }
+        manf_tol = ipc_rules.ManufacturingTolerance(
+            manufacturing_tolerance=self.configuration.get(
+                "manufacturing_tolerance", 0.1
+            ),
+            placement_tolerance=self.configuration.get("placement_tolerance", 0.05),
+        )
 
         pull_back_0 = TolerancedSize(nominal=0)
         pull_back = device_dimensions.get('lead_to_edge', pull_back_0)

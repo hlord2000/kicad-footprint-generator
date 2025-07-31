@@ -5,25 +5,48 @@ from kilibs.ipc_tools import ipc_rules
 from kilibs.util.toleranced_size import TolerancedSize
 
 
-def roundToBase(value, base):
+def roundToBase(value: float, base: float) -> float:
     return round(value / base) * base
 
 
-def ipc_body_edge_inside(ipc_offsets: ipc_rules.Offsets, ipc_round_base: ipc_rules.Roundoff,
-                         manf_tol, body_size, lead_width,
-                         lead_len=None, lead_inside=None, heel_reduction=0):
+def ipc_body_edge_inside(
+    ipc_offsets: ipc_rules.Offsets,
+    ipc_round_base: ipc_rules.Roundoff,
+    manf_tol: ipc_rules.ManufacturingTolerance,
+    body_size: TolerancedSize,
+    lead_width: TolerancedSize,
+    lead_len: TolerancedSize | None = None,
+    lead_inside: TolerancedSize | None = None,
+    heel_reduction: float = 0,
+) -> tuple[float, float, float]:
     pull_back = TolerancedSize(nominal=0)
 
     return ipc_body_edge_inside_pull_back(
-        ipc_offsets, ipc_round_base, manf_tol, body_size, lead_width,
-        lead_len=lead_len, lead_inside=lead_inside, pull_back=pull_back,
-        heel_reduction=heel_reduction
+        ipc_offsets,
+        ipc_round_base,
+        manf_tol,
+        body_size,
+        lead_width,
+        lead_len=lead_len,
+        lead_inside=lead_inside,
+        pull_back=pull_back,
+        heel_reduction=heel_reduction,
     )
 
 
-def ipc_body_edge_inside_pull_back(ipc_offsets: ipc_rules.Offsets, ipc_round_base: ipc_rules.Roundoff,
-                                   manf_tol, body_size, lead_width,
-                                   lead_len=None, lead_inside=None, body_to_inside_lead_edge=None, pull_back=None, lead_outside=None, heel_reduction=0):
+def ipc_body_edge_inside_pull_back(
+    ipc_offsets: ipc_rules.Offsets,
+    ipc_round_base: ipc_rules.Roundoff,
+    manf_tol: ipc_rules.ManufacturingTolerance,
+    body_size: TolerancedSize,
+    lead_width: TolerancedSize,
+    lead_len: TolerancedSize | None = None,
+    lead_inside: TolerancedSize | None = None,
+    body_to_inside_lead_edge: TolerancedSize | None = None,
+    pull_back: TolerancedSize | None = None,
+    lead_outside: TolerancedSize | None = None,
+    heel_reduction: float = 0,
+) -> tuple[float, float, float]:
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -34,8 +57,8 @@ def ipc_body_edge_inside_pull_back(ipc_offsets: ipc_rules.Offsets, ipc_round_bas
     # Smin = Lmin - 2*Tmax
     # Smax(RMS) = Smin + Stol(RMS)
 
-    F = manf_tol.get('manufacturing_tolerance', 0.1)
-    P = manf_tol.get('placement_tolerance', 0.05)
+    F = manf_tol.manufacturing_tolerance
+    P = manf_tol.placement_tolerance
 
     if lead_outside is None:
         if pull_back is None:
@@ -63,8 +86,17 @@ def ipc_body_edge_inside_pull_back(ipc_offsets: ipc_rules.Offsets, ipc_round_bas
     return Gmin, Zmax, Xmax
 
 
-def ipc_gull_wing(ipc_offsets, ipc_round_base, manf_tol, lead_width, lead_outside,
-                  lead_len=None, lead_inside=None, heel_reduction=0):
+def ipc_gull_wing(
+    ipc_offsets: ipc_rules.Offsets,
+    ipc_round_base: ipc_rules.Roundoff,
+    manf_tol: ipc_rules.ManufacturingTolerance,
+    lead_width: TolerancedSize,
+    lead_outside: TolerancedSize,
+    lead_len: TolerancedSize | None = None,
+    lead_inside: TolerancedSize | None = None,
+    heel_reduction: float = 0,
+) -> tuple[float, float, float]:
+
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -75,8 +107,8 @@ def ipc_gull_wing(ipc_offsets, ipc_round_base, manf_tol, lead_width, lead_outsid
     # Smin = Lmin - 2*Tmax
     # Smax(RMS) = Smin + Stol(RMS)
 
-    F = manf_tol.get('manufacturing_tolerance', 0.1)
-    P = manf_tol.get('placement_tolerance', 0.05)
+    F = manf_tol.manufacturing_tolerance
+    P = manf_tol.placement_tolerance
 
     if lead_inside is not None:
         S = lead_inside
@@ -94,14 +126,20 @@ def ipc_gull_wing(ipc_offsets, ipc_round_base, manf_tol, lead_width, lead_outsid
     Gmin = roundToBase(Gmin, ipc_round_base.heel)
     Xmax = roundToBase(Xmax, ipc_round_base.side)
 
-
     return Gmin, Zmax, Xmax
 
 
-def ipc_pad_center_plus_size(ipc_offsets: ipc_rules.Offsets, ipc_round_base: ipc_rules.Roundoff,
-                             manf_tol, center_position, lead_length, lead_width):
-    F = manf_tol.get('manufacturing_tolerance', 0.1)
-    P = manf_tol.get('placement_tolerance', 0.05)
+def ipc_pad_center_plus_size(
+    ipc_offsets: ipc_rules.Offsets,
+    ipc_round_base: ipc_rules.Roundoff,
+    manf_tol: ipc_rules.ManufacturingTolerance,
+    center_position: TolerancedSize,
+    lead_length: TolerancedSize,
+    lead_width: TolerancedSize,
+) -> tuple[float, float, float]:
+
+    F = manf_tol.manufacturing_tolerance
+    P = manf_tol.placement_tolerance
 
     S = center_position * 2 - lead_length
     lead_outside = center_position * 2 + lead_length

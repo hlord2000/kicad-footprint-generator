@@ -92,10 +92,10 @@ def create_footprint(name, configuration, **kwargs):
         ipc_offsets = ipc_definitions.get_class(ipc_device_class).get_offsets(configuration['ipc_density'])
         ipc_round_base = ipc_definitions.get_class(ipc_device_class).roundoff
 
-        manf_tol = {
-            'F': configuration.get('manufacturing_tolerance', 0.1),
-            'P': configuration.get('placement_tolerance', 0.05)
-        }
+        manf_tol = ipc_rules.ManufacturingTolerance(
+            manufacturing_tolerance=configuration.get("manufacturing_tolerance", 0.1),
+            placement_tolerance=configuration.get("placement_tolerance", 0.05),
+        )
 
         # # fully tolerance lead dimensions; leads are dimensioned like SOIC so use gullwing calculator
         device_dimensions['lead_width'] = TolerancedSize.fromYaml(kwargs, base_name='lead_width')

@@ -236,3 +236,13 @@ class IpcRules:
         members.
         """
         return self._data
+
+
+@dataclasses.dataclass
+class ManufacturingTolerance:
+    """Manufacturing tolerance for IPC rules (F and P)."""
+
+    manufacturing_tolerance: float
+    """Manufacturing tolerance in mm. This is the F value in IPC rules."""
+    placement_tolerance: float
+    """Placement tolerance in mm. This is the P value in IPC rules."""
