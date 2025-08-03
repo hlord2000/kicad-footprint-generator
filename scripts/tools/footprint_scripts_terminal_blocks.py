@@ -29,14 +29,13 @@ slk_offset = lw_slk
 
 
 def make_silk_outline_with_pin1_arrow(
-    parent: Node,
-    silk_tl: Vector2D,
-    silk_size: Vector2D,
+    silk_rect: GeomRectangle,
     arrow_x: float,
     line_width: float,
     keepouts: list[GeomShapeClosed],
     pin1_keepouts: list[GeomShapeClosed],
-):
+    arrow_direction: Direction,
+) -> list[Node]:
     """
 
     +-------------------------+
@@ -45,10 +44,15 @@ def make_silk_outline_with_pin1_arrow(
         /\
         --
 
-    :pin1_keepouts: subset of the keepouts that relate to pin 1.
-                    This is used to bump the arrow out of the way of the pads
-                    if needed.
+    Args:
+        pin1_keepouts: subset of the keepouts that relate to pin 1.
+            This is used to bump the arrow out of the way of the pads
+            if needed.
+        arrow_direction: Direction of the pin1 arrow. Must be either NORTH or SOUTH.
     """
+
+    if arrow_direction not in (Direction.NORTH, Direction.SOUTH):
+        raise ValueError("Arrow direction must be either NORTH or SOUTH")
 
     # Terminal blocks are big items, so we use a bigger arrow
     # (it's still not that big really)
@@ -56,7 +60,10 @@ def make_silk_outline_with_pin1_arrow(
         DT.SilkArrowSize.HUGE, lw_slk
     )
 
-    max_arrow_y = silk_tl.y + silk_size.y
+    if arrow_direction == Direction.NORTH:
+        max_arrow_y = silk_rect.bottom
+    else:  # SOUTH
+        max_arrow_y = silk_rect.top
 
     # Bump arrow out of the way of the pads if needed
     if pin1_keepouts:
@@ -64,35 +71,37 @@ def make_silk_outline_with_pin1_arrow(
         for ko in pin1_keepouts:
             pin1_bbox.include_bbox(ko.bbox())
 
-        max_arrow_y = max(max_arrow_y, pin1_bbox.bottom)
+        if arrow_direction == Direction.NORTH:
+            max_arrow_y = max(max_arrow_y, pin1_bbox.bottom)
+        else:  # SOUTH
+            max_arrow_y = min(max_arrow_y, pin1_bbox.top)
 
-    pin1_arrow_apex = Vector2D(arrow_x, max_arrow_y)
+    pin1_arrow_apex = Vector2D.from_floats(arrow_x, max_arrow_y)
     pin1_arrow_keepout = GeomRectangle(
-        center=pin1_arrow_apex, size=Vector2D(0.6, 0.6)
+        center=pin1_arrow_apex,
+        size=Vector2D.from_floats(line_width * 5, line_width * 5),
     )
 
-    DT.addRectWithKeepout(
-        parent,
-        silk_tl.x,
-        silk_tl.y,
-        silk_size.x,
-        silk_size.y,
+    nodes = DT.makeNodesWithKeepout(
+        geom_items=[silk_rect],
         layer="F.SilkS",
         width=lw_slk,
         keepouts=keepouts + [pin1_arrow_keepout],
     )
 
     # Silkscreen pin1 marker
-    parent.append(
+    nodes.append(
         pin1_arrow.Pin1SilkscreenArrow(
             apex_position=pin1_arrow_apex,
-            angle=Direction.NORTH,
+            angle=arrow_direction,
             size=arrow_size,
             length=arrow_length,
             layer="F.SilkS",
             line_width_mm=line_width,
         )
     )
+
+    return nodes
 
 #
 #  +----------------------------------------+                      ^
@@ -143,12 +152,12 @@ def makeTerminalBlockStd(
 ):
     global_config = GC.DefaultGlobalConfig()
 
-    package_size = [2 * leftbottom_offset[0] + (pins - 1) * rm, package_height]
+    package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
-        package_size = [
+        package_size = Vector2D.from_floats(
             leftbottom_offset[0] + leftbottom_offset[2] + (pins - 1) * rm,
             package_height,
-        ]
+        )
 
     h_fab = package_size[1]
     w_fab = package_size[0]
@@ -402,9 +411,13 @@ def makeTerminalBlockStd(
             keepouts=keepouts,
         )
 
-    make_silk_outline_with_pin1_arrow(
-        kicad_modg, Vector2D(l_slk, t_slk), Vector2D(w_slk, h_slk), 0, lw_slk,
-        keepouts, pin1_keepouts,
+    kicad_modg += make_silk_outline_with_pin1_arrow(
+        GeomRectangle(start=Vector2D(l_slk, t_slk), size=Vector2D(w_slk, h_slk)),
+        0,
+        lw_slk,
+        keepouts,
+        pin1_keepouts,
+        Direction.NORTH,
     )
 
     # screws + other repeated features
@@ -706,12 +719,12 @@ def makeTerminalBlockVertical(
 ):
     global_config = GC.DefaultGlobalConfig()
 
-    package_size = [2 * leftbottom_offset[0] + (pins - 1) * rm, package_height]
+    package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
-        package_size = [
+        package_size = Vector2D.from_floats(
             leftbottom_offset[0] + leftbottom_offset[2] + (pins - 1) * rm,
             package_height,
-        ]
+        )
 
     h_fab = package_size[1]
     w_fab = package_size[0]
@@ -975,9 +988,13 @@ def makeTerminalBlockVertical(
             keepouts=keepouts,
         )
 
-    make_silk_outline_with_pin1_arrow(
-        kicad_modg, Vector2D(l_slk, t_slk), Vector2D(w_slk, h_slk), 0, lw_slk,
-        keepouts, pin1_keepouts
+    kicad_modg += make_silk_outline_with_pin1_arrow(
+        GeomRectangle(start=Vector2D(l_slk, t_slk), size=Vector2D(w_slk, h_slk)),
+        0,
+        lw_slk,
+        keepouts,
+        pin1_keepouts,
+        Direction.NORTH,
     )
 
     # opening + other repeated features
@@ -1268,12 +1285,12 @@ def makeTerminalBlock45Degree(
 ):
     global_config = GC.DefaultGlobalConfig()
 
-    package_size = [2 * leftbottom_offset[0] + (pins - 1) * rm, package_height]
+    package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
-        package_size = [
+        package_size = Vector2D.from_floats(
             leftbottom_offset[0] + leftbottom_offset[2] + (pins - 1) * rm,
             package_height,
-        ]
+        )
 
     h_fab = package_size[1]
     w_fab = package_size[0]
@@ -1299,7 +1316,6 @@ def makeTerminalBlock45Degree(
     text_size = round(text_size, 2)
     text_size = [text_size, text_size]
     text_t = text_size[0] * 0.15
-
 
     description = (
         f"{classname_description}, 45Degree (cable under 45degree), {pins:d} pins, pitch {rm:.3g}mm, "
@@ -1533,9 +1549,13 @@ def makeTerminalBlock45Degree(
             keepouts=keepouts,
         )
 
-    make_silk_outline_with_pin1_arrow(
-        kicad_modg, Vector2D(l_slk, t_slk), Vector2D(w_slk, h_slk), 0, lw_slk,
-        keepouts, pin1_keepouts,
+    kicad_modg += make_silk_outline_with_pin1_arrow(
+        GeomRectangle(start=Vector2D(l_slk, t_slk), size=Vector2D(w_slk, h_slk)),
+        0,
+        lw_slk,
+        keepouts,
+        pin1_keepouts,
+        Direction.NORTH,
     )
 
     # opening + other repeated features
