@@ -2404,6 +2404,58 @@ SW_SPST_TL3305C:
 
   actuator_height: 7.0
 
+SW_SPST_TS-1088-xR020: &SW_SPST_TS-1088-xR020
+  modelName: SW_SPST_TS-1088-xR020
+  model_class: tactile
+
+  body_width: 3.9
+  body_length: 2.7
+  body_height: 1.4
+
+  shell_width: 3.5
+  shell_length: 2.6
+  shell_height: 1.5
+  shell_thickness: 0.1
+
+  shell_top_lips: [
+    [add, [0, 180], -1.1, 0.2, 0.4, 0.4], # op, direction, offs, len, base_w, tip_w
+    [add, [0, 180],  1.1, 0.2, 0.4, 0.4],
+  ]
+
+  shell_sides: [
+    {
+      direction: [ 0, 180 ],
+      distance: 1.95,
+      width: 0.75,
+      bottom_height: 1
+    },
+    { direction: [ 90, 270 ], distance: 1.5, width: 2.6, bottom_height: 0.2, hole_width: 1.8, hole_top_height: 1, side_width: 3.6, side_top_height: 0.6, corner_fillet: 0.1, holder_chamfer: [ 0.1, 0.8 ] }
+  ]
+
+  actuator_type: top-round
+  actuator_height: 2
+  actuator_diameter: 1.8
+  actuator_shell_hole_diameter: 1.9
+
+  pin_type: flat
+  pin_width: 1.3
+  pin_thickness: 0.1
+  pin_length: 0.65
+  pins: [ [ -2.5, 0, 180 ], [ 2.5, 0, 0 ] ]
+
+  body_color_key: black body
+  shell_color_key: metal silver
+  actuator_color_key: black body
+  pins_color_key: metal grey pins
+  destination_dir: Button_Switch_SMD.3dshapes
+  source: https://lcsc.com/datasheet/lcsc_datasheet_2504101957_XUNPU-TS-1088-AR02016_C720477.pdf
+
+SW_SPST_TS-1088-xR025:
+  <<: *SW_SPST_TS-1088-xR020
+  modelName: SW_SPST_TS-1088-xR025
+
+  actuator_height: 2.5
+
 SW_PUSH-12mm_Wuerth-430476085716:
   modelName: SW_PUSH-12mm_Wuerth-430476085716
   model_class: tactile
