@@ -1154,38 +1154,6 @@ TQFP-64_10x10mm_P0.5mm:
   destination_dir: 'Package_QFP.3dshapes'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
-TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm:
-  the: 12.0
-  tb_s: 0.15
-  c: 0.1
-  R1: 0.1
-  R2: 0.1
-  S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
-  fp_z: 0.1
-  ef: 0.05
-  cc1: 0.25
-  D1: 10.0
-  E1: 10.0
-  E: 12.0
-  A1: 0.1
-  A2: 1.0
-  b: 0.22
-  e: 0.5
-  npx: 16
-  npy: 16
-  epad: [8, 8]
-  excluded_pins: null
-  model_name: TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm
-  rotation: -90
-  body_color_key: 'black body'
-  pin_color_key: 'metal grey pins'
-  mark_color_key: 'light brown label'
-  destination_dir: 'Package_QFP.3dshapes'
-  source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-
 TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   the: 12.0
   tb_s: 0.15
@@ -1218,38 +1186,6 @@ TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   mark_color_key: 'light brown label'
   destination_dir: 'Package_QFP.3dshapes'
   source: 'https://www.esstech.com/wp-content/uploads/2022/09/ES9028PRO-Datasheet-v3.7.pdf#page=54'
-
-HTQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm:
-  the: 12.0
-  tb_s: 0.15
-  c: 0.1
-  R1: 0.1
-  R2: 0.1
-  S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
-  fp_z: 0.1
-  ef: 0.05
-  cc1: 0.25
-  D1: 10.0
-  E1: 10.0
-  E: 12.0
-  A1: 0.1
-  A2: 1.0
-  b: 0.22
-  e: 0.5
-  npx: 16
-  npy: 16
-  epad: [8, 8]
-  excluded_pins: null
-  model_name: HTQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm
-  rotation: -90
-  body_color_key: 'black body'
-  pin_color_key: 'metal grey pins'
-  mark_color_key: 'light brown label'
-  destination_dir: 'Package_QFP.3dshapes'
-  source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-64_14x14mm_P0.8mm:
   the: 12.0
@@ -1564,38 +1500,6 @@ TQFP-144_20x20mm_P0.5mm:
   epad: null
   excluded_pins: null
   model_name: TQFP-144_20x20mm_P0.5mm
-  rotation: -90
-  body_color_key: 'black body'
-  pin_color_key: 'metal grey pins'
-  mark_color_key: 'light brown label'
-  destination_dir: 'Package_QFP.3dshapes'
-  source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-
-TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm:
-  the: 12.0
-  tb_s: 0.15
-  c: 0.1
-  R1: 0.1
-  R2: 0.1
-  S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
-  fp_z: 0.1
-  ef: 0.0
-  cc1: 0.25
-  D1: 10.0
-  E1: 10.0
-  E: 12.4
-  A1: 0.1
-  A2: 1.5
-  b: 0.2
-  e: 0.5
-  npx: 16
-  npy: 16
-  epad: [8.0, 8.0]
-  excluded_pins: null
-  model_name: TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm
   rotation: -90
   body_color_key: 'black body'
   pin_color_key: 'metal grey pins'

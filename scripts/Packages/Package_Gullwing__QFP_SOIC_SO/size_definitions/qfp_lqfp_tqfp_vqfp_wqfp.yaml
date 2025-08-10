@@ -1642,29 +1642,71 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5.0x5.0mm:
     # paste_avoid_via: True
 
 TQFP-64_10x10mm_P0.5mm:
-# Manufacturer calls it 'TQ64' and says it's based on MS-026 VAR BCD, but with height A = 1.60 mm max it's actually LQFP
-# 3D Model has height = 1.20 mm, some symbols using it like ADS1298xPAG asks for TQFP (height A = 1.20 mm max),
-# others symbols like EX64-TQ64 and CY8C4245AZI-M445 asks for height A = 1.60 mm...
-# we already have a LQFP with same sizes, we should base this footprint on variation ACD instead (which is TQFP), and fix properly some symbols
+# some symbols like EX64-TQ64 and CY8C4245AZI-M445 which asks for a LQFP-64 (height A = 1.60 mm) are using this footprint, pending fix these bugs
   device_type: 'TQFP'
-  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-  body_size_x:
-    nominal: 10
-  body_size_y:
-    nominal: 10
-  overall_size_x:
-    nominal: 12
-  overall_size_y:
-    nominal: 12
-  lead_width:
-    minimum: 0.17
-    maximum: 0.27
-  lead_len:
-    minimum: 0.45
-    maximum: 0.75
-  pitch: 0.5
+  size_source: 'JEITA/EIAJ ED-7311A (variation 64-001-TCA) / JEDEC MS-026 (variation ACD), 1.00mm body thickness, https://www.jeita.or.jp/japanese/standard/book/ED-7311A/#target/page_no=30, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
+  compatible_mpns:
+    - 'P-TQFP064-10.00x10.00-0.50' # JEITA external type
+    - 'P-TQFP064-1010-0.50' # EIAJ old description
+  body_size_x: 10.00 # JEITA D / JEDEC D1
+  body_size_y: 10.00 # JEITA E / JEDEC E1
+  overall_size_x: 12.00 # JEITA HD / JEDEC D
+  overall_size_y: 12.00 # JEITA HE / JEDEC E
+  overall_height: 1.00 .. 1.10 .. 1.20 # minimum: JEITA A1_min + A2_min; nominal: JEITA A1_nom + A2_nom; maximum: JEITA A_max
+  lead_width: 0.17 .. 0.22 .. 0.27 # JEITA bp; nominal value from JEDEC b
+  lead_len: 0.45 .. 0.60 .. 0.75 # JEITA Lp; nominal value from JEDEC L
+  pitch: 0.50 # e
   num_pins_x: 16
   num_pins_y: 16
+
+Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask4.44x4.44mm:
+  inherit: TQFP-64_10x10mm_P0.5mm
+  manufacturer: 'Texas'
+  # part_number: 'PAP0064M'
+  size_source: 'Texas PAP0064M, based on JEDEC MS-026 variation ACD, 1.00mm body thickness, https://www.ti.com/lit/ml/pptd078j/pptd078j.pdf, https://www.ti.com/lit/ds/symlink/tusb4041i.pdf#page=40'
+  compatible_mpns:
+    - 'Texas_PAP0064M Texas_PowerPAD-64-pin-HTQFP'
+  body_size_x: 9.8 .. 10.2
+  body_size_y: 9.8 .. 10.2
+  overall_size_x: 11.8 .. 12.2
+  overall_size_y: 11.8 .. 12.2
+
+  EP_size_x: 3.64 .. 4.44 # Exposed Pad from Texas package
+  EP_size_y: 3.64 .. 4.44
+
+  # from now on, sizes based on Texas Board Layout example
+  EP_size_x_overwrite: 8
+  EP_size_y_overwrite: 8
+  EP_mask_x: 4.44
+  EP_mask_y: 4.44
+  EP_num_paste_pads: [2, 2] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
+
+  thermal_vias:
+    count: [8, 8]
+    grid: [1, 1]
+    drill: 0.2
+    EP_num_paste_pads: [2, 2]
+
+Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask5x5mm:
+  inherit: Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask4.44x4.44mm
+  manufacturer: 'Texas'
+  size_source: 'Texas PAP (S-PQFP-G64), based on JEDEC MS-026 variation ACD, 1.00mm body thickness, https://www.ti.com/lit/ds/symlink/tfp410.pdf#page=41'
+  compatible_mpns:
+    - 'Texas_PAP-(S-PQFP-G64) Texas_PowerPAD-64-pin-HTQFP'
+
+  EP_size_x: 4.30 .. 5.00 # Exposed Pad from Texas package
+  EP_size_y: 4.30 .. 5.00
+
+  # from now on, sizes based on Texas Board Layout example, some values are inherited from parent footprint
+  EP_mask_x: 5.0
+  EP_mask_y: 5.0
+  EP_num_paste_pads: [3, 3] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
+
+  thermal_vias:
+    count: [6, 6]
+    grid: [1.3, 1.3]
+    drill: 0.2
+    EP_num_paste_pads: [3, 3]
 
 TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
 # height A = 1.20mm max, similar to JEDEC MS-026 variation ACD (but custom Exposed Pad)
