@@ -244,6 +244,27 @@ Converter_DCDC_TRACO_TEN20-110xxWIRH_THT:
     ["tht", "6", 17.78, -35.56, 2.5, 2.5, 1.5]
   ]
 
+Converter_DCDC_TRACO_TEN30-xxxxUIR_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TEN 30-xxxxUIR, 30W, Rev. August 6. 2025"
+  datasheet: "https://www.tracopower.com/products/ten30uir.pdf"
+  tags: "DCDC-Converter TRACO TEN30UIR THT 2\"x1\" 30W"
+  extratexts: []
+  at: [-5.1, 2.5]
+  size: [25.4, 50.8]
+  body_position_tolerance: [0.5, 0.5]
+  # For future use
+  height: 10.2
+  pins: [
+    ["thtr", "1", 0, 0, 2.5, 2.5, 1.5],
+    ["tht", "2", 5.08, 0, 2.5, 2.5, 1.5],
+    ["tht", "3", 10.16, 0, 2.5, 2.5, 1.5],
+    ["tht", "4", 15.24, 0, 2.5, 2.5, 1.5],
+    ["tht", "5", -2.54, -45.72, 2.5, 2.5, 1.5],
+    ["tht", "6", 7.62, -45.72, 2.5, 2.5, 1.5],
+    ["tht", "7", 17.78, -45.72, 2.5, 2.5, 1.5]
+  ]
+
 Converter_DCDC_TRACO_TEN40-110xxWIRH_THT:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TEN 40-110xxWIRH, 40W, Rev. October 2. 2024"
