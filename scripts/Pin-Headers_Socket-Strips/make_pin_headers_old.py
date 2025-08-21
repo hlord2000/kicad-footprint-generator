@@ -2,7 +2,10 @@
 
 from KicadModTree import *  # NOQA
 from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.footprint_scripts_pin_headers import *  # NOQA
+# from scripts.tools.footprint_scripts_pin_headers import *  # NOQA
+from def_makePinHeadStraight_old import makePinHeadStraight
+from def_makePinHeadAngled_old import makePinHeadAngled
+from def_makePinHeadStraightSMD_old import makePinHeadStraightSMD
 
 
 if __name__ == "__main__":

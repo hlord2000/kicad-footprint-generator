@@ -2,7 +2,8 @@
 
 from KicadModTree import *  # NOQA
 from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.footprint_scripts_pin_headers import *  # NOQAA
+# from scripts.tools.footprint_scripts_pin_headers import *  # NOQAA
+from def_makeIdcHeader_old import makeIdcHeader
 
 
 if __name__ == "__main__":
