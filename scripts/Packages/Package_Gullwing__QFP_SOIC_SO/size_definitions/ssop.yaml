@@ -127,6 +127,13 @@ SSOP-8_5.3x3mm_P0.65mm:
   num_pins_x: 0
   num_pins_y: 4
 
+SSOP-14_5.3x6.2mm_P0.65mm:
+# old hand-made package is based on NXP SOT337-1, https://www.nxp.com/docs/en/package-information/SOT337-1.pdf, which is based on JEDEC MO-150 (A2, bp, Lp diverges a little; D, E has different tolerances)
+  inherit: SSOP-8_5.3x3mm_P0.65mm
+  size_source: 'JEDEC MO-150 variation AB, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150'
+  body_size_y: 5.90 .. 6.20 .. 6.50 # D
+  num_pins_y: 7
+
 SSOP-16_5.3x6.2mm_P0.65mm:
 # similar to MO-150 variation AC, height A = 2.00mm max
   device_type: 'SSOP' # temporary
@@ -177,26 +184,10 @@ SSOP-20_4.4x6.5mm_P0.65mm:
   num_pins_y: 10
 
 SSOP-20_5.3x7.2mm_P0.65mm:
-# JEDEC MO-150 variation AE, height A = 2.00mm max
-  device_type: 'SSOP' # temporary
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/40001800C.pdf'
-  body_size_x:
-    minimum: 5.0
-    maximum: 5.6
-  body_size_y:
-    minimum: 6.9
-    maximum: 7.5
-  overall_size_x:
-    minimum: 7.4
-    maximum: 8.2
-  lead_width:
-    minimum: 0.22
-    maximum: 0.38
-  lead_len:
-    minimum: 0.55
-    maximum: 0.95
-  pitch: 0.65
-  num_pins_x: 0
+  inherit: SSOP-8_5.3x3mm_P0.65mm
+  size_source: 'JEDEC MO-150 variation AE, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=396'
+  # old source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/40001800C.pdf#page=480'
+  body_size_y: 6.90 .. 7.20 .. 7.50 # D
   num_pins_y: 10
 
 SSOP-24_5.3x8.2mm_P0.65mm:
@@ -204,6 +195,12 @@ SSOP-24_5.3x8.2mm_P0.65mm:
   size_source: 'JEDEC MO-150 variation AG, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=398, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-ssop/ssop_24_05-08-1640.pdf'
   body_size_y: 7.90 .. 8.20 .. 8.50 # D
   num_pins_y: 12
+
+SSOP-28_5.3x10.2mm_P0.65mm:
+  inherit: SSOP-8_5.3x3mm_P0.65mm
+  size_source: 'JEDEC MO-150 variation AH, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=400'
+  body_size_y: 9.90 .. 10.20 .. 10.50 # D
+  num_pins_y: 14
 
 HSOP-32-1EP_7.5x11mm_P0.65mm_EP4.7x4.7mm:
 # it was previously in hsop.yaml file, height = 2.22 .. 2.45mm
