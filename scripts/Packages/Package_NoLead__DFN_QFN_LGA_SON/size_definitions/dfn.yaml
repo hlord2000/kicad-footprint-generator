@@ -1257,6 +1257,39 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
   num_pins_x: 0
   num_pins_y: 5
 
+DFN-10-1EP_3x3mm_P0.5mm_EP1.646x3.1mm:
+# Similar to JEDEC MO-229, variant V3030D-5, but custom Exposed Pad
+  device_type: 'DFN'
+  size_source: 'https://www.st.com/resource/en/datasheet/str485.pdf#page=18'
+  compatible_mpns:
+    - 'VSON-10-1EP_3x3mm_P0.5mm_EP1.646x3.1mm'
+  body_size_x: 2.85 .. 3.00 .. 3.15
+  body_size_y: 2.85 .. 3.00 .. 3.15
+  overall_height: 0.80 .. 0.90 .. 1.00
+  lead_width: 0.20 .. 0.25 .. 0.30
+  lead_len: 0.30 .. 0.40 .. 0.50
+  # Exposed pad size from ST (package sizes)
+  EP_size_x: 1.546 .. 1.646 .. 1.746 # E2
+  EP_size_y: 2.284 .. 2.384 .. 2.484 # D2
+  # From recommended footprint
+  # EP_size_x_overwrite: 1.75
+  # Manufacturer ST recommends an EP_size_x_overwrite of 1.75.
+  # Using this size, the EP gets too close to pads
+  # (when taking into account maximum pad length size).
+  # Using 1.646 mm nominal size instead,
+  # specified as EP_size_x_overwrite in order for the EP_size_y_overwrite to work.
+  EP_size_x_overwrite: 1.646
+  EP_size_y_overwrite: 3.10
+  EP_num_paste_pads: [1, 2]
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+  thermal_vias:
+    count: [2, 3]
+    grid: [1.0, 1.0]
+    drill: 0.2
+    EP_num_paste_pads: [1, 2]
+
 DFN-12-1EP_3x3mm_P0.45mm_EP1.65x2.38mm:
   device_type: 'DFN'
   #manufacturer: 'man'
