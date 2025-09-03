@@ -999,6 +999,49 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+NXP_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
+# based on JEDEC MO-220, variant VGGC, but custom Exposed Pad from NXP
+  device_type: 'VQFN'
+  manufacturer: 'NXP'
+  #part_number: 'SOT629-1'
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT629-1.pdf'
+  compatible_mpns:
+    - 'NXP_SOT629-1 NXP_HVQFN16'
+    - 'JEDEC_MO-220-VGGC'
+  ipc_class: 'qfn'
+  body_size_x:
+    minimum: 3.9
+    nominal: 4.0
+    maximum: 4.1
+  body_size_y:
+    minimum: 3.9
+    nominal: 4.0
+    maximum: 4.1
+  overall_height:
+    nominal: 0.85
+    maximum: 1
+  lead_width:
+    minimum: 0.23
+    maximum: 0.38
+  lead_len:
+    minimum: 0.50
+    maximum: 0.75
+
+  EP_size_x:
+    minimum: 1.95
+    maximum: 2.25
+  EP_size_y:
+    minimum: 1.95
+    maximum: 2.25
+  EP_size_x_overwrite: 2.1
+  EP_size_y_overwrite: 2.1  # from page 4, "PCB Design Guidelines - I/O pads and solderable area"
+  EP_num_paste_pads: [2, 2]
+  EP_paste_coverage: 0.625  # (4 x 0.83 ^ 2) / (2.1 ^ 2) =~ 0.625, see page 4 and 5, "PCB Design Guidelines - solder paste stencil"
+
+  pitch: 0.65
+  num_pins_x: 4
+  num_pins_y: 4
+
 HVQFN-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
   device_type: 'HVQFN'
   #manufacturer: 'NXP'
