@@ -393,11 +393,13 @@ VSSOP-10_3x3mm_P0.5mm:
   num_pins_y: 5
   num_pins_x: 0
 
-HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm:
+HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.83x1.89mm:
 # this is HTSSOP actually, it was previously in hvssop.yaml file
   device_type: 'HVSSOP'
   size_source: 'https://www.ti.com/lit/ds/symlink/bq24090.pdf'
-
+  compatible_mpns:
+    - JEDEC-MO-187_BA-T
+    - Texas_DGQ0010D
   body_size_x:
     nominal: 3
     tolerance: 0.100
@@ -422,9 +424,9 @@ HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm:
   num_pins_y: 5
 
   EP_size_x:
-    nominal: 1.57
+    nominal: 1.83
   EP_size_y:
-    nominal: 1.88
+    nominal: 1.89
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
