@@ -1,6 +1,6 @@
 import abc
 
-from KicadModTree import CornerSelection, Node, Rectangle, Translation
+from KicadModTree import CornerSelection, Node, Translation
 from KicadModTree.nodes.specialized.ChamferedRect import ChamferRect
 from KicadModTree.util import courtyard_builder
 from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
@@ -48,22 +48,29 @@ class FootprintLayoutNode(Node, abc.ABC):
        - Additional drawings
     """
 
-    # Inheritors can set these to True to opt into useful common functions
-    # They must be set by the end of _get_child_nodes() to be effective.
-
-    automatic_label_placement: bool
-    """Automatically place labels based on body/couryard rects."""
-    automatic_courtyard: bool
-    """Draw an automatic courtyard, outset from the body rect and pads."""
-    automatic_silk_rect: bool
-    """Draw a simple rectangle for the silk, outset from the body rect
-    Requires get_body_rect() to be implemented"""
-    automatic_body_rect: bool
-    """Draw a simple chamfered rectangle for the body, on the Fab layer,
-    in line with the body nominal"""
-
     def __init__(self, global_config: GC.GlobalConfig):
         super().__init__()
+
+        # Instance attributes:
+        self.global_config: GC.GlobalConfig
+        """A copy of the global config."""
+        self._cached_child_nodes: list[Node] | None
+        """The list of the cached child nodes."""
+        self._cached_courtyard_builder: courtyard_builder.CourtyardBuilder | None
+        """The cached courtyard builder."""
+        # Inheritors can set these to True to opt into useful common functions
+        # They must be set by the end of _get_child_nodes() to be effective.
+        self.automatic_label_placement: bool
+        """Automatically place labels based on body/couryard rects."""
+        self.automatic_courtyard: bool
+        """Draw an automatic courtyard, outset from the body rect and pads."""
+        self.automatic_silk_rect: bool
+        """Draw a simple rectangle for the silk, outset from the body rect
+        Requires get_body_rect() to be implemented"""
+        self.automatic_body_rect: bool
+        """Draw a simple chamfered rectangle for the body, on the Fab layer,
+        in line with the body nominal"""
+
         self.global_config = global_config
 
         self.automatic_label_placement = False
@@ -72,6 +79,7 @@ class FootprintLayoutNode(Node, abc.ABC):
         self.automatic_silk_rect = False
 
         self._cached_child_nodes = None
+        self._cached_courtyard_builder = None
 
     def get_body_shape(self) -> GeomShapeClosed:
         """
@@ -181,7 +189,35 @@ class FootprintLayoutNode(Node, abc.ABC):
         """
         return GC.GlobalConfig.CourtyardType.DEFAULT
 
-    def _generate_child_nodes(self):
+    def _get_courtyard(self, node: Node) -> courtyard_builder.CourtyardBuilder:
+        """Calculate (if not done so before) the courtyard based on the body shape
+        and the pads that have been added until this point to the layout and return the
+        courtyard builder.
+        """
+        if self._cached_courtyard_builder:
+            return self._cached_courtyard_builder
+
+        def resolve_cy_off(offset: float | GC.GlobalConfig.CourtyardType) -> float:
+            """
+            Resolve the courtyard offset as an absolute value in mm.
+            """
+            if isinstance(offset, GC.GlobalConfig.CourtyardType):
+                return self.global_config.get_courtyard_offset(offset)
+            return offset
+
+        offset_pads = resolve_cy_off(self._get_courtyard_offset_pads())
+        offset_fab = resolve_cy_off(self._get_courtyard_offset_body())
+
+        self._cached_courtyard_builder = courtyard_builder.CourtyardBuilder.from_node(
+            node=node,
+            global_config=self.global_config,
+            offset_fab=offset_fab,
+            offset_pads=offset_pads,
+            outline=self.get_body_shape().bbox(),
+        )
+        return self._cached_courtyard_builder
+
+    def _generate_child_nodes(self) -> list[Node]:
 
         translate = self.get_offset()
 
@@ -227,31 +263,7 @@ class FootprintLayoutNode(Node, abc.ABC):
         courtyard_bbox = None
 
         if self.automatic_courtyard:
-            # Make a fake fab-layer rect to feed to the courtyard function
-            fab_rect = Rectangle(
-                shape=body_shape,
-                layer="F.Fab",
-                width=self.global_config.fab_line_width,
-            )
-
-            def resolve_cy_off(offset: float | GC.GlobalConfig.CourtyardType) -> float:
-                """
-                Resolve the courtyard offset as an absolute value in mm.
-                """
-                if isinstance(offset, GC.GlobalConfig.CourtyardType):
-                    return self.global_config.get_courtyard_offset(offset)
-                return offset
-
-            offset_pads = resolve_cy_off(self._get_courtyard_offset_pads())
-            offset_fab = resolve_cy_off(self._get_courtyard_offset_body())
-
-            courtyard = courtyard_builder.CourtyardBuilder.from_node(
-                node=translation,
-                global_config=self.global_config,
-                offset_fab=offset_fab,
-                offset_pads=offset_pads,
-                outline=fab_rect,
-            )
+            courtyard = self._get_courtyard(translation)
 
             # Actually add the courtyard to the translation
             translation += courtyard.node

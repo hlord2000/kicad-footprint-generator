@@ -9,29 +9,19 @@ from KicadModTree import (
     ExposedPad,
     Footprint,
     FootprintType,
-    ChamferRect,
-    CornerSelection,
-    PolygonLine,
 )
 
-from kilibs.geom import GeomRectangle
 from kilibs.ipc_tools import ipc_rules
 from kilibs.util.toleranced_size import TolerancedSize
-from KicadModTree.util.courtyard_builder import CourtyardBuilder
-from kilibs.geom import Direction, Vector2D
-from KicadModTree.nodes.specialized.PadArray import (
-    find_lowest_numbered_pad,
-    get_pad_radius_from_arrays,
-)
+from kilibs.geom import Vector2D
+from KicadModTree.nodes.specialized.PadArray import get_pad_radius_from_arrays
+
+from scripts.tools.nodes.layouts.dual_and_quad_pad_array_layout import DualAndQuadPadArrayLayout
 from KicadModTree.nodes.specialized.Cruciform import Cruciform
 
 from scripts.tools.footprint_generator import FootprintGenerator
-from scripts.tools.footprint_text_fields import addTextFields
 from scripts.tools.ipc_pad_size_calculators import ipc_gull_wing
 from scripts.tools.quad_dual_pad_border import create_dual_or_quad_pad_border
-from scripts.tools import drawing_tools
-from scripts.tools.drawing_tools import nearestSilkPointOnOrthogonalLine
-from scripts.tools.nodes import pin1_arrow
 
 from scripts.tools.declarative_def_tools import (
     ast_evaluator,
@@ -311,11 +301,11 @@ class GullwingGenerator(FootprintGenerator):
             raise ValueError("A footprint may not have deleted pins and hidden pins.")
 
         if dimensions['has_EP'] and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(gullwing_config, header_info, dimensions, True)
+            self._createFootprintVariant(gullwing_config, header_info, dimensions, True)
 
-        self.__createFootprintVariant(gullwing_config, header_info, dimensions, False)
+        self._createFootprintVariant(gullwing_config, header_info, dimensions, False)
 
-    def __createFootprintVariant(self, gullwing_config: GullwingConfiguration, header, dimensions, with_thermal_vias):
+    def _createFootprintVariant(self, gullwing_config: GullwingConfiguration, header, dimensions, with_thermal_vias):
         fab_line_width = self.global_config.fab_line_width
 
         device_params = gullwing_config.spec_dictionary
@@ -497,14 +487,8 @@ class GullwingGenerator(FootprintGenerator):
         kicad_mod.tags += gullwing_config.metadata.additional_tags
 
         pad_arrays = create_dual_or_quad_pad_border(self.global_config, pad_details, device_params)
-
-        for pad_array in pad_arrays:
-            kicad_mod.append(pad_array)
-
-        tl_pad = find_lowest_numbered_pad(pad_arrays)
         pad_radius = get_pad_radius_from_arrays(pad_arrays)
 
-        EP_round_radius = 0
         if dimensions['has_EP']:
             pad_shape_details = getEpRoundRadiusParams(device_params, self.global_config, pad_radius)
             EP_mask_size = EP_mask_size if EP_mask_size['x'] > 0 else None
@@ -528,7 +512,7 @@ class GullwingGenerator(FootprintGenerator):
                 # And also decide if default-on is correct.
                 paste_avoid_via = False  # thermals.get('paste_avoid_via', True)
 
-                EP = ExposedPad(
+                exposed_pad = ExposedPad(
                     number=pincount_full + 1, size=EP_size, mask_size=EP_mask_size,
                     paste_layout=thermals.get('EP_num_paste_pads', device_paste_pads),
                     paste_coverage=paste_coverage,
@@ -545,261 +529,14 @@ class GullwingGenerator(FootprintGenerator):
                     **pad_shape_details
                 )
             else:
-                EP = ExposedPad(
+                exposed_pad = ExposedPad(
                     number=pincount_full + 1, size=EP_size, mask_size=EP_mask_size,
                     paste_layout=device_paste_pads,
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
                     **pad_shape_details
                 )
-
-            kicad_mod.append(EP)
-            EP_round_radius = EP.get_round_radius()
-
-        # # ############################ CrtYd ##################################
-        courtyard_offset = ipc_offsets.courtyard
-        body_rect = GeomRectangle(center=Vector2D(0,0), size=Vector2D(size_x, size_y))
-        cb = CourtyardBuilder.from_node(
-            node=kicad_mod,
-            global_config=self.global_config,
-            offset_fab=courtyard_offset,
-            outline=body_rect)
-        kicad_mod += cb.node
-        courtyard_bbox = cb.bbox
-
-        # ############################ SilkS ##################################
-        silk_pad_clearance = self.global_config.silk_pad_clearance
-        silk_line_width = self.global_config.silk_line_width
-        silk_pad_offset = silk_pad_clearance + (silk_line_width / 2)
-        silk_offset = self.global_config.silk_fab_offset
-
-        right_pads_silk_bottom = (device_params['num_pins_y'] - 1) * device_params['pitch'] / 2\
-            + pad_details['right']['size'][1] / 2 + silk_pad_offset
-        silk_bottom = body_rect.bottom + silk_offset
-        if EP_size['y'] / 2 <= body_rect.bottom and right_pads_silk_bottom >= silk_bottom:
-            silk_bottom = max(silk_bottom, EP_size['y'] / 2 + silk_pad_offset)
-
-        silk_bottom = max(silk_bottom, right_pads_silk_bottom)
-        silk_bottom = min(body_rect.bottom + silk_pad_offset, silk_bottom)
-
-        bottom_pads_silk_right = (device_params['num_pins_x'] - 1) * device_params['pitch'] / 2\
-            + pad_details['bottom']['size'][0] / 2 + silk_pad_offset
-        silk_right = body_rect.right + silk_offset
-        if EP_size['x'] / 2 <= body_rect.right and bottom_pads_silk_right >= silk_right:
-            silk_right = max(silk_right, EP_size['x'] / 2 + silk_pad_offset)
-        silk_right = max(silk_right, bottom_pads_silk_right)
-        silk_right = min(body_rect.right + silk_pad_offset, silk_right)
-
-        min_length = self.global_config.silk_line_length_min
-        silk_corner_bottom_right = Vector2D(silk_right, silk_bottom)
-
-        silk_point_bottom_inside = nearestSilkPointOnOrthogonalLine(
-            pad_size=EP_size,
-            pad_position=[0, 0],
-            pad_radius=EP_round_radius,
-            fixed_point=silk_corner_bottom_right,
-            moving_point=Vector2D(0, silk_bottom),
-            silk_pad_offset=silk_pad_offset,
-            min_length=min_length)
-
-        if silk_point_bottom_inside is not None and device_params['num_pins_x'] > 0:
-            silk_point_bottom_inside = nearestSilkPointOnOrthogonalLine(
-                pad_size=pad_details['bottom']['size'],
-                pad_position=[
-                    pad_details['bottom']['center'][0] + (device_params['num_pins_x'] - 1) / 2 * pitch,
-                    pad_details['bottom']['center'][1]],
-                pad_radius=pad_radius,
-                fixed_point=silk_corner_bottom_right,
-                moving_point=silk_point_bottom_inside,
-                silk_pad_offset=silk_pad_offset,
-                min_length=min_length)
-
-        silk_point_right_inside = nearestSilkPointOnOrthogonalLine(
-            pad_size=EP_size,
-            pad_position=[0, 0],
-            pad_radius=EP_round_radius,
-            fixed_point=silk_corner_bottom_right,
-            moving_point=Vector2D(silk_right, 0),
-            silk_pad_offset=silk_pad_offset,
-            min_length=min_length)
-        if silk_point_right_inside is not None and device_params['num_pins_y'] > 0:
-            silk_point_right_inside = nearestSilkPointOnOrthogonalLine(
-                pad_size=pad_details['right']['size'],
-                pad_position=[
-                    pad_details['right']['center'][0],
-                    pad_details['right']['center'][1] + (device_params['num_pins_y'] - 1) / 2 * pitch],
-                pad_radius=pad_radius,
-                fixed_point=silk_corner_bottom_right,
-                moving_point=silk_point_right_inside,
-                silk_pad_offset=silk_pad_offset,
-                min_length=min_length)
-
-        if silk_point_bottom_inside is None and silk_point_right_inside is not None:
-            silk_corner_bottom_right['y'] = body_rect.bottom
-            silk_corner_bottom_right = nearestSilkPointOnOrthogonalLine(
-                pad_size=pad_details['bottom']['size'],
-                pad_position=[
-                    pad_details['bottom']['center'][0] + (device_params['num_pins_x'] - 1) / 2 * pitch,
-                    pad_details['bottom']['center'][1]],
-                pad_radius=pad_radius,
-                fixed_point=silk_point_right_inside,
-                moving_point=silk_corner_bottom_right,
-                silk_pad_offset=silk_pad_offset,
-                min_length=min_length)
-
-        elif silk_point_right_inside is None and silk_point_bottom_inside is not None:
-            silk_corner_bottom_right['x'] = body_rect.right
-            silk_corner_bottom_right = nearestSilkPointOnOrthogonalLine(
-                pad_size=pad_details['right']['size'],
-                pad_position=[
-                    pad_details['right']['center'][0],
-                    pad_details['right']['center'][1] + (device_params['num_pins_y'] - 1) / 2 * pitch],
-                pad_radius=pad_radius,
-                fixed_point=silk_point_bottom_inside,
-                moving_point=silk_corner_bottom_right,
-                silk_pad_offset=silk_pad_offset,
-                min_length=min_length)
-
-        poly_bottom_right = []
-        if silk_point_bottom_inside is not None:
-            poly_bottom_right.append(silk_point_bottom_inside)
-        poly_bottom_right.append(silk_corner_bottom_right)
-        if silk_point_right_inside is not None:
-            poly_bottom_right.append(silk_point_right_inside)
-
-        is_qfp = device_params['num_pins_x'] > 0 and device_params['num_pins_y'] > 0
-
-        body_size_min = min(
-            dimensions['body_size_x'].nominal,
-            dimensions['body_size_y'].nominal
-        )
-
-        if is_qfp:
-            # Even the smallest QFPs have a large enough corner area
-            # to fit a large arrow
-            arrow_size_enum = drawing_tools.SilkArrowSize.LARGE
         else:
-            # give large, non-fine-pitch parts a larger arrow
-            if body_size_min < 6.0 or pitch < 1.0:
-                arrow_size_enum = drawing_tools.SilkArrowSize.MEDIUM
-            else:
-                arrow_size_enum = drawing_tools.SilkArrowSize.LARGE
-
-        arrow_size, arrow_length = drawing_tools.getStandardSilkArrowSize(
-            arrow_size_enum, silk_line_width)
-
-        # poly_bottom_right is used 4 times in all mirror configurations
-        if len(poly_bottom_right) > 1 and silk_corner_bottom_right is not None:
-            kicad_mod.append(PolygonLine(
-                shape=poly_bottom_right,
-                width=silk_line_width,
-                layer="F.SilkS"))
-            kicad_mod.append(PolygonLine(
-                shape=poly_bottom_right,
-                width=silk_line_width,
-                layer="F.SilkS", x_mirror=0))
-            kicad_mod.append(PolygonLine(
-                shape=poly_bottom_right,
-                width=silk_line_width,
-                layer="F.SilkS", y_mirror=0))
-            kicad_mod.append(PolygonLine(
-                shape=poly_bottom_right,
-                width=silk_line_width,
-                layer="F.SilkS", y_mirror=0, x_mirror=0))
-
-            # The edges of the pad clearance area
-            tl_pad_with_clearance_top = tl_pad.at.y - tl_pad.size.y / 2 - silk_pad_clearance
-            tl_pad_with_clearance_left = tl_pad.at.x - tl_pad.size.x / 2 - silk_pad_clearance
-
-            # Allow a top-down arrow if there is enough space between the top pad and the courtyard
-            # (it is allowed to overlap the courtyard by the courtyard offset, as a neigbouring part
-            # with touching courtyards will nearly always have the same offset for itself, giving
-            # our arrow a place. And the arrow is directional, so it's clear which part it belongs
-            # to.)
-            arrow_permitted_spill_over_top_courtyard = courtyard_offset
-            minimum_space_to_fit_arrow = arrow_length + silk_line_width - arrow_permitted_spill_over_top_courtyard
-
-            # we need a different arrow depending on the device orientation
-            if device_params['num_pins_y'] > 0:
-                # Pins on the left and right side
-
-                pad_to_courtyard_corner_gap = tl_pad_with_clearance_top - courtyard_bbox.top
-                tl_pad_left = tl_pad.at.x - tl_pad.size.x / 2
-
-                # For parts like J-lead/SOJ, there may be no pad extending out past the body
-                # so no left-right space to fit an arrow
-                left_right_space = body_rect.left - tl_pad_left
-                south_arrow_fits = left_right_space >= arrow_size
-
-                if (south_arrow_fits and
-                        (is_qfp or (pad_to_courtyard_corner_gap >= minimum_space_to_fit_arrow))):
-                    # We can fit an arrow in the courtyard, or it's a QFN
-
-                    pad_left_body_left_midpoint = (tl_pad_left + body_rect.left) / 2
-
-                    # put a down arrow top of pin1
-                    arrow_apex = Vector2D(pad_left_body_left_midpoint,
-                                          tl_pad_with_clearance_top - silk_line_width / 2)
-                    arrow_direction = Direction.SOUTH
-                else:
-                    # put a East arrow left of pin1
-                    arrow_apex = Vector2D(tl_pad_with_clearance_left - silk_line_width / 2,
-                                          tl_pad.at.y)
-                    arrow_direction = Direction.EAST
-
-                kicad_mod.append(
-                    pin1_arrow.Pin1SilkscreenArrow(
-                        arrow_apex,
-                        arrow_direction,
-                        arrow_size,
-                        arrow_length,
-                        "F.SilkS",
-                        silk_line_width,
-                    )
-                )
-
-            else:
-                # Pins on the top and bottom side
-
-                pad_to_courtyard_corner_gap = tl_pad_with_clearance_left - courtyard_bbox.left
-
-                # J-lead type parts
-                tl_pad_top = tl_pad.at.y - tl_pad.size.y / 2
-                top_bottom_space = body_rect.top - tl_pad_top
-                east_arrow_fits = top_bottom_space >= arrow_size
-
-                if east_arrow_fits and pad_to_courtyard_corner_gap >= minimum_space_to_fit_arrow:
-                    pad_top_body_top_midpoint = (tl_pad_top + body_rect.top) / 2
-
-                    arrow_apex = Vector2D(tl_pad_with_clearance_left - silk_line_width / 2,
-                                          pad_top_body_top_midpoint)
-                    arrow_direction = Direction.EAST.value
-                else:
-                    # put a down arrow top of pin1
-                    arrow_apex = Vector2D(tl_pad.at.x,
-                                          tl_pad_with_clearance_top - silk_line_width / 2)
-                    arrow_direction = Direction.SOUTH
-
-                kicad_mod.append(
-                    pin1_arrow.Pin1SilkscreenArrow(
-                        arrow_apex,
-                        arrow_direction,
-                        arrow_size,
-                        arrow_length,
-                        "F.SilkS",
-                        silk_line_width,
-                    )
-                )
-
-        # # ######################## Fabrication Layer ###########################
-
-        kicad_mod += ChamferRect(
-                at=body_rect.center,
-                size=body_rect.size,
-                chamfer=self.global_config.fab_bevel,
-                corners=CornerSelection({CornerSelection.TOP_LEFT: True}),
-                layer="F.Fab",
-                width=fab_line_width,
-            )
+            exposed_pad = None
 
         # ########################## Top heat slugs ###############################
 
@@ -816,7 +553,7 @@ class GullwingGenerator(FootprintGenerator):
                 if gullwing_config.top_slug.shape == 'cruciform':
                     cruciform_tail_w = gullwing_config.top_slug.tail_x.nominal
                     # Tail to the top and bottom of the package
-                    cruciform_h = body_rect.bottom - body_rect.top
+                    cruciform_h = size_y
 
                 topslug_rect = Cruciform(
                     overall_w=cruciform_w,
@@ -832,21 +569,13 @@ class GullwingGenerator(FootprintGenerator):
             else:
                 raise ValueError("Unsupported top slug shape: {}".format(gullwing_config.top_slug.shape))
 
-        # ######################### Rule Areas ################################
+        ###  Rule Areas  ###############################################################
+        zones = rule_area_properties.create_rule_area_zones(
+            gullwing_config.rule_areas, fp_ast_evaluator
+        )
+        kicad_mod.extend(zones)
 
-        zones = rule_area_properties.create_rule_area_zones(gullwing_config.rule_areas,
-                                                            fp_ast_evaluator)
-        for zone in zones:
-            kicad_mod.append(zone)
-
-        # ######################### Text Fields ###############################
-
-        addTextFields(kicad_mod=kicad_mod, configuration=self.global_config,
-                      body_edges=body_rect, courtyard=courtyard_bbox,
-                      fp_name=fp_name, text_y_inside_position='center')
-
-        # ######################### Additional drawings #######################
-
+        ###  Additional Drawings  ######################################################
         if gullwing_config.additional_drawings:
             kicad_mod.extend(
                 fp_additional_drawing.create_additional_drawings(
@@ -856,10 +585,21 @@ class GullwingGenerator(FootprintGenerator):
                 )
             )
 
-        # #################### Output and 3d model ############################
+        ###  Layout  ###################################################################
+        layout = DualAndQuadPadArrayLayout(
+            global_config=self.global_config,
+            courtyard_offset_body=ipc_offsets.courtyard,
+            courtyard_offset_pads=ipc_offsets.courtyard,
+            pad_arrays=pad_arrays,
+            exposed_pad=exposed_pad,
+            body_size=Vector2D.from_floats(size_x, size_y),
+        )
+        kicad_mod += layout
 
+        ###  3D Model  #################################################################
         self.add_standard_3d_model_to_footprint(kicad_mod, lib_name, model_name)
 
+        ###  Save Footprint  ###########################################################
         self.write_footprint(kicad_mod, lib_name)
 
 if __name__ == "__main__":

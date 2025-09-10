@@ -31,7 +31,7 @@ from KicadModTree.nodes.specialized.ChamferedPadGrid import (
 )
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from kilibs.geom import Vector2D
+from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
 from kilibs.util.param_util import toIntArray
 
 
@@ -822,6 +822,17 @@ class ExposedPad(Node):
         if self.has_vias:
             self._pads += self._create_vias()
         self._pads += self._create_paste()
+
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+        """Return the geometric rectangle that encloses all pads in the exposed pad.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contour of the exposed pad.
+        """
+        return GeomRectangle(center=self.at, size=self.size + 2 * inflation)
 
     def get_flattened_nodes(self) -> list[Node]:
         """Return the nodes to serialize."""

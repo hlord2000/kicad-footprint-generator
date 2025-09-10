@@ -22,7 +22,12 @@ from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from kilibs.geom import Vec2DCompatible, Vector2D
+from kilibs.geom import (
+    GeomRectangle,
+    GeomShapeClosed,
+    Vec2DCompatible,
+    Vector2D,
+)
 from scripts.tools.declarative_def_tools.pad_overrides import PadOverrides
 
 
@@ -477,6 +482,48 @@ class PadArray(Node):
                 return pad
         return None
 
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed | None:
+        """Return the geometric rectangle that encloses all pads in the pad array.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contour of the pad array.
+        """
+        if not self._pads:
+            return None
+        bbox = self._pads[0].bbox().include_bbox(self._pads[-1].bbox())
+        return GeomRectangle(
+            start=bbox.top_left - inflation, end=bbox.bottom_right + inflation
+        )
+
+    def as_geom_shapes(self, inflation: float = 0.0) -> list[GeomShapeClosed]:
+        """Return a list of geometric rectangles that enclose all pads of the pad array.
+        If there are no deleted or hidden pins this correponds to a list containing the
+        bounding box of the pad array. If there are gaps in the pad array (caused by
+        hidden or deleted pins) the list contains the contours of the individual pads.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contours of the pads in the array.
+        """
+        # If no pad is deleted or hidden return a list with a single item:
+        if self.pincount == len(self._pads):
+            geom_shape = self.as_geom_shape(inflation)
+            if geom_shape is None:
+                return []
+            else:
+                return [geom_shape]
+        # Otherwise return a list of the individual pad contours:
+        else:
+            shapes: list[GeomShapeClosed] = []
+            for pad in self._pads:
+                shapes.append(pad.as_geom_shape(inflation))
+            return shapes
+
     def __repr__(self) -> str:
         """The string representation of the pad array."""
         return (
@@ -506,20 +553,29 @@ def get_pad_radius_from_arrays(pad_arrays: list[PadArray]) -> float:
 
 def find_lowest_numbered_pad(
     pad_arrays: list[PadArray],
-) -> Pad | ReferencedPad | None:
-    """From a list of pad arrays, find the lowest-integer-numbered pad."""
+) -> tuple[int, int]:
+    """From a list of pad arrays, find the lowest-integer-numbered pad.
 
-    lowest_pad: Pad | ReferencedPad | None = None
+    Returns:
+        A tuple containing [the index of the pad array] [the index of the pad] of the
+        lowest-integer-numbered-pad.
+    """
 
-    for pad_array in pad_arrays:
-        for pad in pad_array.get_pads():
+    index_array = 0
+    index_pad = 0
+    pad_number = None
+
+    for idx_array, pad_array in enumerate(pad_arrays):
+        for idx_pad, pad in enumerate(pad_array.get_pads()):
             try:
                 int_num = int(pad.number)
             except ValueError:
                 # If the pad number is not an int, skip it
                 continue
 
-            if lowest_pad is None or int_num < int(lowest_pad.number):
-                lowest_pad = pad
+            if pad_number is None or int_num < pad_number:
+                pad_number = int_num
+                index_array = idx_array
+                index_pad = idx_pad
 
-    return lowest_pad
+    return (index_array, index_pad)

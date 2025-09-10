@@ -2,7 +2,7 @@ import abc
 from typing import Union
 
 from KicadModTree import Node, Polygon
-from kilibs.geom import Direction, GeomPolygon, Vector2D
+from kilibs.geom import Direction, GeomPolygon, Vector2D, BoundingBox
 
 
 class SilkscreenArrow(Node, abc.ABC):
@@ -12,6 +12,12 @@ class SilkscreenArrow(Node, abc.ABC):
 
     def __init__(self):
         super().__init__()
+        self._gpoly: GeomPolygon
+        self._poly: Polygon
+
+    def bbox(self) -> BoundingBox:
+        width = self._poly.width/2 if self._poly.width is not None else 0.0
+        return self._gpoly.bbox().inflate(width)
 
     @abc.abstractmethod
     def as_polygon(self, inflation: float = 0) -> GeomPolygon:
@@ -80,7 +86,7 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
             shape=self._gpoly, layer=layer, width=line_width_mm, fill=True
         )
 
-    def as_polygon(self, inflation: float = 0) -> GeomPolygon:
+    def as_polygon(self, inflation: float = 0.0) -> GeomPolygon:
         return self._gpoly.inflated(inflation)
 
     def get_flattened_nodes(self) -> list[Polygon]:
@@ -130,7 +136,7 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
             shape=self._gpoly, layer=layer, width=line_width_mm, fill=True
         )
 
-    def as_polygon(self, inflation: float = 0) -> GeomPolygon:
+    def as_polygon(self, inflation: float = 0.0) -> GeomPolygon:
         return self._gpoly.inflated(inflation)
 
     def get_flattened_nodes(self) -> list[Polygon]:

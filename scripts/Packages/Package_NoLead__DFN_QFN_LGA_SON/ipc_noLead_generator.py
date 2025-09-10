@@ -4,40 +4,25 @@ import os
 import argparse
 import logging
 import yaml
-from math import sqrt
-from typing import List
 
 from KicadModTree import (
     ExposedPad,
     Footprint,
     FootprintType,
-    Line,
-    Pad,
-    PolygonLine,
 )
 
-from KicadModTree.util.courtyard_builder import CourtyardBuilder
-from kilibs.geom import Direction, Vector2D, BoundingBox, GeomRectangle
-from kilibs.geom.tools import rounding
+from kilibs.geom import Vector2D
 from kilibs.ipc_tools import ipc_rules
 from kilibs.util.toleranced_size import TolerancedSize
-from KicadModTree.nodes.specialized.PadArray import (
-    PadArray,
-    find_lowest_numbered_pad,
-    get_pad_radius_from_arrays,
-)
+from scripts.tools.nodes.layouts.dual_and_quad_pad_array_layout import DualAndQuadPadArrayLayout
+from KicadModTree.nodes.specialized.PadArray import get_pad_radius_from_arrays
 
 from scripts.tools.footprint_generator import FootprintGenerator
-from scripts.tools.global_config_files.global_config import GlobalConfig
-from scripts.tools.footprint_text_fields import addTextFields
 from scripts.tools.ipc_pad_size_calculators import (
     ipc_body_edge_inside_pull_back,
     ipc_pad_center_plus_size,
 )
 from scripts.tools.quad_dual_pad_border import create_dual_or_quad_pad_border
-from scripts.tools.nodes import pin1_arrow
-from scripts.tools import drawing_tools
-from scripts.tools.drawing_tools_fab import draw_chamfer_rect_fab
 from scripts.tools.declarative_def_tools import (
     ast_evaluator,
     common_metadata,
@@ -59,41 +44,6 @@ DEFAULT_MIN_ANNULAR_RING = 0.15
 SILK_MIN_LEN = 0.1
 
 
-def get_pad_top_left_corner_midpoint(pad: Pad) -> Vector2D:
-    """Get the midpoint of the top left corner of the pad
-
-    When the pad has no radius, this _is_ the corner.
-    """
-
-    tl_corner = None
-
-    if pad.shape == Pad.SHAPE_RECT:
-        tl_corner = pad.at - (pad.size / 2)
-    elif pad.shape == Pad.SHAPE_ROUNDRECT:
-        tl_corner = pad.at - (pad.size / 2)
-
-        # Move into the corner slightly down and right to account for the radius
-        # being on the inside of the bounding box, not the corner.
-        inset = (1 - (sqrt(2) / 2)) * pad.round_radius
-        tl_corner += [inset, inset]
-    else:
-        raise ValueError("Unsupported pad shape: {}".format(pad.shape))
-
-    assert (tl_corner is not None)
-
-    return tl_corner
-
-
-def get_bounding_box_of_pad_arrays(pad_arrays: List[PadArray]) -> BoundingBox:
-    """Get the bounding box of a list of pad arrays"""
-
-    bb = BoundingBox()
-    for pad_array in pad_arrays:
-        for pad in pad_array:
-            bb.include_bbox(pad.bbox())
-    return bb
-
-
 class NoLeadConfiguration:
     """
     A type that represents the configuration of a gullwing footprint
@@ -105,7 +55,7 @@ class NoLeadConfiguration:
     _spec_dictionary: dict
     metadata: common_metadata.CommonMetadata
     pad_overrides: pad_overrides.PadOverrides
-    rule_areas: List[rule_area_properties.RuleAreaProperties] = []
+    rule_areas: list[rule_area_properties.RuleAreaProperties] = []
 
     def __init__(self, spec: dict):
         self._spec_dictionary = spec
@@ -162,16 +112,16 @@ class NoLeadGenerator(FootprintGenerator):
 
         if 'lead_center_pos_x' in device_dimensions or 'lead_center_pos_y' in device_dimensions:
             Gmin_x, Zmax_x, Xmax_x = ipc_pad_center_plus_size(ipc_offsets, ipc_round_base, manf_tol,
-                                                              center_position=device_dimensions.get(
+                                                            center_position=device_dimensions.get(
                                                                 'lead_center_pos_x', TolerancedSize(nominal=0)),
-                                                              lead_length=device_dimensions.get('lead_len_H'),
-                                                              lead_width=device_dimensions['lead_width_H'])
+                                                            lead_length=device_dimensions.get('lead_len_H'),
+                                                            lead_width=device_dimensions['lead_width_H'])
 
             Gmin_y, Zmax_y, Xmax_y = ipc_pad_center_plus_size(ipc_offsets, ipc_round_base, manf_tol,
-                                                              center_position=device_dimensions.get(
+                                                            center_position=device_dimensions.get(
                                                                 'lead_center_pos_y', TolerancedSize(nominal=0)),
-                                                              lead_length=device_dimensions.get('lead_len_V'),
-                                                              lead_width=device_dimensions['lead_width_V'])
+                                                            lead_length=device_dimensions.get('lead_len_V'),
+                                                            lead_width=device_dimensions['lead_width_V'])
         else:
             Gmin_x, Zmax_x, Xmax_x = ipc_body_edge_inside_pull_back(
                 ipc_offsets, ipc_round_base, manf_tol,
@@ -211,13 +161,13 @@ class NoLeadGenerator(FootprintGenerator):
         if heel_reduction_max > 0:
             logging.info(f'Heel reduced by {heel_reduction_max:.4f} to reach minimum EP to pad clearances')
 
-        Pad = {}
-        Pad['left'] = {'center': [-(Zmax_x + Gmin_x) / 4, 0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
-        Pad['right'] = {'center': [(Zmax_x + Gmin_x) / 4, 0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
-        Pad['top'] = {'center': [0, -(Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
-        Pad['bottom'] = {'center': [0, (Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
+        pad = {}
+        pad['left'] = {'center': [-(Zmax_x + Gmin_x) / 4, 0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
+        pad['right'] = {'center': [(Zmax_x + Gmin_x) / 4, 0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
+        pad['top'] = {'center': [0, -(Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
+        pad['bottom'] = {'center': [0, (Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
 
-        return Pad
+        return pad
 
     @staticmethod
     def deviceDimensions(device_config: NoLeadConfiguration, fp_id: str) -> dict:
@@ -300,7 +250,18 @@ class NoLeadGenerator(FootprintGenerator):
                 device_size_data, base_name='body_to_inside_lead_edge', unit=unit)
         elif dimensions['lead_len_H'] is None:
             raise KeyError('{}: Either lead length or inside lead to edge dimension must be given.'.format(fp_id))
-
+        if 'pad_width' in device_size_data:
+            dimensions['pad_width'] = TolerancedSize.fromYaml(
+                device_size_data, base_name='pad_width', unit=unit).nominal
+        if 'pad_length' in device_size_data:
+            dimensions['pad_length'] = TolerancedSize.fromYaml(
+                device_size_data, base_name='pad_length', unit=unit).nominal
+        if 'pad_center_to_center_x' in device_size_data:
+            dimensions['pad_center_to_center_x'] = TolerancedSize.fromYaml(
+                device_size_data, base_name='pad_center_to_center_x', unit=unit).nominal
+        if 'pad_center_to_center_y' in device_size_data:
+            dimensions['pad_center_to_center_y'] = TolerancedSize.fromYaml(
+                device_size_data, base_name='pad_center_to_center_y', unit=unit).nominal
         return dimensions
 
     def generateFootprint(self, device_params: dict, pkg_id: str, header_info: dict = None):
@@ -320,11 +281,10 @@ class NoLeadGenerator(FootprintGenerator):
             raise ValueError("A footprint may not have deleted pins and hidden pins.")
 
         if device_dimensions['has_EP'] and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(nolead_config, device_dimensions, True)
+            self._createFootprintVariant(nolead_config, device_dimensions, True)
+        self._createFootprintVariant(nolead_config, device_dimensions, False)
 
-        self.__createFootprintVariant(nolead_config, device_dimensions, False)
-
-    def __createFootprintVariant(self, device_config: NoLeadConfiguration,
+    def _createFootprintVariant(self, device_config: NoLeadConfiguration,
                                  device_dimensions, with_thermal_vias):
         # Pull out the old-style raw data
         device_params = device_config.spec_dictionary
@@ -487,9 +447,6 @@ class NoLeadGenerator(FootprintGenerator):
                                                     pad_overrides=device_config.pad_overrides)
         pad_radius = get_pad_radius_from_arrays(pad_arrays)
 
-        for pad_array in pad_arrays:
-            kicad_mod.append(pad_array)
-
         if device_dimensions['has_EP']:
             pad_shape_details = getEpRoundRadiusParams(device_params, self.global_config, pad_radius)
             ep_pad_number = device_params.get('EP_pin_number', pincount_full + 1)
@@ -504,7 +461,7 @@ class NoLeadGenerator(FootprintGenerator):
                 # (https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/issues/674)
                 paste_via_avoid = False
 
-                kicad_mod.append(ExposedPad(
+                exposed_pad = ExposedPad(
                     number=ep_pad_number, size=EP_size,
                     at=EP_center,
                     paste_layout=thermals.get('EP_num_paste_pads', device_params.get('EP_num_paste_pads', 1)),
@@ -520,260 +477,41 @@ class NoLeadGenerator(FootprintGenerator):
                     min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
                     bottom_pad_min_size=thermals.get('bottom_min_size', 0),
                     **pad_shape_details
-                ))
+                )
             else:
-                kicad_mod.append(ExposedPad(
+                exposed_pad = ExposedPad(
                     number=ep_pad_number, size=EP_size,
                     at=EP_center,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
                     **pad_shape_details
-                ))
-
-        body_edge = {
-            'left': -size_x / 2,
-            'right': size_x / 2,
-            'top': -size_y / 2,
-            'bottom': size_y / 2
-        }
-
-        bounding_box = BoundingBox(
-            corner1=Vector2D(body_edge['left'], body_edge['top']),
-            corner2=Vector2D(body_edge['right'], body_edge['bottom'])
-        )
-
-        if device_dimensions['has_EP']:
-            bounding_box.include_point(EP_center - EP_size / 2)
-            bounding_box.include_point(EP_center + EP_size / 2)
-
-        if device_params['num_pins_y'] > 0:
-            bounding_box.include_point(
-                Vector2D(pad_details['left']['center'][0] - pad_details['left']['size'][0] / 2,
-                         0)
-            )
-            bounding_box.include_point(
-                Vector2D(pad_details['right']['center'][0] + pad_details['right']['size'][0] / 2,
-                         0)
-            )
-
-        if device_params['num_pins_x'] > 0:
-            bounding_box.include_point(
-                Vector2D(0,
-                         pad_details['top']['center'][1] - pad_details['top']['size'][1] / 2)
-            )
-            bounding_box.include_point(
-                Vector2D(0,
-                         pad_details['bottom']['center'][1] + pad_details['bottom']['size'][1] / 2)
-            )
-
-        # ############################ SilkS ##################################
-
-        silk_line_width_mm = self.global_config.silk_line_width
-        silk_pad_offset = self.global_config.silk_pad_clearance + silk_line_width_mm / 2
-        silk_offset = self.global_config.silk_fab_offset
-
-        def create_silk_line(start, end):
-            return Line(start=start, end=end, width=silk_line_width_mm, layer="F.SilkS")
-
-        body_size_min = min(
-            device_dimensions['body_size_x'].nominal,
-            device_dimensions['body_size_y'].nominal
-        )
-
-        is_dfn = device_params['num_pins_x'] == 0 or device_params['num_pins_y'] == 0
-
-        if is_pull_back:
-            # pull-back parts have very small/no corner areas
-            arrow_size_enum = drawing_tools.SilkArrowSize.SMALL
-        elif is_dfn:
-            if body_size_min <= 2.0:
-                # for really small packages, use a smaller silk arrow
-                arrow_size_enum = drawing_tools.SilkArrowSize.SMALL
-            else:
-                # Everything else gets medium
-                arrow_size_enum = drawing_tools.SilkArrowSize.MEDIUM
-        else:
-            # QFNs with normal pads virtually always have space for medium
-            # in the corners
-            arrow_size_enum = drawing_tools.SilkArrowSize.MEDIUM
-
-        arrow_size, arrow_length = drawing_tools.getStandardSilkArrowSize(
-            arrow_size_enum, silk_line_width_mm
-        )
-
-        if is_dfn:
-            # DFN-style - 45-degree arrow in corner
-
-            #     For num_pins_x == 0, the lines are horizontal:
-
-            #      +
-            #     /|
-            #    +-+  -------------  <- silk
-            #        +------------+  <- body
-            #       ====        ==== <- pad
-            #        |            |
-            #       ====        ====
-            #        +------------+
-            #        -------------- <- silk
-
-            #     For num_pins_y == 0, the lines are vertical
-
-            vertical_lines = device_params['num_pins_y'] == 0
-
-            pads_bbox = get_bounding_box_of_pad_arrays(pad_arrays)
-            top_left_pad = find_lowest_numbered_pad(pad_arrays)
-
-            # Top corner of the top-left pad (inset to be exactly on rounded corners)
-            top_left_pad_top_left_corner = get_pad_top_left_corner_midpoint(top_left_pad)
-            arrow_apex = top_left_pad_top_left_corner - (silk_pad_offset * (sqrt(2) / 2))
-
-            # round off away from the pad edge
-            arrow_apex.x = rounding.round_to_grid_down(arrow_apex.x, 0.01)
-            arrow_apex.y = rounding.round_to_grid_down(arrow_apex.y, 0.01)
-
-            kicad_mod.append(
-                pin1_arrow.Pin1SilkScreenArrow45Deg(
-                    arrow_apex,
-                    Direction.SOUTHEAST,
-                    arrow_size,
-                    "F.SilkS",
-                    silk_line_width_mm,
                 )
-            )
-
-            if vertical_lines:
-                # stay outside the body _and_ the pad clearance
-                silk_left_x = min(pads_bbox.left - silk_pad_offset, body_edge['left'] - silk_offset)
-                silk_right_x = max(pads_bbox.right + silk_pad_offset, body_edge['right'] + silk_offset)
-
-                # avoid crashing the top line left edge into the arrow
-                silk_top_y = max(body_edge['top'], arrow_apex.y + 2 * silk_line_width_mm)
-
-                left_line = create_silk_line(
-                    start=Vector2D(silk_left_x, silk_top_y),
-                    end=Vector2D(silk_left_x, body_edge['bottom']))
-
-                right_line = create_silk_line(
-                    start=Vector2D(silk_right_x, silk_top_y),
-                    end=Vector2D(silk_right_x, body_edge['bottom']))
-
-                kicad_mod.append(left_line)
-                kicad_mod.append(right_line)
-
-            else:
-                # stay outside the body _and_ the pad clearance
-                silk_top_y = min(pads_bbox.top - silk_pad_offset, body_edge['top'] - silk_offset)
-                silk_bottom_y = max(pads_bbox.bottom + silk_pad_offset, body_edge['bottom'] + silk_offset)
-
-                # avoid crashing the top line left edge into the arrow
-                silk_left_x = max(body_edge['left'], arrow_apex.x + 2 * silk_line_width_mm)
-
-                top_line = create_silk_line(
-                    start=Vector2D(silk_left_x, silk_top_y),
-                    end=Vector2D(body_edge['right'], silk_top_y))
-
-                bottom_line = create_silk_line(
-                    start=Vector2D(body_edge['left'], silk_bottom_y),
-                    end=Vector2D(body_edge['right'], silk_bottom_y))
-
-                kicad_mod.append(top_line)
-                kicad_mod.append(bottom_line)
         else:
-            # this is a QFN
+            exposed_pad = None
 
-            #          -- silk
-            #  +---+  /
-            #   \ /   v    x   x
-            #    + ------ n  n-1
-            #    |        x   x
-            #    |
-            #   x1x
-            #
-            #   x2x  <- pad
-
-            # stay outside the body _and_ the pad clearance
-            bbox_left = pad_arrays[0].bbox()  # pad_arrays[0] is the lef array
-            y_above_side_pads = bbox_left.top - silk_pad_offset
-            silk_top_y = min(y_above_side_pads, body_edge['top'] - silk_offset)
-            bbox_top = pad_arrays[-1].bbox()  # pad_arrays[-1] is the top array
-            x_left_of_top_pads = bbox_top.left - silk_pad_offset
-            silk_left_x = min(x_left_of_top_pads, body_edge['left'] - silk_offset)
-
-            # where the lines have to end to avoid crashing into the pad
-            sx1 = bbox_top.left - silk_pad_offset
-            sy1 = bbox_left.top - silk_pad_offset
-
-            # arrow always in top-left of body
-            arrow_apex = Vector2D(
-                silk_left_x,
-                silk_top_y
-            )
-
-            drawing_tools.CornerBracketWithArrowPointingSouth(
-                kicad_mod, arrow_apex, arrow_size, arrow_length,
-                sx1, sy1, "F.SilkS", silk_line_width_mm, SILK_MIN_LEN)
-
-            poly_silk = [
-                {'x': sx1, 'y': silk_top_y},
-                {'x': silk_left_x, 'y': silk_top_y},
-                {'x': silk_left_x, 'y': sy1}
-            ]
-
-            if sx1 - SILK_MIN_LEN < silk_left_x:
-                poly_silk = poly_silk[1:]
-            if sy1 - SILK_MIN_LEN < silk_top_y:
-                poly_silk = poly_silk[:-1]
-
-            if len(poly_silk) > 1:
-                # top right
-                kicad_mod.append(PolygonLine(
-                    shape=poly_silk,
-                    width=silk_line_width_mm,
-                    layer="F.SilkS", x_mirror=0))
-                # bottom left
-                kicad_mod.append(PolygonLine(
-                    shape=poly_silk,
-                    width=silk_line_width_mm,
-                    layer="F.SilkS", y_mirror=0))
-                # bottom right
-                kicad_mod.append(PolygonLine(
-                    shape=poly_silk,
-                    width=silk_line_width_mm,
-                    layer="F.SilkS", x_mirror=0, y_mirror=0))
-
-        # # ######################## Fabrication Layer ###########################
-
-        kicad_mod.append(
-            draw_chamfer_rect_fab(Vector2D(size_x, size_y), self.global_config)
+        ###  Rule Areas  ###############################################################
+        zones = rule_area_properties.create_rule_area_zones(
+            device_config.rule_areas, fp_ast_evaluator
         )
+        kicad_mod.extend(zones)
 
-        # # ############################ CrtYd ##################################
-
-        body_rect = GeomRectangle(center=(0,0), size=(size_x, size_y))
-        cb = CourtyardBuilder.from_node(
-            node=kicad_mod,
+        ###  Layout  ###################################################################
+        layout = DualAndQuadPadArrayLayout(
             global_config=self.global_config,
-            offset_fab=ipc_offsets.courtyard,
-            outline=body_rect)
-        kicad_mod += cb.node
+            courtyard_offset_body=ipc_offsets.courtyard,
+            courtyard_offset_pads=ipc_offsets.courtyard,
+            pad_arrays=pad_arrays,
+            exposed_pad=exposed_pad,
+            body_size=Vector2D.from_floats(size_x, size_y),
+        )
+        kicad_mod += layout
 
-        # ######################### Rule Areas ################################
-
-        zones = rule_area_properties.create_rule_area_zones(device_config.rule_areas,
-                                                            fp_ast_evaluator)
-        for zone in zones:
-            kicad_mod.append(zone)
-
-        # ######################### Text Fields ###############################
-
-        addTextFields(kicad_mod=kicad_mod, configuration=self.global_config,
-                      body_edges=body_edge,
-                      courtyard=cb.bbox,
-                      fp_name=fp_name, text_y_inside_position='center', allow_rotation=True)
-
-        # #################### Output and 3d model ############################
+        ###  3D Model  #################################################################
         self.add_standard_3d_model_to_footprint(kicad_mod, lib_name, model_name)
+
+        ###  Save Footprint  ###########################################################
         self.write_footprint(kicad_mod, lib_name)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')

@@ -20,6 +20,7 @@ from __future__ import annotations
 import copy
 import dataclasses
 import enum
+import math
 from collections.abc import Sequence
 from typing import Any
 
@@ -27,7 +28,13 @@ from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHandler
 from KicadModTree.util.corner_selection import CornerSelection
-from kilibs.geom import BoundingBox, GeomRectangle, Vec2DCompatible, Vector2D
+from kilibs.geom import (
+    BoundingBox,
+    GeomRectangle,
+    GeomShapeClosed,
+    Vec2DCompatible,
+    Vector2D,
+)
 
 
 class ReferencedPad(Node):
@@ -137,6 +144,25 @@ class ReferencedPad(Node):
     def get_round_radius(self) -> float:
         """Get the round radius of the pad."""
         return self.reference_pad.get_round_radius()
+
+    def get_top_left_corner_midpoint(self) -> Vector2D:
+        """Get the midpoint of the top left corner of the pad.
+        When the pad has no radius, this _is_ the corner.
+        """
+        ref_pad = self.reference_pad
+        return ref_pad.get_top_left_corner_midpoint() - ref_pad.at + self.at
+
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+        """Return the a closed geometric shape of the contour of the pad. As of now all
+        shapes are simplified to their bounding box.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contour of the pad.
+        """
+        return GeomRectangle(shape=self.bbox()).inflate(inflation)
 
     def __repr__(self) -> str:
         """The string representation of the referenced pad."""
@@ -616,6 +642,34 @@ class Pad(Node):
             raise RuntimeError(
                 "get_round_radius() called but _round_radius_handler is None."
             )
+
+    def get_top_left_corner_midpoint(self) -> Vector2D:
+        """Get the midpoint of the top left corner of the pad.
+        When the pad has no radius, this _is_ the corner.
+        """
+        if self.shape == Pad.SHAPE_RECT:
+            return self.at - (self.size / 2)
+        elif self.shape == Pad.SHAPE_ROUNDRECT:
+            tl_corner = self.at - (self.size / 2)
+            # Move into the corner slightly down and right to account for the radius
+            # being on the inside of the bounding box, not the corner.
+            inset = (1 - (math.sqrt(2) / 2)) * self.round_radius
+            tl_corner += inset
+            return tl_corner
+        else:
+            return self.bbox().top_left
+
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+        """Return the a closed geometric shape of the contour of the pad. As of now all
+        shapes are simplified to their bounding box.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contour of the pad.
+        """
+        return GeomRectangle(shape=self.bbox()).inflate(inflation)
 
     @property
     def fab_property(self) -> FabProperty | None:
