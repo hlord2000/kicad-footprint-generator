@@ -86,6 +86,23 @@ def say(*arg):
     print(" ".join(map(str, arg)) + "\n")
 
 
+def get_timestamp_string():
+    # We used to write
+    #    datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    # into STEP file, but this annoyingly changed the step file
+    # after every single run of the generator,
+    # even when nothing changed otherwise.
+    #
+    # For the sake of reproducible builds
+    #    https://reproducible-builds.org/docs/timestamps/
+    # we are respecting 'SOURCE_DATE_EPOCH' if one exists,
+    # else return the totally useless, but at least reproducible
+    # 1st of January 1970.
+    if os.getenv("SOURCE_DATE_EPOCH") is not None:
+        return os.getenv("SOURCE_DATE_EPOCH")
+    return "1970-01-01T00:00:00"
+
+
 def FNCT_modify_step(
     PMBL_stepfile,
     DICT_positions,
@@ -151,7 +168,9 @@ def FNCT_modify_step(
             PMBL_modstepfile.append("FILE_NAME(")
             PMBL_modstepfile.append("/* name */ '" + str(FNME_stepfile) + "',")
             # Adding a timestamp makes the output non-reproducible
-            # PMBL_modstepfile.append("/* time_stamp */ '" + datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + "',")
+            PMBL_modstepfile.append(
+                "/* time_stamp */ '" + get_timestamp_string() + "',"
+            )
             PMBL_modstepfile.append(
                 "/* author */ ('" + STR_licAuthor + "','" + STR_licEmail + "'),"
             ),
