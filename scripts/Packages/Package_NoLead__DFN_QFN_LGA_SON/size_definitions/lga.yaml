@@ -291,6 +291,43 @@ Bosch_LGA-8_3x3mm_P0.8mm:
   suffix: '_ClockwisePinNumbering'
   #include_suffix_in_3dpath: 'False'
 
+Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
+  device_type: 'LGA'
+  library: Package_LGA
+  use_name_format: 'LGA'
+  manufacturer: 'Bosch'
+  size_source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
+  ipc_class: 'qfn_pull_back'
+  body_size_x: 4.5 +/- 0.05
+  body_size_y: 3.0 +/- 0.05
+  overall_height: 0.95
+  lead_width: 0.25
+  lead_len: 0.475
+  pad_length: 0.675
+  pad_width: 0.25
+  pad_center_to_center_x: 4.025
+  pad_center_to_center_y: 2.525
+  pitch: 0.5
+  num_pins_x: 7
+  num_pins_y: 1
+  pad_numbers:
+    generator: 'increment'
+    increment: -1
+    offset: 15
+  suffix: '_ClockwisePinNumbering'
+  rule_areas:
+    central_area:
+      name: 'Keepout'
+      layers: 'F.Cu'
+      keepouts:
+        vias: deny
+        tracks: deny
+        copperpour: deny
+      shapes:
+        - type: rect
+          center: [0, 0]
+          size: [3.35, 1.85]
+
 ST_HLGA-10_2.5x2.5mm_P0.6mm:
   device_type: 'HLGA'
   library: Package_LGA

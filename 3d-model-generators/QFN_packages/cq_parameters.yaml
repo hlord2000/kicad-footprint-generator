@@ -7674,6 +7674,42 @@ Bosch_LGA-14_3x2.5mm_P0.5mm:
   mark_color_key: light brown label
   source: 'https://web.archive.org/web/20181011150227if_/https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMI160-DS000-07.pdf'
 
+Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
+  c: 0.1
+  L: 0.475
+  fp_s: 1
+  fp_r: 0.2
+  fp_d: 0.3
+  fp_dx: null
+  fp_dy: null 
+  fp_z: 0.02
+  ef: 0.0
+  cce: 0.25
+  D: 3.0
+  E: 4.5
+  A1: 0.1
+  A2: 0.85
+  b: 0.25
+  e: 0.5
+  m: 0.1
+  ps: square
+  npx: 1
+  npy: 7
+  epad: null
+  epad_offsetX: null
+  epad_offsetY: null
+  epad_n: null
+  epad_pitch: null
+  excluded_pins: null
+  model_name: Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering
+  rotation: -90
+  destination_dir: Package_LGA.3dshapes
+  body_color_key: black body
+  pin_shapes: null
+  pin_color_key: metal grey pins
+  mark_color_key: light brown label
+  source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
+
 Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering:
   c: 0.1
   L: 0.5
