@@ -357,7 +357,26 @@ class NoLeadGenerator(FootprintGenerator):
         if device_config.metadata.custom_name_format:
             name_format = device_config.metadata.custom_name_format
 
-        pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_offsets, ipc_round_base)
+        if {"pad_width", "pad_length", "pad_center_to_center_x", "pad_center_to_center_y"}.issubset(device_dimensions.keys()):
+            pad_details = {}
+            pad_details['left'] = {
+                'center': [-device_dimensions["pad_center_to_center_x"]/2, 0],
+                'size': [device_dimensions["pad_length"], device_dimensions["pad_width"]]
+            }
+            pad_details['right'] = {
+                'center': [device_dimensions["pad_center_to_center_x"]/2, 0],
+                'size': [device_dimensions["pad_length"], device_dimensions["pad_width"]]
+            }
+            pad_details['top'] = {
+                'center': [0, -device_dimensions["pad_center_to_center_y"]/2],
+                'size': [device_dimensions["pad_width"], device_dimensions["pad_length"]]
+            }
+            pad_details['bottom'] = {
+                'center': [0, device_dimensions["pad_center_to_center_y"]/2],
+                'size': [device_dimensions["pad_width"], device_dimensions["pad_length"]]
+            }
+        else:
+            pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_offsets, ipc_round_base)
 
         pad_suffix = '_Pad{pad_x:.2f}x{pad_y:.2f}mm'.format(pad_x=pad_details['left']['size'][0],
                                                             pad_y=pad_details['left']['size'][1])
