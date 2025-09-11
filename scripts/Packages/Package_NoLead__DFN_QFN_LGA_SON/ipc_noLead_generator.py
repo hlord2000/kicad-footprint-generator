@@ -357,23 +357,23 @@ class NoLeadGenerator(FootprintGenerator):
         if device_config.metadata.custom_name_format:
             name_format = device_config.metadata.custom_name_format
 
-        if {"pad_width", "pad_length", "pad_center_to_center_x", "pad_center_to_center_y"}.issubset(device_dimensions.keys()):
+        if {"pad_width", "pad_length"}.issubset(device_dimensions.keys()):
+            pad_pos_x = device_dimensions.get("pad_center_to_center_x", 0.0)/2
+            pad_pos_y = device_dimensions.get("pad_center_to_center_y", 0.0)/2
+            pad_length = device_dimensions["pad_length"]
+            pad_width = device_dimensions["pad_width"]
             pad_details = {}
             pad_details['left'] = {
-                'center': [-device_dimensions["pad_center_to_center_x"]/2, 0],
-                'size': [device_dimensions["pad_length"], device_dimensions["pad_width"]]
+                'center': [-pad_pos_x, 0], 'size': [pad_length, pad_width]
             }
             pad_details['right'] = {
-                'center': [device_dimensions["pad_center_to_center_x"]/2, 0],
-                'size': [device_dimensions["pad_length"], device_dimensions["pad_width"]]
+                'center': [pad_pos_x, 0], 'size': [pad_length, pad_width]
             }
             pad_details['top'] = {
-                'center': [0, -device_dimensions["pad_center_to_center_y"]/2],
-                'size': [device_dimensions["pad_width"], device_dimensions["pad_length"]]
+                'center': [0, -pad_pos_y], 'size': [pad_width, pad_length]
             }
             pad_details['bottom'] = {
-                'center': [0, device_dimensions["pad_center_to_center_y"]/2],
-                'size': [device_dimensions["pad_width"], device_dimensions["pad_length"]]
+                'center': [0, pad_pos_y], 'size': [pad_width, pad_length]
             }
         else:
             pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_offsets, ipc_round_base)
