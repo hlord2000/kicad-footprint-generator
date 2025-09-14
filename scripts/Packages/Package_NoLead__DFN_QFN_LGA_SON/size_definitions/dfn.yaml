@@ -1749,6 +1749,36 @@ Maxim_TDFN-6-1EP_3x3mm_P0.95mm_EP1.5x2.3mm:
   num_pins_x: 0
   num_pins_y: 3
 
+Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
+  device_type: 'WSON'
+  manufacturer: 'Maxim'
+  #part_number: 'DS2484Q'
+  # Package/footprint variant: T823-1
+  compatible_mpns:
+    - 'WDFN-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm'
+    - 'Maxim_TDFN-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm' # Analog / Maxim out-of-standard 'TDFN'
+    - 'Maxim_T823+1' # Analog / Maxim package code
+    - 'JEDEC_WCED-2'
+    - 'JEDEC_W2030D-2'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tdfn-ep/21-0174.pdf, https://www.analog.com/media/en/package-pcb-resources/land-pattern/tdfn-ep/90-0091.pdf'
+  ipc_class: 'qfn'
+  body_size_x: 2.95 .. 3.00 .. 3.05
+  body_size_y: 1.95 .. 2.00 .. 2.05
+  overall_height: 0.70 .. 0.75 .. 0.80
+  # package outline, from 21-0174.pdf :
+  lead_width: 0.18 .. 0.25 .. 0.30 # b
+  lead_len: 0.30 .. 0.40 .. 0.50 # L
+  # overrides, from 90-0091.pdf (Recommended Land Pattern) :
+  pad_length: 0.70
+  pad_width: 0.30
+  pad_center_to_center_x: 2.9
+  EP_size_x: 1.6 .. 1.75 .. 1.9
+  EP_size_y: 1.5 .. 1.63 .. 1.75
+  EP_num_paste_pads: [1, 1]
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
+
 TDFN-12-1EP_3x3mm_P0.4mm_EP1.7x2.45mm:
   device_type: 'TDFN'
   size_source: 'https://www.renesas.com/us/en/document/psc/package-drawing-tdfn-12pin-l123x3c'
