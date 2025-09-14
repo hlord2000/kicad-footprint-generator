@@ -264,6 +264,106 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+VQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm:
+  device_type: 'VQFN'
+  compatible_mpns:
+    - 'NXP_SOT684-21'
+    - 'NXP_HVQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm'
+    - 'NXP_98ASA01332D' # E-type
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT684-21.pdf'
+  ipc_class: 'qfn'
+  body_size_x: 8.0
+  body_size_y: 8.0
+  overall_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 1
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 5
+    maximum: 5.2
+  EP_size_y:
+    minimum: 4.86
+    maximum: 5.06
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [5, 5]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    EP_paste_coverage: 0.6
+  pitch: 0.5
+  num_pins_x: 14
+  num_pins_y: 14
+
+#VQFN-56-1EP_8x8mm_H0.9mm_P0.5mm_EP5.1x4.96mm:
+#  inherit: 'VQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm'
+#  device_type: 'VQFN'
+#  compatible_mpns:
+#    - 'NXP_SOT684-29(D)'
+#    - 'NXP_HVQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm'
+#    - 'NXP_H-PQFN-56'
+#    - 'NXP_98ASA01750D' # dimple WF-type
+#  size_source: 'https://www.nxp.com/docs/en/package-information/SOT684-29(D).pdf'
+#  overall_height:
+#    nominal: 0.9
+
+VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
+  device_type: 'VQFN'
+  compatible_mpns:
+    - 'NXP_SOT684-21(DD/SC)'
+    - 'NXP_HVQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm'
+    - 'NXP_98ASA01086D' # step-cut WF-type
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT684-21_DD_SC.pdf'
+  ipc_class: 'qfn'
+  body_size_x: 8.0
+  body_size_y: 8.0
+  overall_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 1
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.35
+    nominal: 0.45
+    maximum: 0.55
+
+  # Datasheet has conflicting values for EP!
+  # page 2: [5.00 - 5.20] x [4.86 x 5.06]
+  # - this is actually the dimensions of the non-(DD/SC) variant...
+  # page 4: [5.26 - 5.46] x [4.76 - 4.96]
+  # page 6:  5.5 nominal  x  5.06 nominal
+  # - I used this one
+  # - Since there's no min/max values, but everything else was +/- 0.1 mm,
+  #   that's what I used here too...
+  EP_size_x:
+    minimum: 5.4
+    maximum: 5.6
+  EP_size_y:
+    minimum: 4.96
+    maximum: 5.16
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [5, 5]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    EP_paste_coverage: 0.6
+  pitch: 0.5
+  num_pins_x: 14
+  num_pins_y: 14
+
 QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
   device_type: 'QFN'
   #manufacturer: 'man'
