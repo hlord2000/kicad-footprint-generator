@@ -1729,6 +1729,42 @@ TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
   mark_color_key: 'light brown label'
   source: 'https://www.nve.com/Downloads/ab3.pdf'
 
+Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
+  c: 0.2
+  L: 0.4
+  fp_s: True
+  fp_r: 0.4
+  fp_d: 0.08
+  fp_dx: null
+  fp_dy: null
+  fp_z: 0.01
+  ef: 0.0
+  cce: 0.1
+  D: 2
+  E: 3
+  A1: 0.05
+  A2: 0.75
+  b: 0.25
+  e: 0.5
+  m: 0
+  ps: square
+  npx: 4
+  npy: 0
+  epad: [1.63, 1.75]
+  epad_offsetX: null
+  epad_offsetY: null
+  epad_n: null
+  epad_pitch: null
+  excluded_pins: null
+  model_name: Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm
+  rotation: -90
+  destination_dir: Package_DFN_QFN.3dshapes
+  pin_shapes: null
+  body_color_key: 'black body'
+  pin_color_key: 'metal grey pins'
+  mark_color_key: 'light brown label'
+  source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tdfn-ep/21-0174.pdf'
+
 DFN-6-1EP_3x3mm_Pitch0.95mm:
   c: 0.2
   L: 0.5
