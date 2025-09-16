@@ -57,10 +57,12 @@ import os
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
+from _tools import cq_color_correct, export_tools, parameters, shaderColors
 from exportVRML.export_part_to_VRML import export_VRML
 
 from .gw_qfp_soic_ssop_tssop_sot import make_gw
+
+FUSED_AND_COMPRESSED = True
 
 
 def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
@@ -114,10 +116,13 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         ].getDiffuseFloat()
 
         # Make the parts of the model
-        (body, pins, mark) = make_gw(all_params[model])
+        (body, pins, epad, mark) = make_gw(all_params[model])
         body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
         pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        mark = mark.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
+        if mark:
+            mark = mark.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
+        if epad:
+            epad = epad.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
 
         # Used to wrap all the parts into an assembly
         component = cq.Assembly()
@@ -130,10 +135,18 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         component.add(
             pins, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
         )
-        component.add(
-            mark,
-            color=cq_color_correct.Color(mark_color[0], mark_color[1], mark_color[2]),
-        )
+        if mark:
+            component.add(
+                mark,
+                color=cq_color_correct.Color(
+                    mark_color[0], mark_color[1], mark_color[2]
+                ),
+            )
+        if epad:
+            component.add(
+                epad,
+                color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2]),
+            )
 
         # Create the output directory if it does not exist
         if not os.path.exists(output_dir):
@@ -144,40 +157,48 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
         # Export the assembly to STEP
         component.name = file_name
-        component.save(
-            os.path.join(output_dir, file_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
 
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, file_name)
-
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, file_name + ".wrl"),
-                [body, pins, mark],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["pin_color_key"],
-                    all_params[model]["mark_color_key"],
-                ],
+        if not FUSED_AND_COMPRESSED:
+            component.save(
+                os.path.join(output_dir, file_name + ".step"),
+                cq.exporters.ExportTypes.STEP,
+                mode=cq.exporters.assembly.ExportModes.DEFAULT,
+                write_pcurves=False,
             )
+        else:
+            component.save(
+                os.path.join(output_dir, file_name + ".step"),
+                cq.exporters.ExportTypes.STEP,
+                mode=cq.exporters.assembly.ExportModes.FUSED,
+                write_pcurves=False,
+            )
+            # Check for a proper union
+            export_tools.check_step_export_union(component, output_dir, file_name)
 
-        # Update the license
-        from _tools import add_license
+            # Do STEP post-processing
+            export_tools.postprocess_step(component, output_dir, file_name)
 
-        add_license.addLicenseToStep(
-            output_dir,
-            file_name + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
-        )
+            # Export the assembly to VRML
+            if enable_vrml:
+                export_VRML(
+                    os.path.join(output_dir, file_name + ".wrl"),
+                    [body, pins, mark],
+                    [
+                        all_params[model]["body_color_key"],
+                        all_params[model]["pin_color_key"],
+                        all_params[model]["mark_color_key"],
+                    ],
+                )
+
+            # Update the license
+            from _tools import add_license
+
+            add_license.addLicenseToStep(
+                output_dir,
+                file_name + ".step",
+                add_license.LIST_int_license,
+                add_license.STR_int_licAuthor,
+                add_license.STR_int_licEmail,
+                add_license.STR_int_licOrgSys,
+                add_license.STR_int_licPreProc,
+            )

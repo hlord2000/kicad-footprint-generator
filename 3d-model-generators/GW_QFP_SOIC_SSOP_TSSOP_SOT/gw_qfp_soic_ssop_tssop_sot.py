@@ -49,7 +49,6 @@
 # ****************************************************************************
 
 from math import atan, cos, degrees, radians, sin, tan
-
 from typing import Any, cast
 
 import cadquery as cq
@@ -57,12 +56,12 @@ import cadquery as cq
 from _tools.cq_helpers import union_all  # pyright: ignore
 
 max_cc1 = 1
-color_pin_mark = False
-place_pinMark = True
 default_pin_slope = 10
 
 
-def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane]:
+def make_gw(
+    params: dict[str, Any],
+) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
     c = cast(float, params["c"])
     the = cast(float, params["the"])
     the_p = cast(float | None, params.get("the_p"))
@@ -95,7 +94,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
     missingparam = [s, l, r1, the_p].count(None)
     if missingparam == 0:
         print(
-            "Warning: All of S, L, R1, and the_p are provided. The system is " \
+            "Warning: All of S, L, R1, and the_p are provided. The system is "
             "overconstrained. Ignoring the value of S."
         )
         s = None
@@ -104,16 +103,17 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
         raise Exception("At least two of S, L, R1, and the_p must be provided.")
 
     if the_p is None:
-        if isinstance(s, float | int) and isinstance(l, float | int) and isinstance(r1, float | int):
+        if s is not None and l is not None and r1 is not None:
             the_p = degrees(
                 atan(
-                    (((e - e1) / 2) - (s + l + r1)) / (a1 + ((a2 - c) / 2) - (r1 + r2 + c))
+                    (((e - e1) / 2) - (s + l + r1))
+                    / (a1 + ((a2 - c) / 2) - (r1 + r2 + c))
                 )
             )
             if the_p < 0:
                 print(
-                    "The provided values of S, L, and R1 will result in inward-" \
-                    "sloping pins. If this is not what you intended, confirm those " \
+                    "The provided values of S, L, and R1 will result in inward-"
+                    "sloping pins. If this is not what you intended, confirm those "
                     "values and reduce one or more of them."
                 )
         # if more than one param is missing, we can't calculate a pin angle, so just
@@ -123,28 +123,21 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
 
     tan_p = tan(radians(the_p))
     if l is None and r1 is not None and s is not None:
-        l = (
-            (e - e1) / 2
-            - (s + r1)
-            - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
-        )
+        l = (e - e1) / 2 - (s + r1) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         if the_p > 0 and l < (c + r2):
             raise Exception("the_p is too large.")
     elif s is None and r1 is not None and l is not None:
-        s = (
-            (e - e1) / 2
-            - (r1 + l)
-            - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
-        )
+        s = (e - e1) / 2 - (r1 + l) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         if the_p > 0 and s < 0:
             raise Exception("the_p is too large.")
     elif r1 is None and s is not None and l is not None:
         r1 = (s - (e - e1) / 2 + l + (a1 + (a2 - c) / 2 - r2 - c) * tan_p) / (tan_p - 1)
         if the_p > 0 and r1 < 0:
             raise Exception("the_p is too large.")
+    elif r1 is not None and s is not None and l is not None:
+        pass
     else:
         raise NotImplementedError("This should not happen.")
-
     # uncomment to constrain pin angles to positive or vertical, i.e. no "Z" shaped
     # pins:
     # the_p = max(the_p, 0)
@@ -153,7 +146,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
         raise Exception("the_p must be between +/- 90 degrees")
     if (
         the_p < 0
-        and ((a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * abs(tan(radians(the_p))))
+        and ((a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * abs(tan_p))
         - (r1 + r2 + c)
         + r2
         + c
@@ -162,7 +155,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
         # doesn't account for bottom chamfer, that would be more trouble than it's
         # worth to check, better safe than sorry
         raise Exception(
-            "the_p is too negative, the resulting pin will intersect with the" \
+            "the_p is too negative, the resulting pin will intersect with the"
             "component body."
         )
     if l < 0:
@@ -189,46 +182,6 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
     D1_t2 = D1_t1 - 2 * tan(radians(the)) * A2_t  # top part upper width
     E1_t2 = E1_t1 - 2 * tan(radians(the)) * A2_t  # top part upper length
 
-    epad_rotation = 0.0
-    epad_offset_x = 0.0
-    epad_offset_y = 0.0
-
-    pins: list[cq.Workplane] = []
-
-    epad_r = params.get("epad")
-    if epad_r is not None:
-        if not isinstance(epad_r, list):
-            epad = cq.Workplane("XY").circle(epad_r).extrude(a1)
-        else:
-            epad_r = cast(list[float], epad_r)
-            D2 = float(epad_r[0])
-            E2 = float(epad_r[1])
-            if len(epad_r) > 2:
-                epad_rotation = epad_r[2]
-            if len(epad_r) > 3:
-                if isinstance(epad_r[3], str):
-                    if epad_r[3] == "-topin":
-                        epad_offset_x = (D1_b / 2 - D2 / 2) * -1
-                    elif epad_r[3] == "+topin":
-                        epad_offset_x = D1_b / 2 - D2 / 2
-                else:
-                    epad_offset_x = epad_r[3]
-            if len(epad_r) > 4:
-                if isinstance(epad_r[4], str):
-                    if epad_r[4] == "-topin":
-                        epad_offset_y = (E1_b / 2 - E2 / 2) * -1
-                    elif epad_r[4] == "+topin":
-                        epad_offset_y = E1_b / 2 - E2 / 2
-                else:
-                    epad_offset_y = epad_r[4]
-            epad = (
-                cq.Workplane("XY")
-                .box(D2, E2, a1)
-                .translate((epad_offset_x, epad_offset_y, a1 / 2))
-                .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
-            )
-        pins.append(epad)
-
     # calculate chamfers
     totpinwidthx = (npx - 1) * pitch + b  # total width of all pins on the X side
     totpinwidthy = (npy - 1) * pitch + b  # total width of all pins on the Y side
@@ -242,11 +195,8 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
     cc = cc1
 
     def crect(
-            wp: cq.Workplane,
-            rw: float,
-            rh: float,
-            cv1: float,
-            cv: float) -> cq.Workplane:
+        wp: cq.Workplane, rw: float, rh: float, cv1: float, cv: float
+    ) -> cq.Workplane:
         """
         Creates a rectangle with chamfered corners.
         wp: workplane object
@@ -320,7 +270,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
             try:
                 case = case.faces(">Z").fillet(ef)
             except Exception as exeption:
-                print("Case top face failed failed.\n")
+                print("Case top face failed.\n")
                 print("{:s}\n".format(exeption))
 
     else:
@@ -341,7 +291,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
             try:
                 case = case.faces(">Z").fillet(ef)
             except Exception as exeption:
-                print("Case top face failed failed.\n")
+                print("Case top face failed.\n")
                 print("{:s}\n".format(exeption))
 
         # fillet the corners
@@ -379,30 +329,66 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
                 print("Case fillet 4 failed\n")
                 print("{:s}\n".format(exeption))
 
-    # fp_s = True
-    if fp_r == 0:
-        global place_pinMark
-        place_pinMark = False
-        fp_r = 0.1
-    if fp_s == False:
-        pinmark = (
-            cq.Workplane("XY")
-            .workplane(centerOption="CenterOfMass", offset=A)
-            .box(fp_r, E1_t2 - fp_d, fp_z * 2)
-        )  # .translate((E1/2,0,A1)).rotate((0,0,0), (0,0,1), 90)
-        # translate the object
-        pinmark = pinmark.translate(
-            (-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0, 0)
-        )  # .rotate((0,0,0), (0,1,0), 0)
-    else:
-        # first pin indicator is created with a cylindrical pocket
-        pinmark = (
-            cq.Workplane("XZ", (-D1_t2 / 2 + fp_d + fp_r, -E1_t2 / 2 + fp_d + fp_r, A))
-            .rect(fp_r / 2, -fp_z, False)
-            .revolve()
-        )
+    epad_rotation = 0.0
+    epad_offset_x = 0.0
+    epad_offset_y = 0.0
 
-    if (color_pin_mark == False) and (place_pinMark == True):
+    epad_r = params.get("epad")
+    if epad_r is not None:
+        if not isinstance(epad_r, list):
+            epad = cq.Workplane("XY").circle(epad_r).extrude(a1)
+        else:
+            epad_r = cast(list[float], epad_r)
+            D2 = float(epad_r[0])
+            E2 = float(epad_r[1])
+            if len(epad_r) > 2:
+                epad_rotation = epad_r[2]
+            if len(epad_r) > 3:
+                if isinstance(epad_r[3], str):
+                    if epad_r[3] == "-topin":
+                        epad_offset_x = (D1_b / 2 - D2 / 2) * -1
+                    elif epad_r[3] == "+topin":
+                        epad_offset_x = D1_b / 2 - D2 / 2
+                else:
+                    epad_offset_x = epad_r[3]
+            if len(epad_r) > 4:
+                if isinstance(epad_r[4], str):
+                    if epad_r[4] == "-topin":
+                        epad_offset_y = (E1_b / 2 - E2 / 2) * -1
+                    elif epad_r[4] == "+topin":
+                        epad_offset_y = E1_b / 2 - E2 / 2
+                else:
+                    epad_offset_y = epad_r[4]
+            epad = (
+                cq.Workplane("XY")
+                .box(D2, E2, a1)
+                .translate((epad_offset_x, epad_offset_y, a1 / 2))
+                .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
+            )
+        case = case.cut(epad)
+    else:
+        epad = None
+
+    if fp_r == 0:
+        pinmark = None
+    else:
+        if fp_s == False:
+            pinmark = (
+                cq.Workplane("XY")
+                .workplane(centerOption="CenterOfMass", offset=A)
+                .box(fp_r, E1_t2 - fp_d, fp_z * 2)
+            )
+            # translate the object
+            pinmark = pinmark.translate((-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0, 0))
+        else:
+            # first pin indicator is created with a cylindrical pocket
+            pinmark = (
+                cq.Workplane(
+                    "XZ", (-D1_t2 / 2 + fp_d + fp_r, -E1_t2 / 2 + fp_d + fp_r, A)
+                )
+                .rect(fp_r / 2, -fp_z, False)
+                .revolve()
+            )
         case = case.cut(pinmark)
 
     # calculated dimensions for pin
@@ -411,7 +397,7 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
 
     # Create a pin object at the center of top side.
     bpin = (
-        cq.Workplane("YZ", (0, e1 / 2, 0))
+        cq.Workplane("YZ")
         .moveTo(-tb_s, a1 + A2_b)
         .line(s + tb_s, 0)
         .radiusArc(
@@ -447,43 +433,38 @@ def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Work
         .translate((-b / 2, 0, 0))
     )
 
-    pincounter = 1
-    first_pos_x = (npx - 1) * pitch / 2
-    for i in range(npx):
-        if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_x - i * pitch, 0, 0)).rotate(
-                (0, 0, 0), (0, 0, 1), 180
-            )
-            pins.append(pin)
-        pincounter += 1
+    # Define all pin locations and rotations first
+    h_coords = [((npx - 1) * pitch / 2) - i * pitch for i in range(npx)]
+    v_coords = [((npy - 1) * pitch / 2) - i * pitch for i in range(npy)]
 
-    first_pos_y = (npy - 1) * pitch / 2
-    for i in range(npy):
-        if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_y - i * pitch, (d1 - e1) / 2, 0)).rotate(
-                (0, 0, 0), (0, 0, 1), 270
-            )
-            pins.append(pin)
-        pincounter += 1
+    # Filter out excluded pins
+    all_locs = (
+        [
+            cq.Location(cq.Vector(-x, -e1 / 2, 0), cq.Vector(0, 0, 1), 180)
+            for x in h_coords
+        ]  # Bottom (-> Left with -90°)
+        + [
+            cq.Location(cq.Vector(d1 / 2, -y, 0), cq.Vector(0, 0, 1), -90)
+            for y in v_coords
+        ]  # Right (-> Bottom with -90°)
+        + [
+            cq.Location(cq.Vector(x, e1 / 2, 0)) for x in h_coords
+        ]  # Top (-> Right with -90°)
+        + [
+            cq.Location(cq.Vector(-d1 / 2, y, 0), cq.Vector(0, 0, 1), 90)
+            for y in v_coords
+        ]  # Left (-> Top with -90°)
+    )
 
-    for i in range(npx):
-        if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_x - i * pitch, 0, 0))
-            pins.append(pin)
-        pincounter += 1
+    valid_locs = [loc for i, loc in enumerate(all_locs, 1) if i not in excluded_pins]
 
-    for i in range(npy):
-        if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_y - i * pitch, (d1 - e1) / 2, 0)).rotate(
-                (0, 0, 0), (0, 0, 1), 90
-            )
-            pins.append(pin)
-        pincounter += 1
+    # Create all pins in a single, efficient operation
+    pins = (
+        cq.Workplane("XY")
+        .pushPoints(valid_locs)
+        .each(lambda loc: bpin.val().located(loc), combine="a")  # type: ignore
+    )
 
-    # merge all pins to a single object
-    merged_pins = union_all(pins)  # type: ignore[no-untyped-call]
+    case = case.cut(pins)
 
-    # extract pins from case
-    case = case.cut(merged_pins)
-
-    return (case, merged_pins, pinmark)
+    return (case, pins, epad, pinmark)
