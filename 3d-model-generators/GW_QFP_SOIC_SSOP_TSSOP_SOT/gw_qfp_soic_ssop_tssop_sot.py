@@ -48,11 +48,13 @@
 # *                                                                          *
 # ****************************************************************************
 
-from math import atan, cos, degrees, pi, radians, sin, sqrt, tan
+from math import atan, cos, degrees, radians, sin, tan
+
+from typing import Any, cast
 
 import cadquery as cq
 
-from _tools.cq_helpers import union_all
+from _tools.cq_helpers import union_all  # pyright: ignore
 
 max_cc1 = 1
 color_pin_mark = False
@@ -60,124 +62,130 @@ place_pinMark = True
 default_pin_slope = 10
 
 
-def make_gw(params):
-    c = params["c"]
-    the = params["the"]
-    the_p = params["the_p"] if "the_p" in params else None
-    tb_s = params["tb_s"]
-    ef = params["ef"]
-    cc1 = params["cc1"]
-    fp_s = params["fp_s"]
-    fp_r = params["fp_r"]
-    fp_d = params["fp_d"]
-    fp_z = params["fp_z"]
-    R1 = params["R1"] if "R1" in params else None
-    R2 = params["R2"]
-    S = params["S"] if "S" in params else None
-    L = params["L"] if "L" in params else None
-    D1 = params["D1"]
-    E1 = params["E1"]
-    E = params["E"]
-    A1 = params["A1"]
-    A2 = params["A2"]
-    b = params["b"]
-    e = params["e"]
-    npx = params["npx"]
-    npy = params["npy"]
+def make_gw(params: dict[str, Any]) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane]:
+    c = cast(float, params["c"])
+    the = cast(float, params["the"])
+    the_p = cast(float | None, params.get("the_p"))
+    tb_s = cast(float, params["tb_s"])
+    ef = cast(float, params["ef"])
+    cc1 = cast(float, params["cc1"])
+    fp_s = cast(bool, params["fp_s"])
+    fp_r = cast(float, params["fp_r"])
+    fp_d = cast(float, params["fp_d"])
+    fp_z = cast(float, params["fp_z"])
+    r1 = cast(float | None, params.get("R1"))
+    r2 = cast(float, params["R2"])
+    s = cast(float | None, params.get("S"))
+    l = cast(float | None, params.get("L"))
+    d1 = cast(float, params["D1"])
+    e1 = cast(float, params["E1"])
+    e = cast(float, params["E"])
+    a1 = cast(float, params["A1"])
+    a2 = cast(float, params["A2"])
+    b = cast(float, params["b"])
+    pitch = cast(float, params["e"])
+    npx = cast(int, params["npx"])
+    npy = cast(int, params["npy"])
 
     if params["excluded_pins"]:
         excluded_pins = params["excluded_pins"]
     else:
         excluded_pins = ()  ##no pin excluded
 
-    missingparam = [S, L, R1, the_p].count(None)
+    missingparam = [s, l, r1, the_p].count(None)
     if missingparam == 0:
         print(
-            "Warning: All of S, L, R1, and the_p are provided. The system is overconstrained. Ignoring the value of the_p."
+            "Warning: All of S, L, R1, and the_p are provided. The system is " \
+            "overconstrained. Ignoring the value of S."
         )
-        S = None
-    if missingparam > 2:
-        raise Exception("At least two of S, L, R1, and the_p must be provided")
+        s = None
 
-    elif missingparam > 1:
-        # if more than one param is missing, we can't calculate a pin angle, so just set it to the default
-        if the_p is None:
-            the_p = default_pin_slope
+    elif missingparam > 2:
+        raise Exception("At least two of S, L, R1, and the_p must be provided.")
 
-    else:
-        if the_p is None:
+    if the_p is None:
+        if isinstance(s, float | int) and isinstance(l, float | int) and isinstance(r1, float | int):
             the_p = degrees(
                 atan(
-                    (((E - E1) / 2) - (S + L + R1))
-                    / (A1 + ((A2 - c) / 2) - (R1 + R2 + c))
+                    (((e - e1) / 2) - (s + l + r1)) / (a1 + ((a2 - c) / 2) - (r1 + r2 + c))
                 )
             )
             if the_p < 0:
                 print(
-                    "The provided values of S, L, and R1 will result in inward-sloping pins.  If this is not what you intended, confirm those values and reduce one or more of them."
+                    "The provided values of S, L, and R1 will result in inward-" \
+                    "sloping pins. If this is not what you intended, confirm those " \
+                    "values and reduce one or more of them."
                 )
+        # if more than one param is missing, we can't calculate a pin angle, so just
+        # set it to the default
+        else:
+            the_p = default_pin_slope
 
-    if L is None:
-        L = (
-            (E - E1) / 2
-            - (S + R1)
-            - ((A1 + ((A2 - c) / 2) - (R1 + R2 + c)) * tan(radians(the_p)))
+    tan_p = tan(radians(the_p))
+    if l is None and r1 is not None and s is not None:
+        l = (
+            (e - e1) / 2
+            - (s + r1)
+            - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         )
-        if the_p > 0 and L < (c + R2):
-            raise Exception("the_p is too large")
-    if S is None:
-        S = (
-            (E - E1) / 2
-            - (R1 + L)
-            - ((A1 + ((A2 - c) / 2) - (R1 + R2 + c)) * tan(radians(the_p)))
+        if the_p > 0 and l < (c + r2):
+            raise Exception("the_p is too large.")
+    elif s is None and r1 is not None and l is not None:
+        s = (
+            (e - e1) / 2
+            - (r1 + l)
+            - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         )
-        if the_p > 0 and S < 0:
-            raise Exception("the_p is too large")
-    if R1 is None:
-        R1 = (
-            (E - E1) / 2
-            - (S + L)
-            - ((A1 + ((A2 - c) / 2) - (R1 + R2 + c)) * tan(radians(the_p)))
-        )
-        if the_p > 0 and R1 < 0:
-            raise Exception("the_p is too large")
+        if the_p > 0 and s < 0:
+            raise Exception("the_p is too large.")
+    elif r1 is None and s is not None and l is not None:
+        r1 = (s - (e - e1) / 2 + l + (a1 + (a2 - c) / 2 - r2 - c) * tan_p) / (tan_p - 1)
+        if the_p > 0 and r1 < 0:
+            raise Exception("the_p is too large.")
+    else:
+        raise NotImplementedError("This should not happen.")
 
-    # uncomment to constrain pin angles to positive or vertical, i.e. no "Z" shaped pins
+    # uncomment to constrain pin angles to positive or vertical, i.e. no "Z" shaped
+    # pins:
     # the_p = max(the_p, 0)
 
-    if abs(the_p) >= 90:
+    if abs(the_p) >= 90.0:
         raise Exception("the_p must be between +/- 90 degrees")
     if (
         the_p < 0
-        and ((A1 + ((A2 - c) / 2) - (R1 + R2 + c)) * abs(tan(radians(the_p))))
-        - (R1 + R2 + c)
-        + R2
+        and ((a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * abs(tan(radians(the_p))))
+        - (r1 + r2 + c)
+        + r2
         + c
-        > S
+        > s
     ):
-        # doesn't account for bottom chamfer, that would be more trouble than it's worth to check, better safe than sorry
+        # doesn't account for bottom chamfer, that would be more trouble than it's
+        # worth to check, better safe than sorry
         raise Exception(
-            "the_p is too negative, the resulting pin will intersect with the component body"
+            "the_p is too negative, the resulting pin will intersect with the" \
+            "component body."
         )
-    if L < 0:
+    if l < 0:
         raise Exception("L cannot be negative")
-    if S < 0:
+    if s < 0:
         raise Exception("S cannot be negative")
-    if R1 < 0:
+    if r1 < 0:
         raise Exception("R1 cannot be negative")
-    if L < (c + R2):
+    if l < (c + r2):
         raise Exception("L must be greater than c + R2")
 
+    # If tb_s is is zero, the solver cannot converge as we have anobject with zero
+    # volume, so enforce a minimum size here:
     if tb_s == 0:
-        tb_s = 0.001  # if tb_s is is zero, the solver cannot converge as we have an object with zero volume, so enforce a minimum size here
+        tb_s = 0.001
 
-    A = A1 + A2
-    A2_t = (A2 - c) / 2  # body top part height
+    A = a1 + a2
+    A2_t = (a2 - c) / 2  # body top part height
     A2_b = A2_t  # body bottom part height
-    D1_b = D1 - 2 * tan(radians(the)) * A2_b  # bottom width
-    E1_b = E1 - 2 * tan(radians(the)) * A2_b  # bottom length
-    D1_t1 = D1 - tb_s  # top part bottom width
-    E1_t1 = E1 - tb_s  # top part bottom length
+    D1_b = d1 - 2 * tan(radians(the)) * A2_b  # bottom width
+    E1_b = e1 - 2 * tan(radians(the)) * A2_b  # bottom length
+    D1_t1 = d1 - tb_s  # top part bottom width
+    E1_t1 = e1 - tb_s  # top part bottom length
     D1_t2 = D1_t1 - 2 * tan(radians(the)) * A2_t  # top part upper width
     E1_t2 = E1_t1 - 2 * tan(radians(the)) * A2_t  # top part upper length
 
@@ -185,47 +193,60 @@ def make_gw(params):
     epad_offset_x = 0.0
     epad_offset_y = 0.0
 
-    if params["epad"]:
-        # if isinstance(params.epad, float):
-        if not isinstance(params["epad"], list):
-            sq_epad = False
-            epad_r = params["epad"]
+    pins: list[cq.Workplane] = []
+
+    epad_r = params.get("epad")
+    if epad_r is not None:
+        if not isinstance(epad_r, list):
+            epad = cq.Workplane("XY").circle(epad_r).extrude(a1)
         else:
-            sq_epad = True
-            D2 = params["epad"][0]
-            E2 = params["epad"][1]
-            if len(params["epad"]) > 2:
-                epad_rotation = params["epad"][2]
-            if len(params["epad"]) > 3:
-                if isinstance(params["epad"][3], str):
-                    if params["epad"][3] == "-topin":
+            epad_r = cast(list[float], epad_r)
+            D2 = float(epad_r[0])
+            E2 = float(epad_r[1])
+            if len(epad_r) > 2:
+                epad_rotation = epad_r[2]
+            if len(epad_r) > 3:
+                if isinstance(epad_r[3], str):
+                    if epad_r[3] == "-topin":
                         epad_offset_x = (D1_b / 2 - D2 / 2) * -1
-                    elif params["epad"][3] == "+topin":
+                    elif epad_r[3] == "+topin":
                         epad_offset_x = D1_b / 2 - D2 / 2
                 else:
-                    epad_offset_x = params["epad"][3]
-            if len(params["epad"]) > 4:
-                if isinstance(params["epad"][4], str):
-                    if params["epad"][4] == "-topin":
+                    epad_offset_x = epad_r[3]
+            if len(epad_r) > 4:
+                if isinstance(epad_r[4], str):
+                    if epad_r[4] == "-topin":
                         epad_offset_y = (E1_b / 2 - E2 / 2) * -1
-                    elif params["epad"][4] == "+topin":
+                    elif epad_r[4] == "+topin":
                         epad_offset_y = E1_b / 2 - E2 / 2
                 else:
-                    epad_offset_y = params["epad"][4]
+                    epad_offset_y = epad_r[4]
+            epad = (
+                cq.Workplane("XY")
+                .box(D2, E2, a1)
+                .translate((epad_offset_x, epad_offset_y, a1 / 2))
+                .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
+            )
+        pins.append(epad)
 
     # calculate chamfers
-    totpinwidthx = (npx - 1) * e + b  # total width of all pins on the X side
-    totpinwidthy = (npy - 1) * e + b  # total width of all pins on the Y side
+    totpinwidthx = (npx - 1) * pitch + b  # total width of all pins on the X side
+    totpinwidthy = (npy - 1) * pitch + b  # total width of all pins on the Y side
 
     if cc1 != 0:
         cc1 = abs(
-            min((D1 - totpinwidthx) / 2.0, (E1 - totpinwidthy) / 2.0, cc1) - 0.5 * tb_s
+            min((d1 - totpinwidthx) / 2.0, (e1 - totpinwidthy) / 2.0, cc1) - 0.5 * tb_s
         )
         cc1 = min(cc1, max_cc1)
 
     cc = cc1
 
-    def crect(wp, rw, rh, cv1, cv):
+    def crect(
+            wp: cq.Workplane,
+            rw: float,
+            rh: float,
+            cv1: float,
+            cv: float) -> cq.Workplane:
         """
         Creates a rectangle with chamfered corners.
         wp: workplane object
@@ -252,47 +273,47 @@ def make_gw(params):
 
     if cc1 != 0:
         case = (
-            cq.Workplane(cq.Plane.XY())
-            .workplane(centerOption="CenterOfMass", offset=A1)
-            .moveTo(-D1_b / 2.0, -E1_b / 2.0 + (cc1 - (D1 - D1_b) / 4.0))
+            cq.Workplane("XY")
+            .workplane(centerOption="CenterOfMass", offset=a1)
+            .moveTo(-D1_b / 2.0, -E1_b / 2.0 + (cc1 - (d1 - D1_b) / 4.0))
         )
         case = crect(
-            case, D1_b, E1_b, cc1 - (D1 - D1_b) / 4.0, cc - (D1 - D1_b) / 4.0
+            case, D1_b, E1_b, cc1 - (d1 - D1_b) / 4.0, cc - (d1 - D1_b) / 4.0
         )  # bottom edges
         # show(case)
         case = (
             case.pushPoints([(0, 0)])
             .workplane(centerOption="CenterOfMass", offset=A2_b)
-            .moveTo(-D1 / 2, -E1 / 2 + cc1)
+            .moveTo(-d1 / 2, -e1 / 2 + cc1)
         )
-        case = crect(case, D1, E1, cc1, cc)  # center (lower) outer edges
+        case = crect(case, d1, e1, cc1, cc)  # center (lower) outer edges
         # show(case)
         case = (
             case.pushPoints([(0, 0)])
             .workplane(centerOption="CenterOfMass", offset=c)
-            .moveTo(-D1 / 2, -E1 / 2 + cc1)
+            .moveTo(-d1 / 2, -e1 / 2 + cc1)
         )
-        case = crect(case, D1, E1, cc1, cc)  # center (upper) outer edges
+        case = crect(case, d1, e1, cc1, cc)  # center (upper) outer edges
         # show(case)
         # case=cq.Workplane(cq.Plane.XY()).workplane(offset=c).moveTo(-D1_t1/2,-E1_t1/2+cc1-(D1-D1_t1)/4.)
         case = (
             case.pushPoints([(0, 0)])
             .workplane(centerOption="CenterOfMass", offset=0)
-            .moveTo(-D1_t1 / 2, -E1_t1 / 2 + cc1 - (D1 - D1_t1) / 4.0)
+            .moveTo(-D1_t1 / 2, -E1_t1 / 2 + cc1 - (d1 - D1_t1) / 4.0)
         )
         case = crect(
-            case, D1_t1, E1_t1, cc1 - (D1 - D1_t1) / 4.0, cc - (D1 - D1_t1) / 4.0
+            case, D1_t1, E1_t1, cc1 - (d1 - D1_t1) / 4.0, cc - (d1 - D1_t1) / 4.0
         )  # center (upper) inner edges
         # show(case)
         # stop
-        cc1_t = cc1 - (D1 - D1_t2) / 4.0  # this one is defined because we use it later
+        cc1_t = cc1 - (d1 - D1_t2) / 4.0  # this one is defined because we use it later
         case = (
             case.pushPoints([(0, 0)])
             .workplane(centerOption="CenterOfMass", offset=A2_t)
             .moveTo(-D1_t2 / 2, -E1_t2 / 2 + cc1_t)
         )
         # cc1_t = cc1-(D1-D1_t2)/4. # this one is defined because we use it later
-        case = crect(case, D1_t2, E1_t2, cc1_t, cc - (D1 - D1_t2) / 4.0)  # top edges
+        case = crect(case, D1_t2, E1_t2, cc1_t, cc - (d1 - D1_t2) / 4.0)  # top edges
         # show(case)
         case = case.loft(ruled=True)
         if ef != 0:
@@ -304,13 +325,13 @@ def make_gw(params):
 
     else:
         case = (
-            cq.Workplane(cq.Plane.XY())
-            .workplane(centerOption="CenterOfMass", offset=A1)
+            cq.Workplane("XY")
+            .workplane(centerOption="CenterOfMass", offset=a1)
             .rect(D1_b, E1_b)
             .workplane(centerOption="CenterOfMass", offset=A2_b)
-            .rect(D1, E1)
+            .rect(d1, e1)
             .workplane(centerOption="CenterOfMass", offset=c)
-            .rect(D1, E1)
+            .rect(d1, e1)
             .rect(D1_t1, E1_t1)
             .workplane(centerOption="CenterOfMass", offset=A2_t)
             .rect(D1_t2, E1_t2)
@@ -328,7 +349,7 @@ def make_gw(params):
             BS = cq.selectors.BoxSelector
             try:
                 case = case.edges(
-                    BS((D1_t2 / 2, E1_t2 / 2, 0), (D1 / 2 + 0.1, E1 / 2 + 0.1, A2))
+                    BS((D1_t2 / 2, E1_t2 / 2, 0), (d1 / 2 + 0.1, e1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 1 failed\n")
@@ -336,7 +357,7 @@ def make_gw(params):
 
             try:
                 case = case.edges(
-                    BS((-D1_t2 / 2, E1_t2 / 2, 0), (-D1 / 2 - 0.1, E1 / 2 + 0.1, A2))
+                    BS((-D1_t2 / 2, E1_t2 / 2, 0), (-d1 / 2 - 0.1, e1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 2 failed\n")
@@ -344,7 +365,7 @@ def make_gw(params):
 
             try:
                 case = case.edges(
-                    BS((-D1_t2 / 2, -E1_t2 / 2, 0), (-D1 / 2 - 0.1, -E1 / 2 - 0.1, A2))
+                    BS((-D1_t2 / 2, -E1_t2 / 2, 0), (-d1 / 2 - 0.1, -e1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 3 failed\n")
@@ -352,7 +373,7 @@ def make_gw(params):
 
             try:
                 case = case.edges(
-                    BS((D1_t2 / 2, -E1_t2 / 2, 0), (D1 / 2 + 0.1, -E1 / 2 - 0.1, A2))
+                    BS((D1_t2 / 2, -E1_t2 / 2, 0), (d1 / 2 + 0.1, -e1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 4 failed\n")
@@ -365,7 +386,7 @@ def make_gw(params):
         fp_r = 0.1
     if fp_s == False:
         pinmark = (
-            cq.Workplane(cq.Plane.XY())
+            cq.Workplane("XY")
             .workplane(centerOption="CenterOfMass", offset=A)
             .box(fp_r, E1_t2 - fp_d, fp_z * 2)
         )  # .translate((E1/2,0,A1)).rotate((0,0,0), (0,0,1), 90)
@@ -374,14 +395,7 @@ def make_gw(params):
             (-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0, 0)
         )  # .rotate((0,0,0), (0,1,0), 0)
     else:
-        # first pin indicator is created with a spherical pocket
-
-        sphere_r = (fp_r * fp_r / 2 + fp_z * fp_z) / (2 * fp_z)
-        sphere_z = A + sphere_r * 2 - fp_z - sphere_r
-        # Revolve a cylinder from a rectangle
-        # Switch comments around in this section to try the revolve operation with different parameters
-        ##cylinder =
-        # pinmark=cq.Workplane("XZ", (-D1_t2/2+fp_d+fp_r, -E1_t2/2+fp_d+fp_r, A)).rect(sphere_r/2, -fp_z, False).revolve()
+        # first pin indicator is created with a cylindrical pocket
         pinmark = (
             cq.Workplane("XZ", (-D1_t2 / 2 + fp_d + fp_r, -E1_t2 / 2 + fp_d + fp_r, A))
             .rect(fp_r / 2, -fp_z, False)
@@ -392,69 +406,61 @@ def make_gw(params):
         case = case.cut(pinmark)
 
     # calculated dimensions for pin
-    R1_o = R1 + c  # pin upper corner, outer radius
-    R2_o = R2 + c  # pin lower corner, outer radius
+    R1_o = r1 + c  # pin upper corner, outer radius
+    R2_o = r2 + c  # pin lower corner, outer radius
 
     # Create a pin object at the center of top side.
     bpin = (
-        cq.Workplane(
-            "YZ",
-            (
-                0,
-                E1 / 2,
-                0,
-            ),
-        )
-        .moveTo(-tb_s, A1 + A2_b)
-        .line(S + tb_s, 0)
+        cq.Workplane("YZ", (0, e1 / 2, 0))
+        .moveTo(-tb_s, a1 + A2_b)
+        .line(s + tb_s, 0)
         .radiusArc(
             (
-                S + (R1 * cos(radians(the_p))),
-                A1 + A2_b - R1 + (R1 * sin(radians(the_p))),
+                s + (r1 * cos(radians(the_p))),
+                a1 + A2_b - r1 + (r1 * sin(radians(the_p))),
             ),
-            R1,
+            r1,
         )
         .lineTo(
-            ((E - E1) / 2) - L + R2_o - (R2_o * cos(radians(the_p))),
-            R2 + c - (R2_o * sin(radians(the_p))),
+            ((e - e1) / 2) - l + R2_o - (R2_o * cos(radians(the_p))),
+            r2 + c - (R2_o * sin(radians(the_p))),
         )
-        .radiusArc((((E - E1) / 2) - L + R2_o, 0), -R2_o)
-        .line(L - R2_o, 0)
+        .radiusArc((((e - e1) / 2) - l + R2_o, 0), -R2_o)
+        .line(l - R2_o, 0)
         .line(0, c)
-        .line(-L + R2_o, 0)
+        .line(-l + R2_o, 0)
         .radiusArc(
             (
-                ((E - E1) / 2) - L + R2_o - (R2 * cos(radians(the_p))),
-                R2 + c - (R2 * sin(radians(the_p))),
+                ((e - e1) / 2) - l + R2_o - (r2 * cos(radians(the_p))),
+                r2 + c - (r2 * sin(radians(the_p))),
             ),
-            R2,
+            r2,
         )
         .lineTo(
-            S + (R1_o * cos(radians(the_p))),
-            A1 + A2_b - R1 + (R1_o * sin(radians(the_p))),
+            s + (R1_o * cos(radians(the_p))),
+            a1 + A2_b - r1 + (R1_o * sin(radians(the_p))),
         )
-        .radiusArc((S, A1 + A2_b + c), -R1_o)
-        .line(-S - tb_s, 0)
+        .radiusArc((s, a1 + A2_b + c), -R1_o)
+        .line(-s - tb_s, 0)
         .close()
         .extrude(b)
         .translate((-b / 2, 0, 0))
     )
 
-    pins = []
     pincounter = 1
-    first_pos_x = (npx - 1) * e / 2
+    first_pos_x = (npx - 1) * pitch / 2
     for i in range(npx):
         if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_x - i * e, 0, 0)).rotate(
+            pin = bpin.translate((first_pos_x - i * pitch, 0, 0)).rotate(
                 (0, 0, 0), (0, 0, 1), 180
             )
             pins.append(pin)
         pincounter += 1
 
-    first_pos_y = (npy - 1) * e / 2
+    first_pos_y = (npy - 1) * pitch / 2
     for i in range(npy):
         if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_y - i * e, (D1 - E1) / 2, 0)).rotate(
+            pin = bpin.translate((first_pos_y - i * pitch, (d1 - e1) / 2, 0)).rotate(
                 (0, 0, 0), (0, 0, 1), 270
             )
             pins.append(pin)
@@ -462,36 +468,20 @@ def make_gw(params):
 
     for i in range(npx):
         if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_x - i * e, 0, 0))
+            pin = bpin.translate((first_pos_x - i * pitch, 0, 0))
             pins.append(pin)
         pincounter += 1
 
     for i in range(npy):
         if pincounter not in excluded_pins:
-            pin = bpin.translate((first_pos_y - i * e, (D1 - E1) / 2, 0)).rotate(
+            pin = bpin.translate((first_pos_y - i * pitch, (d1 - e1) / 2, 0)).rotate(
                 (0, 0, 0), (0, 0, 1), 90
             )
             pins.append(pin)
         pincounter += 1
 
-    # create exposed thermal pad if requested
-    if params["epad"]:
-        if sq_epad:
-            pins.append(
-                cq.Workplane("XY")
-                .box(D2, E2, A1)
-                .translate((epad_offset_x, epad_offset_y, A1 / 2))
-                .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
-            )
-        else:
-            # epad = cq.Workplane("XY", (0,0,A1/2)). \
-            epad = (
-                cq.Workplane("XY").circle(epad_r).extrude(A1)
-            )  # .translate((0,0,A1/2))
-            # extrude(A1+A1/10)
-            pins.append(epad)
     # merge all pins to a single object
-    merged_pins = union_all(pins)
+    merged_pins = union_all(pins)  # type: ignore[no-untyped-call]
 
     # extract pins from case
     case = case.cut(merged_pins)
