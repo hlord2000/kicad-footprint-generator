@@ -452,6 +452,38 @@ Broadcom_LGA-8_2.0x2.0mm_P0.53mm:
   num_pins_x: 0
   num_pins_y: 4
 
+Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
+  device_type: 'LGA'
+  size_source: 'https://www.digikey.com/Site/Global/Layouts/DownloadPdf.ashx?pdfUrl=3557DE8B1578472CBA17FB72BE0052DC#page=4'
+  library: 'Package_LGA'
+  manufacturer: 'Kionix'
+  use_name_format: 'LGA'
+  #ipc_density: 'least'
+  ipc_class: 'qfn_pull_back'
+  body_size_x:
+    nominal: 2.0
+    tolerance: 0.05
+  body_size_y:
+    nominal: 2.0
+    tolerance: 0.05
+  overall_height: 0.9
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.275
+    tolerance: 0.05
+  lead_to_edge:
+    nominal: 0.1
+  pitch: 0.5
+  num_pins_x: 2
+  num_pins_y: 4
+  pad_length: 0.275
+  pad_width: 0.250
+  pad_center_to_center_x: 1.525
+  pad_center_to_center_y: 1.525
+  mask_margin: 0.0635
+
 VLGA-4_2.5x2.0mm:
   device_type: 'VLGA'
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/DSC60XX-Ultra-Small-Ultra-Low-Power-MEMS-Oscillator-DS20005625C.pdf#page=15'
