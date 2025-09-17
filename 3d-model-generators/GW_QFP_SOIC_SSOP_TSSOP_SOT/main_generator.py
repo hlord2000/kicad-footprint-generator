@@ -111,12 +111,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
         # Make the parts of the model
         (body, pins, epad, mark) = make_gw(all_params[model])
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        if mark:
-            mark = mark.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        if epad:
-            epad = epad.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
 
         # Used to wrap all the parts into an assembly
         component = cq.Assembly()

@@ -55,8 +55,8 @@ import cadquery as cq
 
 from _tools.cq_helpers import union_all  # pyright: ignore
 
-max_cc1 = 1
-default_pin_slope = 10
+MAX_CC1 = 1
+DEFAULT_PIN_SLOPE = 10
 
 
 def make_gw(
@@ -112,7 +112,7 @@ def make_gw(
         # if more than one param is missing, we can't calculate a pin angle, so just
         # set it to the default
         else:
-            the_p = default_pin_slope
+            the_p = DEFAULT_PIN_SLOPE
 
     tan_p = tan(radians(the_p))
     if l is None and r1 is not None and s is not None:
@@ -181,9 +181,11 @@ def make_gw(
 
     if cc1 != 0:
         cc1 = abs(
-            min((d1 - totpinwidthx) / 2.0, (e1 - totpinwidthy) / 2.0, cc1) - 0.5 * tb_s
+            min(abs((d1 - totpinwidthx) / 2.0), abs((e1 - totpinwidthy) / 2.0), cc1)
+            - 0.5 * tb_s
         )
-        cc1 = min(cc1, max_cc1)
+        cc1 = max(cc1, (d1 - D1_t2) / 4.0 + 0.001)
+        cc1 = min(cc1, MAX_CC1)
 
     cc = cc1
 
@@ -193,71 +195,46 @@ def make_gw(
         """
         Creates a rectangle with chamfered corners.
         wp: workplane object
-        rw: rectangle width
-        rh: rectangle height
-        cv1: chamfer value for 1st corner (lower left)
+        rw: rectangle width (x)
+        rh: rectangle height (y)
+        cv1: chamfer value for 1st corner (top left)
         cv: chamfer value for other corners
         """
+        x = rw / 2.0
+        y = rh / 2.0
         points = [
-            #    (-rw/2., -rh/2.+cv1),
-            (-rw / 2.0, rh / 2.0 - cv),
-            (-rw / 2.0 + cv, rh / 2.0),
-            (rw / 2.0 - cv, rh / 2.0),
-            (rw / 2.0, rh / 2.0 - cv),
-            (rw / 2.0, -rh / 2.0 + cv),
-            (rw / 2.0 - cv, -rh / 2.0),
-            (-rw / 2.0 + cv1, -rh / 2.0),
-            (-rw / 2.0, -rh / 2.0 + cv1),
+            (-x, y - cv1),
+            (-x + cv1, y),
+            (x - cv, y),
+            (x, y - cv),
+            (x, -y + cv),
+            (x - cv, -y),
+            (-x + cv, -y),
+            (-x, -y + cv),
+            (-x, y - cv1),
         ]
-        # return wp.polyline(points)
-        return wp.polyline(
-            points, includeCurrent=True
-        ).wire()  # , forConstruction=True)
+        return wp.polyline(points, includeCurrent=False).wire()
 
     if cc1 != 0:
-        case = (
-            cq.Workplane("XY")
-            .workplane(centerOption="CenterOfMass", offset=a1)
-            .moveTo(-D1_b / 2.0, -E1_b / 2.0 + (cc1 - (d1 - D1_b) / 4.0))
-        )
+        case = cq.Workplane("XY").workplane(centerOption="CenterOfMass", offset=a1)
+        # Bottom edges:
+        case = crect(case, E1_b, D1_b, cc1 - (d1 - D1_b) / 4.0, cc - (d1 - D1_b) / 4.0)
+        case = case.workplane(centerOption="CenterOfMass", offset=A2_b)
+        # Center (lower) outer edges:
+        case = crect(case, e1, d1, cc1, cc)
+        case = case.workplane(centerOption="CenterOfMass", offset=c)
+        # Center (upper) outer edges:
+        case = crect(case, e1, d1, cc1, cc)
+        case = case.workplane(centerOption="CenterOfMass", offset=0)
+        # Center (upper) inner edges:
         case = crect(
-            case, D1_b, E1_b, cc1 - (d1 - D1_b) / 4.0, cc - (d1 - D1_b) / 4.0
-        )  # bottom edges
-        # show(case)
-        case = (
-            case.pushPoints([(0, 0)])
-            .workplane(centerOption="CenterOfMass", offset=A2_b)
-            .moveTo(-d1 / 2, -e1 / 2 + cc1)
+            case, E1_t1, D1_t1, cc1 - (d1 - D1_t1) / 4.0, cc - (d1 - D1_t1) / 4.0
         )
-        case = crect(case, d1, e1, cc1, cc)  # center (lower) outer edges
-        # show(case)
-        case = (
-            case.pushPoints([(0, 0)])
-            .workplane(centerOption="CenterOfMass", offset=c)
-            .moveTo(-d1 / 2, -e1 / 2 + cc1)
-        )
-        case = crect(case, d1, e1, cc1, cc)  # center (upper) outer edges
-        # show(case)
-        # case=cq.Workplane(cq.Plane.XY()).workplane(offset=c).moveTo(-D1_t1/2,-E1_t1/2+cc1-(D1-D1_t1)/4.)
-        case = (
-            case.pushPoints([(0, 0)])
-            .workplane(centerOption="CenterOfMass", offset=0)
-            .moveTo(-D1_t1 / 2, -E1_t1 / 2 + cc1 - (d1 - D1_t1) / 4.0)
-        )
+        case = case.workplane(centerOption="CenterOfMass", offset=A2_t)
+        # Top edges:
         case = crect(
-            case, D1_t1, E1_t1, cc1 - (d1 - D1_t1) / 4.0, cc - (d1 - D1_t1) / 4.0
-        )  # center (upper) inner edges
-        # show(case)
-        # stop
-        cc1_t = cc1 - (d1 - D1_t2) / 4.0  # this one is defined because we use it later
-        case = (
-            case.pushPoints([(0, 0)])
-            .workplane(centerOption="CenterOfMass", offset=A2_t)
-            .moveTo(-D1_t2 / 2, -E1_t2 / 2 + cc1_t)
+            case, E1_t2, D1_t2, cc1 - (d1 - D1_t2) / 4.0, cc - (d1 - D1_t2) / 4.0
         )
-        # cc1_t = cc1-(D1-D1_t2)/4. # this one is defined because we use it later
-        case = crect(case, D1_t2, E1_t2, cc1_t, cc - (d1 - D1_t2) / 4.0)  # top edges
-        # show(case)
         case = case.loft(ruled=True)
         if ef != 0:
             try:
@@ -270,14 +247,14 @@ def make_gw(
         case = (
             cq.Workplane("XY")
             .workplane(centerOption="CenterOfMass", offset=a1)
-            .rect(D1_b, E1_b)
+            .rect(E1_b, D1_b)
             .workplane(centerOption="CenterOfMass", offset=A2_b)
-            .rect(d1, e1)
+            .rect(e1, d1)
             .workplane(centerOption="CenterOfMass", offset=c)
-            .rect(d1, e1)
-            .rect(D1_t1, E1_t1)
+            .rect(e1, d1)
+            .rect(E1_t1, D1_t1)
             .workplane(centerOption="CenterOfMass", offset=A2_t)
-            .rect(D1_t2, E1_t2)
+            .rect(E1_t2, D1_t2)
             .loft(ruled=True)
         )
         if ef != 0:
@@ -292,7 +269,7 @@ def make_gw(
             BS = cq.selectors.BoxSelector
             try:
                 case = case.edges(
-                    BS((D1_t2 / 2, E1_t2 / 2, 0), (d1 / 2 + 0.1, e1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
+                    BS((E1_t2 / 2, D1_t2 / 2, 0), (e1 / 2 + 0.1, d1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 1 failed\n")
@@ -300,7 +277,7 @@ def make_gw(
 
             try:
                 case = case.edges(
-                    BS((-D1_t2 / 2, E1_t2 / 2, 0), (-d1 / 2 - 0.1, e1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
+                    BS(E1_t2 / 2, (-D1_t2 / 2, 0), (-e1 / 2 - 0.1, d1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 2 failed\n")
@@ -308,7 +285,7 @@ def make_gw(
 
             try:
                 case = case.edges(
-                    BS((-D1_t2 / 2, -E1_t2 / 2, 0), (-d1 / 2 - 0.1, -e1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
+                    BS((-E1_t2 / 2, -D1_t2 / 2, 0), (-e1 / 2 - 0.1, -d1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 3 failed\n")
@@ -316,7 +293,7 @@ def make_gw(
 
             try:
                 case = case.edges(
-                    BS((D1_t2 / 2, -E1_t2 / 2, 0), (d1 / 2 + 0.1, -e1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
+                    BS((E1_t2 / 2, -D1_t2 / 2, 0), (e1 / 2 + 0.1, -d1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
                 ).fillet(ef)
             except Exception as exeption:
                 print("Case fillet 4 failed\n")
@@ -371,10 +348,10 @@ def make_gw(
         pinmark = (
             cq.Workplane("XY")
             .workplane(centerOption="CenterOfMass", offset=A)
-            .box(marker_diameter, E1_t2 - marker_edge_clearance, a2 / 4)
+            .box(marker_diameter, D1_t2 - marker_edge_clearance, a2 / 4)
             .translate(
                 (
-                    -D1_t2 / 2 + marker_diameter / 2.0 + marker_edge_clearance / 2,
+                    -E1_t2 / 2 + marker_diameter / 2.0 + marker_edge_clearance / 2,
                     0.0,
                     -a2 / 8,
                 )
@@ -386,8 +363,8 @@ def make_gw(
             cq.Workplane(
                 "XZ",
                 (
-                    -D1_t2 / 2 + marker_edge_clearance + marker_diameter / 2.0,
                     -E1_t2 / 2 + marker_edge_clearance + marker_diameter / 2.0,
+                    D1_t2 / 2 - marker_edge_clearance - marker_diameter / 2.0,
                     A,
                 ),
             )
@@ -447,20 +424,18 @@ def make_gw(
     # Filter out excluded pins
     all_locs = (
         [
-            cq.Location(cq.Vector(-x, -e1 / 2, 0), cq.Vector(0, 0, 1), 180)
+            cq.Location(cq.Vector(-e1 / 2, y, 0), cq.Vector(0, 0, 1), 90)
+            for y in v_coords
+        ]  # Left
+        + [
+            cq.Location(cq.Vector(-x, -d1 / 2, 0), cq.Vector(0, 0, 1), 180)
             for x in h_coords
-        ]  # Bottom (-> Left with -90°)
+        ]  # Bottom
         + [
-            cq.Location(cq.Vector(d1 / 2, -y, 0), cq.Vector(0, 0, 1), -90)
+            cq.Location(cq.Vector(e1 / 2, -y, 0), cq.Vector(0, 0, 1), -90)
             for y in v_coords
-        ]  # Right (-> Bottom with -90°)
-        + [
-            cq.Location(cq.Vector(x, e1 / 2, 0)) for x in h_coords
-        ]  # Top (-> Right with -90°)
-        + [
-            cq.Location(cq.Vector(-d1 / 2, y, 0), cq.Vector(0, 0, 1), 90)
-            for y in v_coords
-        ]  # Left (-> Top with -90°)
+        ]  # Right
+        + [cq.Location(cq.Vector(x, d1 / 2, 0)) for x in h_coords]  # Top
     )
 
     valid_locs = [loc for i, loc in enumerate(all_locs, 1) if i not in excluded_pins]
