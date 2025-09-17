@@ -66,12 +66,11 @@ def make_gw(
     the = cast(float, params["the"])
     the_p = cast(float | None, params.get("the_p"))
     tb_s = cast(float, params["tb_s"])
-    ef = cast(float, params["ef"])
+    ef = cast(float, params.get("ef", 0.0))
     cc1 = cast(float, params["cc1"])
     fp_s = cast(bool, params["fp_s"])
     fp_r = cast(float, params["fp_r"])
     fp_d = cast(float, params["fp_d"])
-    fp_z = cast(float, params["fp_z"])
     r1 = cast(float | None, params.get("R1"))
     r2 = cast(float, params["R2"])
     s = cast(float | None, params.get("S"))
@@ -85,11 +84,7 @@ def make_gw(
     pitch = cast(float, params["e"])
     npx = cast(int, params["npx"])
     npy = cast(int, params["npy"])
-
-    if params["excluded_pins"]:
-        excluded_pins = params["excluded_pins"]
-    else:
-        excluded_pins = ()  ##no pin excluded
+    excluded_pins = params.get("excluded_pins", ())
 
     missingparam = [s, l, r1, the_p].count(None)
     if missingparam == 0:
@@ -376,17 +371,16 @@ def make_gw(
             pinmark = (
                 cq.Workplane("XY")
                 .workplane(centerOption="CenterOfMass", offset=A)
-                .box(fp_r, E1_t2 - fp_d, fp_z * 2)
+                .box(fp_r, E1_t2 - fp_d, a2 / 4)
+                .translate((-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0.0, -a2 / 8))
             )
-            # translate the object
-            pinmark = pinmark.translate((-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0, 0))
         else:
             # first pin indicator is created with a cylindrical pocket
             pinmark = (
                 cq.Workplane(
                     "XZ", (-D1_t2 / 2 + fp_d + fp_r, -E1_t2 / 2 + fp_d + fp_r, A)
                 )
-                .rect(fp_r / 2, -fp_z, False)
+                .rect(fp_r / 2, -a2 / 4, False)
                 .revolve()
             )
         case = case.cut(pinmark)

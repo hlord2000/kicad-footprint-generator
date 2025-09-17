@@ -105,15 +105,9 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             continue
 
         # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pin_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
-        mark_color = shaderColors.named_colors[
-            all_params[model]["mark_color_key"]
-        ].getDiffuseFloat()
+        body_color = shaderColors.named_colors["black body"].getDiffuseFloat()
+        pin_color = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
+        mark_color = shaderColors.named_colors["light brown label"].getDiffuseFloat()
 
         # Make the parts of the model
         (body, pins, epad, mark) = make_gw(all_params[model])
@@ -180,14 +174,18 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
             # Export the assembly to VRML
             if enable_vrml:
+                components = [body, pins]
+                colors = ["black body", "metal grey pins"]
+                if epad:
+                    components.append(epad)
+                    colors.append("metal grey pins")
+                if mark:
+                    components.append(mark)
+                    colors.append("light brown label")
                 export_VRML(
                     os.path.join(output_dir, file_name + ".wrl"),
-                    [body, pins, mark],
-                    [
-                        all_params[model]["body_color_key"],
-                        all_params[model]["pin_color_key"],
-                        all_params[model]["mark_color_key"],
-                    ],
+                    components,
+                    colors,
                 )
 
             # Update the license
