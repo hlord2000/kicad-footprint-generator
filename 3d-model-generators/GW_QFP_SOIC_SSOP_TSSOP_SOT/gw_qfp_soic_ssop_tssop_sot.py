@@ -68,9 +68,7 @@ def make_gw(
     tb_s = cast(float, params["tb_s"])
     ef = cast(float, params.get("ef", 0.0))
     cc1 = cast(float, params["cc1"])
-    fp_s = cast(bool, params["fp_s"])
-    fp_r = cast(float, params["fp_r"])
-    fp_d = cast(float, params["fp_d"])
+    marker = cast(str, params.get("marker", "circle"))
     r1 = cast(float | None, params.get("R1"))
     r2 = cast(float, params["R2"])
     s = cast(float | None, params.get("S"))
@@ -364,26 +362,41 @@ def make_gw(
     else:
         epad = None
 
-    if fp_r == 0:
-        pinmark = None
+    marker_diameter = max(D1_b, E1_b) / 10.0
+    if min(D1_b, E1_b) < 5 * marker_diameter:
+        marker_edge_clearance = marker_diameter / 4.0
     else:
-        if fp_s == False:
-            pinmark = (
-                cq.Workplane("XY")
-                .workplane(centerOption="CenterOfMass", offset=A)
-                .box(fp_r, E1_t2 - fp_d, a2 / 4)
-                .translate((-D1_t2 / 2 + fp_r / 2.0 + fp_d / 2, 0.0, -a2 / 8))
-            )
-        else:
-            # first pin indicator is created with a cylindrical pocket
-            pinmark = (
-                cq.Workplane(
-                    "XZ", (-D1_t2 / 2 + fp_d + fp_r, -E1_t2 / 2 + fp_d + fp_r, A)
+        marker_edge_clearance = marker_diameter / 2.0
+    if marker == "bar":
+        pinmark = (
+            cq.Workplane("XY")
+            .workplane(centerOption="CenterOfMass", offset=A)
+            .box(marker_diameter, E1_t2 - marker_edge_clearance, a2 / 4)
+            .translate(
+                (
+                    -D1_t2 / 2 + marker_diameter / 2.0 + marker_edge_clearance / 2,
+                    0.0,
+                    -a2 / 8,
                 )
-                .rect(fp_r / 2, -a2 / 4, False)
-                .revolve()
             )
+        )
         case = case.cut(pinmark)
+    elif marker == "circle":
+        pinmark = (
+            cq.Workplane(
+                "XZ",
+                (
+                    -D1_t2 / 2 + marker_edge_clearance + marker_diameter / 2.0,
+                    -E1_t2 / 2 + marker_edge_clearance + marker_diameter / 2.0,
+                    A,
+                ),
+            )
+            .rect(marker_diameter / 2, -a2 / 4, False)
+            .revolve()
+        )
+        case = case.cut(pinmark)
+    else:  # if marker == "none"
+        pinmark = None
 
     # calculated dimensions for pin
     R1_o = r1 + c  # pin upper corner, outer radius

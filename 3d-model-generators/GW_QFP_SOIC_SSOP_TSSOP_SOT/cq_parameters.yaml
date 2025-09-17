@@ -7,9 +7,7 @@ D_SOD-123:
   R2: 0.12  # pin lower corner, inner radius
   S: 0.0  # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
   # L: 0.4  #  pin bottom flat part length (including corner arc)
-  fp_s: False  # True for circular pinmark, False for square pinmark (useful for diodes)
-  fp_r: 0.5  # first pin indicator radius
-  fp_d: 0.2  # first pin indicator distance from edge
+  marker: "bar"  # "circle" (default), "bar" (useful for diodes), or "none". 
   # ef: 0.0  # fillet of edges  Note: bigger bytes model with fillet
   cc1: 0.12  # chamfer of the 1st pin corner
   D1: 2.75  # body length
@@ -36,9 +34,7 @@ D_SOD-323:
   R1: 0.07
   R2: 0.07
   S: 0.0
-  fp_s: False
-  fp_r: 0.4
-  fp_d: 0.1
+  marker: "bar"
   cc1: 0.12
   D1: 1.7
   E1: 1.25
@@ -62,9 +58,6 @@ Diode_Bridge_OnSemi_SDIP-4L:
   R1: 0.1
   R2: 0.1
   S: 0.361
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 8.28
   E1: 6.35
@@ -87,9 +80,6 @@ LQFP-32_5x5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.0
   E1: 5.0
@@ -112,9 +102,6 @@ LQFP-32_7x7mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -137,9 +124,6 @@ LQFP-36_7x7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -162,9 +146,6 @@ LQFP-44_10x10mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -187,9 +168,6 @@ LQFP-48_7x7mm_P0.5mm:
   R1: 0.1
   R2: 0.14
   L: 0.60
-  fp_s: True
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -212,9 +190,6 @@ LQFP-52_10x10mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -237,9 +212,6 @@ LQFP-52_14x14mm_P1mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14
   E1: 14
@@ -262,9 +234,6 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -288,9 +257,6 @@ LQFP-64_7x7mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -313,9 +279,6 @@ LQFP-64_10x10mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -338,9 +301,6 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -364,9 +324,6 @@ LQFP-64_14x14mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -389,9 +346,6 @@ LQFP-80_12x12mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.0
   E1: 12.0
@@ -414,9 +368,6 @@ LQFP-100_14x14mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -439,9 +390,6 @@ LQFP-128_14x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -464,9 +412,6 @@ LQFP-128_14x20mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 14.0
@@ -489,9 +434,6 @@ LQFP-144_20x20mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 20.0
@@ -514,9 +456,6 @@ LQFP-160_24x24mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -539,9 +478,6 @@ LQFP-176_20x20mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 20.0
@@ -564,9 +500,6 @@ LQFP-176_24x24mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -589,9 +522,6 @@ LQFP-208_28x28mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 28.0
   E1: 28.0
@@ -614,9 +544,6 @@ LQFP-216_24x24mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -639,9 +566,6 @@ Infineon_PG-DSO-20-U03_7.5x12.8mm:
   R1: 0.2
   R2: 0.2
   L: 0.81
-  fp_s: True
-  fp_r: 0.7
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.8
   E1: 7.5
@@ -665,9 +589,6 @@ PQFP-80_14x20mm_P0.8mm:
   R1: 0.2
   R2: 0.2
   S: 0.5
-  fp_s: True
-  fp_r: 0.7
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 14.0
@@ -690,9 +611,6 @@ PQFP-100_14x20mm_P0.65mm:
   R1: 0.2
   R2: 0.2
   S: 0.5
-  fp_s: True
-  fp_r: 0.7
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 14.0
@@ -715,9 +633,6 @@ PQFP-256_28x28mm_P0.4mm:
   R1: 0.2
   R2: 0.2
   S: 0.3
-  fp_s: True
-  fp_r: 0.7
-  fp_d: 0.2
   cc1: 0.0
   D1: 28.0
   E1: 28.0
@@ -740,9 +655,6 @@ TQFP-32_7x7mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -765,9 +677,6 @@ TQFP-44_10x10mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -790,9 +699,6 @@ TQFP-44-1EP_10x10mm_P0.8mm_EP4.5x4.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -816,9 +722,6 @@ TQFP-48_7x7mm_P0.5mm:
   R1: 0.1
   R2: 0.14
   L: 0.60
-  fp_s: True
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -841,9 +744,6 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
   R1: 0.1 # JEDEC minimum is 0.08, there's no nominal/max
   R2: 0.14 # (0.08 + 0.20)/2
   L: 0.60
-  fp_s: True
-  fp_r: 0.4
-  fp_d: 0.5 # from others
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -867,9 +767,6 @@ TQFP-64_7x7mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -892,9 +789,6 @@ TQFP-64_10x10mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -917,9 +811,6 @@ TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 1.0
-  fp_d: 0.33
   cc1: 0.7
   D1: 10.0
   E1: 10.0
@@ -944,9 +835,6 @@ TQFP-64_14x14mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -969,9 +857,6 @@ TQFP-80_12x12mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.0
   E1: 12.0
@@ -994,9 +879,6 @@ TQFP-80_14x14mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1019,9 +901,6 @@ TQFP-100_12x12mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.0
   E1: 12.0
@@ -1044,9 +923,6 @@ TQFP-100_14x14mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1069,9 +945,6 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1095,9 +968,6 @@ TQFP-120_14x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1120,9 +990,6 @@ TQFP-128_14x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1145,9 +1012,6 @@ TQFP-144_16x16mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 16.0
   E1: 16.0
@@ -1170,9 +1034,6 @@ TQFP-144_20x20mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 20.0
   E1: 20.0
@@ -1195,9 +1056,6 @@ LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -1221,9 +1079,6 @@ LQFP-80_10x10mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -1246,9 +1101,6 @@ LQFP-80_14x14mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1271,9 +1123,6 @@ PQFP-112_20x20mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 20.0
   E1: 20.0
@@ -1296,9 +1145,6 @@ PQFP-132_24x24mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -1321,9 +1167,6 @@ PQFP-132_24x24mm_P0.635mm_i386:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -1346,9 +1189,6 @@ PQFP-144_28x28mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 28.0
   E1: 28.0
@@ -1371,9 +1211,6 @@ PQFP-160_28x28mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 28.0
   E1: 28.0
@@ -1396,9 +1233,6 @@ PQFP-208_28x28mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 28.0
   E1: 28.0
@@ -1421,9 +1255,6 @@ PQFP-240_32.1x32.1mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 32.1
   E1: 32.1
@@ -1446,9 +1277,6 @@ PQFP-44_10x10mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   L: 0.88
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.00
   E1: 10.00
@@ -1471,9 +1299,6 @@ Microchip_PQFP-44_10x10mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   L: 0.88
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.00
   E1: 10.00
@@ -1496,9 +1321,6 @@ MO112AC1_PQFP-52_10x10mm_P0.65mm:
   R1: 0.13 # lead upper corner/radius, there's only minimum value in JEDEC (R1 there)
   R2: 0.215 # lead lower corner, (0.13 + 0.30)/2, this is R in JEDEC
   L: 0.88 # nominal lead length
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.00
   E1: 10.00
@@ -1521,9 +1343,6 @@ TQFP-176_24x24mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 24.0
   E1: 24.0
@@ -1546,9 +1365,6 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5x5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.0
   E1: 7.0
@@ -1572,9 +1388,6 @@ TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.0
   E1: 10.0
@@ -1598,9 +1411,6 @@ TQFP-80-1EP_14x14mm_P0.65mm_EP9.5x9.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1624,9 +1434,6 @@ VQFP-128_14x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 14.0
@@ -1649,9 +1456,6 @@ VQFP-176_20x20mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 20.0
   E1: 20.0
@@ -1674,9 +1478,6 @@ SO-6L_10x3.84mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.84
   E1: 7.5
@@ -1699,9 +1500,6 @@ SO-5-6_4.55x3.7mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.7
   E1: 4.55
@@ -1725,9 +1523,6 @@ SO-20_12.8x7.5mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 12.8
   E1: 7.5
@@ -1750,9 +1545,6 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -1775,9 +1567,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -1801,9 +1590,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -1827,9 +1613,6 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 5.85
   E1: 7.5
@@ -1852,9 +1635,6 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0.25
   D1: 8.7
   E1: 3.9
@@ -1877,9 +1657,6 @@ SOIC-14W_7.5x9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.3
-  fp_s: True
-  fp_r: 1.0
-  fp_d: 0.1
   cc1: 0.43
   D1: 9.0
   E1: 7.5
@@ -1902,9 +1679,6 @@ SOIC-16_3.9x9.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.9
   E1: 3.9
@@ -1927,9 +1701,6 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -1952,9 +1723,6 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 11.55
   E1: 7.5
@@ -1977,9 +1745,6 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.8
   E1: 7.5
@@ -2002,9 +1767,6 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 15.4
   E1: 7.5
@@ -2027,9 +1789,6 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 15.4
   E1: 7.5
@@ -2052,9 +1811,6 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.2
   cc1: 0.25
   D1: 17.9
   E1: 7.5
@@ -2077,9 +1833,6 @@ ST_MultiPowerSO-30:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 17.4
   E1: 16.0
@@ -2102,9 +1855,6 @@ HSOP-36-1EP_11.0x15.9mm_P0.65mm_SlugUp:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 15.9
   E1: 11.0
@@ -2127,9 +1877,6 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2153,9 +1900,6 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2179,9 +1923,6 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm:
   R1: 0.1
   R2: 0.1
   L: 0.625
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0
   D1: 5
   E1: 4.4
@@ -2205,9 +1946,6 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -2231,9 +1969,6 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 4.4
@@ -2257,9 +1992,6 @@ HTSSOP-32-1EP_6.1x11mm_P0.65mm_EP5.2x11mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 6.1
@@ -2283,9 +2015,6 @@ HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 6.1
@@ -2310,9 +2039,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm:
   R2: 0.06; guess based on ratios from the drawing on the datasheet
   S: null  # (calculated) pin top flat part length (excluding corner arc)
   L: 0.6  # pin bottom flat part length (including corner arc)
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.06 # we need this value to get the pin 1 marker center 0.750 mm off border; no idea how that gets placed
   cc1: 0.0  # ?? chamfer of the 1st pin corner; author wrote 0.25
   D1: 3.0
   E1: 3.0
@@ -2337,9 +2063,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
   R2: 0.15
   S: null
   L: 0.55
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.0
   D1: 3.0
   E1: 3.0
@@ -2364,9 +2087,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   R2: 0.14
   S: null
   L: 0.53
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.0
   D1: 3.0
   E1: 3.0
@@ -2391,9 +2111,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
   R2: 0.15
   S: null
   L: 0.55
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.0
   D1: 3.0
   E1: 3.0
@@ -2417,9 +2134,6 @@ PowerIntegrations_eSOP-12B:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.16
   E1: 8.89
@@ -2443,9 +2157,6 @@ PowerIntegrations_SO-8:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2468,9 +2179,6 @@ PowerIntegrations_SO-8B:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2494,9 +2202,6 @@ PowerIntegrations_SO-8C:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2520,9 +2225,6 @@ QSOP-20_3.9x8.7mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 8.7
   E1: 3.9
@@ -2545,9 +2247,6 @@ SO-4_4.4x2.3mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 2.3
   E1: 4.4
@@ -2570,9 +2269,6 @@ SO-4_4.4x3.6mm_P2.54mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 3.6
   E1: 4.4
@@ -2595,9 +2291,6 @@ SO-4_4.4x4.3mm_P2.54mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.3
   E1: 4.4
@@ -2620,9 +2313,6 @@ SO-4_7.6x3.6mm_P2.54mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 3.6
   E1: 7.6
@@ -2645,9 +2335,6 @@ SOIC-5-6_4.4x3.6mm_P1.27mm:
   R1: 0.08 # document only give us minimum
   R2: 0.14 # (0.08 + 0.20) / 2
   L: 0.70 # nominal
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25 # made-up
   D1: 3.60
   E1: 4.40
@@ -2671,9 +2358,6 @@ SO-6_4.4x3.6mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 3.6
   E1: 4.4
@@ -2696,9 +2380,6 @@ SO-8_3.9x4.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.905
   E1: 3.9
@@ -2721,9 +2402,6 @@ SOIC-8_5.3x5.3mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   L: 0.65 # (0.45 + 0.85)/2, JEITA Lp minimum value .. Atmel '8S2' L maximum value
-  fp_s: True
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.0
   D1: 5.3
   E1: 5.3
@@ -2748,9 +2426,6 @@ SOIC-8_5.3x6.2mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   L: 0.75 # (0.55+0.95)/2
-  fp_s: True
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.0
   D1: 6.2
   E1: 5.3
@@ -2773,9 +2448,6 @@ SOIC-16W-12_7.5x10.3mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -2799,9 +2471,6 @@ SOIC-16W_5.3x10.2mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.2
   E1: 5.3
@@ -2824,9 +2493,6 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   L: 0.76 # actually to gage plane
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.8
   E1: 7.50
@@ -2849,9 +2515,6 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 18.7
   E1: 7.5
@@ -2874,9 +2537,6 @@ SOIC-8-N7_3.9x4.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -2900,9 +2560,6 @@ SOJ-36_10.16x23.495mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 23.495
   E1: 10.16
@@ -2925,9 +2582,6 @@ SSO-6_6.8x4.6mm_P1.27mm_Clearance7mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.6
   E1: 6.8
@@ -2950,9 +2604,6 @@ SSO-6_6.8x4.6mm_P1.27mm_Clearance8mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.6
   E1: 6.8
@@ -2975,9 +2626,6 @@ SSO-8_13.6x6.3mm_P1.27mm_Clearance14.2mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.3
   E1: 13.6
@@ -3000,9 +2648,6 @@ SSO-8_6.8x5.9mm_P1.27mm_Clearance7mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 5.9
   E1: 6.8
@@ -3025,9 +2670,6 @@ SSO-8_6.8x5.9mm_P1.27mm_Clearance8mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 5.9
   E1: 6.8
@@ -3050,9 +2692,6 @@ SSO-8_9.6x6.3mm_P1.27mm_Clearance10.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.3
   E1: 9.6
@@ -3075,9 +2714,6 @@ SSO-8-7_6.4x9.7mm_P2.54mm:
   R1: 0.1
   R2: 0.1
   L: 1.3
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.3
   cc1: 0.0
   D1: 9.7
   E1: 6.4
@@ -3102,9 +2738,6 @@ SSOP-10_3.9x4.9mm_P1.00mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3127,9 +2760,6 @@ SSOP-10-1EP_3.9x4.9mm_P1mm_EP2.1x3.3mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3153,9 +2783,6 @@ SSOP-20_3.9x8.7mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 8.7
   E1: 3.9
@@ -3178,9 +2805,6 @@ SSOP-28_3.9x9.9mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 9.9
   E1: 3.9
@@ -3203,9 +2827,6 @@ SSOP-44_5.3x12.8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.8
   E1: 5.3
@@ -3228,9 +2849,6 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 5.05
   E1: 3.9
@@ -3253,9 +2871,6 @@ PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
   R1: 0.1
   R2: 0.1
   L: 0.6
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3278,9 +2893,6 @@ ST_PowerSSO-24_SlugDown:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -3303,9 +2915,6 @@ ST_PowerSSO-24_SlugUp:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -3328,9 +2937,6 @@ ST_PowerSSO-36_SlugDown:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -3353,9 +2959,6 @@ ST_PowerSSO-36_SlugUp:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 10.3
   E1: 7.5
@@ -3378,9 +2981,6 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3403,9 +3003,6 @@ Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3428,9 +3025,6 @@ Texas_PWP0020A:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -3453,9 +3047,6 @@ TI_SO-PowerPAD-8:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.2
-  fp_d: 0.3
   cc1: 0.25
   D1: 4.9
   E1: 3.9
@@ -3478,9 +3069,6 @@ TSOP-5_1.65x3.05mm_P0.95mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.1
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.05
   E1: 1.65
@@ -3504,9 +3092,6 @@ TSOP-6_1.65x3.05mm_P0.95mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.1
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.05
   E1: 1.65
@@ -3529,9 +3114,6 @@ TSOP-I-28_11.8x8mm_P0.55mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 8.0
   E1: 11.8
@@ -3554,9 +3136,6 @@ TSOP-I-32_11.8x8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 8.0
   E1: 11.8
@@ -3579,9 +3158,6 @@ TSOP-I-32_18.4x8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 8.0
   E1: 18.4
@@ -3604,9 +3180,6 @@ TSOP-I-48_18.4x12mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.0
   E1: 18.4
@@ -3629,9 +3202,6 @@ TSOP-I-56_18.4x14mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 18.4
@@ -3654,9 +3224,6 @@ TSOP-II-44_10.16x18.41mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 18.41
   E1: 10.16
@@ -3679,9 +3246,6 @@ TSOP-II-54_22.2x10.16mm_P0.8mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 22.2
   E1: 10.16
@@ -3704,9 +3268,6 @@ TSSOP-14-1EP_4.4x5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 4.5
   E1: 4.4
@@ -3729,9 +3290,6 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -3754,9 +3312,6 @@ TSSOP-30_4.4x7.8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 4.4
@@ -3779,9 +3334,6 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 6.1
@@ -3804,9 +3356,6 @@ SO-14_3.9x8.65mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S : 0.015
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0
   D1: 8.65
   E1: 3.90
@@ -3831,9 +3380,6 @@ SO-16_3.9x9.9mm_P1.27mm:
   R2: 0.3
   S: null
   L: 0.7
-  fp_s: True
-  fp_r: 0.6
-  fp_d: 0.05
   cc1: 0
   D1: 9.9
   E1: 3.9
@@ -3856,9 +3402,6 @@ Analog_KS-4:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -3882,9 +3425,7 @@ SC-59:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.08
+  marker: "none"
   cc1: 0.12
   D1: 3.0
   E1: 1.6
@@ -3908,9 +3449,6 @@ SC-70-8:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -3934,9 +3472,6 @@ SC-74:
   R2: 0.15
   S: 0
   L: 0.35
-  fp_s: True
-  fp_r: 0.2
-  fp_d: 0.1
   cc1: 0.0 #0.12
   D1: 2.9
   E1: 1.55
@@ -3960,9 +3495,6 @@ SC-74A:
   R2: 0.15
   S: 0
   L: 0.35
-  fp_s: True
-  fp_r: 0.2
-  fp_d: 0.1
   cc1: 0.0 #0.12
   D1: 2.9
   E1: 1.55
@@ -3986,9 +3518,7 @@ SOT-23:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.08
+  marker: "none"
   cc1: 0.12
   D1: 3.0
   E1: 1.4
@@ -4013,9 +3543,7 @@ SOT-23-3:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.08
+  marker: "none"
   cc1: 0.12
   D1: 3.0
   E1: 1.4
@@ -4040,9 +3568,7 @@ SOT-23W:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.98
   E1: 1.91
@@ -4066,9 +3592,7 @@ SOT-23-5:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4092,9 +3616,6 @@ SOT-23-6:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.1
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4117,9 +3638,6 @@ SOT-23-8:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.1
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4142,9 +3660,7 @@ SOT-143:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.9
   E1: 1.3
@@ -4168,9 +3684,7 @@ SOT-143R:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: False
-  fp_r: 0.2
-  fp_d: 0.2
+  marker: "bar"
   cc1: 0.12
   D1: 2.9
   E1: 1.3
@@ -4194,9 +3708,7 @@ SOT-223:
   R1: 0.2
   R2: 0.2
   S: 0.5
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.0
   D1: 6.5
   E1: 3.5
@@ -4221,9 +3733,7 @@ SOT-323_SC-70:
   R2: 0.1
   S: 0.0
   L: 0.36
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.08
+  marker: "none"
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4248,9 +3758,6 @@ SOT-343_SC-70-4:
   R2: 0.1
   S: 0.0
   L: 0.36
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4275,9 +3782,7 @@ SOT-353_SC-70-5:
   R2: 0.1
   S: 0.0
   L: 0.36
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.08
+  marker: "none"
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4302,9 +3807,6 @@ SOT-363_SC-70-6:
   R2: 0.1
   S: 0.0
   L: 0.36
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4327,9 +3829,7 @@ TSOT-23:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4353,9 +3853,7 @@ TSOT-23-5:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4379,9 +3877,6 @@ TSOT-23-6:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.1
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4404,9 +3899,6 @@ TSOT-23-8:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.1
   cc1: 0.12
   D1: 2.9
   E1: 1.6
@@ -4429,9 +3921,6 @@ SC-82AA:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4455,9 +3944,6 @@ SC-82AB:
   R1: 0.1
   R2: 0.1
   S: 0.0
-  fp_s: True
-  fp_r: 0.15
-  fp_d: 0.08
   cc1: 0.12
   D1: 2.0
   E1: 1.25
@@ -4481,9 +3967,7 @@ SuperSOT-3:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.0
-  fp_d: 0.1
+  marker: "none"
   cc1: 0.12
   D1: 2.92
   E1: 1.4
@@ -4507,9 +3991,6 @@ SuperSOT-6:
   R1: 0.1
   R2: 0.1
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.1
   cc1: 0.12
   D1: 2.92
   E1: 1.58
@@ -4532,9 +4013,6 @@ SuperSOT-8:
   R1: 0.15
   R2: 0.15
   S: 0.1
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.12
   D1: 4.06
   E1: 3.3
@@ -4557,9 +4035,6 @@ SOT-223-8:
   R1: 0.15
   R2: 0.15
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.12
   D1: 6.5
   E1: 3.5
@@ -4582,9 +4057,6 @@ ETSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3x4.2mm:
   R1: 0.09
   R2: 0.09
   S: 0.3
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -4608,9 +4080,6 @@ Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm:
   R1: 0.09
   R2: 0.09
   S: 0.25 # L: 0.625
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.0
   E1: 4.4
@@ -4634,9 +4103,6 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm:
   R1: 0.09
   R2: 0.09
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -4660,9 +4126,6 @@ HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.5mm:
   R1: 0.09
   R2: 0.09
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -4686,9 +4149,6 @@ Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm:
   R1: 0.05
   R2: 0.05
   L: 0.7  # Minimum is 0.5 mm; the nominal value is taken from JEDEC MO-155 variant AA.
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.15
   cc1: 0.25
   D1: 3.6
   E1: 4.4
@@ -4712,9 +4172,6 @@ Toshiba_SOIC-5-6_4.4x3.6mm_P1.27mm:
   R1: 0.05
   R2: 0.05
   L: 0.7  # Minimum is 0.5 mm; the nominal value is taken from JEDEC MO-155 variant AA.
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.15
   cc1: 0.25
   D1: 3.6
   E1: 4.4
@@ -4738,9 +4195,6 @@ MSOP-8_3x3mm_P0.65mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.15
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -4764,9 +4218,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   R2: 0.05
   S: null
   L: 0.65 # official value 0.53, but looks weird due to different pin shape
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.0
   cc1: 0.0
   D1: 3.0
   E1: 3.0
@@ -4790,9 +4241,6 @@ MSOP-10_3x3mm_P0.5mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -4815,9 +4263,6 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -4841,9 +4286,6 @@ MSOP-12_3x4.039mm_P0.65mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.039
   E1: 3.0
@@ -4866,9 +4308,6 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.039
   E1: 3.0
@@ -4892,9 +4331,6 @@ MSOP-16_3x4.039mm_P0.5mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.039
   E1: 3.0
@@ -4917,9 +4353,6 @@ MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.039
   E1: 3.0
@@ -4943,9 +4376,6 @@ Analog_MSOP-12-16_3x4.039mm_P0.5mm:
   R1: 0.05
   R2: 0.05
   L: 0.53
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.039
   E1: 3.0
@@ -4969,9 +4399,6 @@ Analog_MSOP-12-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   R1: 0.05
   R2: 0.05
   L: 0.53
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 4.0
   E1: 3.0
@@ -4996,9 +4423,6 @@ OnSemi_Micro8:
   R1: 0.05
   R2: 0.05
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -5021,9 +4445,6 @@ PSOP-44_16.9x27.17mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.5
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 28.5
   E1: 12.6
@@ -5046,9 +4467,6 @@ QSOP-16_3.9x4.9mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.05
   D1: 4.9
   E1: 3.9
@@ -5071,9 +4489,6 @@ QSOP-24_3.9x8.7mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 8.65
   E1: 3.9
@@ -5096,9 +4511,6 @@ SOP-4_4.4x2.6mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 2.6
   E1: 4.4
@@ -5121,9 +4533,6 @@ JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.9
   E1: 3.9
@@ -5147,9 +4556,6 @@ SOP-16_4.4x10.4mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.4
   E1: 4.4
@@ -5172,9 +4578,6 @@ SSOP-8_2.95x2.8mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 2.95
   E1: 2.8
@@ -5197,9 +4600,6 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.18
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.05
   E1: 3.9
@@ -5222,9 +4622,6 @@ SSOP-8_3.95x5.21x3.27mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.18
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.21
   E1: 3.95
@@ -5247,9 +4644,6 @@ SSOP-14_5.3x6.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.2
   E1: 5.3
@@ -5272,9 +4666,6 @@ SSOP-16_3.9x4.9mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.05
   D1: 4.9
   E1: 3.9
@@ -5297,9 +4688,6 @@ SSOP-16_4.4x5.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.2
   E1: 4.4
@@ -5322,9 +4710,6 @@ SSOP-16_5.3x6.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.2
   E1: 5.3
@@ -5347,9 +4732,6 @@ SSOP-18_4.4x6.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -5372,9 +4754,6 @@ SSOP-20_4.4x6.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -5397,9 +4776,6 @@ SSOP-20_5.3x7.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.2
   E1: 5.3
@@ -5422,9 +4798,6 @@ SSOP-24_3.9x8.7mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 8.7
   E1: 3.9
@@ -5447,9 +4820,6 @@ SSOP-24_5.3x8.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.5
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 8.2
   E1: 5.3
@@ -5472,9 +4842,6 @@ SSOP-28_5.3x10.2mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.5
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 10.2
   E1: 5.3
@@ -5497,9 +4864,6 @@ SSOP-48_7.5x15.9mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.5
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 15.9
   E1: 7.5
@@ -5522,9 +4886,6 @@ SSOP-56_7.5x18.5mm_P0.635mm:
   R1: 0.1
   R2: 0.1
   S: 0.5
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 18.5
   E1: 7.5
@@ -5547,9 +4908,6 @@ TSOP-II-32_21.0x10.2mm_P1.27mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 21.0
   E1: 10.16
@@ -5572,9 +4930,6 @@ TSSOP-8_3x3mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -5597,9 +4952,6 @@ TSSOP-8_4.4x3mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 4.4
@@ -5622,9 +4974,6 @@ TSSOP-10_3x3mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -5647,9 +4996,6 @@ TSSOP-14_4.4x5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 5.0
   E1: 4.4
@@ -5672,9 +5018,6 @@ TSSOP-16_4.4x5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.0
   D1: 5.0
   E1: 4.4
@@ -5697,9 +5040,6 @@ TSSOP-16-1EP_4.4x5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.0
   D1: 5.0
   E1: 4.4
@@ -5723,9 +5063,6 @@ TSSOP-20_4.4x6.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -5748,9 +5085,6 @@ TSSOP-24_4.4x7.8mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 7.8
   E1: 4.4
@@ -5773,9 +5107,6 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -5798,9 +5129,6 @@ TSSOP-32_6.1x11mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 11.0
   E1: 6.1
@@ -5823,9 +5151,6 @@ TSSOP-38_4.4x9.7mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -5848,9 +5173,6 @@ TSSOP-44_4.4x11.2mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 11.1
   E1: 4.4
@@ -5873,9 +5195,6 @@ TSSOP-48_6.1x12.5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 12.5
   E1: 6.1
@@ -5898,9 +5217,6 @@ TSSOP-56_6.1x14mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.2
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.2
   cc1: 0.25
   D1: 14.0
   E1: 6.1
@@ -5923,9 +5239,6 @@ VSO-40_7.6x15.4mm_P0.762mm:
   R1: 0.2
   R2: 0.2
   S: 0.4
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 15.4
   E1: 7.6
@@ -5948,9 +5261,6 @@ VSO-56_11.1x21.5mm_P0.75mm:
   R1: 0.2
   R2: 0.2
   S: 0.6
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.4
   cc1: 0.25
   D1: 21.5
   E1: 11.0
@@ -5973,9 +5283,6 @@ VSSOP-8_3x3mm_P0.65mm:
   R1: 0.05
   R2: 0.05
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -5998,9 +5305,6 @@ VSSOP-8_2.3x2mm_P0.5mm:
   R1: 0.05
   R2: 0.05
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.05
   cc1: 0.25
   D1: 2.0
   E1: 2.3
@@ -6023,9 +5327,6 @@ VSSOP-10_3x3mm_P0.5mm:
   R1: 0.05
   R2: 0.05
   S: 0.05
-  fp_s: True
-  fp_r: 0.25
-  fp_d: 0.05
   cc1: 0.25
   D1: 3.0
   E1: 3.0
@@ -6048,9 +5349,6 @@ SOP-4_3.8x4.1mm_P2.54mm:
   R1: 0.15
   R2: 0.15
   S: 0.25
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.25
   D1: 4.089
   E1: 3.81
@@ -6073,9 +5371,6 @@ SOP-8_6.605x9.655mm_P2.54mm:
   R1: 0.15
   R2: 0.15
   L: 0.775
-  fp_s: True
-  fp_r: 1
-  fp_d: 0.2
   cc1: 0.25
   D1: 9.655
   E1: 6.605
@@ -6099,9 +5394,6 @@ JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
   R2: 0.15 # made-up value; pin lower corner, inner radius
   S: null # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
   L: 0.60 #  JEITA Lp, (0.40+0.80)/2; pin bottom flat part length (including corner arc)
-  fp_s: True
-  fp_r: 0.60 # first pin indicator radius
-  fp_d: 0.14 # first pin indicator distance from edge
   ef: 0 # fillet of edges  Note: bigger bytes model with fillet
   cc1: 0.25 # chamfer of the 1st pin corner
   D1: 4.90 # body length
@@ -6125,9 +5417,6 @@ HTSSOP-56-1EP_6.1x14mm_P0.5mm_EP3.61x6.35mm:
   R1: 0.15
   R2: 0.15
   S: 0.4
-  fp_s: True
-  fp_r: 0.5
-  fp_d: 0.1
   cc1: 0.25
   D1: 14.0
   E1: 6.1
@@ -6151,9 +5440,6 @@ TSSOP-30_6.1x9.7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 6.1
@@ -6176,9 +5462,6 @@ TSSOP-44_4.4x11mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 4.4
@@ -6201,9 +5484,6 @@ TSSOP-40_8x14mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 8.0
@@ -6226,9 +5506,6 @@ TSSOP-52_8x11mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 8.0
@@ -6251,9 +5528,6 @@ TSSOP-28_6.1x7.8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 6.1
@@ -6276,9 +5550,6 @@ TSSOP-50_4.4x12.5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 4.4
@@ -6301,9 +5572,6 @@ TSSOP-28_8x9.7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 8.0
@@ -6326,9 +5594,6 @@ TSSOP-32_8x11mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 8.0
@@ -6351,9 +5616,6 @@ TSSOP-56_8x14mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 8.0
@@ -6376,9 +5638,6 @@ TSSOP-36_4.4x7.8mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 4.4
@@ -6401,9 +5660,6 @@ TSSOP-36_8x9.7mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 8.0
@@ -6426,9 +5682,6 @@ TSSOP-28_6.1x9.7mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 6.1
@@ -6451,9 +5704,6 @@ TSSOP-36_4.4x9.7mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -6476,9 +5726,6 @@ TSSOP-56_8x12.5mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 8.0
@@ -6501,9 +5748,6 @@ TSSOP-24_6.1x7.8mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 6.1
@@ -6526,9 +5770,6 @@ TSSOP-52_6.1x11mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 6.1
@@ -6551,9 +5792,6 @@ TSSOP-60_8x12.5mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 8.0
@@ -6576,9 +5814,6 @@ TSSOP-64_6.1x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 6.1
@@ -6601,9 +5836,6 @@ TSSOP-40_8x11mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 8.0
@@ -6626,9 +5858,6 @@ TSSOP-36_6.1x7.8mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 6.1
@@ -6651,9 +5880,6 @@ TSSOP-48_8x9.7mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 8.0
@@ -6676,9 +5902,6 @@ TSSOP-80_6.1x17mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 17.0
   E1: 6.1
@@ -6701,9 +5924,6 @@ TSSOP-36_6.1x9.7mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 6.1
@@ -6726,9 +5946,6 @@ TSSOP-48_8x12.5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 8.0
@@ -6751,9 +5968,6 @@ TSSOP-40_6.1x14mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 6.1
@@ -6776,9 +5990,6 @@ TSSOP-64_6.1x17mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 17.0
   E1: 6.1
@@ -6801,9 +6012,6 @@ TSSOP-40_6.1x11mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 6.1
@@ -6826,9 +6034,6 @@ TSSOP-44_6.1x11mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 11.0
   E1: 6.1
@@ -6851,9 +6056,6 @@ TSSOP-32_4.4x6.5mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -6876,9 +6078,6 @@ TSSOP-64_8x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 8.0
@@ -6901,9 +6100,6 @@ TSSOP-28_4.4x7.8mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 7.8
   E1: 4.4
@@ -6926,9 +6122,6 @@ TSSOP-48_4.4x9.7mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 4.4
@@ -6951,9 +6144,6 @@ TSSOP-20_4.4x5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 5.0
   E1: 4.4
@@ -6976,9 +6166,6 @@ TSSOP-36_6.1x12.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 6.1
@@ -7001,9 +6188,6 @@ TSSOP-36_8x12.5mm_P0.65mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 8.0
@@ -7026,9 +6210,6 @@ TSSOP-24_4.4x5mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 5.0
   E1: 4.4
@@ -7051,9 +6232,6 @@ TSSOP-24_4.4x6.5mm_P0.5mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 6.5
   E1: 4.4
@@ -7076,9 +6254,6 @@ TSSOP-48_6.1x9.7mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 9.7
   E1: 6.1
@@ -7101,9 +6276,6 @@ TSSOP-56_6.1x12.5mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 12.5
   E1: 6.1
@@ -7126,9 +6298,6 @@ TSSOP-68_8x14mm_P0.4mm:
   R1: 0.1
   R2: 0.1
   S: 0.1
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.25
   D1: 14.0
   E1: 8.0
@@ -7152,9 +6321,6 @@ SOP-28_8.4x18.16mm_P1.27mm:
   R2: 0.12
   S: 0.1
   #L: 1.27
-  fp_s: True
-  fp_r: 0.8
-  fp_d: 0.6
   cc1: 0.25
   D1: 18.16
   E1: 8.636
@@ -7178,9 +6344,6 @@ IXYS_Flatpak-8_6.3x9.7mm_P2.54mm:
   R1: 0.1
   R2: 0.1
   S: 0.635
-  fp_s: 1
-  fp_r: 0.4
-  fp_d: 0.5
   cc1: 0.0
   D1: 9.652
   E1: 6.35
@@ -7204,9 +6367,7 @@ SOIC-8_3.81x9.347mm_P2.54mm:
   R2: 0.15
   S: 0.25
   L: 0.432
-  fp_s: False
-  fp_r: 0.5
-  fp_d: 0.1
+  marker: "bar"
   ef: 0  # fillet of edges  Note: bigger bytes model with fillet
   cc1: 0.25
   D1: 3.81
