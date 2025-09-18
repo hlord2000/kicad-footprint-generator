@@ -48,13 +48,28 @@
 # *                                                                          *
 # ****************************************************************************
 
+from collections.abc import Callable
 from math import atan, cos, degrees, radians, sin, tan
 from typing import Any, cast
 
 import cadquery as cq
 
+from cadquery.cq import CQObject
+from cadquery.occ_impl.shapes import Edge
+
 MAX_CC1 = 1
 DEFAULT_PIN_SLOPE = 10
+
+def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
+    """
+    Returns a filter function that checks if an edge has the z-coordinate of its center
+    that is different from one of the two values provided.
+    """
+    tol = 0.001
+    def filter_func(edge: CQObject) -> bool:
+        h = cast(Edge, edge).Center().z
+        return abs(h - z1) > tol and abs(h - z2) > tol
+    return filter_func
 
 
 def make_gw(
@@ -225,13 +240,6 @@ def make_gw(
             case, E1_t2, D1_t2, cc1 - (d1 - D1_t2) / 4.0, cc - (d1 - D1_t2) / 4.0
         )
         case = case.loft(ruled=True)
-        if ef != 0:
-            try:
-                case = case.faces(">Z").fillet(ef)
-            except Exception as exeption:
-                print("Case top face failed.\n")
-                print("{:s}\n".format(exeption))
-
     else:
         case = (
             cq.Workplane("XY")
@@ -246,84 +254,50 @@ def make_gw(
             .rect(E1_t2, D1_t2)
             .loft(ruled=True)
         )
-        if ef != 0:
-            try:
-                case = case.faces(">Z").fillet(ef)
-            except Exception as exeption:
-                print("Case top face failed.\n")
-                print("{:s}\n".format(exeption))
 
-        # fillet the corners
-        if ef != 0:
-            BS = cq.selectors.BoxSelector
-            try:
-                case = case.edges(
-                    BS((E1_t2 / 2, D1_t2 / 2, 0), (e1 / 2 + 0.1, d1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
-                ).fillet(ef)
-            except Exception as exeption:
-                print("Case fillet 1 failed\n")
-                print("{:s}\n".format(exeption))
-
-            try:
-                case = case.edges(
-                    BS(E1_t2 / 2, (-D1_t2 / 2, 0), (-e1 / 2 - 0.1, d1 / 2 + 0.1, a2))  # type: ignore[no-untyped-call]
-                ).fillet(ef)
-            except Exception as exeption:
-                print("Case fillet 2 failed\n")
-                print("{:s}\n".format(exeption))
-
-            try:
-                case = case.edges(
-                    BS((-E1_t2 / 2, -D1_t2 / 2, 0), (-e1 / 2 - 0.1, -d1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
-                ).fillet(ef)
-            except Exception as exeption:
-                print("Case fillet 3 failed\n")
-                print("{:s}\n".format(exeption))
-
-            try:
-                case = case.edges(
-                    BS((E1_t2 / 2, -D1_t2 / 2, 0), (e1 / 2 + 0.1, -d1 / 2 - 0.1, a2))  # type: ignore[no-untyped-call]
-                ).fillet(ef)
-            except Exception as exeption:
-                print("Case fillet 4 failed\n")
-                print("{:s}\n".format(exeption))
+    if ef != 0:
+        try:
+            z_min = a1 + A2_b
+            z_max = a1 + A2_b + c
+            is_edge_to_fillet = get_z_is_not_filter(z_min, z_max)
+            case = case.edges().filter(is_edge_to_fillet).fillet(ef)
+        except Exception as exeption:
+            print("Filleting failed.\n")
+            print("{:s}\n".format(exeption))
 
     epad_rotation = 0.0
     epad_offset_x = 0.0
     epad_offset_y = 0.0
 
     epad_r = params.get("epad")
-    if epad_r is not None:
-        if not isinstance(epad_r, list):
-            epad = cq.Workplane("XY").circle(epad_r).extrude(a1)
-        else:
-            epad_r = cast(list[float], epad_r)
-            D2 = float(epad_r[0])
-            E2 = float(epad_r[1])
-            if len(epad_r) > 2:
-                epad_rotation = epad_r[2]
-            if len(epad_r) > 3:
-                if isinstance(epad_r[3], str):
-                    if epad_r[3] == "-topin":
-                        epad_offset_x = (D1_b / 2 - D2 / 2) * -1
-                    elif epad_r[3] == "+topin":
-                        epad_offset_x = D1_b / 2 - D2 / 2
-                else:
-                    epad_offset_x = epad_r[3]
-            if len(epad_r) > 4:
-                if isinstance(epad_r[4], str):
-                    if epad_r[4] == "-topin":
-                        epad_offset_y = (E1_b / 2 - E2 / 2) * -1
-                    elif epad_r[4] == "+topin":
-                        epad_offset_y = E1_b / 2 - E2 / 2
-                else:
-                    epad_offset_y = epad_r[4]
-            epad = (
-                cq.Workplane("XY")
-                .box(D2, E2, a1)
-                .translate((epad_offset_x, epad_offset_y, a1 / 2))
-                .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
-            )
+    if isinstance(epad_r, list):
+        epad_r = cast(list[float], epad_r)
+        D2 = float(epad_r[0])
+        E2 = float(epad_r[1])
+        if len(epad_r) > 2:
+            epad_rotation = epad_r[2]
+        if len(epad_r) > 3:
+            if isinstance(epad_r[3], str):
+                if epad_r[3] == "-topin":
+                    epad_offset_x = (D1_b / 2 - D2 / 2) * -1
+                elif epad_r[3] == "+topin":
+                    epad_offset_x = D1_b / 2 - D2 / 2
+            else:
+                epad_offset_x = epad_r[3]
+        if len(epad_r) > 4:
+            if isinstance(epad_r[4], str):
+                if epad_r[4] == "-topin":
+                    epad_offset_y = (E1_b / 2 - E2 / 2) * -1
+                elif epad_r[4] == "+topin":
+                    epad_offset_y = E1_b / 2 - E2 / 2
+            else:
+                epad_offset_y = epad_r[4]
+        epad = (
+            cq.Workplane("XY")
+            .box(D2, E2, a1)
+            .translate((epad_offset_x, epad_offset_y, a1 / 2))
+            .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
+        )
         case = case.cut(epad)
     else:
         epad = None

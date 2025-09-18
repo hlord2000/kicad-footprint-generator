@@ -8,7 +8,7 @@ D_SOD-123:
   S: 0.0  # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
   # L: 0.4  #  pin bottom flat part length (including corner arc)
   marker: "bar"  # "circle" (default), "bar" (useful for diodes), or "none". 
-  # ef: 0.0  # fillet of edges  Note: bigger bytes model with fillet
+  #ef: 0.0  # fillet of edges  Note: bigger bytes model with fillet (defaults to 0.0)
   cc1: 0.12  # chamfer of the 1st pin corner (defaults to 0.25)
   D1: 1.6  # body length
   E1: 2.675  # body width
