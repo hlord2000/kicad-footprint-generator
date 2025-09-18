@@ -53,144 +53,169 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import glob
+import multiprocessing
 import os
+from pathlib import Path
+from typing import Any
 
 import cadquery as cq
+import yaml
 
-from _tools import cq_color_correct, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
+from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from .gw_qfp_soic_ssop_tssop_sot import make_gw
 
 FUSED_AND_COMPRESSED = True
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True) -> None:
+def make_models(
+    model_to_build: str | None = None,
+    output_dir_prefix: str | None = None,
+    enable_vrml: bool = True,
+) -> None:
     """
     Main entry point into this generator.
     """
-    models = []
 
-    all_params = parameters.load_parameters("GW_QFP_SOIC_SSOP_TSSOP_SOT")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
+    if output_dir_prefix is None:
+        print("ERROR: An output directory must be provided.")
         return
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+    # model_to_build can be 'all', or a specific model that could be in any yaml file.
+    # In either case we have to load all the model files to memory. This method could
+    # be optimized in the future.
 
-        model_to_build = all_params.keys()[0]
+    gullwing_path = os.path.dirname(os.path.realpath(__file__))
+    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/Gullwing/*.yaml")
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    if not all_yaml_files:
+        print("No YAML files found to process.")
+        return
+
+    all_model_definitions: dict[str, Any] = {}
+    for yaml_file in all_yaml_files:
+        file_path = Path(yaml_file)
+        with open(file_path, "r") as stream:
+            all_model_definitions.update(yaml.safe_load(stream))  # type: ignore
+
+    models_to_build: dict[str, Any] = {}
+    if model_to_build == "all" or model_to_build == None:
+        models_to_build = all_model_definitions
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["library"] + ".3dshapes"
+        models_to_build[model_to_build] = all_model_definitions[model_to_build]
+
+    # for idx, (model_name, model_params) in enumerate(models_to_build.items()):
+    #     make_single_gullwing_model(
+    #             output_dir_prefix,
+    #             model_name,
+    #             model_params,
+    #             enable_vrml,
+    #         )
+
+    # Always use maximum number of processes
+    number_of_models = len(models_to_build)
+    with multiprocessing.Pool(processes=os.cpu_count()) as pool:
+        for idx, (model_name, model_params) in enumerate(models_to_build.items()):
+            print(
+                f"    => Generating part {idx+1}/{number_of_models}: '{model_name}' from library 'Gullwing'"
             )
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors["black body"].getDiffuseFloat()
-        pin_color = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
-        mark_color = shaderColors.named_colors["light brown label"].getDiffuseFloat()
-
-        # Make the parts of the model
-        (body, pins, epad, mark) = make_gw(all_params[model])
-
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
-
-        # Add the parts to the assembly
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
-        )
-        if mark:
-            component.add(
-                mark,
-                color=cq_color_correct.Color(
-                    mark_color[0], mark_color[1], mark_color[2]
+            pool.apply_async(
+                make_single_gullwing_model,
+                args=(
+                    output_dir_prefix,
+                    model_name,
+                    model_params,
+                    enable_vrml,
                 ),
             )
-        if epad:
-            component.add(
-                epad,
-                color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2]),
+        pool.close()
+        pool.join()
+
+
+def make_single_gullwing_model(
+    output_dir_prefix: str,
+    model_name: str,
+    model_params: dict[str, Any],
+    enable_vrml: bool,
+) -> None:
+    output_dir = os.path.join(output_dir_prefix, model_params["library"] + ".3dshapes")
+    # Load the appropriate colors
+    rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
+    rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
+    rgb_mark = shaderColors.named_colors["light brown label"].getDiffuseFloat()
+
+    body_color = cq_color_correct.Color(rgb_body[0], rgb_body[1], rgb_body[2])
+    pin_color = cq_color_correct.Color(rbg_pin[0], rbg_pin[1], rbg_pin[2])
+    mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
+
+    # Make the parts of the model
+    (body, pins, epad, mark) = make_gw(model_params)
+
+    # Used to wrap all the parts into an assembly
+    component = cq.Assembly()
+
+    # Add the parts to the assembly
+    component.add(body, color=body_color)  # type: ignore
+    component.add(pins, color=pin_color)  # type: ignore
+    if mark:
+        component.add(mark, color=mark_color)  # type: ignore
+    if epad:
+        component.add(epad, color=pin_color)  # type: ignore
+
+    # Create the output directory if it does not exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Export the assembly to STEP
+    component.name = model_name
+
+    if not FUSED_AND_COMPRESSED:
+        component.save(  # type: ignore
+            os.path.join(output_dir, model_name + ".step"),
+            cq.exporters.ExportTypes.STEP,
+            mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
+            write_pcurves=False,
+        )
+    else:
+        component.save(  # type: ignore
+            os.path.join(output_dir, model_name + ".step"),
+            cq.exporters.ExportTypes.STEP,
+            mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
+            write_pcurves=False,
+        )
+        # Check for a proper union
+        export_tools.check_step_export_union(component, output_dir, model_name)
+
+        # Do STEP post-processing
+        export_tools.postprocess_step(component, output_dir, model_name)
+
+        # Export the assembly to VRML
+        if enable_vrml:
+            components = [body, pins]
+            colors = ["black body", "metal grey pins"]
+            if epad:
+                components.append(epad)
+                colors.append("metal grey pins")
+            if mark:
+                components.append(mark)
+                colors.append("light brown label")
+            export_VRML(
+                os.path.join(output_dir, model_name + ".wrl"),
+                components,
+                colors,
             )
 
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+        # Update the license
+        from _tools import add_license  # type: ignore
 
-        # Assemble the filename
-        file_name = model
-
-        # Export the assembly to STEP
-        component.name = file_name
-
-        if not FUSED_AND_COMPRESSED:
-            component.save(
-                os.path.join(output_dir, file_name + ".step"),
-                cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.DEFAULT,
-                write_pcurves=False,
-            )
-        else:
-            component.save(
-                os.path.join(output_dir, file_name + ".step"),
-                cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.FUSED,
-                write_pcurves=False,
-            )
-            # Check for a proper union
-            export_tools.check_step_export_union(component, output_dir, file_name)
-
-            # Do STEP post-processing
-            export_tools.postprocess_step(component, output_dir, file_name)
-
-            # Export the assembly to VRML
-            if enable_vrml:
-                components = [body, pins]
-                colors = ["black body", "metal grey pins"]
-                if epad:
-                    components.append(epad)
-                    colors.append("metal grey pins")
-                if mark:
-                    components.append(mark)
-                    colors.append("light brown label")
-                export_VRML(
-                    os.path.join(output_dir, file_name + ".wrl"),
-                    components,
-                    colors,
-                )
-
-            # Update the license
-            from _tools import add_license
-
-            add_license.addLicenseToStep(
-                output_dir,
-                file_name + ".step",
-                add_license.LIST_int_license,
-                add_license.STR_int_licAuthor,
-                add_license.STR_int_licEmail,
-                add_license.STR_int_licOrgSys,
-                add_license.STR_int_licPreProc,
-            )
+        add_license.addLicenseToStep(  # type: ignore
+            output_dir,
+            model_name + ".step",
+            add_license.LIST_int_license,
+            add_license.STR_int_licAuthor,
+            add_license.STR_int_licEmail,
+            add_license.STR_int_licOrgSys,
+            add_license.STR_int_licPreProc,
+        )
