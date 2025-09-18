@@ -49,16 +49,16 @@
 # ****************************************************************************
 
 from collections.abc import Callable
-from math import atan, cos, degrees, radians, sin, tan
+from math import atan2, cos, degrees, radians, sin, tan
 from typing import Any, cast
 
 import cadquery as cq
-
 from cadquery.cq import CQObject
 from cadquery.occ_impl.shapes import Edge
 
 MAX_CC1 = 1
-DEFAULT_PIN_SLOPE = 10
+DEFAULT_PIN_SLOPE = 10.0
+
 
 def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
     """
@@ -66,9 +66,11 @@ def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
     that is different from one of the two values provided.
     """
     tol = 0.001
+
     def filter_func(edge: CQObject) -> bool:
         h = cast(Edge, edge).Center().z
         return abs(h - z1) > tol and abs(h - z2) > tol
+
     return filter_func
 
 
@@ -97,63 +99,53 @@ def make_gw(
     npy = cast(int, params["npy"])
     excluded_pins = params.get("excluded_pins", ())
 
-    missingparam = [s, l, the_p].count(None)
-    if missingparam == 0:
+    if s is not None and l is not None and the_p is not None:
         print(
             "Warning: All of S, L, and the_p are provided. The system is "
             "overconstrained. Ignoring the value of S."
         )
         s = None
 
-    elif missingparam > 2:
-        raise Exception("At least one of S, L and the_p must be provided.")
-
+    # Approximate small angle approximation (for small the_p) for the height (along
+    # z-axis) of the slewed part of the pin:
+    pin_slew_height = a1 + ((a2 - c) / 2) - (r1 + r2 + c)
+    # Total length of the pin (well, of its projection on the x/y-plane):
+    pin_total_length = (e - e1) / 2
     if the_p is None:
         if s is not None and l is not None:
             the_p = degrees(
-                atan(
-                    (((e - e1) / 2) - (s + l + r1))
-                    / (a1 + ((a2 - c) / 2) - (r1 + r2 + c))
-                )
-            )
+                atan2(pin_total_length - s - l - r1, pin_slew_height)
+            )  # Approximate formula for small angles of the_p.
             if the_p < 0:
                 print(
                     "The provided values of S and L will result in inward-"
                     "sloping pins. If this is not what you intended, confirm those "
                     "values and reduce one or more of them."
                 )
-        # if more than one param is missing, we can't calculate a pin angle, so just
-        # set it to the default
+        # If more than one param is missing, we can't calculate a pin angle, so just
+        # set it to the default:
         else:
             the_p = DEFAULT_PIN_SLOPE
-
-    tan_p = tan(radians(the_p))
-    if l is None and s is not None:
-        l = (e - e1) / 2 - (s + r1) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
-        if the_p > 0 and l < (c + r2):
-            raise Exception("the_p is too large.")
-    elif s is None and l is not None:
-        s = (e - e1) / 2 - (r1 + l) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
-        if the_p > 0 and s < 0:
-            raise Exception("the_p is too large.")
-    elif s is not None and l is not None:
-        pass
-    else:
-        raise NotImplementedError("This should not happen.")
-    # uncomment to constrain pin angles to positive or vertical, i.e. no "Z" shaped
-    # pins:
-    # the_p = max(the_p, 0)
-
     if abs(the_p) >= 90.0:
         raise Exception("the_p must be between +/- 90 degrees")
-    if (
-        the_p < 0
-        and ((a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * abs(tan_p))
-        - (r1 + r2 + c)
-        + r2
-        + c
-        > s
-    ):
+
+    # Approximate small angle approximation (for small the_p) for the length (along
+    # x/y-axis) of the slewed part of the pin:
+    pin_slew_length = pin_slew_height * tan(radians(the_p))
+    if l is None:
+        if s is not None:
+            l = pin_total_length - pin_slew_length - r1 - s
+        else:
+            # Make top and bottom flat part equally long:
+            l = (pin_total_length - pin_slew_length - r1) / 2
+        if the_p > 0 and l < (c + r2):
+            raise Exception("the_p is too large.")
+    if s is None:
+        s = pin_total_length - pin_slew_length - r1 - l
+        if the_p > 0 and s < 0:
+            raise Exception("the_p is too large.")
+
+    if the_p < 0 and pin_slew_length - r1 > s:
         # doesn't account for bottom chamfer, that would be more trouble than it's
         # worth to check, better safe than sorry
         raise Exception(
@@ -339,8 +331,8 @@ def make_gw(
         pinmark = None
 
     # calculated dimensions for pin
-    R1_o = r1 + c  # pin upper corner, outer radius
-    R2_o = r2 + c  # pin lower corner, outer radius
+    r1_o = r1 + c  # pin upper corner, outer radius
+    r2_o = r2 + c  # pin lower corner, outer radius
 
     # Create a pin object at the center of top side.
     bpin = (
@@ -355,25 +347,25 @@ def make_gw(
             r1,
         )
         .lineTo(
-            ((e - e1) / 2) - l + R2_o - (R2_o * cos(radians(the_p))),
-            r2 + c - (R2_o * sin(radians(the_p))),
+            pin_total_length - l + r2_o - (r2_o * cos(radians(the_p))),
+            r2 + c - (r2_o * sin(radians(the_p))),
         )
-        .radiusArc((((e - e1) / 2) - l + R2_o, 0), -R2_o)
-        .line(l - R2_o, 0)
+        .radiusArc((pin_total_length - l + r2_o, 0), -r2_o)
+        .line(l - r2_o, 0)
         .line(0, c)
-        .line(-l + R2_o, 0)
+        .line(-l + r2_o, 0)
         .radiusArc(
             (
-                ((e - e1) / 2) - l + R2_o - (r2 * cos(radians(the_p))),
+                pin_total_length - l + r2_o - (r2 * cos(radians(the_p))),
                 r2 + c - (r2 * sin(radians(the_p))),
             ),
             r2,
         )
         .lineTo(
-            s + (R1_o * cos(radians(the_p))),
-            a1 + A2_b - r1 + (R1_o * sin(radians(the_p))),
+            s + (r1_o * cos(radians(the_p))),
+            a1 + A2_b - r1 + (r1_o * sin(radians(the_p))),
         )
-        .radiusArc((s, a1 + A2_b + c), -R1_o)
+        .radiusArc((s, a1 + A2_b + c), -r1_o)
         .line(-s - tb_s, 0)
         .close()
         .extrude(b)
