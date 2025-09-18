@@ -1,15 +1,15 @@
 D_SOD-123:
-  the: 8.0  # body angle in degrees
-  the_p: 0.0  # pin angle in degrees
-  tb_s: 0.05  # top part of body is that much smaller
+  the: 8.0  # body angle in degrees (defaults to 10°)
+  the_p: 0.0  # pin angle in degrees (defaults to 10°)
+  tb_s: 0.05  # top part of body is that much smaller (defaults to 0.1)
   c: 0.2  # pin thickness, body center part height
-  R1: 0.12  # pin upper corner, inner radius
-  R2: 0.12  # pin lower corner, inner radius
+  R1: 0.12  # pin upper corner, inner radius (defaults to c*0.75)
+  R2: 0.12  # pin lower corner, inner radius (defaults to c*0.75)
   S: 0.0  # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
   # L: 0.4  #  pin bottom flat part length (including corner arc)
   marker: "bar"  # "circle" (default), "bar" (useful for diodes), or "none". 
   # ef: 0.0  # fillet of edges  Note: bigger bytes model with fillet
-  cc1: 0.12  # chamfer of the 1st pin corner
+  cc1: 0.12  # chamfer of the 1st pin corner (defaults to 0.25)
   D1: 1.6  # body length
   E1: 2.675  # body width
   E: 3.6   # body overall width  (E - E1) = 2 * (S + R1 + L)
@@ -21,9 +21,7 @@ D_SOD-123:
   npy: 1  # number of pins along y axis (length)
   # epad: null  # e Pad
   # excluded_pins: null  # no pin excluded
-  model_name: D_SOD-123  # model name
-  type: 'diode'
-  destination_dir: 'Diode_SMD.3dshapes'
+  library: 'Diode_SMD'
   source: 'https://assets.nexperia.com/documents/package-information/SOD123.pdf#page=2'
 
 D_SOD-323:
@@ -44,9 +42,7 @@ D_SOD-323:
   e: 1.27
   npx: 0
   npy: 1
-  model_name: D_SOD-323
-  type: 'diode'
-  destination_dir: 'Diode_SMD.3dshapes'
+  library: 'Diode_SMD'
   source: 'https://assets.nexperia.com/documents/package-information/SOD323.pdf#page=2'
 
 Diode_Bridge_OnSemi_SDIP-4L:
@@ -66,9 +62,7 @@ Diode_Bridge_OnSemi_SDIP-4L:
   e: 5.1
   npy: 2
   npx: 0
-  model_name: Diode_Bridge_OnSemi_SDIP-4L
-  type: 'diode'
-  destination_dir: 'Diode_SMD.3dshapes'
+  library: 'Diode_SMD'
 
 LQFP-32_5x5mm_P0.5mm:
   the: 12.0
@@ -87,8 +81,7 @@ LQFP-32_5x5mm_P0.5mm:
   e: 0.5
   npy: 8
   npx: 8
-  model_name: LQFP-32_5x5mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-32_7x7mm_P0.8mm:
@@ -108,8 +101,7 @@ LQFP-32_7x7mm_P0.8mm:
   e: 0.8
   npy: 8
   npx: 8
-  model_name: LQFP-32_7x7mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-36_7x7mm_P0.65mm:
@@ -129,8 +121,7 @@ LQFP-36_7x7mm_P0.65mm:
   e: 0.65
   npy: 9
   npx: 9
-  model_name: LQFP-36_7x7mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-44_10x10mm_P0.8mm:
@@ -150,8 +141,7 @@ LQFP-44_10x10mm_P0.8mm:
   e: 0.8
   npy: 11
   npx: 11
-  model_name: LQFP-44_10x10mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-48_7x7mm_P0.5mm:
@@ -171,8 +161,7 @@ LQFP-48_7x7mm_P0.5mm:
   e: 0.5
   npy: 12
   npx: 12
-  model_name: LQFP-48_7x7mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MS-026 variation BBC, 1.40mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-lqfp/05081760_a_lx48.pdf'
 
 LQFP-52_10x10mm_P0.65mm:
@@ -192,8 +181,7 @@ LQFP-52_10x10mm_P0.65mm:
   e: 0.65
   npy: 13
   npx: 13
-  model_name: LQFP-52_10x10mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-52_14x14mm_P1mm:
@@ -213,8 +201,7 @@ LQFP-52_14x14mm_P1mm:
   e: 1
   npy: 13
   npx: 13
-  model_name: LQFP-52_14x14mm_P1mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
@@ -235,8 +222,7 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   npy: 13
   npx: 13
   epad: [4.8, 4.8]
-  model_name: "LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm"
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-64_7x7mm_P0.4mm:
@@ -256,8 +242,7 @@ LQFP-64_7x7mm_P0.4mm:
   e: 0.4
   npy: 16
   npx: 16
-  model_name: LQFP-64_7x7mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-64_10x10mm_P0.5mm:
@@ -277,8 +262,7 @@ LQFP-64_10x10mm_P0.5mm:
   e: 0.5
   npy: 16
   npx: 16
-  model_name: LQFP-64_10x10mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
@@ -299,8 +283,7 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
   npy: 16
   npx: 16
   epad: [6.5, 6.5]
-  model_name: LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-64_14x14mm_P0.8mm:
@@ -320,8 +303,7 @@ LQFP-64_14x14mm_P0.8mm:
   e: 0.8
   npy: 16
   npx: 16
-  model_name: LQFP-64_14x14mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-80_12x12mm_P0.5mm:
@@ -341,8 +323,7 @@ LQFP-80_12x12mm_P0.5mm:
   e: 0.5
   npy: 20
   npx: 20
-  model_name: LQFP-80_12x12mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-100_14x14mm_P0.5mm:
@@ -362,8 +343,7 @@ LQFP-100_14x14mm_P0.5mm:
   e: 0.5
   npy: 25
   npx: 25
-  model_name: LQFP-100_14x14mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-128_14x14mm_P0.4mm:
@@ -383,8 +363,7 @@ LQFP-128_14x14mm_P0.4mm:
   e: 0.4
   npy: 32
   npx: 32
-  model_name: LQFP-128_14x14mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-128_14x20mm_P0.5mm:
@@ -404,8 +383,7 @@ LQFP-128_14x20mm_P0.5mm:
   e: 0.5
   npy: 38
   npx: 26
-  model_name: LQFP-128_14x20mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-144_20x20mm_P0.5mm:
@@ -425,8 +403,7 @@ LQFP-144_20x20mm_P0.5mm:
   e: 0.5
   npy: 36
   npx: 36
-  model_name: LQFP-144_20x20mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-160_24x24mm_P0.5mm:
@@ -446,8 +423,7 @@ LQFP-160_24x24mm_P0.5mm:
   e: 0.5
   npy: 40
   npx: 40
-  model_name: LQFP-160_24x24mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-176_20x20mm_P0.4mm:
@@ -467,8 +443,7 @@ LQFP-176_20x20mm_P0.4mm:
   e: 0.4
   npy: 44
   npx: 44
-  model_name: LQFP-176_20x20mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-176_24x24mm_P0.5mm:
@@ -488,8 +463,7 @@ LQFP-176_24x24mm_P0.5mm:
   e: 0.5
   npy: 44
   npx: 44
-  model_name: LQFP-176_24x24mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-208_28x28mm_P0.5mm:
@@ -509,8 +483,7 @@ LQFP-208_28x28mm_P0.5mm:
   e: 0.5
   npy: 52
   npx: 52
-  model_name: LQFP-208_28x28mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-216_24x24mm_P0.4mm:
@@ -530,8 +503,7 @@ LQFP-216_24x24mm_P0.4mm:
   e: 0.4
   npy: 54
   npx: 54
-  model_name: LQFP-216_24x24mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 Infineon_PG-DSO-20-U03_7.5x12.8mm:
@@ -552,8 +524,7 @@ Infineon_PG-DSO-20-U03_7.5x12.8mm:
   npy: 18
   npx: 0
   excluded_pins: [3,4,16,17,18,19,20,21,27,28,29,30,31,32,33,34]
-  model_name: Infineon_PG-DSO-20-U03_7.5x12.8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.infineon.com/dgdl/Infineon-2ED1323S12P_2ED1324S12P-DataSheet-v01_01-EN.pdf?fileId=8ac78c8c869190210186e92f0f506d0c'
 
 PQFP-80_14x20mm_P0.8mm:
@@ -573,8 +544,7 @@ PQFP-80_14x20mm_P0.8mm:
   e: 0.8
   npy: 24
   npx: 16
-  model_name: PQFP-80_14x20mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-100_14x20mm_P0.65mm:
@@ -594,8 +564,7 @@ PQFP-100_14x20mm_P0.65mm:
   e: 0.65
   npy: 30
   npx: 20
-  model_name: PQFP-100_14x20mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-256_28x28mm_P0.4mm:
@@ -615,8 +584,7 @@ PQFP-256_28x28mm_P0.4mm:
   e: 0.4
   npy: 64
   npx: 64
-  model_name: PQFP-256_28x28mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-32_7x7mm_P0.8mm:
@@ -636,8 +604,7 @@ TQFP-32_7x7mm_P0.8mm:
   e: 0.8
   npy: 8
   npx: 8
-  model_name: TQFP-32_7x7mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-44_10x10mm_P0.8mm:
@@ -657,8 +624,7 @@ TQFP-44_10x10mm_P0.8mm:
   e: 0.8
   npy: 11
   npx: 11
-  model_name: TQFP-44_10x10mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-44-1EP_10x10mm_P0.8mm_EP4.5x4.5mm:
@@ -679,8 +645,7 @@ TQFP-44-1EP_10x10mm_P0.8mm_EP4.5x4.5mm:
   npy: 11
   npx: 11
   epad: [4.5, 4.5]
-  model_name: TQFP-44-1EP_10x10mm_P0.8mm_EP4.5x4.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-48_7x7mm_P0.5mm:
@@ -700,8 +665,7 @@ TQFP-48_7x7mm_P0.5mm:
   e: 0.5
   npy: 12
   npx: 12
-  model_name: TQFP-48_7x7mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MS-026 variation ABC, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=666'
 
 TQFP-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
@@ -722,8 +686,7 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
   npy: 12
   npx: 12
   epad: [3.5, 3.5]
-  model_name: TQFP-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MS-026 variation ABC, 1.00mm body thickness, custom Exposed Pad from Microchip and Analog Devices, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=664, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_48_4.pdf'
 
 TQFP-64_7x7mm_P0.4mm:
@@ -743,8 +706,7 @@ TQFP-64_7x7mm_P0.4mm:
   e: 0.4
   npy: 16
   npx: 16
-  model_name: TQFP-64_7x7mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-64_10x10mm_P0.5mm:
@@ -764,8 +726,7 @@ TQFP-64_10x10mm_P0.5mm:
   e: 0.5
   npy: 16
   npx: 16
-  model_name: TQFP-64_10x10mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
@@ -787,8 +748,7 @@ TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   npy: 16
   npx: 16
   epad: [5.305, 5.305]
-  model_name: TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'https://www.esstech.com/wp-content/uploads/2022/09/ES9028PRO-Datasheet-v3.7.pdf#page=54'
 
 TQFP-64_14x14mm_P0.8mm:
@@ -808,8 +768,7 @@ TQFP-64_14x14mm_P0.8mm:
   e: 0.8
   npy: 16
   npx: 16
-  model_name: TQFP-64_14x14mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-80_12x12mm_P0.5mm:
@@ -829,8 +788,7 @@ TQFP-80_12x12mm_P0.5mm:
   e: 0.5
   npy: 20
   npx: 20
-  model_name: TQFP-80_12x12mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-80_14x14mm_P0.65mm:
@@ -850,8 +808,7 @@ TQFP-80_14x14mm_P0.65mm:
   e: 0.65
   npy: 20
   npx: 20
-  model_name: TQFP-80_14x14mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-100_12x12mm_P0.4mm:
@@ -871,8 +828,7 @@ TQFP-100_12x12mm_P0.4mm:
   e: 0.4
   npy: 25
   npx: 25
-  model_name: TQFP-100_12x12mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-100_14x14mm_P0.5mm:
@@ -892,8 +848,7 @@ TQFP-100_14x14mm_P0.5mm:
   e: 0.5
   npy: 25
   npx: 25
-  model_name: TQFP-100_14x14mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
@@ -914,8 +869,7 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
   npy: 25
   npx: 25
   epad: [5, 5]
-  model_name: TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-120_14x14mm_P0.4mm:
@@ -935,8 +889,7 @@ TQFP-120_14x14mm_P0.4mm:
   e: 0.4
   npy: 30
   npx: 30
-  model_name: TQFP-120_14x14mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-128_14x14mm_P0.4mm:
@@ -956,8 +909,7 @@ TQFP-128_14x14mm_P0.4mm:
   e: 0.4
   npy: 32
   npx: 32
-  model_name: TQFP-128_14x14mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-144_16x16mm_P0.4mm:
@@ -977,8 +929,7 @@ TQFP-144_16x16mm_P0.4mm:
   e: 0.4
   npy: 36
   npx: 36
-  model_name: TQFP-144_16x16mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-144_20x20mm_P0.5mm:
@@ -998,8 +949,7 @@ TQFP-144_20x20mm_P0.5mm:
   e: 0.5
   npy: 36
   npx: 36
-  model_name: TQFP-144_20x20mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
@@ -1020,8 +970,7 @@ LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
   npy: 12
   npx: 12
   epad: [3.6, 3.6]
-  model_name: LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-80_10x10mm_P0.4mm:
@@ -1041,8 +990,7 @@ LQFP-80_10x10mm_P0.4mm:
   e: 0.4
   npy: 20
   npx: 20
-  model_name: LQFP-80_10x10mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 LQFP-80_14x14mm_P0.65mm:
@@ -1062,8 +1010,7 @@ LQFP-80_14x14mm_P0.65mm:
   e: 0.65
   npy: 20
   npx: 20
-  model_name: LQFP-80_14x14mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-112_20x20mm_P0.65mm:
@@ -1083,8 +1030,7 @@ PQFP-112_20x20mm_P0.65mm:
   e: 0.65
   npy: 28
   npx: 28
-  model_name: PQFP-112_20x20mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-132_24x24mm_P0.635mm:
@@ -1104,8 +1050,7 @@ PQFP-132_24x24mm_P0.635mm:
   e: 0.64
   npy: 33
   npx: 33
-  model_name: PQFP-132_24x24mm_P0.635mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-132_24x24mm_P0.635mm_i386:
@@ -1125,8 +1070,7 @@ PQFP-132_24x24mm_P0.635mm_i386:
   e: 0.64
   npy: 33
   npx: 33
-  model_name: PQFP-132_24x24mm_P0.635mm_i386
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-144_28x28mm_P0.65mm:
@@ -1146,8 +1090,7 @@ PQFP-144_28x28mm_P0.65mm:
   e: 0.65
   npy: 36
   npx: 36
-  model_name: PQFP-144_28x28mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-160_28x28mm_P0.65mm:
@@ -1167,8 +1110,7 @@ PQFP-160_28x28mm_P0.65mm:
   e: 0.65
   npy: 40
   npx: 40
-  model_name: PQFP-160_28x28mm_P0.65mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-208_28x28mm_P0.5mm:
@@ -1188,8 +1130,7 @@ PQFP-208_28x28mm_P0.5mm:
   e: 0.5
   npy: 52
   npx: 52
-  model_name: PQFP-208_28x28mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-240_32.1x32.1mm_P0.5mm:
@@ -1209,8 +1150,7 @@ PQFP-240_32.1x32.1mm_P0.5mm:
   e: 0.5
   npy: 60
   npx: 60
-  model_name: PQFP-240_32.1x32.1mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 PQFP-44_10x10mm_P0.8mm:
@@ -1230,8 +1170,7 @@ PQFP-44_10x10mm_P0.8mm:
   e: 0.80
   npy: 11
   npx: 11
-  model_name: PQFP-44_10x10mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MS-022 variation AB, https://www.jedec.org/document_search?search_api_views_fulltext=MS-022, https://ww1.microchip.com/downloads/aemDocuments/documents/package-outline-drawings/c04-21291a.pdf'
 
 Microchip_PQFP-44_10x10mm_P0.8mm:
@@ -1251,8 +1190,7 @@ Microchip_PQFP-44_10x10mm_P0.8mm:
   e: 0.80
   npy: 11
   npx: 11
-  model_name: Microchip_PQFP-44_10x10mm_P0.8mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MO-112 variation AA-2, Microchip and Analog Devices, https://www.jedec.org/document_search?search_api_views_fulltext=MO-112, https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005418B.pdf#page=10, https://www.analog.com/media/en/technical-documentation/data-sheets/ad7722.pdf#page=23'
 
 MO112AC1_PQFP-52_10x10mm_P0.65mm:
@@ -1272,8 +1210,7 @@ MO112AC1_PQFP-52_10x10mm_P0.65mm:
   e: 0.65
   npy: 13
   npx: 13
-  model_name: MO112AC1_PQFP-52_10x10mm_P0.65mm # there's other footprint from MS-022 with same E1xD1 which is generated with same name, this is why we are using 'MO112AC1'
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'JEDEC MO-112 variation AC-1 (high standoff), https://www.jedec.org/document_search?search_api_views_fulltext=MO-112, https://www.analog.com/media/en/package-pcb-resources/package/32717196300961s_52_2.pdf'
 
 TQFP-176_24x24mm_P0.5mm:
@@ -1293,8 +1230,7 @@ TQFP-176_24x24mm_P0.5mm:
   e: 0.5
   npy: 44
   npx: 44
-  model_name: TQFP-176_24x24mm_P0.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-48-1EP_7x7mm_P0.5mm_EP5x5mm:
@@ -1315,8 +1251,7 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5x5mm:
   npy: 12
   npx: 12
   epad: [5.0, 5.0]
-  model_name: TQFP-48-1EP_7x7mm_P0.5mm_EP5x5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
@@ -1337,8 +1272,7 @@ TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
   npy: 13
   npx: 13
   epad: [6.5, 6.5]
-  model_name: TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 TQFP-80-1EP_14x14mm_P0.65mm_EP9.5x9.5mm:
@@ -1359,8 +1293,7 @@ TQFP-80-1EP_14x14mm_P0.65mm_EP9.5x9.5mm:
   npy: 20
   npx: 20
   epad: [9.5, 9.5]
-  model_name: TQFP-80-1EP_14x14mm_P0.65mm_EP9.5x9.5mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 VQFP-128_14x14mm_P0.4mm:
@@ -1380,8 +1313,7 @@ VQFP-128_14x14mm_P0.4mm:
   e: 0.4
   npy: 32
   npx: 32
-  model_name: VQFP-128_14x14mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 VQFP-176_20x20mm_P0.4mm:
@@ -1401,8 +1333,7 @@ VQFP-176_20x20mm_P0.4mm:
   e: 0.4
   npy: 44
   npx: 44
-  model_name: VQFP-176_20x20mm_P0.4mm
-  destination_dir: 'Package_QFP.3dshapes'
+  library: 'Package_QFP'
   source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
 SO-6L_10x3.84mm_P1.27mm:
@@ -1422,8 +1353,7 @@ SO-6L_10x3.84mm_P1.27mm:
   e: 1.27
   npy: 3
   npx: 0
-  model_name: SO-6L_10x3.84mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=53548&prodName=TLP2770'
 
 SO-5-6_4.55x3.7mm_P1.27mm:
@@ -1444,8 +1374,7 @@ SO-5-6_4.55x3.7mm_P1.27mm:
   npy: 3
   npx: 0
   excluded_pins: [2,]
-  model_name: SO-5-6_4.55x3.7mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://toshiba.semicon-storage.com/us/semiconductor/design-development/package/detail.5pin%20SO6.html'
 
 SO-20_12.8x7.5mm_P1.27mm:
@@ -1465,8 +1394,7 @@ SO-20_12.8x7.5mm_P1.27mm:
   e: 1.27
   npy: 10
   npx: 0
-  model_name: SO-20_12.8x7.5mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.nxp.com/docs/en/data-sheet/SA605.pdf'
 
 SOIC-8_3.9x4.9mm_P1.27mm:
@@ -1486,8 +1414,7 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SOIC-8_3.9x4.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/msoi002j/msoi002j.pdf'
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm:
@@ -1508,8 +1435,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm:
   npy: 4
   npx: 0
   epad: [2.29, 3]
-  model_name: SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_edrd/RD_8_1.pdf'
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
@@ -1530,8 +1456,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
   npy: 4
   npx: 0
   epad: [2.41, 3.81]
-  model_name: SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_edrd/RD_8_2.pdf'
 
 SOIC-8_7.5x5.85mm_P1.27mm:
@@ -1551,8 +1476,7 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SOIC-8_7.5x5.85mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.ti.com/lit/ml/mpds382b/mpds382b.pdf'
 
 SOIC-14_3.9x8.7mm_P1.27mm:
@@ -1572,8 +1496,7 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   e: 1.27
   npy: 7
   npx: 0
-  model_name: SOIC-14_3.9x8.7mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds177g/mpds177g.pdf'
 
 SOIC-14W_7.5x9mm_P1.27mm:
@@ -1593,8 +1516,7 @@ SOIC-14W_7.5x9mm_P1.27mm:
   e: 1.27
   npy: 7
   npx: 0
-  model_name: SOIC-14W_7.5x9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds386/mpds386.pdf'
 
 SOIC-16_3.9x9.9mm_P1.27mm:
@@ -1614,8 +1536,7 @@ SOIC-16_3.9x9.9mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SOIC-16_3.9x9.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds178g/mpds178g.pdf'
 
 SOIC-16W_7.5x10.3mm_P1.27mm:
@@ -1635,8 +1556,7 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SOIC-16W_7.5x10.3mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/msoi003g/msoi003g.pdf'
 
 SOIC-18W_7.5x11.6mm_P1.27mm:
@@ -1656,8 +1576,7 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   e: 1.27
   npy: 9
   npx: 0
-  model_name: SOIC-18W_7.5x11.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds172a/mpds172a.pdf'
 
 SOIC-20W_7.5x12.8mm_P1.27mm:
@@ -1677,8 +1596,7 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   e: 1.27
   npy: 10
   npx: 0
-  model_name: SOIC-20W_7.5x12.8mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds173b/mpds173b.pdf'
 
 SOIC-20W_7.5x15.4mm_P1.27mm:
@@ -1698,8 +1616,7 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   e: 1.27
   npy: 10
   npx: 0
-  model_name: SOIC-20W_7.5x15.4mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RI_20_1.pdf'
 
 SOIC-24W_7.5x15.4mm_P1.27mm:
@@ -1719,8 +1636,7 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   e: 1.27
   npy: 12
   npx: 0
-  model_name: SOIC-24W_7.5x15.4mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds173b/mpds173b.pdf'
 
 SOIC-28W_7.5x17.9mm_P1.27mm:
@@ -1740,8 +1656,7 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   e: 1.27
   npy: 14
   npx: 0
-  model_name: SOIC-28W_7.5x17.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds175a/mpds175a.pdf'
 
 ST_MultiPowerSO-30:
@@ -1761,8 +1676,7 @@ ST_MultiPowerSO-30:
   e: 1.0
   npy: 15
   npx: 0
-  model_name: ST_MultiPowerSO-30
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/vnh5019a-e.pdf'
 
 HSOP-36-1EP_11.0x15.9mm_P0.65mm_SlugUp:
@@ -1782,8 +1696,7 @@ HSOP-36-1EP_11.0x15.9mm_P0.65mm_SlugUp:
   e: 0.65
   npy: 18
   npx: 0
-  model_name: HSOP-36-1EP_11.0x15.9mm_P0.65mm_SlugUp
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/vn808cm-32-e.pdf, http://www.st.com/resource/en/application_note/cd00003801.pdf'
 
 HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
@@ -1804,8 +1717,7 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
   npy: 4
   npx: 0
   epad: [2.41, 3.1]
-  model_name: HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/l5973d.pdf'
 
 HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
@@ -1826,8 +1738,7 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
   npy: 4
   npx: 0
   epad: [2.4, 3.2]
-  model_name: HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://media.digikey.com/pdf/Data%20Sheets/Rohm%20PDFs/BD9G341EFJ.pdf'
 
 HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm:
@@ -1848,8 +1759,7 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm:
   npy: 8
   npx: 0
   epad: [2.51, 2.41]
-  model_name: HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/tlc2660.pdf#page=48'
 
 HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm:
@@ -1870,8 +1780,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm:
   npy: 10
   npx: 0
   epad: [3.4, 6.0]
-  model_name: HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3'
 
 HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm:
@@ -1892,8 +1801,7 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm:
   npy: 12
   npx: 0
   epad: [3.4, 7.3]
-  model_name: HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/tps703.pdf'
 
 HTSSOP-32-1EP_6.1x11mm_P0.65mm_EP5.2x11mm:
@@ -1914,8 +1822,7 @@ HTSSOP-32-1EP_6.1x11mm_P0.65mm_EP5.2x11mm:
   npy: 16
   npx: 0
   epad: [5.2, 10.5]
-  model_name: HTSSOP-32-1EP_6.1x11mm_P0.65mm_EP5.2x11mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'N/A'
 
 HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm:
@@ -1936,8 +1843,7 @@ HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm:
   npy: 19
   npx: 0
   epad: [5.2, 12.0]
-  model_name: HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/tlc5951.pdf#page=47&zoom=140,-67,15'
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm:
@@ -1959,8 +1865,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm:
   npy: 4
   npx: 0
   epad: [1.8, 1.5]
-  model_name: MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.diodes.com/assets/Package-Files/MSOP-8EP.pdf'
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
@@ -1982,8 +1887,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
   npy: 4
   npx: 0
   epad: [1.73, 1.85]
-  model_name: MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm25085.pdf#page=30'
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
@@ -2005,8 +1909,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   npy: 4
   npx: 0
   epad: [1.73, 2.36]
-  model_name: MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/mic5355_6.pdf#page=15'
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
@@ -2028,8 +1931,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
   npy: 4
   npx: 0
   epad: [1.73, 2.18] # the shape itself is a bit different than epad
-  model_name: MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/pm8834.pdf#page=18'
 
 PowerIntegrations_eSOP-12B:
@@ -2050,8 +1952,7 @@ PowerIntegrations_eSOP-12B:
   npy: 6
   npx: 0
   excluded_pins: [5]
-  model_name: PowerIntegrations_eSOP-12B
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://ac-dc.power.com/sites/default/files/product-docs/topswitch-jx_family_datasheet.pdf'
 
 PowerIntegrations_SO-8:
@@ -2071,8 +1972,7 @@ PowerIntegrations_SO-8:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: PowerIntegrations_SO-8
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://ac-dc.power.com/sites/default/files/product-docs/senzero_family_datasheet.pdf'
 
 PowerIntegrations_SO-8B:
@@ -2093,8 +1993,7 @@ PowerIntegrations_SO-8B:
   npy: 4
   npx: 0
   excluded_pins: [6]
-  model_name: PowerIntegrations_SO-8B
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.mouser.com/ds/2/328/linkswitch-pl_family_datasheet-12517.pdf'
 
 PowerIntegrations_SO-8C:
@@ -2115,8 +2014,7 @@ PowerIntegrations_SO-8C:
   npy: 4
   npx: 0
   excluded_pins: [3]
-  model_name: PowerIntegrations_SO-8C
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.mouser.com/ds/2/328/linkswitch-pl_family_datasheet-12517.pdf'
 
 QSOP-20_3.9x8.7mm_P0.635mm:
@@ -2136,8 +2034,7 @@ QSOP-20_3.9x8.7mm_P0.635mm:
   e: 0.64
   npy: 10
   npx: 0
-  model_name: QSOP-20_3.9x8.7mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM7640_7641_7642_7643.pdf'
 
 SO-4_4.4x2.3mm_P1.27mm:
@@ -2157,8 +2054,7 @@ SO-4_4.4x2.3mm_P1.27mm:
   e: 1.27
   npy: 2
   npx: 0
-  model_name: SO-4_4.4x2.3mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://datasheet.octopart.com/OPIA403BTRE-Optek-datasheet-5328560.pdf'
 
 SO-4_4.4x3.6mm_P2.54mm:
@@ -2178,8 +2074,7 @@ SO-4_4.4x3.6mm_P2.54mm:
   e: 2.54
   npy: 2
   npx: 0
-  model_name: SO-4_4.4x3.6mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.elpro.org/de/index.php?controller=attachment&id_attachment=339'
 
 SO-4_4.4x4.3mm_P2.54mm:
@@ -2199,8 +2094,7 @@ SO-4_4.4x4.3mm_P2.54mm:
   e: 2.54
   npy: 2
   npx: 0
-  model_name: SO-4_4.4x4.3mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/docs/AV02-0173EN'
 
 SO-4_7.6x3.6mm_P2.54mm:
@@ -2220,8 +2114,7 @@ SO-4_7.6x3.6mm_P2.54mm:
   e: 2.54
   npy: 2
   npx: 0
-  model_name: SO-4_7.6x3.6mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.everlight.com/file/ProductFile/201407061745083848.pdf'
 
 SOIC-5-6_4.4x3.6mm_P1.27mm:
@@ -2242,8 +2135,7 @@ SOIC-5-6_4.4x3.6mm_P1.27mm:
   npy: 3
   npx: 0
   excluded_pins: [2]
-  model_name: SOIC-5-6_4.4x3.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'JEDEC MO-155, variation AA, 2.50mm nominal body thickness, https://www.jedec.org/system/files/docs/Mo-155a.pdf'
 
 SO-6_4.4x3.6mm_P1.27mm:
@@ -2263,8 +2155,7 @@ SO-6_4.4x3.6mm_P1.27mm:
   e: 1.27
   npy: 3
   npx: 0
-  model_name: SO-6_4.4x3.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SO-8_3.9x4.9mm_P1.27mm:
@@ -2284,8 +2175,7 @@ SO-8_3.9x4.9mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SO-8_3.9x4.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.ti.com/lit/ds/symlink/thvd1400.pdf'
 
 SOIC-8_5.3x5.3mm_P1.27mm:
@@ -2305,8 +2195,7 @@ SOIC-8_5.3x5.3mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SOIC-8_5.3x5.3mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   # JEITA/EIAJ 08-001-BBA and Atmel/Microchip, 208 mils width:
   source: 'https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=21, https://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23, https://ww1.microchip.com/downloads/en/DeviceDoc/doc2535.pdf#page=162'
 
@@ -2328,8 +2217,7 @@ SOIC-8_5.3x6.2mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SOIC-8_5.3x6.2mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.ti.com.cn/cn/lit/ds/symlink/tl7705a.pdf#page=24, https://www.ti.com/lit/ml/msop001a/msop001a.pdf' # same packages, alternative links
 
 SOIC-16W-12_7.5x10.3mm_P1.27mm:
@@ -2350,8 +2238,7 @@ SOIC-16W-12_7.5x10.3mm_P1.27mm:
   npy: 8
   npx: 0
   excluded_pins: [4, 5, 12, 13]
-  model_name: SOIC-16W-12_7.5x10.3mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/docs/AV02-0169EN'
 
 SOIC-16W_5.3x10.2mm_P1.27mm:
@@ -2371,8 +2258,7 @@ SOIC-16W_5.3x10.2mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SOIC-16W_5.3x10.2mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/msop002a/msop002a.pdf'
 
 SOIC-16W_7.5x12.8mm_P1.27mm:
@@ -2392,8 +2278,7 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SOIC-16W_7.5x12.8mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM6000.PDF'
 
 SOIC-28W_7.5x18.7mm_P1.27mm:
@@ -2413,8 +2298,7 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   e: 1.27
   npy: 14
   npx: 0
-  model_name: SOIC-28W_7.5x18.7mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf'
 
 SOIC-8-N7_3.9x4.9mm_P1.27mm:
@@ -2435,8 +2319,7 @@ SOIC-8-N7_3.9x4.9mm_P1.27mm:
   npy: 4
   npx: 0
   excluded_pins: [7]
-  model_name: SOIC-8-N7_3.9x4.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/NCP1207B.PDF'
 
 SOJ-36_10.16x23.495mm_P1.27mm:
@@ -2456,8 +2339,7 @@ SOJ-36_10.16x23.495mm_P1.27mm:
   e: 1.27
   npy: 18
   npx: 0
-  model_name: SOJ-36_10.16x23.495mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.infineon.com/cms/en/product/packages/P-SOJ/P-SOJ-36-801/'
 
 SSO-6_6.8x4.6mm_P1.27mm_Clearance7mm:
@@ -2477,8 +2359,7 @@ SSO-6_6.8x4.6mm_P1.27mm_Clearance7mm:
   e: 1.27
   npy: 3
   npx: 0
-  model_name: SSO-6_6.8x4.6mm_P1.27mm_Clearance7mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-6_6.8x4.6mm_P1.27mm_Clearance8mm:
@@ -2498,8 +2379,7 @@ SSO-6_6.8x4.6mm_P1.27mm_Clearance8mm:
   e: 1.27
   npy: 3
   npx: 0
-  model_name: SSO-6_6.8x4.6mm_P1.27mm_Clearance8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-8_13.6x6.3mm_P1.27mm_Clearance14.2mm:
@@ -2519,8 +2399,7 @@ SSO-8_13.6x6.3mm_P1.27mm_Clearance14.2mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSO-8_13.6x6.3mm_P1.27mm_Clearance14.2mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-8_6.8x5.9mm_P1.27mm_Clearance7mm:
@@ -2540,8 +2419,7 @@ SSO-8_6.8x5.9mm_P1.27mm_Clearance7mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSO-8_6.8x5.9mm_P1.27mm_Clearance7mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-8_6.8x5.9mm_P1.27mm_Clearance8mm:
@@ -2561,8 +2439,7 @@ SSO-8_6.8x5.9mm_P1.27mm_Clearance8mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSO-8_6.8x5.9mm_P1.27mm_Clearance8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-8_9.6x6.3mm_P1.27mm_Clearance10.5mm:
@@ -2582,8 +2459,7 @@ SSO-8_9.6x6.3mm_P1.27mm_Clearance10.5mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSO-8_9.6x6.3mm_P1.27mm_Clearance10.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://docs.broadcom.com/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Type&blobheadername3=MDT-Type&blobheadervalue1=attachment%3Bfilename%3DIPD-Selection-Guide_AV00-0254EN_030617.pdf&blobheadervalue2=application%2Fx-download&blobheadervalue3=abinary%253B%2Bcharset%253DUTF-8&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1430884105675&ssbinary=true'
 
 SSO-8-7_6.4x9.7mm_P2.54mm:
@@ -2604,8 +2480,7 @@ SSO-8-7_6.4x9.7mm_P2.54mm:
   npy: 4
   npx: 0
   excluded_pins: [7]
-  model_name: SSO-8-7_6.4x9.7mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2312161855_BC-BC2213A_C596512.pdf'
 
 
@@ -2626,8 +2501,7 @@ SSOP-10_3.9x4.9mm_P1.00mm:
   e: 1.0
   npy: 5
   npx: 0
-  model_name: SSOP-10_3.9x4.9mm_P1.00mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/viper01.pdf'
 
 SSOP-10-1EP_3.9x4.9mm_P1mm_EP2.1x3.3mm:
@@ -2648,8 +2522,7 @@ SSOP-10-1EP_3.9x4.9mm_P1mm_EP2.1x3.3mm:
   npy: 5
   npx: 0
   epad: [2.1, 3.3]
-  model_name: SSOP-10-1EP_3.9x4.9mm_P1mm_EP2.1x3.3mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://download.py32.org/%E6%95%B0%E6%8D%AE%E6%89%8B%E5%86%8C/zh-CN/PY32F002A%20%E7%B3%BB%E5%88%97%E6%95%B0%E6%8D%AE%E6%89%8B%E5%86%8C_Rev1.0.pdf#page=44'
 
 SSOP-20_3.9x8.7mm_P0.635mm:
@@ -2669,8 +2542,7 @@ SSOP-20_3.9x8.7mm_P0.635mm:
   e: 0.64
   npy: 10
   npx: 0
-  model_name: SSOP-20_3.9x8.7mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT231X.pdf'
 
 SSOP-28_3.9x9.9mm_P0.635mm:
@@ -2690,8 +2562,7 @@ SSOP-28_3.9x9.9mm_P0.635mm:
   e: 0.64
   npy: 14
   npx: 0
-  model_name: SSOP-28_3.9x9.9mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/datasheet/38901fb.pdf'
 
 SSOP-44_5.3x12.8mm_P0.5mm:
@@ -2711,8 +2582,7 @@ SSOP-44_5.3x12.8mm_P0.5mm:
   e: 0.5
   npy: 22
   npx: 0
-  model_name: SSOP-44_5.3x12.8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/datasheet/680313fa.pdf'
 
 SSOP-8_3.9x5.05mm_P1.27mm:
@@ -2732,8 +2602,7 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSOP-8_3.9x5.05mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
 
 PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
@@ -2753,8 +2622,7 @@ PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
   e: 0.5
   npy: 8
   npx: 0
-  model_name: PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/vnd7020aj.pdf'
 
 ST_PowerSSO-24_SlugDown:
@@ -2774,8 +2642,7 @@ ST_PowerSSO-24_SlugDown:
   e: 0.8
   npy: 12
   npx: 0
-  model_name: ST_PowerSSO-24_SlugDown
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/vnh2sp30-e.pdf'
 
 ST_PowerSSO-24_SlugUp:
@@ -2795,8 +2662,7 @@ ST_PowerSSO-24_SlugUp:
   e: 0.8
   npy: 12
   npx: 0
-  model_name: ST_PowerSSO-24_SlugUp
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/tda7266p.pdf, http://freedatasheets.com/downloads/Technical%20Note%20Powersso24%20TN0054.pdf'
 
 ST_PowerSSO-36_SlugDown:
@@ -2816,8 +2682,7 @@ ST_PowerSSO-36_SlugDown:
   e: 0.5
   npy: 18
   npx: 0
-  model_name: ST_PowerSSO-36_SlugDown
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/tda7266p.pdf, http://freedatasheets.com/downloads/Technical%20Note%20Powersso24%20TN0054.pdf'
 
 ST_PowerSSO-36_SlugUp:
@@ -2837,8 +2702,7 @@ ST_PowerSSO-36_SlugUp:
   e: 0.5
   npy: 18
   npx: 0
-  model_name: ST_PowerSSO-36_SlugUp
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/tda7492p.pdf, http://freedatasheets.com/downloads/Technical%20Note%20Powersso24%20TN0054.pdf'
 
 HTSOP-8-1EP_3.9x4.9mm_P1.27mm:
@@ -2858,8 +2722,7 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: HTSOP-8-1EP_3.9x4.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.st.com/resource/en/datasheet/tda7492p.pdf, http://freedatasheets.com/downloads/Technical%20Note%20Powersso24%20TN0054.pdf'
 
 Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias:
@@ -2879,8 +2742,7 @@ Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/tps5430.pdf'
 
 Texas_PWP0020A:
@@ -2900,8 +2762,7 @@ Texas_PWP0020A:
   e: 0.65
   npy: 10
   npx: 0
-  model_name: Texas_PWP0020A
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/drv8870.pdf'
 
 TI_SO-PowerPAD-8:
@@ -2921,8 +2782,7 @@ TI_SO-PowerPAD-8:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: TI_SO-PowerPAD-8
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm5118.pdf'
 
 TSOP-5_1.65x3.05mm_P0.95mm:
@@ -2943,8 +2803,7 @@ TSOP-5_1.65x3.05mm_P0.95mm:
   npy: 3
   npx: 0
   excluded_pins: [5]
-  model_name: TSOP-5_1.65x3.05mm_P0.95mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm3404.pdf'
 
 TSOP-6_1.65x3.05mm_P0.95mm:
@@ -2964,8 +2823,7 @@ TSOP-6_1.65x3.05mm_P0.95mm:
   e: 0.95
   npy: 3
   npx: 0
-  model_name: TSOP-6_1.65x3.05mm_P0.95mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.vishay.com/docs/71200/71200.pdf'
 
 TSOP-I-28_11.8x8mm_P0.55mm:
@@ -2985,8 +2843,7 @@ TSOP-I-28_11.8x8mm_P0.55mm:
   e: 0.55
   npy: 14
   npx: 0
-  model_name: TSOP-I-28_11.8x8mm_P0.55mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.vishay.com/docs/71200/71200.pdf'
 
 TSOP-I-32_11.8x8mm_P0.5mm:
@@ -3006,8 +2863,7 @@ TSOP-I-32_11.8x8mm_P0.5mm:
   e: 0.5
   npy: 16
   npx: 0
-  model_name: TSOP-I-32_11.8x8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://ww1.microchip.com/downloads/en/devicedoc/doc0807.pdf'
 
 TSOP-I-32_18.4x8mm_P0.5mm:
@@ -3027,8 +2883,7 @@ TSOP-I-32_18.4x8mm_P0.5mm:
   e: 0.5
   npy: 16
   npx: 0
-  model_name: TSOP-I-32_18.4x8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
 
 TSOP-I-48_18.4x12mm_P0.5mm:
@@ -3048,8 +2903,7 @@ TSOP-I-48_18.4x12mm_P0.5mm:
   e: 0.5
   npy: 24
   npx: 0
-  model_name: TSOP-I-48_18.4x12mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.micron.com/~/media/documents/products/technical-note/nor-flash/tn1225_land_pad_design.pdf, http://www.fujitsu.com/downloads/MICRO/fma/pdfmcu/f32pm25.pdf'
 
 TSOP-I-56_18.4x14mm_P0.5mm:
@@ -3069,8 +2923,7 @@ TSOP-I-56_18.4x14mm_P0.5mm:
   e: 0.5
   npy: 28
   npx: 0
-  model_name: TSOP-I-56_18.4x14mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.micron.com/~/media/documents/products/technical-note/nor-flash/tn1225_land_pad_design.pdf'
 
 TSOP-II-44_10.16x18.41mm_P0.8mm:
@@ -3090,8 +2943,7 @@ TSOP-II-44_10.16x18.41mm_P0.8mm:
   e: 0.8
   npy: 22
   npx: 0
-  model_name: TSOP-II-44_10.16x18.41mm_P0.8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.micron.com/~/media/documents/products/technical-note/nor-flash/tn1225_land_pad_design.pdf'
 
 TSOP-II-54_22.2x10.16mm_P0.8mm:
@@ -3111,8 +2963,7 @@ TSOP-II-54_22.2x10.16mm_P0.8mm:
   e: 0.8
   npy: 27
   npx: 0
-  model_name: TSOP-II-54_22.2x10.16mm_P0.8mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
 
 TSSOP-14-1EP_4.4x5mm_P0.65mm:
@@ -3132,8 +2983,7 @@ TSSOP-14-1EP_4.4x5mm_P0.65mm:
   e: 0.65
   npy: 7
   npx: 0
-  model_name: TSSOP-14-1EP_4.4x5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'N/A'
 
 TSSOP-28_4.4x9.7mm_P0.65mm:
@@ -3153,8 +3003,7 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   e: 0.65
   npy: 14
   npx: 0
-  model_name: TSSOP-28_4.4x9.7mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot361-1_po.pdf'
 
 TSSOP-30_4.4x7.8mm_P0.5mm:
@@ -3174,8 +3023,7 @@ TSSOP-30_4.4x7.8mm_P0.5mm:
   e: 0.5
   npy: 15
   npx: 0
-  model_name: TSSOP-30_4.4x7.8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/bq78350.pdf'
 
 TSSOP-38_6.1x12.5mm_P0.65mm:
@@ -3195,8 +3043,7 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
   e: 0.65
   npy: 19
   npx: 0
-  model_name: TSSOP-38_6.1x12.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/msp430g2744.pdf'
 
 SO-14_3.9x8.65mm_P1.27mm:
@@ -3217,8 +3064,7 @@ SO-14_3.9x8.65mm_P1.27mm:
   npy: 7
   npx: 0
   old_model_name: SO-14_3.9x8.65mm_P1.27mm
-  model_name: SO-14_3.9x8.65mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/l6491.pdf'
 
 SO-16_3.9x9.9mm_P1.27mm:
@@ -3239,8 +3085,7 @@ SO-16_3.9x9.9mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SO-16_3.9x9.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.nxp.com/docs/en/package-information/SOT109-1.pdf'
 
 Analog_KS-4:
@@ -3261,8 +3106,7 @@ Analog_KS-4:
   npy: 16
   npx: 0
   excluded_pins: [4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-  model_name: Analog_KS-4
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/sc70ks/ks_4.pdf'
 
 SC-59:
@@ -3284,8 +3128,7 @@ SC-59:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SC-59
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.infineon.com/dgdl/SC59-Package_Overview.pdf?fileId=5546d462580663ef0158069ca21703c1'
 
 SC-70-8:
@@ -3305,8 +3148,7 @@ SC-70-8:
   e: 0.5
   npy: 4
   npx: 0
-  model_name: SC-70-8
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://cds.linear.com/docs/en/packaging/SOT_8_05-08-1639.pdf'
 
 SC-74:
@@ -3327,8 +3169,7 @@ SC-74:
   e: 0.95
   npy: 3
   npx: 0
-  model_name: SC-74-6_1.55x2.9mm_P0.95mm
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf' # EIAJ ED-7500A, pp 152
 
 SC-74A:
@@ -3350,8 +3191,7 @@ SC-74A:
   npy: 3
   npx: 0
   excluded_pins: [5,]
-  model_name: SC-74A-5_1.55x2.9mm_P0.95mm
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf' # EIAJ ED-7500A, pp 153
 
 SOT-23:
@@ -3373,8 +3213,7 @@ SOT-23:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SOT-23
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
 
 SOT-23-3:
@@ -3397,8 +3236,7 @@ SOT-23-3:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SOT-23-3
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
 
 
@@ -3421,8 +3259,7 @@ SOT-23W:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SOT-23W
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.allegromicro.com/~/media/Files/Datasheets/A112x-Datasheet.ashx?la=en&hash=7BC461E058CC246E0BAB62433B2F1ECA104CA9D3'
 
 SOT-23-5:
@@ -3444,8 +3281,7 @@ SOT-23-5:
   npy: 3
   npx: 0
   excluded_pins: [5,]
-  model_name: SOT-23-5
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
 
 SOT-23-6:
@@ -3465,8 +3301,7 @@ SOT-23-6:
   e: 0.95
   npy: 3
   npx: 0
-  model_name: SOT-23-6
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
 
 SOT-23-8:
@@ -3486,8 +3321,7 @@ SOT-23-8:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: SOT-23-8
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds099c/mpds099c.pdf'
 
 SOT-143:
@@ -3509,8 +3343,7 @@ SOT-143:
   npy: 6
   npx: 0
   excluded_pins: [3, 4, 5, 8, 9, 10, 11]
-  model_name: SOT-143
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://www.nxp.com/docs/en/data-sheet/BFU530.pdf'
 
 SOT-143R:
@@ -3532,9 +3365,8 @@ SOT-143R:
   npy: 0
   npx: 6
   excluded_pins: [2, 3, 4, 5, 8, 9, 10]
-  model_name: SOT-143R
   rotation: 0
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://www.nxp.com/docs/en/package-information/SOT143R.pdf'
 
 SOT-223:
@@ -3556,8 +3388,7 @@ SOT-223:
   npy: 7
   npx: 0
   excluded_pins: [2, 3, 5, 6, 8, 9, 13, 14]
-  model_name: SOT-223
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT223.pdf'
 
 SOT-323_SC-70:
@@ -3580,8 +3411,7 @@ SOT-323_SC-70:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SOT-323_SC-70
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
 
 SOT-343_SC-70-4:
@@ -3603,8 +3433,7 @@ SOT-343_SC-70-4:
   npy: 3
   npx: 0
   excluded_pins: [2, 5]
-  model_name: SOT-343_SC-70-4
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
 
 SOT-353_SC-70-5:
@@ -3627,8 +3456,7 @@ SOT-353_SC-70-5:
   npy: 3
   npx: 0
   excluded_pins: [5,]
-  model_name: SOT-353_SC-70-5
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
 
 SOT-363_SC-70-6:
@@ -3649,8 +3477,7 @@ SOT-363_SC-70-6:
   e: 0.65
   npy: 3
   npx: 0
-  model_name: SOT-363_SC-70-6
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
 
 TSOT-23:
@@ -3672,8 +3499,7 @@ TSOT-23:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: TSOT-23
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://cds.linear.com/docs/en/packaging/SOT_6_05-08-1636.pdf'
 
 TSOT-23-5:
@@ -3695,8 +3521,7 @@ TSOT-23-5:
   npy: 3
   npx: 0
   excluded_pins: [5,]
-  model_name: TSOT-23-5
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://cds.linear.com/docs/en/packaging/SOT_6_05-08-1636.pdf'
 
 TSOT-23-6:
@@ -3716,8 +3541,7 @@ TSOT-23-6:
   e: 0.95
   npy: 3
   npx: 0
-  model_name: TSOT-23-6
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://cds.linear.com/docs/en/packaging/SOT_6_05-08-1636.pdf'
 
 TSOT-23-8:
@@ -3737,8 +3561,7 @@ TSOT-23-8:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: TSOT-23-8
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://cds.linear.com/docs/en/packaging/SOT_8_05-08-1637.pdf'
 
 SC-82AA:
@@ -3759,8 +3582,7 @@ SC-82AA:
   npy: 17
   npx: 0
   excluded_pins: [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 18, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 34]
-  model_name: SC-82AA
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://media.digikey.com/pdf/Data%20Sheets/Rohm%20PDFs/da227.pdf'
 
 SC-82AB:
@@ -3781,8 +3603,7 @@ SC-82AB:
   npy: 16
   npx: 0
   excluded_pins: [4, 5, 6, 7, 8, 9, 10, 11, 12, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-  model_name: SC-82AB
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.infineon.com/dgdl/SOT343-Package_Overview.pdf?fileId=5546d462580663ef015806a5338d04ef'
 
 SuperSOT-3:
@@ -3804,8 +3625,7 @@ SuperSOT-3:
   npy: 3
   npx: 0
   excluded_pins: [2, 4, 6]
-  model_name: SuperSOT-3
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://www.fairchildsemi.com/package-drawings/MA/MA03B.pdf'
 
 SuperSOT-6:
@@ -3825,8 +3645,7 @@ SuperSOT-6:
   e: 0.95
   npy: 3
   npx: 0
-  model_name: SuperSOT-6
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.mouser.com/ds/2/149/FMB5551-889214.pdf'
 
 SuperSOT-8:
@@ -3846,8 +3665,7 @@ SuperSOT-8:
   e: 0.95
   npy: 4
   npx: 0
-  model_name: SuperSOT-8
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'http://www.icbank.com/icbank_data/semi_package/ssot8_dim.pdf'
 
 SOT-223-8:
@@ -3867,8 +3685,7 @@ SOT-223-8:
   e: 1.53
   npy: 4
   npx: 0
-  model_name: SOT-223-8
-  destination_dir: 'Package_TO_SOT_SMD.3dshapes'
+  library: 'Package_TO_SOT_SMD'
   source: 'https://www.diodes.com/assets/Datasheets/ZXSBMR16PT8.pdf'
 
 ETSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3x4.2mm:
@@ -3889,8 +3706,7 @@ ETSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3x4.2mm:
   npy: 10
   npx: 0
   epad: [3.0, 4.2]
-  model_name: ETSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3x4.2mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm5005.pdf'
 
 Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm:
@@ -3911,8 +3727,7 @@ Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm:
   npy: 7
   npx: 0
   epad: [3.1, 3.0] # needs update, [3.13, 3.23]
-  model_name: Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm5161.pdf#page=34' # https://www.ti.com/lit/ml/pptd287a/pptd287a.pdf
 
 HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm:
@@ -3933,8 +3748,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm:
   npy: 10
   npx: 0
   epad: [3.4, 6.6]
-  model_name: HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mhts001g/mhts001g.pdf'
 
 HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.5mm:
@@ -3955,8 +3769,7 @@ HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.5mm:
   npy: 14
   npx: 0
   epad: [3.4, 9.5]
-  model_name: HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds033b/mpds033b.pdf'
 
 Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm:
@@ -3977,8 +3790,7 @@ Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm:
   npy: 3
   npx: 0
   excluded_pins: [2, 5]
-  model_name: Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://toshiba.semicon-storage.com/ap-en/design-support/package/detail.4pin%20MFSOP6.html'
 
 Toshiba_SOIC-5-6_4.4x3.6mm_P1.27mm:
@@ -3999,8 +3811,7 @@ Toshiba_SOIC-5-6_4.4x3.6mm_P1.27mm:
   npy: 3
   npx: 0
   excluded_pins: [2]
-  model_name: Toshiba_SOIC-5-6_4.4x3.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://toshiba.semicon-storage.com/ap-en/design-support/package/detail.5pin%20MFSOP6.html'
 
 MSOP-8_3x3mm_P0.65mm:
@@ -4020,8 +3831,7 @@ MSOP-8_3x3mm_P0.65mm:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: MSOP-8_3x3mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081660_G_MS8.pdf'
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
@@ -4043,8 +3853,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   npy: 4
   npx: 0
   epad: [1.68, 1.88]
-  model_name: MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-msop/05081662_k_ms8e.pdf'
 
 MSOP-10_3x3mm_P0.5mm:
@@ -4064,8 +3873,7 @@ MSOP-10_3x3mm_P0.5mm:
   e: 0.5
   npy: 5
   npx: 0
-  model_name: MSOP-10_3x3mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081661_F_MS.pdf'
 
 MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
@@ -4086,8 +3894,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
   npy: 5
   npx: 0
   epad: [1.68, 1.88]
-  model_name: MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081664_I_MSE.pdf'
 
 MSOP-12_3x4.039mm_P0.65mm:
@@ -4107,8 +3914,7 @@ MSOP-12_3x4.039mm_P0.65mm:
   e: 0.65
   npy: 6
   npx: 0
-  model_name: MSOP-12_3x4.039mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081668_A_MS12.pdf'
 
 MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
@@ -4129,8 +3935,7 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
   npy: 6
   npx: 0
   epad: [1.651, 2.845]
-  model_name: MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081666_G_MSE12.pdf'
 
 MSOP-16_3x4.039mm_P0.5mm:
@@ -4150,8 +3955,7 @@ MSOP-16_3x4.039mm_P0.5mm:
   e: 0.5
   npy: 8
   npx: 0
-  model_name: MSOP-16_3x4.039mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081669_A_MS16.pdf'
 
 MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
@@ -4172,8 +3976,7 @@ MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   npy: 8
   npx: 0
   epad: [1.651, 2.845]
-  model_name: MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081667_F_MSE16.pdf'
 
 Analog_MSOP-12-16_3x4.039mm_P0.5mm:
@@ -4194,8 +3997,7 @@ Analog_MSOP-12-16_3x4.039mm_P0.5mm:
   npy: 8
   npx: 0
   excluded_pins: [2, 4, 13, 15]
-  model_name: Analog_MSOP-12-16_3x4.039mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-msop/05081847_b_ms16(12).pdf'
 
 Analog_MSOP-12-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
@@ -4217,8 +4019,7 @@ Analog_MSOP-12-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   npx: 0
   epad: [1.651, 2.845]
   excluded_pins: [2, 4, 13, 15]
-  model_name: Analog_MSOP-12-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-msop/05081871_d_mse16(12).pdf'
 
 OnSemi_Micro8:
@@ -4238,8 +4039,7 @@ OnSemi_Micro8:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: OnSemi_Micro8
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.onsemi.com/pub/Collateral/846A-02.PDF'
 
 PSOP-44_16.9x27.17mm_P1.27mm:
@@ -4259,8 +4059,7 @@ PSOP-44_16.9x27.17mm_P1.27mm:
   e: 1.27
   npy: 22
   npx: 0
-  model_name: PSOP-44_16.9x27.17mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://pdf.datasheetcatalog.com/datasheet/macronix/MX29F800TMI-90.pdf'
 
 QSOP-16_3.9x4.9mm_P0.635mm:
@@ -4280,8 +4079,7 @@ QSOP-16_3.9x4.9mm_P0.635mm:
   e: 0.635
   npy: 8
   npx: 0
-  model_name: QSOP-16_3.9x4.9mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/492-01.PDF'
 
 QSOP-24_3.9x8.7mm_P0.635mm:
@@ -4301,8 +4099,7 @@ QSOP-24_3.9x8.7mm_P0.635mm:
   e: 0.635
   npy: 12
   npx: 0
-  model_name: QSOP-24_3.9x8.7mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/492B-01.PDF'
 
 SOP-4_4.4x2.6mm_P1.27mm:
@@ -4322,8 +4119,7 @@ SOP-4_4.4x2.6mm_P1.27mm:
   e: 1.27
   npy: 2
   npx: 0
-  model_name: SOP-4_4.4x2.6mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.vishay.com/docs/83510/tcmt1100.pdf#page=7'
 
 JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
@@ -4343,8 +4139,7 @@ JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: JEITA_SOIC-16_3.9x9.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   # PENDING, source needs to change: 'JEITA/EIAJ ED-7311-19, variation 16-001-ABA, https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=31'
   source: 'https://www.diodes.com/assets/Package-Files/SO-16.pdf'
 
@@ -4365,8 +4160,7 @@ SOP-16_4.4x10.4mm_P1.27mm:
   e: 1.27
   npy: 8
   npx: 0
-  model_name: SOP-16_4.4x10.4mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.vishay.com/docs/49447/49447.pdf'
 
 SSOP-8_2.95x2.8mm_P0.65mm:
@@ -4386,8 +4180,7 @@ SSOP-8_2.95x2.8mm_P0.65mm:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: SSOP-8_2.95x2.8mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds049b/mpds049b.pdf'
 
 SSOP-8_3.9x5.05mm_P1.27mm:
@@ -4407,8 +4200,7 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSOP-8_3.9x5.05mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
 
 SSOP-8_3.95x5.21x3.27mm_P1.27mm:
@@ -4428,8 +4220,7 @@ SSOP-8_3.95x5.21x3.27mm_P1.27mm:
   e: 1.27
   npy: 4
   npx: 0
-  model_name: SSOP-8_3.95x5.21x3.27mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds049b/mpds049b.pdf'
 
 SSOP-14_5.3x6.2mm_P0.65mm:
@@ -4449,8 +4240,7 @@ SSOP-14_5.3x6.2mm_P0.65mm:
   e: 0.65
   npy: 7
   npx: 0
-  model_name: SSOP-14_5.3x6.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/msso002e/msso002e.pdf'
 
 SSOP-16_3.9x4.9mm_P0.635mm:
@@ -4470,8 +4260,7 @@ SSOP-16_3.9x4.9mm_P0.635mm:
   e: 0.635
   npy: 8
   npx: 0
-  model_name: SSOP-16_3.9x4.9mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://docs-asia.electrocomponents.com/webdocs/0156/0900766b80156779.pdf'
 
 SSOP-16_4.4x5.2mm_P0.65mm:
@@ -4491,8 +4280,7 @@ SSOP-16_4.4x5.2mm_P0.65mm:
   e: 0.65
   npy: 8
   npx: 0
-  model_name: SSOP-16_4.4x5.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/565AM.PDF'
 
 SSOP-16_5.3x6.2mm_P0.65mm:
@@ -4512,8 +4300,7 @@ SSOP-16_5.3x6.2mm_P0.65mm:
   e: 0.65
   npy: 8
   npx: 0
-  model_name: SSOP-16_5.3x6.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds507/mpds507.pdf'
 
 SSOP-18_4.4x6.5mm_P0.65mm:
@@ -4533,8 +4320,7 @@ SSOP-18_4.4x6.5mm_P0.65mm:
   e: 0.65
   npy: 9
   npx: 0
-  model_name: SSOP-18_4.4x6.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://toshiba.semicon-storage.com/us/design-support/package/detail.SSOP18-P-225-0.65.html'
 
 SSOP-20_4.4x6.5mm_P0.65mm:
@@ -4554,8 +4340,7 @@ SSOP-20_4.4x6.5mm_P0.65mm:
   e: 0.65
   npy: 10
   npx: 0
-  model_name: SSOP-20_4.4x6.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/565AM.PDF'
 
 SSOP-20_5.3x7.2mm_P0.65mm:
@@ -4575,8 +4360,7 @@ SSOP-20_5.3x7.2mm_P0.65mm:
   e: 0.65
   npy: 10
   npx: 0
-  model_name: SSOP-20_5.3x7.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds508/mpds508.pdf'
 
 SSOP-24_3.9x8.7mm_P0.635mm:
@@ -4596,8 +4380,7 @@ SSOP-24_3.9x8.7mm_P0.635mm:
   e: 0.635
   npy: 12
   npx: 0
-  model_name: SSOP-24_3.9x8.7mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/packaging/05081641_B_GN24.pdf'
 
 SSOP-24_5.3x8.2mm_P0.65mm:
@@ -4617,8 +4400,7 @@ SSOP-24_5.3x8.2mm_P0.65mm:
   e: 0.65
   npy: 12
   npx: 0
-  model_name: SSOP-24_5.3x8.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds509/mpds509.pdf'
 
 SSOP-28_5.3x10.2mm_P0.65mm:
@@ -4638,8 +4420,7 @@ SSOP-28_5.3x10.2mm_P0.65mm:
   e: 0.65
   npy: 14
   npx: 0
-  model_name: SSOP-28_5.3x10.2mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds509/mpds509.pdf'
 
 SSOP-48_7.5x15.9mm_P0.635mm:
@@ -4659,8 +4440,7 @@ SSOP-48_7.5x15.9mm_P0.635mm:
   e: 0.635
   npy: 24
   npx: 0
-  model_name: SSOP-48_7.5x15.9mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds490/mpds490.pdf'
 
 SSOP-56_7.5x18.5mm_P0.635mm:
@@ -4680,8 +4460,7 @@ SSOP-56_7.5x18.5mm_P0.635mm:
   e: 0.635
   npy: 28
   npx: 0
-  model_name: SSOP-56_7.5x18.5mm_P0.635mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds491/mpds491.pdf'
 
 TSOP-II-32_21.0x10.2mm_P1.27mm:
@@ -4701,8 +4480,7 @@ TSOP-II-32_21.0x10.2mm_P1.27mm:
   e: 1.27
   npy: 16
   npx: 0
-  model_name: TSOP-II-32_21.0x10.2mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.topline.tv/drawings/pdf/TSOP-T2/TSOP32T50-T2.pdf'
 
 TSSOP-8_3x3mm_P0.65mm:
@@ -4722,8 +4500,7 @@ TSSOP-8_3x3mm_P0.65mm:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: TSSOP-8_3x3mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT505-1.pdf'
 
 TSSOP-8_4.4x3mm_P0.65mm:
@@ -4743,8 +4520,7 @@ TSSOP-8_4.4x3mm_P0.65mm:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: TSSOP-8_4.4x3mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT530-1.pdf'
 
 TSSOP-10_3x3mm_P0.5mm:
@@ -4764,8 +4540,7 @@ TSSOP-10_3x3mm_P0.5mm:
   e: 0.5
   npy: 5
   npx: 0
-  model_name: TSSOP-10_3x3mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT552-1.pdf'
 
 TSSOP-14_4.4x5mm_P0.65mm:
@@ -4785,8 +4560,7 @@ TSSOP-14_4.4x5mm_P0.65mm:
   e: 0.65
   npy: 7
   npx: 0
-  model_name: TSSOP-14_4.4x5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT402-1.pdf'
 
 TSSOP-16_4.4x5mm_P0.65mm:
@@ -4806,8 +4580,7 @@ TSSOP-16_4.4x5mm_P0.65mm:
   e: 0.65
   npy: 8
   npx: 0
-  model_name: TSSOP-16_4.4x5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT403-3.pdf'
 
 TSSOP-16-1EP_4.4x5mm_P0.65mm:
@@ -4828,8 +4601,7 @@ TSSOP-16-1EP_4.4x5mm_P0.65mm:
   npy: 8
   npx: 0
   epad: [2.74, 2.74]
-  model_name: TSSOP-16-1EP_4.4x5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/948AP.PDF'
 
 TSSOP-20_4.4x6.5mm_P0.65mm:
@@ -4849,8 +4621,7 @@ TSSOP-20_4.4x6.5mm_P0.65mm:
   e: 0.65
   npy: 10
   npx: 0
-  model_name: TSSOP-20_4.4x6.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.onsemi.com/pub/Collateral/948AP.PDF'
 
 TSSOP-24_4.4x7.8mm_P0.65mm:
@@ -4870,8 +4641,7 @@ TSSOP-24_4.4x7.8mm_P0.65mm:
   e: 0.65
   npy: 12
   npx: 0
-  model_name: TSSOP-24_4.4x7.8mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT355-1.pdf'
 
 TSSOP-28_4.4x9.7mm_P0.65mm:
@@ -4891,8 +4661,7 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   e: 0.65
   npy: 14
   npx: 0
-  model_name: TSSOP-28_4.4x9.7mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT361-2.pdf'
 
 TSSOP-32_6.1x11mm_P0.65mm:
@@ -4912,8 +4681,7 @@ TSSOP-32_6.1x11mm_P0.65mm:
   e: 0.65
   npy: 16
   npx: 0
-  model_name: TSSOP-32_6.1x11mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT361-2.pdf'
 
 TSSOP-38_4.4x9.7mm_P0.5mm:
@@ -4933,8 +4701,7 @@ TSSOP-38_4.4x9.7mm_P0.5mm:
   e: 0.5
   npy: 19
   npx: 0
-  model_name: TSSOP-38_4.4x9.7mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT510-1.pdf'
 
 TSSOP-44_4.4x11.2mm_P0.5mm:
@@ -4954,8 +4721,7 @@ TSSOP-44_4.4x11.2mm_P0.5mm:
   e: 0.5
   npy: 22
   npx: 0
-  model_name: TSSOP-44_4.4x11.2mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds350b/mpds350b.pdf'
 
 TSSOP-48_6.1x12.5mm_P0.5mm:
@@ -4975,8 +4741,7 @@ TSSOP-48_6.1x12.5mm_P0.5mm:
   e: 0.5
   npy: 24
   npx: 0
-  model_name: TSSOP-48_6.1x12.5mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ml/mpds350b/mpds350b.pdf'
 
 TSSOP-56_6.1x14mm_P0.5mm:
@@ -4996,8 +4761,7 @@ TSSOP-56_6.1x14mm_P0.5mm:
   e: 0.5
   npy: 28
   npx: 0
-  model_name: TSSOP-56_6.1x14mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT364-1.pdf'
 
 VSO-40_7.6x15.4mm_P0.762mm:
@@ -5017,8 +4781,7 @@ VSO-40_7.6x15.4mm_P0.762mm:
   e: 0.762
   npy: 20
   npx: 0
-  model_name: VSO-40_7.6x15.4mm_P0.762mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT158-1.pdf'
 
 VSO-56_11.1x21.5mm_P0.75mm:
@@ -5038,8 +4801,7 @@ VSO-56_11.1x21.5mm_P0.75mm:
   e: 0.75
   npy: 28
   npx: 0
-  model_name: VSO-56_11.1x21.5mm_P0.75mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT190-1.pdf'
 
 VSSOP-8_3x3mm_P0.65mm:
@@ -5059,8 +4821,7 @@ VSSOP-8_3x3mm_P0.65mm:
   e: 0.65
   npy: 4
   npx: 0
-  model_name: VSSOP-8_3x3mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/lm75b.pdf'
 
 VSSOP-8_2.3x2mm_P0.5mm:
@@ -5080,8 +4841,7 @@ VSSOP-8_2.3x2mm_P0.5mm:
   e: 0.5
   npy: 4
   npx: 0
-  model_name: VSSOP-8_2.3x2mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.nxp.com/documents/outline_drawing/SOT765-1.pdf'
 
 VSSOP-10_3x3mm_P0.5mm:
@@ -5101,8 +4861,7 @@ VSSOP-10_3x3mm_P0.5mm:
   e: 0.5
   npy: 5
   npx: 0
-  model_name: VSSOP-10_3x3mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/ads1115.pdf'
 
 SOP-4_3.8x4.1mm_P2.54mm:
@@ -5122,8 +4881,7 @@ SOP-4_3.8x4.1mm_P2.54mm:
   e: 2.54
   npy: 2
   npx: 0
-  model_name: SOP-4_3.8x4.1mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.littelfuse.com/assetdocs/littelfuse-integrated-circuits-cpc1017n-datasheet?assetguid=b4f177f1-629f-4104-97a5-8b8d709e83de'
 
 SOP-8_6.605x9.655mm_P2.54mm:
@@ -5143,8 +4901,7 @@ SOP-8_6.605x9.655mm_P2.54mm:
   e: 2.54
   npy: 4
   npx: 0
-  model_name: SOP-8_6.605x9.655mm_P2.54mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.onsemi.com/pdf/datasheet/hcpl2631m-d.pdf'
 
 JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
@@ -5165,8 +4922,7 @@ JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
   e: 1.27 # pin (center-to-center) distance
   npy: 4 # number of pins along X axis (width)
   npx: 0 # number of pins along y axis (length)  # e Pad # no pin excluded
-  model_name: JEITA_SOIC-8_3.9x4.9mm_P1.27mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=21, 08-001-ADB, https://www.macronix.com/Lists/Datasheet/Attachments/8755/MX25R3235F,%20Wide%20Range,%2032Mb,%20v1.8.pdf'
 
 HTSSOP-56-1EP_6.1x14mm_P0.5mm_EP3.61x6.35mm:
@@ -5187,8 +4943,7 @@ HTSSOP-56-1EP_6.1x14mm_P0.5mm_EP3.61x6.35mm:
   npy: 28
   npx: 0
   epad: [3.61, 6.35]
-  model_name: HTSSOP-56-1EP_6.1x14mm_P0.5mm_EP3.61x6.35mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'http://www.ti.com/lit/ds/symlink/drv8301.pdf'
 
 TSSOP-30_6.1x9.7mm_P0.65mm:
@@ -5208,8 +4963,7 @@ TSSOP-30_6.1x9.7mm_P0.65mm:
   e: 0.65
   npy: 15
   npx: 0
-  model_name: TSSOP-30_6.1x9.7mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-44_4.4x11mm_P0.5mm:
@@ -5229,8 +4983,7 @@ TSSOP-44_4.4x11mm_P0.5mm:
   e: 0.5
   npy: 22
   npx: 0
-  model_name: TSSOP-44_4.4x11mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-40_8x14mm_P0.65mm:
@@ -5250,8 +5003,7 @@ TSSOP-40_8x14mm_P0.65mm:
   e: 0.65
   npy: 20
   npx: 0
-  model_name: TSSOP-40_8x14mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-52_8x11mm_P0.4mm:
@@ -5271,8 +5023,7 @@ TSSOP-52_8x11mm_P0.4mm:
   e: 0.4
   npy: 26
   npx: 0
-  model_name: TSSOP-52_8x11mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-28_6.1x7.8mm_P0.5mm:
@@ -5292,8 +5043,7 @@ TSSOP-28_6.1x7.8mm_P0.5mm:
   e: 0.5
   npy: 14
   npx: 0
-  model_name: TSSOP-28_6.1x7.8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-50_4.4x12.5mm_P0.5mm:
@@ -5313,8 +5063,7 @@ TSSOP-50_4.4x12.5mm_P0.5mm:
   e: 0.5
   npy: 25
   npx: 0
-  model_name: TSSOP-50_4.4x12.5mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-28_8x9.7mm_P0.65mm:
@@ -5334,8 +5083,7 @@ TSSOP-28_8x9.7mm_P0.65mm:
   e: 0.65
   npy: 14
   npx: 0
-  model_name: TSSOP-28_8x9.7mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-32_8x11mm_P0.65mm:
@@ -5355,8 +5103,7 @@ TSSOP-32_8x11mm_P0.65mm:
   e: 0.65
   npy: 16
   npx: 0
-  model_name: TSSOP-32_8x11mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-56_8x14mm_P0.5mm:
@@ -5376,8 +5123,7 @@ TSSOP-56_8x14mm_P0.5mm:
   e: 0.5
   npy: 28
   npx: 0
-  model_name: TSSOP-56_8x14mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_4.4x7.8mm_P0.4mm:
@@ -5397,8 +5143,7 @@ TSSOP-36_4.4x7.8mm_P0.4mm:
   e: 0.4
   npy: 18
   npx: 0
-  model_name: TSSOP-36_4.4x7.8mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_8x9.7mm_P0.5mm:
@@ -5418,8 +5163,7 @@ TSSOP-36_8x9.7mm_P0.5mm:
   e: 0.5
   npy: 18
   npx: 0
-  model_name: TSSOP-36_8x9.7mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-28_6.1x9.7mm_P0.65mm:
@@ -5439,8 +5183,7 @@ TSSOP-28_6.1x9.7mm_P0.65mm:
   e: 0.65
   npy: 14
   npx: 0
-  model_name: TSSOP-28_6.1x9.7mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_4.4x9.7mm_P0.5mm:
@@ -5460,8 +5203,7 @@ TSSOP-36_4.4x9.7mm_P0.5mm:
   e: 0.5
   npy: 18
   npx: 0
-  model_name: TSSOP-36_4.4x9.7mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-56_8x12.5mm_P0.4mm:
@@ -5481,8 +5223,7 @@ TSSOP-56_8x12.5mm_P0.4mm:
   e: 0.4
   npy: 28
   npx: 0
-  model_name: TSSOP-56_8x12.5mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-24_6.1x7.8mm_P0.65mm:
@@ -5502,8 +5243,7 @@ TSSOP-24_6.1x7.8mm_P0.65mm:
   e: 0.65
   npy: 12
   npx: 0
-  model_name: TSSOP-24_6.1x7.8mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-52_6.1x11mm_P0.4mm:
@@ -5523,8 +5263,7 @@ TSSOP-52_6.1x11mm_P0.4mm:
   e: 0.4
   npy: 26
   npx: 0
-  model_name: TSSOP-52_6.1x11mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-60_8x12.5mm_P0.4mm:
@@ -5544,8 +5283,7 @@ TSSOP-60_8x12.5mm_P0.4mm:
   e: 0.4
   npy: 30
   npx: 0
-  model_name: TSSOP-60_8x12.5mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-64_6.1x14mm_P0.4mm:
@@ -5565,8 +5303,7 @@ TSSOP-64_6.1x14mm_P0.4mm:
   e: 0.4
   npy: 32
   npx: 0
-  model_name: TSSOP-64_6.1x14mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-40_8x11mm_P0.5mm:
@@ -5586,8 +5323,7 @@ TSSOP-40_8x11mm_P0.5mm:
   e: 0.5
   npy: 20
   npx: 0
-  model_name: TSSOP-40_8x11mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_6.1x7.8mm_P0.4mm:
@@ -5607,8 +5343,7 @@ TSSOP-36_6.1x7.8mm_P0.4mm:
   e: 0.4
   npy: 18
   npx: 0
-  model_name: TSSOP-36_6.1x7.8mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-48_8x9.7mm_P0.4mm:
@@ -5628,8 +5363,7 @@ TSSOP-48_8x9.7mm_P0.4mm:
   e: 0.4
   npy: 24
   npx: 0
-  model_name: TSSOP-48_8x9.7mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-80_6.1x17mm_P0.4mm:
@@ -5649,8 +5383,7 @@ TSSOP-80_6.1x17mm_P0.4mm:
   e: 0.4
   npy: 40
   npx: 0
-  model_name: TSSOP-80_6.1x17mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_6.1x9.7mm_P0.5mm:
@@ -5670,8 +5403,7 @@ TSSOP-36_6.1x9.7mm_P0.5mm:
   e: 0.5
   npy: 18
   npx: 0
-  model_name: TSSOP-36_6.1x9.7mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-48_8x12.5mm_P0.5mm:
@@ -5691,8 +5423,7 @@ TSSOP-48_8x12.5mm_P0.5mm:
   e: 0.5
   npy: 24
   npx: 0
-  model_name: TSSOP-48_8x12.5mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-40_6.1x14mm_P0.65mm:
@@ -5712,8 +5443,7 @@ TSSOP-40_6.1x14mm_P0.65mm:
   e: 0.65
   npy: 20
   npx: 0
-  model_name: TSSOP-40_6.1x14mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-64_6.1x17mm_P0.5mm:
@@ -5733,8 +5463,7 @@ TSSOP-64_6.1x17mm_P0.5mm:
   e: 0.5
   npy: 32
   npx: 0
-  model_name: TSSOP-64_6.1x17mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-40_6.1x11mm_P0.5mm:
@@ -5754,8 +5483,7 @@ TSSOP-40_6.1x11mm_P0.5mm:
   e: 0.5
   npy: 20
   npx: 0
-  model_name: TSSOP-40_6.1x11mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-44_6.1x11mm_P0.5mm:
@@ -5775,8 +5503,7 @@ TSSOP-44_6.1x11mm_P0.5mm:
   e: 0.5
   npy: 22
   npx: 0
-  model_name: TSSOP-44_6.1x11mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-32_4.4x6.5mm_P0.4mm:
@@ -5796,8 +5523,7 @@ TSSOP-32_4.4x6.5mm_P0.4mm:
   e: 0.4
   npy: 16
   npx: 0
-  model_name: TSSOP-32_4.4x6.5mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-64_8x14mm_P0.4mm:
@@ -5817,8 +5543,7 @@ TSSOP-64_8x14mm_P0.4mm:
   e: 0.4
   npy: 32
   npx: 0
-  model_name: TSSOP-64_8x14mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-28_4.4x7.8mm_P0.5mm:
@@ -5838,8 +5563,7 @@ TSSOP-28_4.4x7.8mm_P0.5mm:
   e: 0.5
   npy: 14
   npx: 0
-  model_name: TSSOP-28_4.4x7.8mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-48_4.4x9.7mm_P0.4mm:
@@ -5859,8 +5583,7 @@ TSSOP-48_4.4x9.7mm_P0.4mm:
   e: 0.4
   npy: 24
   npx: 0
-  model_name: TSSOP-48_4.4x9.7mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-20_4.4x5mm_P0.5mm:
@@ -5880,8 +5603,7 @@ TSSOP-20_4.4x5mm_P0.5mm:
   e: 0.5
   npy: 10
   npx: 0
-  model_name: TSSOP-20_4.4x5mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_6.1x12.5mm_P0.65mm:
@@ -5901,8 +5623,7 @@ TSSOP-36_6.1x12.5mm_P0.65mm:
   e: 0.65
   npy: 18
   npx: 0
-  model_name: TSSOP-36_6.1x12.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-36_8x12.5mm_P0.65mm:
@@ -5922,8 +5643,7 @@ TSSOP-36_8x12.5mm_P0.65mm:
   e: 0.65
   npy: 18
   npx: 0
-  model_name: TSSOP-36_8x12.5mm_P0.65mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-24_4.4x5mm_P0.4mm:
@@ -5943,8 +5663,7 @@ TSSOP-24_4.4x5mm_P0.4mm:
   e: 0.4
   npy: 12
   npx: 0
-  model_name: TSSOP-24_4.4x5mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-24_4.4x6.5mm_P0.5mm:
@@ -5964,8 +5683,7 @@ TSSOP-24_4.4x6.5mm_P0.5mm:
   e: 0.5
   npy: 12
   npx: 0
-  model_name: TSSOP-24_4.4x6.5mm_P0.5mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-48_6.1x9.7mm_P0.4mm:
@@ -5985,8 +5703,7 @@ TSSOP-48_6.1x9.7mm_P0.4mm:
   e: 0.4
   npy: 24
   npx: 0
-  model_name: TSSOP-48_6.1x9.7mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-56_6.1x12.5mm_P0.4mm:
@@ -6006,8 +5723,7 @@ TSSOP-56_6.1x12.5mm_P0.4mm:
   e: 0.4
   npy: 28
   npx: 0
-  model_name: TSSOP-56_6.1x12.5mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 TSSOP-68_8x14mm_P0.4mm:
@@ -6027,8 +5743,7 @@ TSSOP-68_8x14mm_P0.4mm:
   e: 0.4
   npy: 34
   npx: 0
-  model_name: TSSOP-68_8x14mm_P0.4mm
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
 
 SOP-28_8.4x18.16mm_P1.27mm:
@@ -6049,9 +5764,7 @@ SOP-28_8.4x18.16mm_P1.27mm:
   e: 1.27
   npy: 14
   npx: 0
-  model_name: SOP-28_8.4x18.16mm_P1.27mm  # model name
-  type: 'Package_SO'
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.alliancememory.com/wp-content/uploads/pdf/64K_256Kpackages.pdf#page=2'
 
 IXYS_Flatpak-8_6.3x9.7mm_P2.54mm:
@@ -6071,8 +5784,7 @@ IXYS_Flatpak-8_6.3x9.7mm_P2.54mm:
   e: 2.54
   npy: 4
   npx: 0
-  model_name: IXYS_Flatpak-8_6.3x9.7mm_P2.54mm
-  destination_dir: 'Package_DIP.3dshapes'
+  library: 'Package_DIP'
   source: 'https://www.littelfuse.com/media?resourcetype=datasheets&itemid=996c6e8f-cc1b-44f6-811e-251c6e004c56&filename=littelfuse-integrated-circuits-loc112-datasheet'
 
 SOIC-8_3.81x9.347mm_P2.54mm:
@@ -6094,7 +5806,6 @@ SOIC-8_3.81x9.347mm_P2.54mm:
   e: 2.54
   npx: 0
   npy: 4  # number of pins along y axis (length)
-  model_name: SOIC-8_3.81x9.347mm_P2.54mm
   rotation: 0
-  destination_dir: 'Package_SO.3dshapes'
+  library: 'Package_SO'
   source: 'https://www.littelfuse.com/assetdocs/littelfuse-integrated-circuits-cpc2014n-datasheet?assetguid=6e3baf84-de75-4ea7-97ce-3a5e05a007c9'

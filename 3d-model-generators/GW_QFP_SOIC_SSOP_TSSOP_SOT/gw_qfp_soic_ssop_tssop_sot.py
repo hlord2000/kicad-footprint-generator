@@ -53,8 +53,6 @@ from typing import Any, cast
 
 import cadquery as cq
 
-from _tools.cq_helpers import union_all  # pyright: ignore
-
 MAX_CC1 = 1
 DEFAULT_PIN_SLOPE = 10
 
@@ -63,14 +61,14 @@ def make_gw(
     params: dict[str, Any],
 ) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
     c = cast(float, params["c"])
-    the = cast(float, params["the"])
+    the = cast(float, params.get("the", 10.0))
     the_p = cast(float | None, params.get("the_p"))
-    tb_s = cast(float, params["tb_s"])
+    tb_s = max(cast(float, params.get("tb_s", 0.1)), 0.001)
     ef = cast(float, params.get("ef", 0.0))
-    cc1 = cast(float, params["cc1"])
+    cc1 = cast(float, params.get("cc1", 0.25))
     marker = cast(str, params.get("marker", "circle"))
-    r1 = cast(float | None, params.get("R1"))
-    r2 = cast(float, params["R2"])
+    r1 = cast(float, params.get("R1", 0.75 * c))
+    r2 = cast(float, params.get("R2", 0.75 * c))
     s = cast(float | None, params.get("S"))
     l = cast(float | None, params.get("L"))
     d1 = cast(float, params["D1"])
@@ -84,19 +82,19 @@ def make_gw(
     npy = cast(int, params["npy"])
     excluded_pins = params.get("excluded_pins", ())
 
-    missingparam = [s, l, r1, the_p].count(None)
+    missingparam = [s, l, the_p].count(None)
     if missingparam == 0:
         print(
-            "Warning: All of S, L, R1, and the_p are provided. The system is "
+            "Warning: All of S, L, and the_p are provided. The system is "
             "overconstrained. Ignoring the value of S."
         )
         s = None
 
     elif missingparam > 2:
-        raise Exception("At least two of S, L, R1, and the_p must be provided.")
+        raise Exception("At least one of S, L and the_p must be provided.")
 
     if the_p is None:
-        if s is not None and l is not None and r1 is not None:
+        if s is not None and l is not None:
             the_p = degrees(
                 atan(
                     (((e - e1) / 2) - (s + l + r1))
@@ -105,7 +103,7 @@ def make_gw(
             )
             if the_p < 0:
                 print(
-                    "The provided values of S, L, and R1 will result in inward-"
+                    "The provided values of S and L will result in inward-"
                     "sloping pins. If this is not what you intended, confirm those "
                     "values and reduce one or more of them."
                 )
@@ -115,19 +113,15 @@ def make_gw(
             the_p = DEFAULT_PIN_SLOPE
 
     tan_p = tan(radians(the_p))
-    if l is None and r1 is not None and s is not None:
+    if l is None and s is not None:
         l = (e - e1) / 2 - (s + r1) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         if the_p > 0 and l < (c + r2):
             raise Exception("the_p is too large.")
-    elif s is None and r1 is not None and l is not None:
+    elif s is None and l is not None:
         s = (e - e1) / 2 - (r1 + l) - (a1 + ((a2 - c) / 2) - (r1 + r2 + c)) * tan_p
         if the_p > 0 and s < 0:
             raise Exception("the_p is too large.")
-    elif r1 is None and s is not None and l is not None:
-        r1 = (s - (e - e1) / 2 + l + (a1 + (a2 - c) / 2 - r2 - c) * tan_p) / (tan_p - 1)
-        if the_p > 0 and r1 < 0:
-            raise Exception("the_p is too large.")
-    elif r1 is not None and s is not None and l is not None:
+    elif s is not None and l is not None:
         pass
     else:
         raise NotImplementedError("This should not happen.")
@@ -159,11 +153,6 @@ def make_gw(
         raise Exception("R1 cannot be negative")
     if l < (c + r2):
         raise Exception("L must be greater than c + R2")
-
-    # If tb_s is is zero, the solver cannot converge as we have anobject with zero
-    # volume, so enforce a minimum size here:
-    if tb_s == 0:
-        tb_s = 0.001
 
     A = a1 + a2
     A2_t = (a2 - c) / 2  # body top part height

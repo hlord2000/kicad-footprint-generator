@@ -65,7 +65,7 @@ from .gw_qfp_soic_ssop_tssop_sot import make_gw
 FUSED_AND_COMPRESSED = True
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True) -> None:
     """
     Main entry point into this generator.
     """
@@ -96,7 +96,7 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         else:
             # Construct the final output directory
             output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
+                output_dir_prefix, all_params[model]["library"] + ".3dshapes"
             )
 
         # Safety check to make sure the selected model is valid
@@ -141,7 +141,7 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             os.makedirs(output_dir)
 
         # Assemble the filename
-        file_name = all_params[model]["model_name"]
+        file_name = model
 
         # Export the assembly to STEP
         component.name = file_name
