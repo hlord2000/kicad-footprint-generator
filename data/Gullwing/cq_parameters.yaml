@@ -739,7 +739,6 @@ TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   cc1: 0.7
   D1: 10.0
   E1: 10.0
-  D: 12.0
   E: 12.0
   A1: 0.1
   A2: 1.0
@@ -3023,7 +3022,6 @@ SO-14_3.9x8.65mm_P1.27mm:
   e: 1.27
   npy: 7
   npx: 0
-  old_model_name: SO-14_3.9x8.65mm_P1.27mm
   library: 'Package_SO'
   source: 'https://www.st.com/resource/en/datasheet/l6491.pdf'
 
@@ -3325,7 +3323,6 @@ SOT-143R:
   npy: 0
   npx: 6
   excluded_pins: [2, 3, 4, 5, 8, 9, 10]
-  rotation: 0
   library: 'Package_TO_SOT_SMD'
   source: 'https://www.nxp.com/docs/en/package-information/SOT143R.pdf'
 
@@ -5766,6 +5763,5 @@ SOIC-8_3.81x9.347mm_P2.54mm:
   e: 2.54
   npx: 0
   npy: 4  # number of pins along y axis (length)
-  rotation: 0
   library: 'Package_SO'
   source: 'https://www.littelfuse.com/assetdocs/littelfuse-integrated-circuits-cpc2014n-datasheet?assetguid=6e3baf84-de75-4ea7-97ce-3a5e05a007c9'
