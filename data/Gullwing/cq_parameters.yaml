@@ -2585,26 +2585,6 @@ SSOP-44_5.3x12.8mm_P0.5mm:
   library: 'Package_SO'
   source: 'http://cds.linear.com/docs/en/datasheet/680313fa.pdf'
 
-SSOP-8_3.9x5.05mm_P1.27mm:
-  the: 9.0
-  tb_s: 0.15
-  c: 0.1
-  R1: 0.1
-  R2: 0.1
-  S: 0.1
-  cc1: 0.25
-  D1: 5.05
-  E1: 3.9
-  E: 6.35
-  A1: 0.1
-  A2: 1.0
-  b: 0.42
-  e: 1.27
-  npy: 4
-  npx: 0
-  library: 'Package_SO'
-  source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
-
 PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
   the: 9.0
   tb_s: 0.15
@@ -2985,26 +2965,6 @@ TSSOP-14-1EP_4.4x5mm_P0.65mm:
   npx: 0
   library: 'Package_SO'
   source: 'N/A'
-
-TSSOP-28_4.4x9.7mm_P0.65mm:
-  the: 9.0
-  tb_s: 0.15
-  c: 0.1
-  R1: 0.1
-  R2: 0.1
-  S: 0.1
-  cc1: 0.25
-  D1: 9.7
-  E1: 4.4
-  E: 5.5
-  A1: 0.1
-  A2: 1.5
-  b: 0.25
-  e: 0.65
-  npy: 14
-  npx: 0
-  library: 'Package_SO'
-  source: 'see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot361-1_po.pdf'
 
 TSSOP-30_4.4x7.8mm_P0.5mm:
   the: 9.0
@@ -4186,7 +4146,7 @@ SSOP-8_2.95x2.8mm_P0.65mm:
 SSOP-8_3.9x5.05mm_P1.27mm:
   the: 12.0
   tb_s: 0.1
-  c: 0.15
+  c: 0.22
   R1: 0.1
   R2: 0.1
   S: 0.18
@@ -4201,7 +4161,7 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   npy: 4
   npx: 0
   library: 'Package_SO'
-  source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
+  source: 'https://www.fujitsu.com/uk/Images/MB85RS16.pdf#page=21'
 
 SSOP-8_3.95x5.21x3.27mm_P1.27mm:
   the: 12.0
@@ -4650,19 +4610,19 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   c: 0.15
   R1: 0.1
   R2: 0.1
-  S: 0.2
+  L: 0.6
   cc1: 0.25
   D1: 9.7
   E1: 4.4
   E: 6.4
   A1: 0.1
-  A2: 1.0
-  b: 0.26
+  A2: 1.1
+  b: 0.245
   e: 0.65
   npy: 14
   npx: 0
   library: 'Package_SO'
-  source: 'http://www.nxp.com/documents/outline_drawing/SOT361-2.pdf'
+  source: 'https://www.nxp.com/docs/en/package-information/SOT361-2.pdf'
 
 TSSOP-32_6.1x11mm_P0.65mm:
   the: 12.0
