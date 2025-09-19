@@ -36,3 +36,31 @@ QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+Texas_UQFN-8_1.5x1.5mm_P0.5mm:
+  device_type: 'UQFN'
+  manufacturer: 'Texas'
+  size_source: 'https://www.ti.com/lit/ml/mpqf207e/mpqf207e.pdf'
+  ipc_class: 'qfn'
+  body_size_x: 1.45 .. 1.55
+  body_size_y: 1.45 .. 1.55
+  overall_height: 0.5 .. 0.6
+  # These are the dimension of the smallest pins, 2 and 6.
+  lead_width: 0.15 .. 0.25
+  lead_len: 0.3 .. 0.4
+  pitch: 0.5
+  num_pins_x: 1
+  num_pins_y: 3
+  pad_overrides:
+    1:
+      size_increase: [null, 0.05]
+    3:
+      size_increase: [null, 0.05]
+    5:
+      size_increase: [null, 0.05]
+    7:
+      size_increase: [null, 0.05]
+    4:
+      size_increase: [0.1, 0.05]
+    8:
+      size_increase: [0.1, 0.05]
