@@ -55,7 +55,9 @@ ___ver___ = "2.0.0"
 
 import glob
 import multiprocessing
+import multiprocessing.pool
 import os
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -116,20 +118,35 @@ def make_models(
 
     # Always use maximum number of processes
     number_of_models = len(models_to_build)
-    with multiprocessing.Pool(processes=os.cpu_count()) as pool:
+    number_of_processes = os.cpu_count()
+    print(
+        f"Creating {number_of_models} threads (one per model) and executing them "
+        f"in {number_of_processes} asynchronous processes.",
+        flush=True,
+    )
+    with multiprocessing.Pool(processes=number_of_processes) as pool:
+        async_results: list[multiprocessing.pool.AsyncResult[None]] = []
         for idx, (model_name, model_params) in enumerate(models_to_build.items()):
-            print(
-                f"    => Generating part {idx+1}/{number_of_models}: '{model_name}' from library 'Gullwing'"
+            str_display = (
+                f"    => Executing thread {idx+1}/{number_of_models}: "
+                f"'{model_name}' from library 'Gullwing'"
             )
-            pool.apply_async(
+            async_result = pool.apply_async(
                 make_single_gullwing_model,
                 args=(
                     output_dir_prefix,
                     model_name,
                     model_params,
                     enable_vrml,
+                    str_display,
                 ),
             )
+            async_results.append(async_result)
+        for async_result in async_results:
+            try:
+                async_result.get()
+            except Exception as e:
+                print(f"An error occurred in a subprocess: {e}", file=sys.stderr)
         pool.close()
         pool.join()
 
@@ -139,7 +156,10 @@ def make_single_gullwing_model(
     model_name: str,
     model_params: dict[str, Any],
     enable_vrml: bool,
+    str_display: str,
 ) -> None:
+    print(str_display, flush=True)
+
     output_dir = os.path.join(output_dir_prefix, model_params["library"] + ".3dshapes")
     # Load the appropriate colors
     rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
