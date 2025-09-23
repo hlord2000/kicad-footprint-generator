@@ -1,26 +1,22 @@
 D_SOD-123:
-  the: 8.0  # body angle in degrees (defaults to 10°)
-  the_p: 0.0  # pin angle in degrees (defaults to 10°)
-  tb_s: 0.05  # top part of body is that much smaller (defaults to 0.1)
-  c: 0.2  # pin thickness, body center part height
-  R1: 0.12  # pin upper corner, inner radius (defaults to c*0.75)
-  R2: 0.12  # pin lower corner, inner radius (defaults to c*0.75)
-  S: 0.0  # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
-  # L: 0.4  #  pin bottom flat part length (including corner arc)
-  marker: "bar"  # "circle" (default), "bar" (useful for diodes), or "none". 
-  # ef: 0.0  # fillet of edges  Note: bigger bytes model with fillet (defaults to 0.0)
-  cc1: 0.12  # chamfer of the 1st pin corner (defaults to 0.25)
-  D1: 1.6  # body length
-  E1: 2.675  # body width
-  E: 3.6   # body overall width  (E - E1) = 2 * (S + R1 + L)
-  A1: 0.1  # body-board separation
-  A2: 1.15  # body height
-  b: 0.65  # pin width
-  e: 1.27  # pin (center-to-center) distance
-  npx: 0  # number of pins along X axis (width)
-  npy: 1  # number of pins along y axis (length)
-  # epad: null  # e Pad
-  # excluded_pins: null  # no pin excluded
+  the: 8.0
+  the_p: 0.0
+  tb_s: 0.05
+  c: 0.2
+  R1: 0.12
+  R2: 0.12
+  S: 0.0
+  marker: "bar"
+  cc1: 0.12
+  D1: 1.6
+  E1: 2.675
+  E: 3.6
+  A1: 0.1
+  A2: 1.15
+  b: 0.65
+  e: 1.27
+  npx: 0
+  npy: 1
   library: 'Diode_SMD'
   source: 'https://assets.nexperia.com/documents/package-information/SOD123.pdf#page=2'
 
@@ -2198,7 +2194,6 @@ SOIC-8_5.3x5.3mm_P1.27mm:
   # JEITA/EIAJ 08-001-BBA and Atmel/Microchip, 208 mils width:
   source: 'https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=21, https://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23, https://ww1.microchip.com/downloads/en/DeviceDoc/doc2535.pdf#page=162'
 
-
 SOIC-8_5.3x6.2mm_P1.27mm:
   the: 9.0
   tb_s: 0.0
@@ -2481,7 +2476,6 @@ SSO-8-7_6.4x9.7mm_P2.54mm:
   excluded_pins: [7]
   library: 'Package_SO'
   source: 'https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2312161855_BC-BC2213A_C596512.pdf'
-
 
 SSOP-10_3.9x4.9mm_P1.00mm:
   the: 9.0
@@ -3011,7 +3005,7 @@ SO-14_3.9x8.65mm_P1.27mm:
   c: 0.25
   R1: 0.1
   R2: 0.1
-  S : 0.015
+  S: 0.015
   cc1: 0
   D1: 8.65
   E1: 3.90
@@ -3175,7 +3169,7 @@ SOT-23:
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
 
 SOT-23-3:
-  # alternate name for SOT-23; footprints exist for both
+# alternate name for SOT-23; footprints exist for both
   the: 8.0
   tb_s: 0.05
   c: 0.15
@@ -3196,7 +3190,6 @@ SOT-23-3:
   excluded_pins: [2, 4, 6]
   library: 'Package_TO_SOT_SMD'
   source: 'http://www.ti.com/lit/ml/mpds026k/mpds026k.pdf'
-
 
 SOT-23W:
   the: 8.0
@@ -4097,8 +4090,8 @@ JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
   npy: 8
   npx: 0
   library: 'Package_SO'
-  # PENDING, source needs to change: 'JEITA/EIAJ ED-7311-19, variation 16-001-ABA, https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=31'
   source: 'https://www.diodes.com/assets/Package-Files/SO-16.pdf'
+  # PENDING, source needs to change: 'JEITA/EIAJ ED-7311-19, variation 16-001-ABA, https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=31'
 
 SOP-16_4.4x10.4mm_P1.27mm:
   the: 12.0
@@ -4862,23 +4855,23 @@ SOP-8_6.605x9.655mm_P2.54mm:
   source: 'https://www.onsemi.com/pdf/datasheet/hcpl2631m-d.pdf'
 
 JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
-  the: 8.0 # body angle in degrees
-  tb_s: 0.1 # top part of body is that much smaller
-  c: 0.22 # JEITA c, (0.17+0.27)/2; pin thickness, body center part height
-  R1: 0.15 # made-up value (JEITA does not have it);pin upper corner, inner radius
-  R2: 0.15 # made-up value; pin lower corner, inner radius
-  S: null # pin top flat part length (excluding corner arc) - you can specify either S or L, the other will be calculated
-  L: 0.60 #  JEITA Lp, (0.40+0.80)/2; pin bottom flat part length (including corner arc)
-  cc1: 0.25 # chamfer of the 1st pin corner
-  D1: 4.90 # body length
-  E1: 3.90 # body width
-  E: 6.00 # body overall width, JEITA He
-  A1: 0.15 # body-board separation
-  A2: 1.45 # body height
-  b: 0.375 # pin width, JEITA bp, (0.30+0.45)/2
-  e: 1.27 # pin (center-to-center) distance
-  npy: 4 # number of pins along X axis (width)
-  npx: 0 # number of pins along y axis (length)  # e Pad # no pin excluded
+  the: 8.0
+  tb_s: 0.1
+  c: 0.22 # JEITA c, (0.17+0.27)/2
+  R1: 0.15 # made-up value (JEITA does not have it)
+  R2: 0.15 # made-up value
+  S: null
+  L: 0.60 #  JEITA Lp, (0.40+0.80)/2
+  cc1: 0.25
+  D1: 4.90
+  E1: 3.90
+  E: 6.00 # JEITA He
+  A1: 0.15
+  A2: 1.45
+  b: 0.375 # JEITA bp, (0.30+0.45)/2
+  e: 1.27
+  npy: 4
+  npx: 0
   library: 'Package_SO'
   source: 'https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=21, 08-001-ADB, https://www.macronix.com/Lists/Datasheet/Attachments/8755/MX25R3235F,%20Wide%20Range,%2032Mb,%20v1.8.pdf'
 
@@ -5762,6 +5755,6 @@ SOIC-8_3.81x9.347mm_P2.54mm:
   b: 0.381
   e: 2.54
   npx: 0
-  npy: 4  # number of pins along y axis (length)
+  npy: 4
   library: 'Package_SO'
   source: 'https://www.littelfuse.com/assetdocs/littelfuse-integrated-circuits-cpc2014n-datasheet?assetguid=6e3baf84-de75-4ea7-97ce-3a5e05a007c9'

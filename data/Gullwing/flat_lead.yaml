@@ -2,7 +2,6 @@ FileHeader:
   library_Suffix: 'TO_SOT_SMD'
   device_type: 'SOT'
 
-
 SOT-553:
   size_source: 'https://www.jedec.org/system/files/docs/MO-293B.pdf'
   custom_name_format: 'SOT-553'
@@ -19,7 +18,6 @@ SOT-553:
   num_pins_x: 0
   num_pins_y: 3
   deleted_pins: [5]
-
 
 SOT-563:
   size_source: 'https://www.jedec.org/system/files/docs/MO-293B.pdf'

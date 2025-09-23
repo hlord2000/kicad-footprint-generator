@@ -335,15 +335,11 @@ VSSOP-8_2.3x2mm_P0.5:
   compatible_mpns:
     - JEDEC-MO-187-CA
     - Texas_DCU0008A # https://www.ti.com/lit/ml/mpds050e/mpds050e.pdf, height 0.9mm max here
-  # Tolerance aaa = 0.2 applies to each side separately
-  body_size_x: 2.3 +/- 0.2
-  body_size_y: 2.0 +/- 0.2
-  # Tolerance bbb = 0.25 applies to each side separately
-  overall_size_x: 3.1 +/- 0.25
-  # TI DCU min is 0.17 .. 0.25
-  lead_width: 0.17 .. 0.33
-  # TI DCU is 0.2 .. 0.35
-  lead_len: 0.15 .. 0.28 .. 0.40
+  body_size_x: 2.3 +/- 0.2 # Tolerance aaa = 0.2 applies to each side separately
+  body_size_y: 2.0 +/- 0.2 # Tolerance aaa = 0.2 applies to each side separately
+  overall_size_x: 3.1 +/- 0.25 # Tolerance bbb = 0.25 applies to each side separately
+  lead_width: 0.17 .. 0.33 # TI DCU min is 0.17 .. 0.25
+  lead_len: 0.15 .. 0.28 .. 0.40 # TI DCU is 0.2 .. 0.35
   pitch: 0.5
   num_pins_y: 4
   num_pins_x: 0
@@ -366,7 +362,6 @@ MSOP-10_3x3mm_P0.5mm:
   pitch: 0.5 # value "e" in MO-187F variant BA
   num_pins_x: 0
   num_pins_y: 5
-
   compatible_mpns:
     - Texas_DGS0010A # https://www.ti.com/lit/ml/mpds035c/mpds035c.pdf
 
@@ -408,7 +403,6 @@ HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.83x1.89mm:
     tolerance: 0.100
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     minimum: 4.75
     maximum: 5.05
@@ -418,17 +412,14 @@ HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.83x1.89mm:
   lead_len:
     minimum: 0.4
     maximum: 0.7
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
-
   EP_size_x:
     nominal: 1.83
   EP_size_y:
     nominal: 1.89
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     EP_num_paste_pads: [2, 2]
@@ -438,7 +429,6 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
 # it was previously in msop.yaml file
   device_type: 'MSOP'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3805fg.pdf#page=18'
-
   body_size_x:
     nominal: 3
     tolerance: 0.102
@@ -447,7 +437,6 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -457,42 +446,29 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
-
   EP_size_x:
     nominal: 1.68
     tolerance: 0
-  # EP_size_x_overwrite:
-  # EP_mask_x:
   EP_size_y:
     nominal: 1.88
     tolerance: 0
-  # EP_size_y_overwrite:
-  # EP_mask_y:
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.1, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
 # it was previously in msop.yaml file
   device_type: 'MSOP'
   size_source: 'www.allegromicro.com/~/media/Files/Datasheets/A4952-3-Datasheet.ashx?la=en#page=10'
-
   body_size_x:
     nominal: 3
     tolerance: 0.1
@@ -500,12 +476,11 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
     nominal: 3
     tolerance: 0.1
   overall_height:
-    # calculated using toleranced size class
-    # (0.86 +/- 0.05) + (0.05 ... 0.15)
-    # min_rms: 0.8892893218813452, max_rms: 1.0307106781186548
+  # calculated using toleranced size class
+  # (0.86 +/- 0.05) + (0.05 ... 0.15)
+  # min_rms: 0.8892893218813452, max_rms: 1.0307106781186548
     minimum: 0.89
     maximum: 1.03
-
   overall_size_x:
     nominal: 4.88
     tolerance: 0.2
@@ -515,35 +490,23 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.1
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
-
   EP_size_x:
     nominal: 1.73
     tolerance: 0
-  # EP_size_x_overwrite:
-  # EP_mask_x:
   EP_size_y:
     nominal: 1.98
     tolerance: 0
-  # EP_size_y_overwrite:
-  # EP_mask_y:
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1, 1.2]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 MSOP-10-1EP_3x3mm_P0.5mm_EP2.2x3.1mm_Mask1.83x1.89mm:
@@ -591,8 +554,6 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP2.2x3.1mm_Mask1.83x1.89mm:
     grid: [1.3, 1.3]
     paste_avoid_via: False
 
-# By: JEFO
-# Email: jacob.overgaard.andersen@gmail.com
 MSOP-16_3x4.039mm_P0.5mm:
 # it was previously in msop.yaml file
   device_type: 'MSOP'
@@ -632,8 +593,6 @@ Analog_MSOP-12-16_3x4.039mm_P0.5mm:
   pad_to_pad_min_x_overwrite: 3.322 # 5.10 - 2*0.889
   pad_to_pad_max_x_overwrite: 5.10
 
-# By: JEFO
-# Email: jacob.overgaard.andersen@gmail.com
 MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
 # it was previously in msop.yaml file
   device_type: 'MSOP'
@@ -663,14 +622,12 @@ MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
     tolerance: 0.102
   EP_paste_coverage: 0.7
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.25
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 8
@@ -711,7 +668,6 @@ Texas_DGS0020A_VSSOP-20_3.0x5.1mm_P0.50mm:
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 10
-#non IPC parameters
   pad_to_pad_min_x_overwrite: 2.95
   pad_to_pad_max_x_overwrite: 5.85
   pad_size_y_overwrite: 0.30
@@ -735,12 +691,11 @@ PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
   num_pins_x: 0
   num_pins_y: 8
   EP_size_x:
-     minimum: 2.20
-     nominal: 2.50 # JEDEC is 2.00 .. 3.00mm
+    minimum: 2.20
+    nominal: 2.50 # JEDEC is 2.00 .. 3.00mm
   EP_size_y:
-     minimum: 3.31
-     nominal: 3.61 # JEDEC is 3.00 .. 4.00mm
-
+    minimum: 3.31
+    nominal: 3.61 # JEDEC is 3.00 .. 4.00mm
   overall_height:
     maximum: 1.70
   thermal_vias:
@@ -1094,7 +1049,7 @@ TSSOP-56_8x14mm_P0.5mm:
 
 HTSSOP-44_6.1x14mm_P0.635mm_TopEP4.14x7.01mm:
 # It was previously in httsop.yaml (HTSSOP-44_6.1x14mm_P0.5mm_TopEP4.14x7.01mm, typo in name)
-# overall_height: 1.0 .. 1.2
+  overall_height: 1.0 .. 1.2
   device_type: 'HTSSOP'
   size_source: 'http://www.ti.com/lit/ds/symlink/tpa3251.pdf#page=38'
   custom_name_format: 'HTSSOP-{pincount}_{size_x:g}x{size_y:g}mm_P{pitch}mm_TopEP4.14x7.01mm'
@@ -1118,13 +1073,10 @@ HTSSOP-44_6.1x14mm_P0.635mm_TopEP4.14x7.01mm:
   pitch: 0.635
   num_pins_y: 22
   num_pins_x: 0
-  #top_heatsink:
-    #x: 4.14
-    #y: 7.01
 
 HTSSOP-44-1EP_6.1x14mm_P0.635mm_EP5.2x14mm_Mask4.31x8.26mm:
 # It was previously in httsop.yaml (HTSSOP-44-1EP_6.1x14.0mm_P0.635mm_EP4.31x8.26mm_Mask4.31x8.26mm_ThermalVias, typo in name)
-# overall_height: 1.2 # maximum
+  overall_height: 1.2 # maximum
   device_type: 'HTSSOP'
   size_source: 'http://www.ti.com/lit/pdf/pptd165'
   compatible_mpns:
@@ -1166,7 +1118,8 @@ HTSSOP-44-1EP_6.1x14mm_P0.635mm_EP5.2x14mm_Mask4.31x8.26mm:
 ##############################################################################
 
 MSOP-8_3x3mm_P0.65mm:
-# it was previously in msop.yaml, height = 1.10 mm maximum
+# it was previously in msop.yaml,
+  overall_height: 1.10 # maximum
   device_type: 'MSOP'
   size_source: 'https://www.jedec.org/system/files/docs/mo-187F.pdf variant AA'
   force_small_pitch_ipc_definition: True
@@ -1180,21 +1133,18 @@ MSOP-8_3x3mm_P0.65mm:
   num_pins_y: 4
 
 VSSOP-8_3x3mm_P0.65:
-# this is TSSOP actually (height = 1.1mm max), it was previously in vssop.yaml file
+# this is TSSOP actually, it was previously in vssop.yaml file
+  overall_height: 1.1 # maximum
   device_type: 'VSSOP'
   size_source: 'https://www.jedec.org/standards-documents/docs/mo-187-f'
   compatible_mpns:
     - JEDEC-MO-187-AA
     - Texas_DGK0008A # https://www.ti.com/lit/ds/symlink/opa2340.pdf#page=33, https://www.ti.com/lit/ml/mpds028e/mpds028e.pdf
-  # Tolerance aaa = 0.2 applies to each side separately
-  body_size_x: 3.0 +/- 0.2
-  body_size_y: 3.0 +/- 0.2
-  # Tolerance bbb = 0.25 applies to each side separately
-  overall_size_x: 4.9 +/- 0.25
-  # TI DGK min is 0.25
-  lead_width: 0.22 .. 0.38
-  # TI DGK max is 0.7
-  lead_len: 0.4 .. 0.6 .. 0.8
+  body_size_x: 3.0 +/- 0.2 # Tolerance aaa = 0.2 applies to each side separately
+  body_size_y: 3.0 +/- 0.2 # Tolerance aaa = 0.2 applies to each side separately
+  overall_size_x: 4.9 +/- 0.25 # Tolerance bbb = 0.25 applies to each side separately
+  lead_width: 0.22 .. 0.38 # TI DGK min is 0.25
+  lead_len: 0.4 .. 0.6 .. 0.8 # TI DGK max is 0.7
   pitch: 0.65
   num_pins_y: 4
   num_pins_x: 0
@@ -1208,37 +1158,28 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm:
   body_size_y: 2.9 .. 3.0 .. 3.1
   overall_height:
     maximum: 1.1
-
   overall_size_x: 4.7 .. 4.9 .. 5.1
   lead_width: 0.22 .. 0.3 .. 0.38
   lead_len: 0.4 .. 0.6 .. 0.8
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 1.3 .. 1.5 .. 1.7
   EP_size_y: 1.6 .. 1.8 .. 2.0
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.1, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 HVSSOP-8-1EP_3x3mm_P0.65mm_EP1.57x1.89mm:
 # this is HTSSOP actually, it was previously in hvssop.yaml file
   device_type: 'HVSSOP'
   size_source: 'https://www.ti.com/lit/ds/symlink/tpa6110a2.pdf'
-
   body_size_x:
     nominal: 3
     tolerance: 0.100
@@ -1247,7 +1188,6 @@ HVSSOP-8-1EP_3x3mm_P0.65mm_EP1.57x1.89mm:
     tolerance: 0.100
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     minimum: 4.75
     maximum: 5.05
@@ -1257,17 +1197,14 @@ HVSSOP-8-1EP_3x3mm_P0.65mm_EP1.57x1.89mm:
   lead_len:
     minimum: 0.4
     maximum: 0.7
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 1.57
   EP_size_y:
     nominal: 1.89
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     EP_num_paste_pads: [2, 2]
@@ -1286,7 +1223,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1296,33 +1232,23 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 1.68
     tolerance: 0
   EP_size_y:
     nominal: 1.88
     tolerance: 0
-  # EP_mask_x: 2.46
-  # EP_mask_y: 2.31
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.1, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
@@ -1338,7 +1264,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
     tolerance: 0.1
   overall_height:
     maximum: 1.09
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0.15
@@ -1348,33 +1273,23 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.12
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 1.73
     tolerance: 0.15
   EP_size_y:
     nominal: 1.85
     tolerance: 0.15
-  # EP_mask_x: 2.46
-  # EP_mask_y: 2.31
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.1, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
@@ -1392,51 +1307,39 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
     maximum: 3.1
   overall_height:
     nominal: 1.1
-
   overall_size_x:
     minimum: 4.75
     nominal: 4.9
     maximum: 5.05
   lead_width:
     minimum: 0.25
-    nominal : 0.33
+    nominal: 0.33
     maximum: 0.41 # given as 0.7 but that can not be true. (larger than pitch)
   lead_len:
     minimum: 0.4
-    nominal : 0.55
+    nominal: 0.55
     maximum: 0.7
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     minimum: 1.63
     nominal: 1.73
     maximum: 1.73
   EP_size_x_overwrite: 1.95
-
   EP_size_y:
     minimum: 2.08
     nominal: 2.18
     maximum: 2.28
   EP_size_y_overwrite: 2.15
-  # EP_mask_x: 2.46
-  # EP_mask_y: 2.31
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.1, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 Texas_DGN0008D_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.57x1.89mm:
@@ -1465,7 +1368,6 @@ Texas_DGN0008D_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.57x1.89mm:
   pitch: 0.65
   num_pins_y: 4
   num_pins_x: 0
-
   EP_size_x:
     minimum: 1.28
     maximum: 1.57
@@ -1476,21 +1378,13 @@ Texas_DGN0008D_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.57x1.89mm:
   EP_size_y_overwrite: 2.94
   EP_mask_x: 1.57
   EP_mask_y: 1.89
-
-  # EP_paste_coverage: 0.65
-  # EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     grid: [1.10, 1.22]
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [1, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    # bottom_pad_size:
     paste_avoid_via: True
 
 Texas_DGN0008G_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.846x2.15mm:
@@ -1519,7 +1413,6 @@ Texas_DGN0008G_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.846x2.15mm:
   pitch: 0.65
   num_pins_y: 4
   num_pins_x: 0
-
   EP_size_x:
     minimum: 1.646
     maximum: 1.846
@@ -1530,21 +1423,15 @@ Texas_DGN0008G_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x2.94mm_Mask1.846x2.15mm:
   EP_size_y_overwrite: 2.94
   EP_mask_x: 1.846
   EP_mask_y: 2.15
-
-  # EP_paste_coverage: 0.65
-  # EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     grid: [1.10, 1.22]
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    # bottom_pad_size:
     paste_avoid_via: True
 
 Texas_DGN0008B_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x3mm_Mask1.88x1.98mm:
@@ -1573,7 +1460,6 @@ Texas_DGN0008B_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x3mm_Mask1.88x1.98mm:
   pitch: 0.65
   num_pins_y: 4
   num_pins_x: 0
-
   EP_size_x:
     minimum: 1.646
     maximum: 1.846
@@ -1584,21 +1470,15 @@ Texas_DGN0008B_VSSOP-8-1EP_3x3mm_P0.65mm_EP2x3mm_Mask1.88x1.98mm:
   EP_size_y_overwrite: 3.00
   EP_mask_x: 1.88
   EP_mask_y: 1.98
-
-  # EP_paste_coverage: 0.65
-  # EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     grid: [1.10, 1.22]
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    # bottom_pad_size:
     paste_avoid_via: True
 
 MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
@@ -1615,7 +1495,6 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   overall_height:
     nominal: 0.94
     tolerance: 0.1
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0
@@ -1625,11 +1504,9 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.1
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 1.73
     tolerance: 0
@@ -1640,20 +1517,14 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
     tolerance: 0
   EP_size_y_overwrite: 3
   EP_mask_y: 2.36
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 MSOP-12_3x4.039mm_P0.65mm:
@@ -1669,7 +1540,6 @@ MSOP-12_3x4.039mm_P0.65mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1679,7 +1549,6 @@ MSOP-12_3x4.039mm_P0.65mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 6
@@ -1697,7 +1566,6 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
-
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1707,11 +1575,9 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 6
-
   EP_size_x:
     nominal: 1.651
     tolerance: 0.102
@@ -1719,7 +1585,6 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
     nominal: 2.845
     tolerance: 0.102
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
@@ -1770,20 +1635,15 @@ Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm:
   compatible_mpns:
     - 'Texas_PowerPAD-TSSOP'
   overall_size_x: 6.20 .. 6.40 .. 6.60 # nominal agrees with JEDEC, minimum / maximum from Texas
-
   lead_width: 0.19 .. 0.30 # Texas
   lead_len: 0.50 .. 0.75 # Texas
-
   EP_size_x: 3.105 .. 3.155 # Exposed Pad from Texas package
   EP_size_y: 3.205 .. 3.255
-
-  # from now on, sizes based on Texas Land Pattern example
-  EP_size_x_overwrite: 3.4
-  EP_size_y_overwrite: 5.0
-  EP_mask_x: 3.155
-  EP_mask_y: 3.255
+  EP_size_x_overwrite: 3.4 # sizes based on Texas Land Pattern example
+  EP_size_y_overwrite: 5.0 # sizes based on Texas Land Pattern example
+  EP_mask_x: 3.155 # sizes based on Texas Land Pattern example
+  EP_mask_y: 3.255 # sizes based on Texas Land Pattern example
   EP_num_paste_pads: [2, 2] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
-
   thermal_vias:
     count: [3, 5]
     grid: [1.1, 1.1]
@@ -1796,16 +1656,11 @@ TSSOP-16_4.4x5mm_P0.65mm:
   size_source: 'https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
   compatible_mpns:
     - JEDEC-MO-153-AB
-    # https://www.ti.com/lit/pdf/MPDS361
-    - Texas_PW0016A
-    # https://ww1.microchip.com/downloads/en/DeviceDoc/16L_TSSOP_4_4_ST_C04-0068A.pdf
-    - Microchip-ST
-    # https://toshiba.semicon-storage.com/us/semiconductor/design-development/package/detail.TSSOP16.html
-    - Toshiba-TSSOP16-P-0044-0.65A
-    # https://www.nxp.com/docs/en/package-information/SOT403-1.pdf
-    - NXP-SOT403-1
-    # https://www.infineon.com/cms/en/product/packages/P-TSSOP/P-TSSOP-16-800/
-    - Infineon-P-TSSOP-16-800
+    - Texas_PW0016A # https://www.ti.com/lit/pdf/MPDS361
+    - Microchip-ST # https://ww1.microchip.com/downloads/en/DeviceDoc/16L_TSSOP_4_4_ST_C04-0068A.pdf
+    - Toshiba-TSSOP16-P-0044-0.65A # https://toshiba.semicon-storage.com/us/semiconductor/design-development/package/detail.TSSOP16.html
+    - NXP-SOT403-1 # https://www.nxp.com/docs/en/package-information/SOT403-1.pdf
+    - Infineon-P-TSSOP-16-800 # https://www.infineon.com/cms/en/product/packages/P-TSSOP/P-TSSOP-16-800/
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
   overall_size_x: 6.4
@@ -1867,7 +1722,6 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
-
   EP_size_x:
     nominal: 3
   EP_size_y:
@@ -1890,17 +1744,13 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
-
   EP_size_x: 1.75 .. 2.46 # Exposed Pad from Texas package
   EP_size_y: 1.75 .. 2.31
-
-  # from now on, sizes based on Texas Land Pattern example
-  EP_size_x_overwrite: 3.4
-  EP_size_y_overwrite: 5.0
-  EP_mask_x: 2.46
-  EP_mask_y: 2.31
+  EP_size_x_overwrite: 3.4 # sizes based on Texas Land Pattern example
+  EP_size_y_overwrite: 5.0 # sizes based on Texas Land Pattern example
+  EP_mask_x: 2.46 # sizes based on Texas Land Pattern example
+  EP_mask_y: 2.31 # sizes based on Texas Land Pattern example
   EP_num_paste_pads: [2, 1]
-
   thermal_vias:
     count: [3, 4]
     grid: [1, 1.2]
@@ -1931,13 +1781,11 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.66x2.46mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
-
   EP_size_x: 3.4
   EP_size_y: 5.0
   EP_mask_x: 2.66
   EP_mask_y: 2.46
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [3, 4]
     drill: 0.2
@@ -1957,7 +1805,7 @@ TSSOP-20_4.4x6.5mm_P0.65mm:
   num_pins_y: 10
 
 Texas_PW0020A_TSSOP-20_4.4x6.5mm_P0.65mm:
-# overall_height: 1.2 # maximum
+  overall_height: 1.2 # maximum
   device_type: 'TSSOP'
   manufacturer: 'Texas'
   part_number: 'PW0020A'
@@ -1980,7 +1828,6 @@ Texas_PW0020A_TSSOP-20_4.4x6.5mm_P0.65mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-#non IPC parameters
   pad_to_pad_min_x_overwrite: 4.30
   pad_to_pad_max_x_overwrite: 7.30
   pad_size_y_overwrite: 0.45
@@ -1988,34 +1835,26 @@ Texas_PW0020A_TSSOP-20_4.4x6.5mm_P0.65mm:
 TSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.15x3.35mm:
   device_type: 'TSSOP' # actually it's HTSSOP
   size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-100132.PDF'
-
   body_size_x:
     minimum: 4.30
     maximum: 4.50
   body_size_y:
     minimum: 6.40
     maximum: 6.60
-
   overall_size_x:
     minimum: 6.30
     maximum: 6.50
-
   body_height:
     maximum: 1.10
-
   lead_width:
     minimum: 0.195
     maximum: 0.30
-
   lead_len:
     minimum: 0.50
     maximum: 0.70
-
   pitch: 0.65
-
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x:
     minimum: 1.90
     nominal: 2.15
@@ -2051,7 +1890,6 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.74x3.86mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x:
     nominal: 2.74
   EP_size_y:
@@ -2084,7 +1922,6 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.85x4mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x:
     minimum: 2.6
     maximum: 3.1
@@ -2095,7 +1932,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.85x4mm:
 
 HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.4x3.7mm:
 # It was previously in httsop.yaml
-# overall_height: 1.20 # maximum
+  overall_height: 1.20 # maximum
   device_type: 'HTSSOP'
   size_source: 'http://www.ti.com/lit/ds/symlink/bq24006.pdf'
   compatible_mpns:
@@ -2118,7 +1955,6 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.4x3.7mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x:
     nominal: 3.4
   EP_size_y:
@@ -2130,7 +1966,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.4x3.7mm:
 Texas_PWP0020U:
 # HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm:
 # It was previously in httsop.yaml
-# overall_height: 1.20 # maximum
+  overall_height: 1.20 # maximum
   device_type: 'HTSSOP'
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3'
   compatible_mpns:
@@ -2153,34 +1989,26 @@ Texas_PWP0020U:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x: 3.4
   EP_size_y: 6.5
   EP_mask_x: 2.75
   EP_mask_y: 3.43
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [3, 5]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 Texas_PWP0020T:
 # HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.96x2.96mm:
 # It was previously in httsop.yaml
-# overall_height: 1.2 # maximum
+  overall_height: 1.2 # maximum
   device_type: 'HTSSOP'
   size_source: 'https://www.ti.com/lit/ds/symlink/tps2663.pdf#page=49'
   compatible_mpns:
@@ -2203,30 +2031,22 @@ Texas_PWP0020T:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
-
   EP_size_x: 2.16 .. 2.96
   EP_size_x_overwrite: 3.4
   EP_size_y: 2.21 .. 2.96
   EP_size_y_overwrite: 6.5
   EP_mask_x: 2.96
   EP_mask_y: 2.96
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [1, 1]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [3, 5]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 TSSOP-24_4.4x7.8mm_P0.65mm:
@@ -2251,7 +2071,6 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.2x5mm:
   size_source: 'JEDEC MO-153 variation ADT, 1.00mm body thickness, custom Exposed Pad size from STMicroelectronics, https://www.jedec.org/document_search?search_api_views_fulltext=MO-153, https://www.st.com/resource/en/datasheet/stp16cp05.pdf#page=25, https://www.st.com/resource/en/datasheet/led1642gw.pdf#page=37'
   overall_size_x: 6.20 .. 6.40 .. 6.60 # JEDEC E, nominal agrees with JEDEC, minimum / maximum are from ST
   lead_width: 0.19 .. 0.30 # ST's b, differs a little from JEDEC
-
   EP_size_x: 3.00 .. 3.20 .. 3.40 # STMicroelectronics E2
   EP_size_y: 4.80 .. 5.00 .. 5.20 # ST's D1
   EP_num_paste_pads: [2, 3]
@@ -2266,15 +2085,12 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x2.98mm:
   overall_size_x: 6.20 .. 6.40 .. 6.60 # JEDEC E, nominal agrees with JEDEC, minimum / maximum are from Texas
   lead_width: 0.19 .. 0.30 # Texas, minimum differs from JEDEC
   lead_len: 0.50 .. 0.75 # Texas, minimum differs from JEDEC
-
   EP_size_x: 1.5 .. 2.4 # Exposed Pad from Texas package
   EP_size_y: 2.08 .. 2.98
-
-  # from now on, sizes based on Texas Land Pattern example
-  EP_size_x_overwrite: 3.4
-  EP_size_y_overwrite: 7.8
-  EP_mask_x: 2.4
-  EP_mask_y: 2.98
+  EP_size_x_overwrite: 3.4 # sizes based on Texas Land Pattern example
+  EP_size_y_overwrite: 7.8 # sizes based on Texas Land Pattern example
+  EP_mask_x: 2.4 # sizes based on Texas Land Pattern example
+  EP_mask_y: 2.98 # sizes based on Texas Land Pattern example
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 7]
@@ -2289,24 +2105,19 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.44x3.42mm:
   compatible_mpns:
     - 'Texas_PWP0024U Texas_PowerPAD'
   lead_width: 0.17 .. 0.30 # back to JEDEC...
-
   EP_size_x: 1.74 .. 2.44 # Exposed Pad from Texas package
   EP_size_y: 2.72 .. 3.42
-
-  # from now on, sizes based on Texas Land Pattern example; EP size, vias / grid are the same of parent footprint
-  EP_mask_x: 2.44
-  EP_mask_y: 3.42
+  EP_mask_x: 2.44 # sizes based on Texas Land Pattern example; EP size, vias / grid are the same of parent footprint
+  EP_mask_y: 3.42 # sizes based on Texas Land Pattern example; EP size, vias / grid are the same of parent footprint
 
 HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm_ThermalVias:
 # It was previously in httsop.yaml,
 # either we update the size_source here to the OLD datasheet, or we use NEW datasheet and update some sizes (footprint will be renamed...), parts that use this footprint are still active
-# overall_height: 1.20 # maximum
+  overall_height: 1.20 # maximum
   device_type: 'HTSSOP'
-
   size_source: 'http://www.ti.com/lit/ds/symlink/tps703.pdf'
   # needs update here, MASK only makes sense if using old datasheet (mask = 2.4x4.68 mm): https://web.archive.org/web/20180403131740/http://www.ti.com/lit/ds/symlink/tps703.pdf#page=44
   # new datasheet's mask = 2.4x4.18 mm
-
   compatible_mpns:
     - Texas_PWP/R-PDSO-G24 # new datasheet uses 'PWP0024A'
   body_size_x:
@@ -2327,32 +2138,18 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm_ThermalVias:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 12
-
-  # EP_size_x: 1.49 .. 2.40 # Exposed Pad from Texas package (PWP0024A, NEW datasheet)
-  # EP_size_y: 3.78 .. 4.18 # there's yet a detail of 2x (0.25) which may differ or may not be present (note 5 in new datasheet)
-
   EP_size_x: 3.4 # this value is actually EP_size_x_overwrite
   EP_size_y: 7.8 # EP_size_y_overwrite
   EP_mask_x: 2.4
   EP_mask_y: 4.68 # needs update, new datasheet = 4.18mm
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [1, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [3, 6]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [1, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.3, 1.3] # from old datasheet, new is [1.2, 1.2]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 TSSOP-28_4.4x9.7mm_P0.65mm:
@@ -2371,38 +2168,29 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
 TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.74x4.75mm:
   device_type: 'TSSOP' # it's actually HTSSOP
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/lt3762.pdf'
-
   body_size_x:
     minimum: 4.30
     maximum: 4.50
   body_size_y:
     minimum: 9.60
     maximum: 9.80
-
   overall_size_x: 6.4
-
   overall_height:
     maximum: 1.20
-
   lead_width:
     minimum: 0.195
     maximum: 0.30
-
   lead_len:
     minimum: 0.50
     maximum: 0.75
-
   pitch: 0.65
-
   num_pins_x: 0
   num_pins_y: 14
-
   EP_size_x:
     nominal: 2.74
   EP_size_y:
     nominal: 4.75
   EP_num_paste_pads: [2, 3]
-
   thermal_vias:
     count: [3, 4]
     drill: 0.2
@@ -2457,34 +2245,26 @@ HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x5.4mm:
 TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x6.7mm:
   device_type: 'TSSOP' # It's actually HTSSOP
   size_source: 'JEDEC MO-153 Var AET Pkg.Code U28E-4 https://pdfserv.maximintegrated.com/package_dwgs/21-0108.PDF'
-
   body_size_x:
     minimum: 4.30
     maximum: 4.50
   body_size_y:
     minimum: 9.60
     maximum: 9.80
-
   overall_size_x:
     minimum: 6.25
     maximum: 6.50
-
   body_height:
     maximum: 1.10
-
   lead_width:
     minimum: 0.19
     maximum: 0.30
-
   lead_len:
     minimum: 0.50
     maximum: 0.70
-
   pitch: 0.65
-
   num_pins_x: 0
   num_pins_y: 14
-
   EP_size_x:
     minimum: 2.60
     maximum: 3.10
@@ -2496,46 +2276,35 @@ TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x6.7mm:
 TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.7mm_Mask3.1x4.05mm:
   device_type: 'TSSOP' # It's actually HTSSOP
   size_source: 'Texas Instruments TAS5805M https://www.ti.com/lit/gpn/tas5805m'
-
   body_size_x:
     minimum: 4.30
     maximum: 4.50
   body_size_y:
     minimum: 9.60
     maximum: 9.80
-
   overall_size_x:
     minimum: 6.20
     maximum: 6.60
-
   overall_height:
     maximum: 1.20
-
   lead_width:
     minimum: 0.19
     maximum: 0.30
-
   lead_len:
     minimum: 0.50
     maximum: 0.75
-
   pitch: 0.65
-
   num_pins_x: 0
   num_pins_y: 14
-
   EP_mask_x:
     nominal: 3.10
   EP_mask_y:
     nominal: 4.05
-
   EP_size_x:
     nominal: 3.4
   EP_size_y:
     nominal: 9.7
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 8]
     drill: 0.2
@@ -2545,38 +2314,29 @@ TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.7mm_Mask3.1x4.05mm:
 TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.05x7.56mm:
   device_type: 'TSSOP' # It's actually HTSSOP
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/38921fc.pdf'
-
   body_size_x:
     minimum: 4.30
     maximum: 4.50
   body_size_y:
     minimum: 9.60
     maximum: 9.80
-
   overall_size_x: 6.4
-
   overall_height:
     maximum: 1.20
-
   lead_width:
     minimum: 0.195
     maximum: 0.30
-
   lead_len:
     minimum: 0.50
     maximum: 0.75
-
   pitch: 0.65
-
   num_pins_x: 0
   num_pins_y: 14
-
   EP_size_x:
     nominal: 3.05
   EP_size_y:
     nominal: 7.56
   EP_num_paste_pads: [2, 4]
-
   thermal_vias:
     count: [3, 5]
     drill: 0.2
@@ -2609,7 +2369,6 @@ Texas_PWP0028V:
   pitch: 0.65
   num_pins_y: 14
   num_pins_x: 0
-
   EP_size_x:
     minimum: 2.24
     maximum: 2.94
@@ -2620,21 +2379,13 @@ Texas_PWP0028V:
   EP_size_y_overwrite: 9.7
   EP_mask_x: 2.94
   EP_mask_y: 5.62
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 5]
-
   thermal_vias:
     count: [3, 8]
     drill: 0.2
     grid: [1.47, 1.12]
-    # min_annular_ring: 0.15
-    #paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 5]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    # bottom_pad_size:
     paste_avoid_via: false
 
 ##############################################################################
@@ -2711,7 +2462,6 @@ Texas_DAD0032A_HTSSOP-32_6.1x11mm_P0.65mm_TopEP3.71x3.81mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 16
-
   top_slug:
     shape: rectangle
     x: 3.31 .. 4.11
@@ -2746,7 +2496,7 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
 Texas_DAP_R-PDSO-G38:
 # HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm
 # It was previously in httsop.yaml
-# overall_height: 1.20 # maximum
+  overall_height: 1.20 # maximum
   device_type: 'HTSSOP'
   size_source: 'https://www.ti.com/jp/lit/ml/pptd158c/pptd158c.pdf'
   compatible_mpns:
@@ -2770,28 +2520,20 @@ Texas_DAP_R-PDSO-G38:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 19
-
   EP_size_x: 5.2
   EP_size_y: 12.5
   EP_mask_x: 3.39
   EP_mask_y: 6.35
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [4, 10]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 3]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 TSSOP-40_6.1x14mm_P0.65mm:

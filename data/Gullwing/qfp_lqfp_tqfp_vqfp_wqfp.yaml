@@ -9,7 +9,6 @@ FileHeader:
   library_Suffix: 'QFP'
   device_type: 'PQFP'
 
-
 ##############################################################################
 # PQFP, height > 1.70 mm
 ##############################################################################
@@ -119,7 +118,6 @@ Hitachi_FP80B_PQFP-80_14x20mm_P0.8mm:
   overall_size_x: 18.8 +/- 0.4
   overall_size_y: 24.8 +/- 0.4
   overall_height: 2.70 .. 3.10
-  # lead_width: 0.37 +/- 0.08 # same of JEITA bp / JEDEC b parent footprint
   lead_len: 1.2 +/- 0.2
 
 PQFP-128_28x28mm_P0.8mm:
@@ -379,10 +377,9 @@ LQFP-32_7x7mm_P0.8mm:
   num_pins_y: 8
 
 LQFP-36_7x7mm_P0.65mm:
-# height = 1.7 mm max
+  overall_height: 1.7 mm # max
   device_type: 'LQFP'
   size_source: 'https://www.onsemi.com/pub/Collateral/561AV.PDF'
-  # ipc_density: 'least'
   force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 7
@@ -408,13 +405,13 @@ LQFP-36_7x7mm_P0.65mm:
 
 LQFP-44_10x10mm_P0.8mm:
 # CASE-561AA, https://www.mouser.com/datasheet/2/308/1/AMIS_492X0_D-1801898.pdf#page=17
-# height = 1.60 mm max, similar to JEDEC MS-026 variation BCB
-# https://www.nxp.com/docs/en/package-information/98ASS23225W.pdf
+  overall_height: 1.60 # max, similar to JEDEC MS-026 variation BCB
+  # https://www.nxp.com/docs/en/package-information/98ASS23225W.pdf
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ASS23225W.pdf?&fsrch=1'
   body_size_x: 10
   body_size_y: 10
-  overall_size_x:  12
+  overall_size_x: 12
   overall_size_y: 12
   lead_width: 0.3 .. 0.45
   lead_len: 0.45 .. 0.75
@@ -423,10 +420,9 @@ LQFP-44_10x10mm_P0.8mm:
   num_pins_y: 11
 
 LQFP-52_10x10mm_P0.65mm:
-# height = 1.65 mm max
+  overall_height: 1.65 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/98ARL10526D.pdf'
-  # ipc_density: 'least'
   force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 10
@@ -446,7 +442,7 @@ LQFP-52_10x10mm_P0.65mm:
   num_pins_y: 13
 
 LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
-# height = 1.70 mm max
+  overall_height: 1.70 # max
   device_type: 'LQFP'
   size_source: 'https://www.onsemi.com/pub/Collateral/848H-01.PDF'
   force_small_pitch_ipc_definition: True
@@ -471,31 +467,21 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
-
   EP_size_x: 4.8
   EP_size_y: 4.8
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-52_14x14mm_P1mm:
-# height = 1.60 mm max
-# https://web.archive.org/web/20180404050010/http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf
+  overall_height: 1.60 # max
+  # https://web.archive.org/web/20180404050010/http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf
   device_type: 'LQFP'
   size_source: 'http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf'
   body_size_x:
@@ -525,12 +511,10 @@ LQFP-52_14x14mm_P1mm:
   num_pins_y: 13
 
 LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
-# height 1.60 mm max
-# https://www.nxp.com/docs/en/package-information/98ARH98426A.pdf
+  overall_height: 1.60 # max
+  # https://www.nxp.com/docs/en/package-information/98ARH98426A.pdf
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ARH98426A.pdf'
-  # ipc_density: 'least'
-  # force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 10
   body_size_y:
@@ -548,34 +532,22 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-
   EP_size_x: 6.5
   EP_size_y: 6.5
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-64-1EP_10x10mm_P0.5mm_EP5.0x5.0mm:
-# height 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/adv7611.pdf'
-  # ipc_density: 'least'
-  # force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 10
     minimum: 9.8
@@ -603,7 +575,6 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP5.0x5.0mm:
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-
   EP_size_x:
     nominal: 5.0
     minimum: 4.9
@@ -612,27 +583,18 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP5.0x5.0mm:
     nominal: 5.0
     minimum: 4.9
     maximum: 5.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-64_7x7mm_P0.4mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT414-1.pdf'
   body_size_x:
@@ -658,7 +620,7 @@ LQFP-64_7x7mm_P0.4mm:
   num_pins_y: 16
 
 LQFP-64_10x10mm_P0.5mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606_7606-6_7606-4.pdf'
   body_size_x:
@@ -690,7 +652,7 @@ LQFP-64_10x10mm_P0.5mm:
   num_pins_y: 16
 
 LQFP-64_14x14mm_P0.8mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT791-1.pdf'
   body_size_x:
@@ -716,7 +678,7 @@ LQFP-64_14x14mm_P0.8mm:
   num_pins_y: 16
 
 LQFP-80_10x10mm_P0.4mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q80.10x10.pdf'
   body_size_x:
@@ -740,7 +702,7 @@ LQFP-80_10x10mm_P0.4mm:
   num_pins_y: 20
 
 LQFP-80_12x12mm_P0.5mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT315-1.pdf'
   body_size_x:
@@ -766,8 +728,8 @@ LQFP-80_12x12mm_P0.5mm:
   num_pins_y: 20
 
 LQFP-80_14x14mm_P0.65mm:
-# height 1.60 mm max
-# PZA0080A is compatible, see https://www.ti.com/lit/ml/mpqf099b/mpqf099b.pdf
+  overall_height: 1.60 # max
+  # PZA0080A is compatible, see https://www.ti.com/lit/ml/mpqf099b/mpqf099b.pdf
   device_type: 'LQFP'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD9852.pdf'
   force_small_pitch_ipc_definition: True
@@ -800,7 +762,8 @@ LQFP-80_14x14mm_P0.65mm:
   num_pins_y: 20
 
 LQFP-100_14x14mm_P0.5mm:
-# height = 1.6 mm nominal, we should inherit it from TQFP-100_14x14mm_P0.5mm
+# we should inherit it from TQFP-100_14x14mm_P0.5mm
+  overall_height: 1.60 # nominal
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT407-1.pdf'
   body_size_x:
@@ -826,7 +789,7 @@ LQFP-100_14x14mm_P0.5mm:
   num_pins_y: 25
 
 LQFP-128_14x14mm_P0.4mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q128.14x14.pdf'
   body_size_x:
@@ -850,7 +813,7 @@ LQFP-128_14x14mm_P0.4mm:
   num_pins_y: 32
 
 LQFP-128_14x20mm_P0.5mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT425-1.pdf'
   body_size_x:
@@ -876,7 +839,7 @@ LQFP-128_14x20mm_P0.5mm:
   num_pins_y: 38
 
 LQFP-144_20x20mm_P0.5mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=425'
   body_size_x:
@@ -922,24 +885,17 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP4x4mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x: 4
   EP_size_y: 4
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 EQFP-144-1EP_20x20mm_P0.5mm_EP5x5mm:
 # Based on JEDEC MS-026, variation BFB-HD, it's LQFP (height 1.65mm max)
@@ -964,34 +920,27 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP5x5mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x: 5
   EP_size_y: 5
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-144_20x20mm_P0.5mm_EP6.5x6.5mm:
-# height = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: https://www.infineon.com/dgdl/Infineon-XMC4500-DS-v01_05-EN.pdf?fileId=5546d46254e133b40154e1b56cbe0123
   compatible_mpns:
-    # Has 'U-groove'/anti-flash groove, overall EP size for soldering purposes is 6.5x6.5
-    # See also https://www.infineon.com/dgdl/Infineon-Board_Assembly_Recommendations-QFP-Package-v06_00-EN.pdf?fileId=5546d46275b79adb0175bd38e18f6099#page=7
+  # Has 'U-groove'/anti-flash groove, overall EP size for soldering purposes is 6.5x6.5
+  # See also https://www.infineon.com/dgdl/Infineon-Board_Assembly_Recommendations-QFP-Package-v06_00-EN.pdf?fileId=5546d46275b79adb0175bd38e18f6099#page=7
     - Infineon-PG-LQFP-144-24
-    # No U-groove
+  # No U-groove
     - Infineon-PG-LQFP-144-26
   body_size_x:
     nominal: 20
@@ -1006,13 +955,11 @@ LQFP-144_20x20mm_P0.5mm_EP6.5x6.5mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x:
     nominal: 6.5
   EP_size_y:
     nominal: 6.5
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
@@ -1040,24 +987,17 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP6.61x5.615mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x: 6.61
   EP_size_y: 5.615
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 4]
-
   thermal_vias:
     count: [5, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.3, 1.4]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 EQFP-144-1EP_20x20mm_P0.5mm_EP7.2x6.35mm:
 # Based on JEDEC MS-026, variation BFB-HD, it's LQFP (height 1.65mm max)
@@ -1082,24 +1022,17 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP7.2x6.35mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x: 7.2
   EP_size_y: 6.35
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [6, 5]
-
   thermal_vias:
     count: [6, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 EQFP-144-1EP_20x20mm_P0.5mm_EP8.93x8.7mm:
 # Based on JEDEC MS-026, variation BFB-HD, it's LQFP (height 1.65mm max)
@@ -1124,27 +1057,20 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP8.93x8.7mm:
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
-
   EP_size_x: 8.93
   EP_size_y: 8.7
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [7, 7]
-
   thermal_vias:
     count: [7, 7]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [1.2, 1.2]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-160_24x24mm_P0.5mm:
-# height = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT435-1.pdf'
   body_size_x:
@@ -1170,7 +1096,7 @@ LQFP-160_24x24mm_P0.5mm:
   num_pins_y: 40
 
 LQFP-176_20x20mm_P0.4mm:
-# height = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.onsemi.com/pub/Collateral/566DB.PDF'
   body_size_x:
@@ -1196,7 +1122,7 @@ LQFP-176_20x20mm_P0.4mm:
   num_pins_y: 44
 
 LQFP-176_24x24mm_P0.5mm:
-# height A = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=163' # actually page 160
   body_size_x:
@@ -1222,10 +1148,10 @@ LQFP-176_24x24mm_P0.5mm:
   num_pins_y: 44
 
 LQFP-176-1EP_24x24mm_P0.5mm_EP6.6x6.6mm:
-  # Most similar JEDEC MS-026 variation BGA https://www.jedec.org/document_search?search_api_views_fulltext=MS-026
-  # Manufacturer doesn't declare a JEDEC variant.
-  # Tolerances / height / custom Exposed Pad from Infineon https://www.infineon.com/cms/en/product/packages/PG-TQFP/PG-TQFP-176-801/
-  # Height = 1.70 mm max, so LQFP, but manufacturer calls it TQFP
+# Most similar JEDEC MS-026 variation BGA https://www.jedec.org/document_search?search_api_views_fulltext=MS-026
+# Manufacturer doesn't declare a JEDEC variant.
+# Tolerances / height / custom Exposed Pad from Infineon https://www.infineon.com/cms/en/product/packages/PG-TQFP/PG-TQFP-176-801/
+# Height = 1.70 mm max, so LQFP, but manufacturer calls it TQFP
   device_type: 'LQFP'
   compatible_mpns:
     - Infineon-PG-TQFP-176-801
@@ -1243,18 +1169,16 @@ LQFP-176-1EP_24x24mm_P0.5mm_EP6.6x6.6mm:
   pitch: 0.5
   num_pins_x: 44
   num_pins_y: 44
-
   EP_size_x: 6.6 +/- 0.2
   EP_size_y: 6.6 +/- 0.2
   EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-
   thermal_vias:
     count: [6, 6]
     drill: 0.2
 
 LQFP-208_28x28mm_P0.5mm:
-# height = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT459-1.pdf'
   body_size_x:
@@ -1280,7 +1204,7 @@ LQFP-208_28x28mm_P0.5mm:
   num_pins_y: 52
 
 LQFP-216_24x24mm_P0.4mm:
-# height = 1.60 mm max
+  overall_height: 1.60 # max
   device_type: 'LQFP'
   size_source: 'https://www.onsemi.com/pub/Collateral/561BE.PDF'
   body_size_x:
@@ -1352,7 +1276,7 @@ TQFP-64_14x14mm_P0.8mm:
   num_pins_y: 16
 
 TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
-# height = 1.20 mm max, similar to JEDEC MS-026 variation ACC
+  overall_height: 1.20 # max, similar to JEDEC MS-026 variation ACC
   device_type: 'TQFP'
   size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_52_1.pdf'
   body_size_x:
@@ -1374,7 +1298,6 @@ TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
-
   EP_size_x:
     minimum: 6.4
     nominal: 6.5
@@ -1385,7 +1308,6 @@ TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
     maximum: 6.6
   EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
@@ -1446,21 +1368,6 @@ TQFP-32_5x5mm_P0.5mm:
   num_pins_x: 8
   num_pins_y: 8
 
-#Texas_TQFP-32_5x5mm_P0.5mm:
-# there's only 1 symbol using either 'TQFP-32_5x5mm_P0.5mm' or 'Texas_TQFP-32_5x5mm_P0.5mm', let's comment this entry for now
-# previously 'PQFP-32_5x5mm_P0.5mm', original source: https://www.ti.com/lit/ds/symlink/ads127l01.pdf#page=87
-#  inherit: TQFP-32_5x5mm_P0.5mm
-#  manufacturer: 'Texas'
-#  size_source: 'Based on JEDEC MS-026 variation AAA and Texas Instruments, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://www.ti.com/lit/ml/mpqf027a/mpqf027a.pdf'
-#  compatible_mpns:
-#    - 'Texas-Instruments-PBS-(S-PQFP-G32)'
-#  body_size_x: 4.95 .. 5.05
-#  body_size_y: 4.95 .. 5.05
-#  overall_size_x: 6.90 .. 7.10
-#  overall_size_y: 6.90 .. 7.10
-#  lead_width: 0.17 .. 0.23
-#  lead_len: 0.40 .. 0.70
-
 TQFP-48_7x7mm_P0.5mm:
 # compatible with JEITA 48-001-TBA
   device_type: 'TQFP'
@@ -1508,7 +1415,7 @@ LQFP-48_7x7mm_P0.5mm:
   overall_height: 1.40 .. 1.60 # JEDEC, minimum calculated from A1_min + A2_min
 
 LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
-# height = 1.60 mm max, it should be inherited from LQFP-48_7x7mm_P0.5mm
+  overall_height: 1.60 # max, it should be inherited from LQFP-48_7x7mm_P0.5mm
   device_type: 'LQFP'
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   body_size_x: 7
@@ -1520,11 +1427,9 @@ LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
-
   EP_size_x: 3.6 +/- 0.1
   EP_size_y: 3.6 +/- 0.1
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -1536,7 +1441,7 @@ LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
 
 Texas_PHP0048E_HTQFP-48_7x7mm_P0.5mm:
 # Generates Texas_PHP0048E_HTQFP-48-1EP_7x7mm_P0.5mm_EP6.5x6.5mm_Mask3.62x3.62mm
-# height 1.2 mm max, similar to JEDEC MS-026 variation ABC (but custom exposed pad from TI)
+  overall_height: 1.2 # max, similar to JEDEC MS-026 variation ABC (but custom exposed pad from TI)
   device_type: 'HTQFP'
   manufacturer: "Texas"
   part_number: "PHP0048E"
@@ -1550,7 +1455,6 @@ Texas_PHP0048E_HTQFP-48_7x7mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
-
   EP_size_x: 3.15 .. 3.62
   EP_size_y: 3.15 .. 3.62
   EP_size_x_overwrite: 6.5
@@ -1559,7 +1463,6 @@ Texas_PHP0048E_HTQFP-48_7x7mm_P0.5mm:
   EP_mask_y: 3.62
   EP_num_paste_pads: 1
   EP_paste_coverage: 1
-
   thermal_vias:
     count: [6, 6]
     drill: 0.2
@@ -1568,7 +1471,7 @@ Texas_PHP0048E_HTQFP-48_7x7mm_P0.5mm:
     paste_avoid_via: False
 
 TQFP-48-1EP_7x7mm_P0.5mm_EP4.11x4.11mm:
-# height 1.2 mm max, it should be inherited from TQFP-48_7x7mm_P0.5mm
+  overall_height: 1.2 # max, it should be inherited from TQFP-48_7x7mm_P0.5mm
   device_type: 'TQFP'
   size_source: 'https://www.lumissil.com/assets/pdf/core/IS31FL3236_DS.pdf'
   body_size_x: 7.0
@@ -1580,7 +1483,6 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP4.11x4.11mm:
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
-
   EP_size_x: 4.0 .. 4.21
   EP_size_y: 4.0 .. 4.21
   EP_size_x_overwrite: 4.11
@@ -1613,7 +1515,6 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5.0x5.0mm:
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
-
   EP_size_x:
     minimum: 4.9
     nominal: 5.0
@@ -1622,24 +1523,11 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5.0x5.0mm:
     minimum: 4.9
     nominal: 5.0
     maximum: 5.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    #EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 TQFP-64_10x10mm_P0.5mm:
 # some symbols like EX64-TQ64 and CY8C4245AZI-M445 which asks for a LQFP-64 (height A = 1.60 mm) are using this footprint, pending fix these bugs
@@ -1670,17 +1558,13 @@ Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask4.44x4.44mm:
   body_size_y: 9.8 .. 10.2
   overall_size_x: 11.8 .. 12.2
   overall_size_y: 11.8 .. 12.2
-
   EP_size_x: 3.64 .. 4.44 # Exposed Pad from Texas package
   EP_size_y: 3.64 .. 4.44
-
-  # from now on, sizes based on Texas Board Layout example
-  EP_size_x_overwrite: 8
-  EP_size_y_overwrite: 8
-  EP_mask_x: 4.44
-  EP_mask_y: 4.44
+  EP_size_x_overwrite: 8 # sizes based on Texas Board Layout example
+  EP_size_y_overwrite: 8 # sizes based on Texas Board Layout example
+  EP_mask_x: 4.44 # sizes based on Texas Board Layout example
+  EP_mask_y: 4.44 # sizes based on Texas Board Layout example
   EP_num_paste_pads: [2, 2] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
-
   thermal_vias:
     count: [8, 8]
     grid: [1, 1]
@@ -1693,15 +1577,11 @@ Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask5x5mm:
   size_source: 'Texas PAP (S-PQFP-G64), based on JEDEC MS-026 variation ACD, 1.00mm body thickness, https://www.ti.com/lit/ds/symlink/tfp410.pdf#page=41'
   compatible_mpns:
     - 'Texas_PAP-(S-PQFP-G64) Texas_PowerPAD-64-pin-HTQFP'
-
   EP_size_x: 4.30 .. 5.00 # Exposed Pad from Texas package
   EP_size_y: 4.30 .. 5.00
-
-  # from now on, sizes based on Texas Board Layout example, some values are inherited from parent footprint
-  EP_mask_x: 5.0
-  EP_mask_y: 5.0
+  EP_mask_x: 5.0 # sizes based on Texas Board Layout example, some values are inherited from parent footprint
+  EP_mask_y: 5.0 # sizes based on Texas Board Layout example, some values are inherited from parent footprint
   EP_num_paste_pads: [3, 3] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
-
   thermal_vias:
     count: [6, 6]
     grid: [1.3, 1.3]
@@ -1709,7 +1589,7 @@ Texas_TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask5x5mm:
     EP_num_paste_pads: [3, 3]
 
 TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
-# height A = 1.20mm max, similar to JEDEC MS-026 variation ACD (but custom Exposed Pad)
+# similar to JEDEC MS-026 variation ACD (but custom Exposed Pad)
   device_type: 'TQFP'
   size_source: 'https://www.esstech.com/wp-content/uploads/2022/09/ES9028PRO-Datasheet-v3.7.pdf#page=54'
   body_size_x: 9.9 .. 10 .. 10.10
@@ -1771,7 +1651,7 @@ TQFP-100_14x14mm_P0.5mm:
   num_pins_y: 25
 
 TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
-# height = 1.20 mm max, similar to JEDEC MS-026 variation AED (but custom Exposed Pad), we should inherit from TQFP-100_14x14mm_P0.5mm
+# similar to JEDEC MS-026 variation AED (but custom Exposed Pad), we should inherit from TQFP-100_14x14mm_P0.5mm
   device_type: 'TQFP'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_100_4.pdf'
   body_size_x:
@@ -1796,29 +1676,15 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
   pitch: 0.5
   num_pins_x: 25
   num_pins_y: 25
-
   EP_size_x:
     nominal: 5.0
   EP_size_y:
     nominal: 5.0
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    #EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: True
 
 LQFP-100-1EP_14x14mm_P0.5mm_EP6.9x.96mm:
   device_type: 'LQFP'
@@ -1999,3 +1865,4 @@ VQFP-176_20x20mm_P0.4mm:
 ##############################################################################
 # WQFP, height A = 0.65 .. 0.80 mm
 ##############################################################################
+

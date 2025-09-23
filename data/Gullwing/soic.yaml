@@ -29,18 +29,16 @@
 # - include 'P-SOP', 'SOP', 'SOP-4', 'SOP-8' and others designators in compatible_mpns,
 # - as well put info about JEITA in size_source, example : 'JEITA/EIAJ variation xx-xxx-BBA, ...'
 
-
 FileHeader:
   library_Suffix: 'SO'
   device_type: 'SOIC' # Use this in each new footprint definition for now, until refactor is completely
-
 
 ##############################################################################
 # 2.54 PITCH
 ##############################################################################
 
 SOP-4_3.8x4.1mm_P2.54mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.littelfuse.com/assetdocs/littelfuse-integrated-circuits-cpc1017n-datasheet?assetguid=b4f177f1-629f-4104-97a5-8b8d709e83de'
   body_size_x:
@@ -50,10 +48,9 @@ SOP-4_3.8x4.1mm_P2.54mm:
     nominal: 4.1 #rounded to avoid changing the symbol (given as 4.089)
     tolerance: 0.025
   overall_height:
-    # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
+  # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
     nominal: 2.094
     tolerance: 0.047
-
   overall_size_x:
     nominal: 6.096
     tolerance: 0.102
@@ -63,13 +60,12 @@ SOP-4_3.8x4.1mm_P2.54mm:
   lead_len:
     nominal: 0.559
     tolerance: 0.127
-
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
 
 OnSemi_SOIC-4_751EP:
-  # it was previously in bridge_rectifier.yaml file, generates OnSemi_751EP_SOIC-4_3.9x4.725mm_P2.54mm
+# it was previously in bridge_rectifier.yaml file, generates OnSemi_751EP_SOIC-4_3.9x4.725mm_P2.54mm
   device_type: 'SOIC'
   size_source: 'https://www.onsemi.com/pdf/datasheet/mb8s-d.pdf'
   manufacturer: 'OnSemi'
@@ -83,24 +79,21 @@ OnSemi_SOIC-4_751EP:
   overall_height:
     minimum: 2.4
     maximum: 2.9
-
   overall_size_x:
-    # Actually 6.4..7.0mm but modified so it fits the mfr land pattern better!!
-    # (because of huuuuuge tolerance of the overall size X)
+  # Actually 6.4..7.0mm but modified so it fits the mfr land pattern better!!
+  # (because of huuuuuge tolerance of the overall size X)
     nominal: 7.8
   lead_width:
-    # Actually 0.43..0.84mm but modified so it fits the mfr land pattern better!!
-    # (because of huuuuuge tolerance of the pitch)
+  # Actually 0.43..0.84mm but modified so it fits the mfr land pattern better!!
+  # (because of huuuuuge tolerance of the pitch)
     nominal: 1.4
   lead_len:
-    # Actually 0.48..1.1mm but modified so it fits the mfr land pattern better!!
-    # (because of huuuuuge tolerance of all parameters)
+  # Actually 0.48..1.1mm but modified so it fits the mfr land pattern better!!
+  # (because of huuuuuge tolerance of all parameters)
     nominal: 1.3
-
   pitch: 2.54 # Datasheet: 2.2 .. 2.7
   num_pins_x: 0
   num_pins_y: 2
-
   compatible_mpns:
     - OnSemi_MB8S
     - OnSemi_SOIC4W
@@ -131,7 +124,7 @@ SOIC-4_4.55x3.7mm_P2.54mm:
   hidden_pins: [2, 5]
 
 SO-4_4.4x3.9mm_P2.54mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=10047&prodName=TLP3123'
   body_size_x:
@@ -154,7 +147,7 @@ SO-4_4.4x3.9mm_P2.54mm:
   num_pins_y: 2
 
 SOP-4_7.5x4.1mm_P2.54mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.vishay.com/docs/83515/tclt1000.pdf'
   body_size_x:
@@ -165,9 +158,8 @@ SOP-4_7.5x4.1mm_P2.54mm:
     nominal: 4.1 # Not given in datasheet, assuming = maximum
   overall_height:
     maximum: 2.3
-
   overall_size_x:
-    # Datasheet: tolerance: +0.3/-0.4
+  # Datasheet: tolerance: +0.3/-0.4
     minimum: 9.8
     nominal: 10.2
     maximum: 10.5
@@ -175,21 +167,19 @@ SOP-4_7.5x4.1mm_P2.54mm:
     nominal: 0.45
     tolerance: 0.10
   lead_len:
-    # Datasheet: tolerance: +0.3/-0.4
+  # Datasheet: tolerance: +0.3/-0.4
     minimum: 0.3
     nominal: 0.7
     maximum: 1.0
-
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
-
   compatible_mpns:
     - Vishay_TCLT100x
 
 SO-4_7.6x3.6mm_P2.54mm:
-  # it was previously in so.yaml file
-  # EL101X-G datasheet
+# it was previously in so.yaml file
+# EL101X-G datasheet
   device_type: 'SO' # temporary
   size_source: 'https://everlightamericas.com/index.php?controller=attachment&id_attachment=3535'
   body_size_x:
@@ -200,7 +190,6 @@ SO-4_7.6x3.6mm_P2.54mm:
     tolerance: 0.2
   overall_height:
     maximum: 2.2
-
   overall_size_x:
     nominal: 10.2
     tolerance: 0.3
@@ -208,22 +197,20 @@ SO-4_7.6x3.6mm_P2.54mm:
     nominal: 0.40
     tolerance: 0.10
   lead_len:
-    # Only minimum given in datasheet.
-    # We need to assume that users will use this for other (similar) parts
-    # so the pad can't be too small!
+  # Only minimum given in datasheet.
+  # We need to assume that users will use this for other (similar) parts
+  # so the pad can't be too small!
     minimum: 0.5
     nominal: 0.7 # Not given, assumption based on Vishay TCLT1000
     maximum: 1.0
-
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
-
   compatible_mpns:
     - Everlight_EL101X-G
 
 SSO-8-N7_9.78x6.4mm_P2.54mm:
-  # it was previously in sso.yaml file, generates SSO-7-8_6.4x9.78mm_P2.54mm
+# it was previously in sso.yaml file, generates SSO-7-8_6.4x9.78mm_P2.54mm
   device_type: 'SSO' # temporary
   size_source: 'https://b2b-api.panasonic.eu/file_stream/pids/fileversion/2787'
   # New datasheet link, old is broken https://mediap.industry.panasonic.eu/assets/imported/industrial.panasonic.com/ac/cdn/e/control/relay/solid-state/catalog/semi_eng_aqh.pdf#page=5
@@ -248,7 +235,7 @@ SSO-8-N7_9.78x6.4mm_P2.54mm:
   hidden_pins: [7]
 
 SSO-7_6.4x9.7mm_P2.54mm:
-  # it was previously in sso.yaml file
+# it was previously in sso.yaml file
   device_type: 'SSO' # temporary
   size_source: 'https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2312161855_BC-BC2213A_C596512.pdf'
   body_size_y:
@@ -272,7 +259,7 @@ SSO-7_6.4x9.7mm_P2.54mm:
   deleted_pins: [7]
 
 SOP-8_6.62x9.15mm_P2.54mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'http://www.ti.com/lit/ds/symlink/iso1050.pdf'
   body_size_x:
@@ -283,7 +270,6 @@ SOP-8_6.62x9.15mm_P2.54mm:
     maximum: 9.55
   overall_height:
     maximum: 4.85
-
   overall_size_x:
     minimum: 10.1
     maximum: 10.7
@@ -293,13 +279,12 @@ SOP-8_6.62x9.15mm_P2.54mm:
   lead_len:
     minimum: 1.15
     maximum: 1.45
-
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4
 
 SOP-8_6.605x9.655mm_P2.54mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.onsemi.com/pdf/datasheet/hcpl2631m-d.pdf'
   body_size_x: 6.35 .. 6.86
@@ -308,7 +293,6 @@ SOP-8_6.605x9.655mm_P2.54mm:
   overall_size_x: 8.8 .. 10.30
   lead_width: 1.14 .. 1.78
   lead_len: 0.40 .. 1.15
-
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4
@@ -389,7 +373,7 @@ Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm:
   hidden_pins: [2, 5]
 
 SOP-4_4.4x2.6mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'http://www.vishay.com/docs/83510/tcmt1100.pdf'
   body_size_x:
@@ -399,10 +383,9 @@ SOP-4_4.4x2.6mm_P1.27mm:
     nominal: 2.6
     tolerance: 0.2
   overall_height:
-    # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
+  # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
     nominal: 2.1
     tolerance: 0.14
-
   overall_size_x:
     nominal: 7
     tolerance: 0.3
@@ -412,13 +395,12 @@ SOP-4_4.4x2.6mm_P1.27mm:
   lead_len:
     nominal: 0.6
     tolerance: [-0.3, 0.2]
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 2
 
 SSOP-4_4.4x2.6mm_P1.27mm:
-  # it was previously in ssop.yaml file
+# it was previously in ssop.yaml file
   device_type: 'SSOP' # temporary
   size_source: 'https://www.vishay.com/docs/83465/vos618a.pdf'
   body_size_x: 4.2 .. 4.4 .. 4.6
@@ -455,28 +437,26 @@ SOIC-4_4.55x2.6mm_P1.27mm:
   num_pins_y: 2
 
 SO-5-6_4.55x3.7mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://toshiba.semicon-storage.com/us/semiconductor/design-development/package/detail.5pin%20SO6.html'
   body_size_x: 4.55 -0.15 + 0.25
   body_size_y: 3.7 -0.15 + 0.25
   overall_size_x: 7.0 +/-0.4
   lead_width: 0.4
-  lead_len:  0.5
+  lead_len: 0.5
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 3
   hidden_pins: [2,]
-
   pad_to_pad_min_x_overwrite: 5.1
   pad_to_pad_max_x_overwrite: 7.5
   pad_size_y_overwrite: 0.8
-
   compatible_mpns: ['TLP2310', ]
   additional_tags: ['Toshiba', ]
 
 SOP-8_3.76x4.96mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://ww2.minicircuits.com/case_style/XX211.pdf'
   body_size_x:
@@ -512,7 +492,6 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   overall_height:
     minimum: 1.35
     maximum: 1.75
-
   overall_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 6
     tolerance: 0.2
@@ -522,13 +501,12 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
 
 JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
-  # it was previously in sop.yaml file as SOP-8
+# it was previously in sop.yaml file as SOP-8
   manufacturer: 'JEITA'  # Using 'manufacturer' to generate the file name prefix 'JEITA_'
   device_type: 'SOIC'
   compatible_mpns:
@@ -542,7 +520,7 @@ JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
     nominal: 3.90
   body_size_y:
     nominal: 4.90
-  overall_height: 
+  overall_height:
     minimum: 1.45 # not specified, min.A1(0.10) + min.A2(1.35) gives this value
     maximum: 1.75 # max.A
   overall_size_x:
@@ -556,7 +534,7 @@ JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
   num_pins_y: 4
 
 SSOP-8_3.9x5.05mm_P1.27mm:
-  # it was previously in ssop.yaml file
+# it was previously in ssop.yaml file
   device_type: 'SSOP' # temporary
   size_source: 'https://www.fujitsu.com/uk/Images/MB85RS16.pdf'
   # old datasheet: 'http://www.fujitsu.com/ca/en/Images/MB85RS16-DS501-00014-6v0-E.pdf'
@@ -593,7 +571,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3.0mm:
   overall_height:
     minimum: 1.25
     maximum: 1.65
-
   overall_size_x:
     minimum: 5.8
     nominal: 6.0
@@ -604,37 +581,23 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3.0mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.29
     tolerance: 0 # no tolerance given
-  #EP_size_x_overwrite:
-  #EP_mask_x:
-
   EP_size_y:
     nominal: 3.0 # 2.29+2*0.356 = 3.002 rounded to 3.0
     tolerance: 0 # no tolerance given
-  #EP_size_y_overwrite:
-  #EP_mask_y:
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.3, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.3x2.3mm_ThermalVias:
@@ -659,30 +622,24 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.3x2.3mm_ThermalVias:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.3
   EP_size_y:
     nominal: 2.3
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.65
-    # grid: [1.5, 1.5]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
 # probably out of standard (width 3.9 mm does not match any TSOP-II standard, which has some some 1.27mm pitch packages),
 # and does not match SSOP which has pitch smaller than 1.00 mm, there was no better place to put it,
-# it was previously in htsop.yaml file, height = 1.0mm max
+# it was previously in htsop.yaml file
+  overall_height: 1.0 # max
   device_type: 'HTSOP'
   size_source: 'https://media.digikey.com/pdf/Data%20Sheets/Rohm%20PDFs/BD9G341EFJ.pdf' # page 23
   body_size_x:
@@ -703,26 +660,15 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 2.4
   EP_size_y: 3.2
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.65
-    # grid: [1.5, 1.5]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
@@ -739,7 +685,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
   overall_height:
     minimum: 1.25
     maximum: 1.65
-
   overall_size_x:
     minimum: 5.8
     nominal: 6.0
@@ -750,37 +695,23 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.41
     tolerance: 0 # no tolerance given
-  # EP_size_x_overwrite: 2.41
-  #EP_mask_x:
-
   EP_size_y:
     nominal: 3.81 # 3.098+2*0.356
     tolerance: 0 # no tolerance given
-  # EP_size_y_overwrite: 3.1
-  #EP_mask_y:
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.4, 1.4]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
@@ -794,7 +725,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
     maximum: 5.0
   overall_height:
     maximum: 1.7
-
   overall_size_x:
     minimum: 5.8
     maximum: 6.2
@@ -804,37 +734,27 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     minimum: 2.11
     maximum: 2.71
   EP_size_x_overwrite: 2.95
   EP_mask_x: 2.71
-
   EP_size_y:
     minimum: 2.8
     maximum: 3.4
   EP_size_y_overwrite: 4.9
   EP_mask_y: 3.4
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
@@ -859,30 +779,19 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.41
     tolerance: 0.1
   EP_size_y:
     nominal: 3.1
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.65
-    # grid: [1.5, 1.5]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
@@ -896,7 +805,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
     tolerance: 0.1
   overall_height:
     maximum: 1.7
-
   overall_size_x:
     nominal: 6.0
     tolerance: 0.2
@@ -906,37 +814,23 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.41
     tolerance: 0 # no tolerance given
-  # EP_size_x_overwrite: 2.41
-  #EP_mask_x:
-
   EP_size_y:
     nominal: 3.3
     tolerance: 0 # no tolerance given
-  # EP_size_y_overwrite: 3.1
-  #EP_mask_y:
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.4, 1.2]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
@@ -951,7 +845,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
   overall_height:
     minimum: 1.43
     maximum: 1.68
-
   overall_size_x:
     minimum: 5.84
     maximum: 6.2
@@ -961,37 +854,23 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
   lead_width:
     minimum: 0.35
     maximum: 0.49
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 2.514 # only maximum given but that is not supported by the script
     tolerance: 0
-  # EP_size_x_overwrite:
-  #EP_mask_x:
-
   EP_size_y:
     nominal: 3.2 # only maximum given but that is not supported by the script
     tolerance: 0
-  # EP_size_y_overwrite:
-  #EP_mask_y:
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.4, 1.0]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.62x3.51mm:
@@ -1006,7 +885,6 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.62x3.51mm:
   overall_height:
     minimum: 1.3
     maximum: 1.7
-
   overall_size_x:
     minimum: 5.8
     maximum: 6.2
@@ -1016,78 +894,57 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.62x3.51mm:
   lead_width:
     minimum: 0.33
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     minimum: 2.26
     maximum: 2.56
-
   EP_size_y:
     minimum: 3.15
     maximum: 3.45
-
   EP_size_x_overwrite: 2.62
   EP_size_y_overwrite: 3.51
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
     grid: [1.4, 1.0]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 Infineon_PG-DSO-8-27:
-  # it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-27_3.9x4.9mm_EP2.65x3mm'
+# it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-27_3.9x4.9mm_EP2.65x3mm'
   device_type: 'PG-DSO' # temporary
   size_source: 'https://www.infineon.com/cms/en/product/packages/PG-DSO/PG-DSO-8-27'
   manufacturer: Infineon
   custom_name_format: '{man}_PG-DSO-{pincount}-27_{size_x:g}x{size_y:g}mm_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
-
   body_size_x: 3.9 +/-0.1
   body_size_y: 4.9 +/-0.1
   overall_height:
     maximum: 1.7
-
   overall_size_x: 6.0 +/-0.2
   lead_width: 0.41 +/-0.09
   lead_len: 0.64 +/-0.25
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 2.65 +/-0.2
   EP_size_y: 3.0 +/-0.2
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.7
-    # grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 Texas_R-PDSO-G8_EP2.95x4.9mm_Mask2.4x3.1mm:
-  # SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm, we should rename it and use compatible_mpns
-  # it was previously in hsoic.yaml file
+# SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm, we should rename it and use compatible_mpns
+# it was previously in hsoic.yaml file
   device_type: 'HSOIC' # temporary
   size_source: 'http://www.ti.com/lit/ds/symlink/lmr14030.pdf#page=28, http://www.ti.com/lit/ml/msoi002j/msoi002j.pdf'
   custom_name_format: 'Texas_R-PDSO-G{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm_Mask{mask_size_x:g}x{mask_size_y:g}mm{vias:s}'
@@ -1097,7 +954,6 @@ Texas_R-PDSO-G8_EP2.95x4.9mm_Mask2.4x3.1mm:
   body_size_y:
     minimum: 4.8
     maximum: 5
-
   overall_size_x:
     minimum: 5.8
     maximum: 6.2
@@ -1110,37 +966,28 @@ Texas_R-PDSO-G8_EP2.95x4.9mm_Mask2.4x3.1mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     minimum: 1.65
     maximum: 2.4
   EP_size_x_overwrite: 2.95
   EP_mask_x: 2.4
-
   EP_size_y:
     minimum: 2.65
     maximum: 3.1
   EP_size_y_overwrite: 4.9
   EP_mask_y: 3.1
-
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 3]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.75
     grid: [1.3, 1.3]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SO-8_4.0x5.0mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf'
   body_size_x:
@@ -1167,8 +1014,8 @@ SO-8_4.0x5.0mm_P1.27mm:
   num_pins_y: 4
 
 Infineon_PG-DSO-8-24:
-  # it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-24_4x5mm'
-  # NOTE: This is a SOIC-8 variant without EP
+# it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-24_4x5mm'
+# NOTE: This is a SOIC-8 variant without EP
   device_type: 'PG-DSO' # temporary
   manufacturer: Infineon
   custom_name_format: '{man}_PG-DSO-{pincount}-24_{size_x:g}x{size_y:g}mm'
@@ -1182,7 +1029,6 @@ Infineon_PG-DSO-8-24:
   overall_size_x:
     nominal: 6.0
     tolerance: 0.2
-
   lead_width:
     nominal: 0.41
     tolerance: [-0.06, +0.1]
@@ -1190,12 +1036,11 @@ Infineon_PG-DSO-8-24:
     nominal: 0.64
     tolerance: 0.25
   pitch: 1.27
-
   num_pins_x: 0
   num_pins_y: 4
 
 SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://ww2.minicircuits.com/case_style/XX112.pdf'
   body_size_x:
@@ -1216,31 +1061,21 @@ SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     nominal: 4.57
     tolerance: 0.254
   EP_size_y:
-    # not directly given in datasheet. EP edge coincides with pads. (3*1.27+0.64 = 4.45)
+  # not directly given in datasheet. EP edge coincides with pads. (3*1.27+0.64 = 4.45)
     nominal: 4.45
     tolerance: 0.254
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 3]
     drill: 0.51
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
     EP_paste_coverage: 0.70
     grid: [2.54, 1.27]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 SOIC-8_5.3x5.3mm_P1.27mm:
@@ -1290,6 +1125,7 @@ SOIC-8_5.3x5.3mm_P1.27mm:
 #  lead_width: 0.36 .. 0.41 .. 0.51
 #  lead_len: 0.50 .. 0.65 .. 0.80
 
+
 #SOP-8_5.29x5.24mm_P1.27mm:
 #  # this one is just for reference (never existed in the library),
 #  # many ATtiny in lib use Package_SO:SOIC-8W_5.3x5.3mm_P1.27mm, manually created, its source is https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=174
@@ -1305,6 +1141,7 @@ SOIC-8_5.3x5.3mm_P1.27mm:
 #  lead_width: 0.35 .. 0.48
 #  lead_len: 0.51 .. 0.85
 
+
 #SOIC-8_5.28x5.28mm_P1.27mm:
 #  # formerly SOIC-8_5.23x5.23mm_P1.27mm (it was using E1 and D1 by mistake in name), replaced by/see: SOIC-8_5.3x5.3mm_P1.27mm
 #  size_source: 'http://www.winbond.com/resource-files/w25q32jv%20revg%2003272018%20plus.pdf#page=68'
@@ -1315,6 +1152,7 @@ SOIC-8_5.3x5.3mm_P1.27mm:
 #  lead_len: 0.5 .. 0.65 .. 0.8
 #  lead_width: 0.35 .. 0.42 .. 0.48
 
+
 #SOIC-8_5.275x5.275mm_P1.27mm:
 #  # replaced by/see: SOIC-8_5.3x5.3mm_P1.27mm
 #  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23'
@@ -1324,6 +1162,7 @@ SOIC-8_5.3x5.3mm_P1.27mm:
 #  overall_height: 1.75 .. 2.16
 #  lead_width: 0.35 .. 0.5
 #  lead_len: 0.5 .. 0.8
+
 
 #SSOP-8_5.25x5.24mm_P1.27mm:
 # it was previously in ssop.yaml file, replaced by/see: SOIC-8_5.3x5.3mm_P1.27mm
@@ -1374,18 +1213,16 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
 
 Infineon_PG-DSO-8-59:
-  # it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-59_7.5x6.3mm'
+# it was previously in infineon.yaml file, generates 'Infineon_PG-DSO-8-59_7.5x6.3mm'
   device_type: 'PG-DSO' # temporary
   size_source: 'https://www.infineon.com/dgdl/Infineon-1EDCxxI12AH-DS-v02_00-EN.pdf'
   manufacturer: Infineon
   custom_name_format: '{man}_PG-DSO-{pincount}-59_{size_x:g}x{size_y:g}mm'
-
   body_size_x:
     minimum: 7.4
     maximum: 7.6
@@ -1394,7 +1231,6 @@ Infineon_PG-DSO-8-59:
     maximum: 6.4
   overall_height:
     maximum: 2.65
-
   overall_size_x:
     minimum: 10.0
     maximum: 10.6
@@ -1404,13 +1240,12 @@ Infineon_PG-DSO-8-59:
   lead_len:
     minimum: 0.5
     maximum: 0.9
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
 
 SO-14_3.9x8.65mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.st.com/resource/en/datasheet/l6491.pdf'
   body_size_x: 3.80 .. 4.00
@@ -1436,7 +1271,6 @@ SOIC-14_3.9x8.7mm_P1.27mm:
     maximum: 8.75
   overall_height:
     maximum: 1.75
-
   overall_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 6
     tolerance: 0.2
@@ -1446,13 +1280,12 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 7
 
 SO-14_5.3x10.2mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
   body_size_x: 5.00 .. 5.60
@@ -1478,7 +1311,6 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1488,7 +1320,6 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 7
@@ -1510,13 +1341,11 @@ SOIC-16_3.9x9.9mm_P1.27mm:
   body_size_x: 3.90 +/- 0.10 # JEDEC + tolerance from Analog Devices
   body_size_y: 9.90 +/- 0.10
   overall_height:
-    # minimum 1.35 mm in JEDEC (0.10 + 1.25, first is A1_min and second is from second figure in first page)
+  # minimum 1.35 mm in JEDEC (0.10 + 1.25, first is A1_min and second is from second figure in first page)
     maximum: 1.75
-
   overall_size_x: 6.00 +/- 0.20 # JEDEC + tolerance from Analog Devices
   lead_len: 0.835 +/- 0.435 # the same as 0.40 .. 1.27
   lead_width: 0.31 .. 0.51 # from JEDEC (agrees with linked datasheet)
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1531,7 +1360,7 @@ SOIC-16_3.9x9.9mm_P1.27mm:
 #  [...]
 
 JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
-  # formerly SOP-16_3.9x9.9mm_P1.27mm, it was previously in sop.yaml file (using JEDEC sizes)
+# formerly SOP-16_3.9x9.9mm_P1.27mm, it was previously in sop.yaml file (using JEDEC sizes)
   device_type: 'SOIC' # temporary
   size_source: 'JEITA/EIAJ ED-7311-19, variation 16-001-ABA, https://www.jeita.or.jp/japanese/standard/book/ED-7311-19/#target/page_no=30'
   manufacturer: 'JEITA'
@@ -1553,7 +1382,7 @@ JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
   num_pins_y: 8
 
 SO-16_3.9x9.9mm_P1.27mm:
-  # it was previously in so.yaml file, pending renaming: NXP_SOIC-16_3.9x9.9mm_P1.27mm
+# it was previously in so.yaml file, pending renaming: NXP_SOIC-16_3.9x9.9mm_P1.27mm
   device_type: 'SO' # temporary
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT109-1.pdf'
   body_size_x: 3.8 .. 3.9 .. 4.0
@@ -1569,7 +1398,7 @@ SO-16_3.9x9.9mm_P1.27mm:
     - "SOT109-1"
 
 STC_SOP-16_3.9x9.9mm_P1.27mm:
-  # it was previously in sop.yaml file, pending renaming: STC_SOIC-16_3.9x9.9mm_P1.27mm
+# it was previously in sop.yaml file, pending renaming: STC_SOIC-16_3.9x9.9mm_P1.27mm
   device_type: 'SOP' # temporary
   size_source: 'https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf#page=156'
   manufacturer: 'STC'
@@ -1584,7 +1413,7 @@ STC_SOP-16_3.9x9.9mm_P1.27mm:
   num_pins_y: 8
 
 SOP-16_4.4x10.4mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.vishay.com/docs/83513/tcmd1000.pdf'
   body_size_x:
@@ -1605,13 +1434,12 @@ SOP-16_4.4x10.4mm_P1.27mm:
   lead_width:
     nominal: 0.45
     tolerance: 0.10
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
 
 SOP-16_4.55x10.3mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12855&prodName=TLP290-4'
   body_size_x:
@@ -1623,7 +1451,6 @@ SOP-16_4.55x10.3mm_P1.27mm:
   overall_height:
     nominal: 2.1
     tolerance: 0.14
-
   overall_size_x:
     nominal: 7
     tolerance: 0.4
@@ -1635,7 +1462,6 @@ SOP-16_4.55x10.3mm_P1.27mm:
     maximum: 0.5
     # Only minimum given in the datasheet.
     # With 0 tolerance we already get longer pads than suggested by the datasheet -> should be ok
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1688,17 +1514,15 @@ SOIC-16W_5.3x10.2mm_P1.27mm:
   lead_width:
     minimum: 0.35
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
-
   compatible_mpns:
     - Texas_NS
     - Texas_NS0016A
 
 SO-16_5.3x10.2mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
   body_size_x: 5.00 .. 5.60
@@ -1724,7 +1548,6 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1734,7 +1557,6 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1753,7 +1575,6 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1763,13 +1584,12 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
 
 SOP-18_7.0x12.5mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=30523'
   body_size_x:
@@ -1780,7 +1600,6 @@ SOP-18_7.0x12.5mm_P1.27mm:
     tolerance: 0.2
   overall_height:
     maximum: 2.45
-
   overall_size_x:
     nominal: 10.3
     tolerance: 0.3
@@ -1790,14 +1609,13 @@ SOP-18_7.0x12.5mm_P1.27mm:
   lead_len:
     nominal: 0.7
     tolerance: 0.2
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 9
 
 SOP-18_7.495x11.515mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # mpn: 'P-SOP18-0812-1.27-001'
+# it was previously in sop.yaml file
+# mpn: 'P-SOP18-0812-1.27-001'
   device_type: 'SOP' # temporary
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=30523'
   body_size_x:
@@ -1808,7 +1626,6 @@ SOP-18_7.495x11.515mm_P1.27mm:
     maximum: 11.68
   overall_height:
     maximum: 2.85
-
   overall_size_x:
     minimum: 10.01
     maximum: 10.64
@@ -1818,15 +1635,13 @@ SOP-18_7.495x11.515mm_P1.27mm:
   lead_len:
     nominal: 0.85
     tolerance: 0.15
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 9
 
 SOIC-18W_7.5x11.6mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'JEDEC MS-013AB, https://www.analog.com/media/en/package-pcb-resources/package/33254132129439rw_18.pdf'
   body_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 7.5
@@ -1837,7 +1652,6 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1847,13 +1661,12 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 9
 
 SO-20_5.3x12.6mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
   body_size_x: 5.00 .. 5.60
@@ -1868,8 +1681,7 @@ SO-20_5.3x12.6mm_P1.27mm:
 
 SOIC-20W_7.5x12.8mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'JEDEC MS-013AC, https://www.analog.com/media/en/package-pcb-resources/package/233848rw_20.pdf'
   body_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 7.5
@@ -1880,7 +1692,6 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1890,13 +1701,12 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
 
 SOP-20_7.5x12.8mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.holtek.com/documents/10179/116723/sop20-300.pdf'
   body_size_x:
@@ -1905,25 +1715,22 @@ SOP-20_7.5x12.8mm_P1.27mm:
     nominal: 12.80
   overall_height:
     maximum: 2.65
-
   overall_size_x:
     nominal: 10.30
-
   lead_width:
     minimum: 0.31
     maximum: 0.51
   lead_len:
     minimum: 0.40
     maximum: 1.27
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
 
 Infineon_SOIC-20W_7.6x12.8mm_P1.27mm:
+# similar to JEDEC MS-013G / variation AC, but body_size_x (E1 dimension) close to 300 mil
+# inherit: SOIC-20W_7.5x12.8mm_P1.27mm
   device_type: 'SOIC' # temporary
-  # similar to JEDEC MS-013G / variation AC, but body_size_x (E1 dimension) close to 300 mil
-  # inherit: SOIC-20W_7.5x12.8mm_P1.27mm
   custom_name_format: '{man}_SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm'
   size_source: 'https://www.infineon.com/dgdl/Infineon-PG-DSO-20-77_SPO_PDF-Package-v15_00-EN.pdf?fileId=5546d4625c54d85b015c627e1a0c23b3, https://www.infineon.com/dgdl/Infineon-PG-DSO-20-77_FPD_PDF-Footprint-v15_00-EN.pdf?fileId=5546d4625c54d85b015c5f0f49614324'
   manufacturer: 'Infineon'
@@ -1939,27 +1746,23 @@ Infineon_SOIC-20W_7.6x12.8mm_P1.27mm:
     - 'PG-DSO-20-55'
     - 'PG-DSO-20-66'
     - 'PG-DSO-20-77'
-
   body_size_x: 7.6 +0.0 -0.2
   body_size_y: 12.8 +0.0 -0.2
   overall_height:
     maximum: 2.65
   overall_size_x: 10.3 +/-0.3
-
   lead_len: 0.4 +0.8 -0.0 # first source
   lead_width: 0.35 +0.15 -0.0
-
   pad_size_y_overwrite: 0.65 # second source, pad width
   pad_to_pad_min_x_overwrite: 8.06 # = 9.73 - 1.67
   pad_to_pad_max_x_overwrite: 11.4 # = 9.73 + 1.67, see second source
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
 
 Texas_PowerPAD_SO-20-1EP_7.52x12.83mm_P1.27mm:
-  # it was previously in so.yaml file
-  # Generates SO-20-1EP_7.52x12.825mm_P1.27mm_EP6.045x12.09mm_Mask3.56x4.47mm
+# it was previously in so.yaml file
+# Generates SO-20-1EP_7.52x12.825mm_P1.27mm_EP6.045x12.09mm_Mask3.56x4.47mm
   device_type: 'SO' # temporary
   size_source: 'http://www.ti.com/lit/ds/symlink/opa569.pdf, http://www.ti.com/lit/an/slma004b/slma004b.pdf'
   #custom_name_format: Texas_PowerPAD_SO-{pincount:d}-1EP_{size_x:.2g}x{size_y:.2g}mm_P{pitch:.2g}mm
@@ -1984,26 +1787,20 @@ Texas_PowerPAD_SO-20-1EP_7.52x12.83mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
-
-  # EP_size from OPA569 datasheet
-  # _overwrite from PowerPad app note slma004b.pdf
-  # mask size from OPA569 datasheet Figure 16: 3.56 mm x 4.47 mm
-  # Thermal vias from OPA569 datasheet Figure 16: 3x8=24pcs 13mil
-  EP_size_x:
+  EP_size_x: # EP_size from OPA569 datasheet
     minimum: 2.72
     maximum: 3.81
-  EP_size_x_overwrite: 6.045 # 0.238"
-  EP_mask_x: 3.56
+  EP_size_x_overwrite: 6.045 # 0.238" from PowerPad app note slma004b.pdf
+  EP_mask_x: 3.56 # from OPA569 datasheet Figure 16: 3.56 mm x 4.47 mm
   EP_size_y:
     minimum: 3.49
     maximum: 4.32
   EP_size_y_overwrite: 12.09 # 0.476"
   EP_mask_y: 4.47
-
-  thermal_vias:
+  thermal_vias: # from OPA569 datasheet Figure 16: 3x8=24pcs 13mil
+  # x-pitch 0.026" = 0.66 mm
+  # y-pitch 0.039"/2 = 0.495 mm
     count: [3, 8]
-    # x-pitch 0.026" = 0.66 mm
-    # y-pitch 0.039"/2 = 0.495 mm
     drill: 0.33 # 0.013"
     min_annular_ring: 0.08 # (0.495 spacing - 0.33 drill)/2 =  0.08 mm max ring
     paste_via_clearance: 0.1
@@ -2014,8 +1811,7 @@ Texas_PowerPAD_SO-20-1EP_7.52x12.83mm_P1.27mm:
 
 SOIC-20W_7.5x15.4mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RI_20_1.pdf'
   body_size_x:
     minimum: 7.39
@@ -2026,7 +1822,6 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   overall_height:
     minimum: 2.36
     maximum: 2.64
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.24
@@ -2036,13 +1831,12 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   lead_width:
     minimum: 0.36
     maximum: 0.48
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
 
 SO-24_5.3x15mm_P1.27mm:
-  # it was previously in so.yaml file
+# it was previously in so.yaml file
   device_type: 'SO' # temporary
   size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
   body_size_x: 5.00 .. 5.60
@@ -2057,8 +1851,7 @@ SO-24_5.3x15mm_P1.27mm:
 
 SOIC-24W_7.5x15.4mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf'
   body_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 7.5
@@ -2069,7 +1862,6 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -2079,14 +1871,13 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 12
 
 SOP-24_7.5x15.4mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # JEDEC MS-013, it's SOIC actually
+# it was previously in sop.yaml file
+# JEDEC MS-013, it's SOIC actually
   device_type: 'SOP' # temporary
   size_source: 'http://www.issi.com/WW/pdf/31FL3218.pdf#page=14'
   body_size_x:
@@ -2099,7 +1890,6 @@ SOP-24_7.5x15.4mm_P1.27mm:
     maximum: 15.6
   overall_height:
     maximum: 2.65
-
   overall_size_x:
     minimum: 10.1
     nominal: 10.3
@@ -2110,15 +1900,13 @@ SOP-24_7.5x15.4mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 12
 
 SOIC-28W_7.5x17.9mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'JEDEC MS-013AE, https://www.analog.com/media/en/package-pcb-resources/package/35833120341221rw_28.pdf'
   body_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 7.5
@@ -2129,7 +1917,6 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
-
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -2139,15 +1926,13 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14
 
 SOIC-28W_7.5x18.7mm_P1.27mm:
   device_type: 'SOIC' # temporary
-  #round to two significant digits to comply with old name
-  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   size_source: 'https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf#page=23'
   body_size_x:
     nominal: 7.5
@@ -2158,7 +1943,6 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   overall_height:
     nominal: 2.2
     tolerance: 0.1
-
   overall_size_x:
     nominal: 10.4
     tolerance: 0.3
@@ -2168,14 +1952,13 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   lead_width:
     nominal: 0.4
     tolerance: 0.1
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14
 
 SOP-28_8.4x18.16mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # JEDEC MO-059, it's SOIC actually
+# it was previously in sop.yaml file
+# JEDEC MO-059, it's SOIC actually
   device_type: 'SOP' # temporary
   size_source: 'https://www.issi.com/WW/pdf/62-65C256AL.pdf#page=12'
   body_size_x:
@@ -2188,7 +1971,6 @@ SOP-28_8.4x18.16mm_P1.27mm:
   overall_height:
     minimum: 2.55
     maximum: 3.05
-
   overall_size_x:
     minimum: 11.50
     maximum: 12.7
@@ -2198,14 +1980,13 @@ SOP-28_8.4x18.16mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14
 
 SOIC-32_7.518x20.777mm_P1.27mm:
+# .300" width body, .818" lenght, .050" pitch
   device_type: 'SOIC' # temporary
-  # .300" width body, .818" lenght, .050" pitch
   size_source: 'JEDEC MO-119-B, 300 mils width, variation AC, https://www.jedec.org/system/files/docs/Mo-119b.pdf'
   # second source: https://www.mouser.com/ds/2/100/STK14C88-3_001-50592-356490.pdf
   body_size_x:
@@ -2235,8 +2016,8 @@ SOIC-32_7.518x20.777mm_P1.27mm:
   num_pins_y: 16
 
 SOP-32_11.3x20.495mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # similar to JEITA/EIAJ P-SOP08, ED-7311-19: 32-001-EAA
+# it was previously in sop.yaml file
+# similar to JEITA/EIAJ P-SOP08, ED-7311-19: 32-001-EAA
   device_type: 'SOP' # temporary
   size_source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
   body_size_x:
@@ -2261,7 +2042,7 @@ SOP-32_11.3x20.495mm_P1.27mm:
   num_pins_y: 16
 
 Renesas_SOP-32_11.4x20.75mm_P1.27mm:
-  # it was previously in sop.yaml file
+# it was previously in sop.yaml file
   device_type: 'SOP' # temporary
   size_source: 'https://www.renesas.com/en/document/psc/package-drawing-sop-32pin-prsp0032df'
   manufacturer: 'Renesas'
@@ -2275,7 +2056,6 @@ Renesas_SOP-32_11.4x20.75mm_P1.27mm:
     maximum: 20.95
   overall_height:
     maximum: 3.05
-
   overall_size_x:
     minimum: 13.8
     nominal: 14.1
@@ -2288,14 +2068,13 @@ Renesas_SOP-32_11.4x20.75mm_P1.27mm:
     minimum: 0.6
     nominal: 0.8
     maximum: 1.0
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 16
 
 SOP-44_12.6x28.5mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # JEDEC MO-175 (see datasheet), it's SOIC actually
+# it was previously in sop.yaml file
+# JEDEC MO-175 (see datasheet), it's SOIC actually
   device_type: 'SOP' # temporary
   size_source: 'https://www.mxic.com.tw/Lists/Datasheet/Attachments/8177/MX23C6410,%205V,%2064Mb,%20v3.1.pdf#page=5'
   body_size_x:
@@ -2308,7 +2087,6 @@ SOP-44_12.6x28.5mm_P1.27mm:
     maximum: 28.63
   overall_height:
     maximum: 3
-
   overall_size_x:
     minimum: 15.83
     nominal: 16.03
@@ -2321,15 +2099,14 @@ SOP-44_12.6x28.5mm_P1.27mm:
     minimum: 0.56
     nominal: 0.76
     maximum: 0.96
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 22
 
 SOP-44_13.3x28.2mm_P1.27mm:
-  # it was previously in sop.yaml file
-  # JEDEC MO-180, it's SOIC actually
-  # Am29F400B datasheet
+# it was previously in sop.yaml file
+# JEDEC MO-180, it's SOIC actually
+# Am29F400B datasheet
   device_type: 'SOP' # temporary
   size_source: 'https://www.mouser.com/datasheet/2/380/AM29F400B_EOL_21505e8-9219.pdf'
   body_size_x:
@@ -2342,21 +2119,19 @@ SOP-44_13.3x28.2mm_P1.27mm:
     maximum: 28.40
   overall_height:
     maximum: 2.80
-
   overall_size_x:
     minimum: 15.70
     nominal: 16.00
     maximum: 16.30
   lead_width:
-    # nominal not given in datasheet, symbol/dimension b
+  # nominal not given in datasheet, symbol/dimension b
     minimum: 0.35
     maximum: 0.50
   lead_len:
-    # symbol/dimension L in datasheet
+  # symbol/dimension L in datasheet
     minimum: 0.60
     nominal: 0.80
     maximum: 1.00
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 22
