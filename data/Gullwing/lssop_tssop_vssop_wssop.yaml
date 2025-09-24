@@ -45,7 +45,7 @@ TSSOP-14_4.4x3.6mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 3.6 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -58,7 +58,7 @@ TSSOP-16_4.4x3.6mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 3.6 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -71,7 +71,7 @@ TSSOP-20_4.4x5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -84,7 +84,7 @@ TSSOP-24_4.4x5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -97,7 +97,7 @@ TSSOP-32_4.4x6.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -110,7 +110,7 @@ TSSOP-36_4.4x7.8mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -123,7 +123,7 @@ TSSOP-48_4.4x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -136,7 +136,7 @@ TSSOP-56_4.4x11.3mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 11.3 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -154,7 +154,7 @@ TSSOP-36_6.1x7.8mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -167,7 +167,7 @@ TSSOP-48_6.1x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -180,7 +180,7 @@ TSSOP-52_6.1x11mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -193,7 +193,7 @@ TSSOP-56_6.1x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -206,7 +206,7 @@ TSSOP-64_6.1x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -219,7 +219,7 @@ TSSOP-80_6.1x17mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 17.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -232,7 +232,7 @@ TSSOP-100_6.1x20.8mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 20.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -250,7 +250,7 @@ TSSOP-48_8x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -263,7 +263,7 @@ TSSOP-52_8x11mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -276,7 +276,7 @@ TSSOP-56_8x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -289,7 +289,7 @@ TSSOP-60_8x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -302,7 +302,7 @@ TSSOP-64_8x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -315,7 +315,7 @@ TSSOP-68_8x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
@@ -715,7 +715,7 @@ TSSOP-20_4.4x5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -728,7 +728,7 @@ TSSOP-24_4.4x6.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -741,7 +741,7 @@ TSSOP-28_4.4x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -754,7 +754,7 @@ TSSOP-30_4.4x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -767,7 +767,7 @@ TSSOP-36_4.4x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -780,7 +780,7 @@ TSSOP-38_4.4x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -794,7 +794,7 @@ HTSSOP-38-1EP_4.4x9.7mm_P0.5mm_EP1.5x3.3mm:
   device_type: 'HTSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -868,7 +868,7 @@ TSSOP-44_4.4x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -881,7 +881,7 @@ TSSOP-50_4.4x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -899,7 +899,7 @@ TSSOP-28_6.1x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -912,7 +912,7 @@ TSSOP-36_6.1x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -925,7 +925,7 @@ TSSOP-40_6.1x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -938,7 +938,7 @@ TSSOP-44_6.1x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -951,7 +951,7 @@ TSSOP-48_6.1x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -964,7 +964,7 @@ TSSOP-56_6.1x14mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -977,7 +977,7 @@ TSSOP-64_6.1x17mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 17.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
@@ -995,7 +995,7 @@ TSSOP-36_8x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1008,7 +1008,7 @@ TSSOP-40_8x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1021,7 +1021,7 @@ TSSOP-48_8x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1034,7 +1034,7 @@ TSSOP-56_8x14mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1604,7 +1604,7 @@ TSSOP-8_4.4x3mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 3.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1617,7 +1617,7 @@ TSSOP-14_4.4x5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.30 .. 4.40 .. 4.50
   body_size_y: 4.90 .. 5.00 .. 5.10
-  body_height:
+  overall_height:
     maximum: 1.20
   overall_size_x: 6.40
   lead_width: 0.17 .. 0.30
@@ -1663,7 +1663,7 @@ TSSOP-16_4.4x5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1676,7 +1676,7 @@ TSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
   device_type: 'TSSOP' # It's actually HTSSOP, will fix later
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4 +/-0.2
   lead_width: 0.19 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1706,7 +1706,7 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
     minimum: 4.9
     nominal: 5
     maximum: 5.1
-  body_height:
+  overall_height:
     maximum: 1.2
   overall_size_x:
     minimum: 6.2
@@ -1796,7 +1796,7 @@ TSSOP-20_4.4x6.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -1841,7 +1841,7 @@ TSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.15x3.35mm:
   body_size_y:
     minimum: 6.40
     maximum: 6.60
-  body_height:
+  overall_height:
     maximum: 1.10
   overall_size_x:
     minimum: 6.30
@@ -1877,7 +1877,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.74x3.86mm:
   body_size_y:
     minimum: 6.4
     maximum: 6.6
-  body_height:
+  overall_height:
     maximum: 1.2
   overall_size_x:
     nominal: 6.4
@@ -1908,7 +1908,7 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.85x4mm:
   body_size_y:
     minimum: 6.4
     maximum: 6.6
-  body_height:
+  overall_height:
     maximum: 1.1
   overall_size_x:
     minimum: 6.25
@@ -2054,7 +2054,7 @@ TSSOP-24_4.4x7.8mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.30 .. 4.40 .. 4.50
   body_size_y: 7.70 .. 7.80 .. 7.90
-  body_height:
+  overall_height:
     maximum: 1.20
   overall_size_x: 6.40
   lead_width: 0.17 .. 0.30
@@ -2157,7 +2157,7 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2251,7 +2251,7 @@ TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x6.7mm:
   body_size_y:
     minimum: 9.60
     maximum: 9.80
-  body_height:
+  overall_height:
     maximum: 1.10
   overall_size_x:
     minimum: 6.25
@@ -2398,7 +2398,7 @@ TSSOP-24_6.1x7.8mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2411,7 +2411,7 @@ TSSOP-28_6.1x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2424,7 +2424,7 @@ TSSOP-30_6.1x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2437,7 +2437,7 @@ TSSOP-32_6.1x11mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2472,7 +2472,7 @@ TSSOP-36_6.1x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2485,7 +2485,7 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2541,7 +2541,7 @@ TSSOP-40_6.1x14mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2559,7 +2559,7 @@ TSSOP-28_8x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2572,7 +2572,7 @@ TSSOP-32_8x11mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2585,7 +2585,7 @@ TSSOP-36_8x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2598,7 +2598,7 @@ TSSOP-40_8x14mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
-  body_height: 1.2
+  overall_height: 1.2
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
@@ -2617,7 +2617,7 @@ TSSOP-4_4.4x5mm_P4mm:
   device_type: 'TSSOP'
   body_size_x: 4.25 .. 4.55
   body_size_y: 4.85 .. 5.15
-  body_height: 1.75
+  overall_height: 1.75
   overall_size_x: 6.3 .. 6.7
   lead_width: 0.6 .. 0.7
   lead_len: 0.5 .. 0.7
@@ -2641,7 +2641,7 @@ Texas_DYY0016A_TSOT-23-16_2x4.2mm_P0.5mm:
   part_number: 'DYY0016A'
   body_size_x: 1.9 .. 2.1
   body_size_y: 4.1 .. 4.3
-  body_height: 1.1
+  overall_height: 1.1
   overall_size_x: 3.16 .. 3.36
   lead_width: 0.3 .. 0.3
   lead_len: 0.63 .. 0.63
