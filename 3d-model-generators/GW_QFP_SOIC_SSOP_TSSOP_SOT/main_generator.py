@@ -104,7 +104,10 @@ def make_models(
 
     models_to_build: dict[str, Any] = {}
     if model_to_build == "all" or model_to_build == None:
-        models_to_build = all_model_definitions
+        REQUIRED_3D_KEYS = ["lead_height", "body_pcb_gap", "body_height"]
+        for key, value in all_model_definitions.items():
+            if all(req_key in value for req_key in REQUIRED_3D_KEYS):
+                models_to_build.update({key: value})
     else:
         models_to_build[model_to_build] = all_model_definitions[model_to_build]
 

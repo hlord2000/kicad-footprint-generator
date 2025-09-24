@@ -77,26 +77,26 @@ def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
 def make_gw(
     params: dict[str, Any],
 ) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
-    c = cast(float, params["c"])
-    the = cast(float, params.get("the", 10.0))
-    the_p = cast(float | None, params.get("the_p"))
-    tb_s = max(cast(float, params.get("tb_s", 0.1)), 0.001)
-    ef = cast(float, params.get("ef", 0.0))
-    cc1 = cast(float, params.get("cc1", 0.25))
+    c = cast(float, params["lead_height"])
+    the = cast(float, params.get("body_angle", 10.0))
+    the_p = cast(float | None, params.get("lead_angle"))
+    tb_s = max(cast(float, params.get("body_size_top_delta", 0.1)), 0.001)
+    ef = cast(float, params.get("body_fillet", 0.0))
+    cc1 = cast(float, params.get("corners_chamfer", 0.25))
     marker = cast(str, params.get("marker", "circle"))
-    r1 = cast(float, params.get("R1", 0.75 * c))
-    r2 = cast(float, params.get("R2", 0.75 * c))
-    s = cast(float | None, params.get("S"))
-    l = cast(float | None, params.get("L"))
-    d1 = cast(float, params["D1"])
-    e1 = cast(float, params["E1"])
-    e = cast(float, params["E"])
-    a1 = cast(float, params["A1"])
-    a2 = cast(float, params["A2"])
-    b = cast(float, params["b"])
-    pitch = cast(float, params["e"])
-    npx = cast(int, params["npx"])
-    npy = cast(int, params["npy"])
+    r1 = cast(float, params.get("lead_radius_top", 0.75 * c))
+    r2 = cast(float, params.get("lead_radius_bottom", 0.75 * c))
+    s = cast(float | None, params.get("lead_top_flat_part_length"))
+    l = cast(float | None, params.get("lead_len"))
+    d1 = cast(float, params["body_size_y"])
+    e1 = cast(float, params["body_size_x"])
+    e = cast(float, params["overall_size_x"])
+    a1 = cast(float, params["body_pcb_gap"])
+    a2 = cast(float, params["body_height"])
+    b = cast(float, params["lead_width"])
+    pitch = cast(float, params["pitch"])
+    npx = cast(int, params["num_pins_x"])
+    npy = cast(int, params["num_pins_y"])
     excluded_pins = params.get("excluded_pins", ())
 
     if s is not None and l is not None and the_p is not None:
@@ -261,7 +261,7 @@ def make_gw(
     epad_offset_x = 0.0
     epad_offset_y = 0.0
 
-    epad_r = params.get("epad")
+    epad_r = params.get("EP_size")
     if isinstance(epad_r, list):
         epad_r = cast(list[float], epad_r)
         D2 = float(epad_r[0])
