@@ -1111,22 +1111,22 @@ PQFP-160_28x28mm_P0.65mm:
 PQFP-208_28x28mm_P0.5mm:
   the: 12.0
   tb_s: 0.15
-  c: 0.1
+  c: 0.145
   R1: 0.1
   R2: 0.1
   S: 0.1
   cc1: 0.25
   D1: 28.0
   E1: 28.0
-  E: 30.93
-  A1: 0.1
-  A2: 1.5
-  b: 0.2
+  E: 30.6
+  A1: 0.5
+  A2: 3.6
+  b: 0.22
   e: 0.5
   npy: 52
   npx: 52
   library: 'Package_QFP'
-  source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  source: 'https://ww1.microchip.com/downloads/aemDocuments/documents/package-outline-drawings/c04-21294a.pdf'
 
 PQFP-240_32.1x32.1mm_P0.5mm:
   the: 12.0
@@ -2969,7 +2969,7 @@ TSSOP-30_4.4x7.8mm_P0.5mm:
   cc1: 0.25
   D1: 7.8
   E1: 4.4
-  E: 6.7
+  E: 6.4
   A1: 0.1
   A2: 1.5
   b: 0.2
@@ -2989,7 +2989,7 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
   cc1: 0.25
   D1: 12.5
   E1: 6.1
-  E: 8.4
+  E: 8.1
   A1: 0.1
   A2: 1.5
   b: 0.21
@@ -3958,7 +3958,7 @@ Analog_MSOP-12-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   R2: 0.05
   L: 0.53
   cc1: 0.25
-  D1: 4.0
+  D1: 4.039
   E1: 3.0
   E: 4.9
   A1: 0.1016
