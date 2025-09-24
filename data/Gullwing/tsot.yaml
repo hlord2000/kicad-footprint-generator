@@ -1,6 +1,6 @@
 FileHeader:
-  library_Suffix: 'TO_SOT_SMD'
   device_type: 'TSOT'
+  library_Suffix: 'TO_SOT_SMD'
 
 TSOT-23-5:
   size_source: 'https://www.jedec.org/sites/default/files/docs/MO-193D.pdf variant AB'

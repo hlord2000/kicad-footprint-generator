@@ -1,6 +1,6 @@
 FileHeader:
-  library_Suffix: 'SO'
   device_type: 'SOJ'
+  library_Suffix: 'SO'
 
 SOJ-24_7.62x15.875mm_P1.27mm:
 # .300" width body, .625" lenght, .050" pitch

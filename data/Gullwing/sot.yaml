@@ -1,6 +1,6 @@
 FileHeader:
-  library_Suffix: 'TO_SOT_SMD'
   device_type: 'SOT'
+  library_Suffix: 'TO_SOT_SMD'
 
 SOT-23:
   size_source: 'JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236'
@@ -72,9 +72,9 @@ SOT-23-8:
   num_pins_y: 4
 
 Texas_DDF0008A_SOT-23-8_1.6x2.9mm_P0.65mm:
+  size_source: 'https://www.ti.com/lit/ds/symlink/mspm0c1104.pdf'
   manufacturer: 'Texas'
   part_number: 'DDF0008A'
-  size_source: 'https://www.ti.com/lit/ds/symlink/mspm0c1104.pdf'
   body_size_x:
     minimum: 1.55
     maximum: 1.65

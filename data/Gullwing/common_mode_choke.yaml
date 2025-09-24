@@ -1,14 +1,14 @@
 FileHeader:
-  override_lib_name: 'Inductor_SMD'
   device_type: 'SO'
+  override_lib_name: 'Inductor_SMD'
 
 Transformer_Ethernet_Bourns_DR331:
   size_source: 'https://bourns.com/docs/product-datasheets/dr331.pdf'
-  manufacturer: Bourns
-  part_number: DR331
   custom_name_format: 'L_CommonMode_{man}_{mpn:s}' # Custom name to match existing footprint
   # Intended name after a future rename
   #custom_name_format: 'Transformer_Ethernet_{man}_{mpn:s}_SO-{pincount}_{size_x:g}x{size_y:g}mm{vias:s}'
+  manufacturer: Bourns
+  part_number: DR331
   body_size_x: 7.3
   body_size_y: 5.4 +/-0.2
   overall_height: 4.70 +/-0.15
