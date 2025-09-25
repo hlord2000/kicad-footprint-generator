@@ -141,9 +141,7 @@ def make_gw(
         )
 
     # Excluded pins:
-    if "excluded_pins" in params:
-        excluded_pins = params["excluded_pins"]
-    elif "deleted_pins" in params:
+    if "deleted_pins" in params:
         excluded_pins = params["deleted_pins"]
     elif "hidden_pins" in params:
         excluded_pins = params["hidden_pins"]
