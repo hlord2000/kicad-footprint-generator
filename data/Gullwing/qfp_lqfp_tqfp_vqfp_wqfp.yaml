@@ -25,12 +25,15 @@ PQFP-44_10x10mm_P0.8mm:
   device_type: 'PQFP'
   body_size_x: 10.00
   body_size_y: 10.00
+  body_height: 1.80 .. 2.00 .. 2.20
   overall_height:
     maximum: 2.45
+  body_pcb_gap: 0.00 .. 0.25
   overall_size_x: 13.20
   overall_size_y: 13.20
   lead_width: 0.29 .. 0.45
   lead_len: 0.73 .. 0.88 .. 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.80
   num_pins_x: 11
   num_pins_y: 11
@@ -48,12 +51,13 @@ Microchip_PQFP-44_10x10mm_P0.8mm:
   manufacturer: 'Microchip'
   body_size_x: 9.80 .. 10.00 .. 10.20 # minimum and maximum from Microchip / Analog Devices
   body_size_y: 9.80 .. 10.00 .. 10.20
-  overall_height:
-    maximum: 2.45 # maximum height from Analog Devices, Microchip and JEDEC is 2.35 mm
+  body_height: 1.95 .. 2.00 .. 2.20  # maximum height from Analog Devices, Microchip and JEDEC is 2.1 mm
+  body_pcb_gap: 0.00 .. 0.25
   overall_size_x: 13.65 .. 13.90 .. 14.15 # minimum and maximum from Microchip / Analog Devices
   overall_size_y: 13.65 .. 13.90 .. 14.15
   lead_width: 0.30 .. 0.45
   lead_len: 0.73 .. 0.88 .. 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.80
   num_pins_x: 11
   num_pins_y: 11
@@ -99,11 +103,14 @@ PQFP-80_14x20mm_P0.8mm:
   device_type: 'PQFP'
   body_size_x: 14.00 # JEITA D / JEDEC D1
   body_size_y: 20.00 # JEITA E / JEDEC E1
+  body_height: 2.50 .. 2.70 .. 2.90
   overall_height: 2.50 .. 2.80 .. 3.15 # minimum: JEITA A1_min + A2_min; nominal: JEITA A1_nom + A2_nom; maximum: JEITA A_max
+  body_pcb_gap: 0.00 .. 0.25
   overall_size_x: 17.20 # JEITA HD / JEDEC D, JEITA document swap these sizes but it's probably a typo
   overall_size_y: 23.20 # JEITA HE / JEDEC E
   lead_width: 0.29 .. 0.45 # JEITA bp / JEDEC b
   lead_len: 0.73 .. 0.88 .. 1.03 # JEITA Lp; nominal value from JEDEC L
+  lead_height: 0.11 .. 0.23
   pitch: 0.80 # e
   num_pins_x: 16
   num_pins_y: 24
@@ -115,7 +122,6 @@ Hitachi_FP80B_PQFP-80_14x20mm_P0.8mm:
     - 'Hitachi_FP-80B'
   manufacturer: 'Hitachi'
   part_number: 'FP80B' # there's a 'FP-80' (older package) which has even bigger overall_size_x/y and lead_len
-  overall_height: 2.70 .. 3.10
   overall_size_x: 18.8 +/- 0.4
   overall_size_y: 24.8 +/- 0.4
   lead_len: 1.2 +/- 0.2
@@ -130,10 +136,13 @@ PQFP-128_28x28mm_P0.8mm:
   body_size_x: 28.00 # JEITA D / JEDEC D1
   body_size_y: 28.00 # JEITA E / JEDEC E1
   overall_height: 3.20 .. 3.50 .. 3.85 # minimum: JEITA A1_min + A2_min; nominal: JEITA A1_nom + A2_nom; maximum: JEITA A_max
+  body_pcb_gap:
+    nominal: 0.25
   overall_size_x: 31.20 # JEITA HD / JEDEC D
   overall_size_y: 31.20 # JEITA HE / JEDEC E
   lead_width: 0.29 .. 0.45 # JEITA bp / JEDEC b
   lead_len: 0.73 .. 0.88 .. 1.03 # JEITA Lp; nominal value from JEDEC L
+  lead_height: 0.11 .. 0.23
   pitch: 0.80 # e
   num_pins_x: 32
   num_pins_y: 32
@@ -150,12 +159,15 @@ MO112AC1_PQFP-52_10x10mm_P0.65mm:
   force_small_pitch_ipc_definition: True # if not using it, distance between pads is just 0.15mm
   body_size_x: 10.00
   body_size_y: 10.00
+  body_height: 1.95 .. 2.00 .. 2.10
   overall_height:
     maximum: 2.45
+  body_pcb_gap: 0.25 .. 0.35
   overall_size_x: 13.90
   overall_size_y: 13.90
   lead_width: 0.22 .. 0.38
   lead_len: 0.73 .. 0.88 .. 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
@@ -169,11 +181,14 @@ PQFP-80_14x14mm_P0.65mm:
   force_small_pitch_ipc_definition: True # if not using it, distance between pads is just 0.15mm
   body_size_x: 14.00 # JEDEC
   body_size_y: 14.00
+  body_height: 1.80 .. 2.00 .. 2.20
   overall_height: 1.80 .. 2.45 # JEDEC values, minimum is A1_min + A2_min, maximum is A
+  body_pcb_gap: 0.00 .. 0.25
   overall_size_x: 17.20 # JEDEC
   overall_size_y: 17.20
   lead_width: 0.22 .. 0.40
   lead_len: 0.73 .. 0.88 .. 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.65
   num_pins_x: 20
   num_pins_y: 20
@@ -192,6 +207,8 @@ PQFP-100_14x20mm_P0.65mm:
   body_size_y:
     nominal: 20
     tolerance: 0
+  body_height: 2.50 .. 2.70 .. 2.90
+  body_pcb_gap: 0.25 .. 0.50
   overall_size_x:
     nominal: 17.2
     tolerance: 0
@@ -204,6 +221,7 @@ PQFP-100_14x20mm_P0.65mm:
   lead_len:
     minimum: 0.73
     maximum: 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.65
   num_pins_x: 20
   num_pins_y: 30
@@ -217,6 +235,8 @@ PQFP-144_28x28mm_P0.65mm:
     nominal: 28
   body_size_y:
     nominal: 28
+  body_height: 3.20 .. 3.40 .. 3.60
+  body_pcb_gap: 0.25 .. 0.50
   overall_size_x:
     nominal: 31.2
   overall_size_y:
@@ -227,6 +247,7 @@ PQFP-144_28x28mm_P0.65mm:
   lead_len:
     minimum: 0.73
     maximum: 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.65
   num_pins_x: 36
   num_pins_y: 36
@@ -240,6 +261,8 @@ PQFP-160_28x28mm_P0.65mm:
     nominal: 28
   body_size_y:
     nominal: 28
+  body_height: 3.20 .. 3.40 .. 3.60
+  body_pcb_gap: 0.25 .. 0.50
   overall_size_x:
     nominal: 31.2
   overall_size_y:
@@ -250,6 +273,7 @@ PQFP-160_28x28mm_P0.65mm:
   lead_len:
     minimum: 0.73
     maximum: 1.03
+  lead_height: 0.11 .. 0.23
   pitch: 0.65
   num_pins_x: 40
   num_pins_y: 40
@@ -294,6 +318,8 @@ PQFP-208_28x28mm_P0.5mm:
     nominal: 28
   body_size_y:
     nominal: 28
+  overall_height: 3.2 .. 3.4 .. 3.6
+  body_pcb_gap: 0.25 .. 0.50
   overall_size_x:
     nominal: 30.6
   overall_size_y:
@@ -304,6 +330,7 @@ PQFP-208_28x28mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 52
   num_pins_y: 52
@@ -317,6 +344,8 @@ PQFP-240_32.1x32.1mm_P0.5mm:
     nominal: 32.1
   body_size_y:
     nominal: 32.1
+  overall_height: 3.2 .. 3.4 .. 3.6
+  body_pcb_gap: 0.25 .. 0.50
   overall_size_x:
     nominal: 34.6
   overall_size_y:
@@ -327,6 +356,7 @@ PQFP-240_32.1x32.1mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 60
   num_pins_y: 60
@@ -346,6 +376,8 @@ LQFP-32_5x5mm_P0.5mm:
   body_size_y:
     minimum: 4.9
     maximum: 5.1
+  body_height: 1.35 .. 1.40 .. 1.45
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 6.85
     maximum: 7.15
@@ -358,6 +390,7 @@ LQFP-32_5x5mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 8
   num_pins_y: 8
@@ -368,10 +401,13 @@ LQFP-32_7x7mm_P0.8mm:
   device_type: 'LQFP'
   body_size_x: 6.9 .. 7.1
   body_size_y: 6.9 .. 7.1
+  body_height: 1.35 .. 1.40 .. 1.45
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.85 .. 9.15
   overall_size_y: 8.85 .. 9.15
   lead_width: 0.3 .. 0.4
   lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.8
   num_pins_x: 8
   num_pins_y: 8
@@ -386,7 +422,11 @@ LQFP-36_7x7mm_P0.65mm:
   body_size_y:
     nominal: 7
     tolerance: 0.1
-  overall_height: 1.7 mm # max
+  body_height:
+    nominal: 1.5
+  overall_height:
+    maximum: 1.7
+  body_pcb_gap: 0.1 +/- 0.10
   overall_size_x:
     nominal: 9
     tolerance: 0.2
@@ -399,6 +439,7 @@ LQFP-36_7x7mm_P0.65mm:
   lead_len:
     nominal: 0.5
     tolerance: 0.2
+  lead_height: 0.15 +/- 0.05
   pitch: 0.65
   num_pins_x: 9
   num_pins_y: 9
@@ -409,12 +450,15 @@ LQFP-44_10x10mm_P0.8mm:
   device_type: 'LQFP'
   body_size_x: 10
   body_size_y: 10
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max, similar to JEDEC MS-026 variation BCB
   # https://www.nxp.com/docs/en/package-information/98ASS23225W.pdf
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 12
   overall_size_y: 12
   lead_width: 0.3 .. 0.45
   lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.8
   num_pins_x: 11
   num_pins_y: 11
@@ -427,7 +471,9 @@ LQFP-52_10x10mm_P0.65mm:
     nominal: 10
   body_size_y:
     nominal: 10
+  body_height: 1.3 .. 1.5
   overall_height: 1.65 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 12
   overall_size_y:
@@ -437,6 +483,7 @@ LQFP-52_10x10mm_P0.65mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.15  # Guess
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
@@ -451,7 +498,9 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   body_size_y:
     nominal: 10
     tolerance: 0
+  body_height: 1.3 .. 1.5
   overall_height: 1.70 # max
+  body_pcb_gap: 0.05 .. 0.20
   overall_size_x:
     nominal: 12
     tolerance: 0
@@ -464,6 +513,7 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
@@ -481,6 +531,7 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
 
 LQFP-52_14x14mm_P1mm:
   size_source: 'http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf'
+  # https://web.archive.org/web/20180404050010/http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf
   device_type: 'LQFP'
   body_size_x:
     nominal: 14
@@ -490,8 +541,8 @@ LQFP-52_14x14mm_P1mm:
     nominal: 14
     minimum: 13.9
     maximum: 14.1
-  overall_height: 1.60 # max
-  # https://web.archive.org/web/20180404050010/http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf
+  body_height: 1.35 .. 1.40 .. 1.45
+  body_pcb_gap: 0.05 .. 0.20
   overall_size_x:
     nominal: 16
     minimum: 15.8
@@ -506,19 +557,22 @@ LQFP-52_14x14mm_P1mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.1  # Not verified
   pitch: 1
   num_pins_x: 13
   num_pins_y: 13
 
 LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
-  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ARH98426A.pdf'
+  size_source: 'https://www.nxp.com/docs/en/package-information/98ARH98426A.pdf'
   device_type: 'LQFP'
   body_size_x:
     nominal: 10
   body_size_y:
     nominal: 10
+  body_height: 1.35 .. 1.45
   overall_height: 1.60 # max
   # https://www.nxp.com/docs/en/package-information/98ARH98426A.pdf
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 12
   overall_size_y:
@@ -529,6 +583,7 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
@@ -602,7 +657,9 @@ LQFP-64_7x7mm_P0.4mm:
   body_size_y:
     minimum: 6.9
     maximum: 7.1
+  body_height: 1.35 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 8.85
     maximum: 9.15
@@ -615,6 +672,7 @@ LQFP-64_7x7mm_P0.4mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 16
   num_pins_y: 16
@@ -630,7 +688,9 @@ LQFP-64_10x10mm_P0.5mm:
     minimum: 9.8
     nominal: 10
     maximum: 10.2
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 11.8
     nominal: 12
@@ -647,6 +707,7 @@ LQFP-64_10x10mm_P0.5mm:
     minimum: 0.45
     nominal: 0.6
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
@@ -660,7 +721,9 @@ LQFP-64_14x14mm_P0.8mm:
   body_size_y:
     minimum: 13.9
     maximum: 14.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 15.85
     maximum: 16.15
@@ -673,6 +736,7 @@ LQFP-64_14x14mm_P0.8mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.8
   num_pins_x: 16
   num_pins_y: 16
@@ -684,7 +748,9 @@ LQFP-80_10x10mm_P0.4mm:
     nominal: 10
   body_size_y:
     nominal: 10
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 12
   overall_size_y:
@@ -697,6 +763,7 @@ LQFP-80_10x10mm_P0.4mm:
     minimum: 0.45
     nominal: 0.6
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 20
   num_pins_y: 20
@@ -710,7 +777,9 @@ LQFP-80_12x12mm_P0.5mm:
   body_size_y:
     minimum: 11.9
     maximum: 12.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 13.85
     maximum: 14.15
@@ -723,6 +792,7 @@ LQFP-80_12x12mm_P0.5mm:
   lead_len:
     minimum: 0.3
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 20
   num_pins_y: 20
@@ -739,8 +809,10 @@ LQFP-80_14x14mm_P0.65mm:
     minimum: 13.8
     nominal: 14
     maximum: 14.2
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
   # PZA0080A is compatible, see https://www.ti.com/lit/ml/mpqf099b/mpqf099b.pdf
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 15.8
     nominal: 16
@@ -757,6 +829,7 @@ LQFP-80_14x14mm_P0.65mm:
     minimum: 0.45
     nominal: 0.6
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 20
   num_pins_y: 20
@@ -771,7 +844,9 @@ LQFP-100_14x14mm_P0.5mm:
   body_size_y:
     minimum: 13.9
     maximum: 14.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # nominal
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 15.75
     maximum: 16.25
@@ -784,6 +859,7 @@ LQFP-100_14x14mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 25
   num_pins_y: 25
@@ -795,7 +871,9 @@ LQFP-128_14x14mm_P0.4mm:
     nominal: 14
   body_size_y:
     nominal: 14
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 16
   overall_size_y:
@@ -808,6 +886,7 @@ LQFP-128_14x14mm_P0.4mm:
     minimum: 0.45
     nominal: 0.6
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 32
   num_pins_y: 32
@@ -821,7 +900,9 @@ LQFP-128_14x20mm_P0.5mm:
   body_size_y:
     minimum: 19.9
     maximum: 20.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 15.85
     maximum: 16.15
@@ -834,6 +915,7 @@ LQFP-128_14x20mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 26
   num_pins_y: 38
@@ -845,7 +927,9 @@ LQFP-144_20x20mm_P0.5mm:
     nominal: 20
   body_size_y:
     nominal: 20
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 22
   overall_size_y:
@@ -858,6 +942,7 @@ LQFP-144_20x20mm_P0.5mm:
     minimum: 0.45
     nominal: 0.6
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
@@ -1078,7 +1163,9 @@ LQFP-160_24x24mm_P0.5mm:
   body_size_y:
     minimum: 23.9
     maximum: 24.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 25.85
     maximum: 26.15
@@ -1091,6 +1178,7 @@ LQFP-160_24x24mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 40
   num_pins_y: 40
@@ -1104,7 +1192,9 @@ LQFP-176_20x20mm_P0.4mm:
   body_size_y:
     nominal: 20
     tolerance: 0.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 22
     tolerance: 0.2
@@ -1117,6 +1207,7 @@ LQFP-176_20x20mm_P0.4mm:
   lead_len:
     nominal: 0.5
     tolerance: 0.2
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 44
   num_pins_y: 44
@@ -1130,7 +1221,9 @@ LQFP-176_24x24mm_P0.5mm:
   body_size_y:
     minimum: 23.9
     maximum: 24.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 25.9
     maximum: 26.1
@@ -1143,6 +1236,7 @@ LQFP-176_24x24mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 44
   num_pins_y: 44
@@ -1186,7 +1280,9 @@ LQFP-208_28x28mm_P0.5mm:
   body_size_y:
     minimum: 27.9
     maximum: 28.1
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 29.85
     maximum: 30.15
@@ -1199,6 +1295,7 @@ LQFP-208_28x28mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 52
   num_pins_y: 52
@@ -1212,7 +1309,9 @@ LQFP-216_24x24mm_P0.4mm:
   body_size_y:
     nominal: 24
     tolerance: 0
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 26
     tolerance: 0
@@ -1225,6 +1324,7 @@ LQFP-216_24x24mm_P0.4mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 54
   num_pins_y: 54
@@ -1234,12 +1334,15 @@ TQFP-32_7x7mm_P0.8mm:
   device_type: 'TQFP'
   body_size_x: 7.0
   body_size_y: 7.0
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 9.0
   overall_size_y: 9.0
   lead_width: 0.30 .. 0.37 .. 0.45
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.80
   num_pins_x: 8
   num_pins_y: 8
@@ -1249,12 +1352,15 @@ TQFP-44_10x10mm_P0.8mm:
   device_type: 'TQFP'
   body_size_x: 10.0
   body_size_y: 10.0
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 12.0
   overall_size_y: 12.0
   lead_width: 0.30 .. 0.37 .. 0.45
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.80
   num_pins_x: 11
   num_pins_y: 11
@@ -1265,12 +1371,15 @@ TQFP-64_14x14mm_P0.8mm:
   device_type: 'TQFP'
   body_size_x: 14.00
   body_size_y: 14.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 16.00
   overall_size_y: 16.00
   lead_width: 0.30 .. 0.37 .. 0.45
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.80
   num_pins_x: 16
   num_pins_y: 16
@@ -1284,17 +1393,18 @@ TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm:
   body_size_y:
     nominal: 10
     tolerance: 0
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.20 # max, similar to JEDEC MS-026 variation ACC
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 12
     tolerance: 0
   overall_size_y:
     nominal: 12
     tolerance: 0
-  lead_width_min: 0.22
-  lead_width_max: 0.38
-  lead_len_min: 0.45
-  lead_len_max: 0.75
+  lead_width: 0.22 .. 0.38
+  lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 13
   num_pins_y: 13
@@ -1323,11 +1433,14 @@ TQFP-80_14x14mm_P0.65mm:
   force_small_pitch_ipc_definition: True # True: generates 0.40mm pad with 0.25mm clearance; False: generates 0.50mm pad with just 0.15mm clearance
   body_size_x: 14.00
   body_size_y: 14.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20 # JEDEC, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 16.00
   overall_size_y: 16.00
   lead_width: 0.22 .. 0.32 .. 0.38
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 20
   num_pins_y: 20
@@ -1340,9 +1453,12 @@ TQFP-80-1EP_14x14mm_P0.65mm_EP9.5x9.5mm:
   force_small_pitch_ipc_definition: False # generates 0.40mm pad with 0.25mm clearance
   body_size_x: 13.80 .. 14.00 .. 14.20 # nominal size matches JEDEC, minimum / maximum from Analog Devices
   body_size_y: 13.80 .. 14.00 .. 14.20
+  body_height: 0.95 .. 1.00 .. 1.05
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 15.80 .. 16.00 .. 16.20
   overall_size_y: 15.80 .. 16.00 .. 16.20
   lead_width: 0.17 .. 0.22 .. 0.27 # from Analog Devices
+  lead_height: 0.09 .. 0.20
   EP_size_x: 9.50
   EP_size_y: 9.50
   EP_num_paste_pads: [6, 6]
@@ -1359,11 +1475,14 @@ TQFP-32_5x5mm_P0.5mm:
   device_type: 'TQFP'
   body_size_x: 5.00
   body_size_y: 5.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20 # JEDEC, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 7.00
   overall_size_y: 7.00
   lead_width: 0.17 .. 0.22 .. 0.27
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.50
   num_pins_x: 8
   num_pins_y: 8
@@ -1379,11 +1498,14 @@ TQFP-48_7x7mm_P0.5mm:
   device_type: 'TQFP'
   body_size_x: 7.00 # basic / BSC
   body_size_y: 7.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20 # JEDEC, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 9.00 # basic / BSC
   overall_size_y: 9.00
   lead_width: 0.17 .. 0.22 .. 0.27
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.50
   num_pins_x: 12
   num_pins_y: 12
@@ -1394,6 +1516,9 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
   compatible_mpns:
     - 'SV-48-4' # Analog Devices
   device_type: 'TQFP'
+  body_height: 0.95 .. 1.00 .. 1.05
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.20
   EP_size_x: 3.50
   EP_size_y: 3.50
   EP_num_paste_pads: [2, 2]
@@ -1412,18 +1537,24 @@ LQFP-48_7x7mm_P0.5mm:
     - 'C48-1 C48-2 C48-3 C48-5 C48-6 C48-6C' # Maxim / Analog Devices, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lqfp/21-0054.pdf
     - 'PT0048A'     # Texas Instruments, https://www.ti.com/lit/ml/mtqf003c/mtqf003c.pdf
   device_type: 'LQFP'
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.40 .. 1.60 # JEDEC, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.20
 
 LQFP-48-1EP_7x7mm_P0.5mm_EP3.6x3.6mm:
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   device_type: 'LQFP'
   body_size_x: 7
   body_size_y: 7
+  body_height: 1.35 .. 1.40 .. 1.45
   overall_height: 1.60 # max, it should be inherited from LQFP-48_7x7mm_P0.5mm
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 9
   overall_size_y: 9
   lead_width: 0.17 .. 0.27
   lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
@@ -1538,11 +1669,14 @@ TQFP-64_10x10mm_P0.5mm:
   device_type: 'TQFP'
   body_size_x: 10.00 # JEITA D / JEDEC D1
   body_size_y: 10.00 # JEITA E / JEDEC E1
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.10 .. 1.20 # minimum: JEITA A1_min + A2_min; nominal: JEITA A1_nom + A2_nom; maximum: JEITA A_max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 12.00 # JEITA HD / JEDEC D
   overall_size_y: 12.00 # JEITA HE / JEDEC E
   lead_width: 0.17 .. 0.22 .. 0.27 # JEITA bp; nominal value from JEDEC b
   lead_len: 0.45 .. 0.60 .. 0.75 # JEITA Lp; nominal value from JEDEC L
+  lead_height: 0.09 .. 0.20
   pitch: 0.50 # e
   num_pins_x: 16
   num_pins_y: 16
@@ -1596,12 +1730,15 @@ TQFP-64-1EP_10x10mm_P0.5mm_EP5.305x5.305mm:
   device_type: 'TQFP'
   body_size_x: 9.9 .. 10 .. 10.10
   body_size_y: 9.9 .. 10 .. 10.10
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 11.75 .. 12.00 .. 12.25
   overall_size_y: 11.75 .. 12.00 .. 12.25
   lead_width: 0.17 .. 0.22 .. 0.27
   lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
@@ -1621,11 +1758,14 @@ TQFP-80_12x12mm_P0.5mm:
   device_type: 'TQFP'
   body_size_x: 12.00 # basic / BSC
   body_size_y: 12.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20 # JEDEC, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 14.00 # basic / BSC
   overall_size_y: 14.00
   lead_width: 0.17 .. 0.22 .. 0.27
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.50
   num_pins_x: 20
   num_pins_y: 20
@@ -1641,11 +1781,14 @@ TQFP-100_14x14mm_P0.5mm:
   device_type: 'TQFP'
   body_size_x: 14.00
   body_size_y: 14.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 16.00
   overall_size_y: 16.00
   lead_width: 0.17 .. 0.22 .. 0.27
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.50
   num_pins_x: 25
   num_pins_y: 25
@@ -1658,9 +1801,11 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
     nominal: 14
   body_size_y:
     nominal: 14
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     minimum: 1
     maximum: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 16
   overall_size_y:
@@ -1673,6 +1818,7 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5x5mm:
     minimum: 0.45
     nominal: 0.60
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 25
   num_pins_y: 25
@@ -1734,6 +1880,8 @@ TQFP-144_20x20mm_P0.5mm:
     nominal: 20
   body_size_y:
     nominal: 20
+  body_height: 0.95 .. 1.00 .. 1.05
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 22
   overall_size_y:
@@ -1744,6 +1892,7 @@ TQFP-144_20x20mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 36
   num_pins_y: 36
@@ -1759,6 +1908,8 @@ TQFP-176_24x24mm_P0.5mm:
     nominal: 24
   body_size_y:
     nominal: 24
+  body_height: 0.95 .. 1.00 .. 1.05
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 26
   overall_size_y:
@@ -1769,6 +1920,7 @@ TQFP-176_24x24mm_P0.5mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 44
   num_pins_y: 44
@@ -1781,12 +1933,15 @@ TQFP-64_7x7mm_P0.4mm:
   device_type: 'TQFP'
   body_size_x: 7.00
   body_size_y: 7.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 9.00
   overall_size_y: 9.00
   lead_width: 0.13 .. 0.18 .. 0.23
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.40
   num_pins_x: 16
   num_pins_y: 16
@@ -1799,11 +1954,14 @@ TQFP-100_12x12mm_P0.4mm:
   device_type: 'TQFP'
   body_size_x: 12.00
   body_size_y: 12.00
+  body_height: 0.95 .. 1.00 .. 1.05
   overall_height: 1.00 .. 1.20 # minimum = A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 14.00
   overall_size_y: 14.00
   lead_width: 0.13 .. 0.18 .. 0.23
   lead_len: 0.45 .. 0.60 .. 0.75 # Intersil / Renesas is L = 0.50 +/- 0.20 mm
+  lead_height: 0.09 .. 0.20
   pitch: 0.40
   num_pins_x: 25
   num_pins_y: 25
@@ -1819,6 +1977,8 @@ VQFP-128_14x14mm_P0.4mm:
     nominal: 14
   body_size_y:
     nominal: 14
+  body_height: 1.5  # Not verified
+  body_pcb_gap: 0.1  # Not verified
   overall_size_x:
     nominal: 16
   overall_size_y:
@@ -1829,6 +1989,7 @@ VQFP-128_14x14mm_P0.4mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.1  # Not verified
   pitch: 0.4
   num_pins_x: 32
   num_pins_y: 32
@@ -1843,6 +2004,8 @@ VQFP-176_20x20mm_P0.4mm:
     nominal: 20
   body_size_y:
     nominal: 20
+  body_height: 1.5  # Not verified
+  body_pcb_gap: 0.1  # Not verified
   overall_size_x:
     nominal: 22
   overall_size_y:
@@ -1853,6 +2016,7 @@ VQFP-176_20x20mm_P0.4mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.1  # Not verified
   pitch: 0.4
   num_pins_x: 44
   num_pins_y: 44

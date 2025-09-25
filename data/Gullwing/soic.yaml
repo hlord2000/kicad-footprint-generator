@@ -47,10 +47,8 @@ SOP-4_3.8x4.1mm_P2.54mm:
   body_size_y:
     nominal: 4.1 #rounded to avoid changing the symbol (given as 4.089)
     tolerance: 0.025
-  overall_height:
-  # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
-    nominal: 2.094
-    tolerance: 0.047
+  body_height: 2.030 +/- 0.025
+  body_pcb_gap: 0.051 +/- 0.051
   overall_size_x:
     nominal: 6.096
     tolerance: 0.102
@@ -60,6 +58,7 @@ SOP-4_3.8x4.1mm_P2.54mm:
   lead_len:
     nominal: 0.559
     tolerance: 0.127
+  lead_height: 0.203 +/- 0.025
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
@@ -192,6 +191,7 @@ SO-4_7.6x3.6mm_P2.54mm:
     tolerance: 0.2
   overall_height:
     maximum: 2.2
+  body_pcb_gap: 0.1  # max
   overall_size_x:
     nominal: 10.2
     tolerance: 0.3
@@ -205,6 +205,7 @@ SO-4_7.6x3.6mm_P2.54mm:
     minimum: 0.5
     nominal: 0.7 # Not given, assumption based on Vishay TCLT1000
     maximum: 1.0
+  lead_height: 0.25  # max
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
@@ -289,10 +290,13 @@ SOP-8_6.605x9.655mm_P2.54mm:
   device_type: 'SOP' # temporary
   body_size_x: 6.35 .. 6.86
   body_size_y: 9.40 .. 9.91
+  body_height: 3.68 .. 3.94
   overall_height: 4.19 .. 5.08
+  body_pcb_gap: 0.51 .. 1.14
   overall_size_x: 8.8 .. 10.30
   lead_width: 1.14 .. 1.78
   lead_len: 0.40 .. 1.15
+  lead_height: 0.2 .. 0.4
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4
@@ -329,10 +333,13 @@ SOIC-5-6_4.4x3.6mm_P1.27mm:
   size_source: "JEDEC MO-155, variation AA, 2.50mm nominal body thickness, https://www.jedec.org/system/files/docs/Mo-155a.pdf"
   body_size_x: 4.30 .. 4.40 .. 4.50
   body_size_y: 3.50 .. 3.60 .. 3.70
+  body_height: 2.20 .. 2.50 .. 2.80
   overall_height: 2.25 .. 2.60 .. 3.00 # minimum & nominal from A1 / A2, maximum from A
+  body_pcb_gap: 0.05 .. 0.10 .. 0.20
   overall_size_x: 6.80 .. 7.00 .. 7.20
   lead_width: 0.35 .. 0.50
   lead_len: 0.50 .. 0.70 .. 0.90
+  lead_height: 0.13 .. 0.20
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 3
@@ -348,14 +355,17 @@ Toshiba_SOIC-5-6_4.4x3.6mm_P1.27mm:
     nominal: 4.40
   body_size_y:
     nominal: 3.60
+  body_height: 2.5  # nominal value (no maximum indicated in datasheet)
   overall_height:
     nominal: 2.6 # 2.5 + 0.1
+  body_pcb_gap: 0.1  # nominal value (no maximum indicated in datasheet)
   overall_size_x:
     nominal: 7.00
   lead_width:
     nominal: 0.4  # Needed by the generator but overwritten anyway
   lead_len:
     nominal: 0.5  # Needed by the generator but overwritten anyway
+  lead_height: 0.15
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 3
@@ -370,6 +380,9 @@ Toshiba_SOIC-4-6_4.4x3.6mm_P1.27mm:
   compatible_mpns:
     - 'Toshiba_11-4C1'
     - "Toshiba_MFSOP-4-6"
+  body_height: 2.5  # nominal value (no maximum indicated in datasheet)
+  body_pcb_gap: 0.1  # nominal value (no maximum indicated in datasheet)
+  lead_height: 0.15
   hidden_pins: [2, 5]
 
 SOP-4_4.4x2.6mm_P1.27mm:
@@ -382,10 +395,8 @@ SOP-4_4.4x2.6mm_P1.27mm:
   body_size_y:
     nominal: 2.6
     tolerance: 0.2
-  overall_height:
-  # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
-    nominal: 2.1
-    tolerance: 0.14
+  body_height: 2.0 +/- 0.10
+  body_pcb_gap: 0.1 +/- 0.10
   overall_size_x:
     nominal: 7
     tolerance: 0.3
@@ -395,6 +406,7 @@ SOP-4_4.4x2.6mm_P1.27mm:
   lead_len:
     nominal: 0.6
     tolerance: [-0.3, 0.2]
+  lead_height: 0.2 +/- 0.05
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 2
@@ -444,9 +456,12 @@ SO-5-6_4.55x3.7mm_P1.27mm:
   device_type: 'SO' # temporary
   body_size_x: 4.55 -0.15 + 0.25
   body_size_y: 3.7 -0.15 + 0.25
+  body_height: 2.1 +/- 0.10
+  body_pcb_gap: 0.1
   overall_size_x: 7.0 +/-0.4
   lead_width: 0.4
   lead_len: 0.5
+  lead_height: 0.15
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 3
@@ -489,9 +504,8 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   body_size_y:
     minimum: 4.8
     maximum: 5.0
-  overall_height:
-    minimum: 1.35
-    maximum: 1.75
+  body_height: 1.35 .. 1.75
+  body_pcb_gap: 0.10 .. 0.25
   overall_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 6
     tolerance: 0.2
@@ -501,6 +515,7 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.17 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -520,15 +535,15 @@ JEITA_SOIC-8_3.9x4.9mm_P1.27mm:
     nominal: 3.90
   body_size_y:
     nominal: 4.90
-  overall_height:
-    minimum: 1.45 # not specified, min.A1(0.10) + min.A2(1.35) gives this value
-    maximum: 1.75 # max.A
+  body_height: 1.35 .. 1.40 .. 1.45
+  body_pcb_gap: 0.10 .. 0.15 .. 0.25
   overall_size_x:
     nominal: 6.00
   lead_width: 0.30 .. 0.45
   lead_len:
     minimum: 0.40 
     maximum: 0.80 # JEITA Lp, min/max values
+  lead_height: 0.17 .. 0.27
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -544,6 +559,8 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   body_size_y:
     minimum: 4.80
     maximum: 5.30
+  overall_height: 1.55 +/- 0.20
+  body_pcb_gap: 0.15 +/- 0.10
   overall_size_x:
     minimum: 5.80
     maximum: 6.20
@@ -553,6 +570,7 @@ SSOP-8_3.9x5.05mm_P1.27mm:
   lead_len:
     minimum: 0.45
     maximum: 0.75
+  lead_height: 0.22 +0.03 -0.07
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -647,7 +665,8 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
   body_size_y:
     nominal: 4.9
     tolerance: 0.1
-  overall_height: 1.0 # max
+  body_height: 0.85 +/- 0.05
+  body_pcb_gap: 0.08 +/- 0.08
   overall_size_x:
     nominal: 6
     tolerance: 0.2
@@ -657,6 +676,7 @@ HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.4x3.2mm:
   lead_len:
     nominal: 0.65
     tolerance: 0.15
+  lead_height: 0.17 +0.05 -0.03
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -682,9 +702,8 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
     minimum: 4.8
     nominal: 4.9
     maximum: 5.0
-  overall_height:
-    minimum: 1.25
-    maximum: 1.65
+  body_height: 1.25 .. 1.65
+  body_pcb_gap: 0.00 .. 0.10
   overall_size_x:
     minimum: 5.8
     nominal: 6.0
@@ -695,6 +714,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.17 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -1104,10 +1124,12 @@ SOIC-8_5.3x5.3mm_P1.27mm:
   # based on JEITA/EIAJ 08-001-BBA + Atmel/Microchip + others manufacturers
   body_size_x: 5.15 .. 5.30 .. 5.40 # 5.30mm from JEITA
   body_size_y: 5.15 .. 5.30 .. 5.40 # 5.30mm nominal is good for all manufacturers sources used here, but "out of the standard" in JEITA, same value of old SOIC-8W
-  overall_height: 1.75 .. 2.16 # JEITA is 2.15mm, manufacturers use 2.16mm
+  body_height: 1.85 .. 1.90 .. 1.95
+  body_pcb_gap: 0.05 .. 0.10 .. 0.20
   overall_size_x: 7.70 .. 7.80 .. 8.10 # minimum / maximum from manufacturers, nominal from JEITA; Fujitsu FPT-8P-M08 says 8.25 mm maximum here, but this is an extreme case for an obsolete part
   lead_width: 0.35 .. 0.55  # JEITA bp
   lead_len: 0.45 .. 0.85 # JEITA Lp minimum value .. Atmel '8S2' L maximum value
+  lead_height: 0.14 .. 0.20
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -1185,10 +1207,13 @@ SOIC-8_5.3x6.2mm_P1.27mm:
   # see https://www.ti.com/packaging/docs/searchtipackages.tsp?packageName=SO, they call this package SOP
   body_size_x: 5.00 .. 5.60
   body_size_y: 5.90 .. 6.50
-  overall_height: 2.00
+  body_height:
+    maximum: 1.85
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 7.40 .. 8.20
   lead_width: 0.35 .. 0.51
   lead_len: 0.55 .. 0.95 # JEITA Lp is maximum 0.75
+  lead_height: 0.15  # nominal
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -1202,8 +1227,9 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   body_size_y:
     minimum: 5.75
     maximum: 5.95
-  overall_height:
-    maximum: 2.8
+  body_height:
+    nominal: 2.286
+  body_pcb_gap: 0.36 .. 0.46
   overall_size_x:
     nominal: 11.5
     tolerance: 0.25
@@ -1213,6 +1239,7 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   lead_len:
     minimum: 0.5
     maximum: 1.0
+  lead_height: 0.13 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -1250,10 +1277,12 @@ SO-14_3.9x8.65mm_P1.27mm:
   device_type: 'SO' # temporary
   body_size_x: 3.80 .. 4.00
   body_size_y: 8.55 .. 8.75
-  overall_height: 1.75
+  body_height: 1.10 .. 1.65
+  body_pcb_gap: 0.10 .. 0.25
   overall_size_x: 5.80 .. 6.20
   lead_width: 0.33 .. 0.51
   lead_len: 0.4 .. 1.27
+  lead_height: 0.19 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 7
@@ -1269,8 +1298,8 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   body_size_y:
     minimum: 8.55
     maximum: 8.75
-  overall_height:
-    maximum: 1.75
+  overall_height: 1.35 .. 1.75
+  body_pcb_gap: 0.1 .. 0.25
   overall_size_x: # from JEDEC (agrees with linked datasheet)
     nominal: 6
     tolerance: 0.2
@@ -1280,6 +1309,7 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.17 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 7
@@ -1340,12 +1370,12 @@ SOIC-16_3.9x9.9mm_P1.27mm:
   device_type: 'SOIC' # temporary
   body_size_x: 3.90 +/- 0.10 # JEDEC + tolerance from Analog Devices
   body_size_y: 9.90 +/- 0.10
-  overall_height:
-  # minimum 1.35 mm in JEDEC (0.10 + 1.25, first is A1_min and second is from second figure in first page)
-    maximum: 1.75
+  body_height: 1.25 .. 1.50
+  body_pcb_gap: 0.1 .. 0.25
   overall_size_x: 6.00 +/- 0.20 # JEDEC + tolerance from Analog Devices
   lead_width: 0.31 .. 0.51 # from JEDEC (agrees with linked datasheet)
   lead_len: 0.835 +/- 0.435 # the same as 0.40 .. 1.27
+  lead_height: 0.10 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1374,9 +1404,11 @@ JEITA_SOIC-16_3.9x9.9mm_P1.27mm:
   body_size_x: 3.90 # E
   body_size_y: 9.90 # D
   overall_height: 1.70 .. 2.00 # minimum: JEITA A1_min + A2_min; maximum: JEITA A_max
+  body_pcb_gap: 0.05 .. 0.10 .. 0.20
   overall_size_x: 6.40 # HE
   lead_width: 0.35 .. 0.55 # bp
   lead_len: 0.45 .. 0.75 # Lp, main difference from JEDEC here, generates smaller pads
+  lead_height: 0.14 .. 0.20
   pitch: 1.27 # e
   num_pins_x: 0
   num_pins_y: 8
@@ -1389,10 +1421,12 @@ SO-16_3.9x9.9mm_P1.27mm:
   device_type: 'SO' # temporary
   body_size_x: 3.8 .. 3.9 .. 4.0
   body_size_y: 9.8 .. 9.9 .. 10.0
-  overall_height: 1.75
+  body_height: 1.25 .. 1.35 .. 1.45
+  body_pcb_gap: 0.10 .. 0.25
   overall_size_x: 5.8 .. 6.2
   lead_width: 0.36 .. 0.49
   lead_len: 0.4 .. 1.0
+  lead_height: 0.19 .. 0.25
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1421,8 +1455,9 @@ SOP-16_4.4x10.4mm_P1.27mm:
     tolerance: 0.20
   body_size_y:
     nominal: 10.4
-  overall_height:
-    nominal: 2.1
+  body_height:
+    maximum: 1.9
+  body_pcb_gap: 0.1 +/- 0.1
   overall_size_x:
     minimum: 6.6
     nominal: 7
@@ -1434,6 +1469,7 @@ SOP-16_4.4x10.4mm_P1.27mm:
     minimum: 0.30
     nominal: 0.70
     maximum: 1.00
+  lead_height: 0.15 +0.10 -0.05
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1508,6 +1544,7 @@ SOIC-16W_5.3x10.2mm_P1.27mm:
   overall_height: # Datasheet only specifies maximum
     nominal: 2.0
     maximum: 2.0
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 7.4
     maximum: 8.2
@@ -1517,6 +1554,7 @@ SOIC-16W_5.3x10.2mm_P1.27mm:
   lead_len:
     minimum: 1.05 # From overall_size_x[min] - body_size_x[nominal]
     maximum: 1.45 # From overall_size_x[max] - body_size_x[nominal]
+  lead_height: 0.15  # nominal
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1548,6 +1586,7 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1557,6 +1596,7 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1575,6 +1615,7 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1584,6 +1625,7 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
@@ -1652,6 +1694,7 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1661,6 +1704,7 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 9
@@ -1692,6 +1736,7 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1701,6 +1746,7 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
@@ -1819,9 +1865,8 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   body_size_y:
     minimum: 15.27
     maximum: 15.54
-  overall_height:
-    minimum: 2.36
-    maximum: 2.64
+  overall_height: 2.36 .. 2.54 .. 2.64
+  body_pcb_gap: 0.10 .. 0.25
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.24
@@ -1831,6 +1876,7 @@ SOIC-20W_7.5x15.4mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.23 .. 0.32
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 10
@@ -1862,6 +1908,7 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1871,6 +1918,7 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 12
@@ -1917,6 +1965,7 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   overall_height:
     minimum: 2.35
     maximum: 2.65
+  body_pcb_gap: 0.10 .. 0.30
   overall_size_x: # from JEDEC
     nominal: 10.3
     tolerance: 0.33
@@ -1926,12 +1975,13 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.2 .. 0.33
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14
 
 SOIC-28W_7.5x18.7mm_P1.27mm:
-  size_source: 'https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf#page=23'
+  size_source: 'https://www.es.co.th/Schemetic/PDF/AK5394A.PDF#page=23'
   custom_name_format: SOIC-{pincount}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm # round to two significant digits to comply with old name
   device_type: 'SOIC' # temporary
   body_size_x:
@@ -1940,9 +1990,8 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   body_size_y:
     nominal: 18.7
     tolerance: 0.3
-  overall_height:
-    nominal: 2.2
-    tolerance: 0.1
+  body_height: 2.2 +/- 0.1
+  body_pcb_gap: 0.1 +0.10 -0.05
   overall_size_x:
     nominal: 10.4
     tolerance: 0.3
@@ -1952,6 +2001,7 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   lead_len:
     nominal: 0.75
     tolerance: 0.2
+  lead_height: 0.15 +0.10 -0.05
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14
@@ -1971,6 +2021,7 @@ SOP-28_8.4x18.16mm_P1.27mm:
   overall_height:
     minimum: 2.55
     maximum: 3.05
+  body_pcb_gap: 0.05 .. 0.35
   overall_size_x:
     minimum: 11.50
     maximum: 12.7
@@ -1980,6 +2031,7 @@ SOP-28_8.4x18.16mm_P1.27mm:
   lead_len:
     minimum: 0.4
     maximum: 1.27
+  lead_height: 0.254  # Guess
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 14

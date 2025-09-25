@@ -84,10 +84,13 @@ TSSOP-24_4.4x5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 12
@@ -97,10 +100,13 @@ TSSOP-32_4.4x6.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 16
@@ -110,10 +116,13 @@ TSSOP-36_4.4x7.8mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 18
@@ -123,10 +132,13 @@ TSSOP-48_4.4x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 24
@@ -154,10 +166,13 @@ TSSOP-36_6.1x7.8mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 18
@@ -167,10 +182,13 @@ TSSOP-48_6.1x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 24
@@ -180,10 +198,13 @@ TSSOP-52_6.1x11mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 26
@@ -193,10 +214,13 @@ TSSOP-56_6.1x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 28
@@ -206,10 +230,13 @@ TSSOP-64_6.1x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 32
@@ -219,10 +246,13 @@ TSSOP-80_6.1x17mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 17.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 40
@@ -250,10 +280,13 @@ TSSOP-48_8x9.7mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 24
@@ -263,10 +296,13 @@ TSSOP-52_8x11mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 26
@@ -276,10 +312,13 @@ TSSOP-56_8x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 28
@@ -289,10 +328,13 @@ TSSOP-60_8x12.5mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 30
@@ -302,10 +344,13 @@ TSSOP-64_8x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 32
@@ -315,10 +360,13 @@ TSSOP-68_8x14mm_P0.4mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.13 .. 0.23
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 34
@@ -358,9 +406,12 @@ MSOP-10_3x3mm_P0.5mm:
   force_small_pitch_ipc_definition: True
   body_size_x: 3 +/-0.2 # value "E1" in MO-187F variant BA
   body_size_y: 3 +/-0.2 # value "D" in MO-187F variant BA
+  body_height: 0.75 .. 0.85 .. 0.95
+  body_pcb_gap: 0.00 .. 0.15
   overall_size_x: 4.9 +/-0.25 # value "E" in MO-187F variant BA
   lead_width: 0.17.. 0.33 # value "b" in MO-187F variant BA
   lead_len: 0.4 .. 0.6 .. 0.8 # value "L" in MO-187F variant BA
+  lead_height: 0.08 .. 0.23
   pitch: 0.5 # value "e" in MO-187F variant BA
   num_pins_x: 0
   num_pins_y: 5
@@ -375,6 +426,8 @@ VSSOP-10_3x3mm_P0.5mm:
   body_size_y:
     minimum: 2.90
     maximum: 3.10
+  overall_height: 1.1  # maximum
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_y:
     minimum: 4.85 #Datasheet value is 4.75 and 5.05 but this generate a 4.3 pin separation
     maximum: 5.15 #by adding 0.1 in both pin separation is correct.
@@ -384,6 +437,7 @@ VSSOP-10_3x3mm_P0.5mm:
   lead_len:
     minimum: 0.4
     maximum: 0.7
+  lead_height: 0.13 .. 0.23
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -437,6 +491,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -446,6 +501,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -566,6 +622,7 @@ MSOP-16_3x4.039mm_P0.5mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.10
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -575,6 +632,7 @@ MSOP-16_3x4.039mm_P0.5mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 8
@@ -605,6 +663,7 @@ MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.10
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -614,6 +673,7 @@ MSOP-16-1EP_3x4.039mm_P0.5mm_EP1.651x2.845mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 8
@@ -684,11 +744,14 @@ PowerSSO-16-1EP_3.9x4.9mm_P0.5mm_EP2.5x3.61mm:
   device_type: 'PowerSSO'
   body_size_x: 3.9
   body_size_y: 4.9
+  body_height: 1.1 .. 1.6
   overall_height:
     maximum: 1.70
+  body_pcb_gap: 0.0 .. 0.10
   overall_size_x: 6.0
   lead_width: 0.20 .. 0.30
   lead_len: 0.40 .. 0.60 .. 0.85
+  lead_height: 0.19 .. 0.25
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 8
@@ -715,10 +778,13 @@ TSSOP-20_4.4x5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 10
@@ -728,10 +794,13 @@ TSSOP-24_4.4x6.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 12
@@ -741,10 +810,13 @@ TSSOP-28_4.4x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 14
@@ -754,10 +826,13 @@ TSSOP-30_4.4x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 15
@@ -767,10 +842,13 @@ TSSOP-36_4.4x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 18
@@ -780,10 +858,13 @@ TSSOP-38_4.4x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 19
@@ -794,10 +875,13 @@ HTSSOP-38-1EP_4.4x9.7mm_P0.5mm_EP1.5x3.3mm:
   device_type: 'HTSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 19
@@ -818,6 +902,9 @@ HTSSOP-38-1EP_4.4x9.7mm_P0.5mm_EP2.74x4.75mm:
   inherit: 'HTSSOP-38-1EP_4.4x9.7mm_P0.5mm_EP1.5x3.3mm'
   size_source: 'JEDEC MO-153 Var BDT-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153 https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-tssop/tssop_38_05-08-1865.pdf'
   device_type: 'HTSSOP'
+  body_height: 1.0 +0.05 -0.2
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.20
   EP_size_x:
     nominal: 2.74
   EP_size_y:
@@ -868,10 +955,13 @@ TSSOP-44_4.4x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 22
@@ -881,10 +971,13 @@ TSSOP-50_4.4x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 25
@@ -899,10 +992,13 @@ TSSOP-28_6.1x7.8mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 14
@@ -912,10 +1008,13 @@ TSSOP-36_6.1x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 18
@@ -925,10 +1024,13 @@ TSSOP-40_6.1x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 20
@@ -938,10 +1040,13 @@ TSSOP-44_6.1x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 22
@@ -951,10 +1056,13 @@ TSSOP-48_6.1x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 24
@@ -964,10 +1072,13 @@ TSSOP-56_6.1x14mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 28
@@ -977,10 +1088,13 @@ TSSOP-64_6.1x17mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 17.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.27
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 32
@@ -995,10 +1109,13 @@ TSSOP-36_8x9.7mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 18
@@ -1008,10 +1125,13 @@ TSSOP-40_8x11mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 20
@@ -1021,10 +1141,13 @@ TSSOP-48_8x12.5mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 24
@@ -1034,10 +1157,13 @@ TSSOP-56_8x14mm_P0.5mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 28
@@ -1124,10 +1250,13 @@ MSOP-8_3x3mm_P0.65mm:
   force_small_pitch_ipc_definition: True
   body_size_x: 3 +/-0.2 # value "E1" in MO-187F variant AA
   body_size_y: 3 +/-0.2 # value "D" in MO-187F variant AA
+  body_height: 0.75 .. 0.85 .. 0.95
   overall_height: 1.10 # maximum
+  body_pcb_gap: 0.00 .. 0.15
   overall_size_x: 4.9 +/-0.25 # value "E" in MO-187F variant AA
   lead_width: 0.22 .. 0.38 # value "b" in MO-187F variant AA
   lead_len: 0.4 .. 0.6 .. 0.8 # value "L" in MO-187F variant AA
+  lead_height: 0.08 .. 0.23
   pitch: 0.65 # value "e" in MO-187F variant AA
   num_pins_x: 0
   num_pins_y: 4
@@ -1156,11 +1285,14 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.5x1.8mm:
   force_small_pitch_ipc_definition: True
   body_size_x: 2.9 .. 3.0 .. 3.1
   body_size_y: 2.9 .. 3.0 .. 3.1
+  body_height: 0.75 .. 0.86 .. 0.95
   overall_height:
     maximum: 1.1
+  body_pcb_gap: 0.05 .. 0.10 .. 0.15
   overall_size_x: 4.7 .. 4.9 .. 5.1
   lead_width: 0.22 .. 0.3 .. 0.38
   lead_len: 0.4 .. 0.6 .. 0.8
+  lead_height: 0.08 .. 0.15 .. 0.23
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1223,6 +1355,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1232,6 +1365,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1264,6 +1398,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
     tolerance: 0.1
   overall_height:
     maximum: 1.09
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     nominal: 4.9
     tolerance: 0.15
@@ -1273,6 +1408,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.12
+  lead_height: 0.13 .. 0.23
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1305,8 +1441,8 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  overall_height:
-    nominal: 1.1
+  body_height: 0.78 .. 0.86 .. 0.94
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 4.75
     nominal: 4.9
@@ -1319,6 +1455,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
     minimum: 0.4
     nominal: 0.55
     maximum: 0.7
+  lead_height: 0.13 .. 0.23
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1492,9 +1629,11 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   body_size_y:
     nominal: 3.0
     tolerance: 0.1
+  body_height: 0.86 +/- 0.05
   overall_height:
     nominal: 0.94
     tolerance: 0.1
+  body_pcb_gap: 0.08 +/- 0.05
   overall_size_x:
     nominal: 4.9
     tolerance: 0
@@ -1504,6 +1643,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP2.5x3mm_Mask1.73x2.36mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.1
+  lead_height: 0.15 +/- 0.05
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1540,6 +1680,7 @@ MSOP-12_3x4.039mm_P0.65mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1549,6 +1690,7 @@ MSOP-12_3x4.039mm_P0.65mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 6
@@ -1566,6 +1708,7 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
     tolerance: 0.102
   overall_height:
     maximum: 1.1
+  body_pcb_gap: 0.1016 +/- 0.0508
   overall_size_x:
     nominal: 4.9
     tolerance: 0.152
@@ -1575,6 +1718,7 @@ MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm:
   lead_len:
     nominal: 0.53
     tolerance: 0.152
+  lead_height: 0.18  # nominal
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 6
@@ -1604,10 +1748,13 @@ TSSOP-8_4.4x3mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 3.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1617,11 +1764,14 @@ TSSOP-14_4.4x5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.30 .. 4.40 .. 4.50
   body_size_y: 4.90 .. 5.00 .. 5.10
+  body_height: 1.0 +0.05 -0.2
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.40
   lead_width: 0.17 .. 0.30
   lead_len: 0.60 +/- 0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 7
@@ -1634,9 +1784,12 @@ Texas_HTSSOP-14-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask3.155x3.255mm:
     - 'Texas_PowerPAD-TSSOP'
   device_type: 'HTSSOP'
   manufacturer: 'Texas'
+  body_height: 1.0 +0.05 -0.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.20 .. 6.40 .. 6.60 # nominal agrees with JEDEC, minimum / maximum from Texas
   lead_width: 0.19 .. 0.30 # Texas
   lead_len: 0.50 .. 0.75 # Texas
+  lead_height: 0.09 .. 0.20
   EP_size_x: 3.105 .. 3.155 # Exposed Pad from Texas package
   EP_size_y: 3.205 .. 3.255
   EP_num_paste_pads: [2, 2] # https://www.ti.com/lit/an/sloa122/sloa122.pdf#page=5
@@ -1663,10 +1816,13 @@ TSSOP-16_4.4x5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 5.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
@@ -1736,11 +1892,14 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm:
   device_type: 'HTSSOP'
   body_size_x: 4.30 .. 4.40 .. 4.50 # JEDEC / Texas
   body_size_y: 4.90 .. 5.00 .. 5.10 # JEDEC / Texas
+  body_height: 1.0 +0.05 -0.2
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.20 .. 6.40 .. 6.60 # nominal agrees with JEDEC, minimum / maximum from Texas
   lead_width: 0.19 .. 0.30 # minimum from Texas, maximum agrees with JEDEC / Texas
   lead_len: 0.50 .. 0.75 # minimum from Texas, maximum agrees with JEDEC / Texas
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
@@ -1796,10 +1955,13 @@ TSSOP-20_4.4x6.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 6.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
@@ -2054,11 +2216,14 @@ TSSOP-24_4.4x7.8mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.30 .. 4.40 .. 4.50
   body_size_y: 7.70 .. 7.80 .. 7.90
+  body_height: 1.0 +0.05 -0.2
   overall_height:
     maximum: 1.20
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.40
   lead_width: 0.17 .. 0.30
   lead_len: 0.60 +/- 0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 12
@@ -2157,10 +2322,13 @@ TSSOP-28_4.4x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 4.4 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.4
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 14
@@ -2204,11 +2372,14 @@ HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.75x6.2mm:
   device_type: 'HTSSOP'
   body_size_x: 4.3 .. 4.4 .. 4.5
   body_size_y: 9.6 .. 9.7 .. 9.8
+  body_height: 1.0 +0.05 -0.2
   overall_height:
     maximum: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 6.2 .. 6.4 .. 6.6
   lead_width: 0.20 .. 0.29
   lead_len: 0.45 .. 0.60 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 14
@@ -2251,8 +2422,10 @@ TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x6.7mm:
   body_size_y:
     minimum: 9.60
     maximum: 9.80
+  body_height: 0.85 .. 0.95
   overall_height:
     maximum: 1.10
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 6.25
     maximum: 6.50
@@ -2262,6 +2435,7 @@ TSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x6.7mm:
   lead_len:
     minimum: 0.50
     maximum: 0.70
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 14
@@ -2398,10 +2572,13 @@ TSSOP-24_6.1x7.8mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 7.8 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 12
@@ -2411,10 +2588,13 @@ TSSOP-28_6.1x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 14
@@ -2424,10 +2604,13 @@ TSSOP-30_6.1x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 15
@@ -2437,10 +2620,13 @@ TSSOP-32_6.1x11mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 16
@@ -2472,10 +2658,13 @@ TSSOP-36_6.1x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 18
@@ -2485,10 +2674,13 @@ TSSOP-38_6.1x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 19
@@ -2541,10 +2733,13 @@ TSSOP-40_6.1x14mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 6.1 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 8.1
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 20
@@ -2559,10 +2754,13 @@ TSSOP-28_8x9.7mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 9.7 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 14
@@ -2572,10 +2770,13 @@ TSSOP-32_8x11mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 11.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 16
@@ -2585,10 +2786,13 @@ TSSOP-36_8x12.5mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 12.5 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 18
@@ -2598,10 +2802,13 @@ TSSOP-40_8x14mm_P0.65mm:
   device_type: 'TSSOP'
   body_size_x: 8.0 +/-0.1
   body_size_y: 14.0 +/-0.1
+  body_height: 1.0 +0.05 -0.2
   overall_height: 1.2
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 10.0
   lead_width: 0.17 .. 0.30
   lead_len: 0.6 +/-0.15
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 20

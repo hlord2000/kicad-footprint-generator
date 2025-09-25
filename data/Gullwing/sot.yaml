@@ -7,9 +7,12 @@ SOT-23:
   custom_name_format: 'SOT-23'
   body_size_x: 1.20 .. 1.30 .. 1.40
   body_size_y: 2.8 .. 2.9 .. 3.04
+  body_height: 0.70 .. 0.85 .. 1.02
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 2.10 .. 2.64
   lead_width: 0.3 .. 0.5
   lead_len: 0.40 .. 0.50 .. 0.6
+  lead_height: 0.08 .. 0.20
   pitch: 0.95
   num_pins_x: 0
   num_pins_y: 3
@@ -26,9 +29,12 @@ SOT-23-3:
   custom_name_format: 'SOT-23-3'
   body_size_x: 1.6
   body_size_y: 2.9
+  body_height: 0.9 .. 1.15 .. 1.30
+  body_pcb_gap: 0 .. 0.15
   overall_size_x: 2.8
   lead_width: 0.3 .. 0.5
   lead_len: 0.3 .. 0.45 .. 0.6
+  lead_height: 0.08 .. 0.22
   pitch: 0.95
   num_pins_x: 0
   num_pins_y: 3
@@ -39,9 +45,12 @@ SOT-23-5:
   custom_name_format: 'SOT-23-5'
   body_size_x: 1.6
   body_size_y: 2.9
+  body_height: 0.9 .. 1.15 .. 1.30
+  body_pcb_gap: 0 .. 0.15
   overall_size_x: 2.8
   lead_width: 0.3 .. 0.5
   lead_len: 0.3 .. 0.45 .. 0.6
+  lead_height: 0.08 .. 0.22
   pitch: 0.95
   num_pins_x: 0
   num_pins_y: 3
@@ -52,9 +61,12 @@ SOT-23-6:
   custom_name_format: 'SOT-23-6'
   body_size_x: 1.6
   body_size_y: 2.9
+  body_height: 0.9 .. 1.15 .. 1.30
+  body_pcb_gap: 0 .. 0.15
   overall_size_x: 2.8
   lead_width: 0.3 .. 0.5
   lead_len: 0.3 .. 0.45 .. 0.6
+  lead_height: 0.08 .. 0.22
   pitch: 0.95
   num_pins_x: 0
   num_pins_y: 3
@@ -64,9 +76,12 @@ SOT-23-8:
   custom_name_format: 'SOT-23-8'
   body_size_x: 1.6
   body_size_y: 2.9
+  body_height: 0.9 .. 1.15 .. 1.30
+  body_pcb_gap: 0 .. 0.15
   overall_size_x: 2.8
   lead_width: 0.22 .. 0.38
   lead_len: 0.3 .. 0.45 .. 0.6
+  lead_height: 0.08 .. 0.22
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -93,6 +108,6 @@ Texas_DDF0008A_SOT-23-8_1.6x2.9mm_P0.65mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-  pad_to_pad_min_x_overwrite: 1.55 # non-IPC parameter
-  pad_to_pad_max_x_overwrite: 3.65 # non-IPC parameter
-  pad_size_y_overwrite: 0.45 # non-IPC parameters
+  pad_to_pad_min_x_overwrite: 1.55
+  pad_to_pad_max_x_overwrite: 3.65
+  pad_size_y_overwrite: 0.45

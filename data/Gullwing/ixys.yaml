@@ -8,11 +8,12 @@ IXYS_Flatpak-8_6.3x9.7mm_P2.54mm:
   manufacturer: IXYS
   body_size_x: 6.350 +/- 0.127
   body_size_y: 9.652 +/- 0.381
-  overall_height:
-    maximum: 2.286
+  body_height: 2.159 +/- 0.025
+  body_pcb_gap: 0.051
   overall_size_x: 9.398 +/- 0.127
   lead_width: 0.457 +/- 0.076
   lead_len: 0.635 +/- 0.127
+  lead_height: 0.203 +/- 0.013
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4

@@ -89,6 +89,10 @@ SOJ-36_10.16x23.495mm_P1.27mm:
     minimum: 23.368
     nominal: 23.495
     maximum: 23.622
+  body_height: 2.65 .. 2.71 .. 2.76  # Rounded to 2 digits
+  body_pcb_gap: 0.6 .. 0.8 .. 1.0  # Guess
+  lead_height: 0.178 .. 0.330
+  lead_radius_bottom: -1.016 .. -0.762
   num_pins_y: 18
 
 SOJ-44_10.16x28.575mm_P1.27mm:

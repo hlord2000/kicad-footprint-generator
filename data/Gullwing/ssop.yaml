@@ -115,10 +115,13 @@ SSOP-8_5.3x3mm_P0.65mm:
   force_small_pitch_ipc_definition: True # if not using it, distance between pads is just 0.15mm
   body_size_x: 5.00 .. 5.30 .. 5.60 # E1
   body_size_y: 2.70 .. 3.00 .. 3.30 # D, from variation AA
+  body_height: 1.65 .. 1.85
   overall_height: 1.70 .. 2.00 # minimum is A1_min + A2_min, maximum is A_max
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x: 7.40 .. 7.80 .. 8.20 # E
   lead_width: 0.22 .. 0.38 # b
   lead_len: 0.55 .. 0.75 .. 0.95 # L
+  lead_height: 0.09 .. 0.25
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -142,6 +145,8 @@ SSOP-16_5.3x6.2mm_P0.65mm:
   body_size_y:
     minimum: 6.0
     maximum: 6.4
+  body_height: 1.65 .. 1.85
+  body_pcb_gap: 0.05 .. 0.15
   overall_size_x:
     minimum: 7.6
     maximum: 7.9
@@ -151,6 +156,7 @@ SSOP-16_5.3x6.2mm_P0.65mm:
   lead_len:
     minimum: 0.63
     maximum: 1.03
+  lead_height: 0.09 .. 0.25
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 8
@@ -165,10 +171,13 @@ SSOP-20_4.4x6.5mm_P0.65mm:
   device_type: 'SSOP' # temporary
   body_size_x: 4.3 .. 4.4 .. 4.5
   body_size_y: 6.4 .. 6.5 .. 6.6
+  body_height: 1.45 .. 1.75
   overall_height: 2.00 # max
+  body_pcb_gap: 0.05 .. 0.25
   overall_size_x: 6.4 +/- 0.2 # Tolerance ddd = 0.2 profile zone on each side
   lead_width: 0.19 .. 0.32 # NXP SOT266-1 and Nisshinbo has 0.32 max, JEDEC max is 0.30
   lead_len: 0.45 .. 0.75
+  lead_height: 0.09 .. 0.20
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
@@ -178,18 +187,27 @@ SSOP-20_5.3x7.2mm_P0.65mm:
   size_source: 'JEDEC MO-150 variation AE, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=396'
   # old source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/40001800C.pdf#page=480'
   body_size_y: 6.90 .. 7.20 .. 7.50 # D
+  body_height: 1.65 .. 1.85
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.25
   num_pins_y: 10
 
 SSOP-24_5.3x8.2mm_P0.65mm:
   inherit: SSOP-8_5.3x3mm_P0.65mm
   size_source: 'JEDEC MO-150 variation AG, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=398, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-ssop/ssop_24_05-08-1640.pdf'
   body_size_y: 7.90 .. 8.20 .. 8.50 # D
+  body_height: 1.65 .. 1.85
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.25
   num_pins_y: 12
 
 SSOP-28_5.3x10.2mm_P0.65mm:
   inherit: SSOP-8_5.3x3mm_P0.65mm
   size_source: 'JEDEC MO-150 variation AH, 1.75mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MO-150, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=400'
   body_size_y: 9.90 .. 10.20 .. 10.50 # D
+  body_height: 1.65 .. 1.85
+  body_pcb_gap: 0.05 .. 0.15
+  lead_height: 0.09 .. 0.25
   num_pins_y: 14
 
 HSOP-32-1EP_7.5x11mm_P0.65mm_EP4.7x4.7mm:
@@ -231,11 +249,14 @@ Infineon_PG-DSO-20-U03_7.5x12.8mm: # we should rename it properly in the future
   manufacturer: Infineon
   body_size_x: 7.5 +/-0.2 # Where there is no manufacturer tolerance specified, Jedec MO-187F tolerances are used.
   body_size_y: 12.8 +/-0.2 # Where there is no manufacturer tolerance specified, Jedec MO-187F tolerances are used.
+  body_height: 2.25 .. 2.45
   overall_height:
     maximum: 2.65
+  body_pcb_gap: 0.1 .. 0.2
   overall_size_x: 10.3 +/-0.25 # Where there is no manufacturer tolerance specified, Jedec MO-187F tolerances are used.
   lead_width: 0.25 .. 0.41 # Where there is no manufacturer tolerance specified, Jedec MO-187F tolerances are used.
   lead_len: 0.41 .. 1.21 # Where there is no manufacturer tolerance specified, Jedec MO-187F tolerances are used.
+  lead_height: 0.15 .. 0.35
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 18
@@ -312,9 +333,8 @@ QSOP-16_3.9x4.9mm_P0.635mm:
     minimum: 4.8
     nominal: 4.9
     maximum: 4.98
-  overall_height:
-    minimum: 1.35
-    maximum: 1.75
+  body_height: 1.245 .. 1.651
+  body_pcb_gap: 0.102 .. 0.254
   overall_size_x:
     minimum: 5.84
     nominal: 6
@@ -325,6 +345,7 @@ QSOP-16_3.9x4.9mm_P0.635mm:
   lead_len:
     minimum: 0.41
     maximum: 0.89 # JEDEC is 0.406 .. 1.27mm
+  lead_height: 0.191 .. 0.249
   pitch: 0.635
   num_pins_x: 0
   num_pins_y: 8
@@ -341,9 +362,8 @@ QSOP-20_3.9x8.7mm_P0.635mm:
     minimum: 8.56
     nominal: 8.7
     maximum: 8.74
-  overall_height:
-    minimum: 1.35
-    maximum: 1.75
+  body_height: 1.245 .. 1.651
+  body_pcb_gap: 0.102 .. 0.254
   overall_size_x:
     minimum: 5.84
     nominal: 6
@@ -354,6 +374,7 @@ QSOP-20_3.9x8.7mm_P0.635mm:
   lead_len:
     minimum: 0.41
     maximum: 0.89
+  lead_height: 0.191 .. 0.249
   pitch: 0.635
   num_pins_x: 0
   num_pins_y: 10
@@ -370,9 +391,8 @@ QSOP-24_3.9x8.7mm_P0.635mm:
     minimum: 8.56
     nominal: 8.7
     maximum: 8.74
-  overall_height:
-    minimum: 1.35
-    maximum: 1.75
+  body_height: 1.245 .. 1.651
+  body_pcb_gap: 0.102 .. 0.254
   overall_size_x:
     minimum: 5.84
     nominal: 6
@@ -383,6 +403,7 @@ QSOP-24_3.9x8.7mm_P0.635mm:
   lead_len:
     minimum: 0.41
     maximum: 0.89
+  lead_height: 0.191 .. 0.249
   pitch: 0.635
   num_pins_x: 0
   num_pins_y: 12
