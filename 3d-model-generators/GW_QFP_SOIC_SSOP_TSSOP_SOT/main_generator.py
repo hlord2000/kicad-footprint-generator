@@ -59,13 +59,15 @@ import multiprocessing.pool
 import os
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import cadquery as cq
 import yaml
 
 from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
+
+from kilibs.util import dict_tools  # type: ignore
 
 from .gw_qfp_soic_ssop_tssop_sot import make_gw
 
@@ -100,7 +102,20 @@ def make_models(
     for yaml_file in all_yaml_files:
         file_path = Path(yaml_file)
         with open(file_path, "r") as stream:
-            all_model_definitions.update(yaml.safe_load(stream))  # type: ignore
+            yaml_dict = yaml.safe_load(stream)
+            dict_tools.dictInherit(yaml_dict)
+            # If we have a file header in our dict, we must include its content in each
+            # part definition in a way that the part definition can overwrite some of
+            # the parameters defined in the file header:
+            if "FileHeader" in yaml_dict:
+                header = cast(dict[str, Any], yaml_dict["FileHeader"])
+                for key, value in yaml_dict.items():
+                    if key != "FileHeader":
+                        dict_entry = {key: header.copy()}
+                        dict_entry[key].update(value)
+                        all_model_definitions.update(dict_entry)
+            else:
+                all_model_definitions.update(yaml_dict)  # type: ignore
 
     models_to_build: dict[str, Any] = {}
     if model_to_build == "all" or model_to_build == None:
@@ -110,14 +125,6 @@ def make_models(
                 models_to_build.update({key: value})
     else:
         models_to_build[model_to_build] = all_model_definitions[model_to_build]
-
-    # for idx, (model_name, model_params) in enumerate(models_to_build.items()):
-    #     make_single_gullwing_model(
-    #             output_dir_prefix,
-    #             model_name,
-    #             model_params,
-    #             enable_vrml,
-    #         )
 
     # Always use maximum number of processes
     number_of_models = len(models_to_build)
@@ -162,8 +169,14 @@ def make_single_gullwing_model(
     str_display: str,
 ) -> None:
     print(str_display, flush=True)
-
-    output_dir = os.path.join(output_dir_prefix, model_params["library"] + ".3dshapes")
+    if "library" in model_params:
+        lib_name = model_params["library"] + ".3dshapes"
+    else:
+        if "override_lib_name" in model_params:
+            lib_name = model_params["override_lib_name"] + ".3dshapes"
+        else:
+            lib_name = "Package_" + model_params["library_Suffix"] + ".3dshapes"
+    output_dir = os.path.join(output_dir_prefix, lib_name)
     # Load the appropriate colors
     rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
     rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
@@ -195,14 +208,14 @@ def make_single_gullwing_model(
     component.name = model_name
 
     if not FUSED_AND_COMPRESSED:
-        component.save(  # type: ignore
+        component.export(  # type: ignore
             os.path.join(output_dir, model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
             write_pcurves=False,
         )
     else:
-        component.save(  # type: ignore
+        component.export(  # type: ignore
             os.path.join(output_dir, model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
