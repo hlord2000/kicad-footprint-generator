@@ -67,11 +67,11 @@ from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.util import dict_tools  # type: ignore
-from scripts.Packages.Package_Gullwing__QFP_SOIC_SO.gullwing_configuration import (
-    GullwingConfiguration,  # type: ignore
+from scripts.Packages.Gullwing.gullwing_configuration import (  # type: ignore
+    GullwingConfiguration,
 )
 
-from .gw_qfp_soic_ssop_tssop_sot import make_gw
+from .gullwing import make_gw
 
 FUSED_AND_COMPRESSED = True
 

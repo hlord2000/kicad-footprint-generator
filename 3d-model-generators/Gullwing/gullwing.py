@@ -57,7 +57,7 @@ from cadquery.cq import CQObject
 from cadquery.occ_impl.shapes import Edge
 
 from kilibs.util.toleranced_size import TolerancedSize  # type:ignore
-from scripts.Packages.Package_Gullwing__QFP_SOIC_SO.gullwing_configuration import (
+from scripts.Packages.Gullwing.gullwing_configuration import (
     GullwingConfiguration,  # type: ignore
 )
 
