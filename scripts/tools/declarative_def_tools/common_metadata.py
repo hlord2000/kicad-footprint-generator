@@ -25,7 +25,7 @@ class CommonMetadata:
     manufacturer: str | None
     """Some footprints are manufacturer-specific, annd may define this."""
 
-    part_number = str | None
+    part_number: str | None
     """Some footprints are unique to a particular part number (MPN)"""
 
     additional_tags: list[str]
