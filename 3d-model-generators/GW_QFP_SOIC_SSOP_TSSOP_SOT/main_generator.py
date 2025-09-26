@@ -59,7 +59,6 @@ import multiprocessing.pool
 import os
 import sys
 from pathlib import Path
-from typing import Any, cast
 
 import cadquery as cq
 import yaml
@@ -68,6 +67,9 @@ from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.util import dict_tools  # type: ignore
+from scripts.Packages.Package_Gullwing__QFP_SOIC_SO.gullwing_configuration import (
+    GullwingConfiguration,  # type: ignore
+)
 
 from .gw_qfp_soic_ssop_tssop_sot import make_gw
 
@@ -98,36 +100,34 @@ def make_models(
         print("No YAML files found to process.")
         return
 
-    all_model_definitions: dict[str, Any] = {}
+    # We load the configuration file (of the footprint generators):
+    with open("../scripts/Packages/package_config_KLCv3.yaml", "r") as config_stream:
+        try:
+            config = yaml.safe_load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise FileNotFoundError("Could not load 'package_config_KLCv3.yaml'")
+
+    gw_configs: list[GullwingConfiguration] = []
     for yaml_file in all_yaml_files:
         file_path = Path(yaml_file)
         with open(file_path, "r") as stream:
             yaml_dict = yaml.safe_load(stream)
             dict_tools.dictInherit(yaml_dict)
-            # If we have a file header in our dict, we must include its content in each
-            # part definition in a way that the part definition can overwrite some of
-            # the parameters defined in the file header:
-            if "FileHeader" in yaml_dict:
-                header = cast(dict[str, Any], yaml_dict["FileHeader"])
-                for key, value in yaml_dict.items():
-                    if key != "FileHeader":
-                        dict_entry = {key: header.copy()}
-                        dict_entry[key].update(value)
-                        all_model_definitions.update(dict_entry)
-            else:
-                all_model_definitions.update(yaml_dict)  # type: ignore
-
-    models_to_build: dict[str, Any] = {}
-    if model_to_build == "all" or model_to_build == None:
-        REQUIRED_3D_KEYS = ["lead_height", "body_pcb_gap", "body_height"]
-        for key, value in all_model_definitions.items():
-            if all(req_key in value for req_key in REQUIRED_3D_KEYS):
-                models_to_build.update({key: value})
-    else:
-        models_to_build[model_to_build] = all_model_definitions[model_to_build]
+            header = yaml_dict.get("FileHeader")
+            for key, value in yaml_dict.items():
+                if key != "FileHeader":
+                    if (
+                        model_to_build == key
+                        or model_to_build == "all"
+                        or model_to_build == None
+                    ):
+                        gwc = GullwingConfiguration(value, header, key, config)
+                        if gwc.has_3d_data:
+                            gw_configs.append(gwc)
 
     # Always use maximum number of processes
-    number_of_models = len(models_to_build)
+    number_of_models = len(gw_configs)
     number_of_processes = os.cpu_count()
     print(
         f"Creating {number_of_models} threads (one per model) and executing them "
@@ -136,17 +136,16 @@ def make_models(
     )
     with multiprocessing.Pool(processes=number_of_processes) as pool:
         async_results: list[multiprocessing.pool.AsyncResult[None]] = []
-        for idx, (model_name, model_params) in enumerate(models_to_build.items()):
+        for idx, gwc in enumerate(gw_configs):
             str_display = (
                 f"    => Executing thread {idx+1}/{number_of_models}: "
-                f"'{model_name}' from library 'Gullwing'"
+                f"'{gwc.model_name}' from library 'Gullwing'"
             )
             async_result = pool.apply_async(
                 make_single_gullwing_model,
                 args=(
                     output_dir_prefix,
-                    model_name,
-                    model_params,
+                    gwc,
                     enable_vrml,
                     str_display,
                 ),
@@ -163,19 +162,12 @@ def make_models(
 
 def make_single_gullwing_model(
     output_dir_prefix: str,
-    model_name: str,
-    model_params: dict[str, Any],
+    gwc: GullwingConfiguration,
     enable_vrml: bool,
     str_display: str,
 ) -> None:
     print(str_display, flush=True)
-    if "library" in model_params:
-        lib_name = model_params["library"] + ".3dshapes"
-    else:
-        if "override_lib_name" in model_params:
-            lib_name = model_params["override_lib_name"] + ".3dshapes"
-        else:
-            lib_name = "Package_" + model_params["library_Suffix"] + ".3dshapes"
+    lib_name = gwc.lib_name + ".3dshapes"
     output_dir = os.path.join(output_dir_prefix, lib_name)
     # Load the appropriate colors
     rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
@@ -187,7 +179,7 @@ def make_single_gullwing_model(
     mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
 
     # Make the parts of the model
-    (body, pins, epad, mark) = make_gw(model_params)
+    (body, pins, epad, mark) = make_gw(gwc)
 
     # Used to wrap all the parts into an assembly
     component = cq.Assembly()
@@ -205,27 +197,27 @@ def make_single_gullwing_model(
         os.makedirs(output_dir)
 
     # Export the assembly to STEP
-    component.name = model_name
+    component.name = gwc.model_name
 
     if not FUSED_AND_COMPRESSED:
         component.export(  # type: ignore
-            os.path.join(output_dir, model_name + ".step"),
+            os.path.join(output_dir, gwc.model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
             write_pcurves=False,
         )
     else:
         component.export(  # type: ignore
-            os.path.join(output_dir, model_name + ".step"),
+            os.path.join(output_dir, gwc.model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
             write_pcurves=False,
         )
         # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, model_name)
+        export_tools.check_step_export_union(component, output_dir, gwc.model_name)
 
         # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, model_name)
+        export_tools.postprocess_step(component, output_dir, gwc.model_name)
 
         # Export the assembly to VRML
         if enable_vrml:
@@ -238,7 +230,7 @@ def make_single_gullwing_model(
                 components.append(mark)
                 colors.append("light brown label")
             export_VRML(
-                os.path.join(output_dir, model_name + ".wrl"),
+                os.path.join(output_dir, gwc.model_name + ".wrl"),
                 components,
                 colors,
             )
@@ -248,7 +240,7 @@ def make_single_gullwing_model(
 
         add_license.addLicenseToStep(  # type: ignore
             output_dir,
-            model_name + ".step",
+            gwc.model_name + ".step",
             add_license.LIST_int_license,
             add_license.STR_int_licAuthor,
             add_license.STR_int_licEmail,

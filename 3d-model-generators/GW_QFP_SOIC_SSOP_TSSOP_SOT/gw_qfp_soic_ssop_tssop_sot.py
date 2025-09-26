@@ -50,13 +50,16 @@
 
 from collections.abc import Callable
 from math import atan2, cos, degrees, radians, sin, tan
-from typing import Any, cast
+from typing import cast
 
 import cadquery as cq
 from cadquery.cq import CQObject
 from cadquery.occ_impl.shapes import Edge
 
 from kilibs.util.toleranced_size import TolerancedSize  # type:ignore
+from scripts.Packages.Package_Gullwing__QFP_SOIC_SO.gullwing_configuration import (
+    GullwingConfiguration,  # type: ignore
+)
 
 MAX_CC1 = 1
 DEFAULT_PIN_SLOPE = 10.0
@@ -77,76 +80,38 @@ def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
 
 
 def make_gw(
-    params: dict[str, Any],
+    gwc: GullwingConfiguration,
 ) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
     # General parameters
-    pitch = cast(float, params["pitch"])
-    npx = cast(int, params["num_pins_x"])
-    npy = cast(int, params["num_pins_y"])
-    marker = cast(str, params.get("marker", "circle"))
+    pitch = gwc.pitch
+    npx = gwc.num_pins_x
+    npy = gwc.num_pins_y
+    marker = gwc.marker
 
     # Lead parameters
-    l = (
-        TolerancedSize.fromYaml(params, "lead_len").nominal
-        if "lead_len" in params
-        else None
-    )
-    s = cast(float | None, params.get("lead_top_flat_part_length"))
-    b = TolerancedSize.fromYaml(params, "lead_width").nominal
-    c = TolerancedSize.fromYaml(params, "lead_height").nominal
-    if "lead_radius_top" in params:
-        r1 = TolerancedSize.fromYaml(params, "lead_radius_top").nominal
-    else:
-        r1 = 0.75 * c
-    if "lead_radius_bottom" in params:
-        r2 = TolerancedSize.fromYaml(params, "lead_radius_bottom").nominal
-    else:
-        r2 = 0.75 * c
-    the_p = cast(float | None, params.get("lead_angle"))
+    l = gwc.lead_len.nominal if gwc.lead_len else None
+    s = gwc.lead_top_flat_part_length
+    b = gwc.lead_width.nominal
+    c = gwc.lead_height
+    r1 = gwc.lead_radius_top
+    r2 = gwc.lead_radius_bottom
+    the_p = gwc.lead_angle
 
     # Body parameters (except from height)
-    e1 = TolerancedSize.fromYaml(params, "body_size_x").nominal
-    d1 = TolerancedSize.fromYaml(params, "body_size_y").nominal
-    e = TolerancedSize.fromYaml(params, "overall_size_x").nominal
-    ef = cast(float, params.get("body_fillet", 0.0))
-    tb_s = max(cast(float, params.get("body_size_top_delta", 0.1)), 0.001)
-    cc1 = cast(float, params.get("corners_chamfer", 0.25))
-    the = cast(float, params.get("body_angle", 10.0))
+    e1 = gwc.body_size_x.nominal
+    d1 = gwc.body_size_y.nominal
+    e = gwc.overall_size_x.nominal
+    ef = gwc.body_fillet
+    tb_s = gwc.body_size_top_delta
+    cc1 = gwc.corners_chamfer
+    the = gwc.body_angle
 
     # Body height parameters
-    if "body_pcb_gap" in params and "body_height" in params:
-        a1 = TolerancedSize.fromYaml(params, "body_pcb_gap").maximum
-        a2 = TolerancedSize.fromYaml(params, "body_height").maximum
-        a = a1 + a2
-        if "overall_height" in params:
-            given_a = TolerancedSize.fromYaml(params, "overall_height").maximum
-            if abs(a - given_a) > 0.01:
-                raise RuntimeError(
-                    f"Body height is over constrained and maximum dimensions do not "
-                    f"match:\n"
-                    f"body_pcb_gap: {a1}, body_height: {a2}, overall_height: {given_a}"
-                )
-    elif "body_pcb_gap" in params and "overall_height" in params:
-        a1 = TolerancedSize.fromYaml(params, "body_pcb_gap").maximum
-        a = TolerancedSize.fromYaml(params, "overall_height").maximum
-        a2 = a - a1
-    elif "body_height" in params and "overall_height" in params:
-        a2 = TolerancedSize.fromYaml(params, "body_height").maximum
-        a = TolerancedSize.fromYaml(params, "overall_height").maximum
-        a1 = a - a2
-    else:
-        raise KeyError(
-            "2 of the following parameters must be defined: "
-            "'body_pcb_gap', 'body_height', 'overall_height'"
-        )
+    a1 = gwc.body_pcb_gap
+    a2 = gwc.body_height
 
     # Excluded pins:
-    if "deleted_pins" in params:
-        excluded_pins = params["deleted_pins"]
-    elif "hidden_pins" in params:
-        excluded_pins = params["hidden_pins"]
-    else:
-        excluded_pins = []
+    excluded_pins = gwc.deleted_pins + gwc.hidden_pins
 
     if s is not None and l is not None and the_p is not None:
         print(
@@ -319,39 +284,11 @@ def make_gw(
             print("Filleting failed.\n")
             print("{:s}\n".format(exeption))
 
-    epad_rotation = 0.0
-    epad_offset_x = 0.0
-    epad_offset_y = 0.0
-
-    epad_r = params.get("EP_size")
-    if isinstance(epad_r, list):
-        epad_r = cast(list[float], epad_r)
-        D2 = float(epad_r[0])
-        E2 = float(epad_r[1])
-        if len(epad_r) > 2:
-            epad_rotation = epad_r[2]
-        if len(epad_r) > 3:
-            if isinstance(epad_r[3], str):
-                if epad_r[3] == "-topin":
-                    epad_offset_x = (D1_b / 2 - D2 / 2) * -1
-                elif epad_r[3] == "+topin":
-                    epad_offset_x = D1_b / 2 - D2 / 2
-            else:
-                epad_offset_x = epad_r[3]
-        if len(epad_r) > 4:
-            if isinstance(epad_r[4], str):
-                if epad_r[4] == "-topin":
-                    epad_offset_y = (E1_b / 2 - E2 / 2) * -1
-                elif epad_r[4] == "+topin":
-                    epad_offset_y = E1_b / 2 - E2 / 2
-            else:
-                epad_offset_y = epad_r[4]
-        epad = (
-            cq.Workplane("XY")
-            .box(D2, E2, a1)
-            .translate((epad_offset_x, epad_offset_y, a1 / 2))
-            .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
-        )
+    if gwc.ep_size_x.nominal and gwc.ep_size_y.nominal:
+        ex = gwc.ep_size_x.nominal
+        ey = gwc.ep_size_y.nominal
+        ez = min(a1, 0.01)
+        epad = cq.Workplane("XY").box(ex, ey, ez).translate((0, 0, ez / 2))
         case = case.cut(epad)
     else:
         epad = None
