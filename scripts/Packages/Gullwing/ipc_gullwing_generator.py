@@ -29,7 +29,7 @@ from scripts.tools.declarative_def_tools import (
 )
 
 from scripts.Packages.utils.ep_handling_utils import getEpRoundRadiusParams
-from scripts.Packages.Gullwing.gullwing_configuration import GullwingConfiguration
+from gullwing_configuration import GullwingConfiguration
 
 DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
