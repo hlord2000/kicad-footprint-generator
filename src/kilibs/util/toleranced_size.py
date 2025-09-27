@@ -47,9 +47,14 @@ class TolerancedSize:
         if nominal is not None:
             self.nominal = nominal
         else:
-            if minimum is None or maximum is None:
-                raise KeyError("Either nominal or minimum and maximum must be given")
-            self.nominal = (minimum + maximum) / 2
+            if minimum is None and maximum is None:
+                raise KeyError("Either nominal or minimum or maximum must be given")
+            elif minimum is not None and maximum is not None:
+                self.nominal = (minimum + maximum) / 2
+            elif minimum is not None:
+                self.nominal = minimum
+            else:  # elif maximum is not None:
+                self.nominal = maximum
 
         if minimum is not None and maximum is not None:
             self.minimum = minimum
