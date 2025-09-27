@@ -5,9 +5,7 @@ from KicadModTree import (
     ExposedPad,
     Node,
     NodeShape,
-    Pad,
     PadArray,
-    ReferencedPad,
 )
 from KicadModTree.nodes.specialized.PadArray import find_lowest_numbered_pad
 from kilibs.geom import (
@@ -321,6 +319,14 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
                                 clearance_to_fab,
                                 pad1_bbox.left - apex_x + silk_line_width,
                             ),
+                        )
+                    # If the arrow apex is above the body (on the right side of the
+                    # body's left vertical outline), then we move it closer to the left
+                    # in order to reduce the risk of splitting the top horizontal line
+                    # of the body's silkscreen outline:
+                    elif apex_x > -body_x_half:
+                        apex_x = min(
+                            apex_x, -body_x_half - silk_line_width + arrow_width / 2
                         )
                     apex_x = rounding.round_to_grid_down(apex_x, self._ROUND_GRID)
                     arrow_apex = Vector2D.from_floats(apex_x, apex_y)
