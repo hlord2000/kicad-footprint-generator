@@ -303,12 +303,12 @@ class GullwingConfiguration:
             raise ValueError("A footprint may not have deleted pins and hidden pins.")
 
         self.pincount_full = self.num_pins_x * 2 + self.num_pins_y * 2
-        if "pin_count" in self._spec:
-            # If the pin count is explicitly given, we use that and don't adjust for hidden/deleted pins
-            self.pincount_full = cast(int, self._spec["pin_count"])
         self.pincount_real = (
             self.pincount_full - len(self.hidden_pins) - len(self.deleted_pins)
         )
+        if "pin_count" in self._spec:
+            # If the pin count is explicitly given, we use that and don't adjust for hidden/deleted pins
+            self.pincount_full = cast(int, self._spec["pin_count"])
 
     def _extract_3d_data(self) -> None:
         self.has_3d_data = True
