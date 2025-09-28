@@ -141,7 +141,7 @@ def make_case(
     sphere = cq.Workplane("XY", s_center).sphere(sphere_r)
     bpin = sphere.translate((0, 0, b / 2 - sp))
 
-    pins: list[cq.Workplane] = []
+    pin_positions: list[cq.Location] = []
     # create top, bottom side pins
     pincounter = 1
     first_pos_x = (npx - 1) * pitch / 2
@@ -150,28 +150,36 @@ def make_case(
             if "internals" in excluded_pins:
                 if str(int(pincounter)) not in excluded_pins:
                     if j == 0 or j == npy - 1 or i == 0 or i == npx - 1:
-                        pin = bpin.translate(
-                            (
-                                first_pos_x - i * pitch,
-                                (npy * ex / 2 - ex / 2) - j * ex,
-                                0,
+                        pin_positions.append(
+                            cq.Location(
+                                cq.Vector(
+                                    first_pos_x - i * pitch,
+                                    (npy * ex / 2 - ex / 2) - j * ex,
+                                    0,
+                                )
                             )
-                        ).rotate((0, 0, 0), (0, 0, 1), 180)
-                        pins.append(pin)
+                        )
             elif str(int(pincounter)) not in excluded_pins:
-                pin = bpin.translate(
-                    (first_pos_x - i * pitch, (npy * ex / 2 - ex / 2) - j * ex, 0)
-                ).rotate((0, 0, 0), (0, 0, 1), 180)
-                pins.append(pin)
+                pin_positions.append(
+                    cq.Location(
+                        cq.Vector(
+                            first_pos_x - i * pitch,
+                            (npy * ex / 2 - ex / 2) - j * ex,
+                            0,
+                        )
+                    )
+                )
             pincounter += 1
 
-    # merge all pins to a single object
-    merged_pins = pins[0]
-    for p in pins[1:]:
-        merged_pins = merged_pins.union(p)
+    # Create all pins in a single, efficient operation
+    merged_pins = (
+        cq.Workplane("XY")
+        .pushPoints(pin_positions)
+        .each(lambda loc: bpin.val().located(loc), combine="a")  # type: ignore
+    )
 
     # first pin indicator is created with a cylindrical pocket
-    marker_depth = a / 4
+    marker_depth = 0.05  # fixed 50 um for all markers
     marker_diameter = max(d, e) / 10.0
     if min(d, e) < 5 * marker_diameter:
         marker_edge_clearance = marker_diameter / 4.0
