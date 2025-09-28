@@ -289,28 +289,28 @@ BGA-324_19.0x19.0mm_Layout18x18_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
 
 BGA-352_35.0x35.0mm_Layout26x26_P1.27mm:
   # from https://www.fujitsu.com/downloads/MICRO/fma/pdfmcu/b352p05.pdf
-  cff: 0.6
-  cf: 0.3
+  first_corner_chamfer: 0.6
+  corner_chamfer: 0.3
   body_size_y: 35.0
   body_size_x: 35.0
-  D1: 25.0
-  E1: 25.0
+  mold_size_y: 25.0
+  mold_size_x: 25.0
   body_pcb_gap: 0.6
-  A2: 2.0
+  mold_size_z_bottom: 2.0
   overall_height: 3.1
   ball_diameter: 0.6
   pitch: 1.27
   layout_y: 26
   layout_x: 26
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
   # from https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf
   body_size_y: 17.0
   body_size_x: 17.0
-  D1: 15.2
-  E1: 15.2
+  mold_size_y: 15.2
+  mold_size_x: 15.2
   body_pcb_gap: 0.4
   overall_height: 1.47
   ball_diameter: 0.5
@@ -321,39 +321,39 @@ BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
 
 BGA-400_21.0x21.0mm_Layout20x20_P1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/fg400.pdf
-  cff: 0.4
-  cf: 0.2
+  first_corner_chamfer: 0.4
+  corner_chamfer: 0.2
   body_size_y: 21.0
   body_size_x: 21.0
-  D1: 19.0
-  E1: 19.0
+  mold_size_y: 19.0
+  mold_size_x: 19.0
   body_pcb_gap: 0.5
-  A2: 0.6
+  mold_size_z_bottom: 0.6
   overall_height: 2.23
   ball_diameter: 0.6
   pitch: 1.0
   layout_y: 20
   layout_x: 20
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 BGA-484_23.0x23.0mm_Layout22x22_P1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/fg484.pdf
-  cff: 0.05
-  cf: 0.25
+  first_corner_chamfer: 0.05
+  corner_chamfer: 0.25
   body_size_y: 23.0
   body_size_x: 23.0
-  D1: 20.5
-  E1: 20.5
+  mold_size_y: 20.5
+  mold_size_x: 20.5
   body_pcb_gap: 0.5
-  A2: 1.0
+  mold_size_z_bottom: 1.0
   overall_height: 2.3
   ball_diameter: 0.6
   pitch: 1.0
   layout_y: 22
   layout_x: 22
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 BGA-624_21x21mm_Layout25x25_P0.8mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1529-1.pdf
@@ -369,93 +369,93 @@ BGA-624_21x21mm_Layout25x25_P0.8mm:
 
 BGA-625_21.0x21.0mm_Layout25x25_P0.8mm:
   # from http://www.analog.com/media/en/technical-documentation/data-sheets/ADSP-TS101S.pdf
-  cff: 0.05
-  cf: 0.25
+  first_corner_chamfer: 0.05
+  corner_chamfer: 0.25
   body_size_y: 25.0
   body_size_x: 25.0
-  D1: 16.95
-  E1: 16.95
+  mold_size_y: 16.95
+  mold_size_x: 16.95
   body_pcb_gap: 0.4
-  A2: 0.55
+  mold_size_z_bottom: 0.55
   overall_height: 2.5
   ball_diameter: 0.5
   pitch: 0.8
   layout_y: 25
   layout_x: 25
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 FCPBGA-780_23x23mm_Layout28x28_P0.8mm:
   # from https://www.nxp.com/docs/en/package-information/98ASA00854D.pdf
-  cff: 0.01
-  cf: 0.01
+  first_corner_chamfer: 0.01
+  corner_chamfer: 0.01
   body_size_y: 23.0
   body_size_x: 23.0
   body_pcb_gap: 0.3
-  A2: 0.77
+  mold_size_z_bottom: 0.77
   overall_height: 2.46
   ball_diameter: 0.45
   pitch: 0.8
   layout_y: 28
   layout_x: 28
   excluded_pins: ['internals', 1, 28, 757, 784]
-  molded: True
+  mold: True
 
 BGA-1023_33.0x33.0mm_Layout32x32_P1.0mm:
   # from https://www.idt.com/document/psc/hmrm-1023-package-outline-33-x-33-mm-body-100-mm-pitch-fcbga IDT_PSC-4260.pdf
-  ef: 0.1
-  cff: 0.8
-  cf: 0.5
+  body_fillet: 0.1
+  first_corner_chamfer: 0.8
+  corner_chamfer: 0.5
   body_size_y: 33.2
   body_size_x: 33.2
-  D1: 30.0
-  E1: 30.0
+  mold_size_y: 30.0
+  mold_size_x: 30.0
   body_pcb_gap: 0.45
-  A2: 1.2
+  mold_size_z_bottom: 1.2
   overall_height: 2.5
   ball_diameter: 0.6
   pitch: 1.0
   layout_y: 32
   layout_x: 32
   excluded_pins: ['internals', 1]
-  molded: True
+  mold: True
 
 BGA-1156_34x34_35.0x35.0mm_Pitch1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/pk401_FF_G_1156.pdf
-  cff: 0.7
-  cf: 0.2
+  first_corner_chamfer: 0.7
+  corner_chamfer: 0.2
   body_size_y: 35.5
   body_size_x: 35.5
-  D1: 30.0
-  E1: 30.0
+  mold_size_y: 30.0
+  mold_size_x: 30.0
   body_pcb_gap: 0.5
-  A2: 1.0
+  mold_size_z_bottom: 1.0
   overall_height: 2.7
   ball_diameter: 0.6
   pitch: 1.0
   layout_y: 34
   layout_x: 34
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 BGA-1295_36x36_37.5x37.5mm_Pitch1.0mm:
   # from http://www.datasheets360.com/pdf/6857809988541063510
-  ef: 0.1
-  cff: 0.4
-  cf: 0.2
+  body_fillet: 0.1
+  first_corner_chamfer: 0.4
+  corner_chamfer: 0.2
   body_size_y: 37.5
   body_size_x: 37.5
-  D1: 27.3
-  E1: 27.3
+  mold_size_y: 27.3
+  mold_size_x: 27.3
   body_pcb_gap: 0.5
-  A2: 1.5
+  mold_size_z_bottom: 1.5
   overall_height: 3.19
   ball_diameter: 0.5
   pitch: 1.0
   layout_y: 36
   layout_x: 36
   excluded_pins: ['internals']
-  molded: True
+  mold: True
 
 Analog_BGA-49_6.25x6.25mm_Layout7x7_P0.8mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-bga/05081600_0_bga49.pdf

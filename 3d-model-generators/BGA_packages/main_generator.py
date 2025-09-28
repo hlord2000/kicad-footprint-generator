@@ -108,17 +108,15 @@ def make_case(
     params: dict[str, Any],
 ) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
 
-    ef = params.get("ef", 0.0)
-    cff = params.get("cff", 0.25)
-    cf = params.get("cf", 0.25)
+    ef = params.get("body_fillet", 0.0)
+    cff = params.get("first_corner_chamfer", 0.25)
+    cf = params.get("corner_chamfer", 0.25)
     d = params["body_size_y"]
     e = params["body_size_x"]
-    d1 = params.get("D1")
-    e1 = params.get("E1")
+    d1 = params.get("mold_size_y")
+    e1 = params.get("mold_size_x")
     a1 = params["body_pcb_gap"]
-    a2 = params.get(
-        "A2"
-    )  # body height or body bottom height optional, needed for molded
+    a2 = params.get("mold_size_z_bottom")
     a = params["overall_height"]
     molded = params.get("molded")
     b = params["ball_diameter"]
