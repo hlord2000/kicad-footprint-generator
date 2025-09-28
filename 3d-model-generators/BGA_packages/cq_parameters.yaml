@@ -1,942 +1,873 @@
 Fujitsu_WLP-15_2.28x3.092mm_Layout3x5_P0.4mm:
-  # from http://www.fujitsu.com/global/documents/products/devices/semiconductor/fram/lineup/MB85RS1MT-DS501-00022-7v0-E.pdf
-  D: 3.09         # body overall length
-  E: 2.28         # body overall width
-  A1: 0.08        # body-board separation
-  A: 0.25         # body  overall height
-  b: 0.20         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.3          # pin (center-to-center) distance
-  ex: 0.4         # pin (center-to-center) distance
-  npx: 5          # number of pins along X axis (width)
-  npy: 3          # number of pins along y axis (length)
-  excluded_pins: [2, 4, 6, 8, 10, 12, 14] #pins to exclude -> None or "internals"
-  rotation: -90 # rotation if required
+  # from https://www.fujitsu.com/uk/Images/MB85RS1MT-DS501-00022-7v0-E.pdf
+  body_size_y: 3.09
+  body_size_x: 2.28
+  body_pcb_gap: 0.08
+  overall_height: 0.25
+  ball_diameter: 0.20
+  pitch: 0.3
+  pitch_x: 0.4
+  layout_y: 5
+  layout_x: 3
+  excluded_pins: [2, 4, 6, 8, 10, 12, 14]
 
 BGA-9_1.6x1.6mm_Layout3x3_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/bq27421-g1.pdf
-  D: 1.6           # body overall length
-  E: 1.6           # body overall width
-  A1: 0.25         # body-board separation
-  A: 0.625         # body  overall height
-  b: 0.3           # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.5           # pin (center-to-center) distance
-  npx: 3           # number of pins along X axis (width)
-  npy: 3           # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90    # rotation if required
+  body_size_y: 1.6
+  body_size_x: 1.6
+  body_pcb_gap: 0.25
+  overall_height: 0.625
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 3
+  layout_x: 3
+  excluded_pins: ["internals"]
 
 Maxim_WLP-12:
   # W121B2+1 from http://pdfserv.maximintegrated.com/package_dwgs/21-0009.PDF
-  D: 1.6          # body overall length
-  E: 2.0          # body overall width
-  A1: 0.24        # body-board separation
-  A: 0.64         # body  overall height
-  b: 0.31         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.5          # pin (center-to-center) distance
-  npx: 3          # number of pins along X axis (width)
-  npy: 4          # number of pins along y axis (length)
-  excluded_pins: ['None'] # pins to exclude -> None or "internals"
-  rotation: -90   # rotation if required
+  body_size_y: 1.6
+  body_size_x: 2.0
+  body_pcb_gap: 0.24
+  overall_height: 0.64
+  ball_diameter: 0.31
+  pitch: 0.5
+  layout_y: 3
+  layout_x: 4
+  excluded_pins: ['None']
 
 BGA-16_1.92x1.92mm_Layout4x4_P0.5mm:
   # from http://www.st.com/content/ccc/resource/technical/document/datasheet/group2/bc/cd/62/9e/8f/30/47/69/CD00151267/files/CD00151267.pdf/jcr:content/translations/en.CD00151267.pdf
-  D: 1.92        # body overall length
-  E: 1.92        # body overall width
-  A1: 0.25       # body-board separation
-  A: 0.65        # body overall height
-  b: 0.3         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.5         # pin (center-to-center) distance
-  npx: 4         # number of pins along X axis (width)
-  npy: 4         # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90 # rotation if required
+  body_size_y: 1.92
+  body_size_x: 1.92
+  body_pcb_gap: 0.25
+  overall_height: 0.65
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 4
+  layout_x: 4
+  excluded_pins: ["internals"]
 
 BGA-25_6.35x6.35mm_Layout5x5_P1.27mm:
   # from http://cds.linear.com/docs/en/datasheet/4624fc.pdf
-  D: 6.25        # body overall length
-  E: 6.25        # body overall width
-  A1: 0.60       # body-board separation
-  A: 5.01        # body overall height
-  b: 0.6         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 1.27        # pin (center-to-center) distance
-  npx: 5         # number of pins along X axis (width)
-  npy: 5         # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 6.25
+  body_size_x: 6.25
+  body_pcb_gap: 0.60
+  overall_height: 5.01
+  ball_diameter: 0.6
+  pitch: 1.27
+  layout_y: 5
+  layout_x: 5
+  excluded_pins: ["internals"]
 
 BGA-48_8.0x9.0mm_Layout6x8_P0.8mm:
   # from https://www.xilinx.com/support/documentation/package_specs/fs48.pdf
-  D: 9.0         # body overall length
-  E: 8.0         # body overall width
-  A1: 0.30       # body-board separation
-  A: 1.2         # body overall height
-  b: 0.4         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 8         # number of pins along X axis (width)
-  npy: 6         # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 9.0
+  body_size_x: 8.0
+  body_pcb_gap: 0.30
+  overall_height: 1.2
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 8
+  layout_x: 6
+  excluded_pins: ["internals"]
 
 BGA-64_9.0x9.0mm_Layout10x10_P0.8mm:
   # from http://www.nxp.com/documents/outline_drawing/SOT926-1.pdf
-  D: 9.0         # body overall length
-  E: 9.0         # body overall width
-  A1: 0.35       # body-board separation
-  A: 1.2         # body overall height
-  b: 0.4         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 10        # number of pins along X axis (width)
-  npy: 10        # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 9.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.35
+  overall_height: 1.2
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 10
+  layout_x: 10
+  excluded_pins: ["internals"]
 
 BGA-68_5.0x5.0mm_Layout9x9_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   # from https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00344-01.pdf
-  D: 5.0         # body overall length
-  E: 5.0         # body overall width
-  A1: 0.20       # body-board separation
-  A: 1.05        # body overall height
-  b: 0.3         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.5         # pin (center-to-center) distance
-  npx: 9         # number of pins along X axis (width)
-  npy: 9         # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 5.0
+  body_size_x: 5.0
+  body_pcb_gap: 0.20
+  overall_height: 1.05
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 9
+  layout_x: 9
+  excluded_pins: ["internals"]
 
 BGA-81_4.496x4.377mm_Layout9x9_P0.4mm_Ball0.25mm_Pad0.2mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00478-01.pdf
-  D: 4.496       # body overall length
-  E: 4.377       # body overall width
-  A1: 0.13       # body-board separation
-  A: 0.46        # body  overall height
-  b: 0.25        # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.4         # pin (center-to-center) distance
-  npx: 9         # number of pins along X axis (width)
-  npy: 9         # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90 # rotation if required
+  body_size_y: 4.496
+  body_size_x: 4.377
+  body_pcb_gap: 0.13
+  overall_height: 0.46
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 9
+  layout_x: 9
+  excluded_pins: ["internals"]
 
 BGA-90_8.0x13.0mm_Layout2x3x15_P0.8mm:
   # from http://www.issi.com/WW/pdf/42-45S32800J.pdf
-  D: 13.0        # body overall length
-  E: 8.0         # body overall width
-  A1: 0.32       # body-board separation
-  A: 1.2         # body overall height
-  b: 0.4         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 15        # number of pins along X axis (width)
-  npy: 9         # number of pins along y axis (length)
-  excluded_pins: ["internals", 46, 60, 61, 75, 76, 90] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 13.0
+  body_size_x: 8.0
+  body_pcb_gap: 0.32
+  overall_height: 1.2
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 15
+  layout_x: 9
+  excluded_pins: ["internals", 46, 60, 61, 75, 76, 90]
 
 BGA-96_9.0x13.0mm_Layout2x3x16_P0.8mm:
   # from http://www.mouser.com/ds/2/198/43-46TR16640B-81280BL-706483.pdf
-  D: 13.0        # body overall length
-  E: 9.0         # body overall width
-  A1: 0.32       # body-board separation
-  A: 1.2         # body overall height
-  b: 0.4         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 16        # number of pins along X axis (width)
-  npy: 9         # number of pins along y axis (length)
-  excluded_pins: ["internals", 49, 64, 65, 80, 81, 96] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 13.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.32
+  overall_height: 1.2
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 16
+  layout_x: 9
+  excluded_pins: ["internals", 49, 64, 65, 80, 81, 96]
 
 BGA-100_6.0x6.0mm_Layout11x11_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   # from https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00345-01.pdf
-  D: 6.0         # body overall length
-  E: 6.0         # body overall width
-  A1: 0.20       # body-board separation
-  A: 1.05        # body overall height
-  b: 0.3         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.5         # pin (center-to-center) distance
-  npx: 11        # number of pins along X axis (width)
-  npy: 11        # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 6.0
+  body_size_x: 6.0
+  body_pcb_gap: 0.20
+  overall_height: 1.05
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 11
+  layout_x: 11
+  excluded_pins: ["internals"]
 
 BGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
   # from http://www.mouser.com/ds/2/198/43-46TR16640B-81280BL-706483.pdf
-  D: 9.0         # body overall length
-  E: 9.0         # body overall width
-  A1: 0.35       # body-board separation
-  A: 1.2         # body overall height
-  b: 0.4         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 10        # number of pins along X axis (width)
-  npy: 10        # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 9.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.35
+  overall_height: 1.2
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 10
+  layout_x: 10
+  excluded_pins: ["internals"]
 
 BGA-100_11.0x11.0mm_Layout10x10_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00223-02.pdf
-  D: 11.0        # body overall length
-  E: 11.0        # body overall width
-  A1: 0.40       # body-board separation
-  A: 1.4         # body overall height
-  b: 0.5         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 1.0         # pin (center-to-center) distance
-  npx: 10        # number of pins along X axis (width)
-  npy: 10        # number of pins along y axis (length)
-  excluded_pins: ["internals"] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 11.0
+  body_size_x: 11.0
+  body_pcb_gap: 0.40
+  overall_height: 1.4
+  ball_diameter: 0.5
+  pitch: 1.0
+  layout_y: 10
+  layout_x: 10
+  excluded_pins: ["internals"]
 
 BGA-121_9.0x9.0mm_Layout11x11_P0.8mm:
   # from http://cds.linear.com/docs/en/packaging/05081891_A_bga121.pdf
-  D: 9.0
-  E: 9.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 11
-  npy: 11
+  body_size_y: 9.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 11
+  layout_x: 11
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-144_7.0x7.0mm_Layout13x13_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00346-00.pdf
-  D: 7.0
-  E: 7.0
-  A1: 0.2
-  A: 1.05
-  b: 0.3
-  e: 0.5
-  npx: 13
-  npy: 13
+  body_size_y: 7.0
+  body_size_x: 7.0
+  body_pcb_gap: 0.2
+  overall_height: 1.05
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 13
+  layout_x: 13
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-144_12x12_13.0x13.0mm_Pitch1.0mm:
   # from http://www.topline.tv/drawings/pdf/BGA%201,0mm%20pitch/LBGA144T1.0-DC128.pdf
-  D: 13.0
-  E: 13.0
-  A1: 0.6
-  A: 1.6
-  b: 0.6
-  e: 1.0
-  npx: 12
-  npy: 12
+  body_size_y: 13.0
+  body_size_x: 13.0
+  body_pcb_gap: 0.6
+  overall_height: 1.6
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 12
+  layout_x: 12
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-169_11.0x11.0mm_Layout13x13_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00470-01.pdf
-  D: 11.0
-  E: 11.0
-  A1: 0.4
-  A: 1.4
-  b: 0.5
-  e: 0.8
-  npx: 13
-  npy: 13
+  body_size_y: 11.0
+  body_size_x: 11.0
+  body_pcb_gap: 0.4
+  overall_height: 1.4
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 13
+  layout_x: 13
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-256_11.0x11.0mm_Layout20x20_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00348-01.pdf
-  D: 11.0
-  E: 11.0
-  A1: 0.3
-  A: 1.05
-  b: 0.3
-  e: 0.5
-  npx: 20
-  npy: 20
+  body_size_y: 11.0
+  body_size_x: 11.0
+  body_pcb_gap: 0.3
+  overall_height: 1.05
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 20
+  layout_x: 20
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-256_14.0x14.0mm_Layout16x16_P0.8mm_Ball0.45mm_Pad0.32mm_NSMD:
   # from https://www.xilinx.com/support/documentation/package_specs/ft256.pdf
-  D: 14.0
-  E: 14.0
-  A1: 0.4
-  A: 1.4
-  b: 0.45
-  e: 0.8
-  npx: 16
-  npy: 16
+  body_size_y: 14.0
+  body_size_x: 14.0
+  body_pcb_gap: 0.4
+  overall_height: 1.4
+  ball_diameter: 0.45
+  pitch: 0.8
+  layout_y: 16
+  layout_x: 16
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-256_17.0x17.0mm_Layout16x16_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   # from https://www.intersil.com/content/dam/Intersil/documents/v256/v256.17x17.pdf
-  D: 17.0
-  E: 17.0
-  A1: 0.4
-  A: 1.5
-  b: 0.4
-  e: 1.0
-  npx: 16
-  npy: 16
+  body_size_y: 17.0
+  body_size_x: 17.0
+  body_pcb_gap: 0.4
+  overall_height: 1.5
+  ball_diameter: 0.4
+  pitch: 1.0
+  layout_y: 16
+  layout_x: 16
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_BGA-289_15x15mm_Layout17x17_P0.8mm:
   # from https://www.ti.com/lit/ml/mpbg777/mpbg777.pdf
-  D: 15.0         # body overall length
-  E: 15.0         # body overall width
-  A1: 0.4         # body-board separation
-  A: 1.4          # body  overall height
-  b: 0.50         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8          # pin (center-to-center) distance
-  ex: 0.8         # pin (center-to-center) distance
-  sp: 0.12        # seating plane (pcb penetration)
-  npx: 17         # number of pins along X axis (width)
-  npy: 17         # number of pins along y axis (length)
-  rotation: -90 # rotation if required
-
+  body_size_y: 15.0
+  body_size_x: 15.0
+  body_pcb_gap: 0.4
+  overall_height: 1.4
+  ball_diameter: 0.50
+  pitch: 0.8
+  seating_plane: 0.12
+  layout_y: 17
+  layout_x: 17
 
 BGA-324_15.0x15.0mm_Layout18x18_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00474-02.pdf
-  D: 15.0
-  E: 15.0
-  A1: 0.4
-  A: 1.4
-  b: 0.5
-  e: 0.8
-  npx: 18
-  npy: 18
+  body_size_y: 15.0
+  body_size_x: 15.0
+  body_pcb_gap: 0.4
+  overall_height: 1.4
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 18
+  layout_x: 18
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-324_19.0x19.0mm_Layout18x18_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00474-02.pdf
-  D: 19.0
-  E: 19.0
-  A1: 0.5
-  A: 1.75
-  b: 0.6
-  e: 1.0
-  npx: 18
-  npy: 18
+  body_size_y: 19.0
+  body_size_x: 19.0
+  body_pcb_gap: 0.5
+  overall_height: 1.75
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 18
+  layout_x: 18
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-352_35.0x35.0mm_Layout26x26_P1.27mm:
   # from https://www.fujitsu.com/downloads/MICRO/fma/pdfmcu/b352p05.pdf
   cff: 0.6
   cf: 0.3
-  D: 35.0
-  E: 35.0
+  body_size_y: 35.0
+  body_size_x: 35.0
   D1: 25.0
   E1: 25.0
-  A1: 0.6
+  body_pcb_gap: 0.6
   A2: 2.0
-  A: 3.1
-  b: 0.6
-  e: 1.27
-  npx: 26
-  npy: 26
+  overall_height: 3.1
+  ball_diameter: 0.6
+  pitch: 1.27
+  layout_y: 26
+  layout_x: 26
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
   # from https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf
-  D: 17.0
-  E: 17.0
+  body_size_y: 17.0
+  body_size_x: 17.0
   D1: 15.2
   E1: 15.2
-  A1: 0.4
-  A: 1.47
-  b: 0.5
-  e: 0.8
-  npx: 20
-  npy: 20
+  body_pcb_gap: 0.4
+  overall_height: 1.47
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 20
+  layout_x: 20
   excluded_pins: ['internals']
-  rotation: -90
 
 BGA-400_21.0x21.0mm_Layout20x20_P1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/fg400.pdf
   cff: 0.4
   cf: 0.2
-  D: 21.0
-  E: 21.0
+  body_size_y: 21.0
+  body_size_x: 21.0
   D1: 19.0
   E1: 19.0
-  A1: 0.5
+  body_pcb_gap: 0.5
   A2: 0.6
-  A: 2.23
-  b: 0.6
-  e: 1.0
-  npx: 20
-  npy: 20
+  overall_height: 2.23
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 20
+  layout_x: 20
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 BGA-484_23.0x23.0mm_Layout22x22_P1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/fg484.pdf
   cff: 0.05
   cf: 0.25
-  D: 23.0
-  E: 23.0
+  body_size_y: 23.0
+  body_size_x: 23.0
   D1: 20.5
   E1: 20.5
-  A1: 0.5
+  body_pcb_gap: 0.5
   A2: 1.0
-  A: 2.3
-  b: 0.6
-  e: 1.0
-  npx: 22
-  npy: 22
+  overall_height: 2.3
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 22
+  layout_x: 22
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 BGA-624_21x21mm_Layout25x25_P0.8mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1529-1.pdf
-  D: 21.0
-  E: 21.0
-  A1: 0.4
-  A: 1.6
-  b: 0.5
-  e: 0.8
-  npx: 25
-  npy: 25
+  body_size_y: 21.0
+  body_size_x: 21.0
+  body_pcb_gap: 0.4
+  overall_height: 1.6
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 25
+  layout_x: 25
   excluded_pins: ['internals', 1]
-  rotation: -90
 
 BGA-625_21.0x21.0mm_Layout25x25_P0.8mm:
   # from http://www.analog.com/media/en/technical-documentation/data-sheets/ADSP-TS101S.pdf
   cff: 0.05
   cf: 0.25
-  D: 25.0
-  E: 25.0
+  body_size_y: 25.0
+  body_size_x: 25.0
   D1: 16.95
   E1: 16.95
-  A1: 0.4
+  body_pcb_gap: 0.4
   A2: 0.55
-  A: 2.5
-  b: 0.5
-  e: 0.8
-  npx: 25
-  npy: 25
+  overall_height: 2.5
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 25
+  layout_x: 25
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 FCPBGA-780_23x23mm_Layout28x28_P0.8mm:
   # from https://www.nxp.com/docs/en/package-information/98ASA00854D.pdf
   cff: 0.01
   cf: 0.01
-  D: 23.0
-  E: 23.0
-  A1: 0.3
+  body_size_y: 23.0
+  body_size_x: 23.0
+  body_pcb_gap: 0.3
   A2: 0.77
-  A: 2.46
-  b: 0.45
-  e: 0.8
-  npx: 28
-  npy: 28
+  overall_height: 2.46
+  ball_diameter: 0.45
+  pitch: 0.8
+  layout_y: 28
+  layout_x: 28
   excluded_pins: ['internals', 1, 28, 757, 784]
   molded: True
-  rotation: -90
 
 BGA-1023_33.0x33.0mm_Layout32x32_P1.0mm:
   # from https://www.idt.com/document/psc/hmrm-1023-package-outline-33-x-33-mm-body-100-mm-pitch-fcbga IDT_PSC-4260.pdf
   ef: 0.1
   cff: 0.8
   cf: 0.5
-  D: 33.2
-  E: 33.2
+  body_size_y: 33.2
+  body_size_x: 33.2
   D1: 30.0
   E1: 30.0
-  A1: 0.45
+  body_pcb_gap: 0.45
   A2: 1.2
-  A: 2.5
-  b: 0.6
-  e: 1.0
-  npx: 32
-  npy: 32
+  overall_height: 2.5
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 32
+  layout_x: 32
   excluded_pins: ['internals', 1]
   molded: True
-  rotation: -90
 
 BGA-1156_34x34_35.0x35.0mm_Pitch1.0mm:
   # from https://www.xilinx.com/support/documentation/package_specs/pk401_FF_G_1156.pdf
   cff: 0.7
   cf: 0.2
-  D: 35.5
-  E: 35.5
+  body_size_y: 35.5
+  body_size_x: 35.5
   D1: 30.0
   E1: 30.0
-  A1: 0.5
+  body_pcb_gap: 0.5
   A2: 1.0
-  A: 2.7
-  b: 0.6
-  e: 1.0
-  npx: 34
-  npy: 34
+  overall_height: 2.7
+  ball_diameter: 0.6
+  pitch: 1.0
+  layout_y: 34
+  layout_x: 34
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 BGA-1295_36x36_37.5x37.5mm_Pitch1.0mm:
   # from http://www.datasheets360.com/pdf/6857809988541063510
   ef: 0.1
   cff: 0.4
   cf: 0.2
-  D: 37.5
-  E: 37.5
+  body_size_y: 37.5
+  body_size_x: 37.5
   D1: 27.3
   E1: 27.3
-  A1: 0.5
+  body_pcb_gap: 0.5
   A2: 1.5
-  A: 3.19
-  b: 0.5
-  e: 1.0
-  npx: 36
-  npy: 36
+  overall_height: 3.19
+  ball_diameter: 0.5
+  pitch: 1.0
+  layout_y: 36
+  layout_x: 36
   excluded_pins: ['internals']
   molded: True
-  rotation: -90
 
 Analog_BGA-49_6.25x6.25mm_Layout7x7_P0.8mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-bga/05081600_0_bga49.pdf
-  D: 6.25
-  E: 6.25
-  A1: 0.4
-  A: 2.1
-  b: 0.5
-  e: 0.8
-  npx: 7
-  npy: 7
-  rotation: -90
+  body_size_y: 6.25
+  body_size_x: 6.25
+  body_pcb_gap: 0.4
+  overall_height: 2.1
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 7
+  layout_x: 7
 
 Analog_BGA-77_9x15mm_Layout7x11_P1.27mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-bga/05081964_B_bga77.pdf
-  D: 15.0        # body overall length
-  E: 9.0         # body overall width
-  A1: 0.6        # body-board separation
-  A: 2.42        # body overall height
-  b: 0.75        # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 1.27        # pin (center-to-center) distance
-  sp: 0.2        # seating plane (pcb penetration)
-  npx: 11        # number of pins along X axis (width)
-  npy: 7         # number of pins along y axis (length)
-  rotation: -90  # rotation if required
+  body_size_y: 15.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.6
+  overall_height: 2.42
+  ball_diameter: 0.75
+  pitch: 1.27
+  seating_plane: 0.2
+  layout_y: 11
+  layout_x: 7
 
 Analog_BGA-165_11.9x16mm_Layout11x15_P1.0mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-bga/05081605_b_bga165.pdf
-  D: 16.0        # body overall length
-  E: 11.9        # body overall width
-  A1: 0.5        # body-board separation
-  A: 3.32        # body overall height
-  b: 0.6         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 1.0         # pin (center-to-center) distance
-  sp: 0.2        # seating plane (pcb penetration)
-  npx: 15        # number of pins along X axis (width)
-  npy: 11        # number of pins along y axis (length)
-  rotation: -90  # rotation if required
+  body_size_y: 16.0
+  body_size_x: 11.9
+  body_pcb_gap: 0.5
+  overall_height: 3.32
+  ball_diameter: 0.6
+  pitch: 1.0
+  seating_plane: 0.2
+  layout_y: 15
+  layout_x: 11
 
 Analog_BGA-209_9.5x16mm_Layout11x19_P0.8mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-bga/05081561_bga209.pdf
-  D: 16.0
-  E: 9.5
-  A1: 0.4
-  A: 4.72
-  b: 0.5
-  e: 0.8
-  npx: 19
-  npy: 11
-  rotation: -90
+  body_size_y: 16.0
+  body_size_x: 9.5
+  body_pcb_gap: 0.4
+  overall_height: 4.72
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 19
+  layout_x: 11
 
 NXP_VFBGA-42_2.6x3mm_Layout6x7_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1963-1.pdf
-  D: 3.0      # body overall length
-  E: 2.6      # body overall width
-  A1: 0.2     # body-board separation
-  A: 1.0      # body  overall height
-  b: 0.25     # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.4      # pin (center-to-center) distance
-  sp: 0.08    # seating plane (pcb penetration)
-  npx: 7      # number of pins along X axis (width)
-  npy: 6      # number of pins along y axis (length)
-  rotation: -90
+  body_size_y: 3.0
+  body_size_x: 2.6
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.25
+  pitch: 0.4
+  seating_plane: 0.08
+  layout_y: 7
+  layout_x: 6
 
 Texas_DSBGA-6_0.757x1.01mm_Layout2x3_P0.35mm:
   # YKA0006 pad definition from https://www.ti.com/lit/ds/symlink/tps62843.pdf
-  D: 1.01
-  E: 0.757
-  A1: 0.155
-  A: 0.375
-  b: 0.215
-  e: 0.35
-  npx: 3
-  npy: 2
+  body_size_y: 1.01
+  body_size_x: 0.757
+  body_pcb_gap: 0.155
+  overall_height: 0.375
+  ball_diameter: 0.215
+  pitch: 0.35
+  layout_y: 3
+  layout_x: 2
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_DSBGA-8_0.705x1.468mm_Layout2x4_P0.4mm:
   # YBJ pad definition  from https://www.ti.com/lit/ds/symlink/ina234.pdf
-  D: 1.468
-  E: 0.705
-  A1: 0.105
-  A: 0.35
-  b: 0.18
-  e: 0.4
-  sp: 0.025
-  npx: 4
-  npy: 2
+  body_size_y: 1.468
+  body_size_x: 0.705
+  body_pcb_gap: 0.105
+  overall_height: 0.35
+  ball_diameter: 0.18
+  pitch: 0.4
+  seating_plane: 0.025
+  layout_y: 4
+  layout_x: 2
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_DSBGA-8_0.9x1.9mm_Layout2x4_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/txb0102.pdf
-  D: 1.9
-  E: 0.9
-  A1: 0.17
-  A: 0.5
-  b: 0.2
-  e: 0.5
-  npx: 4
-  npy: 2
+  body_size_y: 1.9
+  body_size_x: 0.9
+  body_pcb_gap: 0.17
+  overall_height: 0.5
+  ball_diameter: 0.2
+  pitch: 0.5
+  layout_y: 4
+  layout_x: 2
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_DSBGA-12_1.36x1.86mm_Layout3x4_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/txb0104.pdf
-  D: 1.36
-  E: 1.86
-  A1: 0.17
-  A: 0.625
-  b: 0.25
-  e: 0.5
-  npx: 3
-  npy: 4
+  body_size_y: 1.36
+  body_size_x: 1.86
+  body_pcb_gap: 0.17
+  overall_height: 0.625
+  ball_diameter: 0.25
+  pitch: 0.5
+  layout_x: 3
+  layout_y: 4
   excluded_pins: ['None']
-  rotation: 180
+  marker: A3  # TODO: implement marker on pins other than pin A1
 
 LFBGA-100_10x10mm_Layout10x10_P0.8mm:
   # from http://www.st.com/resource/en/datasheet/stm32f103tb.pdf page 87
-  D: 10.0
-  E: 10.0
-  A1: 0.27
-  A: 1.7
-  b: 0.5
-  e: 0.8
-  npx: 10
-  npy: 10
+  body_size_y: 10.0
+  body_size_x: 10.0
+  body_pcb_gap: 0.27
+  overall_height: 1.7
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 10
+  layout_x: 10
   excluded_pins: ['internals']
-  rotation: -90
 
 LFBGA-144_10x10mm_Layout12x12_P0.8mm:
   # from http://www.st.com/resource/en/datasheet/stm32f103ze.pdf page 114
-  D: 10.0
-  E: 10.0
-  A1: 0.3
-  A: 1.7
-  b: 0.4
-  e: 0.8
-  npx: 12
-  npy: 12
+  body_size_y: 10.0
+  body_size_x: 10.0
+  body_pcb_gap: 0.3
+  overall_height: 1.7
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 12
+  layout_x: 12
   excluded_pins: ['internals']
-  rotation: -90
 
 Linear_BGA-133_15.0x15.0_Layout12x12_P1.27mm:
   # from https://www.analog.com/media/en/technical-documentation/data-sheets/4637fc.pdf page 28
-  D: 15.0
-  E: 15.0
-  A1: 0.6
-  A: 4.92
-  b: 0.75
-  e: 1.27
-  npx: 12
-  npy: 12
+  body_size_y: 15.0
+  body_size_x: 15.0
+  body_pcb_gap: 0.6
+  overall_height: 4.92
+  ball_diameter: 0.75
+  pitch: 1.27
+  layout_y: 12
+  layout_x: 12
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_DSBGA-10_1.36x1.86mm_Layout3x4_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/txs0104e.pdf page 29
-  D: 1.86
-  E: 1.36
-  A1: 0.17
-  A: 0.625
-  b: 0.23
-  e: 0.5
-  npx: 4
-  npy: 3
+  body_size_y: 1.86
+  body_size_x: 1.36
+  body_pcb_gap: 0.17
+  overall_height: 0.625
+  ball_diameter: 0.23
+  pitch: 0.5
+  layout_y: 4
+  layout_x: 3
   excluded_pins: ['None']
-  rotation: -90
 
 Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   # from http://www.ti.com/lit/ds/symlink/msp430f2234.pdf page 90
-  D: 3.33
-  E: 3.488
-  A1: 0.05
-  A: 0.625
-  b: 0.25
-  e: 0.4
-  npx: 7
-  npy: 7
+  body_size_y: 3.33
+  body_size_x: 3.488
+  body_pcb_gap: 0.05
+  overall_height: 0.625
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 7
+  layout_x: 7
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_MicroStar_Junior_BGA-12_2.0x2.5mm_Layout4x3_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/txb0104.pdf
-  D: 2.0
-  E: 2.5
-  A1: 0.2
-  A: 0.36
-  b: 0.3
-  e: 0.5
-  npx: 3
-  npy: 4
+  body_size_y: 2.0
+  body_size_x: 2.5
+  body_pcb_gap: 0.2
+  overall_height: 0.36
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 3
+  layout_x: 4
   excluded_pins: ['None']
-  rotation: -90
 
 Texas_MicroStar_Junior_BGA-80_5.0x5.0mm_Layout9x9_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/tlv320aic23b.pdf
-  D: 5.0
-  E: 5.0
-  A1: 0.2
-  A: 1.0
-  b: 0.3
-  e: 0.5
-  npx: 9
-  npy: 9
+  body_size_y: 5.0
+  body_size_x: 5.0
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 9
+  layout_x: 9
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_MicroStar_Junior_BGA-113_7x7mm_Layout12x12_P0.5mm:
   # from http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf
-  D: 7.0
-  E: 7.0
-  A1: 0.2
-  A: 1.0
-  b: 0.3
-  e: 0.5
-  npx: 12
-  npy: 12
+  body_size_y: 7.0
+  body_size_x: 7.0
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 12
+  layout_x: 12
   excluded_pins: ['internals']
-  rotation: -90
 
 Texas_Junior_DSBGA-48_4.0x4.0mm_Layout7x7_P0.5mm:
   # from http://www.ti.com/lit/ml/mpbg309/mpbg309.pdf
-  D: 4.0
-  E: 4.0
-  A1: 0.2
-  A: 0.74
-  b: 0.3
-  e: 0.5
-  npx: 7
-  npy: 7
+  body_size_y: 4.0
+  body_size_x: 4.0
+  body_pcb_gap: 0.2
+  overall_height: 0.74
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 7
+  layout_x: 7
   excluded_pins: ['none', 17]
-  rotation: -90
 
 TFBGA-64_5x5mm_Layout8x8_P0.5mm:
   # from http://www.st.com/resource/en/datasheet/stm32f100v8.pdf page 83
-  D: 5.0
-  E: 5.0
-  A1: 0.15
-  A: 1.2
-  b: 0.3
-  e: 0.5
-  npx: 8
-  npy: 8
+  body_size_y: 5.0
+  body_size_x: 5.0
+  body_pcb_gap: 0.15
+  overall_height: 1.2
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 8
+  layout_x: 8
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-100_8x8mm_Layout10x10_P0.8mm:
   # from http://www.st.com/resource/en/datasheet/stm32f746zg.pdf
-  D: 8.0
-  E: 8.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 10
-  npy: 10
+  body_size_y: 8.0
+  body_size_x: 8.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 10
+  layout_x: 10
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
-  D: 9.0
-  E: 9.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 10
-  npy: 10
+  body_size_y: 9.0
+  body_size_x: 9.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 10
+  layout_x: 10
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-121_10x10mm_Layout11x11_P0.8mm:
   # from http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#p495
-  D: 10.0
-  E: 10.0
-  A1: 0.3
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 11
-  npy: 11
+  body_size_y: 10.0
+  body_size_x: 10.0
+  body_pcb_gap: 0.3
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 11
+  layout_x: 11
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-216_13x13mm_Layout15x15_P0.8mm:
   # from http://www.st.com/resource/en/datasheet/stm32f746zg.pdf page 219
-  D: 13.0
-  E: 13.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 15
-  npy: 15
+  body_size_y: 13.0
+  body_size_x: 13.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 15
+  layout_x: 15
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-265_14x14mm_Layout17x17_P0.8mm:
-  D: 14.0
-  E: 14.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.8
-  npx: 17
-  npy: 17
+  body_size_y: 14.0
+  body_size_x: 14.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.8
+  layout_y: 17
+  layout_x: 17
   excluded_pins: ['internals']
-  rotation: -90
 
 TFBGA-644_19x19mm_Layout28x28_P0.65mm:
-  D: 19.0
-  E: 19.0
-  A1: 0.15
-  A: 1.1
-  b: 0.4
-  e: 0.65
-  npx: 28
-  npy: 28
+  body_size_y: 19.0
+  body_size_x: 19.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
+  pitch: 0.65
+  layout_y: 28
+  layout_x: 28
   excluded_pins: ['internals']
-  rotation: -90
 
 FBGA-78_7.5x11mm_Layout2x3x13_P0.8mm:
   # from https://www.skhynix.com/product/filedata/fileDownload.do?seq=7687
-  D: 11.0
-  E: 7.5
-  A1: 0.34
-  A: 1.1
-  b: 0.45
-  e: 0.8
-  npx: 13
-  npy: 9
+  body_size_y: 11.0
+  body_size_x: 7.5
+  body_pcb_gap: 0.34
+  overall_height: 1.1
+  ball_diameter: 0.45
+  pitch: 0.8
+  layout_y: 13
+  layout_x: 9
   excluded_pins: ['none', 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
-  rotation: -90
 
 ucBGA-49_3x3mm_Layout7x7_P0.4mm:
   #from https://www.latticesemi.com/view_document?document_id=213
-  D: 3.0
-  E: 3.0
-  A1: 0.2
-  A: 1.0
-  b: 0.25
-  e: 0.4
-  npx: 7
-  npy: 7
-  rotation: -90
+  body_size_y: 3.0
+  body_size_x: 3.0
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 7
+  layout_x: 7
 
 ucBGA-36_2.5x2.5mm_Layout6x6_P0.4mm:
   # from https://www.latticesemi.com/view_document?document_id=213
-  D: 2.5
-  E: 2.5
-  A1: 0.2
-  A: 1.0
-  b: 0.25
-  e: 0.4
-  npx: 6
-  npy: 6
-  rotation: -90
+  body_size_y: 2.5
+  body_size_x: 2.5
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 6
+  layout_x: 6
 
 WLP-4_0.83x0.83mm_P0.4mm:
   # from https://pdfserv.maximintegrated.com/package_dwgs/21-100107.PDF
-  D: 0.828
-  E: 0.828
-  A1: 0.19
-  A: 0.5
-  b: 0.27
-  e: 0.4
-  npx: 2
-  npy: 2
-  rotation: -90
+  body_size_y: 0.828
+  body_size_x: 0.828
+  body_pcb_gap: 0.19
+  overall_height: 0.5
+  ball_diameter: 0.27
+  pitch: 0.4
+  layout_y: 2
+  layout_x: 2
 
 WLP-4_0.86x0.86mm_P0.4mm:
   # from https://pdfserv.maximintegrated.com/package_dwgs/21-0612.PDF
-  D: 0.835
-  E: 0.835
-  A1: 0.19
-  A: 0.5
-  b: 0.27
-  e: 0.4
-  npx: 2
-  npy: 2
-  rotation: -90
+  body_size_y: 0.835
+  body_size_x: 0.835
+  body_pcb_gap: 0.19
+  overall_height: 0.5
+  ball_diameter: 0.27
+  pitch: 0.4
+  layout_y: 2
+  layout_x: 2
 
 DiodesInc_GEA20_WLCSP-20_1.7x2.1mm_Layout4x5_P0.4mm:
   # from https://www.diodes.com/assets/Package-Files/GEA20.pdf
-  D: 2.1          # body overall length
-  E: 1.7          # body overall width
-  A1: 0.2         # body-board separation
-  A: 0.49         # body overall height
-  b: 0.26         # ball pin width diameter
-  e: 0.4          # pin (center-to-center) distance
-  npx: 5          # number of pins along X axis (width)
-  npy: 4          # number of pins along y axis (length)
-  rotation: -90   # rotation if required
+  body_size_y: 2.1
+  body_size_x: 1.7
+  body_pcb_gap: 0.2
+  overall_height: 0.49
+  ball_diameter: 0.26
+  pitch: 0.4
+  layout_y: 5
+  layout_x: 4
   library_name: "Package_CSP"
 
 WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/wlcspcb/cb_9_3.pdf
-  D: 1.22         # body overall length
-  E: 1.21         # body overall width
-  A1: 0.2         # body-board separation
-  A: 0.6          # body overall height
-  b: 0.267        # ball pin width diameter
-  e: 0.4          # pin (center-to-center) distance
-  npx: 3          # number of pins along X axis (width)
-  npy: 3          # number of pins along y axis (length)
-  rotation: -90   # rotation if required
+  body_size_y: 1.22
+  body_size_x: 1.21
+  body_pcb_gap: 0.2
+  overall_height: 0.6
+  ball_diameter: 0.267
+  pitch: 0.4
+  layout_y: 3
+  layout_x: 3
   library_name: "Package_CSP"
 
 NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1444-5.pdf
-  D: 3.44         # body overall length
-  E: 3.44         # body overall width
-  A1: 0.2         # body-board separation
-  A: 0.525        # body overall height
-  b: 0.26         # ball pin width diameter
-  e: 0.4          # pin (center-to-center) distance
-  npx: 7          # number of pins along X axis (width)
-  npy: 7          # number of pins along y axis (length)
-  rotation: -90   # rotation if required
+  body_size_y: 3.44
+  body_size_x: 3.44
+  body_pcb_gap: 0.2
+  overall_height: 0.525
+  ball_diameter: 0.26
+  pitch: 0.4
+  layout_y: 7
+  layout_x: 7
   library_name: "Package_CSP"
 
 NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1450-2.pdf
-  D: 5.07         # body overall length
-  E: 5.07         # body overall width
-  A1: 0.23        # body-board separation
-  A: 0.53         # body overall height
-  b: 0.32         # ball pin width diameter
-  e: 0.5          # pin (center-to-center) distance
-  npx: 10         # number of pins along X axis (width)
-  npy: 10         # number of pins along y axis (length)
-  rotation: -90   # rotation if required
+  body_size_y: 5.07
+  body_size_x: 5.07
+  body_pcb_gap: 0.23
+  overall_height: 0.53
+  ball_diameter: 0.32
+  pitch: 0.5
+  layout_y: 10
+  layout_x: 10
   library_name: "Package_CSP"
 
 NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1982-1.pdf
-  D: 7            # body overall length
-  E: 7            # body overall width
-  A1: 0.09        # body-board separation
-  A: 0.86         # body overall height
-  b: 0.3          # ball pin width diameter
-  e: 0.5          # pin (center-to-center) distance
-  npx: 13         # number of pins along X axis (width)
-  npy: 13         # number of pins along y axis (length)
+  body_size_y: 7
+  body_size_x: 7
+  body_pcb_gap: 0.09
+  overall_height: 0.86
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 13
+  layout_x: 13
   excluded_pins: [                 4,                           10,                #A1...N1
                                   17,                           23,                #A2...N2
                              29,  30,  31,  32,       34,  35,  36,  37,           #A3...N3
@@ -950,19 +881,18 @@ NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
                             133, 134, 135, 136,      138, 139, 140, 141,           #A11...N11
                                  147,                          153,                #A12...N12
                                  160,                          166               ] #A13...N13
-  rotation: -90   # rotation if required
   library_name: "Package_BGA"
 
 NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT2162-1.pdf
-  D: 4            # body overall length
-  E: 4            # body overall width
-  A1: 0.09        # body-board separation
-  A: 0.77         # body overall height
-  b: 0.25         # ball pin width diameter
-  e: 0.4          # pin (center-to-center) distance
-  npx: 9          # number of pins along X axis (width)
-  npy: 9          # number of pins along y axis (length)
+  body_size_y: 4
+  body_size_x: 4
+  body_pcb_gap: 0.09
+  overall_height: 0.77
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 9
+  layout_x: 9
   excluded_pins: [         3,      5,      7,         #A1...J1
                                   14,                 #A2...J2
                   19,     21,             25,     27,
@@ -971,44 +901,40 @@ NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
                                   50,
                   55,     57,             61,     63,
                                   68,                 #A8...J8
-                          75,     77,     79        ] #pins to exclude
-  rotation: -90   # rotation if required
+                          75,     77,     79        ]
   library_name: "Package_BGA"
 
 Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   # from https://www.xilinx.com/content/dam/xilinx/support/documents/package_specs/cs48.pdf
-  D: 7.0         # body overall length
-  E: 7.0         # body overall width
-  A1: 0.4        # body-board separation
-  A: 1.8         # body overall height
-  b: 0.5         # ball pin width diameter with a small extra to obtain a union of balls and case
-  e: 0.8         # pin (center-to-center) distance
-  npx: 7         # number of pins along X axis (width)
-  npy: 7         # number of pins along y axis (length)
-  excluded_pins: [32] # pins to exclude -> None or "internals"
-  rotation: -90  # rotation if required
+  body_size_y: 7.0
+  body_size_x: 7.0
+  body_pcb_gap: 0.4
+  overall_height: 1.8
+  ball_diameter: 0.5
+  pitch: 0.8
+  layout_y: 7
+  layout_x: 7
+  excluded_pins: [32]
   library_name: "Package_CSP"
 
 ucBGA-64_4x4mm_Layout8x8_P0.4mm:
   #from https://www.latticesemi.com/view_document?document_id=213
-  D: 4.0
-  E: 4.0
-  A1: 0.1
-  A: 1.0
-  b: 0.25
-  e: 0.4
-  npx: 8
-  npy: 8
-  rotation: -90
+  body_size_y: 4.0
+  body_size_x: 4.0
+  body_pcb_gap: 0.1
+  overall_height: 1.0
+  ball_diameter: 0.25
+  pitch: 0.4
+  layout_y: 8
+  layout_x: 8
 
 csBGA-64_5x5mm_Layout8x8_P0.5mm:
   #from https://www.latticesemi.com/view_document?document_id=213
-  D: 5.0
-  E: 5.0
-  A1: 0.15
-  A: 1.1
-  b: 0.3
-  e: 0.5
-  npx: 8
-  npy: 8
-  rotation: -90
+  body_size_y: 5.0
+  body_size_x: 5.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.3
+  pitch: 0.5
+  layout_y: 8
+  layout_x: 8

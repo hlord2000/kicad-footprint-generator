@@ -111,28 +111,22 @@ def make_case(
     ef = params.get("ef", 0.0)
     cff = params.get("cff", 0.25)
     cf = params.get("cf", 0.25)
-    d = params["D"]
-    e = params["E"]
+    d = params["body_size_y"]
+    e = params["body_size_x"]
     d1 = params.get("D1")
     e1 = params.get("E1")
-    a1 = params["A1"]  # body-board separation
+    a1 = params["body_pcb_gap"]
     a2 = params.get(
         "A2"
     )  # body height or body bottom height optional, needed for molded
-    a = params["A"]  # body overall height
+    a = params["overall_height"]
     molded = params.get("molded")
-    b = params["b"]
-    pitch = params["e"]
-    ex = params.get("ex")
-    sp = params.get("sp", 0.0)
-    npx = params["npx"]
-    npy = params["npy"]
-    rot = params["rotation"]
-
-    if ex == None:
-        ex = pitch
-    if ex == 0:
-        ex = pitch
+    b = params["ball_diameter"]
+    pitch = params["pitch"]
+    ex = params.get("pitch_x", pitch)
+    sp = params.get("seating_plane", 0.0)
+    npx = params["layout_x"]
+    npy = params["layout_y"]
 
     if params.get("excluded_pins") is not None:
         excluded_pins = tuple(
@@ -191,22 +185,22 @@ def make_case(
             e1 = e * (1 - 0.065)
         if a2 is None:
             raise ValueError("a2 must be defined for molded parts!")
-        D1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
-        E1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
+        d1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
+        e1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
         # draw the case
-        cw = d - 2 * a1
-        cl = e - 2 * a1
+        cw = e - 2 * a1
+        ch = d - 2 * a1
         case_bot = cq.Workplane("XY").workplane(offset=0)
-        case_bot = make_plg(case_bot, cw, cl, cff, cf)
+        case_bot = make_plg(case_bot, cw, ch, cff, cf)
         case_bot = case_bot.extrude(a2 - 0.01)
         case_bot = case_bot.translate((0, 0, a1))
 
         case = cq.Workplane("XY").workplane(offset=a1)
-        case = make_plg(case, d1, e1, 3 * cf, 3 * cf)
+        case = make_plg(case, e1, d1, 3 * cf, 3 * cf)
         case = case.extrude(0.01)
         case = case.faces(">Z").workplane()
-        case = make_plg(case, d1, e1, 3 * cf, 3 * cf).workplane(offset=a - a2 - a1)
-        case = make_plg(case, D1_t, E1_t, 3 * cf, 3 * cf).loft(ruled=True)
+        case = make_plg(case, e1, d1, 3 * cf, 3 * cf).workplane(offset=a - a2 - a1)
+        case = make_plg(case, e1_t, d1_t, 3 * cf, 3 * cf).loft(ruled=True)
         # fillet the bottom vertical edges
         if ef != 0:
             case_bot = case_bot.edges("|Z").fillet(ef)
@@ -214,15 +208,15 @@ def make_case(
         if ef != 0:
             BS = cq.selectors.BoxSelector
             case = case.edges(
-                BS((-d1 / 2, -e1 / 2, a2 + 0.001), (d1 / 2, e1 / 2, a + 0.001))
+                BS((-e1 / 2, -d1 / 2, a2 + 0.001), (e1 / 2, d1 / 2, a + 0.001))
             ).fillet(ef)
         case = case.translate((0, 0, a2 - 0.01))
         pinmark = (
             cq.Workplane(
                 "XZ",
                 (
-                    -d / 2 + marker_edge_clearance + marker_diameter / 2,
                     -e / 2 + marker_edge_clearance + marker_diameter / 2,
+                    d / 2 - marker_edge_clearance - marker_diameter / 2,
                     a,
                 ),
             )
@@ -231,8 +225,8 @@ def make_case(
         )
         pinmark = pinmark.translate(
             (
-                (d - D1_t) / 2 + marker_edge_clearance + cff,
-                (e - E1_t) / 2 + marker_edge_clearance + cff,
+                (e - e1_t) / 2 + marker_edge_clearance + cff,
+                (d - d1_t) / 2 - marker_edge_clearance - cff,
                 -sp,
             )
         )
@@ -244,7 +238,7 @@ def make_case(
 
     else:
         a2 = a - a1  # body height
-        case = cq.Workplane("XY").box(d, e, a2)  # NO margin, pins don't emerge
+        case = cq.Workplane("XY").box(e, d, a2)  # NO margin, pins don't emerge
         if ef != 0:
             case.edges("|X").fillet(ef)
             case.edges("|Z").fillet(ef)
@@ -255,8 +249,8 @@ def make_case(
             cq.Workplane(
                 "XZ",
                 (
-                    -d / 2 + marker_edge_clearance + marker_diameter / 2,
                     -e / 2 + marker_edge_clearance + marker_diameter / 2,
+                    d / 2 - marker_edge_clearance - marker_diameter / 2,
                     marker_depth,
                 ),
             )
@@ -269,12 +263,6 @@ def make_case(
         if FUSED_AND_COMPRESSED:
             case = case.cut(merged_pins)
         case_bot = None
-
-    # See if rotation has been requested
-    if params["rotation"] != 0:
-        case = case.rotate((0, 0, 0), (0, 0, 1), rot)
-        merged_pins = merged_pins.rotate((0, 0, 0), (0, 0, 1), rot)
-        pinmark = pinmark.rotate((0, 0, 0), (0, 0, 1), rot)
 
     return (case_bot, case, merged_pins, pinmark)
 
@@ -330,10 +318,10 @@ def make_models(
         # Wrap the component parts in an assembly so that we can attach colors
         component = cq.Assembly(name=model)
         if case_bot != None:
-            component.add(case_bot, rgb_body_b)  # type: ignore
-        component.add(case, body_color)  # type: ignore
-        component.add(pins, pin_color)  # type: ignore
-        component.add(pinmark, mark_color)  # type: ignore
+            component.add(case_bot, color=rgb_body_b)  # type: ignore
+        component.add(case, color=body_color)  # type: ignore
+        component.add(pins, color=pin_color)  # type: ignore
+        component.add(pinmark, color=mark_color)  # type: ignore
 
         part_output_dir = output_dir
         if (
