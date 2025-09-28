@@ -9523,7 +9523,7 @@ MPS_QFN-16_3x3mm_P0.5mm:
   mark_color_key: light brown label
   source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8859/document_id/4033/ (page 32)'
 
-Texas_UFQFN-8_1.5x1.5mm_P0.5mm:
+Texas_UQFN-8_1.5x1.5mm_P0.5mm:
   c: 0.2
   L: 0.375
   fp_s: True
@@ -9553,7 +9553,7 @@ Texas_UFQFN-8_1.5x1.5mm_P0.5mm:
   epad_n: null
   epad_pitch: null
   excluded_pins: null
-  model_name: 'Texas_UFQFN-8_1.5x1.5mm_P0.5mm'
+  model_name: 'Texas_UQFN-8_1.5x1.5mm_P0.5mm'
   rotation: -90
   destination_dir: Package_DFN_QFN.3dshapes
   body_color_key: 'black body'
