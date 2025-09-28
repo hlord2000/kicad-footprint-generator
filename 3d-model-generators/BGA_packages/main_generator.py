@@ -58,11 +58,14 @@ __Comment__ = "make BGA ICs 3D models exported to STEP and VRML"
 
 ___ver___ = "2.0.0"
 
+import glob
 import os
 from math import radians, tan
+from pathlib import Path
 from typing import Any
 
 import cadquery as cq
+import yaml
 
 from _tools import (  # type:ignore
     cq_color_correct,
@@ -71,6 +74,8 @@ from _tools import (  # type:ignore
     shaderColors,
 )
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
+
+from kilibs.util import dict_tools  # type: ignore
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
@@ -281,7 +286,17 @@ def make_models(
     """
     Main entry point into this generator.
     """
-    all_params: dict[str, Any] = parameters.load_parameters("BGA_packages")  # type: ignore
+
+    gullwing_path = os.path.dirname(os.path.realpath(__file__))
+    yaml_file = glob.glob(f"{gullwing_path}/../../data/BGA/cq_parameters.yaml")
+
+    # We load the configuration file (of the footprint generators):
+    with open(yaml_file[0], "r") as config_stream:
+        try:
+            all_params = yaml.safe_load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise FileNotFoundError("Could not load 'cq_parameters.yaml'")
 
     if not all_params:
         print("ERROR: Model parameters must be provided.")
