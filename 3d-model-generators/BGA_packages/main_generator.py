@@ -60,13 +60,16 @@ ___ver___ = "2.0.0"
 
 import os
 from math import radians, tan
+from typing import Any
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
+from _tools import cq_color_correct, export_tools, parameters, shaderColors
 from exportVRML.export_part_to_VRML import export_VRML
 
 dest_dir_prefix = "Package_BGA.3dshapes"
+
+FUSED_AND_COMPRESSED = False
 
 
 def make_plg(wp, rw, rh, cv1, cv):
@@ -95,26 +98,25 @@ def make_plg(wp, rw, rh, cv1, cv):
     return wp
 
 
-def make_case(params):
+def make_case(
+    params: dict[str, Any],
+) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
 
-    ef = params["ef"]
-    cff = params["cff"]
-    cf = params["cf"]
-    fp_r = params["fp_r"]
-    fp_d = params["fp_d"]
-    fp_z = params["fp_z"]
+    ef = params.get("ef", 0.0)
+    cff = params.get("cff")
+    cf = params.get("cf")
     D = params["D"]
     E = params["E"]
-    D1 = params["D1"]
-    E1 = params["E1"]
+    D1 = params.get("D1")
+    E1 = params.get("E1")
     A1 = params["A1"]
-    A2 = params["A2"]
+    A2 = params.get("A2")
     A = params["A"]
-    molded = params["molded"]
+    molded = params.get("molded")
     b = params["b"]
     e = params["e"]
-    ex = params["ex"]
-    sp = params["sp"]
+    ex = params.get("ex")
+    sp = params.get("sp", 0.0)
     npx = params["npx"]
     npy = params["npy"]
     rot = params["rotation"]
@@ -124,7 +126,7 @@ def make_case(params):
     if ex == 0:
         ex = e
 
-    if params["excluded_pins"] is not None:
+    if params.get("excluded_pins") is not None:
         excluded_pins = tuple(
             ep if isinstance(ep, str) else str(int(ep))
             for ep in params["excluded_pins"]
@@ -163,9 +165,13 @@ def make_case(params):
         merged_pins = merged_pins.union(p)
     pins = merged_pins
 
-    # first pin indicator is created with a spherical pocket
-    if fp_r == 0:
-        fp_r = 0.1
+    # first pin indicator is created with a cylindrical pocket
+    marker_depth = A / 4
+    marker_diameter = max(D, E) / 10.0
+    if min(D, E) < 5 * marker_diameter:
+        marker_edge_clearance = marker_diameter / 4.0
+    else:
+        marker_edge_clearance = marker_diameter / 2.0
     if molded is not None:
         the = 24
         if D1 is None:
@@ -198,17 +204,28 @@ def make_case(params):
             ).fillet(ef)
         case = case.translate((0, 0, A2 - 0.01))
         pinmark = (
-            cq.Workplane("XZ", (-D / 2 + fp_d + fp_r, -E / 2 + fp_d + fp_r, fp_z))
-            .rect(fp_r / 2, -2 * fp_z, False)
+            cq.Workplane(
+                "XZ",
+                (
+                    -D / 2 + marker_edge_clearance + marker_diameter / 2,
+                    -E / 2 + marker_edge_clearance + marker_diameter / 2,
+                    A,
+                ),
+            )
+            .rect(marker_diameter / 2, -marker_depth, False)
             .revolve()
-            .translate((0, 0, A - fp_z + 0.002))
         )
         pinmark = pinmark.translate(
-            ((D - D1_t) / 2 + fp_d + cff, (E - E1_t) / 2 + fp_d + cff, -sp)
+            (
+                (D - D1_t) / 2 + marker_edge_clearance + cff,
+                (E - E1_t) / 2 + marker_edge_clearance + cff,
+                -sp,
+            )
         )
         case = case.cut(pinmark)
         # extract pins from case
-        case_bot = case_bot.cut(pins)
+        if FUSED_AND_COMPRESSED:
+            case_bot = case_bot.cut(pins)
         ##
 
     else:
@@ -221,14 +238,22 @@ def make_case(params):
         case = case.translate((0, 0, A2 / 2 + A1 - sp)).rotate((0, 0, 0), (0, 0, 1), 0)
 
         pinmark = (
-            cq.Workplane("XZ", (-D / 2 + fp_d + fp_r, -E / 2 + fp_d + fp_r, fp_z))
-            .rect(fp_r / 2, -2 * fp_z, False)
+            cq.Workplane(
+                "XZ",
+                (
+                    -D / 2 + marker_edge_clearance + marker_diameter / 2,
+                    -E / 2 + marker_edge_clearance + marker_diameter / 2,
+                    marker_depth,
+                ),
+            )
+            .rect(marker_diameter / 2, -2 * marker_depth, False)
             .revolve()
-            .translate((0, 0, A2 + A1 - sp - fp_z + 0.002))
+            .translate((0, 0, A2 + A1 - sp - marker_depth + 0.002))
         )
         case = case.cut(pinmark)
         # extract pins from case
-        case = case.cut(pins)
+        if FUSED_AND_COMPRESSED:
+            case = case.cut(pins)
         case_bot = None
 
     # See if rotation has been requested
@@ -279,18 +304,10 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             continue
 
         # Load the appropriate colors
-        body_bot_color = shaderColors.named_colors[
-            all_params[model]["body_bot_color_key"]
-        ].getDiffuseFloat()
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
-        marking_color = shaderColors.named_colors[
-            all_params[model]["marking_color_key"]
-        ].getDiffuseFloat()
+        body_bot_color = shaderColors.named_colors["dark green body"].getDiffuseFloat()
+        body_color = shaderColors.named_colors["black body"].getDiffuseFloat()
+        pins_color = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
+        marking_color = shaderColors.named_colors["light brown label"].getDiffuseFloat()
 
         # Generate the current model
         case_bot, case, pins, pinmark = make_case(all_params[model])
@@ -332,42 +349,49 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         if not os.path.exists(part_output_dir):
             os.makedirs(part_output_dir)
 
-        # Export the assembly to STEP
-        component.save(
-            os.path.join(part_output_dir, model + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
+        if FUSED_AND_COMPRESSED:
+            # Export the assembly to STEP
+            component.export(
+                os.path.join(part_output_dir, model + ".step"),
+                cq.exporters.ExportTypes.STEP,
+                mode=cq.exporters.assembly.ExportModes.FUSED,
+                write_pcurves=False,
+            )
 
-        # Check for a proper union
-        export_tools.check_step_export_union(component, part_output_dir, model)
+            # Check for a proper union
+            export_tools.check_step_export_union(component, part_output_dir, model)
 
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, part_output_dir, model)
+            # Do STEP post-processing
+            export_tools.postprocess_step(component, part_output_dir, model)
 
-        # Export the assembly to VRML
-        if enable_vrml:
-            parts = [case, pins, pinmark]
-            colors = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-                all_params[model]["marking_color_key"],
-            ]
-            if case_bot != None:
-                parts.append(case_bot)
-                colors.append(all_params[model]["body_bot_color_key"])
-            export_VRML(os.path.join(part_output_dir, model + ".wrl"), parts, colors)
+            # Export the assembly to VRML
+            if enable_vrml:
+                parts = [case, pins, pinmark]
+                colors = ["black body", "metal grey pins", "light brown label"]
+                if case_bot != None:
+                    parts.append(case_bot)
+                    colors.append("dark green body")
+                export_VRML(
+                    os.path.join(part_output_dir, model + ".wrl"), parts, colors
+                )
 
-        # Update the license
-        from _tools import add_license
+            # Update the license
+            from _tools import add_license
 
-        add_license.addLicenseToStep(
-            part_output_dir,
-            model + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
-        )
+            add_license.addLicenseToStep(
+                part_output_dir,
+                model + ".step",
+                add_license.LIST_int_license,
+                add_license.STR_int_licAuthor,
+                add_license.STR_int_licEmail,
+                add_license.STR_int_licOrgSys,
+                add_license.STR_int_licPreProc,
+            )
+        else:
+            # Export the assembly to STEP
+            component.export(
+                os.path.join(part_output_dir, model + ".step"),
+                cq.exporters.ExportTypes.STEP,
+                mode=cq.exporters.assembly.ExportModes.DEFAULT,
+                write_pcurves=False,
+            )
