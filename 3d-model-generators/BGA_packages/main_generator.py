@@ -64,38 +64,44 @@ from typing import Any
 
 import cadquery as cq
 
-from _tools import cq_color_correct, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import (  # type:ignore
+    cq_color_correct,
+    export_tools,
+    parameters,
+    shaderColors,
+)
+from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
 FUSED_AND_COMPRESSED = False
 
 
-def make_plg(wp, rw, rh, cv1, cv):
+def make_plg(
+    wp: cq.Workplane, rw: float, rh: float, cv1: float, cv: float
+) -> cq.Workplane:
     """
     Creates a rectangle with chamfered corners.
     wp: workplane object
-    rw: rectangle width
-    rh: rectangle height
-    cv1: chamfer value for 1st corner (lower left)
+    rw: rectangle width (x)
+    rh: rectangle height (y)
+    cv1: chamfer value for 1st corner (top left)
     cv: chamfer value for other corners
     """
+    x = rw / 2.0
+    y = rh / 2.0
     points = [
-        (-rw / 2.0, -rh / 2.0 + cv1),
-        (-rw / 2.0, rh / 2.0 - cv),
-        (-rw / 2.0 + cv, rh / 2.0),
-        (rw / 2.0 - cv, rh / 2.0),
-        (rw / 2.0, rh / 2.0 - cv),
-        (rw / 2.0, -rh / 2.0 + cv),
-        (rw / 2.0 - cv, -rh / 2.0),
-        (-rw / 2.0 + cv1, -rh / 2.0),  # ,
+        (-x, y - cv1),
+        (-x + cv1, y),
+        (x - cv, y),
+        (x, y - cv),
+        (x, -y + cv),
+        (x - cv, -y),
+        (-x + cv, -y),
+        (-x, -y + cv),
+        (-x, y - cv1),
     ]
-    sp = points.pop()
-    wp = wp.moveTo(sp[0], sp[1])
-    wp = wp.polyline(points, includeCurrent=True).close().wire()
-
-    return wp
+    return wp.polyline(points, includeCurrent=False).wire()
 
 
 def make_case(
@@ -103,18 +109,20 @@ def make_case(
 ) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
 
     ef = params.get("ef", 0.0)
-    cff = params.get("cff")
-    cf = params.get("cf")
-    D = params["D"]
-    E = params["E"]
-    D1 = params.get("D1")
-    E1 = params.get("E1")
-    A1 = params["A1"]
-    A2 = params.get("A2")
-    A = params["A"]
+    cff = params.get("cff", 0.25)
+    cf = params.get("cf", 0.25)
+    d = params["D"]
+    e = params["E"]
+    d1 = params.get("D1")
+    e1 = params.get("E1")
+    a1 = params["A1"]  # body-board separation
+    a2 = params.get(
+        "A2"
+    )  # body height or body bottom height optional, needed for molded
+    a = params["A"]  # body overall height
     molded = params.get("molded")
     b = params["b"]
-    e = params["e"]
+    pitch = params["e"]
     ex = params.get("ex")
     sp = params.get("sp", 0.0)
     npx = params["npx"]
@@ -122,9 +130,9 @@ def make_case(
     rot = params["rotation"]
 
     if ex == None:
-        ex = e
+        ex = pitch
     if ex == 0:
-        ex = e
+        ex = pitch
 
     if params.get("excluded_pins") is not None:
         excluded_pins = tuple(
@@ -139,22 +147,26 @@ def make_case(
     sphere = cq.Workplane("XY", s_center).sphere(sphere_r)
     bpin = sphere.translate((0, 0, b / 2 - sp))
 
-    pins = []
+    pins: list[cq.Workplane] = []
     # create top, bottom side pins
     pincounter = 1
-    first_pos_x = (npx - 1) * e / 2
+    first_pos_x = (npx - 1) * pitch / 2
     for j in range(npy):
         for i in range(npx):
             if "internals" in excluded_pins:
                 if str(int(pincounter)) not in excluded_pins:
                     if j == 0 or j == npy - 1 or i == 0 or i == npx - 1:
                         pin = bpin.translate(
-                            (first_pos_x - i * e, (npy * ex / 2 - ex / 2) - j * ex, 0)
+                            (
+                                first_pos_x - i * pitch,
+                                (npy * ex / 2 - ex / 2) - j * ex,
+                                0,
+                            )
                         ).rotate((0, 0, 0), (0, 0, 1), 180)
                         pins.append(pin)
             elif str(int(pincounter)) not in excluded_pins:
                 pin = bpin.translate(
-                    (first_pos_x - i * e, (npy * ex / 2 - ex / 2) - j * ex, 0)
+                    (first_pos_x - i * pitch, (npy * ex / 2 - ex / 2) - j * ex, 0)
                 ).rotate((0, 0, 0), (0, 0, 1), 180)
                 pins.append(pin)
             pincounter += 1
@@ -163,35 +175,37 @@ def make_case(
     merged_pins = pins[0]
     for p in pins[1:]:
         merged_pins = merged_pins.union(p)
-    pins = merged_pins
 
     # first pin indicator is created with a cylindrical pocket
-    marker_depth = A / 4
-    marker_diameter = max(D, E) / 10.0
-    if min(D, E) < 5 * marker_diameter:
+    marker_depth = a / 4
+    marker_diameter = max(d, e) / 10.0
+    if min(d, e) < 5 * marker_diameter:
         marker_edge_clearance = marker_diameter / 4.0
     else:
         marker_edge_clearance = marker_diameter / 2.0
     if molded is not None:
         the = 24
-        if D1 is None:
-            D1 = D * (1 - 0.065)
-            E1 = E * (1 - 0.065)
-        D1_t = D1 - 2 * tan(radians(the)) * (A - A1 - A2)
-        E1_t = E1 - 2 * tan(radians(the)) * (A - A1 - A2)
+        if d1 is None:
+            d1 = d * (1 - 0.065)
+        if e1 is None:
+            e1 = e * (1 - 0.065)
+        if a2 is None:
+            raise ValueError("a2 must be defined for molded parts!")
+        D1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
+        E1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
         # draw the case
-        cw = D - 2 * A1
-        cl = E - 2 * A1
+        cw = d - 2 * a1
+        cl = e - 2 * a1
         case_bot = cq.Workplane("XY").workplane(offset=0)
         case_bot = make_plg(case_bot, cw, cl, cff, cf)
-        case_bot = case_bot.extrude(A2 - 0.01)
-        case_bot = case_bot.translate((0, 0, A1))
+        case_bot = case_bot.extrude(a2 - 0.01)
+        case_bot = case_bot.translate((0, 0, a1))
 
-        case = cq.Workplane("XY").workplane(offset=A1)
-        case = make_plg(case, D1, E1, 3 * cf, 3 * cf)
+        case = cq.Workplane("XY").workplane(offset=a1)
+        case = make_plg(case, d1, e1, 3 * cf, 3 * cf)
         case = case.extrude(0.01)
         case = case.faces(">Z").workplane()
-        case = make_plg(case, D1, E1, 3 * cf, 3 * cf).workplane(offset=A - A2 - A1)
+        case = make_plg(case, d1, e1, 3 * cf, 3 * cf).workplane(offset=a - a2 - a1)
         case = make_plg(case, D1_t, E1_t, 3 * cf, 3 * cf).loft(ruled=True)
         # fillet the bottom vertical edges
         if ef != 0:
@@ -200,16 +214,16 @@ def make_case(
         if ef != 0:
             BS = cq.selectors.BoxSelector
             case = case.edges(
-                BS((-D1 / 2, -E1 / 2, A2 + 0.001), (D1 / 2, E1 / 2, A + 0.001))
+                BS((-d1 / 2, -e1 / 2, a2 + 0.001), (d1 / 2, e1 / 2, a + 0.001))
             ).fillet(ef)
-        case = case.translate((0, 0, A2 - 0.01))
+        case = case.translate((0, 0, a2 - 0.01))
         pinmark = (
             cq.Workplane(
                 "XZ",
                 (
-                    -D / 2 + marker_edge_clearance + marker_diameter / 2,
-                    -E / 2 + marker_edge_clearance + marker_diameter / 2,
-                    A,
+                    -d / 2 + marker_edge_clearance + marker_diameter / 2,
+                    -e / 2 + marker_edge_clearance + marker_diameter / 2,
+                    a,
                 ),
             )
             .rect(marker_diameter / 2, -marker_depth, False)
@@ -217,74 +231,70 @@ def make_case(
         )
         pinmark = pinmark.translate(
             (
-                (D - D1_t) / 2 + marker_edge_clearance + cff,
-                (E - E1_t) / 2 + marker_edge_clearance + cff,
+                (d - D1_t) / 2 + marker_edge_clearance + cff,
+                (e - E1_t) / 2 + marker_edge_clearance + cff,
                 -sp,
             )
         )
         case = case.cut(pinmark)
         # extract pins from case
         if FUSED_AND_COMPRESSED:
-            case_bot = case_bot.cut(pins)
+            case_bot = case_bot.cut(merged_pins)
         ##
 
     else:
-        A2 = A - A1  # body height
-        case = cq.Workplane("XY").box(D, E, A2)  # NO margin, pins don't emerge
+        a2 = a - a1  # body height
+        case = cq.Workplane("XY").box(d, e, a2)  # NO margin, pins don't emerge
         if ef != 0:
             case.edges("|X").fillet(ef)
             case.edges("|Z").fillet(ef)
         # translate the object
-        case = case.translate((0, 0, A2 / 2 + A1 - sp)).rotate((0, 0, 0), (0, 0, 1), 0)
+        case = case.translate((0, 0, a2 / 2 + a1 - sp)).rotate((0, 0, 0), (0, 0, 1), 0)
 
         pinmark = (
             cq.Workplane(
                 "XZ",
                 (
-                    -D / 2 + marker_edge_clearance + marker_diameter / 2,
-                    -E / 2 + marker_edge_clearance + marker_diameter / 2,
+                    -d / 2 + marker_edge_clearance + marker_diameter / 2,
+                    -e / 2 + marker_edge_clearance + marker_diameter / 2,
                     marker_depth,
                 ),
             )
             .rect(marker_diameter / 2, -2 * marker_depth, False)
             .revolve()
-            .translate((0, 0, A2 + A1 - sp - marker_depth + 0.002))
+            .translate((0, 0, a2 + a1 - sp - marker_depth + 0.002))
         )
         case = case.cut(pinmark)
         # extract pins from case
         if FUSED_AND_COMPRESSED:
-            case = case.cut(pins)
+            case = case.cut(merged_pins)
         case_bot = None
 
     # See if rotation has been requested
     if params["rotation"] != 0:
         case = case.rotate((0, 0, 0), (0, 0, 1), rot)
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), rot)
+        merged_pins = merged_pins.rotate((0, 0, 0), (0, 0, 1), rot)
         pinmark = pinmark.rotate((0, 0, 0), (0, 0, 1), rot)
 
-    return (case_bot, case, pins, pinmark)
+    return (case_bot, case, merged_pins, pinmark)
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def make_models(
+    model_to_build: str | None = None,
+    output_dir_prefix: str | None = None,
+    enable_vrml: bool = True,
+) -> None:
     """
     Main entry point into this generator.
     """
-    models = []
+    all_params: dict[str, Any] = parameters.load_parameters("BGA_packages")  # type: ignore
 
-    all_params = parameters.load_parameters("BGA_packages")
-
-    if all_params == None:
+    if not all_params:
         print("ERROR: Model parameters must be provided.")
         return
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
+    # Handle the case where no or "all" model has been passed
+    if model_to_build is None or model_to_build == "all":
         models = all_params
     else:
         models = {model_to_build: all_params[model_to_build]}
@@ -296,6 +306,17 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         # Construct the final output directory
         output_dir = os.path.join(output_dir_prefix, dest_dir_prefix)
 
+    # Load the colors
+    rgb_body_b = shaderColors.named_colors["dark green body"].getDiffuseFloat()
+    rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
+    rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
+    rgb_mark = shaderColors.named_colors["light brown label"].getDiffuseFloat()
+
+    rgb_body_b = cq_color_correct.Color(rgb_body_b[0], rgb_body_b[1], rgb_body_b[2])
+    body_color = cq_color_correct.Color(rgb_body[0], rgb_body[1], rgb_body[2])
+    pin_color = cq_color_correct.Color(rbg_pin[0], rbg_pin[1], rbg_pin[2])
+    mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
+
     # Step through the selected models
     for model in models:
         # Safety check to make sure the selected model is valid
@@ -303,38 +324,16 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
 
-        # Load the appropriate colors
-        body_bot_color = shaderColors.named_colors["dark green body"].getDiffuseFloat()
-        body_color = shaderColors.named_colors["black body"].getDiffuseFloat()
-        pins_color = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
-        marking_color = shaderColors.named_colors["light brown label"].getDiffuseFloat()
-
         # Generate the current model
         case_bot, case, pins, pinmark = make_case(all_params[model])
 
         # Wrap the component parts in an assembly so that we can attach colors
         component = cq.Assembly(name=model)
         if case_bot != None:
-            component.add(
-                case_bot,
-                color=cq_color_correct.Color(
-                    body_bot_color[0], body_bot_color[1], body_bot_color[2]
-                ),
-            )
-        component.add(
-            case,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
-        component.add(
-            pinmark,
-            color=cq_color_correct.Color(
-                marking_color[0], marking_color[1], marking_color[2]
-            ),
-        )
+            component.add(case_bot, rgb_body_b)  # type: ignore
+        component.add(case, body_color)  # type: ignore
+        component.add(pins, pin_color)  # type: ignore
+        component.add(pinmark, mark_color)  # type: ignore
 
         part_output_dir = output_dir
         if (
@@ -351,10 +350,10 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
         if FUSED_AND_COMPRESSED:
             # Export the assembly to STEP
-            component.export(
+            component.export(  # type: ignore
                 os.path.join(part_output_dir, model + ".step"),
                 cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.FUSED,
+                mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
                 write_pcurves=False,
             )
 
@@ -376,9 +375,9 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                 )
 
             # Update the license
-            from _tools import add_license
+            from _tools import add_license  # type: ignore
 
-            add_license.addLicenseToStep(
+            add_license.addLicenseToStep(  # type: ignore
                 part_output_dir,
                 model + ".step",
                 add_license.LIST_int_license,
@@ -389,9 +388,9 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             )
         else:
             # Export the assembly to STEP
-            component.export(
+            component.export(  # type: ignore
                 os.path.join(part_output_dir, model + ".step"),
                 cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.DEFAULT,
+                mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
                 write_pcurves=False,
             )
