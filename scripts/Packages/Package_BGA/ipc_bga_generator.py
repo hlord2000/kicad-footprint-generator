@@ -2,16 +2,15 @@
 
 import math
 import argparse
-import yaml
-from pathlib import Path
-import itertools
 import logging
 import os
+from typing import Any
 
 from KicadModTree import (
     Footprint,
     FootprintType,
     Pad,
+    ReferencedPad,
     PolygonLine,
     Property,
     RectLine,
@@ -22,236 +21,90 @@ from kilibs.geom import Direction, Vector2D
 from scripts.tools.nodes import pin1_arrow
 from scripts.tools.declarative_def_tools import (
     ast_evaluator,
-    common_metadata,
     fp_additional_drawing,
 )
 from scripts.tools.footprint_generator import FootprintGenerator
 from scripts.tools.global_config_files import global_config as GC
 
-from string import ascii_uppercase
-
-
-class BGAConfiguration:
-    """
-    A type that represents the configuration of a BGA footprint
-    (probably from a YAML config block).
-
-    Over time, add more type-safe accessors to this class, and replace
-    use of the raw dictionary.
-    """
-
-    _spec_dictionary: dict
-    metadata: common_metadata.CommonMetadata
-
-    def __init__(self, spec: dict):
-        self._spec_dictionary = spec
-
-        self.metadata = common_metadata.CommonMetadata(spec)
-
-        if "pitch" in spec:
-            self.pitch = Vector2D(spec["pitch"], spec["pitch"])
-        elif "pitch_x" in spec and "pitch_y" in spec:
-            self.pitch = Vector2D(spec["pitch_x"], spec["pitch_y"])
-        else:
-            raise KeyError("Either pitch or both pitch_x and pitch_y must be given.")
-
-        self.additional_drawings = (
-            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(spec)
-        )
-
-    @property
-    def spec_dictionary(self) -> dict:
-        """
-        Get the raw spec dictionary.
-
-        This is only temporary, and can be piecewise replaced by
-        type-safe declarative definitions, but that requires deep changes
-        """
-        return self._spec_dictionary
+from scripts.Packages.Package_BGA.bga_configuration import BGAConfiguration, load_config, LayoutData
 
 
 class BGAGenerator(FootprintGenerator):
-    def __init__(self, configuration, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, configuration: dict[str, Any], **kwargs: dict[str, Any]) -> None:
+        super().__init__(**kwargs)  # type: ignore
 
         self.configuration = configuration
 
-    def generateFootprint(self, device_params: dict, pkg_id: str, header_info: dict = None):
+    def generateFootprint(self, device_params: dict[str, Any], pkg_id: str, header_info: dict[str, Any] | None = None) -> None:
         # Thin wrapper around generateBGAFootprint
         logging.info(f"Generating BGA footprint: {pkg_id}")
         self.generateBGAFootprint(self.configuration, device_params, pkg_id, header_info)
 
-    def generateBGAFootprint(self, config, fpParams, fpId, header_info):
-        device_config = BGAConfiguration(fpParams)
-
-        if "pad_diameter" in fpParams:
-            pad_diameter = fpParams["pad_diameter"]
-            logging.info(f"Pad size of {fpId} is set by the footprint definition. "
-                  "This should only be done for manufacturer-specific footprints.")
-        elif "ball_type" in fpParams and "ball_diameter" in fpParams:
-            ball_diameter = fpParams["ball_diameter"]
-            ball_type = fpParams["ball_type"]
-            # IPC-7352 Table 3-11 Median (Nominal) Material Level B
-            if ball_type == "collapsible":
-                pad_diameter = round(0.8*ball_diameter, 2)
-            elif ball_type == "non-collapsible":
-                pad_diameter = round(1.1*ball_diameter, 2)
+    def generateBGAFootprint(self, config: dict[str, Any], fpParams: dict[str, Any], fpId: str, header_info: dict[str, Any] | None = None) -> None:
+        device_config = BGAConfiguration(fpId, fpParams, header_info, config)
+        if device_config.has_fp_data:
+            if "pad_diameter" in fpParams:
+                pad_diameter = fpParams["pad_diameter"]
+                logging.info(f"Pad size of {fpId} is set by the footprint definition. "
+                    "This should only be done for manufacturer-specific footprints.")
+            elif "ball_type" in fpParams and "ball_diameter" in fpParams:
+                ball_diameter = fpParams["ball_diameter"]
+                ball_type = fpParams["ball_type"]
+                # IPC-7352 Table 3-11 Median (Nominal) Material Level B
+                if ball_type == "collapsible":
+                    pad_diameter = round(0.8*ball_diameter, 2)
+                elif ball_type == "non-collapsible":
+                    pad_diameter = round(1.1*ball_diameter, 2)
+                else:
+                    raise KeyError(f"{fpId}: '{ball_type}' is an invalid ball type. Only "
+                        "'collapsible' and 'non-collapsible' are accepted values. "
+                        "Aborting.")
+            elif "ball_type" in fpParams and "ball_diameter" not in fpParams:
+                raise KeyError(f"{fpId}: Ball diameter is missing. Aborting.")
+            elif "ball_diameter" in fpParams and "ball_type" not in fpParams:
+                raise KeyError(f"{fpId}: Ball type is missing. Aborting.")
             else:
-                raise KeyError(f"{fpId}: '{ball_type}' is an invalid ball type. Only "
-                      "'collapsible' and 'non-collapsible' are accepted values. "
-                      "Aborting.")
-        elif "ball_type" in fpParams and "ball_diameter" not in fpParams:
-            raise KeyError(f"{fpId}: Ball diameter is missing. Aborting.")
-        elif "ball_diameter" in fpParams and "ball_type" not in fpParams:
-            raise KeyError(f"{fpId}: Ball type is missing. Aborting.")
-        else:
-            raise KeyError(f"{fpId}: The config file must include 'ball_type' and "
-                           "'ball_diameter' or 'pad_diameter'. Aborting.")
+                raise KeyError(f"{fpId}: The config file must include 'ball_type' and "
+                            "'ball_diameter' or 'pad_diameter'. Aborting.")
+            fpParams["pad_size"] = [pad_diameter, pad_diameter]
+            self._createFootprintVariant(device_config)
 
-        fpParams["pad_size"] = [pad_diameter, pad_diameter]
-        self._createFootprintVariant(config, device_config, fpId, header_info)
 
-    def compute_stagger(self, lParams):
-        staggered = lParams.get('staggered', '').lower() or None
-        pitch = lParams.get('pitch')
-        pitchX = lParams.get('pitch_x')
-        pitchY = lParams.get('pitch_y')
-
-        if staggered not in [None, 'x', 'y']:
-            raise ValueError('staggered must be either "x" or "y"')
-
-        if staggered and pitch:
-            height = pitch * math.sin(math.radians(60))
-            if staggered == 'x':
-                pitchX = pitchX or pitch/2
-                pitchY = pitchY or height
-            elif staggered == 'y':
-                pitchX = pitchX or height
-                pitchY = pitchY or pitch/2
-        else:
-            pitchX = pitchX or pitch
-            pitchY = pitchY or pitch
-
-        if not (pitchX and pitchY):
-            raise KeyError('Either pitch or both pitch_x and pitch_y must be given.')
-
-        return pitchX, pitchY, staggered
-
-    def _compose_fp_name(self, config: dict, device_config: BGAConfiguration,
-                        fpId: str, header_info: dict) -> str:
-        device_params = device_config.spec_dictionary
-
-        if "name" in device_params:
-            return device_params["name"]
-
-        if device_params.get("name_equal_to_key"):
-            return fpId
-
-        # To facilitate iteration through the layouts create a list with main
-        # and sublayouts
-        layouts = [device_params] + device_params.get("secondary_layouts", [])
-
-        # Compute number of balls + diverse suffix strings
-        pitch_text = ""
-        stagger_text = ""
-        offcenter_text = ""
-        balls = 0
-        for layout in layouts:
-            balls += self.makePadGrid(None, layout, config, device_params)
-            if pitch := layout.get("pitch"):
-                new_pitch_text = f"P{pitch}mm"
-            else:
-                pitch_x = layout.get("pitch_x")
-                pitch_y = layout.get("pitch_y")
-                if not (pitch_x and pitch_y):
-                    raise KeyError("Either pitch or both pitch_x and pitch_y must "
-                                   "be given.")
-                new_pitch_text = f"P{pitch_x}x{pitch_y}mm"
-            if not pitch_text.endswith(new_pitch_text):
-                pitch_text += new_pitch_text
-            if "staggered" in layout:
-                stagger_text = "_Stagger"
-            if "offset_x" in layout or "offset_y" in layout:
-                offcenter_text = "_Offcenter"
-
-        if device_config.metadata.custom_name_format:
-            name_format = device_config.metadata.custom_name_format
-        else:
-            name_format = config["fp_name_bga_format_string_no_trailing_zero"]
-
-        pad_suffix = ""
-        if (device_params.get("include_pad_diameter_in_name")
-            and "pad_diameter" in device_params):
-            pad_diameter = device_params["pad_diameter"]
-            pad_suffix = f"_Pad{pad_diameter}mm"
-
-        ball_suffix = ""
-        if (device_params.get("include_ball_diameter_in_name")
-            and "ball_diameter" in device_params):
-            ball_diameter = device_params["ball_diameter"]
-            ball_suffix = f"_Ball{ball_diameter}mm"
-
-        suffix = device_params.get("suffix", "")
-
-        fp_name = name_format.format(
-            man=device_config.metadata.manufacturer or header_info.get("manufacturer", ""),
-            mpn=device_config.metadata.part_number or "",
-            pkg=device_params.get("device_type", header_info["package_type"]),
-            pincount=balls,
-            size_x=device_params["body_size_x"],
-            size_y=device_params["body_size_y"],
-            nx=device_params["layout_x"],
-            ny=device_params["layout_y"],
-            pitch=pitch_text,
-            ball_d=ball_suffix,
-            pad_d=pad_suffix,
-            stagger=stagger_text,
-            offcenter=offcenter_text,
-            suffix=suffix,
-            suffix2="",
-        ).replace("__", "_").lstrip("_")
-        return fp_name
-
-    def _createFootprintVariant(self, config, device_config: BGAConfiguration, fpId, header_info):
+    def _createFootprintVariant(self, bga_conf: BGAConfiguration) -> None:
         # Pull out the old-style parameter dictionary
-        fpParams = device_config.spec_dictionary
+        spec = bga_conf.spec
 
-        evaluator_params = {
-            "pitch": device_config.pitch,
-        }
+        evaluator_params = {"pitch": bga_conf.pitch}
 
-        fp_evaluator = ast_evaluator.ASTevaluator(symbols=evaluator_params)
+        fp_evaluator = ast_evaluator.ASTevaluator(symbols=evaluator_params)  # type: ignore
 
-        pkgX = fpParams["body_size_x"]
-        pkgY = fpParams["body_size_y"]
-        layoutX = fpParams["layout_x"]
-        layoutY = fpParams["layout_y"]
-        fFabRefRot = 0
+        pkg_x = bga_conf.body_size_x
+        pkg_y = bga_conf.body_size_y
+        f_fab_ref_rot = 0.0
 
-        fp_name = self._compose_fp_name(config, device_config, fpId, header_info)
-        f = Footprint(fp_name, FootprintType.SMD)
-        if "mask_margin" in fpParams:
-            f.setMaskMargin(fpParams["mask_margin"])
-        if "paste_margin" in fpParams:
-            f.setPasteMargin(fpParams["paste_margin"])
-        if "paste_ratio" in fpParams:
-            f.setPasteMarginRatio(fpParams["paste_ratio"])
+        f = Footprint(bga_conf.name, FootprintType.SMD)
+        if "mask_margin" in spec:
+            f.setMaskMargin(spec["mask_margin"])
+        if "paste_margin" in spec:
+            f.setPasteMargin(spec["paste_margin"])
+        if "paste_ratio" in spec:
+            f.setPasteMarginRatio(spec["paste_ratio"])
 
         s1 = [1.0, 1.0]
-        if pkgX < 4.3 and pkgY > pkgX:
-            s2 = [min(1.0, round(pkgY / 4.3, 2))] * 2  # Y size is greater, so rotate F.Fab reference
-            fFabRefRot = -90
+        if pkg_x < 4.3 and pkg_y > pkg_x:
+            s2 = [min(1.0, round(pkg_y / 4.3, 2))] * 2  # Y size is greater, so rotate F.Fab reference
+            f_fab_ref_rot = -90.0
         else:
-            s2 = [min(1.0, round(pkgX / 4.3, 2))] * 2
+            s2 = [min(1.0, round(pkg_x / 4.3, 2))] * 2
 
         t1 = 0.15 * s1[0]
         t2 = 0.15 * s2[0]
 
-        chamfer = self.global_config.fab_bevel.get_chamfer_size(min(pkgX, pkgY))
+        chamfer = self.global_config.fab_bevel.get_chamfer_size(min(pkg_x, pkg_y))
 
         crtYdOffset = self.global_config.get_courtyard_offset(GC.GlobalConfig.CourtyardType.BGA)
 
-        def crtYdRound(x):
+        def crt_round(x: float) -> float:
             # Round away from zero for proper courtyard calculation
             neg = x < 0
             if neg:
@@ -261,23 +114,23 @@ class BGAGenerator(FootprintGenerator):
                 x = -x
             return x
 
-        pitchX, pitchY, staggered = self.compute_stagger(fpParams)
+        pitchX, pitchY, staggered = bga_conf.calculate_stagger()
 
         xCenter = 0.0
-        xLeftFab = xCenter - pkgX / 2.0
-        xRightFab = xCenter + pkgX / 2.0
+        xLeftFab = xCenter - pkg_x / 2.0
+        xRightFab = xCenter + pkg_x / 2.0
         xChamferFab = xLeftFab + chamfer
-        xPadLeft = xCenter - pitchX * ((layoutX - 1) / 2.0)
-        xLeftCrtYd = crtYdRound(xCenter - (pkgX / 2.0 + crtYdOffset))
-        xRightCrtYd = crtYdRound(xCenter + (pkgX / 2.0 + crtYdOffset))
+        xPadLeft = xCenter - pitchX * ((bga_conf.layout_x - 1) / 2.0)
+        xLeftCrtYd = crt_round(xCenter - (pkg_x / 2.0 + crtYdOffset))
+        xRightCrtYd = crt_round(xCenter + (pkg_x / 2.0 + crtYdOffset))
 
         yCenter = 0.0
-        yTopFab = yCenter - pkgY / 2.0
-        yBottomFab = yCenter + pkgY / 2.0
+        yTopFab = yCenter - pkg_y / 2.0
+        yBottomFab = yCenter + pkg_y / 2.0
         yChamferFab = yTopFab + chamfer
-        yPadTop = yCenter - pitchY * ((layoutY - 1) / 2.0)
-        yTopCrtYd = crtYdRound(yCenter - (pkgY / 2.0 + crtYdOffset))
-        yBottomCrtYd = crtYdRound(yCenter + (pkgY / 2.0 + crtYdOffset))
+        yPadTop = yCenter - pitchY * ((bga_conf.layout_y - 1) / 2.0)
+        yTopCrtYd = crt_round(yCenter - (pkg_y / 2.0 + crtYdOffset))
+        yBottomCrtYd = crt_round(yCenter + (pkg_y / 2.0 + crtYdOffset))
         yRef = yTopFab - 1.0
         yValue = yBottomFab + 1.0
 
@@ -286,16 +139,16 @@ class BGAGenerator(FootprintGenerator):
         wSilkS = self.global_config.silk_line_width
 
         # silkOffset should comply with pad clearance as well
-        yPadTopEdge = yPadTop - fpParams["pad_size"][1] / 2.0
-        xPadLeftEdge = xPadLeft - fpParams["pad_size"][0] / 2.0
+        yPadTopEdge = yPadTop - spec["pad_size"][1] / 2.0
+        xPadLeftEdge = xPadLeft - spec["pad_size"][0] / 2.0
 
         xSilkOffset = max(self.global_config.silk_fab_offset,
                           xLeftFab + self.global_config.silk_pad_offset - xPadLeftEdge)
         ySilkOffset = max(self.global_config.silk_fab_offset,
                           yTopFab + self.global_config.silk_pad_offset - yPadTopEdge)
 
-        silkSizeX = pkgX + 2 * (xSilkOffset - self.global_config.silk_fab_offset)
-        silkSizeY = pkgY + 2 * (ySilkOffset - self.global_config.silk_fab_offset)
+        silkSizeX = pkg_x + 2 * (xSilkOffset - self.global_config.silk_fab_offset)
+        silkSizeY = pkg_y + 2 * (ySilkOffset - self.global_config.silk_fab_offset)
 
         silkChamfer = self.global_config.fab_bevel.get_chamfer_size(
             min(silkSizeX, silkSizeY)
@@ -311,10 +164,10 @@ class BGAGenerator(FootprintGenerator):
         # Text
         f.append(Property(name=Property.REFERENCE, text="REF**", at=[xCenter, yRef],
                       layer="F.SilkS", size=s1, thickness=t1))
-        f.append(Property(name=Property.VALUE, text=fp_name, at=[xCenter, yValue],
+        f.append(Property(name=Property.VALUE, text=bga_conf.name, at=[xCenter, yValue],
                       layer="F.Fab", size=s1, thickness=t1))
         f.append(Text(text='${REFERENCE}', at=[xCenter, yCenter],
-                      layer="F.Fab", size=s2, thickness=t2, rotation=fFabRefRot))
+                      layer="F.Fab", size=s2, thickness=t2, rotation=f_fab_ref_rot))
 
         # Fab
         f.append(PolygonLine(shape=[[xRightFab, yBottomFab],
@@ -354,185 +207,144 @@ class BGAGenerator(FootprintGenerator):
         ))
 
         # Pads
-        balls = self.makePadGrid(f, fpParams, config, xCenter=xCenter, yCenter=yCenter)
+        for layout_info in bga_conf.layout_infos:
+            self._make_pad_grid(f, layout_info, bga_conf, x_center=xCenter, y_center=yCenter)
 
-        for layout in fpParams.get('secondary_layouts', []):
-            balls += self.makePadGrid(f, layout, config, fpParams, xCenter=xCenter, yCenter=yCenter)
-
-        dwg_nodes = fp_additional_drawing.create_additional_drawings(
-            device_config.additional_drawings, self.global_config, fp_evaluator
+        dwg_nodes = fp_additional_drawing.create_additional_drawings(  # type: ignore
+            bga_conf.additional_drawings, self.global_config, fp_evaluator
         )
         f.extend(dwg_nodes)
 
         # If this looks like a CSP footprint, use the CSP 3dshapes library
-        packageType = str(header_info.get('package_type', 'BGA')).upper()
-        if packageType not in ['CSP', 'BGA']:
-            print(f'Invalid package type "{packageType}" in file header. No footprint generated.')
+        packageType = str(bga_conf.header.get('package_type', 'BGA')).upper()
 
         if staggered:
-            pdesc = str(fpParams.get('pitch')) if 'pitch' in fpParams else f'{pitchX}x{pitchY}'
+            pdesc = str(spec.get('pitch')) if 'pitch' in spec else f'{pitchX}x{pitchY}'
             sdesc = f'{staggered.upper()}-staggered '
         else:
             pdesc = str(pitchX) if pitchX == pitchY else f'{pitchX}x{pitchY}'
             sdesc = ''
 
         description_parts = [
-            device_config.metadata.description,
-            f"{pkgX}x{pkgY}mm",
-            f"{balls} Ball",
-            f"{sdesc}{layoutX}x{layoutY} Layout",
+            bga_conf.metadata.description if bga_conf.metadata.description else "",
+            f"{pkg_x}x{pkg_y}mm",
+            f"{bga_conf.num_balls} Ball",
+            f"{sdesc}{bga_conf.layout_x}x{bga_conf.layout_y} Layout",
             f"{pdesc}mm Pitch",
             f"generated with kicad-footprint-generator {os.path.basename(__file__)}",
         ]
 
-        if device_config.metadata.datasheet:
-            description_parts.append(device_config.metadata.datasheet)
+        if bga_conf.metadata.datasheet:
+            description_parts.append(bga_conf.metadata.datasheet)
 
         f.description = ", ".join(description_parts)
 
-        f.tags = [packageType, str(balls), pdesc]
-        f.tags += device_config.metadata.compatible_mpns
-        f.tags += device_config.metadata.additional_tags
+        f.tags = [packageType, str(bga_conf.num_balls), pdesc]
+        f.tags += bga_conf.metadata.compatible_mpns
+        f.tags += bga_conf.metadata.additional_tags
 
         lib_name = f'Package_{packageType}'
 
         # #################### Output and 3d model ############################
-        self.add_standard_3d_model_to_footprint(f, lib_name, fp_name)
+        self.add_standard_3d_model_to_footprint(f, lib_name, bga_conf.name)
         self.write_footprint(f, lib_name)
 
-    def makePadGrid(self, f, lParams, config, fpParams={}, xCenter=0.0, yCenter=0.0):
-        layoutX = lParams["layout_x"]
-        layoutY = lParams["layout_y"]
-        rowNames = lParams.get('row_names', fpParams.get('row_names', config['row_names']))
-        if (row_prefix := lParams.get('row_name_prefix')):
-            rowNames = [str(row_prefix) + n for n in rowNames]
-        if (first_row := lParams.get('first_row')) is not None:
-            rowNames = rowNames[rowNames.index(first_row):]
-        rowNames = rowNames[:layoutY]
-        first_col = lParams.get('first_column', 1)
-        rowSkips = lParams.get('row_skips', [])
-        areaSkips = lParams.get('area_skips', [])
-        padSkips = {skip.upper() for skip in lParams.get('pad_skips', [])}
-        pitchX, pitchY, staggered = self.compute_stagger(lParams)
+    def _make_pad_grid(self, f: Footprint, layout_info: LayoutData, bga_conf: BGAConfiguration, x_center: float=0.0, y_center: float=0.0)-> None:
+        layout_dict = layout_info.layout_dict
+        spec = bga_conf.spec
+        pad_data_list = layout_info.pad_data_list
+        
+        pad_shape = layout_dict.get('pad_shape', spec.get('pad_shape', 'circle'))
+        paste_shape = layout_dict.get('paste_shape', spec.get('paste_shape'))
 
-        for row_start, col_start, row_end, col_end in areaSkips:
-            rows = rowNames[rowNames.index(row_start.upper()):rowNames.index(row_end.upper())+1]
-            cols = range(col_start, col_end+1)
-            padSkips |= {f'{a}{b}' for a, b in itertools.product(rows, cols)}
-
-        for row, skips in zip(rowNames, rowSkips):
-            for skip in skips:
-                if isinstance(skip, int):
-                    padSkips.add(f'{row}{skip}')
-                else:
-                    padSkips |= {f'{row}{skip}' for skip in range(*skip)}
-
-        if (first_ball := lParams.get('first_ball')):
-            if not staggered:
-                raise ValueError('first_ball only makes sense for staggered layouts.')
-
-            if first_ball not in ('A1', 'B1', 'A2'):
-                raise ValueError('first_ball must be "A1" or "A2".')
-
-        if staggered:
-            if not first_ball:
-                first_ball = 'A1'
-
-            skip_even = (first_ball == 'A1')
-
-            for row_num, row in enumerate(rowNames, start=1):
-                for col in range(first_col, first_col + layoutX):
-                    is_even = (row_num + col - first_col) % 2 == 0
-                    if is_even == skip_even:
-                        padSkips.add(f'{row}{col}')
-
-        if f is None:
-            return layoutX * layoutY - len(padSkips)
-
-        padShape = lParams.get('pad_shape', fpParams.get('pad_shape', 'circle'))
-        pasteShape = lParams.get('paste_shape', fpParams.get('paste_shape'))
-
-        if pasteShape and pasteShape != padShape:
+        if paste_shape and paste_shape != pad_shape:
             layers = ['F.Cu', 'F.Mask']
         else:
             layers = Pad.LAYERS_SMT
 
-        xOffset = lParams.get('offset_x', 0.0)
-        yOffset = lParams.get('offset_y', 0.0)
-        xPadLeft = xCenter - pitchX * ((layoutX - 1) / 2.0) + xOffset
-        yPadTop = yCenter - pitchY * ((layoutY - 1) / 2.0) + yOffset
+        ref_pad = Pad(
+            number=pad_data_list[0].name,
+            type=Pad.TYPE_SMT,
+            fab_property=Pad.FabProperty.BGA,
+            shape=pad_shape,
+            at=pad_data_list[0].position,
+            size=layout_dict.get('pad_size') or spec['pad_size'],
+            layers=layers,
+            radius_ratio=self.global_config.roundrect_radius_handler  # type: ignore
+            )
+        f.append(ref_pad)
 
-        for rowNum, row in enumerate(rowNames):
-            rowSet = {col for col in range(first_col, layoutX+first_col) if f'{row}{col}' not in padSkips}
-            for col in rowSet:
-                f.append(Pad(
-                    number="{}{}".format(row, col), type=Pad.TYPE_SMT,
-                    fab_property=Pad.FabProperty.BGA,
-                    shape=padShape,
-                    at=[xPadLeft + (col-first_col) * pitchX, yPadTop + rowNum * pitchY],
-                    size=lParams.get('pad_size') or fpParams['pad_size'],
-                    layers=layers,
-                    radius_ratio=self.global_config.roundrect_radius_handler
-                ))
+        ref_paste_pad: Pad | None = None
 
-                if pasteShape and pasteShape != padShape:
-                    # Footgun warning: When pcbnew renders a paste-only pad like this, it actually
-                    # ignores all paste `margin settings both of the pad and of the footprint, and
-                    # creates a stencil opening of exactly the size of the pad. Thus, we have to
-                    # pre-compute paste margin here. Note that KiCad implements paste margin with an
-                    # actual geometric offset, i.e. yielding a rounded rect for square pads. Thus,
-                    # we have to implement similar offsetting logic here to stay consistent.
+        if paste_shape and paste_shape != pad_shape:
+            # Footgun warning: When pcbnew renders a paste-only pad like this, it actually
+            # ignores all paste `margin settings both of the pad and of the footprint, and
+            # creates a stencil opening of exactly the size of the pad. Thus, we have to
+            # pre-compute paste margin here. Note that KiCad implements paste margin with an
+            # actual geometric offset, i.e. yielding a rounded rect for square pads. Thus,
+            # we have to implement similar offsetting logic here to stay consistent.
 
-                    pasteMargin = lParams.get('paste_margin', fpParams.get('paste_margin', 0))
-                    size = list(lParams.get('pad_size') or fpParams['pad_size'])
-                    corner_ratio = self.global_config.roundrect_radius_handler.radius_ratio
+            pasteMargin = layout_dict.get('paste_margin', spec.get('paste_margin', 0))
+            size = list(layout_dict.get('pad_size') or spec['pad_size'])
+            corner_ratio = self.global_config.roundrect_radius_handler.radius_ratio
 
-                    if pasteShape == 'circle':
-                        size[0] += 2*pasteMargin
-                        size[1] += 2*pasteMargin
+            if paste_shape == 'circle':
+                size[0] += 2*pasteMargin
+                size[1] += 2*pasteMargin
 
-                    elif pasteShape == 'rect':
-                        if pasteMargin <= 0:
-                            size[0] += 2*pasteMargin
-                            size[1] += 2*pasteMargin
+            elif paste_shape == 'rect':
+                if pasteMargin <= 0:
+                    size[0] += 2*pasteMargin
+                    size[1] += 2*pasteMargin
 
-                        else:
-                            corner_ratio = pasteMargin / min(size)
-                            size[0] += 2*pasteMargin
-                            size[1] += 2*pasteMargin
-                            pasteShape = 'roundrect'
+                else:
+                    corner_ratio = pasteMargin / min(size)
+                    size[0] += 2*pasteMargin
+                    size[1] += 2*pasteMargin
+                    paste_shape = 'roundrect'
 
-                    elif pasteShape == 'roundrect':
-                        corner_radius = min(size) * corner_ratio
-                        size[0] += 2*pasteMargin
-                        size[1] += 2*pasteMargin
-                        corner_radius += pasteMargin
+            elif paste_shape == 'roundrect':
+                corner_radius = min(size) * corner_ratio
+                size[0] += 2*pasteMargin
+                size[1] += 2*pasteMargin
+                corner_radius += pasteMargin
 
-                        if corner_radius < 0:
-                            pasteShape = 'rect'
-                        else:
-                            corner_ratio = corner_radius / min(size)
+                if corner_radius < 0:
+                    paste_shape = 'rect'
+                else:
+                    corner_ratio = corner_radius / min(size)
 
-                    paste_radius_handler = RoundRadiusHandler(
-                        radius_ratio=corner_ratio,
+            paste_radius_handler = RoundRadiusHandler(
+                radius_ratio=corner_ratio,
+            )
+
+            ref_paste_pad = Pad(
+                number="",
+                type=Pad.TYPE_SMT,
+                shape=paste_shape,
+                at=pad_data_list[0].position,
+                size=size,  # type: ignore
+                layers=['F.Paste'],
+                round_radius_handler=paste_radius_handler
+            )
+            f.append(ref_paste_pad)
+
+        for i in range(1, len(pad_data_list)):
+            f.append(
+                ReferencedPad(
+                    reference_pad=ref_pad,
+                    number=pad_data_list[i].name,
+                    at=pad_data_list[i].position
+                )
+            )
+            if ref_paste_pad:
+                f.append(
+                    ReferencedPad(
+                        reference_pad=ref_paste_pad,
+                        number="",
+                        at=pad_data_list[i].position
                     )
-
-                    f.append(Pad(
-                        number="", type=Pad.TYPE_SMT,
-                        shape=pasteShape,
-                        at=[xPadLeft + (col-1) * pitchX, yPadTop + rowNum * pitchY],
-                        size=size,
-                        layers=['F.Paste'],
-                        round_radius_handler=paste_radius_handler
-                    ))
-
-        return layoutX * layoutY - len(padSkips)
-
-
-def rowNameGenerator(seq):
-    for n in itertools.count(1):
-        for s in itertools.product(seq, repeat=n):
-            yield ''.join(s)
+                )
 
 
 if __name__ == '__main__':
@@ -545,21 +357,13 @@ if __name__ == '__main__':
     parser.add_argument('--naming_config', type=str, nargs='?',
                          help='the config file defining footprint naming.', default='../package_config_KLCv3.yaml')
 
-    args = FootprintGenerator.add_standard_arguments(parser)
+    args = FootprintGenerator.add_standard_arguments(parser)  # type: ignore
 
-    with open(args.naming_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
+    configuration = load_config(args.naming_config)
 
-    # generate dict of A, B .. Y, Z, AA, AB .. CY less easily-confused letters
-    rowNamesList = [x for x in ascii_uppercase if x not in 'IOQSXZ']
-    configuration.update({'row_names': list(itertools.islice(rowNameGenerator(rowNamesList), 80))})
-
-    FootprintGenerator.run_on_files(
+    FootprintGenerator.run_on_files(  # type: ignore
         BGAGenerator,
         args,
-        file_autofind_dir='size_definitions',
+        file_autofind_dir='../../../data/BGA/',
         configuration=configuration,
     )

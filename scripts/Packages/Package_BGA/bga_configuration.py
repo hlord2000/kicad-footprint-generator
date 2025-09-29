@@ -1,0 +1,342 @@
+#!/usr/bin/env python3
+
+import itertools
+import math
+from collections.abc import Generator
+from string import ascii_uppercase
+from typing import Any, Literal, NamedTuple
+
+import yaml
+
+from kilibs.geom import Vector2D
+from scripts.tools.declarative_def_tools import (
+    common_metadata,
+    fp_additional_drawing,
+    rule_area_properties,
+)
+
+
+class PadData(NamedTuple):
+    name: str
+    position: Vector2D
+
+
+class LayoutData(NamedTuple):
+    layout_dict: dict[str, Any]
+    pad_data_list: list[PadData]
+
+
+class BGAConfiguration:
+    """
+    A type that represents the configuration of a BGA footprint
+    (probably from a YAML config block).
+
+    Over time, add more type-safe accessors to this class, and replace
+    use of the raw dictionary.
+    """
+
+    def __init__(
+        self,
+        pkg_id: str,
+        spec: dict[str, Any],
+        header: dict[str, Any] | None,
+        config: dict[str, Any],
+    ) -> None:
+        # Instance attributes:
+        self.spec: dict[str, Any]
+        """The dictionary containing the specification of the device."""
+        self.header: dict[str, Any]
+        """The dictionary containing the file header."""
+        self.config: dict[str, Any]
+        """The dictionary containing the generator configuration."""
+        self.pkg_id: str
+        """The package name as given by the dictionary key."""
+
+        # Instance attributes for generator independent data:
+        self.metadata: common_metadata.CommonMetadata
+        """The common meta data."""
+        self.additional_drawings: list[fp_additional_drawing.FPAdditionalDrawing]
+        """The list containing additional drawings."""
+        self.rule_areas: list[rule_area_properties.RuleAreaProperties] = []
+        """The rule areas (zones)."""
+
+        # Instance attributes for pad details:
+        self.layout_infos: list[LayoutData]
+
+        # Instance attributes related to the dimensions of the package:
+        self.body_size_x: float
+        """Size of the package body in x direction."""
+        self.body_size_y: float
+        """Size of the package body in y direction."""
+
+        # Instance attributes for the pinning data:
+        self.num_balls: int
+        """Number of balls in the package."""
+        self.layout_x: int
+        """Number of balls in x direction."""
+        self.layout_y: int
+        """Number of balls in y direction."""
+
+        self.pkg_id = pkg_id
+        self.spec = spec
+        if header:
+            self.header = header
+            self.has_fp_data = True
+        else:
+            self.header = {}
+            self.has_fp_data = False
+        self.config = config
+
+        self.layout_infos = []
+
+        self._extract_generator_independent_data()
+        # self._extract_general_data()
+        self._extract_dimension_data()
+        self._extract_pinning_data()
+        # self._extract_3d_data()
+        self._compose_device_name()
+        # self._compose_lib_name()
+
+    def _extract_generator_independent_data(self) -> None:
+        self.metadata = common_metadata.CommonMetadata(self.spec)
+
+        self.additional_drawings = (
+            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self.spec)
+        )  # type: ignore
+        self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(  # type: ignore
+            self.spec
+        )
+
+    def _extract_dimension_data(self) -> None:
+        self.body_size_x = self.spec["body_size_x"]
+        self.body_size_y = self.spec["body_size_y"]
+
+    def _extract_pinning_data(self) -> None:
+        if "pitch" in self.spec:
+            self.pitch = Vector2D(self.spec["pitch"], self.spec["pitch"])
+        elif "pitch_x" in self.spec and "pitch_y" in self.spec:
+            self.pitch = Vector2D(self.spec["pitch_x"], self.spec["pitch_y"])
+        else:
+            raise KeyError("Either pitch or both pitch_x and pitch_y must be given.")
+
+        self.layout_x = self.spec["layout_x"]
+        self.layout_y = self.spec["layout_y"]
+
+        # To facilitate iteration through the layouts create a list with main
+        # and sublayouts
+        layouts = [self.spec] + self.spec.get("secondary_layouts", [])
+        self.num_balls = 0
+        for layout in layouts:
+            self.num_balls += self._calculate_pad_names_and_positions_in_layout(layout)
+
+    def calculate_stagger(
+        self, layout_def: dict[str, Any] | None = None
+    ) -> tuple[float, float, Literal["x", "y"] | None]:
+        if layout_def is None:
+            layout_def = self.spec
+        staggered = layout_def.get("staggered", "").lower() or None
+        pitch = layout_def.get("pitch")
+        pitch_x = layout_def.get("pitch_x")
+        pitch_y = layout_def.get("pitch_y")
+
+        if staggered not in [None, "x", "y"]:
+            raise ValueError('staggered must be either "x" or "y"')
+
+        if staggered and pitch:
+            height = pitch * math.sin(math.radians(60))
+            if staggered == "x":
+                pitch_x = pitch_x or pitch / 2
+                pitch_y = pitch_y or height
+            elif staggered == "y":
+                pitch_x = pitch_x or height
+                pitch_y = pitch_y or pitch / 2
+        else:
+            pitch_x = pitch_x or pitch
+            pitch_y = pitch_y or pitch
+
+        if not (pitch_x and pitch_y):
+            raise KeyError("Either pitch or both pitch_x and pitch_y must be given.")
+
+        return pitch_x, pitch_y, staggered
+
+    def _calculate_pad_names_and_positions_in_layout(
+        self, layout_dict: dict[str, Any], x_center: float = 0.0, y_center: float = 0.0
+    ) -> int:
+        pad_data_list: list[PadData] = []
+        layout_x = layout_dict["layout_x"]
+        layout_y = layout_dict["layout_y"]
+        row_names = layout_dict.get(
+            "row_names", self.spec.get("row_names", self.config["row_names"])
+        )
+        if row_prefix := layout_dict.get("row_name_prefix"):
+            row_names = [str(row_prefix) + n for n in row_names]
+        if (first_row := layout_dict.get("first_row")) is not None:
+            row_names = row_names[row_names.index(first_row) :]
+        row_names = row_names[:layout_y]
+        first_col = layout_dict.get("first_column", 1)
+        row_skips = layout_dict.get("row_skips", [])
+        area_skips = layout_dict.get("area_skips", [])
+        pad_skips = {skip.upper() for skip in layout_dict.get("pad_skips", [])}
+        pitch_x, pitch_y, staggered = self.calculate_stagger(layout_dict)
+
+        for row_start, col_start, row_end, col_end in area_skips:
+            rows = row_names[
+                row_names.index(row_start.upper()) : row_names.index(row_end.upper())
+                + 1
+            ]
+            cols = range(col_start, col_end + 1)
+            pad_skips |= {f"{a}{b}" for a, b in itertools.product(rows, cols)}
+
+        for row, skips in zip(row_names, row_skips):
+            for skip in skips:
+                if isinstance(skip, int):
+                    pad_skips.add(f"{row}{skip}")
+                else:
+                    pad_skips |= {f"{row}{skip}" for skip in range(*skip)}
+
+        if first_ball := layout_dict.get("first_ball"):
+            if not staggered:
+                raise ValueError("first_ball only makes sense for staggered layouts.")
+
+            if first_ball not in ("A1", "B1", "A2"):
+                raise ValueError('first_ball must be "A1" or "A2".')
+
+        if staggered:
+            if not first_ball:
+                first_ball = "A1"
+
+            skip_even = first_ball == "A1"
+
+            for row_num, row in enumerate(row_names, start=1):
+                for col in range(first_col, first_col + layout_x):
+                    is_even = (row_num + col - first_col) % 2 == 0
+                    if is_even == skip_even:
+                        pad_skips.add(f"{row}{col}")
+
+        offset_x = layout_dict.get("offset_x", 0.0)
+        offset_y = layout_dict.get("offset_y", 0.0)
+        x_pad_left = x_center - pitch_x * ((layout_x - 1) / 2.0) + offset_x
+        y_pad_top = y_center - pitch_y * ((layout_y - 1) / 2.0) + offset_y
+
+        for rowNum, row in enumerate(row_names):
+            rowSet = {
+                col
+                for col in range(first_col, layout_x + first_col)
+                if f"{row}{col}" not in pad_skips
+            }
+            for col in rowSet:
+                pad_data_list.append(
+                    PadData(
+                        name=f"{row}{col}",
+                        position=Vector2D(
+                            x_pad_left + (col - first_col) * pitch_x,
+                            y_pad_top + rowNum * pitch_y,
+                        ),
+                    )
+                )
+
+        self.layout_infos.append(
+            LayoutData(layout_dict=layout_dict, pad_data_list=pad_data_list)
+        )
+        return layout_x * layout_y - len(pad_skips)
+
+    def _compose_device_name(self) -> None:
+        if "name" in self.spec:
+            self.name = self.spec["name"]
+            return
+        elif self.spec.get("name_equal_to_key"):
+            self.name = self.pkg_id
+            return
+
+        # Compute number of balls + diverse suffix strings
+        pitch_text = ""
+        stagger_text = ""
+        offcenter_text = ""
+        for layout_info in self.layout_infos:
+            layout = layout_info.layout_dict
+            if pitch := layout.get("pitch"):
+                new_pitch_text = f"P{pitch}mm"
+            else:
+                pitch_x = layout.get("pitch_x")
+                pitch_y = layout.get("pitch_y")
+                if not (pitch_x and pitch_y):
+                    raise KeyError(
+                        "Either pitch or both pitch_x and pitch_y must " "be given."
+                    )
+                new_pitch_text = f"P{pitch_x}x{pitch_y}mm"
+            if not pitch_text.endswith(new_pitch_text):
+                pitch_text += new_pitch_text
+            if "staggered" in layout:
+                stagger_text = "_Stagger"
+            if "offset_x" in layout or "offset_y" in layout:
+                offcenter_text = "_Offcenter"
+
+        if self.metadata.custom_name_format:
+            name_format = self.metadata.custom_name_format
+        else:
+            name_format = self.config["fp_name_bga_format_string_no_trailing_zero"]
+
+        pad_suffix = ""
+        if (
+            self.spec.get("include_pad_diameter_in_name")
+            and "pad_diameter" in self.spec
+        ):
+            pad_diameter = self.spec["pad_diameter"]
+            pad_suffix = f"_Pad{pad_diameter}mm"
+
+        ball_suffix = ""
+        if (
+            self.spec.get("include_ball_diameter_in_name")
+            and "ball_diameter" in self.spec
+        ):
+            ball_diameter = self.spec["ball_diameter"]
+            ball_suffix = f"_Ball{ball_diameter}mm"
+
+        suffix = self.spec.get("suffix", "")
+
+        self.name = (
+            name_format.format(
+                man=self.metadata.manufacturer or self.header.get("manufacturer", ""),
+                mpn=self.metadata.part_number or "",
+                pkg=self.spec.get(
+                    "device_type", self.header.get("package_type", "BGA")
+                ),
+                pincount=self.num_balls,
+                size_x=self.body_size_x,
+                size_y=self.body_size_y,
+                nx=self.layout_x,
+                ny=self.layout_y,
+                pitch=pitch_text,
+                ball_d=ball_suffix,
+                pad_d=pad_suffix,
+                stagger=stagger_text,
+                offcenter=offcenter_text,
+                suffix=suffix,
+                suffix2="",
+            )
+            .replace("__", "_")
+            .lstrip("_")
+        )
+
+
+def _row_name_generator(seq: list[str]) -> Generator[str, Any, None]:
+    for n in itertools.count(1):
+        for s in itertools.product(seq, repeat=n):
+            yield "".join(s)
+
+
+def load_config(config_file_name: str) -> dict[str, Any]:
+    with open(config_file_name, "r") as config_stream:
+        try:
+            configuration = yaml.safe_load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise exc
+
+    # generate dict of A, B .. Y, Z, AA, AB .. CY less easily-confused letters
+    rowNamesList: list[str] = [x for x in ascii_uppercase if x not in "IOQSXZ"]
+    configuration.update(
+        {"row_names": list(itertools.islice(_row_name_generator(rowNamesList), 80))}
+    )
+
+    return configuration
