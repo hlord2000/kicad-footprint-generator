@@ -7,7 +7,6 @@ FileHeader:
 ublox_LGA-53_4.5x4.5mm_Layout9x9_P0.5mm:
 # we are calling it LGA since maximum standoff height is less 0.10mm (see BGA / LGA definition in https://www.jeita.or.jp/japanese/standard/book/ED-7316/#target/page_no=5),
 # manufacturer calls it LGA and it does not have soldering balls (it needs solder paste / stencil)
-  package_type: "RF_GPS"
   device_type: "LGA"
   manufacturer: "ublox"
   description: "ublox MIA SoC Module"

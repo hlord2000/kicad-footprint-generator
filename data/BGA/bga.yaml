@@ -215,7 +215,7 @@ ST_VFBGA-424_14x14mm_Layout27x27_P0.5mmP0.5x0.5mm_Stagger:
 
 BGA-63_9.0x11.0mm_Layout10x12_P0.8mm:
   description: "BGA-63"
-  tags:
+  additional_tags:
     - "JEDEC MO-207N DH-z"
   size_source: "https://www.jedec.org/system/files/docs/MO-207N.pdf"
   body_size_x: 9.0
@@ -229,7 +229,7 @@ BGA-63_9.0x11.0mm_Layout10x12_P0.8mm:
 
 BGA-132_12.0x18.0mm_Layout13x17_P1.0mm:
   description: "BGA-132"
-  tags:
+  additional_tags:
     - "JEDEC MO-304D P18.0x12.0-EJ-132B"
   size_source: "https://www.jedec.org/system/files/docs/MO-304D.pdf"
   body_size_x: 12
@@ -243,7 +243,7 @@ BGA-132_12.0x18.0mm_Layout13x17_P1.0mm:
 
 BGA-152_14.0x18.0mm_Layout13x17_P1.0mm:
   description: "BGA-152"
-  tags:
+  additional_tags:
     - "JEDEC MO-304D P18.0x14.0-EJ-152D"
   size_source: "https://www.jedec.org/system/files/docs/MO-304D.pdf"
   body_size_x: 14
@@ -257,7 +257,7 @@ BGA-152_14.0x18.0mm_Layout13x17_P1.0mm:
 
 BGA-100_12.0x18.0mm_Layout10x17_P1.0mm:
   description: "BGA-100"
-  tags:
+  additional_tags:
     - "JEDEC MO-304D P18.0x12.0-EJ-100A"
   size_source: "https://www.jedec.org/system/files/docs/MO-304D.pdf"
   body_size_x: 12
@@ -271,7 +271,7 @@ BGA-100_12.0x18.0mm_Layout10x17_P1.0mm:
 
 BGA-100_14.0x18.0mm_Layout10x17_P1.0mm:
   inherit: BGA-100_12.0x18.0mm_Layout10x17_P1.0mm
-  tags:
+  additional_tags:
     - "JEDEC MO-304D P18.0x14.0-EJ-100A"
   body_size_x: 14
 

@@ -33,7 +33,6 @@ Maxim_WLP-12:
   pitch: 0.5
   layout_y: 3
   layout_x: 4
-  excluded_pins: ['None']
 
 BGA-16_1.92x1.92mm_Layout4x4_P0.5mm:
   # from http://www.st.com/content/ccc/resource/technical/document/datasheet/group2/bc/cd/62/9e/8f/30/47/69/CD00151267/files/CD00151267.pdf/jcr:content/translations/en.CD00151267.pdf
@@ -562,7 +561,6 @@ Texas_DSBGA-12_1.36x1.86mm_Layout3x4_P0.5mm:
   pitch: 0.5
   layout_x: 3
   layout_y: 4
-  excluded_pins: ['None']
   marker: A3  # TODO: implement marker on pins other than pin A1
 
 LFBGA-100_10x10mm_Layout10x10_P0.8mm:
@@ -611,7 +609,6 @@ Texas_DSBGA-10_1.36x1.86mm_Layout3x4_P0.5mm:
   pitch: 0.5
   layout_y: 4
   layout_x: 3
-  excluded_pins: ['None']
 
 Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   # from http://www.ti.com/lit/ds/symlink/msp430f2234.pdf page 90
@@ -635,7 +632,6 @@ Texas_MicroStar_Junior_BGA-12_2.0x2.5mm_Layout4x3_P0.5mm:
   pitch: 0.5
   layout_y: 3
   layout_x: 4
-  excluded_pins: ['None']
 
 Texas_MicroStar_Junior_BGA-80_5.0x5.0mm_Layout9x9_P0.5mm:
   # from http://www.ti.com/lit/ds/symlink/tlv320aic23b.pdf
