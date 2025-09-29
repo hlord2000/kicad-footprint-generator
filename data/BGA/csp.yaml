@@ -1308,6 +1308,9 @@ WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   device_type: "WLCSP"
   body_size_y: 1.22
   body_size_x: 1.21
+  body_pcb_gap: 0.2
+  overall_height: 0.6
+  ball_diameter: 0.267
   pitch: 0.4
   layout_y: 3
   layout_x: 3
@@ -1354,6 +1357,9 @@ DiodesInc_GEA20_WLCSP-20_1.7x2.1mm_Layout4x5_P0.4mm:
   part_number: "GEA20"
   body_size_y: 2.10
   body_size_x: 1.70
+  body_pcb_gap: 0.2
+  overall_height: 0.49
+  ball_diameter: 0.26
   pitch: 0.4
   layout_y: 5
   layout_x: 4
@@ -1455,7 +1461,9 @@ NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   part_number: "SOT1444-5"
   body_size_y: 3.44
   body_size_x: 3.44
+  body_pcb_gap: 0.2
   overall_height: 0.525 # Dim A
+  ball_diameter: 0.26
   pitch: 0.4
   layout_y: 7
   layout_x: 7
@@ -1471,7 +1479,9 @@ NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   part_number: "SOT1450-2"
   body_size_y: 5.07
   body_size_x: 5.07
+  body_pcb_gap: 0.23
   overall_height: 0.53 # Dim A
+  ball_diameter: 0.32
   pitch: 0.5
   layout_y: 10
   layout_x: 10
@@ -1489,6 +1499,9 @@ Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   name_equal_to_key: True
   body_size_y: 7
   body_size_x: 7
+  body_pcb_gap: 0.4
+  overall_height: 1.8
+  ball_diameter: 0.5
   pitch: 0.8
   layout_y: 7
   layout_x: 7

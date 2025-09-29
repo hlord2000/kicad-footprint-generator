@@ -6,6 +6,9 @@ BGA-624_21x21mm_Layout25x25_P0.8mm:
   description: "BGA-624"
   body_size_y: 21.0
   body_size_x: 21.0
+  body_pcb_gap: 0.4
+  overall_height: 1.6
+  ball_diameter: 0.5
   pitch: 0.8
   layout_y: 25
   layout_x: 25
@@ -21,6 +24,8 @@ FCPBGA-780_23x23mm_Layout28x28_P0.8mm:
   device_type: "FCPBGA"
   body_size_y: 23.0
   body_size_x: 23.0
+  body_pcb_gap: 0.3
+  overall_height: 2.46
   ball_diameter: 0.45
   ball_type: "collapsible"
   pitch: 0.8
@@ -36,6 +41,9 @@ LFBGA-100_10x10mm_Layout10x10_P0.8mm:
   device_type: "LFBGA"
   body_size_y: 10.0
   body_size_x: 10.0
+  body_pcb_gap: 0.27
+  overall_height: 1.7
+  ball_diameter: 0.5
   pitch: 0.8
   layout_y: 10
   layout_x: 10
@@ -49,6 +57,9 @@ LFBGA-144_10x10mm_Layout12x12_P0.8mm:
   device_type: "LFBGA"
   body_size_y: 10.0
   body_size_x: 10.0
+  body_pcb_gap: 0.3
+  overall_height: 1.7
+  ball_diameter: 0.4
   pitch: 0.8
   layout_y: 12
   layout_x: 12
@@ -440,7 +451,9 @@ Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   manufacturer: "Texas"
   body_size_y: 3.488
   body_size_x: 3.33
+  body_pcb_gap: 0.05
   overall_height: 0.625
+  ball_diameter: 0.25
   pitch: 0.4
   layout_y: 7
   layout_x: 7
@@ -500,7 +513,9 @@ Texas_DSBGA-6_0.757x1.01mm_Layout2x3_P0.35mm:
   manufacturer: "Texas"
   body_size_y: 1.01
   body_size_x: 0.757
+  body_pcb_gap: 0.155
   overall_height: 0.4
+  ball_diameter: 0.215
   pitch: 0.35
   layout_y: 3
   layout_x: 2
@@ -562,7 +577,9 @@ Texas_DSBGA-8_0.705x1.468mm_Layout2x4_P0.4mm:
   manufacturer: "Texas"
   body_size_y: 1.468
   body_size_x: 0.705
+  body_pcb_gap: 0.105
   overall_height: 0.35
+  ball_diameter: 0.18
   pitch: 0.4
   layout_y: 4
   layout_x: 2
@@ -590,6 +607,9 @@ Texas_MicroStar_Junior_BGA-113_7x7mm_Layout12x12_P0.5mm:
   part_number: "MicroStar_Junior"
   body_size_y: 7
   body_size_x: 7
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.3
   pitch: 0.5
   layout_y: 12
   layout_x: 12
@@ -703,6 +723,9 @@ TFBGA-64_5x5mm_Layout8x8_P0.5mm:
   device_type: "TFBGA"
   body_size_y: 5.0
   body_size_x: 5.0
+  body_pcb_gap: 0.15
+  overall_height: 1.2
+  ball_diameter: 0.3
   pitch: 0.5
   layout_y: 8
   layout_x: 8
@@ -733,6 +756,9 @@ TFBGA-100_8x8mm_Layout10x10_P0.8mm:
   device_type: "TFBGA"
   body_size_y: 8.0
   body_size_x: 8.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
   pitch: 0.8
   layout_y: 10
   layout_x: 10
@@ -762,6 +788,9 @@ TFBGA-121_10x10mm_Layout11x11_P0.8mm:
   device_type: "TFBGA"
   body_size_y: 10.0
   body_size_x: 10.0
+  body_pcb_gap: 0.3
+  overall_height: 1.1
+  ball_diameter: 0.4
   pitch: 0.8
   layout_y: 11
   layout_x: 11
@@ -820,6 +849,9 @@ TFBGA-216_13x13mm_Layout15x15_P0.8mm:
   device_type: "TFBGA"
   body_size_y: 13.0
   body_size_x: 13.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
   pitch: 0.8
   layout_y: 15
   layout_x: 15
@@ -971,6 +1003,8 @@ TFBGA-644_19x19mm_Layout28x28_P0.65mm:
   device_type: "TFBGA"
   body_size_y: 19.0
   body_size_x: 19.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
   ball_diameter: 0.35
   ball_type: 'collapsible'
   pitch: 0.65
@@ -1123,6 +1157,9 @@ TFBGA-265_14x14mm_Layout17x17_P0.8mm:
   device_type: "TFBGA"
   body_size_y: 14.0
   body_size_x: 14.0
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.4
   pitch: 0.8
   layout_y: 17
   layout_x: 17
@@ -1163,6 +1200,9 @@ ucBGA-64_4x4mm_Layout8x8_P0.4mm:
   device_type: "ucBGA"
   body_size_y: 4
   body_size_x: 4
+  body_pcb_gap: 0.1
+  overall_height: 1.0
+  ball_diameter: 0.25
   pitch: 0.4
   layout_y: 8
   layout_x: 8
@@ -1176,6 +1216,9 @@ csBGA-64_5x5mm_Layout8x8_P0.5mm:
   device_type: "csBGA"
   body_size_y: 5
   body_size_x: 5
+  body_pcb_gap: 0.15
+  overall_height: 1.1
+  ball_diameter: 0.3
   pitch: 0.5
   layout_y: 8
   layout_x: 8
@@ -1517,6 +1560,9 @@ Analog_BGA-49_6.25x6.25mm_Layout7x7_P0.8mm:
   manufacturer: "Analog"
   body_size_y: 6.25
   body_size_x: 6.25
+  body_pcb_gap: 0.4
+  overall_height: 2.1
+  ball_diameter: 0.5
   pitch: 0.8
   layout_y: 7
   layout_x: 7
@@ -1530,6 +1576,9 @@ Analog_BGA-165_11.9x16mm_Layout11x15_P1.0mm:
   manufacturer: "Analog"
   body_size_y: 16.0
   body_size_x: 11.9
+  body_pcb_gap: 0.5
+  overall_height: 3.32
+  ball_diameter: 0.6
   pitch: 1.0
   layout_y: 15
   layout_x: 11
@@ -1542,6 +1591,9 @@ Analog_BGA-209_9.5x16mm_Layout11x19_P0.8mm:
   manufacturer: "Analog"
   body_size_y: 16.0
   body_size_x: 9.5
+  body_pcb_gap: 0.4
+  overall_height: 4.72
+  ball_diameter: 0.5
   pitch: 0.8
   layout_y: 19
   layout_x: 11
@@ -1594,6 +1646,9 @@ NXP_VFBGA-42_2.6x3mm_Layout6x7_P0.4mm:
   manufacturer: "NXP"
   body_size_y: 3.0
   body_size_x: 2.6
+  body_pcb_gap: 0.2
+  overall_height: 1.0
+  ball_diameter: 0.25
   pitch: 0.4
   layout_y: 7
   layout_x: 6
@@ -1698,7 +1753,9 @@ Texas_BGA-289_15x15mm_Layout17x17_P0.8mm:
   manufacturer: "Texas"
   body_size_y: 15
   body_size_x: 15
+  body_pcb_gap: 0.4
   overall_height: 1.40
+  ball_diameter: 0.50
   pitch: 0.8
   layout_y: 17
   layout_x: 17
@@ -1737,7 +1794,9 @@ Analog_BGA-77_9x15mm_Layout7x11_P1.27mm:
   manufacturer: "Analog"
   body_size_y: 15
   body_size_x: 9
+  body_pcb_gap: 0.6
   overall_height: 2.42
+  ball_diameter: 0.75
   pitch: 1.27
   layout_y: 11
   layout_x: 7
@@ -1952,7 +2011,9 @@ NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
   part_number: "SOT1982-1"
   body_size_y: 7
   body_size_x: 7
+  body_pcb_gap: 0.09
   overall_height: 0.97 # Dim A
+  ball_diameter: 0.3
   pitch: 0.5
   layout_y: 13
   layout_x: 13
@@ -1983,7 +2044,9 @@ NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
   part_number: "SOT2162-1"
   body_size_y: 4
   body_size_x: 4
+  body_pcb_gap: 0.09
   overall_height: 0.86 # Dim A
+  ball_diameter: 0.25
   pitch: 0.4
   layout_y: 9
   layout_x: 9
