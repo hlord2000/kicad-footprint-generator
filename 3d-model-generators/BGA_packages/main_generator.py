@@ -75,7 +75,10 @@ from _tools import (  # type:ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.util import dict_tools  # type: ignore
-from scripts.Packages.Package_BGA.bga_configuration import BGAConfiguration, load_config
+from src.generators.BGA.bga_configuration import (
+    BGAConfiguration,
+    load_config,
+)
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
