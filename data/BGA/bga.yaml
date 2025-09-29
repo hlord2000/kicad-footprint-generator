@@ -574,6 +574,10 @@ Texas_MicroStar_Junior_BGA-113_7x7mm_Layout12x12_P0.5mm:
   row_skips: [[], [], [[4, 11]], [3, 10], [3, 10], [3, 6, 7, 10], [3, 6, 7, 10], [3, 10], [3, 10], [[3, 11]], [], []]
 
 Texas_YFP0020_DSBGA-20_1.588x1.988mm_Layout4x5_P0.4mm:
+  # NOTE: Generates non-Solder-mask-defined pads
+  # with 0.05mm radial solder mask expansion, which is
+  # the "preferred" variant according to the datasheet.
+  # NOTE: Ball diameter is 0.21..0.25mm
   device_type: "DSBGA"
   manufacturer: "Texas"
   part_number: "YFP0020"
@@ -583,10 +587,6 @@ Texas_YFP0020_DSBGA-20_1.588x1.988mm_Layout4x5_P0.4mm:
   body_size_y: 1.988 # 1.928 .. 1.988
   overall_height: 0.5
   pitch: 0.4
-  # NOTE: Generates non-Solder-mask-defined pads
-  # with 0.05mm radial solder mask expansion, which is
-  # the "preferred" variant according to the datasheet.
-  # NOTE: Ball diameter is 0.21..0.25mm
   pad_diameter: 0.23 # 0.23mm is DS recommended pad size.
   mask_margin: 0.05
   layout_x: 4
@@ -879,10 +879,9 @@ ST_VFBGA-361_10x10mm_Layout19x19_P0.5mm:
   body_size_x: 10.0
   body_size_y: 10.0
   pitch: 0.50
-  # pad data missing in datasheet, used that from similar ST_TFBGA-169_7x7mm_Layout13x13_P0.5mm
-  pad_diameter: 0.300
-  mask_margin: 0.038
-  paste_margin: 0.000001
+  pad_diameter: 0.300  # pad data missing in datasheet, used that from similar ST_TFBGA-169_7x7mm_Layout13x13_P0.5mm
+  mask_margin: 0.038  # pad data missing in datasheet, used that from similar ST_TFBGA-169_7x7mm_Layout13x13_P0.5mm
+  paste_margin: 0.000001  # pad data missing in datasheet, used that from similar ST_TFBGA-169_7x7mm_Layout13x13_P0.5mm
   layout_x: 19
   layout_y: 19
 
@@ -1256,8 +1255,8 @@ ST_UFBGA-129_7x7mm_Layout13x13_P0.5mm:
   device_type: "UFBGA"
   manufacturer: "ST"
   description: "ST UFBGA-129"
-    # Caution: the datasheet shows the BGA 90 deg rotated!
   size_source: "https://www.st.com/resource/en/datasheet/stm32wb55vc.pdf"
+  # Caution: the datasheet shows the BGA 90 deg rotated!
   body_size_x: 7.0
   body_size_y: 7.0
   pitch: 0.5

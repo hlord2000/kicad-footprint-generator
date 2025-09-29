@@ -5,6 +5,7 @@ FileHeader:
 #
 # [1] ST does not specify this value in the linked datasheet, but they do in datasheets of similar parts. We use the
 #     value that they "usually" specify.
+
 Anpec_WLCSP-20_1.76x2.03mm_Layout4x5_P0.4mm:
   manufacturer: "Anpec"
   device_type: "WLCSP"
@@ -127,10 +128,9 @@ ST_WLCSP-19_1.643x2.492mm_Layout4x11_P0.35mm_Stagger:
   pitch: 0.35
   staggered: y
   first_ball: A2
-  # Not in datasheet, copied from ST_WLCSP-72_3.38x3.38mm_P0.35m_Stagger
-  pad_diameter: 0.200
-  mask_margin: 0.0375
-  paste_margin: 0.0375
+  pad_diameter: 0.200  # Not in datasheet, copied from ST_WLCSP-72_3.38x3.38mm_P0.35m_Stagger
+  mask_margin: 0.0375  # Not in datasheet, copied from ST_WLCSP-72_3.38x3.38mm_P0.35m_Stagger
+  paste_margin: 0.0375  # Not in datasheet, copied from ST_WLCSP-72_3.38x3.38mm_P0.35m_Stagger
   layout_x: 4
   layout_y: 11
   pad_skips: [E2,G2,F3]
@@ -353,10 +353,9 @@ ST_WLCSP-39_2.76x2.78mm_Layout11x7_P0.4mm_Stagger:
   pitch: 0.4
   staggered: x
   first_ball: A1
-  # Not in datasheet, copied from ST_WLCSP-42_2.93mmx2.82_P0.40mm_Stagger
-  pad_diameter: 0.250
-  mask_margin: 0.0375
-  paste_margin: 0.0375
+  pad_diameter: 0.250  # Not in datasheet, copied from ST_WLCSP-42_2.93mmx2.82_P0.40mm_Stagger
+  mask_margin: 0.0375  # Not in datasheet, copied from ST_WLCSP-42_2.93mmx2.82_P0.40mm_Stagger
+  paste_margin: 0.0375  # Not in datasheet, copied from ST_WLCSP-42_2.93mmx2.82_P0.40mm_Stagger
   layout_x: 11
   layout_y: 7
 ST_WLCSP-41_2.98x2.76mm_Layout13x7_P0.4mm_Stagger:
@@ -1314,8 +1313,7 @@ OnSemi_ODCSP36_BGA-36_6.13x6.13mm_Layout6x6_P1.0mm:
       layer: mechanical
       size: 0.5
       width: 0.1
-      # To center "+" near F6
-      center: [$(pitch.x * 2.8), $(pitch.y * 2.8)]
+      center: [$(pitch.x * 2.8), $(pitch.y * 2.8)]  # To center "+" near F6
   body_size_x: 6.13
   body_size_y: 6.13
   overall_height: 0.64 # Dim A
@@ -1342,8 +1340,7 @@ OnSemi_ODCSP8_BGA-8_3.16x3.16mm_Layout3x3_P1.26mm:
       layer: mechanical
       size: 0.5
       width: 0.1
-      # To center "+" between C2 and C3
-      center: [$(pitch.x / 2), $(pitch.y)]
+      center: [$(pitch.x / 2), $(pitch.y)]  # To center "+" between C2 and C3
   body_size_x: 3.16
   body_size_y: 3.16
   overall_height: 0.64 # Dim A
@@ -1389,12 +1386,11 @@ NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   paste_margin: 0.03
   layout_x: 10
   layout_y: 10
-# Xilinx CS BGA48 Package
-# Notes:
-#  - Additional sizes taken from: https://docs.amd.com/v/u/en-US/ug112#page=87
+
 Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   description: "XC9572XL CS BGA"
   size_source: "https://www.xilinx.com/content/dam/xilinx/support/documents/package_specs/cs48.pdf"
+  # Additional sizes taken from: https://docs.amd.com/v/u/en-US/ug112#page=87
   additional_tags:
     - "CS48"
     - "CSG48"

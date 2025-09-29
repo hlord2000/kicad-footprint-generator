@@ -185,6 +185,7 @@ Xilinx_FFG1156:
 
 # Spartan-7 FPGA Packages
 # Notes:
+
 Xilinx_CPGA196:
   description: "Spartan-7 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=260"
@@ -264,6 +265,7 @@ Xilinx_FGGA676:
 #  - FFG1926, FFG1927, FFG1928 and FFG1930 have same footprint and same 3D package and are therefore in one footprint
 #  - FLG1925, FLG1926, FLG1928 and FLG1930 have same footprint and same 3D package and are therefore in one footprint
 #  - RF1157 and RF1158 have same footprint and same 3D package and are therefore in one footprint
+
 Xilinx_FFG1157_FFG1158:
   description: "Virtex-7 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=299"
@@ -389,6 +391,7 @@ Xilinx_RF1930:
 
 # For Xilinx_FBG484 refer to Artix-7 models
 # For Xilinx_FBG676 refer to Artix-7 models
+
 Xilinx_FBG900:
   description: "Kintex-7 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=289"
@@ -425,7 +428,6 @@ Xilinx_FFG900_FFG901:
   layout_x: 30
   layout_y: 30
   name_equal_to_key: True
-# For Xilinx_FFG1156 refer to Artix-7
 Xilinx_RF676:
   description: "Kintex-7 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=297"
@@ -460,6 +462,7 @@ Xilinx_RF900:
 #  - Xilinx_FFG1156 has the same name for Artix and Zynq devices
 #  - Xilinx_RB484 has the same name for Artix and Zynq devices
 #  - Xilinx_RF900 has the same name for Kintex and Zynq devices
+
 Xilinx_CLG225:
   description: "Zynq-7000 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf#page=77"
@@ -508,12 +511,7 @@ Xilinx_SBG485:
   layout_x: 22
   layout_y: 22
   name_equal_to_key: True
-# For Xilinx_FBG484 refer to Artix-7
-# For Xilinx_FBG676 refer to Artix-7
-# For Xilinx_FFG676 refer to Kintex-7
-# For Xilinx_FFG900_FFG901 refer to Kintex-7
-# For Xilinx_FFG1156 refer to Artix-7
-# For Xilinx_RB484 refer to Artix-7
+
 Xilinx_RFG676:
   description: "Zynq-7000 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf#page=93"
@@ -526,7 +524,7 @@ Xilinx_RFG676:
   layout_x: 26
   layout_y: 26
   name_equal_to_key: True
-# For Xilinx_RF900 refer to Kintex-7
+
 Xilinx_RF1156:
   description: "Zynq-7000 BGA, NSMD pad definition Appendix A"
   size_source: "https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf#page=95"
