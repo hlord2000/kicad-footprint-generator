@@ -444,6 +444,8 @@ Texas_DSBGA-10_1.36x1.86mm_Layout3x4_P0.5mm:
   pitch: 0.5
   layout_y: 4
   layout_x: 3
+  pad_skips: [B2, C2]
+  marker: A3
 
 Texas_MicroStar_Junior_BGA-12_2.0x2.5mm_Layout4x3_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/txb0104.pdf
