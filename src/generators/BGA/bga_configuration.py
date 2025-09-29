@@ -60,6 +60,10 @@ class BGAConfiguration:
         self.rule_areas: list[rule_area_properties.RuleAreaProperties] = []
         """The rule areas (zones)."""
 
+        # Instance attributes for genreator specific data:
+        self.marker: str | None
+        """The pad above which the first pin marker is placed"""
+
         # Instance attributes for pad details:
         self.layout_data_list: list[LayoutData]
 
@@ -123,6 +127,7 @@ class BGAConfiguration:
             self.has_fp_data = False
         self.config = config
 
+        self.marker = spec.get("marker")
         self.layout_data_list = []
 
         self._extract_generator_independent_data()

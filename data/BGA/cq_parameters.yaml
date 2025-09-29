@@ -412,15 +412,15 @@ Texas_DSBGA-8_0.9x1.9mm_Layout2x4_P0.5mm:
 
 Texas_DSBGA-12_1.36x1.86mm_Layout3x4_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/txb0104.pdf
-  body_size_y: 1.36
-  body_size_x: 1.86
+  body_size_x: 1.36
+  body_size_y: 1.86
   body_pcb_gap: 0.17
   overall_height: 0.625
   ball_diameter: 0.25
   pitch: 0.5
   layout_x: 3
   layout_y: 4
-  marker: A3  # TODO: implement marker on pins other than pin A1
+  marker: A3
 
 Linear_BGA-133_15.0x15.0_Layout12x12_P1.27mm:
 # from https://www.analog.com/media/en/technical-documentation/data-sheets/4637fc.pdf page 28

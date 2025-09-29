@@ -75,7 +75,7 @@ from _tools import (  # type:ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.util import dict_tools  # type: ignore
-from src.generators.BGA.bga_configuration import (
+from src.generators.BGA.bga_configuration import (  # type: ignore
     BGAConfiguration,
     load_config,
 )
@@ -203,11 +203,6 @@ def make_case(
                 -sp,
             )
         )
-        case = case.cut(pinmark)
-        # extract pins from case
-        if FUSED_AND_COMPRESSED:
-            case_bot = case_bot.cut(merged_pins)
-        ##
 
     else:
         a2 = a - a1  # body height
@@ -217,7 +212,6 @@ def make_case(
             case.edges("|Z").fillet(ef)
         # translate the object
         case = case.translate((0, 0, a2 / 2 + a1 - sp)).rotate((0, 0, 0), (0, 0, 1), 0)
-
         pinmark = (
             cq.Workplane(
                 "XZ",
@@ -231,11 +225,28 @@ def make_case(
             .revolve()
             .translate((0, 0, a2 + a1 - sp - marker_depth + 0.002))
         )
-        case = case.cut(pinmark)
-        # extract pins from case
-        if FUSED_AND_COMPRESSED:
-            case = case.cut(merged_pins)
         case_bot = None
+
+    if bga_config.marker is not None:
+        pad_position_found = False
+        for layout_data in bga_config.layout_data_list:
+            for pad_data in layout_data.pad_data_list:
+                if pad_data.name == bga_config.marker:
+                    pad_position_found = True
+                    pos = pad_data.position
+                    pinmark = (
+                        cq.Workplane("XY", (pos.x, -pos.y, a))
+                        .circle(marker_diameter / 2, False)
+                        .extrude(-marker_depth)
+                    )
+                    break
+            if pad_position_found:
+                break
+        if not pad_position_found:
+            raise ValueError(
+                f"Mark is '{bga_config.marker}', however no such pin was found."
+            )
+    case = case.cut(pinmark)
 
     return (case_bot, case, merged_pins, pinmark)
 
