@@ -63,8 +63,7 @@ Nexperia_WLCSP-15_2.37x1.17mm_Layout6x3_P0.4mmP0.8mm:
   mask_margin: 0.0375
   layout_x: 6
   layout_y: 3
-  area_skips:
-    - [b,1,b,6]   # remove complete 2nd row
+  area_skips: [[b,1,b,6]]   # remove complete 2nd row
   secondary_layouts:
     - pitch: 0.8  # replace 2nd row by 3 balls @ 0.8mm pitch
       layout_x: 3
@@ -328,8 +327,7 @@ ST_WLCSP-36_2.83x2.99mm_Layout7x13_P0.4mm_Stagger_Offcenter:
   layout_x: 7
   layout_y: 13
   pad_skips: [C2,E2,G4,H1,H3,H7]
-  area_skips:
-    - [j,1,n,7]
+  area_skips: [[j,1,n,7]]
   secondary_layouts:
     - pitch: 0.4  # replace 2nd row by 3 balls @ 0.8mm pitch
       staggered: y
@@ -338,8 +336,7 @@ ST_WLCSP-36_2.83x2.99mm_Layout7x13_P0.4mm_Stagger_Offcenter:
       layout_y: 13
       offset_x: -0.043
       offset_y: -0.010
-      area_skips:
-        - [a,1,h,7]
+      area_skips: [[a,1,h,7]]
       pad_skips: [J5,K2,L3,N3]
 ST_WLCSP-39_2.76x2.78mm_Layout11x7_P0.4mm_Stagger:
   manufacturer: "ST"

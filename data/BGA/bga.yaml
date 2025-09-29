@@ -192,8 +192,7 @@ ST_VFBGA-424_14x14mm_Layout27x27_P0.5mmP0.5x0.5mm_Stagger:
     # right cutouts
     D26, D27, E27, H26, H27, J27, M26, M27, N27, T26, T27, U27, Y26, Y27, AA27, AD26, AD27, AE27
   ]
-  area_skips:
-    - [d,4,ad,24]
+  area_skips: [[d,4,ad,24]]
   secondary_layouts:
       - staggered: x
         pitch_x: 0.5
@@ -203,8 +202,7 @@ ST_VFBGA-424_14x14mm_Layout27x27_P0.5mmP0.5x0.5mm_Stagger:
         first_row: D
         first_column: 4
         first_ball: A1
-        area_skips:
-          - [h,8,y,20]
+        area_skips: [[h,8,y,20]]
       - staggered: x
         row_name_prefix: "1"
         first_ball: A1
@@ -988,8 +986,7 @@ ST_TFBGA-257_10x10mm_Layout19x19_P0.5mmP0.65mm:
     e19,h19,l19,p19,
     w6,w9,w12,w15
   ]
-  area_skips:
-    - [d,4,t,16]
+  area_skips: [[d,4,t,16]]
   secondary_layouts:
     - pitch: 0.65
       layout_x: 9
@@ -1047,8 +1044,7 @@ ST_TFBGA-361_12x12mm_Layout23x23_P0.5mmP0.65mm:
     f23,j23,m23,r23,v23,
     ac6,ac9,ac12,ac15,ac18
   ]
-  area_skips:
-    - [e,5,w,19]
+  area_skips: [[e,5,w,19]]
   secondary_layouts:
     - pitch: 0.65
       layout_x: 9
