@@ -5,11 +5,11 @@ Fujitsu_WLP-15_2.28x3.092mm_Layout3x5_P0.4mm:
   body_pcb_gap: 0.08
   overall_height: 0.25
   ball_diameter: 0.20
-  pitch: 0.3
   pitch_x: 0.4
+  pitch_y: 0.3
   layout_y: 5
   layout_x: 3
-  excluded_pins: [2, 4, 6, 8, 10, 12, 14]
+  staggered: x
 
 BGA-9_1.6x1.6mm_Layout3x3_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/bq27421-g1.pdf
@@ -21,7 +21,6 @@ BGA-9_1.6x1.6mm_Layout3x3_P0.5mm:
   pitch: 0.5
   layout_y: 3
   layout_x: 3
-  excluded_pins: ["internals"]
 
 Maxim_WLP-12:
 # W121B2+1 from http://pdfserv.maximintegrated.com/package_dwgs/21-0009.PDF
@@ -44,7 +43,6 @@ BGA-16_1.92x1.92mm_Layout4x4_P0.5mm:
   pitch: 0.5
   layout_y: 4
   layout_x: 4
-  excluded_pins: ["internals"]
 
 BGA-25_6.35x6.35mm_Layout5x5_P1.27mm:
 # from http://cds.linear.com/docs/en/datasheet/4624fc.pdf
@@ -56,7 +54,6 @@ BGA-25_6.35x6.35mm_Layout5x5_P1.27mm:
   pitch: 1.27
   layout_y: 5
   layout_x: 5
-  excluded_pins: ["internals"]
 
 BGA-48_8.0x9.0mm_Layout6x8_P0.8mm:
 # from https://www.xilinx.com/support/documentation/package_specs/fs48.pdf
@@ -68,10 +65,9 @@ BGA-48_8.0x9.0mm_Layout6x8_P0.8mm:
   pitch: 0.8
   layout_y: 8
   layout_x: 6
-  excluded_pins: ["internals"]
 
 BGA-64_9.0x9.0mm_Layout10x10_P0.8mm:
-# from http://www.nxp.com/documents/outline_drawing/SOT926-1.pdf
+# from https://www.nxp.com/docs/en/package-information/SOT926-1.pdf
   body_size_y: 9.0
   body_size_x: 9.0
   body_pcb_gap: 0.35
@@ -80,7 +76,7 @@ BGA-64_9.0x9.0mm_Layout10x10_P0.8mm:
   pitch: 0.8
   layout_y: 10
   layout_x: 10
-  excluded_pins: ["internals"]
+  area_skips: [[d,4,f,6]]
 
 BGA-68_5.0x5.0mm_Layout9x9_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
 # from https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00344-01.pdf
@@ -92,7 +88,8 @@ BGA-68_5.0x5.0mm_Layout9x9_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   pitch: 0.5
   layout_y: 9
   layout_x: 9
-  excluded_pins: ["internals"]
+  area_skips: [[d,4,f,6]]
+  pad_skips: [c3, c7, g3, g7]
 
 BGA-81_4.496x4.377mm_Layout9x9_P0.4mm_Ball0.25mm_Pad0.2mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00478-01.pdf
@@ -104,7 +101,6 @@ BGA-81_4.496x4.377mm_Layout9x9_P0.4mm_Ball0.25mm_Pad0.2mm_NSMD:
   pitch: 0.4
   layout_y: 9
   layout_x: 9
-  excluded_pins: ["internals"]
 
 BGA-90_8.0x13.0mm_Layout2x3x15_P0.8mm:
 # from http://www.issi.com/WW/pdf/42-45S32800J.pdf
@@ -116,7 +112,7 @@ BGA-90_8.0x13.0mm_Layout2x3x15_P0.8mm:
   pitch: 0.8
   layout_y: 15
   layout_x: 9
-  excluded_pins: ["internals", 46, 60, 61, 75, 76, 90]
+  area_skips: [[a,4,r,6]]
 
 BGA-96_9.0x13.0mm_Layout2x3x16_P0.8mm:
 # from http://www.mouser.com/ds/2/198/43-46TR16640B-81280BL-706483.pdf
@@ -128,7 +124,7 @@ BGA-96_9.0x13.0mm_Layout2x3x16_P0.8mm:
   pitch: 0.8
   layout_y: 16
   layout_x: 9
-  excluded_pins: ["internals", 49, 64, 65, 80, 81, 96]
+  area_skips: [[a,4,t,6]]
 
 BGA-100_6.0x6.0mm_Layout11x11_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
 # from https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00345-01.pdf
@@ -140,7 +136,8 @@ BGA-100_6.0x6.0mm_Layout11x11_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   pitch: 0.5
   layout_y: 11
   layout_x: 11
-  excluded_pins: ["internals"]
+  area_skips: [[e,5,g,7]]
+  pad_skips: [C3,C9,D4,D8,H4,H8,J3,J9]
 
 BGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
 # from http://www.mouser.com/ds/2/198/43-46TR16640B-81280BL-706483.pdf
@@ -152,7 +149,6 @@ BGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
   pitch: 0.8
   layout_y: 10
   layout_x: 10
-  excluded_pins: ["internals"]
 
 BGA-100_11.0x11.0mm_Layout10x10_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00223-02.pdf
@@ -164,7 +160,6 @@ BGA-100_11.0x11.0mm_Layout10x10_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   pitch: 1.0
   layout_y: 10
   layout_x: 10
-  excluded_pins: ["internals"]
 
 BGA-121_9.0x9.0mm_Layout11x11_P0.8mm:
 # from http://cds.linear.com/docs/en/packaging/05081891_A_bga121.pdf
@@ -176,10 +171,9 @@ BGA-121_9.0x9.0mm_Layout11x11_P0.8mm:
   pitch: 0.8
   layout_y: 11
   layout_x: 11
-  excluded_pins: ['internals']
 
 BGA-144_7.0x7.0mm_Layout13x13_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
-# from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00346-00.pdf
+# from https://cdrdv2-public.intel.com/649487/04r00346-00.pdf
   body_size_y: 7.0
   body_size_x: 7.0
   body_pcb_gap: 0.2
@@ -188,7 +182,7 @@ BGA-144_7.0x7.0mm_Layout13x13_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   pitch: 0.5
   layout_y: 13
   layout_x: 13
-  excluded_pins: ['internals']
+  area_skips: [[e,5,j,9]]
 
 BGA-144_12x12_13.0x13.0mm_Pitch1.0mm:
 # from http://www.topline.tv/drawings/pdf/BGA%201,0mm%20pitch/LBGA144T1.0-DC128.pdf
@@ -200,7 +194,6 @@ BGA-144_12x12_13.0x13.0mm_Pitch1.0mm:
   pitch: 1.0
   layout_y: 12
   layout_x: 12
-  excluded_pins: ['internals']
 
 BGA-169_11.0x11.0mm_Layout13x13_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00470-01.pdf
@@ -212,7 +205,6 @@ BGA-169_11.0x11.0mm_Layout13x13_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
   pitch: 0.8
   layout_y: 13
   layout_x: 13
-  excluded_pins: ['internals']
 
 BGA-256_11.0x11.0mm_Layout20x20_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00348-01.pdf
@@ -224,7 +216,7 @@ BGA-256_11.0x11.0mm_Layout20x20_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   pitch: 0.5
   layout_y: 20
   layout_x: 20
-  excluded_pins: ['internals']
+  area_skips: [[e,5,t,16]]
 
 BGA-256_14.0x14.0mm_Layout16x16_P0.8mm_Ball0.45mm_Pad0.32mm_NSMD:
 # from https://www.xilinx.com/support/documentation/package_specs/ft256.pdf
@@ -236,7 +228,6 @@ BGA-256_14.0x14.0mm_Layout16x16_P0.8mm_Ball0.45mm_Pad0.32mm_NSMD:
   pitch: 0.8
   layout_y: 16
   layout_x: 16
-  excluded_pins: ['internals']
 
 BGA-256_17.0x17.0mm_Layout16x16_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
 # from https://www.intersil.com/content/dam/Intersil/documents/v256/v256.17x17.pdf
@@ -248,7 +239,6 @@ BGA-256_17.0x17.0mm_Layout16x16_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   pitch: 1.0
   layout_y: 16
   layout_x: 16
-  excluded_pins: ['internals']
 
 BGA-324_15.0x15.0mm_Layout18x18_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00474-02.pdf
@@ -260,7 +250,6 @@ BGA-324_15.0x15.0mm_Layout18x18_P0.8mm_Ball0.5mm_Pad0.4mm_NSMD:
   pitch: 0.8
   layout_y: 18
   layout_x: 18
-  excluded_pins: ['internals']
 
 BGA-324_19.0x19.0mm_Layout18x18_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
 # from https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/packaging/04r00474-02.pdf
@@ -272,7 +261,6 @@ BGA-324_19.0x19.0mm_Layout18x18_P1.0mm_Ball0.5mm_Pad0.4mm_NSMD:
   pitch: 1.0
   layout_y: 18
   layout_x: 18
-  excluded_pins: ['internals']
 
 BGA-352_35.0x35.0mm_Layout26x26_P1.27mm:
 # from https://www.fujitsu.com/downloads/MICRO/fma/pdfmcu/b352p05.pdf
@@ -289,7 +277,7 @@ BGA-352_35.0x35.0mm_Layout26x26_P1.27mm:
   pitch: 1.27
   layout_y: 26
   layout_x: 26
-  excluded_pins: ['internals']
+  area_skips: [[e,5,ab,22]]
   mold: True
 
 BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
@@ -304,7 +292,6 @@ BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
   pitch: 0.8
   layout_y: 20
   layout_x: 20
-  excluded_pins: ['internals']
 
 BGA-400_21.0x21.0mm_Layout20x20_P1.0mm:
 # from https://www.xilinx.com/support/documentation/package_specs/fg400.pdf
@@ -321,7 +308,6 @@ BGA-400_21.0x21.0mm_Layout20x20_P1.0mm:
   pitch: 1.0
   layout_y: 20
   layout_x: 20
-  excluded_pins: ['internals']
   mold: True
 
 BGA-484_23.0x23.0mm_Layout22x22_P1.0mm:
@@ -339,15 +325,14 @@ BGA-484_23.0x23.0mm_Layout22x22_P1.0mm:
   pitch: 1.0
   layout_y: 22
   layout_x: 22
-  excluded_pins: ['internals']
   mold: True
 
 BGA-625_21.0x21.0mm_Layout25x25_P0.8mm:
 # from http://www.analog.com/media/en/technical-documentation/data-sheets/ADSP-TS101S.pdf
   first_corner_chamfer: 0.05
   corner_chamfer: 0.25
-  body_size_y: 25.0
-  body_size_x: 25.0
+  body_size_y: 21.0
+  body_size_x: 21.0
   mold_size_y: 16.95
   mold_size_x: 16.95
   body_pcb_gap: 0.4
@@ -357,7 +342,6 @@ BGA-625_21.0x21.0mm_Layout25x25_P0.8mm:
   pitch: 0.8
   layout_y: 25
   layout_x: 25
-  excluded_pins: ['internals']
   mold: True
 
 BGA-1023_33.0x33.0mm_Layout32x32_P1.0mm:
@@ -376,7 +360,7 @@ BGA-1023_33.0x33.0mm_Layout32x32_P1.0mm:
   pitch: 1.0
   layout_y: 32
   layout_x: 32
-  excluded_pins: ['internals', 1]
+  pad_skips: [A1]
   mold: True
 
 BGA-1156_34x34_35.0x35.0mm_Pitch1.0mm:
@@ -394,10 +378,9 @@ BGA-1156_34x34_35.0x35.0mm_Pitch1.0mm:
   pitch: 1.0
   layout_y: 34
   layout_x: 34
-  excluded_pins: ['internals']
   mold: True
 
-BGA-1295_36x36_37.5x37.5mm_Pitch1.0mm:
+BGA-1295_37.5x37.5mm_Layout36x36_P1.0mm:
 # from http://www.datasheets360.com/pdf/6857809988541063510
   body_fillet: 0.1
   first_corner_chamfer: 0.4
@@ -413,7 +396,7 @@ BGA-1295_36x36_37.5x37.5mm_Pitch1.0mm:
   pitch: 1.0
   layout_y: 36
   layout_x: 36
-  excluded_pins: ['internals']
+  pad_skips: [A1]
   mold: True
 
 Texas_DSBGA-8_0.9x1.9mm_Layout2x4_P0.5mm:
@@ -426,7 +409,6 @@ Texas_DSBGA-8_0.9x1.9mm_Layout2x4_P0.5mm:
   pitch: 0.5
   layout_y: 4
   layout_x: 2
-  excluded_pins: ['internals']
 
 Texas_DSBGA-12_1.36x1.86mm_Layout3x4_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/txb0104.pdf
@@ -450,7 +432,7 @@ Linear_BGA-133_15.0x15.0_Layout12x12_P1.27mm:
   pitch: 1.27
   layout_y: 12
   layout_x: 12
-  excluded_pins: ['internals']
+  pad_skips: [D7, B8, C8, E8, B10, E10, F10, G10, H10, E11, J11]
 
 Texas_DSBGA-10_1.36x1.86mm_Layout3x4_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/txs0104e.pdf page 29
@@ -484,7 +466,7 @@ Texas_MicroStar_Junior_BGA-80_5.0x5.0mm_Layout9x9_P0.5mm:
   pitch: 0.5
   layout_y: 9
   layout_x: 9
-  excluded_pins: ['internals']
+  pad_skips: [C3]
 
 Texas_Junior_DSBGA-48_4.0x4.0mm_Layout7x7_P0.5mm:
 # from http://www.ti.com/lit/ml/mpbg309/mpbg309.pdf
@@ -496,7 +478,7 @@ Texas_Junior_DSBGA-48_4.0x4.0mm_Layout7x7_P0.5mm:
   pitch: 0.5
   layout_y: 7
   layout_x: 7
-  excluded_pins: ['none', 17]
+  pad_skips: [C3]
 
 TFBGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
   body_size_y: 9.0
@@ -507,7 +489,6 @@ TFBGA-100_9.0x9.0mm_Layout10x10_P0.8mm:
   pitch: 0.8
   layout_y: 10
   layout_x: 10
-  excluded_pins: ['internals']
 
 FBGA-78_7.5x11mm_Layout2x3x13_P0.8mm:
 # from https://www.skhynix.com/product/filedata/fileDownload.do?seq=7687
@@ -519,7 +500,7 @@ FBGA-78_7.5x11mm_Layout2x3x13_P0.8mm:
   pitch: 0.8
   layout_y: 13
   layout_x: 9
-  excluded_pins: ['none', 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
+  area_skips: [[a,4,n,6]]
 
 ucBGA-49_3x3mm_Layout7x7_P0.4mm:
 #from https://www.latticesemi.com/view_document?document_id=213
