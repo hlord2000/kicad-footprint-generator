@@ -105,7 +105,9 @@ class BGAConfiguration:
 
         # Instance attributes related to the names:
         self.device_type: str
-        """Device type (BGA, CSP, LGA)."""
+        """Device type (WLCSP, dsBGA, ...)"""
+        self.package_type: str
+        """Package type (BGA, CSP, LGA, ...)."""
         self.name: str
         """Name of the FP and 3D model."""
         self.lib_name: str
@@ -304,10 +306,17 @@ class BGAConfiguration:
         return layout_x * layout_y - len(pad_skips)
 
     def _compose_device_name(self) -> None:
+        self.package_type = self.spec.get(
+            "package_type", self.header.get("package_type", "BGA")
+        )
         self.device_type = self.spec.get(
-            "device_type", self.header.get("package_type", "BGA")
+            "device_type",
+            self.spec.get("package_type", self.header.get("package_type", "")),
         )
 
+        if not self.header:  # for 3d models defined in cq_parameters.yaml
+            self.name = self.pkg_id
+            return
         if "name" in self.spec:
             self.name = self.spec["name"]
             return
@@ -384,7 +393,7 @@ class BGAConfiguration:
         )
 
     def _compose_lib_name(self) -> None:
-        self.lib_name = f"Package_{self.device_type}"
+        self.lib_name = f"Package_{self.package_type}"
 
 
 def _row_name_generator(seq: list[str]) -> Generator[str, Any, None]:

@@ -306,7 +306,7 @@ class BGAGenerator(FootprintGenerator):
 
         f.description = ", ".join(description_parts)
 
-        f.tags = [bga_conf.device_type, str(bga_conf.num_balls), pdesc]
+        f.tags = [bga_conf.package_type, str(bga_conf.num_balls), pdesc]
         f.tags += bga_conf.metadata.compatible_mpns
         f.tags += bga_conf.metadata.additional_tags
 

@@ -816,7 +816,7 @@ DiodesInc_GEA20_WLCSP-20_1.7x2.1mm_Layout4x5_P0.4mm:
   pitch: 0.4
   layout_y: 5
   layout_x: 4
-  device_type: "CSP"
+  package_type: "CSP"
 
 WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/wlcspcb/cb_9_3.pdf
@@ -828,7 +828,7 @@ WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   pitch: 0.4
   layout_y: 3
   layout_x: 3
-  device_type: "CSP"
+  package_type: "CSP"
 
 NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1444-5.pdf
@@ -840,7 +840,7 @@ NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   pitch: 0.4
   layout_y: 7
   layout_x: 7
-  device_type: "CSP"
+  package_type: "CSP"
 
 NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1450-2.pdf
@@ -852,7 +852,7 @@ NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   pitch: 0.5
   layout_y: 10
   layout_x: 10
-  device_type: "CSP"
+  package_type: "CSP"
 
 NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1982-1.pdf
@@ -909,7 +909,7 @@ Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   layout_y: 7
   layout_x: 7
   excluded_pins: [32]
-  device_type: "CSP"
+  package_type: "CSP"
 
 ucBGA-64_4x4mm_Layout8x8_P0.4mm:
   #from https://www.latticesemi.com/view_document?document_id=213
