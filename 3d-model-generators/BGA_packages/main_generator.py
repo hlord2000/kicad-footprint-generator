@@ -70,12 +70,12 @@ import yaml
 from _tools import (  # type:ignore
     cq_color_correct,
     export_tools,
-    parameters,
     shaderColors,
 )
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.util import dict_tools  # type: ignore
+from scripts.Packages.Package_BGA.bga_configuration import BGAConfiguration, load_config
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
@@ -110,34 +110,23 @@ def make_plg(
 
 
 def make_case(
-    params: dict[str, Any],
+    bga_config: BGAConfiguration,
 ) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
 
-    ef = params.get("body_fillet", 0.0)
-    cff = params.get("first_corner_chamfer", 0.25)
-    cf = params.get("corner_chamfer", 0.25)
-    d = params["body_size_y"]
-    e = params["body_size_x"]
-    d1 = params.get("mold_size_y")
-    e1 = params.get("mold_size_x")
-    a1 = params["body_pcb_gap"]
-    a2 = params.get("mold_size_z_bottom")
-    a = params["overall_height"]
-    molded = params.get("molded")
-    b = params["ball_diameter"]
-    pitch = params["pitch"]
-    ex = params.get("pitch_x", pitch)
-    sp = params.get("seating_plane", 0.0)
-    npx = params["layout_x"]
-    npy = params["layout_y"]
-
-    if params.get("excluded_pins") is not None:
-        excluded_pins = tuple(
-            ep if isinstance(ep, str) else str(int(ep))
-            for ep in params["excluded_pins"]
-        )
-    else:
-        excluded_pins = ()  ##no pin excluded
+    ef = bga_config.body_fillet
+    cff = bga_config.first_corner_chamfer
+    cf = bga_config.corner_chamfer
+    d = bga_config.body_size_y
+    e = bga_config.body_size_x
+    d1 = bga_config.mold_size_y
+    e1 = bga_config.mold_size_x
+    a1 = bga_config.body_pcb_gap
+    a2 = bga_config.mold_size_z_bottom
+    a = bga_config.overall_height
+    sp = bga_config.seating_plane
+    b = bga_config.ball_diameter
+    if b is None:
+        raise KeyError("Cannot generate 3D model without a `ball_diameter` parameter.")
 
     sphere_r = b / 2 * (1.05)  # added extra 0.5% diameter for fusion
     s_center = (0, 0, 0)
@@ -145,34 +134,10 @@ def make_case(
     bpin = sphere.translate((0, 0, b / 2 - sp))
 
     pin_positions: list[cq.Location] = []
-    # create top, bottom side pins
-    pincounter = 1
-    first_pos_x = (npx - 1) * pitch / 2
-    for j in range(npy):
-        for i in range(npx):
-            if "internals" in excluded_pins:
-                if str(int(pincounter)) not in excluded_pins:
-                    if j == 0 or j == npy - 1 or i == 0 or i == npx - 1:
-                        pin_positions.append(
-                            cq.Location(
-                                cq.Vector(
-                                    first_pos_x - i * pitch,
-                                    (npy * ex / 2 - ex / 2) - j * ex,
-                                    0,
-                                )
-                            )
-                        )
-            elif str(int(pincounter)) not in excluded_pins:
-                pin_positions.append(
-                    cq.Location(
-                        cq.Vector(
-                            first_pos_x - i * pitch,
-                            (npy * ex / 2 - ex / 2) - j * ex,
-                            0,
-                        )
-                    )
-                )
-            pincounter += 1
+    for layout_data in bga_config.layout_data_list:
+        for pad_data in layout_data.pad_data_list:
+            pos = pad_data.position
+            pin_positions.append(cq.Location(cq.Vector(pos.x, pos.y)))
 
     # Create all pins in a single, efficient operation
     merged_pins = (
@@ -188,14 +153,8 @@ def make_case(
         marker_edge_clearance = marker_diameter / 4.0
     else:
         marker_edge_clearance = marker_diameter / 2.0
-    if molded is not None:
+    if bga_config.molded:
         the = 24
-        if d1 is None:
-            d1 = d * (1 - 0.065)
-        if e1 is None:
-            e1 = e * (1 - 0.065)
-        if a2 is None:
-            raise ValueError("a2 must be defined for molded parts!")
         d1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
         e1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
         # draw the case
@@ -288,25 +247,31 @@ def make_models(
     """
 
     gullwing_path = os.path.dirname(os.path.realpath(__file__))
-    yaml_file = glob.glob(f"{gullwing_path}/../../data/BGA/cq_parameters.yaml")
+    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/BGA/*.yaml")
 
-    # We load the configuration file (of the footprint generators):
-    with open(yaml_file[0], "r") as config_stream:
-        try:
-            all_params = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-            raise FileNotFoundError("Could not load 'cq_parameters.yaml'")
-
-    if not all_params:
-        print("ERROR: Model parameters must be provided.")
+    if not all_yaml_files:
+        print("No YAML files found to process.")
         return
 
-    # Handle the case where no or "all" model has been passed
-    if model_to_build is None or model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
+    config = load_config("../scripts/Packages/package_config_KLCv3.yaml")
+
+    bga_configs: list[BGAConfiguration] = []
+    for yaml_file in all_yaml_files:
+        file_path = Path(yaml_file)
+        with open(file_path, "r") as stream:
+            yaml_dict = yaml.safe_load(stream)
+            dict_tools.dictInherit(yaml_dict)
+            header = yaml_dict.get("FileHeader")
+            for key, value in yaml_dict.items():
+                if key != "FileHeader":
+                    if (
+                        model_to_build == key
+                        or model_to_build == "all"
+                        or model_to_build == None
+                    ):
+                        bgac = BGAConfiguration(key, value, header, config)
+                        if bgac.has_3d_data:
+                            bga_configs.append(bgac)
 
     if output_dir_prefix == None:
         print("ERROR: An output directory must be provided.")
@@ -327,17 +292,12 @@ def make_models(
     mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
 
     # Step through the selected models
-    for model in models:
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
+    for bga_config in bga_configs:
         # Generate the current model
-        case_bot, case, pins, pinmark = make_case(all_params[model])
+        case_bot, case, pins, pinmark = make_case(bga_config)
 
         # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=model)
+        component = cq.Assembly(name=bga_config.name)
         if case_bot != None:
             component.add(case_bot, color=rgb_body_b)  # type: ignore
         component.add(case, color=body_color)  # type: ignore
@@ -345,13 +305,9 @@ def make_models(
         component.add(pinmark, color=mark_color)  # type: ignore
 
         part_output_dir = output_dir
-        if (
-            "library_name" in all_params[model]
-            and all_params[model]["library_name"] is not None
-        ):
-            part_output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["library_name"] + ".3dshapes"
-            )
+        part_output_dir = os.path.join(
+            output_dir_prefix, bga_config.lib_name + ".3dshapes"
+        )
 
         # Create the output directory if it does not exist
         if not os.path.exists(part_output_dir):
@@ -360,17 +316,19 @@ def make_models(
         if FUSED_AND_COMPRESSED:
             # Export the assembly to STEP
             component.export(  # type: ignore
-                os.path.join(part_output_dir, model + ".step"),
+                os.path.join(part_output_dir, bga_config.name + ".step"),
                 cq.exporters.ExportTypes.STEP,
                 mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
                 write_pcurves=False,
             )
 
             # Check for a proper union
-            export_tools.check_step_export_union(component, part_output_dir, model)
+            export_tools.check_step_export_union(
+                component, part_output_dir, bga_config.name
+            )
 
             # Do STEP post-processing
-            export_tools.postprocess_step(component, part_output_dir, model)
+            export_tools.postprocess_step(component, part_output_dir, bga_config.name)
 
             # Export the assembly to VRML
             if enable_vrml:
@@ -380,7 +338,9 @@ def make_models(
                     parts.append(case_bot)
                     colors.append("dark green body")
                 export_VRML(
-                    os.path.join(part_output_dir, model + ".wrl"), parts, colors
+                    os.path.join(part_output_dir, bga_config.name + ".wrl"),
+                    parts,
+                    colors,
                 )
 
             # Update the license
@@ -388,7 +348,7 @@ def make_models(
 
             add_license.addLicenseToStep(  # type: ignore
                 part_output_dir,
-                model + ".step",
+                bga_config.name + ".step",
                 add_license.LIST_int_license,
                 add_license.STR_int_licAuthor,
                 add_license.STR_int_licEmail,
@@ -398,7 +358,7 @@ def make_models(
         else:
             # Export the assembly to STEP
             component.export(  # type: ignore
-                os.path.join(part_output_dir, model + ".step"),
+                os.path.join(part_output_dir, bga_config.name + ".step"),
                 cq.exporters.ExportTypes.STEP,
                 mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
                 write_pcurves=False,

@@ -820,7 +820,7 @@ DiodesInc_GEA20_WLCSP-20_1.7x2.1mm_Layout4x5_P0.4mm:
   pitch: 0.4
   layout_y: 5
   layout_x: 4
-  library_name: "Package_CSP"
+  device_type: "CSP"
 
 WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   # from https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/wlcspcb/cb_9_3.pdf
@@ -832,7 +832,7 @@ WLCSP-9_1.21x1.22mm_Layout3x3_P0.4mm:
   pitch: 0.4
   layout_y: 3
   layout_x: 3
-  library_name: "Package_CSP"
+  device_type: "CSP"
 
 NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1444-5.pdf
@@ -844,7 +844,7 @@ NXP_SOT1444-5_WLCSP-49_3.44x3.44mm_Layout7x7_P0.4mm:
   pitch: 0.4
   layout_y: 7
   layout_x: 7
-  library_name: "Package_CSP"
+  device_type: "CSP"
 
 NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1450-2.pdf
@@ -856,7 +856,7 @@ NXP_SOT1450-2_WLCSP-100_5.07x5.07mm_Layout10x10_P0.5mm:
   pitch: 0.5
   layout_y: 10
   layout_x: 10
-  library_name: "Package_CSP"
+  device_type: "CSP"
 
 NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
   # from https://www.nxp.com/docs/en/package-information/SOT1982-1.pdf
@@ -881,7 +881,6 @@ NXP_SOT1982-1_VFBGA-98_7x7mm_Layout13x13_P0.5mm:
                             133, 134, 135, 136,      138, 139, 140, 141,           #A11...N11
                                  147,                          153,                #A12...N12
                                  160,                          166               ] #A13...N13
-  library_name: "Package_BGA"
 
 NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
   # from https://www.nxp.com/docs/en/package-information/SOT2162-1.pdf
@@ -902,7 +901,6 @@ NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
                   55,     57,             61,     63,
                                   68,                 #A8...J8
                           75,     77,     79        ]
-  library_name: "Package_BGA"
 
 Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   # from https://www.xilinx.com/content/dam/xilinx/support/documents/package_specs/cs48.pdf
@@ -915,7 +913,7 @@ Xilinx_CSG48_7.0x7.0mm_Layout7x7_P0.8mm:
   layout_y: 7
   layout_x: 7
   excluded_pins: [32]
-  library_name: "Package_CSP"
+  device_type: "CSP"
 
 ucBGA-64_4x4mm_Layout8x8_P0.4mm:
   #from https://www.latticesemi.com/view_document?document_id=213

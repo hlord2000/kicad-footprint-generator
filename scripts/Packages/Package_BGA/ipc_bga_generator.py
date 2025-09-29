@@ -207,16 +207,13 @@ class BGAGenerator(FootprintGenerator):
         ))
 
         # Pads
-        for layout_info in bga_conf.layout_infos:
-            self._make_pad_grid(f, layout_info, bga_conf, x_center=xCenter, y_center=yCenter)
+        for layout_data in bga_conf.layout_data_list:
+            self._make_pad_grid(f, layout_data, bga_conf, x_center=xCenter, y_center=yCenter)
 
         dwg_nodes = fp_additional_drawing.create_additional_drawings(  # type: ignore
             bga_conf.additional_drawings, self.global_config, fp_evaluator
         )
         f.extend(dwg_nodes)
-
-        # If this looks like a CSP footprint, use the CSP 3dshapes library
-        packageType = str(bga_conf.header.get('package_type', 'BGA')).upper()
 
         if staggered:
             pdesc = str(spec.get('pitch')) if 'pitch' in spec else f'{pitchX}x{pitchY}'
@@ -239,15 +236,13 @@ class BGAGenerator(FootprintGenerator):
 
         f.description = ", ".join(description_parts)
 
-        f.tags = [packageType, str(bga_conf.num_balls), pdesc]
+        f.tags = [bga_conf.device_type, str(bga_conf.num_balls), pdesc]
         f.tags += bga_conf.metadata.compatible_mpns
         f.tags += bga_conf.metadata.additional_tags
 
-        lib_name = f'Package_{packageType}'
-
         # #################### Output and 3d model ############################
-        self.add_standard_3d_model_to_footprint(f, lib_name, bga_conf.name)
-        self.write_footprint(f, lib_name)
+        self.add_standard_3d_model_to_footprint(f, bga_conf.lib_name, bga_conf.name)
+        self.write_footprint(f, bga_conf.lib_name)
 
     def _make_pad_grid(self, f: Footprint, layout_info: LayoutData, bga_conf: BGAConfiguration, x_center: float=0.0, y_center: float=0.0)-> None:
         layout_dict = layout_info.layout_dict

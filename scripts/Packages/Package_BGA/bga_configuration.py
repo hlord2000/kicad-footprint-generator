@@ -61,7 +61,7 @@ class BGAConfiguration:
         """The rule areas (zones)."""
 
         # Instance attributes for pad details:
-        self.layout_infos: list[LayoutData]
+        self.layout_data_list: list[LayoutData]
 
         # Instance attributes related to the dimensions of the package:
         self.body_size_x: float
@@ -77,6 +77,40 @@ class BGAConfiguration:
         self.layout_y: int
         """Number of balls in y direction."""
 
+        # Instance attributes for the 3D model:
+        self.body_pcb_gap: float
+        """Size of the gap between the PCB and the package body."""
+        self.body_height: float
+        """Size of the package body in z direction."""
+        self.overall_height: float
+        """Overall height of the package (sum of `body_pcb_gap` and `body_height`)."""
+        self.body_fillet: float
+        """Size of the body fillet in mm."""
+        self.first_corner_chamfer: float
+        """Size of the chamfer of the first pin corner."""
+        self.corner_chamfer: float
+        """Size of the chamfer of the other corners."""
+        self.molded: bool
+        """Whether the package has an overmolded part."""
+        self.mold_size_x: float
+        """Size of the over molded part in x direction."""
+        self.mold_size_y: float
+        """Size of the over molded part in y direction."""
+        self.mold_size_z_bottom: float
+        """Size of the bottom part of the package in z direction."""
+        self.ball_diameter: float | None
+        """Ball diameter."""
+        self.seating_plane: float
+        """Height of the seating plane."""
+
+        # Instance attributes related to the names:
+        self.device_type: str
+        """Device type (BGA, CSP, LGA)."""
+        self.name: str
+        """Name of the FP and 3D model."""
+        self.lib_name: str
+        """Name of the library."""
+
         self.pkg_id = pkg_id
         self.spec = spec
         if header:
@@ -87,15 +121,14 @@ class BGAConfiguration:
             self.has_fp_data = False
         self.config = config
 
-        self.layout_infos = []
+        self.layout_data_list = []
 
         self._extract_generator_independent_data()
-        # self._extract_general_data()
         self._extract_dimension_data()
         self._extract_pinning_data()
-        # self._extract_3d_data()
+        self._extract_3d_data()
         self._compose_device_name()
-        # self._compose_lib_name()
+        self._compose_lib_name()
 
     def _extract_generator_independent_data(self) -> None:
         self.metadata = common_metadata.CommonMetadata(self.spec)
@@ -128,6 +161,36 @@ class BGAConfiguration:
         self.num_balls = 0
         for layout in layouts:
             self.num_balls += self._calculate_pad_names_and_positions_in_layout(layout)
+
+    def _extract_3d_data(self) -> None:
+        self.has_3d_data = True
+        if "body_pcb_gap" in self.spec and "overall_height" in self.spec:
+            self.body_pcb_gap = self.spec["body_pcb_gap"]
+            self.overall_height = self.spec["overall_height"]
+            self.body_height = self.overall_height - self.body_pcb_gap
+        elif "body_height" in self.spec and "overall_height" in self.spec:
+            self.body_height = self.spec["body_height"]
+            self.overall_height = self.spec["overall_height"]
+            self.body_pcb_gap = self.overall_height - self.body_height
+        elif "body_height" in self.spec and "body_pcb_gap" in self.spec:
+            self.body_height = self.spec["body_height"]
+            self.body_pcb_gap = self.spec["body_pcb_gap"]
+            self.overall_height = self.body_pcb_gap + self.body_height
+        else:
+            self.has_3d_data = False
+            self.body_pcb_gap = self.spec.get("body_pcb_gap", 0.0)
+            self.body_height = self.spec.get("body_height", 0.0)
+            self.overall_height = self.spec.get("overall_height", 0.0)
+
+        self.body_fillet = self.spec.get("body_fillet", 0.0)
+        self.first_corner_chamfer = self.spec.get("first_corner_chamfer", 0.25)
+        self.corner_chamfer = self.spec.get("corner_chamfer", 0.25)
+        self.molded = self.spec.get("molded", False)
+        self.mold_size_x = self.spec.get("mold_size_x", self.body_size_x * (1 - 0.065))
+        self.mold_size_y = self.spec.get("mold_size_y", self.body_size_y * (1 - 0.065))
+        self.mold_size_z_bottom = self.spec.get("mold_size_z_bottom", 0.0)
+        self.ball_diameter = self.spec.get("ball_diameter")
+        self.seating_plane = self.spec.get("seating_plane", 0.0)
 
     def calculate_stagger(
         self, layout_def: dict[str, Any] | None = None
@@ -235,12 +298,16 @@ class BGAConfiguration:
                     )
                 )
 
-        self.layout_infos.append(
+        self.layout_data_list.append(
             LayoutData(layout_dict=layout_dict, pad_data_list=pad_data_list)
         )
         return layout_x * layout_y - len(pad_skips)
 
     def _compose_device_name(self) -> None:
+        self.device_type = self.spec.get(
+            "device_type", self.header.get("package_type", "BGA")
+        )
+
         if "name" in self.spec:
             self.name = self.spec["name"]
             return
@@ -252,7 +319,7 @@ class BGAConfiguration:
         pitch_text = ""
         stagger_text = ""
         offcenter_text = ""
-        for layout_info in self.layout_infos:
+        for layout_info in self.layout_data_list:
             layout = layout_info.layout_dict
             if pitch := layout.get("pitch"):
                 new_pitch_text = f"P{pitch}mm"
@@ -298,9 +365,7 @@ class BGAConfiguration:
             name_format.format(
                 man=self.metadata.manufacturer or self.header.get("manufacturer", ""),
                 mpn=self.metadata.part_number or "",
-                pkg=self.spec.get(
-                    "device_type", self.header.get("package_type", "BGA")
-                ),
+                pkg=self.device_type,
                 pincount=self.num_balls,
                 size_x=self.body_size_x,
                 size_y=self.body_size_y,
@@ -317,6 +382,9 @@ class BGAConfiguration:
             .replace("__", "_")
             .lstrip("_")
         )
+
+    def _compose_lib_name(self) -> None:
+        self.lib_name = f"Package_{self.device_type}"
 
 
 def _row_name_generator(seq: list[str]) -> Generator[str, Any, None]:
