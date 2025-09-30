@@ -1,259 +1,205 @@
-from math import isclose
-
 import cadquery as cq
 
+from src.generators.no_lead.configuration import (  # type: ignore
+    NoLeadConfiguration,
+)
 
-def make_qfn(params):
 
-    c = params["c"]
-    ef = params["ef"]
-    cce = params["cce"]
-    fp_s = params["fp_s"]
-    fp_r = params["fp_r"]
-    fp_d = params["fp_d"]
-    fp_z = params["fp_z"]
-    L = params["L"]
-    Lx = params["Lx"] if "Lx" in params else None
-    Ly = params["Ly"] if "Ly" in params else None
-    D = params["D"]
-    E = params["E"]
-    A1 = params["A1"]
-    A2 = params["A2"]
-    b = params["b"]
-    e = params["e"]
-    m = params["m"]
-    ps = params["ps"]
-    npx = params["npx"]
-    npy = params["npy"]
-    mN = params["model_name"]
-    rot = params["rotation"]
-    pin_shapes = params["pin_shapes"]
-    if params["excluded_pins"]:
-        excluded_pins = params["excluded_pins"]
+def make_qfn(
+    nlc: NoLeadConfiguration,
+) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
+
+    marker = nlc.marker
+
+    # Body size parameters
+    e = nlc.body_size_x.nominal
+    d = nlc.body_size_y.nominal
+    a1 = nlc.body_pcb_gap
+    a2 = nlc.body_height
+    body_fillet = nlc.body_fillet
+
+    # Lead parameters
+    lead_height = nlc.lead_height.nominal
+    lead_width = nlc.lead_width.nominal
+    lead_len_x = nlc.lead_len_x.nominal
+    lead_len_y = nlc.lead_len_y.nominal
+    pitch = nlc.pitch
+    lead_to_edge = nlc.lead_to_edge.nominal
+    lead_shape = nlc.lead_shape
+    lead_shape_custom = nlc.lead_shape_custom
+    npx = nlc.num_pins_x
+    npy = nlc.num_pins_y
+    ep_chamfer = nlc.ep_chamfer.nominal
+
+    # Excluded pins:
+    excluded_pins = nlc.deleted_pins + nlc.hidden_pins
+
+    if a1 < 0.02:
+        print("A1 can NOT be zero (or this script will fail). Setting A1 to 0.02.")
+        a1 = 0.02
+
+    a = a1 + a2
+
+    if lead_to_edge == 0.0:
+        case = cq.Workplane("XY").box(e - a1, d - a1, a2)  # margin to see fused pins
     else:
-        excluded_pins = ()  # no pin excluded
-
-    if isclose(A1, 0.0):
-        print("A1 can NOT be zero (or this script will fail). Setting A1 to 0.02")
-        A1 = 0.02
-
-    if L is not None:
-        Lx = L
-        Ly = L
-    else:
-        if npx > 0 and Lx is None:
-            print(
-                "Pin length along x axis is not set (neither 'Lx' nor 'L'). Setting pin length to pin width."
-            )
-            Lx = c
-        if npy > 0 and Ly is None:
-            print(
-                "Pin length along y axis is not set (neither 'Ly' nor 'L'). Setting pin length to pin width."
-            )
-            Ly = c
-
-    epad_rotation = 0.0
-    epad_offset_x = 0.0
-    epad_offset_y = 0.0
-
-    if params["epad"]:
-        if not isinstance(params["epad"], list):
-            sq_epad = False
-            epad_r = params["epad"]
-        else:
-            sq_epad = True
-            D2 = params["epad"][0]
-            E2 = params["epad"][1]
-            if len(params["epad"]) > 2:
-                epad_rotation = params["epad"][2]
-            if len(params["epad"]) > 3:
-                if isinstance(params["epad"][3], str):
-                    if params["epad"][3] == "-topin":
-                        epad_offset_x = (D / 2 - D2 / 2) * -1
-                    elif params["epad"][3] == "+topin":
-                        epad_offset_x = D / 2 - D2 / 2
-                else:
-                    epad_offset_x = params["epad"][3]
-            if len(params["epad"]) > 4:
-                if isinstance(params["epad"][4], str):
-                    if params["epad"][4] == "-topin":
-                        epad_offset_y = (E / 2 - E2 / 2) * -1
-                    elif params["epad"][4] == "+topin":
-                        epad_offset_y = E / 2 - E2 / 2
-                else:
-                    epad_offset_y = params["epad"][4]
-            if params["epad_offsetX"] is not None:
-                epad_offset_x += params["epad_offsetX"]
-            if params["epad_offsetY"] is not None:
-                epad_offset_y += params["epad_offsetY"]
-
-    A = A1 + A2
-
-    if m == 0:
-        case = cq.Workplane("XY").box(D - A1, E - A1, A2)  # margin to see fused pins
-    else:
-        case = cq.Workplane("XY").box(D, E, A2)  # NO margin, pins don't emerge
-    if ef != 0:
-        case.edges("|X").fillet(ef)
-        case.edges("|Z").fillet(ef)
+        case = cq.Workplane("XY").box(e, d, a2)  # NO margin, pins don't emerge
+    if body_fillet != 0.0:
+        case.edges("|X").fillet(body_fillet)
+        case.edges("|Z").fillet(body_fillet)
     # translate the object
-    case = case.translate((0, 0, A2 / 2 + A1)).rotate((0, 0, 0), (0, 0, 1), 0)
+    case = case.translate((0, 0, a2 / 2 + a1)).rotate((0, 0, 0), (0, 0, 1), 0)
 
-    # first pin indicator is created with a spherical pocket
-    if fp_d is not None:
-        fp_dx = fp_d
-        fp_dy = fp_d
+    # first pin indicator is created with a cylindrical pocket
+    marker_diameter = max(d, e) / 10.0
+    if min(d, e) < 5 * marker_diameter:
+        marker_edge_clearance = marker_diameter / 4.0
     else:
-        if params["fp_dx"] is not None:
-            fp_dx = params["fp_dx"]
-        else:
-            fp_dx = 0
-        if params["fp_dy"] is not None:
-            fp_dy = params["fp_dy"]
-        else:
-            fp_dy = 0
+        marker_edge_clearance = marker_diameter / 2.0
+    marker_depth = 0.050
+    marker_dx = nlc.marker_dx
+    marker_dy = nlc.marker_dy
+    if marker_dx is None:
+        marker_dx = marker_edge_clearance
+    if marker_dy is None:
+        marker_dy = marker_edge_clearance
 
-    if ps in ("concave", "cshaped"):
+    if lead_shape in ("concave", "cshaped"):
         if npy != 0:
-            fp_dx = fp_d + L - A1 / 2
+            marker_dx = marker_dx + lead_len_x - a1 / 2
         if npx != 0:
-            fp_dy = fp_d + L - A1 / 2
-    if fp_r == 0:
-        fp_r = 0.1
-    if not fp_s:
-        pinmark = (
-            cq.Workplane(cq.Plane.XY())
-            .workplane(offset=A, centerOption="CenterOfMass")
-            .box(fp_r, E - fp_dy * 2, fp_z * 2)
-        )
-        # translate the object
-        pinmark = pinmark.translate((-D / 2 + fp_r / 2 + fp_dx, 0, 0))
-    else:
-        # create a circular pin mark
-        # First, create a pocket in the case for the pin mark with twice the height of the pin mark
-        pinmark_cutout = (
-            cq.Workplane("XZ", (-D / 2 + fp_dx + fp_r, -E / 2 + fp_dy + fp_r, 0))
-            .rect(fp_r / 2, -2 * fp_z, False)
-            .revolve()
-            .translate((0, 0, A))
-        )
-        case = case.cut(pinmark_cutout)
-        # Now create the pin mark at the bottom of the pocket at (A-fp_z) to make it look like a 2D printed surface
-        pinmark = (
-            cq.Workplane("XZ", (-D / 2 + fp_dx + fp_r, -E / 2 + fp_dy + fp_r, 0))
-            .rect(fp_r / 2, -fp_z, False)
-            .revolve()
-            .translate((0, 0, A - fp_z))
-        )
+            marker_dy = marker_dy + lead_len_y - a1 / 2
 
-    bpin_shape = {}
-    for axis, length in zip(["x", "y"], [Lx, Ly]):
-        if ps == "square":  # square pins
+    if marker == "bar":
+        pinmark = cq.Workplane(
+            "XY", (-e / 2 + marker_diameter / 2 + marker_dx, 0, a - marker_depth / 2)
+        ).box(marker_diameter, d - 2 * marker_dy, marker_depth)
+        case = case.cut(pinmark)
+    elif marker == "circle":
+        circle_center_x = -e / 2 + marker_diameter / 2 + marker_dx
+        circle_center_y = d / 2 - marker_diameter / 2 - marker_dy
+        pinmark = (
+            cq.Workplane("XY", (circle_center_x, circle_center_y, a))
+            .circle(marker_diameter / 2)
+            .extrude(-marker_depth)
+        )
+        case = case.cut(pinmark)
+    else:
+        pinmark = None
+
+    bpin_shape: dict[str, cq.Workplane] = {}
+    for axis, length in zip(["x", "y"], [lead_len_x, lead_len_y]):
+        if lead_shape == "square":  # square pins
             bpin = (
                 cq.Workplane("XY")
-                .moveTo(b, 0)
-                .lineTo(b, length)
+                .moveTo(lead_width, 0)
+                .lineTo(lead_width, length)
                 .lineTo(0, length)
                 .lineTo(0, 0)
                 .close()
-                .extrude(c)
-                .translate((-b / 2, -E / 2, 0))
+                .extrude(lead_height)
+                .translate((-lead_width / 2, -d / 2, 0))
                 .rotate((0, 0, 0), (0, 0, 1), -180)
             )
-        elif ps == "rounded":
+            bpin_shape[axis] = bpin
+        elif lead_shape == "rounded":
             bpin = (
                 cq.Workplane("XY")
-                .moveTo(b, 0)
-                .lineTo(b, length - b / 2)
-                .threePointArc((b / 2, length), (0, length - b / 2))
+                .moveTo(lead_width, 0)
+                .lineTo(lead_width, length - lead_width / 2)
+                .threePointArc((lead_width / 2, length), (0, length - lead_width / 2))
                 .lineTo(0, 0)
                 .close()
-                .extrude(c)
-                .translate((-b / 2, -E / 2, 0))
+                .extrude(lead_height)
+                .translate((-lead_width / 2, -d / 2, 0))
                 .rotate((0, 0, 0), (0, 0, 1), -180)
             )
-        elif ps == "concave":
+            bpin_shape[axis] = bpin
+        elif lead_shape == "concave":
             pincut = (
                 cq.Workplane("XY")
-                .box(b, length, A2 + A1 * 2)
-                .translate((0, E / 2 - length / 2, A2 / 2 + A1))
+                .box(lead_width, length, a2 + a1 * 2)
+                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
             )
             bpin = (
                 cq.Workplane("XY")
-                .box(b, length, A2 + A1 * 2)
-                .translate((0, E / 2 - length / 2, A2 / 2 + A1))
+                .box(lead_width, length, a2 + a1 * 2)
+                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
                 .edges("|X")
-                .fillet(A1)
+                .fillet(a1)
                 .faces(">Z")
                 .edges(">Y")
                 .workplane(centerOption="CenterOfMass")
-                .circle(b * 0.3)
+                .circle(lead_width * 0.3)
                 .cutThruAll()
             )
-        elif ps == "cshaped":
+            bpin_shape[axis] = bpin
+        elif lead_shape == "cshaped":
             bpin = (
                 cq.Workplane("XY")
-                .box(b, length, A2 + A1 * 2)
-                .translate((0, E / 2 - L / 2, A2 / 2 + A1))
+                .box(lead_width, length, a2 + a1 * 2)
+                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
                 .edges("|X")
-                .fillet(A1)
+                .fillet(a1)
             )
-
-        if ps != "custom":
             bpin_shape[axis] = bpin
 
-    pins = []
+    pins: list[cq.Workplane] = []
     pincounter = 1
-    if ps == "custom":
-        for pin_shape in pin_shapes:
+    if lead_shape == "custom":
+        for pin_shape in lead_shape_custom:
             first_point = pin_shape[0]
             pin = cq.Workplane("XY").moveTo(first_point[0], first_point[1])
             for i in range(1, len(pin_shape)):
                 point = pin_shape[i]
                 pin = pin.lineTo(point[0], point[1])
-            pin = pin.close().extrude(c)
+            pin = pin.close().extrude(lead_height)
             pins.append(pin)
         pincounter += 1
     else:
         # create top, bottom side pins
-        first_pos_x = (npx - 1) * e / 2
+        first_pos_x = (npx - 1) * pitch / 2
         for i in range(npx):
             if pincounter not in excluded_pins:
                 pin = (
                     bpin_shape["x"]
-                    .translate((first_pos_x - i * e, -m, 0))
+                    .translate((first_pos_x - i * pitch, -lead_to_edge, 0))
                     .rotate((0, 0, 0), (0, 0, 1), 180)
                 )
                 pins.append(pin)
-                if ps == "concave":
-                    pinsubtract = pincut.translate((first_pos_x - i * e, -m, 0)).rotate(
-                        (0, 0, 0), (0, 0, 1), 180
-                    )
+                if lead_shape == "concave":
+                    pinsubtract = pincut.translate(
+                        (first_pos_x - i * pitch, -lead_to_edge, 0)
+                    ).rotate((0, 0, 0), (0, 0, 1), 180)
                     case = case.cut(pinsubtract)
             pincounter += 1
 
-        first_pos_y = (npy - 1) * e / 2
+        first_pos_y = (npy - 1) * pitch / 2
         for i in range(npy):
             if pincounter not in excluded_pins:
                 pin = (
                     bpin_shape["y"]
-                    .translate((first_pos_y - i * e, (D - E) / 2 - m, 0))
+                    .translate((first_pos_y - i * pitch, (e - d) / 2 - lead_to_edge, 0))
                     .rotate((0, 0, 0), (0, 0, 1), 270)
                 )
                 pins.append(pin)
-                if ps == "concave":
+                if lead_shape == "concave":
                     pinsubtract = pincut.translate(
-                        (first_pos_y - i * e, (D - E) / 2 - m, 0)
+                        (first_pos_y - i * pitch, (e - d) / 2 - lead_to_edge, 0)
                     ).rotate((0, 0, 0), (0, 0, 1), 270)
                     case = case.cut(pinsubtract)
             pincounter += 1
 
         for i in range(npx):
             if pincounter not in excluded_pins:
-                pin = bpin_shape["x"].translate((first_pos_x - i * e, -m, 0))
+                pin = bpin_shape["x"].translate(
+                    (first_pos_x - i * pitch, -lead_to_edge, 0)
+                )
                 pins.append(pin)
-                if ps == "concave":
-                    pinsubtract = pincut.translate((first_pos_x - i * e, -m, 0))
+                if lead_shape == "concave":
+                    pinsubtract = pincut.translate(
+                        (first_pos_x - i * pitch, -lead_to_edge, 0)
+                    )
                     case = case.cut(pinsubtract)
             pincounter += 1
 
@@ -261,90 +207,61 @@ def make_qfn(params):
             if pincounter not in excluded_pins:
                 pin = (
                     bpin_shape["y"]
-                    .translate((first_pos_y - i * e, (D - E) / 2 - m, 0))
+                    .translate((first_pos_y - i * pitch, (e - d) / 2 - lead_to_edge, 0))
                     .rotate((0, 0, 0), (0, 0, 1), 90)
                 )
                 pins.append(pin)
-                if ps == "concave":
+                if lead_shape == "concave":
                     pinsubtract = pincut.translate(
-                        (first_pos_y - i * e, (D - E) / 2 - m, 0)
+                        (first_pos_y - i * pitch, (e - d) / 2 - lead_to_edge, 0)
                     ).rotate((0, 0, 0), (0, 0, 1), 90)
                     case = case.cut(pinsubtract)
             pincounter += 1
 
     # create exposed thermal pad if requested
-    if params["epad"]:
-        if sq_epad:
-            if params["epad_n"] is not None and params["epad_pitch"] is not None:
-                for nx in range(1, params["epad_n"][0] + 1):
-                    for ny in range(1, params["epad_n"][1] + 1):
-                        offset_x = (
-                            -((params["epad_n"][0] - 1) * params["epad_pitch"][0]) / 2
-                            + (nx - 1) * params["epad_pitch"][0]
-                        )
-                        offset_y = (
-                            -((params["epad_n"][1] - 1) * params["epad_pitch"][1]) / 2
-                            + (ny - 1) * params["epad_pitch"][1]
-                        )
-                        epad = (
-                            cq.Workplane("XY")
-                            .moveTo(-D2 / 2 + cce, -E2 / 2)
-                            .lineTo(D2 / 2, -E2 / 2)
-                            .lineTo(D2 / 2, E2 / 2)
-                            .lineTo(-D2 / 2, E2 / 2)
-                            .lineTo(-D2 / 2, -E2 / 2 + cce)
-                            .close()
-                            .extrude(A1 + A1 / 2)
-                            .translate(
-                                (epad_offset_x + offset_x, epad_offset_y + offset_y, 0)
-                            )
-                            .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
-                        )
-                        pins.append(epad)
-            else:
-                epad = (
-                    cq.Workplane("XY")
-                    .moveTo(-D2 / 2 + cce, -E2 / 2)
-                    .lineTo(D2 / 2, -E2 / 2)
-                    .lineTo(D2 / 2, E2 / 2)
-                    .lineTo(-D2 / 2, E2 / 2)
-                    .lineTo(-D2 / 2, -E2 / 2 + cce)
-                    .close()
-                    .extrude(A1 + A1 / 2)
-                    .translate((epad_offset_x, epad_offset_y, 0))
-                    .rotate((0, 0, 0), (0, 0, 1), epad_rotation)
+    if nlc.has_ep:
+        epads: list[cq.Workplane] = []
+        ep_size_x = nlc.ep_size_x.nominal
+        ep_size_y = nlc.ep_size_y.nominal
+        ep_chamfer = nlc.ep_chamfer.nominal
+        epad_offset_x = nlc.ep_offset_x
+        epad_offset_y = nlc.ep_offset_y
+        for nx in range(1, nlc.ep_num[0] + 1):
+            for ny in range(1, nlc.ep_num[1] + 1):
+                offset_x = (
+                    -((nlc.ep_num[0] - 1) * nlc.ep_pitch[0]) / 2
+                    + (nx - 1) * nlc.ep_pitch[0]
                 )
-                pins.append(epad)
-        else:
-            if params["epad_n"] is not None and params["epad_pitch"] is not None:
-                for nx in range(1, params["epad_n"][0]):
-                    for ny in range(1, params["epad_n"][1]):
-                        offset_x = (
-                            -((params["epad_n"][0] - 1) * params["epad_pitch"][0]) / 2
-                            + (nx - 1) * params["epad_pitch"][0]
-                        )
-                        offset_y = (
-                            -((params["epad_n"][1] - 1) * params["epad_pitch"][1]) / 2
-                            + (ny - 1) * params["epad_pitch"][1]
-                        )
-                        epad = (
-                            cq.Workplane("XY")
-                            .circle(epad_r)
-                            .extrude(A1)
-                            .translate((offset_x, offset_y, A1 / 2))
-                        )
-                        pins.append(epad)
-            else:
-                epad = cq.Workplane("XY").circle(epad_r).extrude(A1)
-                pins.append(epad)
+                offset_y = (
+                    -((nlc.ep_num[1] - 1) * nlc.ep_pitch[1]) / 2
+                    + (ny - 1) * nlc.ep_pitch[1]
+                )
+                epad: cq.Workplane = (
+                    cq.Workplane("XY")
+                    .moveTo(-ep_size_x / 2 + ep_chamfer, -ep_size_y / 2)
+                    .lineTo(ep_size_x / 2, -ep_size_y / 2)
+                    .lineTo(ep_size_x / 2, ep_size_y / 2)
+                    .lineTo(-ep_size_x / 2, ep_size_y / 2)
+                    .lineTo(-ep_size_x / 2, -ep_size_y / 2 + ep_chamfer)
+                    .close()
+                    .extrude(a1 + a1 / 2)
+                    .translate((epad_offset_x + offset_x, epad_offset_y + offset_y, 0))
+                    .rotate((0, 0, 0), (0, 0, 1), nlc.ep_angle)
+                )
+                epads.append(epad)
+        # merge all epads to a single object
+        merged_epads = epads[0]
+        for p in pins[1:]:
+            merged_epads = merged_epads.union(p)
+    else:
+        merged_epads = None
 
     # merge all pins to a single object
     merged_pins = pins[0]
     for p in pins[1:]:
         merged_pins = merged_pins.union(p)
-    pins = merged_pins
 
     # extract pins from case
-    case = case.cut(pins)
+    case = case.cut(merged_pins)
 
-    return case, pins, pinmark
+    return case, merged_pins, merged_epads, pinmark

@@ -54,130 +54,203 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import glob
+import multiprocessing
+import multiprocessing.pool
 import os
+import sys
+from pathlib import Path
 
 import cadquery as cq
+import yaml
 
-from _tools import cq_color_correct, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
+from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
+
+from kilibs.util import dict_tools  # type: ignore
+from src.generators.no_lead.configuration import (  # type: ignore
+    NoLeadConfiguration,
+)
 
 from .qfn_packages import make_qfn
 
+FUSED_AND_COMPRESSED = False
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+
+def make_models(
+    model_to_build: str | None = None,
+    output_dir_prefix: str | None = None,
+    enable_vrml: bool = True,
+) -> None:
     """
     Main entry point into this generator.
     """
-    all_params = parameters.load_parameters("QFN_packages")
 
-    if all_params is None:
-        print("ERROR: Model parameters must be provided.")
+    if output_dir_prefix is None:
+        print("ERROR: An output directory must be provided.")
         return
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print(f"No variant name is given! building: {model_to_build}")
+    # model_to_build can be 'all', or a specific model that could be in any yaml file.
+    # In either case we have to load all the model files to memory. This method could
+    # be optimized in the future.
 
-        model_to_build = all_params.keys()[0]
+    no_lead_path = os.path.dirname(os.path.realpath(__file__))
+    all_yaml_files = glob.glob(f"{no_lead_path}/*.yaml")  # ../../data/no_lead/
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-        if output_dir_prefix is None:
-            print("ERROR: An output directory must be provided.")
-            return
-        # Make sure there is a destination directory
-        if all_params[model]["destination_dir"] is None:
-            print(f"Package {model} has no destination directory, skipping.")
-            continue
+    # We load the configuration file (of the footprint generators):
+    with open("../scripts/Packages/package_config_KLCv3.yaml", "r") as config_stream:
+        try:
+            config = yaml.safe_load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise FileNotFoundError("Could not load 'package_config_KLCv3.yaml'")
 
-        # Construct the final output directory
-        output_dir = os.path.join(
-            output_dir_prefix, all_params[model]["destination_dir"]
+    nl_configs: list[NoLeadConfiguration] = []
+    for yaml_file in all_yaml_files:
+        file_path = Path(yaml_file)
+        with open(file_path, "r") as stream:
+            yaml_dict = yaml.safe_load(stream)
+            dict_tools.dictInherit(yaml_dict)
+            header = yaml_dict.get("FileHeader")
+            for key, value in yaml_dict.items():
+                if key != "FileHeader":
+                    if (
+                        model_to_build == key
+                        or model_to_build == "all"
+                        or model_to_build == None
+                    ):
+                        nlc = NoLeadConfiguration(key, value, header, config)
+                        if nlc.has_3d_data:
+                            nl_configs.append(nlc)
+
+    # Always use maximum number of processes
+    number_of_models = len(nl_configs)
+    number_of_processes = os.cpu_count()
+    print(
+        f"Creating {number_of_models} threads (one per model) and executing them "
+        f"in {number_of_processes} asynchronous processes.",
+        flush=True,
+    )
+
+    for idx, nlc in enumerate(nl_configs):
+        print(
+            f"    => Executing thread {idx+1}/{number_of_models}: "
+            f"'{nlc.pkg_id}' from library 'no_lead'"
+        )
+        make_single_no_lead_model(
+            output_dir_prefix,
+            nlc,
+            enable_vrml,
+            "",
         )
 
-        # Safety check to make sure the selected model is valid
-        if model not in all_params.keys():
-            print(f"Parameters for {model} doesn't exist in 'all_params', skipping.")
-            continue
+    # with multiprocessing.Pool(processes=number_of_processes) as pool:
+    #     async_results: list[multiprocessing.pool.AsyncResult[None]] = []
+    #     for idx, gwc in enumerate(nl_configs):
+    #         str_display = (
+    #             f"    => Executing thread {idx+1}/{number_of_models}: "
+    #             f"'{gwc.model_name}' from library 'no_lead'"
+    #         )
+    #         async_result = pool.apply_async(
+    #             make_single_no_lead_model,
+    #             args=(
+    #                 output_dir_prefix,
+    #                 gwc,
+    #                 enable_vrml,
+    #                 str_display,
+    #             ),
+    #         )
+    #         async_results.append(async_result)
+    #     for async_result in async_results:
+    #         try:
+    #             async_result.get()
+    #         except Exception as e:
+    #             print(f"An error occurred in a subprocess: {e}", file=sys.stderr)
+    # pool.close()
+    # pool.join()
 
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pin_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
-        mark_color = shaderColors.named_colors[
-            all_params[model]["mark_color_key"]
-        ].getDiffuseFloat()
 
-        # Make the parts of the model
-        (body, pins, pinmark) = make_qfn(all_params[model])
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pinmark = pinmark.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
+def make_single_no_lead_model(
+    output_dir_prefix: str,
+    nlc: NoLeadConfiguration,
+    enable_vrml: bool,
+    str_display: str,
+) -> None:
+    print(str_display, flush=True)
+    lib_name = nlc.lib_name + ".3dshapes"
+    output_dir = os.path.join(output_dir_prefix, lib_name)
+    # Load the appropriate colors
+    rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
+    rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
+    rgb_mark = shaderColors.named_colors["light brown label"].getDiffuseFloat()
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
+    body_color = cq_color_correct.Color(rgb_body[0], rgb_body[1], rgb_body[2])
+    pin_color = cq_color_correct.Color(rbg_pin[0], rbg_pin[1], rbg_pin[2])
+    mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
 
-        # Add the parts to the assembly
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
-        )
-        component.add(
-            pinmark,
-            color=cq_color_correct.Color(mark_color[0], mark_color[1], mark_color[2]),
-        )
+    # Make the parts of the model
+    (body, pins, epad, mark) = make_qfn(nlc)
 
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+    # Used to wrap all the parts into an assembly
+    component = cq.Assembly()
 
-        # Assemble the filename
-        file_name = all_params[model]["model_name"]
+    # Add the parts to the assembly
+    component.add(body, color=body_color)  # type: ignore
+    component.add(pins, color=pin_color)  # type: ignore
+    if mark:
+        component.add(mark, color=mark_color)  # type: ignore
+    if epad:
+        component.add(epad, color=pin_color)  # type: ignore
 
-        # Export the assembly to STEP
-        component.name = file_name
-        component.save(
-            os.path.join(output_dir, file_name + ".step"),
+    # Create the output directory if it does not exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Export the assembly to STEP
+    component.name = nlc.model_name
+
+    if not FUSED_AND_COMPRESSED:
+        component.export(  # type: ignore
+            os.path.join(output_dir, nlc.model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
+            mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
             write_pcurves=False,
         )
-
+    else:
+        component.export(  # type: ignore
+            os.path.join(output_dir, nlc.model_name + ".step"),
+            cq.exporters.ExportTypes.STEP,
+            mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
+            write_pcurves=False,
+        )
         # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, file_name)
+        export_tools.check_step_export_union(component, output_dir, nlc.model_name)
 
         # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, file_name)
+        export_tools.postprocess_step(component, output_dir, nlc.model_name)
 
         # Export the assembly to VRML
         if enable_vrml:
+            components = [body, pins]
+            colors = ["black body", "metal grey pins"]
+            if epad:
+                components.append(epad)
+                colors.append("metal grey pins")
+            if mark:
+                components.append(mark)
+                colors.append("light brown label")
             export_VRML(
-                os.path.join(output_dir, file_name + ".wrl"),
-                [body, pins, pinmark],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["pin_color_key"],
-                    all_params[model]["mark_color_key"],
-                ],
+                os.path.join(output_dir, nlc.model_name + ".wrl"),
+                components,
+                colors,
             )
 
         # Update the license
-        from _tools import add_license
+        from _tools import add_license  # type: ignore
 
-        add_license.addLicenseToStep(
+        add_license.addLicenseToStep(  # type: ignore
             output_dir,
-            file_name + ".step",
+            nlc.model_name + ".step",
             add_license.LIST_int_license,
             add_license.STR_int_licAuthor,
             add_license.STR_int_licEmail,
