@@ -1,29 +1,13 @@
 from typing import Any, Literal, cast
 
 from kilibs.ipc_tools import ipc_rules  # type: ignore
-from kilibs.util.toleranced_size import TolerancedSize  # type: ignore
+from kilibs.util.toleranced_size import TolerancedSize, TolerancedSizeHandler
 from scripts.tools.declarative_def_tools import (  # type: ignore
     common_metadata,
     fp_additional_drawing,
+    pad_overrides,
     rule_area_properties,
 )
-
-
-def _get_toleranced(
-    dictionary: dict[str, Any],
-    key: str,
-    default_min: float | None = None,
-    default_nom: float | None = None,
-    default_max: float | None = None,
-) -> TolerancedSize:
-    if key in dictionary:
-        return TolerancedSize.fromYaml(dictionary, base_name=key)
-    else:
-        return TolerancedSize(
-            minimum=default_min,
-            nominal=default_nom,
-            maximum=default_max,
-        )
 
 
 class TopSlugConfiguration:
@@ -80,17 +64,17 @@ class NoLeadConfiguration:
         self,
         pkg_id: str,
         spec: dict[str, Any],
-        header: dict[str, Any],
+        header: dict[str, Any] | None,
         config: dict[str, Any],
     ) -> None:
         # Instance attributes for the raw source:
         self.pkg_id: str
         """The package name as given by the dictionary key."""
-        self._spec: dict[str, Any]
+        self.spec: dict[str, Any]
         """The dictionary containing the specification of the device."""
-        self._header: dict[str, Any]
+        self.header: dict[str, Any]
         """The dictionary containing the file header."""
-        self._config: dict[str, Any]
+        self.config: dict[str, Any]
         """The dictionary containing the generator configuration."""
 
         # Instance attributes for generator independent data:
@@ -102,6 +86,10 @@ class NoLeadConfiguration:
         """The list containing additional drawings."""
         self.rule_areas: list[rule_area_properties.RuleAreaProperties] = []
         """The rule areas (zones)."""
+        self.pad_overrides: pad_overrides.PadOverrides
+        """Definitions to overwrite properties of some pads"""
+        self.toleranced_size_handler: TolerancedSizeHandler
+        """Handler for toleranced sizes."""
 
         # Instance attributes for general data:
         self.device_type: str
@@ -116,18 +104,24 @@ class NoLeadConfiguration:
         """The body size in x direction."""
         self.body_size_y: TolerancedSize
         """The body size in y direction."""
-        self.body_pcb_gap: float
+        self.body_pcb_gap: TolerancedSize
         """The maximum gap between the PCB and the component body."""
-        self.body_height: float
+        self.body_height: TolerancedSize
         """The maximum body height."""
-        self.overall_height: float
+        self.overall_height: TolerancedSize
         """The maximum overall height."""
         self.body_fillet: float
         """The size of the fillet of the component body."""
 
         # Instance attributes related to the pinning:
-        self.pitch: float
-        """The pitch."""
+        self.pitch_x: TolerancedSize
+        """The pitch along the x-axis."""
+        self.pitch_y: TolerancedSize
+        """The pitch along the y-axis."""
+        self.lead_center_pos_x: TolerancedSize
+        """The distance between the pins on the y-axis and the center."""
+        self.lead_center_pos_y: TolerancedSize
+        """The distance between the pins on the x-axis and the center."""
         self.num_pins_x: int
         """Number of pins of the package in x direction."""
         self.num_pins_y: int
@@ -144,9 +138,9 @@ class NoLeadConfiguration:
         # Instance attributes related to the pin shapes:
         self.lead_width: TolerancedSize
         """The lead length."""
-        self.lead_len_x: TolerancedSize
+        self.lead_len_h: TolerancedSize
         """The lead length of the pins on the x-axis."""
-        self.lead_len_y: TolerancedSize
+        self.lead_len_v: TolerancedSize
         """The lead length of the pins on the y-axis."""
         self.lead_height: TolerancedSize
         """The height of a lead."""
@@ -176,9 +170,9 @@ class NoLeadConfiguration:
         """Number of exposed pads in x- and y-direction (creates a pad array)."""
         self.ep_pitch: list[float]
         """The pitch of the exposed pads in x- and y-direction."""
-        self.ep_offset_x: float
+        self.ep_offset_x: TolerancedSize
         """The offset of the exposed pad(s) in the x direction."""
-        self.ep_offset_y: float
+        self.ep_offset_y: TolerancedSize
         """The offset of the exposed pad(s) in the y direction."""
 
         # Instance attributes related to the marker:
@@ -208,14 +202,14 @@ class NoLeadConfiguration:
 
         # Assign the source parameters:
         self.pkg_id = pkg_id
-        self._spec = spec
+        self.spec = spec
         if header:
-            self._header = header
+            self.header = header
             self.has_fp_data = True
         else:
-            self._header = {}
+            self.header = {}
             self.has_fp_data = False
-        self._config = config
+        self.config = config
 
         self._extract_generator_independent_data()
         self._extract_general_data()
@@ -228,142 +222,157 @@ class NoLeadConfiguration:
         self._compose_lib_name()
 
     def _extract_generator_independent_data(self) -> None:
-        self.metadata = common_metadata.CommonMetadata(self._spec)
-        if "top_slug" in self._spec:
-            self.top_slug = TopSlugConfiguration(self._spec["top_slug"])
+        self.metadata = common_metadata.CommonMetadata(self.spec)
+        if "top_slug" in self.spec:
+            self.top_slug = TopSlugConfiguration(self.spec["top_slug"])
         else:
             self.top_slug = None
         self.additional_drawings = (
-            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self._spec)
+            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self.spec)
         )  # type: ignore
         self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(  # type: ignore
-            self._spec
+            self.spec
+        )
+        self.pad_overrides = pad_overrides.PadOverrides(
+            self.spec.get(pad_overrides.PAD_OVERRIDES_KEY, [])
+        )
+        self.toleranced_size_handler = TolerancedSizeHandler(
+            self.spec, self.spec.get("unit")
         )
 
     def _extract_general_data(self) -> None:
-        self.device_type = self._spec.get(
-            "device_type", self._header.get("device_type", "") if self._header else ""
+        self.device_type = self.spec.get(
+            "device_type", self.header.get("device_type", "") if self.header else ""
         )
-
-        self.force_small_pitch_ipc_definition = self._spec.get(
+        self.force_small_pitch_ipc_definition = self.spec.get(
             "force_small_pitch_ipc_definition", False
         )
-
         self.ipc_density = ipc_rules.IpcDensity.from_str(
-            self._spec.get("ipc_density", "nominal")
+            self.spec.get("ipc_density", "nominal")
         )
 
     def _extract_body_data(self) -> None:
-        s = self._spec
+        tsh = self.toleranced_size_handler
         self.has_3d_data = True
-        if "body_pcb_gap" in s and "body_height" in s:
-            self.body_pcb_gap = TolerancedSize.fromYaml(s, "body_pcb_gap").maximum
-            self.body_height = TolerancedSize.fromYaml(s, "body_height").maximum
-            self.overall_height = self.body_pcb_gap + self.body_height
-            if "overall_height" in s:
-                overall_height_2 = TolerancedSize.fromYaml(s, "overall_height").maximum
-                if abs(self.overall_height - overall_height_2) > 0.01:
+        body_pcb_gap = tsh.get_or_none("body_pcb_gap")
+        body_height = tsh.get_or_none("body_height")
+        overall_height = tsh.get_or_none("overall_height")
+        if body_pcb_gap and body_height:
+            overall_height = body_pcb_gap + body_height
+            if overall_height:
+                if abs((overall_height - body_height - body_pcb_gap).maximum) > 0.01:
                     raise KeyError(
                         f"Body height is over constrained and maximum dimensions "
                         f"do not match:\n"
-                        f"body_pcb_gap: {self.body_pcb_gap}, "
-                        f"body_height: {self.body_height}, "
-                        f"overall_height: {overall_height_2}"
+                        f"body_pcb_gap={self.body_pcb_gap.maximum}, "
+                        f"body_height={self.body_height.maximum}, "
+                        f"overall_height={overall_height.maximum}"
                     )
-        elif "body_pcb_gap" in s and "overall_height" in s:
-            self.body_pcb_gap = TolerancedSize.fromYaml(s, "body_pcb_gap").maximum
-            self.overall_height = TolerancedSize.fromYaml(s, "overall_height").maximum
-            self.body_height = self.overall_height - self.body_pcb_gap
-        elif "body_height" in s and "overall_height" in s:
-            self.body_height = TolerancedSize.fromYaml(s, "body_height").maximum
-            self.overall_height = TolerancedSize.fromYaml(s, "overall_height").maximum
-            self.body_pcb_gap = self.overall_height - self.body_height
+        elif body_pcb_gap and overall_height:
+            body_height = overall_height - body_pcb_gap
+        elif body_height and overall_height:
+            body_pcb_gap = overall_height - body_height
         else:
-            self.body_height = 0.0
-            self.overall_height = 0.0
-            self.body_pcb_gap = 0.0
+            body_height = TolerancedSize(nominal=0.0)
+            overall_height = TolerancedSize(nominal=0.0)
+            body_pcb_gap = TolerancedSize(nominal=0.0)
             self.has_3d_data = False
-        self.body_size_x = TolerancedSize.fromYaml(s, base_name="body_size_x")
-        self.body_size_y = TolerancedSize.fromYaml(s, base_name="body_size_y")
-        self.body_fillet = s.get("body_fillet", 0.0)
+        self.body_height = body_height
+        self.overall_height = overall_height
+        self.body_pcb_gap = body_pcb_gap
+        self.body_size_x = tsh.get("body_size_x")
+        self.body_size_y = tsh.get("body_size_y")
+        self.body_fillet = self.spec.get("body_fillet", 0.0)
 
     def _extract_pinning_data(self) -> None:
-        self.pitch = self._spec.get("pitch", 0.0)
-        if self.pitch < 0:
-            raise ValueError(f"Pitch must be positive, got {self.pitch}")
-        self.num_pins_x = self._spec["num_pins_x"]
-        self.num_pins_y = self._spec["num_pins_y"]
+        s = self.spec
+        tsh = self.toleranced_size_handler
+        self.pitch_x = tsh.get(["pitch", "pitch_x"])
+        self.pitch_y = tsh.get(["pitch", "pitch_y"])
+        self.lead_center_pos_x = (
+            tsh.get_or_none("lead_center_pos_x")
+            or tsh.get("lead_center_to_center_x", 0.0) / 2
+        )
+        self.lead_center_pos_y = (
+            tsh.get_or_none("lead_center_pos_y")
+            or tsh.get("lead_center_to_center_y", 0.0) / 2
+        )
+        self.num_pins_x = s["num_pins_x"]
+        self.num_pins_y = s["num_pins_y"]
 
-        if "deleted_pins" in self._spec:
-            if type(self._spec["deleted_pins"]) is int:
-                self._spec["deleted_pins"] = [self._spec["deleted_pins"]]
-            self.deleted_pins = self._spec["deleted_pins"]
+        if "deleted_pins" in s:
+            if type(s["deleted_pins"]) is int:
+                s["deleted_pins"] = [s["deleted_pins"]]
+            self.deleted_pins = s["deleted_pins"]
         else:
             self.deleted_pins = []
-        if "hidden_pins" in self._spec:
-            if type(self._spec["hidden_pins"]) is int:
-                self._spec["hidden_pins"] = [self._spec["hidden_pins"]]
-            self.hidden_pins = self._spec["hidden_pins"]
+        if "hidden_pins" in s:
+            if type(s["hidden_pins"]) is int:
+                s["hidden_pins"] = [s["hidden_pins"]]
+            self.hidden_pins = s["hidden_pins"]
         else:
             self.hidden_pins = []
-        if "deleted_pins" in self._spec and "hidden_pins" in self._spec:
+        if "deleted_pins" in s and "hidden_pins" in s:
             raise ValueError("A footprint may not have deleted pins and hidden pins.")
 
         self.pincount_full = self.num_pins_x * 2 + self.num_pins_y * 2
         self.pincount_real = (
             self.pincount_full - len(self.hidden_pins) - len(self.deleted_pins)
         )
-        if "pin_count" in self._spec:
+        if "pin_count" in s:
             # If the pin count is explicitly given, we use that and don't adjust for hidden/deleted pins
-            self.pincount_full = cast(int, self._spec["pin_count"])
+            self.pincount_full = cast(int, s["pin_count"])
 
     def _extract_pin_shape_data(self) -> None:
-        spec = self._spec
-        self.lead_height = _get_toleranced(spec, "lead_height", default_nom=0.0)
+        tsh = self.toleranced_size_handler
+        self.lead_height = tsh.get("lead_height", 0.0)
+        self.lead_width_h = tsh.get(["lead_width_H", "lead_width"])
+        self.lead_width_v = tsh.get(["lead_width_V", "lead_width"])
+        self.lead_to_edge = tsh.get("lead_to_edge", 0.0)
+        lead_len_h = tsh.get_or_none(["lead_len_H", "lead_len"])
+        lead_len_v = tsh.get_or_none(["lead_len_V", "lead_len"])
+        body_to_inside_lead_edge = tsh.get_or_none("body_to_inside_lead_edge")
+        if body_to_inside_lead_edge:
+            self.lead_len_h = body_to_inside_lead_edge - self.lead_to_edge
+            self.lead_len_v = body_to_inside_lead_edge - self.lead_to_edge
+        else:
+            if not lead_len_h or not lead_len_v:
+                raise KeyError(
+                    "Either 'lead_len' or 'body_to_inside_lead_edge' must be provided!"
+                )
+            self.lead_len_h = lead_len_h
+            self.lead_len_v = lead_len_v
+        self.lead_shape = self.spec.get("lead_shape", "rounded")
+        self.lead_shape_custom = self.spec.get("lead_shape_custom", [])
         if not self.lead_height:
             self.has_3d_data = False
         else:
             self.has_3d_data = True
-        lead_len_x = spec.get("lead_len", spec.get("lead_len_x", self.lead_height))
-        lead_len_y = spec.get("lead_len", spec.get("lead_len_y", self.lead_height))
-        if lead_len_x is None or lead_len_y is None:
-            raise KeyError(
-                f"Error in part {self.pkg_id}: 'lead_len' or 'lead_len_x' "
-                "and 'lead_len_y' must be provided."
-            )
-        self.lead_len_x = TolerancedSize.fromYaml(lead_len_x)
-        self.lead_len_y = TolerancedSize.fromYaml(lead_len_y)
-        self.lead_width = TolerancedSize.fromYaml(spec, base_name="lead_width")
-        self.lead_to_edge = _get_toleranced(spec, "lead_to_edge", default_nom=0.0)
-        self.lead_shape = spec.get("lead_shape", "rounded")
-        self.lead_shape_custom = spec.get("lead_shape_custom", [])
 
     def _extract_exposed_pad_data(self) -> None:
-        spec = self._spec
-        if "EP_size_x_min" in spec and "EP_size_x_max" in spec or "EP_size_x" in spec:
-            self.ep_size_x = TolerancedSize.fromYaml(spec, base_name="EP_size_x")
-            self.ep_size_y = TolerancedSize.fromYaml(spec, base_name="EP_size_y")
+        tsh = self.toleranced_size_handler
+        self.ep_size_x = tsh.get("EP_size_x", 0.0)
+        self.ep_size_y = tsh.get("EP_size_y", 0.0)
+        self.ep_offset_x = tsh.get("EP_center_x", 0.0)
+        self.ep_offset_y = tsh.get("EP_center_y", 0.0)
+        self.ep_angle = self.spec.get("ep_angle", 0.0)
+        self.ep_mask_x = tsh.get("EP_mask_x", 0.0)
+        self.ep_mask_y = tsh.get("EP_mask_y", 0.0)
+        self.ep_chamfer = tsh.get("ep_chamfer", 0.0)
+        self.ep_num = self.spec.get("epad_n", [1, 1])
+        self.ep_pitch = self.spec.get("epad_pitch", [0, 0])
+        if self.ep_size_x.nominal and self.ep_size_y.nominal:
             self.has_ep = True
         else:
-            self.ep_size_x = TolerancedSize.fromString("0")
-            self.ep_size_y = TolerancedSize.fromString("0")
             self.has_ep = False
-        self.ep_angle = spec.get("ep_angle", 0.0)
-        self.ep_mask_x = _get_toleranced(spec, "EP_mask_x", default_nom=0.0)
-        self.ep_mask_y = _get_toleranced(spec, "EP_mask_y", default_nom=0.0)
-        self.ep_chamfer = _get_toleranced(spec, "ep_chamfer", default_nom=0.0)
-        self.ep_num = spec.get("epad_n", [1, 1])
-        self.ep_pitch = spec.get("epad_pitch", [0, 0])
-        self.ep_offset_x = spec.get("epad_offst_x", 0.0)
-        self.ep_offset_y = spec.get("epad_offst_y", 0.0)
 
     def _extract_marker_data(self) -> None:
-        self.marker = self._spec.get("marker", "circle")
-        self.marker_dx = self._spec.get("marker_d", self._spec.get("marker_dx"))
-        self.marker_dy = self._spec.get("marker_d", self._spec.get("marker_dy"))
+        self.marker = self.spec.get("marker", "circle")
+        self.marker_dx = self.spec.get("marker_d", self.spec.get("marker_dx"))
+        self.marker_dy = self.spec.get("marker_d", self.spec.get("marker_dy"))
 
     def _compose_device_names(self) -> None:
-        spec = self._spec
+        spec = self.spec
 
         size_x = self.body_size_x.nominal
         size_y = self.body_size_y.nominal
@@ -382,37 +391,36 @@ class NoLeadConfiguration:
         else:
             pincount_text = "{}".format(self.pincount_full)
 
-        ep_size_x = self.ep_size_x.nominal
-        ep_size_y = self.ep_size_y.nominal
+        if "EP_size_x_overwrite" in spec:
+            ep_size_x = cast(float, spec["EP_size_x_overwrite"])
+            ep_size_y = cast(float, spec["EP_size_y_overwrite"])
+        else:
+            ep_size_x = self.ep_size_x.nominal
+            ep_size_y = self.ep_size_y.nominal
+
+        layout = ""
         if self.has_ep:
-            name_format = self._config[
+            name_format = self.config[
                 "fp_name_EP_format_string_no_trailing_zero_pincount_text"
             ]
-            if "EP_size_x_overwrite" in spec:
-                ep_size_x = cast(float, spec["EP_size_x_overwrite"])
-                ep_size_y = cast(float, spec["EP_size_y_overwrite"])
-            if "EP_mask_x" in self._spec:
-                name_format = self._config[
-                    "fp_name_EP_custom_mask_format_string_no_trailing_zero_pincount_text"
-                ]
         else:
-            name_format = self._config[
+            name_format = self.config[
                 "fp_name_format_string_no_trailing_zero_pincount_text"
             ]
+            if spec.get("use_name_format", "QFN") == "LGA":
+                name_format = self.config[
+                    "fp_name_lga_format_string_no_trailing_zero_pincount_text"
+                ]
+
+                if self.num_pins_x > 0 and self.num_pins_y > 0:
+                    layout = self.config["lga_layout_border"].format(
+                        nx=spec["num_pins_x"], ny=spec["num_pins_y"]
+                    )
 
         if self.metadata.custom_name_format:
             name_format = self.metadata.custom_name_format
 
-        # This suffix is always added to the footprint name, as it is important for the 3D model
-        always_suffix = ""
-
-        if self.top_slug:
-            always_suffix = "_" + self.top_slug.get_name_suffix()
-
         suffix = spec.get("suffix", "")
-
-        if always_suffix:
-            suffix = always_suffix + suffix
 
         self.fp_name_without_vias = (
             name_format.format(
@@ -420,15 +428,16 @@ class NoLeadConfiguration:
                 mpn=self.metadata.part_number or "",
                 pkg=self.device_type,
                 pincount=pincount_text,
-                size_y=size_y,
                 size_x=size_x,
-                pitch=spec["pitch"],
+                size_y=size_y,
+                pitch=self.pitch_x.nominal,
+                layout=layout,
                 ep_size_x=ep_size_x,
                 ep_size_y=ep_size_y,
                 mask_size_x=self.ep_mask_x.nominal,
                 mask_size_y=self.ep_mask_y.nominal,
-                suffix=suffix,
-                suffix2="",
+                suffix="",
+                suffix2=suffix,
                 vias="",
             )
             .replace("__", "_")
@@ -441,42 +450,40 @@ class NoLeadConfiguration:
                 mpn=self.metadata.part_number or "",
                 pkg=self.device_type,
                 pincount=pincount_text,
-                size_y=size_y,
                 size_x=size_x,
-                pitch=spec["pitch"],
+                size_y=size_y,
+                pitch=self.pitch_x.nominal,
+                layout=layout,
                 ep_size_x=ep_size_x,
                 ep_size_y=ep_size_y,
                 mask_size_x=self.ep_mask_x.nominal,
                 mask_size_y=self.ep_mask_y.nominal,
-                suffix=suffix,
-                suffix2="",
-                vias=self._spec.get("thermal_via_suffix", "_ThermalVias"),
+                suffix="",
+                suffix2=suffix,
+                vias=self.spec.get("thermal_via_suffix", "_ThermalVias"),
             )
             .replace("__", "_")
             .lstrip("_")
         )
 
         if self.device_type:
-            suffix_3d = (
-                suffix
-                if spec.get("include_suffix_in_3dpath", "True") == "True"
-                else always_suffix
-            )
+            suffix_3d = suffix if spec.get("include_suffix_in_3dpath", True) else ""
             self.model_name = (
                 name_format.format(
                     man=self.metadata.manufacturer or "",
                     mpn=self.metadata.part_number or "",
                     pkg=self.device_type,
                     pincount=pincount_text,
-                    size_y=size_y,
                     size_x=size_x,
-                    pitch=spec["pitch"],
+                    size_y=size_y,
+                    pitch=self.pitch_x.nominal,
+                    layout=layout,
                     ep_size_x=ep_size_x,
                     ep_size_y=ep_size_y,
                     mask_size_x=self.ep_mask_x.nominal,
                     mask_size_y=self.ep_mask_y.nominal,
-                    suffix=suffix_3d,
-                    suffix2="",
+                    suffix="",
+                    suffix2=suffix_3d,
                     vias="",
                 )
                 .replace("__", "_")
@@ -485,26 +492,13 @@ class NoLeadConfiguration:
         else:
             self.model_name = self.pkg_id
 
+        if "fp_name_prefix" in spec:
+            prefix = spec["fp_name_prefix"]
+            if not prefix.endswith("_"):
+                prefix += "_"
+            self.model_name = prefix + self.model_name
+            self.fp_name_with_vias = prefix + self.fp_name_with_vias
+            self.fp_name_without_vias = prefix + self.fp_name_without_vias
+
     def _compose_lib_name(self) -> None:
-        if destination_dir := self._spec.get("destination_dir"):
-            self.lib_name = destination_dir
-        elif self._header and "override_lib_name" in self._header:
-            self.lib_name = self._header["override_lib_name"]
-        else:
-            self.lib_name = self._config["lib_name_format_string"].format(
-                category=self._header.get("library_Suffix", "DFN_QFN")
-            )
-
-    @property
-    def spec_dictionary(self) -> dict[str, Any]:
-        """
-        Get the raw spec dictionary.
-
-        This is only temporary, and can be piecewise replaced by
-        type-safe declarative definitions, but that requires deep changes
-        """
-        return self._spec
-
-    @property
-    def has_top_slug(self) -> bool:
-        return self.top_slug is not None
+        self.lib_name = self.spec.get("library", "Package_DFN_QFN")
