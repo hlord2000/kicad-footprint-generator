@@ -12,7 +12,7 @@ D_0603_1608Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_0805_2012Metric:
@@ -29,7 +29,7 @@ D_0805_2012Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_1206_3216Metric:
@@ -46,7 +46,7 @@ D_1206_3216Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_2010_5025Metric:
@@ -63,7 +63,7 @@ D_2010_5025Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_2114_3652Metric:
@@ -80,7 +80,7 @@ D_2114_3652Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_3220_8050Metric:
@@ -97,7 +97,7 @@ D_3220_8050Metric:
   lead_shape: concave
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'http://datasheets.avx.com/schottky.pdf'
 
 D_SOD-110:
@@ -114,7 +114,7 @@ D_SOD-110:
   lead_shape: cshaped
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'https://www.nxp.com/docs/en/package-information/SOD110.pdf'
 
 D_SOD-882:
@@ -131,7 +131,7 @@ D_SOD-882:
   lead_shape: square
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'https://assets.nexperia.com/documents/package-information/SOD882.pdf'
 
 D_SOD-882D:
@@ -148,7 +148,7 @@ D_SOD-882D:
   lead_shape: custom
   num_pins_x: 0
   num_pins_y: 1
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   lead_shape_custom: [[[ 0.2, -0.25], [ 0.45, -0.25], [ 0.45, -0.125], [ 0.5, -0.125], [ 0.5, 0.125], [ 0.45, 0.125], [ 0.45, 0.25], [ 0.2, 0.25]],
                [[-0.2, -0.25], [-0.45, -0.25], [-0.45, -0.125], [-0.5, -0.125], [-0.5, 0.125], [-0.45, 0.125], [-0.45, 0.25], [-0.2, 0.25]]]
   source: 'https://www.nxp.com/docs/en/package-information/SOD882D.pdf'
@@ -168,7 +168,7 @@ AMS_LGA-10-1EP_2.7x4mm_P0.6mm:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 2.4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://web.archive.org/web/20181207160723if_/http://ams.com:80/documents/20143/36005/CCS811_DS000459_6-00.pdf/c7091525-c7e5-37ac-eedb-b6c6828b0dcf'
 
 ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y:
@@ -184,7 +184,7 @@ ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y:
   lead_shape: square
   num_pins_y: 2
   num_pins_x: 3
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.st.com/resource/en/datasheet/lps22hh.pdf'
 
 LGA-12_2x2mm_P0.5mm:
@@ -201,7 +201,7 @@ LGA-12_2x2mm_P0.5mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 2
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'N/A'
 
 LGA-16_3x3mm_P0.5mm:
@@ -217,7 +217,7 @@ LGA-16_3x3mm_P0.5mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.mouser.com/datasheet/2/389/cd00250937-1797158.pdf'
 
 LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
@@ -234,7 +234,7 @@ LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 3
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.mouser.com/datasheet/2/389/cd00250937-1797158.pdf'
 
 LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
@@ -251,7 +251,7 @@ LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
 
 LGA-24L_3x3.5mm_P0.43mm:
@@ -268,7 +268,7 @@ LGA-24L_3x3.5mm_P0.43mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 8
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
 
 LGA-28_5.2x3.8mm_P0.5mm:
@@ -285,7 +285,7 @@ LGA-28_5.2x3.8mm_P0.5mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 10
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
 
 ST_HLGA-10_2.5x2.5mm_P0.6mm_LayoutBorder3x2y:
@@ -302,7 +302,7 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm_LayoutBorder3x2y:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 2
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
 
 lga16_3x3_p05:
@@ -318,7 +318,7 @@ lga16_3x3_p05:
   lead_shape: rounded
   num_pins_y: 5
   num_pins_x: 3
-  destination_dir: null
+  library: Package_LGA
   source: 'https://www.mouser.com/datasheet/2/389/cd00250937-1797158.pdf'
 
 dfn6_2x2_p065:
@@ -336,7 +336,7 @@ dfn6_2x2_p065:
   num_pins_x: 0
   ep_size_x: 1.0
   ep_size_y: 1.6
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub_link/Collateral/NCP308-D.PDF'
 
 dfn8_3x3_p05:
@@ -354,7 +354,7 @@ dfn8_3x3_p05:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 2.38
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/datasheet/2875f.pdf'
 
 dfn8_3x3_p065:
@@ -372,7 +372,7 @@ dfn8_3x3_p065:
   num_pins_x: 0
   ep_size_x: 1.4
   ep_size_y: 2.4
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://www.st.com/web/en/resource/technical/document/datasheet/CD00001508.pdf'
 
 dfn8_2x3_p05:
@@ -390,7 +390,7 @@ dfn8_2x3_p05:
   num_pins_x: 0
   ep_size_x: 0.61
   ep_size_y: 2.2
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/datasheet/4365fa.pdf'
 
 DHVQFN14:
@@ -408,7 +408,7 @@ DHVQFN14:
   num_pins_y: 2
   ep_size_x: 1.5
   ep_size_y: 1.0
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'https://www.nxp.com/docs/en/package-information/SOT762-1.pdf'
 
 sot891_1x1_p035:
@@ -424,8 +424,8 @@ sot891_1x1_p035:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: null
-  source: 'http://cds.linear.com/docs/en/datasheet/4365fa.pdf'
+  library: Package_SON
+  source: 'https://www.nxp.com/docs/en/package-information/SOT891.pdf'
 
 dfn8_6x5_p127:
   lead_height: 0.2
@@ -442,7 +442,7 @@ dfn8_6x5_p127:
   num_pins_x: 0
   ep_size_x: 2
   ep_size_y: 2
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'https://web.archive.org/web/20160814193727if_/http://www.everspin.com/file/217/download'
 
 dfn10_2x3_p05:
@@ -460,7 +460,7 @@ dfn10_2x3_p05:
   num_pins_x: 0
   ep_size_x: 0.84
   ep_size_y: 2.4
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://www.ti.com.cn/general/cn/docs/lit/getliterature.tsp?genericPartNumber=tps62177&fileType=pdf'
 
 qfn16_3x3_p05:
@@ -478,7 +478,7 @@ qfn16_3x3_p05:
   num_pins_x: 4
   ep_size_x: 1.7
   ep_size_y: 1.7
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 qfn24_415x415_p05:
@@ -496,7 +496,7 @@ qfn24_415x415_p05:
   num_pins_x: 6
   ep_size_x: 2.45
   ep_size_y: 2.45
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 qfn28_6x6_p065:
@@ -514,7 +514,7 @@ qfn28_6x6_p065:
   num_pins_x: 7
   ep_size_x: 3.7
   ep_size_y: 3.7
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 qfn32_5x5_p05:
@@ -532,7 +532,7 @@ qfn32_5x5_p05:
   num_pins_x: 8
   ep_size_x: 3.6
   ep_size_y: 3.6
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 qfn40_6x6_p05:
@@ -550,7 +550,7 @@ qfn40_6x6_p05:
   num_pins_x: 10
   ep_size_x: 2.62
   ep_size_y: 3.52
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf'
 
 qfn44_8x8_p065:
@@ -568,7 +568,7 @@ qfn44_8x8_p065:
   num_pins_x: 11
   ep_size_x: 6.45
   ep_size_y: 6.45
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 qfn64_9x9_p05:
@@ -586,7 +586,7 @@ qfn64_9x9_p05:
   num_pins_x: 16
   ep_size_x: 4.7
   ep_size_y: 4.7
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 TCPT1350x01:
@@ -602,7 +602,7 @@ TCPT1350x01:
   lead_shape: rounded
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: null
+  library: Package_DFN_QFN
   source: 'N/A'
 
 AVX_M620720:
@@ -621,7 +621,7 @@ AVX_M620720:
   num_pins_y: 0
   ep_size_x: 0.89
   ep_size_y: 2.0
-  destination_dir: RF_Antenna
+  library: RF_Antenna
   source: 'http://datasheets.avx.com/ethertronics/AVX-E_M620720.pdf'
 
 Diodes_UDFN-10_1.0x2.5mm_P0.5mm:
@@ -641,7 +641,7 @@ Diodes_UDFN-10_1.0x2.5mm_P0.5mm:
   ep_size_y: 0.4
   epad_n: [1, 2]
   epad_pitch: [0, 0.6]
-  destination_dir: 'Package_DFN_QFN'
+  library: Package_DFN_QFN
   source: 'https://www.diodes.com/assets/Package-Files/U-DFN2510-10-Type-CJ.pdf'
 
 UDFN-10_1.35x2.6mm_Pitch0.5mm:
@@ -657,7 +657,7 @@ UDFN-10_1.35x2.6mm_Pitch0.5mm:
   lead_shape: rounded
   num_pins_y: 5
   num_pins_x: 0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.st.com/content/ccc/resource/technical/document/datasheet/f2/11/8a/ed/40/31/40/56/DM00088292.pdf/files/DM00088292.pdf/jcr:content/translations/en.DM00088292.pdf'
 
 DFN-4-1EP_1x1mm_P0.65mm_EP0.5x0.5mm:
@@ -676,7 +676,7 @@ DFN-4-1EP_1x1mm_P0.65mm_EP0.5x0.5mm:
   ep_size_x: 0.5
   ep_size_y: 0.5
   ep_angle: 45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   lead_shape_custom: [[[-0.4375, -0.5], [-0.2125, -0.5], [-0.2125, -0.43], [-0.3925, -0.25], [-0.4375, -0.25]], [[0.4375, -0.5], [0.2125, -0.5], [0.2125, -0.43], [0.3925, -0.25], [0.4375, -0.25]], [[0.4375, 0.5], [0.2125, 0.5], [0.2125, 0.43], [0.3925, 0.25], [0.4375, 0.25]], [[-0.4375, 0.5], [-0.2125, 0.5], [-0.2125, 0.43], [-0.3925, 0.25], [-0.4375, 0.25]]]
   source: 'https://web.archive.org/web/20190616232205/https://ww1.microchip.com/downloads/en/DeviceDoc/MIC550x-300mA-Single-Output-LDO-in-Small-Packages-DS20006006A.pdf'
 
@@ -695,7 +695,7 @@ DFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
   num_pins_x: 0
   ep_size_x: 0.3
   ep_size_y: 0.94
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/NCP133-D.PDF'
 
 Balun_Johanson_0896BM15A0001:
@@ -713,7 +713,7 @@ Balun_Johanson_0896BM15A0001:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: RF_Converter
+  library: RF_Converter
   source: 'http://www.onsemi.com/pub/Collateral/NCP133-D.PDF'
 
 Balun_Johanson_0900FM15K0039:
@@ -731,7 +731,7 @@ Balun_Johanson_0900FM15K0039:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 1
-  destination_dir: RF_Converter
+  library: RF_Converter
   source: 'https://www.johansontechnology.com/datasheets/0900FM15K0039/0900FM15K0039.pdf'
 
 Balun_Johanson_0900PC15J0013:
@@ -749,7 +749,7 @@ Balun_Johanson_0900PC15J0013:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 1
-  destination_dir: RF_Converter
+  library: RF_Converter
   source: 'https://www.johansontechnology.com/datasheets/0900PC15J0013/0900PC15J0013.pdf'
 
 DFN-6-1EP_2x2mm_Pitch0.5mm:
@@ -767,13 +767,13 @@ DFN-6-1EP_2x2mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 0.6
   ep_size_y: 1.37
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081703_C_DC6.pdf'
 
 Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
   lead_height: 0.2
-  lead_len_x: 0.4
-  lead_len_y: 0.3
+  lead_len_H: 0.4
+  lead_len_V: 0.3
   body_size_y: 1.6
   body_size_x: 1.3
   body_pcb_gap: 0.02
@@ -783,7 +783,7 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
   lead_shape: rounded
   num_pins_y: 2
   num_pins_x: 3
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_10_10.pdf'
 
 DFN-6-1EP_2x2mm_Pitch0.65mm:
@@ -801,7 +801,7 @@ DFN-6-1EP_2x2mm_Pitch0.65mm:
   num_pins_x: 0
   ep_size_x: 0.9
   ep_size_y: 1.64
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.nxp.com/docs/en/package-information/SOT1118D.pdf'
 
 LFCSP-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
@@ -819,7 +819,7 @@ LFCSP-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   num_pins_x: 0
   ep_size_x: 1.0
   ep_size_y: 1.6
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_6_3.pdf'
 
 TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
@@ -837,7 +837,7 @@ TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
   num_pins_x: 0
   ep_size_x: 1.3
   ep_size_y: 2.0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.nve.com/Downloads/ab3.pdf'
 
 Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
@@ -856,7 +856,7 @@ Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
   num_pins_x: 0
   ep_size_x: 1.75
   ep_size_y: 1.63
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tdfn-ep/21-0174.pdf'
 
 DFN-6-1EP_3x3mm_Pitch0.95mm:
@@ -874,7 +874,7 @@ DFN-6-1EP_3x3mm_Pitch0.95mm:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 2.0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506AX.PDF'
 
 DFN-6-1EP_3x3mm_Pitch1mm:
@@ -892,7 +892,7 @@ DFN-6-1EP_3x3mm_Pitch1mm:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 2.0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.silabs.com/documents/public/data-sheets/Si7020-A20.pdf'
 
 DFN-6-1EP_3x2mm_Pitch0.5mm:
@@ -910,7 +910,7 @@ DFN-6-1EP_3x2mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 1.35
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-dfn/(DCB6)%20DFN%2005-08-1715%20Rev%20A.pdf'
 
 DFN-8_2x2mm_Pitch0.5mm:
@@ -926,7 +926,7 @@ DFN-8_2x2mm_Pitch0.5mm:
   lead_shape: rounded
   num_pins_y: 4
   num_pins_x: 0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506AQ.PDF'
 
 DFN-8-1EP_2x2mm_Pitch0.5mm:
@@ -944,7 +944,7 @@ DFN-8-1EP_2x2mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 0.6
   ep_size_y: 1.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506AQ.PDF'
 
 DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
@@ -962,7 +962,7 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   num_pins_x: 0
   ep_size_x: 0.6
   ep_size_y: 1.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506AQ.PDF' # also https://www.qorvo.com/products/d/da001879
 
 DFN-8-1EP_2x2mm_Pitch0.45mm:
@@ -980,7 +980,7 @@ DFN-8-1EP_2x2mm_Pitch0.45mm:
   num_pins_x: 0
   ep_size_x: 0.64
   ep_size_y: 1.37
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_8_05-08-1719.pdf'
 
 DFN-8-1EP_2x3mm_Pitch0.5mm:
@@ -998,7 +998,7 @@ DFN-8-1EP_2x3mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 0.56
   ep_size_y: 2.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081702_C_DDB8.pdf'
 
 DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm:
@@ -1016,7 +1016,7 @@ DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm:
   num_pins_x: 0
   ep_size_x: 1.75
   ep_size_y: 1.6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8904DD/document_id/1244/'
 
 DFN-8-1EP_3x2mm_Pitch0.5mm:
@@ -1034,7 +1034,7 @@ DFN-8-1EP_3x2mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.4
   ep_size_y: 1.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/517DH.PDF'
 
 DFN-8-1EP_3x2mm_Pitch0.45mm:
@@ -1052,7 +1052,7 @@ DFN-8-1EP_3x2mm_Pitch0.45mm:
   num_pins_x: 0
   ep_size_x: 1.35
   ep_size_y: 1.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_8_05-08-1718.pdf'
 
 DFN-8-1EP_3x3mm_Pitch0.5mm:
@@ -1070,7 +1070,7 @@ DFN-8-1EP_3x3mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 2.38
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_8_05-08-1698.pdf'
 
 DFN-8-1EP_3x3mm_Pitch0.65mm:
@@ -1088,7 +1088,7 @@ DFN-8-1EP_3x3mm_Pitch0.65mm:
   num_pins_x: 0
   ep_size_x: 1.5
   ep_size_y: 2.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506BY.PDF'
 
 DFN-8-1EP_3x3mm_P0.65mm_EP1.5x2.25mm:
@@ -1106,7 +1106,7 @@ DFN-8-1EP_3x3mm_P0.65mm_EP1.5x2.25mm:
   num_pins_x: 0
   ep_size_x: 1.50
   ep_size_y: 2.25
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.diodes.com/assets/Package-Files/U-DFN3030-8-Type-E.pdf'
 
 DFN-8-1EP_4x4mm_Pitch0.8mm:
@@ -1124,7 +1124,7 @@ DFN-8-1EP_4x4mm_Pitch0.8mm:
   num_pins_x: 0
   ep_size_x: 2.4
   ep_size_y: 2.06
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/488AF.PDF'
 
 DFN-10-1EP_2x3mm_Pitch0.5mm:
@@ -1142,7 +1142,7 @@ DFN-10-1EP_2x3mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 0.6
   ep_size_y: 2.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/506DH.PDF'
 
 DFN-10-1EP_3x3mm_Pitch0.5mm:
@@ -1160,7 +1160,7 @@ DFN-10-1EP_3x3mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 2.38
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_10_05-08-1699.pdf'
 
 DFN-12-1EP_2x3mm_Pitch0.45mm:
@@ -1178,7 +1178,7 @@ DFN-12-1EP_2x3mm_Pitch0.45mm:
   num_pins_x: 0
   ep_size_x: 0.64
   ep_size_y: 2.39
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_12_05-08-1723.pdf'
 
 DFN-12-1EP_3x3mm_P0.45mm_EP1.65x2.38mm:
@@ -1196,7 +1196,7 @@ DFN-12-1EP_3x3mm_P0.45mm_EP1.65x2.38mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 2.38
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-dfn/dfn_12_05-08-1725.pdf'
 
 DFN-12-1EP_3x4mm_Pitch0.5mm:
@@ -1214,7 +1214,7 @@ DFN-12-1EP_3x4mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.7
   ep_size_y: 3.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_12_05-08-1695.pdf'
 
 DFN-12-1EP_4x4mm_Pitch0.5mm:
@@ -1232,7 +1232,7 @@ DFN-12-1EP_4x4mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 2.65
   ep_size_y: 3.38
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081733_A_DF12.pdf'
 
 DFN-12-1EP_4x4mm_Pitch0.65mm:
@@ -1250,7 +1250,7 @@ DFN-12-1EP_4x4mm_Pitch0.65mm:
   num_pins_x: 0
   ep_size_x: 2.5
   ep_size_y: 3.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/506CE.PDF'
 
 OnSemi_DFN-14-1EP_4x4mm_P0.5mm_EP2.7x3.4mm:
@@ -1268,7 +1268,7 @@ OnSemi_DFN-14-1EP_4x4mm_P0.5mm_EP2.7x3.4mm:
   num_pins_x: 0
   ep_size_x: 2.7
   ep_size_y: 3.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.com/pub/Collateral/506CM.PDF'
 
 DFN-16-1EP_3x4mm_Pitch0.45mm:
@@ -1286,7 +1286,7 @@ DFN-16-1EP_3x4mm_Pitch0.45mm:
   num_pins_x: 0
   ep_size_x: 1.7
   ep_size_y: 3.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_16_05-08-1732.pdf'
 
 DFN-16-1EP_3x5mm_Pitch0.5mm:
@@ -1304,7 +1304,7 @@ DFN-16-1EP_3x5mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 4.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_16_05-08-1706.pdf'
 
 DFN-16-1EP_4x5mm_Pitch0.5mm:
@@ -1322,7 +1322,7 @@ DFN-16-1EP_4x5mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 2.44
   ep_size_y: 4.34
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081707_A_DHD16.pdf'
 
 DFN-16-1EP_5x5mm_Pitch0.5mm:
@@ -1340,7 +1340,7 @@ DFN-16-1EP_5x5mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 3.45
   ep_size_y: 3.99
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_16_05-08-1709.pdf'
 
 DFN-18-1EP_3x5mm_Pitch0.5mm:
@@ -1358,7 +1358,7 @@ DFN-18-1EP_3x5mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 4.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081955_0_DHC18.pdf'
 
 DFN-18-1EP_4x5mm_Pitch0.5mm:
@@ -1376,7 +1376,7 @@ DFN-18-1EP_4x5mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 2.44
   ep_size_y: 4.34
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081955_0_DHC18.pdf'
 
 DFN-20-1EP_5x6mm_Pitch0.5mm:
@@ -1394,7 +1394,7 @@ DFN-20-1EP_5x6mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 3.13
   ep_size_y: 4.13
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/505AB.PDF'
 
 AO_DFN-8-1EP_5.55x5.2mm_P1.27mm_EP4.12x4.6mm:
@@ -1412,8 +1412,8 @@ AO_DFN-8-1EP_5.55x5.2mm_P1.27mm_EP4.12x4.6mm:
   num_pins_x: 0
   ep_size_x: 3.625
   ep_size_y: 4.35
-  epad_offset_y: 0.6775
-  destination_dir: Package_DFN_QFN
+  EP_center_y: 0.6775
+  library: Package_DFN_QFN
   source: 'http://www.aosmd.com/res/packaging_information/DFN5x6_8L_EP1_P.pdf'
 
 WQFN-20-1EP_4.5x2.5mm_Pitch0.5mm_EP2.9x1.0mm:
@@ -1431,7 +1431,7 @@ WQFN-20-1EP_4.5x2.5mm_Pitch0.5mm_EP2.9x1.0mm:
   num_pins_x: 2
   ep_size_x: 1.0
   ep_size_y: 2.9
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/505AB.PDF'
 
 DFN-22-1EP_5x6mm_Pitch0.5mm:
@@ -1449,7 +1449,7 @@ DFN-22-1EP_5x6mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 3.13
   ep_size_y: 4.13
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/506AF.PDF'
 
 DFN-24-1EP_4x7mm_Pitch0.5mm:
@@ -1467,7 +1467,7 @@ DFN-24-1EP_4x7mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 2.64
   ep_size_y: 6.43
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_24_05-08-1864.pdf'
 
 DFN-32-1EP_4x7mm_Pitch0.4mm:
@@ -1485,7 +1485,7 @@ DFN-32-1EP_4x7mm_Pitch0.4mm:
   num_pins_x: 0
   ep_size_x: 2.65
   ep_size_y: 6.43
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/DFN_32_05-08-1734.pdf'
 
 DFN-44-1EP_5x8.9mm_Pitch0.4mm:
@@ -1503,7 +1503,7 @@ DFN-44-1EP_5x8.9mm_Pitch0.4mm:
   num_pins_x: 0
   ep_size_x: 3.6
   ep_size_y: 8.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/506BU.PDF'
 
 DFN-S-8-1EP_6x5mm_Pitch1.27mm:
@@ -1521,7 +1521,7 @@ DFN-S-8-1EP_6x5mm_Pitch1.27mm:
   num_pins_x: 0
   ep_size_x: 3.0
   ep_size_y: 4.0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/506BG.PDF'
 
 MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
@@ -1539,7 +1539,7 @@ MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
   num_pins_x: 0
   ep_size_x: 0.5
   ep_size_y: 1.26
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/mic5353.pdf'
 
 QFN-12-1EP_3x3mm_Pitch0.5mm:
@@ -1557,7 +1557,7 @@ QFN-12-1EP_3x3mm_Pitch0.5mm:
   num_pins_x: 3
   ep_size_x: 1.65
   ep_size_y: 1.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_12_%2005-08-1855.pdf'
 
 QFN-16-1EP_3x3mm_Pitch0.5mm:
@@ -1575,7 +1575,7 @@ QFN-16-1EP_3x3mm_Pitch0.5mm:
   num_pins_x: 4
   ep_size_x: 1.65
   ep_size_y: 1.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_16_05-08-1700.pdf'
 
 QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
@@ -1593,7 +1593,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
   num_pins_x: 4
   ep_size_x: 2.15
   ep_size_y: 2.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/4001f.pdf'
 
 QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
@@ -1611,7 +1611,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   num_pins_x: 4
   ep_size_x: 2.1
   ep_size_y: 2.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://ftdichip.com/wp-content/uploads/2021/10/DS_FT230X.pdf'
 
 QFN-16-1EP_5x5mm_Pitch0.8mm:
@@ -1629,7 +1629,7 @@ QFN-16-1EP_5x5mm_Pitch0.8mm:
   num_pins_x: 4
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485AC.PDF'
 
 QFN-20-1EP_3x4mm_Pitch0.5mm:
@@ -1647,7 +1647,7 @@ QFN-20-1EP_3x4mm_Pitch0.5mm:
   num_pins_x: 4
   ep_size_x: 1.65
   ep_size_y: 2.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_20_05-08-1742.pdf'
 
 QFN-20-1EP_4x4mm_Pitch0.5mm:
@@ -1665,7 +1665,7 @@ QFN-20-1EP_4x4mm_Pitch0.5mm:
   num_pins_x: 5
   ep_size_x: 2.45
   ep_size_y: 2.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_20_05-08-1710.pdf'
 
 QFN-20-1EP_4x5mm_Pitch0.5mm:
@@ -1683,7 +1683,7 @@ QFN-20-1EP_4x5mm_Pitch0.5mm:
   num_pins_x: 4
   ep_size_x: 2.65
   ep_size_y: 3.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_20_05-08-1711.pdf'
 
 QFN-20-1EP_5x5mm_Pitch0.65mm:
@@ -1701,7 +1701,7 @@ QFN-20-1EP_5x5mm_Pitch0.65mm:
   num_pins_x: 5
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_20_05-08-1818.pdf'
 
 QFN-24_3x3mm_Pitch0.4mm:
@@ -1717,7 +1717,7 @@ QFN-24_3x3mm_Pitch0.4mm:
   lead_shape: rounded
   num_pins_y: 6
   num_pins_x: 6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/'
 
 QFN-24_4x4mm_Pitch0.5mm:
@@ -1733,7 +1733,7 @@ QFN-24_4x4mm_Pitch0.5mm:
   lead_shape: rounded
   num_pins_y: 6
   num_pins_x: 6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/%28UF24%29%20QFN%2005-08-1697%20Rev%20B.pdf'
 
 QFN-24-1EP_3x3mm_Pitch0.4mm:
@@ -1751,7 +1751,7 @@ QFN-24-1EP_3x3mm_Pitch0.4mm:
   num_pins_x: 6
   ep_size_x: 1.54
   ep_size_y: 1.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/'
 
 QFN-24-1EP_3x4mm_Pitch0.4mm:
@@ -1769,7 +1769,7 @@ QFN-24-1EP_3x4mm_Pitch0.4mm:
   num_pins_x: 5
   ep_size_x: 1.65
   ep_size_y: 2.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_24_05-08-1745.pdf'
 
 QFN-24-1EP_4x4mm_Pitch0.5mm:
@@ -1787,7 +1787,7 @@ QFN-24-1EP_4x4mm_Pitch0.5mm:
   num_pins_x: 6
   ep_size_x: 2.45
   ep_size_y: 2.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/%28UF24%29%20QFN%2005-08-1697%20Rev%20B.pdf'
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
@@ -1805,7 +1805,7 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   num_pins_x: 6
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.diodes.com/assets/Datasheets/AP33771.pdf'
 
 QFN-24-1EP_4x5mm_Pitch0.5mm:
@@ -1823,7 +1823,7 @@ QFN-24-1EP_4x5mm_Pitch0.5mm:
   num_pins_x: 5
   ep_size_x: 2.65
   ep_size_y: 3.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_24_05-08-1696.pdf'
 
 QFN-24-1EP_5x5mm_Pitch0.65mm:
@@ -1841,7 +1841,7 @@ QFN-24-1EP_5x5mm_Pitch0.65mm:
   num_pins_x: 6
   ep_size_x: 3.2
   ep_size_y: 3.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/%28UH24%29%20QFN%2005-08-1747%20Rev%20A.pdf'
 
 QFN-28-1EP_3x6mm_Pitch0.5mm:
@@ -1859,7 +1859,7 @@ QFN-28-1EP_3x6mm_Pitch0.5mm:
   num_pins_x: 4
   ep_size_x: 1.7
   ep_size_y: 4.75
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081926_0_UDE28.pdf'
 
 QFN-28-1EP_4x4mm_Pitch0.4mm:
@@ -1877,7 +1877,7 @@ QFN-28-1EP_4x4mm_Pitch0.4mm:
   num_pins_x: 7
   ep_size_x: 2.64
   ep_size_y: 2.64
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_28_05-08-1721.pdf'
 
 QFN-28-1EP_4x5mm_Pitch0.5mm:
@@ -1895,7 +1895,7 @@ QFN-28-1EP_4x5mm_Pitch0.5mm:
   num_pins_x: 6
   ep_size_x: 2.65
   ep_size_y: 3.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081712_C_UFD28.pdf'
 
 QFN-28-1EP_5x5mm_Pitch0.5mm:
@@ -1913,7 +1913,7 @@ QFN-28-1EP_5x5mm_Pitch0.5mm:
   num_pins_x: 7
   ep_size_x: 3.15
   ep_size_y: 3.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485FH.PDF'
 
 QFN-28-1EP_5x6mm_Pitch0.5mm:
@@ -1931,7 +1931,7 @@ QFN-28-1EP_5x6mm_Pitch0.5mm:
   num_pins_x: 6
   ep_size_x: 3.65
   ep_size_y: 4.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485FH.PDF'
 
 QFN-28-1EP_6x6mm_Pitch0.65mm:
@@ -1949,7 +1949,7 @@ QFN-28-1EP_6x6mm_Pitch0.65mm:
   num_pins_x: 7
   ep_size_x: 4.55
   ep_size_y: 4.55
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/560AC.PDF'
 
 QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
@@ -1967,7 +1967,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
   num_pins_x: 7
   ep_size_x: 4.8
   ep_size_y: 4.8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://semtech.file.force.com/sfc/dist/version/download/?oid=00DE0000000JelG&ids=0682R000006TQEPQA4&d=%2Fa%2F2R0000001Rbr%2F6EfVZUorrpoKFfvaF_Fkpgp5kzjiNyiAbqcpqh9qSjE&operationContext=DELIVERY&asPdf=true&viewId=05H3n000000sDmVEAU&dpt='
 
 QFN-32-1EP_4x4mm_Pitch0.4mm:
@@ -1985,7 +1985,7 @@ QFN-32-1EP_4x4mm_Pitch0.4mm:
   num_pins_x: 8
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485CD.PDF'
 
 UQFN-32_5x5mm_P0.5mm:
@@ -2000,7 +2000,7 @@ UQFN-32_5x5mm_P0.5mm:
   lead_shape: square
   num_pins_y: 8
   num_pins_x: 8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'JEDEC MO-248 variation UHHD, 0.65mm maximum overall height, https://www.jedec.org/document_search?search_api_views_fulltext=MO-248'
 
 QFN-32-1EP_5x5mm_Pitch0.5mm:
@@ -2018,7 +2018,7 @@ QFN-32-1EP_5x5mm_Pitch0.5mm:
   num_pins_x: 8
   ep_size_x: 3.45
   ep_size_y: 3.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_32_05-08-1693.pdf'
 
 QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
@@ -2036,7 +2036,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
   num_pins_x: 8
   ep_size_x: 3.3
   ep_size_y: 3.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/00002164B.pdf'
 
 QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
@@ -2054,7 +2054,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
   num_pins_x: 8
   ep_size_x: 3.7
   ep_size_y: 3.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.espressif.com/sites/default/files/documentation/esp32-c6_datasheet_en.pdf'
 
 QFN-32-1EP_7x7mm_Pitch0.65mm:
@@ -2072,7 +2072,7 @@ QFN-32-1EP_7x7mm_Pitch0.65mm:
   num_pins_x: 8
   ep_size_x: 4.7
   ep_size_y: 4.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485ED.PDF'
 
 QFN-36-1EP_5x6mm_Pitch0.5mm:
@@ -2090,7 +2090,7 @@ QFN-36-1EP_5x6mm_Pitch0.5mm:
   num_pins_x: 8
   ep_size_x: 3.6
   ep_size_y: 4.6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/05-08-1876.pdf'
 
 QFN-36-1EP_6x6mm_Pitch0.5mm:
@@ -2108,7 +2108,7 @@ QFN-36-1EP_6x6mm_Pitch0.5mm:
   num_pins_x: 9
   ep_size_x: 4.4
   ep_size_y: 4.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485EC.PDF'
 
 QFN-38-1EP_4x6mm_Pitch0.4mm:
@@ -2126,7 +2126,7 @@ QFN-38-1EP_4x6mm_Pitch0.4mm:
   num_pins_x: 7
   ep_size_x: 2.65
   ep_size_y: 4.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_38_05-08-1750.pdf'
 
 QFN-38-1EP_5x7mm_Pitch0.5mm:
@@ -2144,7 +2144,7 @@ QFN-38-1EP_5x7mm_Pitch0.5mm:
   num_pins_x: 7
   ep_size_x: 3.15
   ep_size_y: 5.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_38_05-08-1701.pdf'
 
 QFN-40-1EP_5x5mm_Pitch0.4mm:
@@ -2162,7 +2162,7 @@ QFN-40-1EP_5x5mm_Pitch0.4mm:
   num_pins_x: 10
   ep_size_x: 3.5
   ep_size_y: 3.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/05081746_B_UH40.pdf'
 
 QFN-40-1EP_6x6mm_Pitch0.5mm:
@@ -2180,7 +2180,7 @@ QFN-40-1EP_6x6mm_Pitch0.5mm:
   num_pins_x: 10
   ep_size_x: 4.1
   ep_size_y: 4.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf'
 
 QFN-42-1EP_5x6mm_Pitch0.4mm:
@@ -2198,7 +2198,7 @@ QFN-42-1EP_5x6mm_Pitch0.4mm:
   num_pins_x: 9
   ep_size_x: 3.7
   ep_size_y: 4.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf'
 
 QFN-44-1EP_7x7mm_Pitch0.5mm:
@@ -2216,7 +2216,7 @@ QFN-44-1EP_7x7mm_Pitch0.5mm:
   num_pins_x: 11
   ep_size_x: 5.15
   ep_size_y: 5.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_44_05-08-1763.pdf'
 
 QFN-44-1EP_8x8mm_Pitch0.65mm:
@@ -2234,7 +2234,7 @@ QFN-44-1EP_8x8mm_Pitch0.65mm:
   num_pins_x: 11
   ep_size_x: 6.45
   ep_size_y: 6.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 QFN-48-1EP_5x5mm_P0.35mm_EP3.70x3.70mm:
@@ -2252,7 +2252,7 @@ QFN-48-1EP_5x5mm_P0.35mm_EP3.70x3.70mm:
   num_pins_x: 12
   ep_size_x: 3.7
   ep_size_y: 3.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf'
 
 QFN-48-1EP_6x6mm_P0.4mm_EP4.30x4.30mm:
@@ -2270,7 +2270,7 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.30x4.30mm:
   num_pins_x: 12
   ep_size_x: 4.3
   ep_size_y: 4.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf'
 
 QFN-48-1EP_7x7mm_Pitch0.5mm:
@@ -2288,7 +2288,7 @@ QFN-48-1EP_7x7mm_Pitch0.5mm:
   num_pins_x: 12
   ep_size_x: 5.15
   ep_size_y: 5.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_48_05-08-1704.pdf'
 
 QFN-52-1EP_7x8mm_Pitch0.5mm:
@@ -2306,7 +2306,7 @@ QFN-52-1EP_7x8mm_Pitch0.5mm:
   num_pins_x: 12
   ep_size_x: 5.41
   ep_size_y: 6.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://cds.linear.com/docs/en/packaging/QFN_52_05-08-1729.pdf'
 
 QFN-56-1EP_7x7mm_Pitch0.4mm:
@@ -2324,7 +2324,7 @@ QFN-56-1EP_7x7mm_Pitch0.4mm:
   num_pins_x: 14
   ep_size_x: 5.7
   ep_size_y: 5.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/485BT-01.pdf'
 
 QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
@@ -2342,7 +2342,7 @@ QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
   num_pins_x: 14
   ep_size_x: 3.1
   ep_size_y: 3.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=608'
 
 QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
@@ -2360,7 +2360,7 @@ QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
   num_pins_x: 14
   ep_size_x: 4
   ep_size_y: 4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.espressif.com/sites/default/files/documentation/esp32-s2_datasheet_en.pdf#page=41'
 
 QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
@@ -2378,7 +2378,7 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
   num_pins_x: 14
   ep_size_x: 4.5
   ep_size_y: 5.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.cypress.com/file/138911/download'
 
 QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
@@ -2396,7 +2396,7 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
   num_pins_x: 16
   ep_size_x: 6.5
   ep_size_y: 6.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/64L_VQFN_8x8_with%206_5x6_5%20EP_JXX_C04-0437A.pdf'
 
 QFN-64-1EP_9x9mm_Pitch0.5mm:
@@ -2414,7 +2414,7 @@ QFN-64-1EP_9x9mm_Pitch0.5mm:
   num_pins_x: 16
   ep_size_x: 7.15
   ep_size_y: 7.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 ArtInChip_QFN-68-1EP_7x7mm_P0.35mm_EP5.49x5.49mm:
@@ -2432,7 +2432,7 @@ ArtInChip_QFN-68-1EP_7x7mm_P0.35mm_EP5.49x5.49mm:
   num_pins_x: 17
   ep_size_x: 5.49
   ep_size_y: 5.49
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=42'
 
 QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
@@ -2450,7 +2450,7 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
   num_pins_x: 17
   ep_size_x: 5.2
   ep_size_y: 5.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.mouser.com/ds/2/523/Microsemi_VSC8541-01_Datasheet_10496_V40-1148034.pdf'
 
 QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
@@ -2468,7 +2468,7 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
   num_pins_x: 19
   ep_size_x: 3.8
   ep_size_y: 3.8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/'
 
 QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
@@ -2503,7 +2503,7 @@ ArtInChip_QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
   num_pins_x: 22
   ep_size_x: 6.74
   ep_size_y: 6.74
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=43'
 
 ArtInChip_QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
@@ -2521,7 +2521,7 @@ ArtInChip_QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
   num_pins_x: 25
   ep_size_x: 7.4
   ep_size_y: 7.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=44'
 
 UQFN-10_1.4x1.8mm_Pitch0.4mm:
@@ -2537,7 +2537,7 @@ UQFN-10_1.4x1.8mm_Pitch0.4mm:
   lead_shape: rounded
   num_pins_y: 2
   num_pins_x: 3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/523AQ.PDF'
 
 UQFN-16-1EP_3x3mm_Pitch0.5mm:
@@ -2555,7 +2555,7 @@ UQFN-16-1EP_3x3mm_Pitch0.5mm:
   num_pins_x: 4
   ep_size_x: 1.95
   ep_size_y: 1.95
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/523AJ.PDF'
 
 UQFN-16-1EP_4x4mm_Pitch0.65mm:
@@ -2573,7 +2573,7 @@ UQFN-16-1EP_4x4mm_Pitch0.65mm:
   num_pins_x: 4
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 UQFN-20-1EP_3x3mm_Pitch0.4mm:
@@ -2591,7 +2591,7 @@ UQFN-20-1EP_3x3mm_Pitch0.4mm:
   num_pins_x: 5
   ep_size_x: 1.8
   ep_size_y: 1.8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.onsemi.com/pub/Collateral/523AL.PDF'
 
 UQFN-20_3x3mm_P0.4mm:
@@ -2607,7 +2607,7 @@ UQFN-20_3x3mm_P0.4mm:
   lead_shape: rounded
   num_pins_y: 5
   num_pins_x: 5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://resurgentsemi.com/wp-content/uploads/2018/09/MPR121_rev5-Resurgent.pdf'
 
 UQFN-20-1EP_4x4mm_Pitch0.5mm:
@@ -2625,7 +2625,7 @@ UQFN-20-1EP_4x4mm_Pitch0.5mm:
   num_pins_x: 5
   ep_size_x: 2.8
   ep_size_y: 2.8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 UQFN-28-1EP_4x4mm_Pitch0.4mm:
@@ -2643,7 +2643,7 @@ UQFN-28-1EP_4x4mm_Pitch0.4mm:
   num_pins_x: 7
   ep_size_x: 2.64
   ep_size_y: 2.64
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-utqfn/%28pf28%29%20utqfn%2005-08-1759%20rev.pdf'
 
 UQFN-40-1EP_5x5mm_Pitch0.4mm:
@@ -2661,7 +2661,7 @@ UQFN-40-1EP_5x5mm_Pitch0.4mm:
   num_pins_x: 10
   ep_size_x: 3.7
   ep_size_y: 3.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/41364E.pdf'
 
 Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
@@ -2679,7 +2679,7 @@ Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   num_pins_x: 6
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/bq25895.pdf'
 
 UQFN-48-1EP_6x6mm_Pitch0.4mm:
@@ -2697,7 +2697,7 @@ UQFN-48-1EP_6x6mm_Pitch0.4mm:
   num_pins_x: 12
   ep_size_x: 4.5
   ep_size_y: 4.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 VDFN-8-1EP_2x2mm_Pitch0.5mm:
@@ -2715,7 +2715,7 @@ VDFN-8-1EP_2x2mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 0.525
   ep_size_y: 1.125
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.s-manuals.com/pdf/datasheet/r/t/rt9012_richtek.pdf'
 
 DFN-14-1EP_3x3mm_Pitch0.4mm:
@@ -2733,7 +2733,7 @@ DFN-14-1EP_3x3mm_Pitch0.4mm:
   num_pins_x: 0
   ep_size_x: 1.7
   ep_size_y: 2.3
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://pdfserv.maximintegrated.com/package_dwgs/21-0137.PDF'
 
 SOT-886:
@@ -2749,7 +2749,7 @@ SOT-886:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: TO_SOT_Packages_SMD
+  library: TO_SOT_Packages_SMD
   source: 'https://www.nxp.com/docs/en/package-information/SOT886.pdf'
 
 SOT-383F:
@@ -2767,7 +2767,7 @@ SOT-383F:
   num_pins_x: 0
   ep_size_x: 0.45
   ep_size_y: 1.5
-  destination_dir: TO_SOT_Packages_SMD
+  library: TO_SOT_Packages_SMD
   source: 'https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/408/CPDVR085V0UA-HF.pdf'
 
 SOT-1334-1:
@@ -2783,7 +2783,7 @@ SOT-1334-1:
   lead_shape: square
   num_pins_x: 8
   num_pins_y: 0
-  destination_dir: TO_SOT_Packages_SMD
+  library: TO_SOT_Packages_SMD
   source: 'https://www.nxp.com/docs/en/package-information/SOT1334-1.pdf'
 
 SOT-1333-1:
@@ -2801,7 +2801,7 @@ SOT-1333-1:
   num_pins_y: 0
   ep_size_x: 0.2
   ep_size_y: 1.0
-  destination_dir: TO_SOT_Packages_SMD
+  library: TO_SOT_Packages_SMD
   source: 'https://www.nxp.com/docs/en/package-information/SOT1333-1.pdf'
 
 NXP_XSON-16:
@@ -2817,7 +2817,7 @@ NXP_XSON-16:
   lead_shape: square
   num_pins_y: 8
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.nxp.com/docs/en/package-information/SOT1341-1.pdf'
 
 USON-6_1x1.45mm_P0.5mm:
@@ -2833,7 +2833,7 @@ USON-6_1x1.45mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.ti.com/lit/gpn/tpd4s012'
 
 Nexperia_HUSON-8_USON-8-1EP_1.35x1.7mm_P0.4mm_EP0.4x1.2mm:
@@ -2851,7 +2851,7 @@ Nexperia_HUSON-8_USON-8-1EP_1.35x1.7mm_P0.4mm_EP0.4x1.2mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 1.2
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://assets.nexperia.com/documents/package-information/SOT1166-1.pdf'
 
 Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
@@ -2869,7 +2869,7 @@ Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 2.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
 
 Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
@@ -2887,7 +2887,7 @@ Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 2.8
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
 
 Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:
@@ -2905,7 +2905,7 @@ Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:
   num_pins_x: 0
   ep_size_x: 0.2
   ep_size_y: 1.6
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.lcsc.com/datasheet/lcsc_datasheet_2205122030_Winbond-Elec-W25Q16JVUXIQ_C2843335.pdf#page=67'
 
 WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
@@ -2923,7 +2923,7 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   num_pins_x: 0
   ep_size_x: 1.0
   ep_size_y: 1.6
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tvs3300.pdf'
 
 WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm:
@@ -2941,7 +2941,7 @@ WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm:
   num_pins_x: 0
   ep_size_x: 0.9
   ep_size_y: 1.6
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tlv62080.pdf'
 
 WSON-8-1EP_3x3mm_P0.5mm_EP1.6x2.0mm:
@@ -2959,7 +2959,7 @@ WSON-8-1EP_3x3mm_P0.5mm_EP1.6x2.0mm:
   num_pins_x: 0
   ep_size_x: 1.6
   ep_size_y: 2.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.chip.tomsk.ru/chip/chipdoc.nsf/Package/C67E729A4D6C883A4725793E004C8739!OpenDocument'
 
 WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm:
@@ -2977,7 +2977,7 @@ WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm:
   num_pins_x: 0
   ep_size_x: 3.4
   ep_size_y: 4.3
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf#page=94'
 
 WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
@@ -2995,7 +2995,7 @@ WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 2.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'www.ti.com/lit/ds/symlink/tps63030.pdf'
 
 WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
@@ -3013,7 +3013,7 @@ WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
   num_pins_x: 0
   ep_size_x: 0.84
   ep_size_y: 2.4
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tps62177.pdf'
 
 WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
@@ -3031,7 +3031,7 @@ WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
   num_pins_x: 0
   ep_size_x: 2.6
   ep_size_y: 3
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.ti.com/lit/ml/mpss046b/mpss046b.pdf?ts=1728800628041&ref_url=https%253A%252F%252Fwww.ti.com%252Fpackaging%252Fdocs%252Fsearchtipackages.tsp%253FpackageName%253DSON'
 
 
@@ -3050,7 +3050,7 @@ Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
   num_pins_x: 0
   ep_size_x: 0.9
   ep_size_y: 1.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/gpn/BQ25185'
 
 
@@ -3069,7 +3069,7 @@ WSON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 2.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tpd6f003.pdf'
 
 WSON-16_3.3x1.35_Pitch0.4mm:
@@ -3087,7 +3087,7 @@ WSON-16_3.3x1.35_Pitch0.4mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 2.8
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.chip.tomsk.ru/chip/chipdoc.nsf/Package/C67E729A4D6C883A4725793E004C8739!OpenDocument'
 
 VSON-10-1EP_3x3mm_Pitch0.5mm_ThermalPad:
@@ -3105,7 +3105,7 @@ VSON-10-1EP_3x3mm_Pitch0.5mm_ThermalPad:
   num_pins_x: 2
   ep_size_x: 1.6
   ep_size_y: 2.35
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://chip.tomsk.ru/chip/chipdoc.nsf/Package/D8A64DD165C2AAD9472579400024FC41!OpenDocument'
 
 
@@ -3125,7 +3125,7 @@ Texas_S-PDSO-N12:
   ep_size_x: 2.64
   ep_size_y: 2.0
   excluded_pins: [8, 9, 10, 11, 12, 21, 22, 23, 24, 25]
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ml/mpds289a/mpds289a.pdf'
 
 Texas_S-PVSON-N10:
@@ -3143,7 +3143,7 @@ Texas_S-PVSON-N10:
   num_pins_x: 2
   ep_size_x: 1.8
   ep_size_y: 2.5
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/lm5165.pdf'
 
 Texas_S-PVSON-N8:
@@ -3161,7 +3161,7 @@ Texas_S-PVSON-N8:
   num_pins_x: 0
   ep_size_x: 1.65
   ep_size_y: 2.4
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/opa2333.pdf'
 
 Texas_VSON-HR-8_1.5x2mm_P0.5mm:
@@ -3177,7 +3177,7 @@ Texas_VSON-HR-8_1.5x2mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 4
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: https://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29
 
 Texas_R-PUQFN-N12:
@@ -3193,7 +3193,7 @@ Texas_R-PUQFN-N12:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/txb0104.pdf'
 
 Texas_S-PVQFN-N14:
@@ -3212,7 +3212,7 @@ Texas_S-PVQFN-N14:
   ep_size_x: 2.05
   ep_size_y: 2.05
   excluded_pins: [2, 4, 6, 8, 10, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 31, 32, 33, 34, 36]
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/txb0104.pdf'
 
 Texas_RUN0010A_WQFN-10_2x2mm_P0.5mm:
@@ -3228,7 +3228,7 @@ Texas_RUN0010A_WQFN-10_2x2mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 4
   num_pins_x: 1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/tmp461.pdf#page=35'
 
 
@@ -3245,7 +3245,7 @@ USON-10_2.5x1.0mm_Pitch0.5mm:
   lead_shape: rounded
   num_pins_y: 5
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tpd4e02b04.pdf'
 
 Texas_R-PUSON-N8_USON-8-1EP_1.6x2.1mm_P0.5mm_EP0.40x1.7mm:
@@ -3263,7 +3263,7 @@ Texas_R-PUSON-N8_USON-8-1EP_1.6x2.1mm_P0.5mm_EP0.40x1.7mm:
   num_pins_x: 0
   ep_size_x: 0.4
   ep_size_y: 1.7
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.ti.com/lit/gpn/tpd3f303#page=15'
 
 Texas_R-PUSON-N14:
@@ -3279,7 +3279,7 @@ Texas_R-PUSON-N14:
   lead_shape: rounded
   num_pins_y: 7
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.ti.com/lit/ml/mpdf004a/mpdf004a.pdf'
 
 Texas_DQK:
@@ -3295,7 +3295,7 @@ Texas_DQK:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/csd16301q2.pdf'
 
 USON-20_2x4mm_Pitch0.4mm:
@@ -3311,7 +3311,7 @@ USON-20_2x4mm_Pitch0.4mm:
   lead_shape: square
   num_pins_y: 10
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/txb0108.pdf'
 
 VSON-8_3.3x3.3mm_Pitch0.65mm_NexFET:
@@ -3329,7 +3329,7 @@ VSON-8_3.3x3.3mm_Pitch0.65mm_NexFET:
   num_pins_x: 0
   ep_size_x: 1.8
   ep_size_y: 2.7
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/csd87334q3d.pdf'
 
 VSON-10-1EP_3x3mm_P0.5mm_EP1.2x2mm:
@@ -3347,7 +3347,7 @@ VSON-10-1EP_3x3mm_P0.5mm_EP1.2x2mm:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 2.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://rohmfs.rohm.com/en/techdata_basic/ic/package/vson010v3030_1-e.pdf'
 
 WSON6_1.5x1.5mm_Pitch0.5mm:
@@ -3363,7 +3363,7 @@ WSON6_1.5x1.5mm_Pitch0.5mm:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/tps717.pdf'
 
 WSON8_4x4mm_Pitch0.8mm:
@@ -3381,7 +3381,7 @@ WSON8_4x4mm_Pitch0.8mm:
   num_pins_x: 0
   ep_size_x: 2.6
   ep_size_y: 3.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/lm5107.pdf'
 
 X2SON-8_1.4x1mm_Pitch0.35mm:
@@ -3397,7 +3397,7 @@ X2SON-8_1.4x1mm_Pitch0.35mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/pca9306.pdf'
 
 WSON-14_1EP_4.0x4.0mm_Pitch0.5mm:
@@ -3415,7 +3415,7 @@ WSON-14_1EP_4.0x4.0mm_Pitch0.5mm:
   num_pins_x: 0
   ep_size_x: 2.6
   ep_size_y: 3.0
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/lp3947.pdf'
 
 DFN-10-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
@@ -3450,7 +3450,7 @@ DFN-10-1EP_4x4mm_P0.65mm_EP2.65x3.05mm:
   num_pins_x: 0
   ep_size_x: 2.65
   ep_size_y: 3.05
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://web.archive.org/web/20210622114938if_/https://www.ichaus.de/upload/pdf/Package%20dimensions%20DFN_QFN_b2es.pdf'
 
 Infineon_PG-TSNP-6-10_0.7x1.1mm_0.7x1.1mm_P0.4mm:
@@ -3466,7 +3466,7 @@ Infineon_PG-TSNP-6-10_0.7x1.1mm_0.7x1.1mm_P0.4mm:
   lead_shape: square
   num_pins_y: 3
   num_pins_x: 0
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 Infineon_SG-WLL-2-3_0.58x0.28_P0.36mm:
@@ -3482,7 +3482,7 @@ Infineon_SG-WLL-2-3_0.58x0.28_P0.36mm:
   lead_shape: square
   num_pins_y: 1
   num_pins_x: 0
-  destination_dir: Diode_SMD
+  library: Diode_SMD
   source: 'N/A'
 
 Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
@@ -3501,7 +3501,7 @@ Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   num_pins_x: 0
   ep_size_x: 0.6
   ep_size_y: 1.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/mic23050.pdf'
 
 OnSemi_SIP-38-6EP-9x7mm_P0.65mm_EP1.2x1.2mm:
@@ -3522,7 +3522,7 @@ OnSemi_SIP-38-6EP-9x7mm_P0.65mm_EP1.2x1.2mm:
   ep_size_y: 0.95
   epad_n: [2, 3]
   epad_pitch: [2, 2]
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.onsemi.cn/download/data-sheet/pdf/ax-sip-sfeu-d.pdf#page=19'
 
 Vishay_PowerPAK_1212-8_Single:
@@ -3540,8 +3540,8 @@ Vishay_PowerPAK_1212-8_Single:
   num_pins_x: 0
   ep_size_x: 1.7
   ep_size_y: 2.25
-  epad_offset_y: 0.39
-  destination_dir: Package_SO
+  EP_center_y: 0.39
+  library: Package_SO
   source: 'https://www.vishay.com/docs/62847/siss27dn.pdf'
 
 QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
@@ -3559,7 +3559,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   num_pins_x: 4
   ep_size_x: 1.7
   ep_size_y: 1.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.magntek.com.cn/upload/MT6701_Rev.1.5.pdf'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP4.1x4.1mm:
@@ -3577,7 +3577,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.1x4.1mm:
   num_pins_x: 16
   ep_size_x: 4.1
   ep_size_y: 4.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.silabs.com/documents/public/data-sheets/cp2108-datasheet.pdf'
 
 TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
@@ -3595,7 +3595,7 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   num_pins_x: 4
   ep_size_x: 1.6
   ep_size_y: 1.6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
 
 TQFN-20-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
@@ -3613,7 +3613,7 @@ TQFN-20-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   num_pins_x: 5
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0139.PDF (T2044-5C)'
 
 TQFN-20-1EP_5x5mm_P0.65mm_EP3.1x3.1mm:
@@ -3631,7 +3631,7 @@ TQFN-20-1EP_5x5mm_P0.65mm_EP3.1x3.1mm:
   num_pins_x: 5
   ep_size_x: 3.1
   ep_size_y: 3.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
 
 TQFN-40-1EP_5x5mm_P0.4mm_EP3.5x3.5mm:
@@ -3649,7 +3649,7 @@ TQFN-40-1EP_5x5mm_P0.4mm_EP3.5x3.5mm:
   num_pins_x: 10
   ep_size_x: 3.5
   ep_size_y: 3.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0140.PDF (T4055-1)'
 
 TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
@@ -3667,7 +3667,7 @@ TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
   num_pins_x: 11
   ep_size_x: 4.7
   ep_size_y: 4.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf'
 
 TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
@@ -3685,7 +3685,7 @@ TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
   num_pins_x: 12
   ep_size_x: 5.1
   ep_size_y: 5.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf'
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
@@ -3703,7 +3703,7 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
   num_pins_x: 12
   ep_size_x: 4.1
   ep_size_y: 4.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/cc430f5137.pdf (Page 128,'
 
 WDFN-8-1EP_4x3mm_P0.65mm_EP2.4x1.8mm:
@@ -3721,7 +3721,7 @@ WDFN-8-1EP_4x3mm_P0.65mm_EP2.4x1.8mm:
   num_pins_x: 0
   ep_size_x: 2.4
   ep_size_y: 1.8
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://web.archive.org/web/20201024093626if_/https://www.onsemi.com/pub/Collateral/LC709203F-D.PDF'
 
 W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
@@ -3739,7 +3739,7 @@ W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
   num_pins_x: 0
   ep_size_x: 3
   ep_size_y: 3
-  destination_dir: 'Package_DFN_QFN'
+  library: Package_DFN_QFN
   source: 'https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qljs_u_256_aba_0.pdf#page=22'
 
 WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
@@ -3757,7 +3757,7 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   num_pins_x: 4
   ep_size_x: 1.6
   ep_size_y: 1.6
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
 
 AMS_LGA-20_4.7x4.5mm_P0.65mm:
@@ -3774,7 +3774,7 @@ AMS_LGA-20_4.7x4.5mm_P0.65mm:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 5
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'N/A'
 
 Bosch_LGA-14_3x2.5mm_P0.5mm:
@@ -3791,7 +3791,7 @@ Bosch_LGA-14_3x2.5mm_P0.5mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 3
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://web.archive.org/web/20181011150227if_/https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMI160-DS000-07.pdf'
 
 Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
@@ -3808,7 +3808,7 @@ Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
   lead_shape: square
   num_pins_y: 1
   num_pins_x: 7
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
 
 Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering:
@@ -3825,7 +3825,7 @@ Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering:
   lead_shape: square
   num_pins_y: 0
   num_pins_x: 4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'N/A'
 
 Bosch_LGA-8_2x2.5mm_P0.65mm_ClockwisePinNumbering:
@@ -3842,7 +3842,7 @@ Bosch_LGA-8_2x2.5mm_P0.65mm_ClockwisePinNumbering:
   lead_shape: square
   num_pins_y: 0
   num_pins_x: 4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMP280-DS001-18.pdf'
 
 Bosch_LGA-8_3x3mm_P0.8mm_ClockwisePinNumbering:
@@ -3859,7 +3859,7 @@ Bosch_LGA-8_3x3mm_P0.8mm_ClockwisePinNumbering:
   lead_shape: square
   num_pins_y: 0
   num_pins_x: 4
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://web.archive.org/web/20180829083223if_/http://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
@@ -3876,7 +3876,7 @@ LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 3
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://web.archive.org/web/20220705040609if_/https://www.st.com/resource/en/datasheet/lis2dh.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
@@ -3893,7 +3893,7 @@ LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 3
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://web.archive.org/web/20210813004000if_/https://www.st.com/resource/en/datasheet/lsm6ds3.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
@@ -3910,7 +3910,7 @@ LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
   lead_shape: square
   num_pins_y: 6
   num_pins_x: 1
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 LGA-8_3x5mm_P1.25mm:
@@ -3927,7 +3927,7 @@ LGA-8_3x5mm_P1.25mm:
   lead_shape: square
   num_pins_y: 4
   num_pins_x: 0
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'N/A'
 
 Linear_LGA-133_15.0x15.0_Layout12x12_P1.27mm:
@@ -3944,7 +3944,7 @@ Linear_LGA-133_15.0x15.0_Layout12x12_P1.27mm:
   lead_shape: square
   num_pins_y: 12
   num_pins_x: 12
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/4637fc.pdf'
 
 Texas_SIL0010A_MicroSiP-10-1EP_3.8x3mm_P0.6mm_EP0.7x2.9mm:
@@ -3963,7 +3963,7 @@ Texas_SIL0010A_MicroSiP-10-1EP_3.8x3mm_P0.6mm_EP0.7x2.9mm:
   num_pins_x: 0
   ep_size_x: 0.7
   ep_size_y: 2.5
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'http://www.ti.com/lit/ml/mpds579b/mpds579b.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 Infineon_MLPQ-16-14-1EP_4x4mm_P0.5mm:
@@ -3980,7 +3980,7 @@ Infineon_MLPQ-16-14-1EP_4x4mm_P0.5mm:
   num_pins_y: 4
   num_pins_x: 4
   excluded_pins: [10, 15]
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.infineon.com/dgdl/Infineon-AN1170-AN-v05_00-EN.pdf?fileId=5546d462533600a40153559ac3e51134'
 
 Texas_RVE0028A_VQFN-28-1EP_3.5x4.5mm_P0.4mm_EP2.1x3.1mm:
@@ -3998,7 +3998,7 @@ Texas_RVE0028A_VQFN-28-1EP_3.5x4.5mm_P0.4mm_EP2.1x3.1mm:
   num_pins_x: 5
   ep_size_x: 2.1
   ep_size_y: 3.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/tps51363.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
@@ -4016,7 +4016,7 @@ Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   num_pins_x: 6
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=42&zoom=200,-13,779, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RGY_R-PVQFN-N24_EP2.05x3.1mm:
@@ -4035,7 +4035,7 @@ Texas_RGY_R-PVQFN-N24_EP2.05x3.1mm:
   ep_size_x: 2.05
   ep_size_y: 3.10
   excluded_pins: [3, 4, 17, 18]
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/bq24133.pdf#page=40, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RGY_R-PVQFN-N20_EP2.05x3.05mm:
@@ -4054,7 +4054,7 @@ Texas_RGY_R-PVQFN-N20_EP2.05x3.05mm:
   ep_size_x: 2.05
   ep_size_y: 3.05
   excluded_pins: [10, 11, 22, 23]
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/ds/symlink/txb0108.pdf#page=33, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
@@ -4072,7 +4072,7 @@ Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
   num_pins_x: 4
   ep_size_x: 2.7
   ep_size_y: 2.7
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430g2001.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RGP0020H_VQFN-20-1EP_4x4mm_P0.5mm_EP2.4x2.4mm:
@@ -4090,7 +4090,7 @@ Texas_RGP0020H_VQFN-20-1EP_4x4mm_P0.5mm_EP2.4x2.4mm:
   num_pins_x: 5
   ep_size_x: 2.4
   ep_size_y: 2.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/cc1101.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 QFN-20-1EP_4x4mm_P0.5mm:
@@ -4106,7 +4106,7 @@ QFN-20-1EP_4x4mm_P0.5mm:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/gpn/drv8662'
 
 Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
@@ -4124,7 +4124,7 @@ Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
   num_pins_x: 6
   ep_size_x: 2.1
   ep_size_y: 2.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430fr5720.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RHB0032E_VQFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm:
@@ -4142,7 +4142,7 @@ Texas_RHB0032E_VQFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm:
   num_pins_x: 8
   ep_size_x: 3.45
   ep_size_y: 3.45
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430f1122.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RHH0036C_VQFN-36-1EP_6x6mm_P0.5mm_EP4.4x4.4mm:
@@ -4160,7 +4160,7 @@ Texas_RHH0036C_VQFN-36-1EP_6x6mm_P0.5mm_EP4.4x4.4mm:
   num_pins_x: 9
   ep_size_x: 4.4
   ep_size_y: 4.4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/slvsba5d/slvsba5d.pdf'
 
 QFN-40-1EP_6x6mm_P0.5mm:
@@ -4176,7 +4176,7 @@ QFN-40-1EP_6x6mm_P0.5mm:
   lead_shape: square
   num_pins_y: 10
   num_pins_x: 10
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf'
 
 Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
@@ -4194,7 +4194,7 @@ Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   num_pins_x: 12
   ep_size_x: 5.15
   ep_size_y: 5.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
@@ -4212,7 +4212,7 @@ Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
   num_pins_x: 16
   ep_size_x: 4.25
   ep_size_y: 4.25
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/msp430f5217.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_S-PWQFN-N20:
@@ -4228,7 +4228,7 @@ Texas_S-PWQFN-N20:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/tps22993.pdf'
 
 Texas_S-PWSON-N6:
@@ -4246,7 +4246,7 @@ Texas_S-PWSON-N6:
   num_pins_x: 0
   ep_size_x: 1.2
   ep_size_y: 1.9
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'https://www.ti.com/lit/ml/mpds176e/mpds176e.pdf'
 
 Texas_VQFN-RGR-20-1EP_3.5x3.5mm_Pitch0.5mm:
@@ -4262,7 +4262,7 @@ Texas_VQFN-RGR-20-1EP_3.5x3.5mm_Pitch0.5mm:
   lead_shape: square
   num_pins_y: 5
   num_pins_x: 5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm:
@@ -4280,7 +4280,7 @@ Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm:
   num_pins_x: 5
   ep_size_x: 3.15
   ep_size_y: 3.15
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
@@ -4298,7 +4298,7 @@ Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   num_pins_x: 5
   ep_size_x: 2.65
   ep_size_y: 3.65
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'http://www.ti.com/lit/ds/symlink/tps2660.pdf#page=51'
 
 Texas_WQFN-MR-100:
@@ -4314,7 +4314,7 @@ Texas_WQFN-MR-100:
   lead_shape: square
   num_pins_y: 13
   num_pins_x: 13
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'N/A'
 
 Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
@@ -4332,7 +4332,7 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
   num_pins_x: 2
   ep_size_x: 0.8
   ep_size_y: 0.6
-  destination_dir: Package_SON
+  library: Package_SON
   source: 'http://www.ti.com/lit/ds/symlink/drv5032.pdf'
 
 LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
@@ -4350,7 +4350,7 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
   num_pins_x: 8
   ep_size_x: 3.6
   ep_size_y: 3.6
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-32/CP_32_12.pdf'
 
 LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
@@ -4368,7 +4368,7 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
   num_pins_x: 6
   ep_size_x: 2.5
   ep_size_y: 2.5
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/cp_24_7.pdf'
 
 LFCSP-20-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
@@ -4386,7 +4386,7 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
   num_pins_x: 5
   ep_size_x: 2.1
   ep_size_y: 2.1
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-20/cp_20_6.pdf'
 
 LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
@@ -4404,7 +4404,7 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
   num_pins_x: 4
   ep_size_x: 2.6
   ep_size_y: 2.6
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_17.pdf'
 
 Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
@@ -4422,7 +4422,7 @@ Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   num_pins_x: 4
   ep_size_x: 2.1
   ep_size_y: 2.1
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_23.pdf'
 
 Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.35x2.35mm:
@@ -4440,7 +4440,7 @@ Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.35x2.35mm:
   num_pins_x: 4
   ep_size_x: 2.35
   ep_size_y: 2.35
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_20.pdf'
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
@@ -4458,7 +4458,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
   num_pins_x: 4
   ep_size_x: 1.3
   ep_size_y: 1.3
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_21.pdf'
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
@@ -4476,7 +4476,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
   num_pins_x: 4
   ep_size_x: 1.5
   ep_size_y: 1.5
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_27.pdf'
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
@@ -4494,7 +4494,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   num_pins_x: 4
   ep_size_x: 1.6
   ep_size_y: 1.6
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_22.pdf'
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
@@ -4512,7 +4512,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   num_pins_x: 4
   ep_size_x: 1.7
   ep_size_y: 1.7
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP-16-38.pdf'
 # source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/HMC7992.pdf'
 
@@ -4529,7 +4529,7 @@ LFCSP-16_3x3mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 4
   num_pins_x: 4
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_32.pdf'
 
 LFCSP-8-1EP_3x3mm_P0.5mm_EP1.45x1.74mm:
@@ -4547,7 +4547,7 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.45x1.74mm:
   num_pins_x: 0
   ep_size_x: 1.45
   ep_size_y: 1.74
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-8/CP_8_13.pdf'
 
 LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
@@ -4565,7 +4565,7 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
   num_pins_x: 0
   ep_size_x: 1.64
   ep_size_y: 2.38
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-10/CP_10_9.pdf'
 
 VLGA-4_2x2.5mm_P1.65mm:
@@ -4581,7 +4581,7 @@ VLGA-4_2x2.5mm_P1.65mm:
   lead_shape: square
   num_pins_y: 2
   num_pins_x: 0
-  destination_dir: Package_LGA
+  library: Package_LGA
   source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/DSC60XX-Ultra-Small-Ultra-Low-Power-MEMS-Oscillator-DS20005625C.pdf#page=15'
 
 Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
@@ -4599,7 +4599,7 @@ Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   num_pins_x: 12
   ep_size_x: 4.2
   ep_size_y: 4.2
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.qorvo.com/products/d/da006847'
 
 LFCSP-10_2x2mm_P0.5mm:
@@ -4615,7 +4615,7 @@ LFCSP-10_2x2mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 3
   num_pins_x: 2
-  destination_dir: Package_CSP
+  library: Package_CSP
   source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_10_11.pdf'
 
 VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
@@ -4633,7 +4633,7 @@ VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
   num_pins_x: 3
   ep_size_x: 2.1
   ep_size_y: 2.1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.mouser.ch/datasheet/2/268/EMC2301_2_3_5_Data_Sheet_DS20006532A-3443118.pdf (page 56-58)'
 
 HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
@@ -4651,7 +4651,7 @@ HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
   num_pins_x: 4
   ep_size_x: 1.85
   ep_size_y: 1.85
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.nxp.com/docs/en/data-sheet/NX3L4051.pdf (page 17)'
 
 MPS_QFN-16_3x3mm_P0.5mm:
@@ -4666,7 +4666,7 @@ MPS_QFN-16_3x3mm_P0.5mm:
   lead_shape: rounded
   num_pins_y: 4
   num_pins_x: 4
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8859/document_id/4033/ (page 32)'
 
 Texas_UQFN-8_1.5x1.5mm_P0.5mm:
@@ -4684,7 +4684,7 @@ Texas_UQFN-8_1.5x1.5mm_P0.5mm:
   lead_shape: custom
   num_pins_y: 3
   num_pins_x: 1
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   lead_shape_custom: [
     [
       # Pin 1 with chamfer
@@ -4754,5 +4754,5 @@ Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm:
   num_pins_x: 0
   ep_size_x: 0.9
   ep_size_y: 1.5
-  destination_dir: Package_DFN_QFN
+  library: Package_DFN_QFN
   source: 'https://www.ti.com/lit/pdf/mpds335b'
