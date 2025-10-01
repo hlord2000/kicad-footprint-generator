@@ -275,3 +275,65 @@ class TolerancedSize:
         return "nom: {}, min: {}, max: {}  | min_rms: {}, max_rms: {}".format(
             self.nominal, self.minimum, self.maximum, self.minimum_RMS, self.maximum_RMS
         )
+
+
+class TolerancedSizeHandler:
+    def __init__(self, dictionary: dict[str, Any], unit: str | None = None) -> None:
+        """Create an instance of TolerancedSizeHandler.
+
+        Args:
+            dictionary: The dictionary from which the data shall be extracted and
+                converted to instances of `TolerancedSize` when `get()` is called.
+            unit: The unit that shall be used when converting data to `TolerancedSize`.
+        """
+        # Instance attributes
+        self.dictionary = dictionary
+        """The dictionary that is used whenever `get()` is called."""
+        self.unit = unit
+        """The unit that is used whenever `get()` is called."""
+
+    def get(
+        self, base_name: str | list[str], default: float | None = None
+    ) -> TolerancedSize:
+        """Return the toleranced size of the value corresponding to the given key.
+
+        Args:
+            base_name: The base name (without postfix `_min` or `_max`) of the key that
+                of the toleranced size that is stored in the `dictionary`.
+                If a list is given instead of a string, the first entry of the list
+                that has a matching key in the dictionary is used.
+            default: The optional default value that shall be used in case no key equal
+                to `base_name` was found. If `default` is `None` and no key equal to
+                `base_name` was found a KeyError is raised.
+
+        Returns:
+            The toleranced size of the value corresponding to the given key.
+        """
+        if isinstance(base_name, str):
+            try:
+                return TolerancedSize.fromYaml(
+                    yaml=self.dictionary, base_name=base_name, unit=self.unit
+                )
+            except ValueError:
+                pass
+        else:
+            for name in base_name:
+                try:
+                    return TolerancedSize.fromYaml(
+                        yaml=self.dictionary, base_name=name, unit=self.unit
+                    )
+                except ValueError:
+                    pass
+        if default is None:
+            raise KeyError(f"Could not find key '{base_name}' in the dictionary!")
+        else:
+            return TolerancedSize(nominal=default)
+
+    def get_or_none(self, base_name: str | list[str]) -> TolerancedSize | None:
+        """Same as `get()`, however, if the none of the given base_names has a matching
+        key in the dictionary, instead of raising an exception, the value `None` is
+        returned."""
+        try:
+            return self.get(base_name=base_name)
+        except KeyError:
+            return None
