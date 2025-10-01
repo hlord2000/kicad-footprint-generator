@@ -1818,6 +1818,32 @@ Maxim_TDFN-6-1EP_3x3mm_P0.95mm_EP1.5x2.3mm:
   num_pins_x: 0
   num_pins_y: 3
 
+Maxim_TDFN-10-1EP_3x3mm_P0.95mm_EP1.5x2.3mm:
+  device_type: 'TDFN'
+  manufacturer: 'Maxim'
+  #part_number: 'MAX31331'
+  compatible_mpns:
+    - T1033-2
+    - MO229/WEED-3
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0137.pdf and https://www.analog.com/media/en/package-pcb-resources/land-pattern/tdfn-ep/90-0003.pdf'
+  ipc_class: 'qfn'
+  body_size_x: 2.9 .. 3.1
+  body_size_y: 2.9 .. 3.1
+  overall_height: 0.7 .. 0.8
+  lead_width: 0.25 +/- 0.05
+  lead_len: 0.2 .. 0.4
+  EP_size_x: 1.5 +/- 0.1
+  EP_size_y: 2.3 +/- 0.1
+  EP_num_paste_pads: [2, 2]
+  EP_size_x_overwrite: 1.58
+  EP_size_y_overwrite: 2.35
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+  pad_center_to_center_x: 2.95
+  pad_length: 0.7
+  pad_width: 0.3
+
 Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
   device_type: 'WSON'
   manufacturer: 'Maxim'
