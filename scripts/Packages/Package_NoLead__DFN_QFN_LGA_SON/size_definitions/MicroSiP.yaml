@@ -26,10 +26,8 @@ Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
     nominal: 1.525
     tolerance: 0
 
-  EP_size_x_min: 0.6
-  EP_size_x_max: 0.8
-  EP_size_y_min: 2.8
-  EP_size_y_max: 3.0
+  EP_size_x: 0.6 .. 0.8
+  EP_size_y: 2.8 .. 3.0
   EP_center_x:
     nominal: -0.175
   EP_center_y:
@@ -59,7 +57,7 @@ Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: ''
-  include_suffix_in_3dpath: 'False'
+  include_suffix_in_3dpath: False
 
 Texas_SIL0008D_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   device_type: 'MicroSiP'
@@ -118,7 +116,7 @@ Texas_SIL0008D_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: ''
-  include_suffix_in_3dpath: 'False'
+  include_suffix_in_3dpath: False
 
 Texas_SIL0008C_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   device_type: 'MicroSiP'
@@ -168,4 +166,4 @@ Texas_SIL0008C_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: ''
-  include_suffix_in_3dpath: 'False'
+  include_suffix_in_3dpath: False

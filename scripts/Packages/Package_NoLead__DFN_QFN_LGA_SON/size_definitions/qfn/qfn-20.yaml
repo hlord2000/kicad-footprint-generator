@@ -442,12 +442,8 @@ VQFN-20-1EP_3x3mm_P0.45mm_EP1.55x1.55mm:
     minimum: 0.35
     maximum: 0.45
 
-  EP_size_x_min: 1.4
-  EP_size_x: 1.55
-  EP_size_x_max: 1.7
-  EP_size_y_min: 1.4
-  EP_size_y: 1.55
-  EP_size_y_max: 1.7
+  EP_size_x: 1.4 .. 1.55 .. 1.7
+  EP_size_y: 1.4 .. 1.55 .. 1.7
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)

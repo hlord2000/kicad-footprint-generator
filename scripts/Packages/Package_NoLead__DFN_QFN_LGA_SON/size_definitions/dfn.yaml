@@ -98,10 +98,8 @@ DFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
   lead_len_min: 0.15
   lead_len_max: 0.25
 
-  EP_size_x_min: 0.2
-  EP_size_x_max: 0.4
-  EP_size_y_min: 0.84
-  EP_size_y_max: 1.04
+  EP_size_x: 0.2 .. 0.4
+  EP_size_y: 0.84 .. 1.04
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [1, 2]
 
@@ -376,12 +374,8 @@ DFN-6-1EP_3x3mm_P1mm:
   lead_width_max: 0.45
   lead_len_min: 0.35
   lead_len_max: 0.45
-  EP_size_x_min: 1.4
-  EP_size_x: 1.5
-  EP_size_x_max: 1.6
-  EP_size_y_min: 2.3
-  EP_size_y: 2.4
-  EP_size_y_max: 2.5
+  EP_size_x: 1.4 .. 1.5 .. 1.6
+  EP_size_y: 2.3 .. 2.4 .. 2.5
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   pitch: 1.0

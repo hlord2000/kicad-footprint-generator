@@ -319,12 +319,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm:
   lead_len_min: 0.3
   lead_len_max: 0.55
 
-  EP_size_x_min: 4.6
-  EP_size_x: 4.7
-  EP_size_x_max: 4.8
-  EP_size_y_min: 4.6
-  EP_size_y: 4.7
-  EP_size_y_max: 4.8
+  EP_size_x: 4.6 .. 4.7 .. 4.8
+  EP_size_y: 4.6 .. 4.7 .. 4.8
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -426,12 +422,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP5.4x5.4mm:
   lead_len_min: 0.3
   lead_len_max: 0.5
 
-  EP_size_x_min: 5.3
-  EP_size_x: 5.4
-  EP_size_x_max: 5.5
-  EP_size_y_min: 5.3
-  EP_size_y: 5.4
-  EP_size_y_max: 5.5
+  EP_size_x: 5.3 .. 5.4 .. 5.5
+  EP_size_y: 5.3 .. 5.4 .. 5.5
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -587,12 +579,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
   lead_len_min: 0.3
   lead_len_max: 0.5
 
-  EP_size_x_min: 5.95
-  EP_size_x: 6
-  EP_size_x_max: 6.05
-  EP_size_y_min: 5.95
-  EP_size_y: 6
-  EP_size_y_max: 6.05
+  EP_size_x: 5.95 .. 6 .. 6.05
+  EP_size_y: 5.95 .. 6 .. 6.05
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -755,12 +743,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.3x7.3mm:
   lead_len_min: 0.3
   lead_len_max: 0.5
 
-  EP_size_x_min: 7.2
-  EP_size_x: 7.3
-  EP_size_x_max: 7.4
-  EP_size_y_min: 7.2
-  EP_size_y: 7.3
-  EP_size_y_max: 7.4
+  EP_size_x: 7.2 .. 7.3 .. 7.4
+  EP_size_y: 7.2 .. 7.3 .. 7.4
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
   # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -806,12 +790,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.5x7.5mm:
   lead_len_min: 0.3
   lead_len_max: 0.55
 
-  EP_size_x_min: 7.4
-  EP_size_x: 7.5
-  EP_size_x_max: 7.6
-  EP_size_y_min: 7.4
-  EP_size_y: 7.5
-  EP_size_y_max: 7.6
+  EP_size_x: 7.4 .. 7.5 .. 7.6
+  EP_size_y: 7.4 .. 7.5 .. 7.6
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [6, 6]
   # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -857,12 +837,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm:
   lead_len_min: 0.35
   lead_len_max: 0.45
 
-  EP_size_x_min: 7.5
-  EP_size_x: 7.65
-  EP_size_x_max: 7.8
-  EP_size_y_min: 7.5
-  EP_size_y: 7.65
-  EP_size_y_max: 7.8
+  EP_size_x: 7.5 .. 7.65 .. 7.8
+  EP_size_y: 7.5 .. 7.65 .. 7.8
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [6, 6]
   # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)

@@ -1570,10 +1570,8 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
     nominal: 0.4
     maximum: 0.5
 
-  EP_size_x_min: 4.52
-  EP_size_x_max: 4.72
-  EP_size_y_min: 4.52
-  EP_size_y_max: 4.72
+  EP_size_x: 4.52 .. 4.72
+  EP_size_y: 4.52 .. 4.72
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)

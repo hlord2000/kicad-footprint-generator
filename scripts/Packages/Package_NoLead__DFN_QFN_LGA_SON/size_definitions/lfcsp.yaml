@@ -50,10 +50,8 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.74x1.45mm:
   lead_len_min: 0.3
   lead_len_max: 0.5
 
-  EP_size_x_min: 1.35
-  EP_size_x_max: 1.55
-  EP_size_y_min: 1.64
-  EP_size_y_max: 1.84
+  EP_size_x: 1.35 .. 1.55
+  EP_size_y: 1.64 .. 1.84
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
