@@ -432,6 +432,29 @@ MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+TDFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
+  device_type: 'TDFN'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/MIC5528.pdf'
+  body_size_x:
+    nominal: 1.2
+    tolerance: 0.05
+  body_size_y:
+    nominal: 1.2
+    tolerance: 0.05
+  lead_to_edge:
+    nominal: 0.05
+    tolerance: 0
+  overall_height:
+    maximum: 0.4
+  lead_width: 0.18 +/- 0.05
+  lead_len: 0.20 +/- 0.05
+  EP_size_x: 0.30 +/- 0.05
+  EP_size_y: 0.94 +/- 0.05
+  EP_num_paste_pads: [1, 1]
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 3
+
 Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   device_type: 'MLF'
   manufacturer: 'Micrel'
