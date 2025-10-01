@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 import logging
+import os
+from typing import Any
+
 import yaml
 
 from KicadModTree import (
@@ -10,29 +12,26 @@ from KicadModTree import (
     Footprint,
     FootprintType,
 )
-
+from KicadModTree.nodes.specialized.PadArray import get_pad_radius_from_arrays
 from kilibs.geom import Vector2D
 from kilibs.ipc_tools import ipc_rules
-from scripts.tools.nodes.layouts.dual_and_quad_pad_array_layout import DualAndQuadPadArrayLayout
-from KicadModTree.nodes.specialized.PadArray import get_pad_radius_from_arrays
-
+from scripts.Packages.utils.ep_handling_utils import getEpRoundRadiusParams
+from scripts.tools.declarative_def_tools import (
+    ast_evaluator,
+    rule_area_properties,
+)
 from scripts.tools.footprint_generator import FootprintGenerator
 from scripts.tools.ipc_pad_size_calculators import (
     ipc_body_edge_inside_pull_back,
     ipc_pad_center_plus_size,
 )
-from scripts.tools.quad_dual_pad_border import create_dual_or_quad_pad_border
-from scripts.tools.declarative_def_tools import (
-    ast_evaluator,
-    rule_area_properties,
+from scripts.tools.nodes.layouts.dual_and_quad_pad_array_layout import (
+    DualAndQuadPadArrayLayout,
 )
-from typing import Any
-
-from scripts.Packages.utils.ep_handling_utils import getEpRoundRadiusParams
+from scripts.tools.quad_dual_pad_border import create_dual_or_quad_pad_border
 from src.generators.no_lead.configuration import NoLeadConfiguration
 
-
-category = 'NoLead'
+category = "NoLead"
 
 DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
@@ -42,7 +41,12 @@ SILK_MIN_LEN = 0.1
 
 
 class NoLeadGenerator(FootprintGenerator):
-    def __init__(self, configuration: dict[str, Any], ipc_defs: ipc_rules.IpcRules, **kwargs: dict[str, Any]) -> None:
+    def __init__(
+        self,
+        configuration: dict[str, Any],
+        ipc_defs: ipc_rules.IpcRules,
+        **kwargs: dict[str, Any],
+    ) -> None:
         super().__init__(**kwargs)  # type: ignore
 
         self.configuration = configuration
@@ -50,7 +54,7 @@ class NoLeadGenerator(FootprintGenerator):
         # for nwow, just use the dict-base data
         self.ipc_definitions = ipc_defs
 
-        self.configuration['min_ep_to_pad_clearance'] = ipc_defs.min_ep_to_pad_clearance
+        self.configuration["min_ep_to_pad_clearance"] = ipc_defs.min_ep_to_pad_clearance
 
     def calc_pad_details(
         self,
@@ -76,97 +80,136 @@ class NoLeadGenerator(FootprintGenerator):
             placement_tolerance=self.configuration.get("placement_tolerance", 0.05),
         )
 
-        if 'heel_reduction' in config.spec:
+        if "heel_reduction" in config.spec:
             print(
-                "\033[1;35mThe use of manual heel reduction is deprecated. " +
-                "It is automatically calculated from the minimum EP to pad clearance (ipc config file)\033[0m"
+                "\033[1;35mThe use of manual heel reduction is deprecated. "
+                + "It is automatically calculated from the minimum EP to pad clearance (ipc config file)\033[0m"
             )
 
         if config.lead_center_pos_x.nominal or config.lead_center_pos_y.nominal:
-            Gmin_x, Zmax_x, Xmax_x = ipc_pad_center_plus_size(ipc_offsets, ipc_round_base, manf_tol,
-                                                            center_position=config.lead_center_pos_x,
-                                                            lead_length=config.lead_len_h,
-                                                            lead_width=config.lead_width_h)
+            Gmin_x, Zmax_x, Xmax_x = ipc_pad_center_plus_size(
+                ipc_offsets,
+                ipc_round_base,
+                manf_tol,
+                center_position=config.lead_center_pos_x,
+                lead_length=config.lead_len_h,
+                lead_width=config.lead_width_h,
+            )
 
-            Gmin_y, Zmax_y, Xmax_y = ipc_pad_center_plus_size(ipc_offsets, ipc_round_base, manf_tol,
-                                                            center_position=config.lead_center_pos_y,
-                                                            lead_length=config.lead_len_v,
-                                                            lead_width=config.lead_width_v)
+            Gmin_y, Zmax_y, Xmax_y = ipc_pad_center_plus_size(
+                ipc_offsets,
+                ipc_round_base,
+                manf_tol,
+                center_position=config.lead_center_pos_y,
+                lead_length=config.lead_len_v,
+                lead_width=config.lead_width_v,
+            )
         else:
             Gmin_x, Zmax_x, Xmax_x = ipc_body_edge_inside_pull_back(
-                ipc_offsets, ipc_round_base, manf_tol,
+                ipc_offsets,
+                ipc_round_base,
+                manf_tol,
                 body_size=config.body_size_x,
                 lead_width=config.lead_width_h,
                 lead_len=config.lead_len_h,
-                heel_reduction=config.spec.get('heel_reduction', 0),
-                pull_back=config.lead_to_edge
+                heel_reduction=config.spec.get("heel_reduction", 0),
+                pull_back=config.lead_to_edge,
             )
 
             Gmin_y, Zmax_y, Xmax_y = ipc_body_edge_inside_pull_back(
-                ipc_offsets, ipc_round_base, manf_tol,
+                ipc_offsets,
+                ipc_round_base,
+                manf_tol,
                 body_size=config.body_size_y,
                 lead_width=config.lead_width_v,
                 lead_len=config.lead_len_v,
-                heel_reduction=config.spec.get('heel_reduction', 0),
-                pull_back=config.lead_to_edge
+                heel_reduction=config.spec.get("heel_reduction", 0),
+                pull_back=config.lead_to_edge,
             )
 
-        min_ep_to_pad_clearance = self.configuration['min_ep_to_pad_clearance']
+        min_ep_to_pad_clearance = self.configuration["min_ep_to_pad_clearance"]
 
         heel_reduction_max = 0
 
-        if EP_size['x'] > 0 and Gmin_x - 2 * min_ep_to_pad_clearance < EP_size['x']:
-            heel_reduction_max = ((EP_size['x'] + 2 * min_ep_to_pad_clearance - Gmin_x) / 2)
+        if EP_size["x"] > 0 and Gmin_x - 2 * min_ep_to_pad_clearance < EP_size["x"]:
+            heel_reduction_max = (
+                EP_size["x"] + 2 * min_ep_to_pad_clearance - Gmin_x
+            ) / 2
             # print('{}, {}, {}'.format(Gmin_x, EP_size['x'], min_ep_to_pad_clearance))
-            Gmin_x = EP_size['x'] + 2 * min_ep_to_pad_clearance
-        if EP_size['y'] > 0 and Gmin_y - 2 * min_ep_to_pad_clearance < EP_size['y']:
-            heel_reduction = ((EP_size['y'] + 2 * min_ep_to_pad_clearance - Gmin_y) / 2)
+            Gmin_x = EP_size["x"] + 2 * min_ep_to_pad_clearance
+        if EP_size["y"] > 0 and Gmin_y - 2 * min_ep_to_pad_clearance < EP_size["y"]:
+            heel_reduction = (EP_size["y"] + 2 * min_ep_to_pad_clearance - Gmin_y) / 2
             if heel_reduction > heel_reduction_max:
                 heel_reduction_max = heel_reduction
-            Gmin_y = EP_size['y'] + 2 * min_ep_to_pad_clearance
+            Gmin_y = EP_size["y"] + 2 * min_ep_to_pad_clearance
 
-        heel_reduction_max += config.spec.get('heel_reduction', 0)  # include legacy stuff
+        heel_reduction_max += config.spec.get(
+            "heel_reduction", 0
+        )  # include legacy stuff
         if heel_reduction_max > 0:
-            logging.info(f'Heel reduced by {heel_reduction_max:.4f} to reach minimum EP to pad clearances')
+            logging.info(
+                f"Heel reduced by {heel_reduction_max:.4f} to reach minimum EP to pad clearances"
+            )
 
         pad: dict[str, dict[str, list[float]]] = {}
-        pad['left'] = {'center': [-(Zmax_x + Gmin_x) / 4, 0.0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
-        pad['right'] = {'center': [(Zmax_x + Gmin_x) / 4, 0.0], 'size': [(Zmax_x - Gmin_x) / 2, Xmax_x]}
-        pad['top'] = {'center': [0.0, -(Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
-        pad['bottom'] = {'center': [0.0, (Zmax_y + Gmin_y) / 4], 'size': [Xmax_y, (Zmax_y - Gmin_y) / 2]}
+        pad["left"] = {
+            "center": [-(Zmax_x + Gmin_x) / 4, 0.0],
+            "size": [(Zmax_x - Gmin_x) / 2, Xmax_x],
+        }
+        pad["right"] = {
+            "center": [(Zmax_x + Gmin_x) / 4, 0.0],
+            "size": [(Zmax_x - Gmin_x) / 2, Xmax_x],
+        }
+        pad["top"] = {
+            "center": [0.0, -(Zmax_y + Gmin_y) / 4],
+            "size": [Xmax_y, (Zmax_y - Gmin_y) / 2],
+        }
+        pad["bottom"] = {
+            "center": [0.0, (Zmax_y + Gmin_y) / 4],
+            "size": [Xmax_y, (Zmax_y - Gmin_y) / 2],
+        }
 
         return pad
 
-    def generateFootprint(self, device_params: dict[str, Any], pkg_id: str, header_info: dict[str, Any] | None = None) -> None:
-        nolead_config = NoLeadConfiguration(pkg_id, device_params, header_info, self.configuration)
+    def generateFootprint(
+        self,
+        device_params: dict[str, Any],
+        pkg_id: str,
+        header_info: dict[str, Any] | None = None,
+    ) -> None:
+        nolead_config = NoLeadConfiguration(
+            pkg_id, device_params, header_info, self.configuration
+        )
 
-        if nolead_config.has_ep and 'thermal_vias' in device_params:
+        if nolead_config.has_ep and "thermal_vias" in device_params:
             self._create_footprint_variant(nolead_config, True)
         self._create_footprint_variant(nolead_config, False)
 
-    def _create_footprint_variant(self, device_config: NoLeadConfiguration,
-                                 with_thermal_vias: bool) -> None:
+    def _create_footprint_variant(
+        self, device_config: NoLeadConfiguration, with_thermal_vias: bool
+    ) -> None:
         # Pull out the old-style raw data
         spec = device_config.spec
         tsh = device_config.toleranced_size_handler
 
         if device_config.lead_to_edge.nominal != 0.0:
-            default_ipc_config = 'qfn_pull_back'
+            default_ipc_config = "qfn_pull_back"
         else:
-            default_ipc_config = 'qfn'
-        if spec.get('ipc_class', default_ipc_config) == 'qfn_pull_back':
-            ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
+            default_ipc_config = "qfn"
+        if spec.get("ipc_class", default_ipc_config) == "qfn_pull_back":
+            ipc_reference = "ipc_spec_flat_no_lead_pull_back"
         else:
-            ipc_reference = 'ipc_spec_flat_no_lead'
+            ipc_reference = "ipc_spec_flat_no_lead"
 
-        ipc_offsets = self.ipc_definitions.get_class(ipc_reference).get_offsets(device_config.ipc_density)
+        ipc_offsets = self.ipc_definitions.get_class(ipc_reference).get_offsets(
+            device_config.ipc_density
+        )
         ipc_round_base = self.ipc_definitions.get_class(ipc_reference).roundoff
 
         if device_config.has_ep:
-            if 'EP_size_x_overwrite' in spec:
+            if "EP_size_x_overwrite" in spec:
                 EP_size = Vector2D(
-                    spec['EP_size_x_overwrite'],
-                    spec['EP_size_y_overwrite']
+                    spec["EP_size_x_overwrite"], spec["EP_size_y_overwrite"]
                 )
             else:
                 EP_size = Vector2D(
@@ -186,25 +229,31 @@ class NoLeadGenerator(FootprintGenerator):
             pad_pos_x = tsh.get("pad_center_to_center_x", 0.0).nominal / 2
             pad_pos_y = tsh.get("pad_center_to_center_y", 0.0).nominal / 2
             pad_details = {}
-            pad_details['left'] = {
-                'center': [-pad_pos_x, 0], 'size': [pad_length, pad_width]
+            pad_details["left"] = {
+                "center": [-pad_pos_x, 0],
+                "size": [pad_length, pad_width],
             }
-            pad_details['right'] = {
-                'center': [pad_pos_x, 0], 'size': [pad_length, pad_width]
+            pad_details["right"] = {
+                "center": [pad_pos_x, 0],
+                "size": [pad_length, pad_width],
             }
-            pad_details['top'] = {
-                'center': [0, -pad_pos_y], 'size': [pad_width, pad_length]
+            pad_details["top"] = {
+                "center": [0, -pad_pos_y],
+                "size": [pad_width, pad_length],
             }
-            pad_details['bottom'] = {
-                'center': [0, pad_pos_y], 'size': [pad_width, pad_length]
+            pad_details["bottom"] = {
+                "center": [0, pad_pos_y],
+                "size": [pad_width, pad_length],
             }
         else:
-            pad_details = self.calc_pad_details(device_config, EP_size, ipc_offsets, ipc_round_base)
+            pad_details = self.calc_pad_details(
+                device_config, EP_size, ipc_offsets, ipc_round_base
+            )
 
         fp_ast_evaluator = ast_evaluator.ASTevaluator()
 
         if with_thermal_vias:
-            fp_name = device_config.fp_name_with_vias 
+            fp_name = device_config.fp_name_with_vias
         else:
             fp_name = device_config.fp_name_without_vias
 
@@ -219,36 +268,49 @@ class NoLeadGenerator(FootprintGenerator):
         # init kicad footprint
         kicad_mod.setDescription(
             "{manufacturer} {mpn} {package}, {pincount} Pin ({datasheet}), "
-            "generated with kicad-footprint-generator {scriptname}"
-            .format(
+            "generated with kicad-footprint-generator {scriptname}".format(
                 manufacturer=device_config.metadata.manufacturer or "",
-                package=spec['device_type'],
+                package=spec["device_type"],
                 mpn=device_config.metadata.part_number or "",
                 pincount=device_config.pincount_real,
                 datasheet=device_config.metadata.datasheet,
-                scriptname=os.path.basename(__file__).replace("  ", " ")
-            ).lstrip())
+                scriptname=os.path.basename(__file__).replace("  ", " "),
+            ).lstrip()
+        )
 
-        kicad_mod.tags = self.configuration['keyword_fp_string'].format(
-            man=device_config.metadata.manufacturer or "",
-            package=spec['device_type'],
-            category=category
-        ).lstrip().split()
+        kicad_mod.tags = (
+            self.configuration["keyword_fp_string"]
+            .format(
+                man=device_config.metadata.manufacturer or "",
+                package=spec["device_type"],
+                category=category,
+            )
+            .lstrip()
+            .split()
+        )
 
         kicad_mod.tags += device_config.metadata.compatible_mpns
         kicad_mod.tags += device_config.metadata.additional_tags
 
-        pad_arrays = create_dual_or_quad_pad_border(self.global_config, pad_details, spec,
-                                                    pad_overrides=device_config.pad_overrides)
+        pad_arrays = create_dual_or_quad_pad_border(
+            self.global_config,
+            pad_details,
+            spec,
+            pad_overrides=device_config.pad_overrides,
+        )
         pad_radius = get_pad_radius_from_arrays(pad_arrays)
 
         if device_config.has_ep:
-            pad_shape_details = getEpRoundRadiusParams(spec, self.global_config, pad_radius)
-            ep_pad_number = spec.get('EP_pin_number', device_config.pincount_full + 1)
+            pad_shape_details = getEpRoundRadiusParams(
+                spec, self.global_config, pad_radius
+            )
+            ep_pad_number = spec.get("EP_pin_number", device_config.pincount_full + 1)
             if with_thermal_vias:
-                thermals = spec['thermal_vias']
-                paste_coverage = thermals.get('EP_paste_coverage',
-                                              spec.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
+                thermals = spec["thermal_vias"]
+                paste_coverage = thermals.get(
+                    "EP_paste_coverage",
+                    spec.get("EP_paste_coverage", DEFAULT_PASTE_COVERAGE),
+                )
 
                 # Override the via avoid setting in the YAML to avoid broken paste
                 # aperture spacing.
@@ -257,29 +319,39 @@ class NoLeadGenerator(FootprintGenerator):
                 paste_via_avoid = False
 
                 exposed_pad = ExposedPad(
-                    number=ep_pad_number, size=EP_size,
+                    number=ep_pad_number,
+                    size=EP_size,
                     at=EP_center,
-                    paste_layout=thermals.get('EP_num_paste_pads', spec.get('EP_num_paste_pads', 1)),
+                    paste_layout=thermals.get(
+                        "EP_num_paste_pads", spec.get("EP_num_paste_pads", 1)
+                    ),
                     paste_coverage=paste_coverage,
-                    via_layout=thermals.get('count', 0),
-                    paste_between_vias=thermals.get('paste_between_vias'),
-                    paste_rings_outside=thermals.get('paste_rings_outside'),
-                    via_drill=thermals.get('drill', 0.3),
-                    via_grid=thermals.get('grid'),
-                    remove_corner_vias=thermals.get('remove_corner_vias'),
+                    via_layout=thermals.get("count", 0),
+                    paste_between_vias=thermals.get("paste_between_vias"),
+                    paste_rings_outside=thermals.get("paste_rings_outside"),
+                    via_drill=thermals.get("drill", 0.3),
+                    via_grid=thermals.get("grid"),
+                    remove_corner_vias=thermals.get("remove_corner_vias"),
                     paste_avoid_via=paste_via_avoid,
-                    via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
-                    min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
-                    bottom_pad_min_size=thermals.get('bottom_min_size', 0),
-                    **pad_shape_details
+                    via_paste_clarance=thermals.get(
+                        "paste_via_clearance", DEFAULT_VIA_PASTE_CLEARANCE
+                    ),
+                    min_annular_ring=thermals.get(
+                        "min_annular_ring", DEFAULT_MIN_ANNULAR_RING
+                    ),
+                    bottom_pad_min_size=thermals.get("bottom_min_size", 0),
+                    **pad_shape_details,
                 )
             else:
                 exposed_pad = ExposedPad(
-                    number=ep_pad_number, size=EP_size,
+                    number=ep_pad_number,
+                    size=EP_size,
                     at=EP_center,
-                    paste_layout=spec.get('EP_num_paste_pads', 1),
-                    paste_coverage=spec.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
-                    **pad_shape_details
+                    paste_layout=spec.get("EP_num_paste_pads", 1),
+                    paste_coverage=spec.get(
+                        "EP_paste_coverage", DEFAULT_PASTE_COVERAGE
+                    ),
+                    **pad_shape_details,
                 )
         else:
             exposed_pad = None
@@ -305,30 +377,51 @@ class NoLeadGenerator(FootprintGenerator):
         kicad_mod += layout
 
         ###  3D Model  #################################################################
-        self.add_standard_3d_model_to_footprint(kicad_mod, device_config.lib_name, device_config.model_name)
+        self.add_standard_3d_model_to_footprint(
+            kicad_mod, device_config.lib_name, device_config.model_name
+        )
 
         ###  Save Footprint  ###########################################################
         self.write_footprint(kicad_mod, device_config.lib_name)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('files', metavar='file', type=str, nargs='*',
-                        help='list of files holding information about what devices should be created.')
-    parser.add_argument('--series_config', type=str, nargs='?',
-                        help='the config file defining series parameters.', default='../package_config_KLCv3.yaml')
-    parser.add_argument('--density', type=str, nargs='?', help='IPC density level (L,N,M)', default='N')
-    parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document',
-                        default='ipc_7351b')
+    parser = argparse.ArgumentParser(
+        description="use confing .yaml files to create footprints."
+    )
+    parser.add_argument(
+        "files",
+        metavar="file",
+        type=str,
+        nargs="*",
+        help="list of files holding information about what devices should be created.",
+    )
+    parser.add_argument(
+        "--series_config",
+        type=str,
+        nargs="?",
+        help="the config file defining series parameters.",
+        default="../package_config_KLCv3.yaml",
+    )
+    parser.add_argument(
+        "--density", type=str, nargs="?", help="IPC density level (L,N,M)", default="N"
+    )
+    parser.add_argument(
+        "--ipc_doc",
+        type=str,
+        nargs="?",
+        help="IPC definition document",
+        default="ipc_7351b",
+    )
 
     args = FootprintGenerator.add_standard_arguments(parser)
 
-    if args.density == 'L':
-        ipc_density = 'least'
-    elif args.density == 'M':
-        ipc_density = 'most'
+    if args.density == "L":
+        ipc_density = "least"
+    elif args.density == "M":
+        ipc_density = "most"
 
-    with open(args.series_config, 'r') as config_stream:
+    with open(args.series_config, "r") as config_stream:
         try:
             configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
@@ -339,7 +432,7 @@ if __name__ == "__main__":
     FootprintGenerator.run_on_files(
         NoLeadGenerator,
         args,
-        file_autofind_dir='size_definitions',
+        file_autofind_dir="size_definitions",
         configuration=configuration,
         ipc_defs=ipc_rule_defs,
     )
