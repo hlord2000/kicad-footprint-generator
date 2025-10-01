@@ -2,21 +2,13 @@ LFCSP-6-1EP_2x2mm_P0.65mm_EP1.1x1.7mm:
 # Similar to DFN / SON packages, generates LFCSP-6-1EP_2x2mm_P0.65mm_EP1x1.6mm
   device_type: 'LFCSP'
   library: Package_CSP
-  # manufacturer: 'Analog'
-  # part_number: 'CP-6-3'
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_6_3.pdf'
-  # link above is broken, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-6/cp_6_3.pdf
-  # ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-6/cp_6_3.pdf'
   body_size_x:
     nominal: 2.0
     tolerance: 0.1
   body_size_y:
     nominal: 2.0
     tolerance: 0.1
-  lead_to_edge:
-    nominal: 0.0
-    tolerance: 0.0
   lead_width:
     nominal: 0.3
     tolerance: 0.05
@@ -29,7 +21,6 @@ LFCSP-6-1EP_2x2mm_P0.65mm_EP1.1x1.7mm:
   EP_size_y:
     minimum: 1.5
     maximum: 1.7
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   pitch: 0.65
   num_pins_x: 0
@@ -54,9 +45,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.74x1.45mm:
     nominal: 3.0
     tolerance: 0.1
   #body_size_y_max: 3.15
-  lead_to_edge:
-    nominal: 0.0
-    tolerance: 0.0
   lead_width_min: 0.2
   lead_width_max: 0.3
   lead_len_min: 0.3
