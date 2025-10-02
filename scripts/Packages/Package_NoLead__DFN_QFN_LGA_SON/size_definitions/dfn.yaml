@@ -999,7 +999,6 @@ Balun_Johanson_0900FM15K0039:
   pitch: 0.50
   num_pins_x: 1
   num_pins_y: 4
-  pad_length_addition: -0.2
 
 Balun_Johanson_0900PC15J0013:
   device_type: 'DFN'
@@ -1024,7 +1023,6 @@ Balun_Johanson_0900PC15J0013:
   pitch: 0.50
   num_pins_x: 1
   num_pins_y: 4
-  pad_length_addition: -0.1
 
 Texas_S-PDSO-N10_EP1.2x2.0mm:
   device_type: 'DFN'
