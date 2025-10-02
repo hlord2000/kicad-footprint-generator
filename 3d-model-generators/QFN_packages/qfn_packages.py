@@ -232,8 +232,8 @@ def make_qfn(
         ep_size_x = nlc.ep_size_x.nominal
         ep_size_y = nlc.ep_size_y.nominal
         ep_chamfer = nlc.ep_chamfer.nominal
-        epad_offset_x = nlc.ep_offset_x
-        epad_offset_y = nlc.ep_offset_y
+        epad_offset_x = nlc.ep_offset_x.nominal
+        epad_offset_y = nlc.ep_offset_y.nominal
         for nx in range(1, nlc.ep_num[0] + 1):
             for ny in range(1, nlc.ep_num[1] + 1):
                 offset_x = (
