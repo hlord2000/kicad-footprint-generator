@@ -1,6 +1,9 @@
 # This file cointains QFN with special format or special lead distribution,
 # like JEDEC MO-241 which resembles a SON / DFN package
 
+FileHeader:
+  library: Package_DFN_QFN
+
 Texas_WQFN-10_RUN0010A:
 # Texas_RUN0010A_WQFN-10_2x2mm_P0.5mm
 # Resembles a SON / DFN package, but with 1 lead on top / bottom

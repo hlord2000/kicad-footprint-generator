@@ -1,6 +1,8 @@
+FileHeader:
+  library: 'Sensor'
+
 Winson_GM-402B_5x5mm_P1.27mm:
   size_source: 'https://www.winsen-sensor.com/d/files/me2/mems--gm-402b--manual-v1_1.pdf'
-  library: 'Sensor'
   custom_name_format: '{man:s}_{mpn:s}_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}'
   device_type: 'QFN'
   manufacturer: 'Winson'
@@ -22,7 +24,6 @@ Winson_GM-402B_5x5mm_P1.27mm:
 
 Sensirion_SCD4x-1EP_10.1x10.1mm_P1.25mm_EP4.8x4.8mm:
   size_source: 'https://sensirion.com/media/documents/C4B87CE6/627C2DCD/CD_DS_SCD40_SCD41_Datasheet_D1.pdf'
-  library: 'Sensor'
   custom_name_format: '{man:s}_{mpn:s}-1EP_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}_EP{ep_size_x:g}x{ep_size_y:g}mm'
   device_type: 'QFN'
   manufacturer: 'Sensirion'

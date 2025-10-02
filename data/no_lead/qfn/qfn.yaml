@@ -1,3 +1,6 @@
+FileHeader:
+  library: Package_DFN_QFN
+
 QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
   size_source: 'https://help.1nce.com/dev-hub/docs/sim-chips-iot-industrial'
   device_type: 'QFN'

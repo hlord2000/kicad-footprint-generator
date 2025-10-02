@@ -180,10 +180,10 @@ class NoLeadGenerator(FootprintGenerator):
         nolead_config = NoLeadConfiguration(
             pkg_id, device_params, header_info, self.configuration
         )
-
-        if nolead_config.has_ep and "thermal_vias" in device_params:
-            self._create_footprint_variant(nolead_config, True)
-        self._create_footprint_variant(nolead_config, False)
+        if nolead_config.has_fp_data:
+            if nolead_config.has_ep and "thermal_vias" in device_params:
+                self._create_footprint_variant(nolead_config, True)
+            self._create_footprint_variant(nolead_config, False)
 
     def _create_footprint_variant(
         self, device_config: NoLeadConfiguration, with_thermal_vias: bool

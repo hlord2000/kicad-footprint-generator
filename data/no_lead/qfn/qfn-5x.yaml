@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_52_05-08-1729.pdf'
   device_type: 'QFN'

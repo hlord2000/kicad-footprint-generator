@@ -1,6 +1,8 @@
+FileHeader:
+  library: Package_SON
+
 VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   size_source: 'http://rohmfs.rohm.com/en/products/databook/datasheet/ic/power/switching_regulator/bd8314nuv-e.pdf (Page 20)'
-  library: Package_SON
   device_type: 'VSON'
   ipc_class: 'qfn' # 'qfn_pull_back'
   body_size_x:
@@ -33,7 +35,6 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
 
 VSON-8_1.5x2.0mm_P0.5mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tps62840.pdf#page=37'
-  library: Package_SON
   device_type: 'VSON'
   ipc_class: 'qfn_pull_back'
   body_size_x:
@@ -54,7 +55,6 @@ VSON-8_1.5x2.0mm_P0.5mm:
 
 VSON-8-1EP_3x3mm_P0.65mm_EP1.65x2.4mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/tlv767-q1.pdf#page=31'
-  library: Package_SON
   device_type: 'VSON'
   ipc_class: 'qfn'
   body_size_x:
@@ -88,7 +88,6 @@ VSON-8-1EP_3x3mm_P0.65mm_EP1.65x2.4mm:
 
 VSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/thvd1450.pdf#page=37'
-  library: Package_SON
   device_type: 'VSON'
   ipc_class: 'qfn'
   body_size_x:
@@ -117,7 +116,6 @@ VSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
 
 VSON-14-1EP_3x4.5mm_P0.65mm_EP1.6x4.2mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/lp8868x-q1.pdf#page=45'
-  library: Package_SON
   device_type: 'VSON'
   ipc_class: 'qfn'
   body_size_x:
@@ -154,7 +152,6 @@ VSON-14-1EP_3x4.5mm_P0.65mm_EP1.6x4.2mm:
 
 MPS_VSON-6_1x1.5mm_P0.5mm:
   size_source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP21148/document_id/1006/#page=14'
-  library: Package_SON
   device_type: 'VSON'
   manufacturer: 'MPS' # manufacturer prefix is needed due to non-standard lead count (if you compare to JEDEC MO-229 variant V1510D)
   ipc_class: 'qfn'

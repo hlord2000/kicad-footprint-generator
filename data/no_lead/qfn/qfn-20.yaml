@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 Renesas_UQFN-20_2x3mm_P0.4mm_LayoutBorder4x6y:
   size_source: 'Renesas STQFN-20L, https://www.renesas.com/en/document/dst/slg465808283-datasheet#page=200'
   device_type: 'UQFN'

@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 OnSemi_VCT-28_3.5x3.5mm_P0.4mm:
   size_source: 'http://www.onsemi.com/pub/Collateral/601AE.PDF'
   device_type: 'VCT' # this should be QFN

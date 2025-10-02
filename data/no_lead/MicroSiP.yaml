@@ -1,6 +1,8 @@
+FileHeader:
+  library: Package_LGA
+
 Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
   size_source: 'http://www.ti.com/lit/ml/mpds579b/mpds579b.pdf'
-  library: Package_LGA
   include_suffix_in_3dpath: False
   device_type: 'MicroSiP'
   manufacturer: 'Texas'
@@ -42,7 +44,6 @@ Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
 
 Texas_SIL0008D_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tps82130.pdf#page=19'
-  library: Package_LGA
   include_suffix_in_3dpath: False
   device_type: 'MicroSiP'
   manufacturer: 'Texas'
@@ -84,7 +85,6 @@ Texas_SIL0008D_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
 
 Texas_SIL0008C_MicroSiP-8-1EP_2.8x3mm_P0.65mm_EP1.1x1.9mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tps82085.pdf#page=20'
-  library: Package_LGA
   include_suffix_in_3dpath: False
   device_type: 'MicroSiP'
   manufacturer: 'Texas'

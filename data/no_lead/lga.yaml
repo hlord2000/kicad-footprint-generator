@@ -1,6 +1,8 @@
+FileHeader:
+  library: Package_LGA
+
 LGA-8_8x6mm_P1.27mm:
   size_source: 'https://datasheet.lcsc.com/lcsc/2005251034_XTX-XTSD01GLGEAG_C558837.pdf#page=6'
-  library: 'Package_LGA'
   device_type: 'LGA'
   body_size_x:
     minimum: 7.95
@@ -28,7 +30,6 @@ LGA-8_8x6mm_P1.27mm:
 
 LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
   size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -51,7 +52,6 @@ LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
 
 LGA-8_8x6.2mm_P1.27mm:
   size_source: 'https://datasheet.lcsc.com/lcsc/2303241700_Zetta-ZDSD64GLGEAG-R_C5277948.pdf#page=17'
-  library: 'Package_LGA'
   device_type: 'LGA'
   body_size_x:
     minimum: 7.95
@@ -79,7 +79,6 @@ LGA-8_8x6.2mm_P1.27mm:
 
 LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
   size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -102,7 +101,6 @@ LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
 
 LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
   size_source: 'https://www.st.com/resource/en/datasheet/lsm6ds3tr-c.pdf'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -117,7 +115,6 @@ LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
 
 LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
   size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -139,7 +136,6 @@ LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
 
 LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -161,7 +157,6 @@ LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
 
 NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
   size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf#page=15'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   manufacturer: 'NXP'
@@ -190,7 +185,6 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
 
 NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.1mm:
   size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL3115A2.pdf#page=42'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   manufacturer: 'NXP'
@@ -219,7 +213,6 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.1mm:
 
 Bosch_LGA-8_3x3mm_P0.8mm:
   size_source: 'https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   manufacturer: 'Bosch'
@@ -244,7 +237,6 @@ Bosch_LGA-8_3x3mm_P0.8mm:
 
 Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
   size_source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'LGA'
   manufacturer: 'Bosch'
@@ -281,7 +273,6 @@ Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
 
 ST_HLGA-10_2.5x2.5mm_P0.6mm:
   size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'HLGA'
   manufacturer: 'ST'
@@ -310,7 +301,6 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm:
 
 ST_HLGA-10_2x2mm_P0.5mm:
   size_source: 'https://www.st.com/resource/en/datasheet/lps22hh.pdf#page=55'
-  library: Package_LGA
   use_name_format: 'LGA'
   device_type: 'HLGA'
   manufacturer: 'ST'
@@ -393,7 +383,6 @@ Broadcom_LGA-8_2.0x2.0mm_P0.53mm:
 
 Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
   size_source: 'https://www.digikey.com/Site/Global/Layouts/DownloadPdf.ashx?pdfUrl=3557DE8B1578472CBA17FB72BE0052DC#page=4'
-  library: 'Package_LGA'
   use_name_format: 'LGA'
   device_type: 'LGA'
   manufacturer: 'Kionix'
@@ -424,7 +413,6 @@ Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
 
 VLGA-4_2.5x2.0mm:
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/DSC60XX-Ultra-Small-Ultra-Low-Power-MEMS-Oscillator-DS20005625C.pdf#page=15'
-  library: 'Package_LGA'
   device_type: 'VLGA'
   ipc_class: 'qfn_pull_back'
   body_size_x:

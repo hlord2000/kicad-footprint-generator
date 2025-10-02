@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 VQFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
   size_source: 'JEDEC MO-220-K.01, variation VHHE-1, https://www.jedec.org/system/files/docs/MO-220K01.pdf'
   device_type: 'VQFN'

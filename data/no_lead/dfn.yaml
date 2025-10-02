@@ -1,3 +1,6 @@
+FileHeader:
+  library: Package_DFN_QFN
+
 CDFN-4_2x2.5mm_P1.65mm:
   size_source: https://ww1.microchip.com/downloads/aemDocuments/documents/TCG/ProductDocuments/DataSheets/DSC1001-3-4-1.8V-3.3V-Low-Power-Precision-CMOS-Oscillators-DS20005529.pdf#page=17
   compatible_mpns:

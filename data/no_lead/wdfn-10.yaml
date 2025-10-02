@@ -1,3 +1,6 @@
+FileHeader:
+  library: Package_DFN_QFN
+
 WDFN-10-1EP_3x3mm_P0.5mm_EP1.8x2.5mm:
   size_source: 'https://www.onsemi.com/pdf/datasheet/nis5420-d.pdf'
   device_type: 'WDFN'

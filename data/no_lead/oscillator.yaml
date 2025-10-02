@@ -1,6 +1,8 @@
+FileHeader:
+  library: Oscillator
+
 Oscillator_SMD_Silicon_Labs_LGA-6_2.5x3.2mm_P1.25mm:
   size_source: 'https://www.silabs.com/documents/public/data-sheets/si512-13.pdf'
-  library: Oscillator
   fp_name_prefix: Oscillator_SMD
   device_type: 'LGA'
   manufacturer: 'Silicon_Labs'

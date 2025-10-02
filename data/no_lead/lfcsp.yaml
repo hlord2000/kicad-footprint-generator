@@ -1,7 +1,9 @@
+FileHeader:
+  library: Package_CSP
+
 LFCSP-6-1EP_2x2mm_P0.65mm_EP1.1x1.7mm:
 # Similar to DFN / SON packages, generates LFCSP-6-1EP_2x2mm_P0.65mm_EP1x1.6mm
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-6/cp_6_3.pdf'
-  library: Package_CSP
   device_type: 'LFCSP'
   body_size_x:
     nominal: 2.0
@@ -29,7 +31,6 @@ LFCSP-6-1EP_2x2mm_P0.65mm_EP1.1x1.7mm:
 LFCSP-8-1EP_3x3mm_P0.5mm_EP1.74x1.45mm:
 # JEDEC MO-229, variation WEED-4, this is a DFN / SON package (WSON), generates LFCSP-8-1EP_3x3mm_P0.5mm_EP1.45x1.74mm
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-8/CP_8_13.pdf'
-  library: Package_CSP
   device_type: 'LFCSP'
   body_size_x:
     nominal: 3.0
@@ -52,7 +53,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.60x2.34mm:
 # JEDEC MO-229, variation W3030D-4, it's DFN / SON package (WSON)
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/CP_8_11.pdf'
   # link above is broken, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-8/cp_8_11.pdf
-  library: Package_CSP
   device_type: 'LFCSP'
   ipc_class: 'qfn'
   body_size_x:
@@ -99,7 +99,6 @@ LFCSP-WD-8-1EP_3x3mm_P0.65mm_EP1.6x2.44mm:
 # Similar to DFN / SON packages (WSON)
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/CP_8_19.pdf'
   # link above is broken, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-8/cp_8_19.pdf
-  library: Package_CSP
   device_type: 'LFCSP-WD'
   ipc_class: 'qfn' # 'qfn_pull_back'
   body_size_x:
@@ -143,7 +142,6 @@ LFCSP-WD-8-1EP_3x3mm_P0.65mm_EP1.6x2.44mm:
 LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
 # Similar to DFN / SON packages (WSON)
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-10/CP_10_9.pdf'
-  library: Package_CSP
   device_type: 'LFCSP-WD'
   ipc_class: 'qfn' # 'qfn_pull_back'
   body_size_x:

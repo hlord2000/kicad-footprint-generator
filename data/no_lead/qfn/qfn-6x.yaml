@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm:
   size_source: 'https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf'
   device_type: 'QFN'

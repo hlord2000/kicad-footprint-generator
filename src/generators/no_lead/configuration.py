@@ -94,8 +94,6 @@ class NoLeadConfiguration:
         # Instance attributes for general data:
         self.device_type: str
         """The device type."""
-        self.force_small_pitch_ipc_definition: bool
-        """Whether the small pitch IPC definition shall be applied to this device."""
         self.ipc_density: ipc_rules.IpcDensity
         """The IPC density rules."""
 
@@ -243,9 +241,6 @@ class NoLeadConfiguration:
     def _extract_general_data(self) -> None:
         self.device_type = self.spec.get(
             "device_type", self.header.get("device_type", "") if self.header else ""
-        )
-        self.force_small_pitch_ipc_definition = self.spec.get(
-            "force_small_pitch_ipc_definition", False
         )
         self.ipc_density = ipc_rules.IpcDensity.from_str(
             self.spec.get("ipc_density", "nominal")
@@ -501,4 +496,6 @@ class NoLeadConfiguration:
             self.fp_name_without_vias = prefix + self.fp_name_without_vias
 
     def _compose_lib_name(self) -> None:
-        self.lib_name = self.spec.get("library", "Package_DFN_QFN")
+        self.lib_name = self.spec.get(
+            "library", self.header.get("library", "Package_DFN_QFN")
+        )

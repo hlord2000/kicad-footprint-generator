@@ -4,6 +4,9 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
+FileHeader:
+  library: Package_DFN_QFN
+
 Texas_RNH0030A_WQFN-30-1EP_2.5x4.5mm_P0.4mm_EP1.2x3.2mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/hd3ss3220.pdf#page=44'
   device_type: 'WQFN'
