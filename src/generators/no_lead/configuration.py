@@ -350,12 +350,12 @@ class NoLeadConfiguration:
         self.ep_size_y = tsh.get("EP_size_y", 0.0)
         self.ep_offset_x = tsh.get("EP_center_x", 0.0)
         self.ep_offset_y = tsh.get("EP_center_y", 0.0)
-        self.ep_angle = self.spec.get("ep_angle", 0.0)
+        self.ep_angle = self.spec.get("EP_angle", 0.0)
         self.ep_mask_x = tsh.get("EP_mask_x", 0.0)
         self.ep_mask_y = tsh.get("EP_mask_y", 0.0)
-        self.ep_chamfer = tsh.get("ep_chamfer", 0.0)
-        self.ep_num = self.spec.get("epad_n", [1, 1])
-        self.ep_pitch = self.spec.get("epad_pitch", [0, 0])
+        self.ep_chamfer = tsh.get("EP_chamfer", 0.0)
+        self.ep_num = self.spec.get("EP_num_pads", [1, 1])
+        self.ep_pitch = self.spec.get("EP_pitch", [0, 0])
         if self.ep_size_x.nominal and self.ep_size_y.nominal:
             self.has_ep = True
         else:
