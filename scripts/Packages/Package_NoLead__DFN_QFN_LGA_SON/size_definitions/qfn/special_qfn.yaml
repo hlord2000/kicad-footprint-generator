@@ -32,11 +32,8 @@ Texas_X2QFN-RUE-12_1.4x2mm_P0.4mm:
 # Resembles a SON / DFN package, but with 1 lead on top / bottom
   device_type: 'X2QFN-RUE'
   manufacturer: 'Texas'
-  #part_number: 'mpn'
   size_source: 'https://www.ti.com/lit/ml/mpqf214b/mpqf214b.pdf'
   ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
   body_size_x:
     minimum: 1.35
     maximum: 1.45
@@ -56,26 +53,17 @@ Texas_X2QFN-RUE-12_1.4x2mm_P0.4mm:
     minimum: 0.35
     maximum: 0.45
 
-  #heel_reduction: 0.075
-
   pitch: 0.4
   num_pins_x: 1
   num_pins_y: 5
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 IDT_QFN-12-1EP_2x2mm_P0.5mm_EP1.1x1.1mm:
   device_type: 'QFN'
   manufacturer: 'IDT'
   compatible_mpns:
     - "IDT_NEG-12"
-  #part_number: 'mpn'
   size_source: 'https://www.renesas.com/en/document/psc/neg12-package-outline-20-x-20-mm-body-epad-11-x-11-mm-050-mm-pitch-qfn'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 2
     tolerance: 0.05
@@ -99,37 +87,25 @@ IDT_QFN-12-1EP_2x2mm_P0.5mm_EP1.1x1.1mm:
   EP_size_y:
     nominal: 1.1
     tolerance: 0.05
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [1, 1]
 
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.7
-    # grid:
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 3
   chamfer_edge_pins: 0.14
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  # suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm'
-  #include_suffix_in_3dpath: 'False'
 
 Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
   device_type: 'X2QFN'
   manufacturer: 'Texas'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ml/mpqf391c/mpqf391c.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 1.55
     maximum: 1.65
@@ -154,11 +130,6 @@ Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
   pitch: 0.4
   num_pins_x: 4
   num_pins_y: 2
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 Texas_S-PX2QFN-N14:
 # Generates 'Texas_S-PX2QFN-14' for now, we should rename it to 'Texas_X2QFN-14_2x2mm_P0.4mm' in future
@@ -168,8 +139,7 @@ Texas_S-PX2QFN-N14:
   size_source: 'https://www.ti.com/lit/ml/qfnd283a/qfnd283a.pdf'
   compatible_mpns:
     - Texas_X2QFN-14_2x2mm_P0.4mm
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  ipc_class: 'qfn'
   custom_name_format: 'Texas_S-PX2QFN-{pincount}' # Temporary
   body_size_x:
     minimum: 1.9
@@ -345,9 +315,7 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
   manufacturer: 'Analog'
   #part_number: 'CP-10-10'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_10_10.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 1.3
   body_size_y:

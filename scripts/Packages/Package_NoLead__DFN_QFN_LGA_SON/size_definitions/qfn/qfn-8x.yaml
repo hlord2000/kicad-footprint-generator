@@ -6,12 +6,8 @@
 
 QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
   device_type: "QFN"
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf"
-  ipc_class: "qfn" # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: "qfn"
   body_size_x:
     nominal: 10
     tolerance: 0
@@ -40,40 +36,24 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
     minimum: 3.35
     nominal: 3.40
     maximum: 3.45
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  # heel_reduction: 0.1 #deprecated
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [5, 5]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 20
   num_pins_y: 20
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
   device_type: 'QFN'
   manufacturer: 'ArtInChip'
-  #part_number: 'mpn'
   size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=43'
   ipc_class: 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
   body_size_x:
     nominal: 10
     tolerance: 0.1
@@ -105,28 +85,14 @@ QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
     nominal: 6.74
     maximum: 6.84
 
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 22
   num_pins_y: 22
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'

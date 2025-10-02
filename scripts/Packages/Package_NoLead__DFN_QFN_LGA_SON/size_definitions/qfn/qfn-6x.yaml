@@ -6,12 +6,8 @@
 
 QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 7
     tolerance: 0
@@ -40,40 +36,23 @@ QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm:
     minimum: 3.35
     nominal: 3.40
     maximum: 3.45
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 15
   num_pins_y: 15
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/64L_VQFN_8x8_with%206_5x6_5%20EP_JXX_C04-0437A.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 8
     tolerance: 0
@@ -102,31 +81,17 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
     minimum: 6.4
     nominal: 6.5
     maximum: 6.6
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [6, 6]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP3.4x3.4mm:
   device_type: 'QFN'
@@ -199,8 +164,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.1x4.1mm:
   num_pins_x: 16
   num_pins_y: 16
 
-Texas_VQFN-64_RGC0064B:
-# Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm
+Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RGC0064B'
@@ -246,10 +210,8 @@ Texas_VQFN-64_RGC0064B:
 
 QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT2232H.pdf#page=57'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 9
   body_size_y:
@@ -276,38 +238,22 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm:
     minimum: 4.3
     nominal: 4.35
     maximum: 4.4
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/60001477A.pdf (page 1083)'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   #body_size_x_min: 8.9
   body_size_x: 9.0
   #body_size_x_max: 9.1
@@ -321,38 +267,21 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm:
 
   EP_size_x: 4.6 .. 4.7 .. 4.8
   EP_size_y: 4.6 .. 4.7 .. 4.8
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP5.2x5.2mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.silabs.com/documents/public/data-sheets/Si5345-44-42-D-DataSheet.pdf#page=51'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 9
     tolerance: 0
@@ -379,38 +308,22 @@ QFN-64-1EP_9x9mm_P0.5mm_EP5.2x5.2mm:
     minimum: 5.10
     nominal: 5.20
     maximum: 5.30
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP5.4x5.4mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/70593d.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   #body_size_x_min: 8.9
   body_size_x: 9.0
   #body_size_x_max: 9.1
@@ -424,31 +337,16 @@ QFN-64-1EP_9x9mm_P0.5mm_EP5.4x5.4mm:
 
   EP_size_x: 5.3 .. 5.4 .. 5.5
   EP_size_y: 5.3 .. 5.4 .. 5.5
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [0.98, 0.98]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 VQFN-64-1EP_9x9mm_P0.5mm_EP5.4x5.4mm:
   device_type: 'VQFN'
@@ -487,10 +385,8 @@ VQFN-64-1EP_9x9mm_P0.5mm_EP5.4x5.4mm:
 
 QFN-64-1EP_9x9mm_P0.5mm_EP5.45x5.45mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.infineon.com/dgdl/Infineon-MA12040-DS-v01_00-EN.pdf?fileId=5546d46264a8de7e0164b7467a3d617c#page=81'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 9
     tolerance: 0.1
@@ -517,29 +413,17 @@ QFN-64-1EP_9x9mm_P0.5mm_EP5.45x5.45mm:
     minimum: 5.35
     nominal: 5.45
     maximum: 5.55
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP5.7x5.7mm:
   device_type: 'QFN'
@@ -562,12 +446,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP5.7x5.7mm:
 
 QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/tusb8041.pdf#page=42'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x_min: 8.9
   body_size_x: 9.0
   body_size_x_max: 9.1
@@ -581,40 +461,21 @@ QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
 
   EP_size_x: 5.95 .. 6 .. 6.05
   EP_size_y: 5.95 .. 6 .. 6.05
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    # grid: [0.8, 0.8]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP7.15x7.15mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/229321fa.pdf#page=27'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 9.0
     tolerance: 0.1
@@ -637,40 +498,21 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.15x7.15mm:
   EP_size_y:
     nominal: 7.15
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-  # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [6, 6]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 VQFN-64-1EP_9x9mm_P0.5mm_EP7.15X7.15mm:
   device_type: 'VQFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/64L_QFN_9x9_MR_C04-00149e.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     #minimum: 8.85
     nominal: 9
@@ -698,40 +540,22 @@ VQFN-64-1EP_9x9mm_P0.5mm_EP7.15X7.15mm:
   EP_size_y:
     nominal: 7.15
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
-    #EP_paste_coverage: 0.7
-    #grid: [1.2, 1.2]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP7.3x7.3mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/00002304A.pdf (page 43)'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x_min: 8.9
   body_size_x: 9.0
   body_size_x_max: 9.1
@@ -745,46 +569,23 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.3x7.3mm:
 
   EP_size_x: 7.2 .. 7.3 .. 7.4
   EP_size_y: 7.2 .. 7.3 .. 7.4
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [5, 5]
-  # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [6, 6]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP7.5x7.5mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc7593.pdf (page 432)'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
-  #body_size_x_min: 8.9
+  ipc_class: 'qfn'
   body_size_x: 9.0
-  #body_size_x_max: 9.1
-  #body_size_y_min: 8.9
   body_size_y: 9.0
-  #body_size_y_max: 9.1
   lead_width_min: 0.18
   lead_width_max: 0.3
   lead_len_min: 0.3
@@ -792,40 +593,22 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.5x7.5mm:
 
   EP_size_x: 7.4 .. 7.5 .. 7.6
   EP_size_y: 7.4 .. 7.5 .. 7.6
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [6, 6]
-  # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [7, 7]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
   chamfer_edge_pins: 0.1
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-AVR-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf (page 415)'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x_min: 8.9
   body_size_x: 9.0
   body_size_x_max: 9.1
@@ -839,40 +622,22 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm:
 
   EP_size_x: 7.5 .. 7.65 .. 7.8
   EP_size_y: 7.5 .. 7.65 .. 7.8
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [6, 6]
-  # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [7, 7]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    # EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
-
+  
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-68-1EP_7x7mm_P0.35mm_EP5.49x5.49mm:
   device_type: 'QFN'
   manufacturer: 'ArtInChip'
-  #part_number: 'mpn'
   size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=42'
   ipc_class: 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
   body_size_x:
     nominal: 7
     tolerance: 0.1
@@ -904,41 +669,23 @@ QFN-68-1EP_7x7mm_P0.35mm_EP5.49x5.49mm:
     nominal: 5.49
     maximum: 5.59
 
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.35
   num_pins_x: 17
   num_pins_y: 17
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 
 QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://cdn.microsemi.com/documents/1bf6886f-5919-4508-a50b-b1dbf3fdf0f4/download/#page=98'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 8
     tolerance: 0
@@ -967,40 +714,22 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
     minimum: 5.1
     nominal: 5.2
     maximum: 5.3
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 17
   num_pins_y: 17
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-68-1EP_8x8mm_P0.4mm_EP6.4x6.4mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.st.com/resource/en/datasheet/stm32h725ze.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 8
     tolerance: 0
@@ -1029,31 +758,17 @@ QFN-68-1EP_8x8mm_P0.4mm_EP6.4x6.4mm:
     minimum: 6.3
     nominal: 6.4
     maximum: 6.5
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 17
   num_pins_y: 17
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 
 ##############################################################################
@@ -1065,13 +780,9 @@ LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
 # JEDEC MO-220, variation VMMD-4
   device_type: 'LFCSP'
   library: Package_CSP
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_64_7.pdf'
   # backup source, above is broken: https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-64/cp_64_7.pdf
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 8.9
     nominal: 9
@@ -1102,31 +813,19 @@ LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
     maximum: 5.36
     nominal: 5.21
     minimum: 5.06
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
   thermal_vias:
     count: [4, 4]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
 
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

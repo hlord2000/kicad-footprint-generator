@@ -6,12 +6,8 @@
 
 QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_52_05-08-1729.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 7
     tolerance: 0.1
@@ -35,31 +31,17 @@ QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
   EP_size_y:
     nominal: 6.45
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 5]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 6]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
   device_type: 'QFN'
@@ -145,12 +127,8 @@ QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
 
 QFN-56-1EP_7x7mm_P0.4mm_EP5.6x5.6mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.cypress.com/file/416486/download#page=40'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 7
     tolerance: 0.1
@@ -174,40 +152,22 @@ QFN-56-1EP_7x7mm_P0.4mm_EP5.6x5.6mm:
   EP_size_y:
     nominal: 5.6
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 14
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/00002142A.pdf#page=40'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 7.85
     nominal: 8.00
@@ -238,31 +198,17 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
     minimum: 4.20
     nominal: 4.30
     maximum: 4.40
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 VQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm:
   device_type: 'VQFN'
@@ -339,6 +285,7 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
     nominal: 0.45
     maximum: 0.55
 
+  EP_size_x:
   # Datasheet has conflicting values for EP!
   # page 2: [5.00 - 5.20] x [4.86 x 5.06]
   # - this is actually the dimensions of the non-(DD/SC) variant...
@@ -347,7 +294,6 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
   # - I used this one
   # - Since there's no min/max values, but everything else was +/- 0.1 mm,
   #   that's what I used here too...
-  EP_size_x:
     minimum: 5.4
     maximum: 5.6
   EP_size_y:
@@ -366,12 +312,8 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
 
 QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/an/scea032/scea032.pdf#page=4'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 7.85
     maximum: 8.15
@@ -395,41 +337,23 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
   EP_size_y:
     minimum: 5.05
     maximum: 5.35
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
   # also known as Texas RTQ (S-PVQFN-N56)
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5957.pdf#page=23'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 7.85
     maximum: 8.15
@@ -453,40 +377,22 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
   EP_size_y:
     nominal: 5.6
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-56-1EP_8x8mm_P0.5mm_EP5.9x5.9mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/00001734B.pdf#page=50'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 7.85
     nominal: 8.00
@@ -515,40 +421,26 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.9x5.9mm:
   EP_size_y:
     nominal: 5.9
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [4, 4]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.6
-    #grid: [1, 1]
-    # bottom_pad_size:
-    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-56-1EP_8x8mm_P0.5mm_EP6.1x6.1mm:
+# Used by Intan RHD2000 parts
+# See also ChipQuik IPC0031 adapter/stencil.
+# Intan diagram doesn't contain tolerances, so, where different, use JEDEC standard
+# M0-220 most similar variant VLLD-2: 0.8mm height, 8x8mm, 0.5mm pitch, see Table 8H
   device_type: 'QFN'
-  # Used by Intan RHD2000 parts
-  # See also ChipQuik IPC0031 adapter/stencil.
-  # Intan diagram doesn't contain tolerances, so, where different, use JEDEC standard
-  # M0-220 most similar variant VLLD-2: 0.8mm height, 8x8mm, 0.5mm pitch, see Table 8H
   size_source: 'http://intantech.com/files/Intan_RHD2000_series_datasheet.pdf#page=38'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x: # MO-220 dimension D
     nominal: 8.00
     tolerance: 0.15 # tol. aaa
@@ -570,10 +462,10 @@ QFN-56-1EP_8x8mm_P0.5mm_EP6.1x6.1mm:
     nominal: 0.4
     maximum: 0.5
 
+  EP_size_x:
   # EP: MO-220 dimension D2, E2
   # MO-220 doesn't give an exact size, but the tolerance is
   # class fff = 0.1 for 0.5mm pitch
-  EP_size_x:
     nominal: 6.1
     tolerance: 0.1
   EP_size_y:
@@ -601,12 +493,8 @@ LFCSP-56-1EP_8x8mm_P0.5mm_EP6.6x6.6mm:
 # JEDEC MO-220, variation WLLD-5 (Exposed Pad is within JEDEC range, nominal differs a little)
   device_type: 'LFCSP'
   library: Package_CSP
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-56/CP_56_9.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     maximum: 8.1
     nominal: 8
@@ -631,21 +519,14 @@ LFCSP-56-1EP_8x8mm_P0.5mm_EP6.6x6.6mm:
 
   EP_size_x: 6.5 .. 6.6 .. 6.7
   EP_size_y:  6.5 .. 6.6 .. 6.7
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [3, 3]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: True
 
   pitch: 0.5

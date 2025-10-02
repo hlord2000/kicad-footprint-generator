@@ -6,12 +6,8 @@
 
 QFN-24-1EP_3x3mm_P0.4mm_EP1.75x1.6mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf#page=39'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 2.9
     nominal: 3
@@ -45,39 +41,29 @@ QFN-24-1EP_3x3mm_P0.4mm_EP1.75x1.6mm:
     nominal: 1.54
     maximum: 1.59
   EP_size_y_overwrite: 1.6
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
 
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 2
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 6
   num_pins_y: 6
   chamfer_edge_pins: 0.12
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 Texas_QFN-24_RMQ0024A:
 # Texas_RMQ0024A_WQFN-24-1EP_3x3mm_P0.4mm_EP1.9x1.9mm
   device_type: 'WQFN'
   manufacturer: 'Texas'
   part_number: 'RMQ0024A'
-  # Example datasheet https://www.ti.com/lit/ds/symlink/dp83825i.pdf
   size_source: 'https://www.ti.com/jp/lit/ml/mpqf398a/mpqf398a.pdf'
+  # Example datasheet https://www.ti.com/lit/ds/symlink/dp83825i.pdf
   ipc_class: 'qfn'
   body_size_x:
     minimum: 2.9
@@ -187,12 +173,8 @@ Texas_QFN-24_RMQ0024A:
 
 QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_20_05-08-1742.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 3
     tolerance: 0.1
@@ -210,42 +192,30 @@ QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
     nominal: 0.4
     tolerance: 0.1
 
-  # Chosen for backwards compatibility
-  EP_size_x:
+  
+  EP_size_x: # Chosen for backwards compatibility
     nominal: 1.65
     tolerance: 0.1
-  EP_size_y:
+  EP_size_y: # Chosen for backwards compatibility
     nominal: 2.65
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
 
   thermal_vias:
     count: [2, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 2
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.4
   num_pins_x: 5
   num_pins_y: 7
-  #chamfer_edge_pins: 0.12
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 HVQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
   device_type: 'HVQFN'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT616-1.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4.0
@@ -275,8 +245,7 @@ HVQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
   num_pins_x: 6
   num_pins_y: 6
 
-Texas_VQFN-24_RGE0024C:
-# Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm
+Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RGE0024C'
@@ -406,11 +375,8 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.15x2.15mm:
 
 VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   device_type: 'VQFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/msp430f1101a.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4.0
@@ -436,39 +402,22 @@ VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
     minimum: 2.35
     nominal: 2.45
     maximum: 2.55
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  #EP_size_limit_x: 2.7  #for relatively large EP pads (increase clearance)
-  #EP_size_limit_y: 2.7  #for relatively large EP pads (increase clearance)
+  heel_reduction: 0.1  # for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.55
-    # grid:
-    # bottom_pad_size:
-    # paste_avoid_via: True
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 WQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   device_type: 'WQFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/ts3a27518e.pdf#page=33'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     maximum: 4.1
@@ -491,37 +440,24 @@ WQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   EP_size_y:
     nominal: 2.45
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 VQFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   device_type: 'VQFN'
   size_source: 'https://ww1.microchip.com/downloads/aemDocuments/documents/product-documents/package-drawings/24L-VQFN%E2%80%934x4x0.9mm-MJ-C04-00143b.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  ipc_class: 'qfn'
   body_size_x: 4.0 +/- 0.1
   body_size_y: 4.0 +/- 0.1
   overall_height: 0.9
@@ -545,7 +481,7 @@ HVQFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
 # This is a VQFN
   device_type: 'HVQFN'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT616-3.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4.0
@@ -586,7 +522,7 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
 # This is a WQFN
   device_type: 'LFCSP'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_24_7.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   library: 'Package_CSP'
   body_size_x:
     minimum: 3.9
@@ -618,20 +554,14 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
     minimum: 2.45
     nominal: 2.5
     maximum: 2.65
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    #EP_num_paste_pads: [2, 2]
     paste_between_vias: 2
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
     paste_avoid_via: False
 
   pitch: 0.5
@@ -640,12 +570,8 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.lcsc.com/datasheet/lcsc_datasheet_2006041834_Everanalog-IC-design-EA3058QDR_C575412.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 4
     tolerance: 0.05
@@ -674,40 +600,17 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
     minimum: 2.3
     nominal: 2.5
     maximum: 2.7
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
-  # thermal_vias:
-  #   count: [3, 3]
-  #   drill: 0.2
-  #   # min_annular_ring: 0.15
-  #   paste_via_clearance: 0.1
-  #   # EP_num_paste_pads: [2, 2]
-  #   #paste_between_vias: 1
-  #   #paste_rings_outside: 1
-  #   EP_paste_coverage: 0.75
-  #   #grid: [1, 1]
-  #   # bottom_pad_size:
-  #   paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
 # This is a VQFN
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=278'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 4
     tolerance: 0
@@ -728,46 +631,33 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
     nominal: 0.4
     maximum: 0.5
 
-  # size chosen for backwards compatibility
-  EP_size_x:
+  EP_size_x: # size chosen for backwards compatibility
     minimum: 2.4
     nominal: 2.5
     maximum: 2.6
-  EP_size_x_overwrite: 2.6
-  EP_size_y:
+  EP_size_x_overwrite: 2.6 # size chosen for backwards compatibility
+  EP_size_y: # size chosen for backwards compatibility
     minimum: 2.4
     nominal: 2.5
     maximum: 2.6
-  EP_size_y_overwrite: 2.6
-  # EP_paste_coverage: 0.65
+  EP_size_y_overwrite: 2.6 # size chosen for backwards compatibility
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 HVQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   device_type: 'HVQFN'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT616-3.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4.0
@@ -804,12 +694,8 @@ HVQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
 
 WQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   device_type: 'WQFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/lm26480.pdf#page=39'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     maximum: 4.1
@@ -832,31 +718,19 @@ WQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   EP_size_y:
     nominal: 2.6
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 TQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
 # This is a WQFN
@@ -901,7 +775,7 @@ TQFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
 QFN-24-1EP_4x4mm_P0.5mm_EP2.65x2.65mm:
   device_type: 'QFN'
   size_source: 'http://www.cypress.com/file/46236/download'
-  ipc_class: 'qfn' # 'qfn_pull_back'
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 4
     tolerance: 0.1
@@ -917,21 +791,13 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.65x2.65mm:
 
   EP_size_x: 2.65
   EP_size_y: 2.65
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
@@ -940,12 +806,8 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.65x2.65mm:
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.6mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://store.invensense.com/datasheets/invensense/MPU-6050_DataSheet_V3%204.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4
@@ -976,40 +838,24 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.6mm:
     minimum: 2.55
     nominal: 2.6
     maximum: 2.65
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
 # this is actually VQFN
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.alfarzpp.lv/eng/sc/AS3330.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 4
     tolerance: 0.1
@@ -1033,33 +879,20 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   EP_size_y:
     nominal: 2.7
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
-Texas_VQFN-24_RGE0024H:
-# Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm
+Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RGE0024H'
@@ -1101,8 +934,7 @@ Texas_VQFN-24_RGE0024H:
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
 
-Texas_WQFN-24_RTW:
-# Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm
+Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   device_type: 'WQFN'
   manufacturer: 'Texas'
   part_number: 'RTW'
@@ -1146,12 +978,8 @@ Texas_WQFN-24_RTW:
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.75x2.75mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.infineon.com/dgdl/Infineon-EZ-PD_BCR_Datasheet_USB_Type-C_Port_Controller_for_Power_Sinks-DataSheet-v03_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0ee7ce9d70ad'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 4
     tolerance: 0.1
@@ -1176,7 +1004,6 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.75x2.75mm:
   EP_size_y:
     nominal: 2.75
     tolerance: 0.
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   pitch: 0.5
@@ -1193,12 +1020,8 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.75x2.75mm:
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/hmc431.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     maximum: 4.1
@@ -1221,43 +1044,26 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm:
   EP_size_y:
     minimum: 2.65
     maximum: 2.95
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
-  # The datasheet does not give the pitch as a reference dimension. Instead, it only specifies
-  # the range.
-  pitch: 0.5
+  pitch: 0.5 # The datasheet does not give the pitch as a reference dimension. Instead, it only specifies the range.
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack:
 # This is a UQFN, similar to JEDEC MO-248-E, variation UGGD (but it's not pull back)
   device_type: 'TQFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf'
   # second link: https://www.mouser.com/datasheet/2/588/AS1115_DS000206_1_00-1512924.pdf#page=24
   custom_name_format: 'TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack{vias:s}'
   ipc_class: 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
   body_size_x:
     nominal: 4.0
   body_size_y:
@@ -1287,33 +1093,19 @@ TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack:
     minimum: 2.7
     nominal: 2.8
     maximum: 2.9
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-
 
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.65
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #include_suffix_in_3dpath: 'False'
-
-Texas_VQFN-24_RHF0024A:
-# Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm
+Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RHF0024A'
@@ -1357,12 +1149,8 @@ Texas_VQFN-24_RHF0024A:
 QFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
 # This is actually WQFN
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_24_05-08-1696.pdf'
-  #custom_name_format: ''
-  ipc_class: qfn #'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
+  ipc_class: qfn
   body_size_x:
     nominal: 4.0
     tolerance: 0.1
@@ -1386,38 +1174,22 @@ QFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   EP_size_y:
     nominal: 3.65
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
 
   thermal_vias:
     count: [3, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 5
   num_pins_y: 7
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #include_suffix_in_3dpath: 'False'
-
 QFN-24-1EP_5x5mm_P0.65mm_EP3.2x3.2mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/(UH24)%20QFN%2005-08-1747%20Rev%20A.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 5
     tolerance: 0.1
@@ -1441,30 +1213,21 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.2x3.2mm:
   EP_size_y:
     nominal: 3.2
     tolerance: 0.1
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
-    #EP_paste_coverage: 0.75
     grid: [1.1, 1.1]
-    # bottom_pad_size:
     paste_avoid_via: True
 
   pitch: 0.65
   num_pins_x: 6
   num_pins_y: 6
   chamfer_edge_pins: 0.15
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-24-1EP_5x5mm_P0.65mm_EP3.25x3.25mm:
   device_type: 'QFN'
@@ -1513,12 +1276,8 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.25x3.25mm:
 
 QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'http://www.thatcorp.com/datashts/THAT_5173_Datasheet.pdf#page=17'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 5
     tolerance: 0.1
@@ -1541,39 +1300,23 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm:
   EP_size_y:
     nominal: 3.4
     tolerance: 0.05
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.65
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 QFN-24-1EP_5x5mm_P0.65mm_EP3.6x3.6mm:
   device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.nxp.com/docs/en/package-information/98ASA00734D.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 5
     tolerance: 0
@@ -1597,30 +1340,20 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.6x3.6mm:
   EP_size_y:
     minimum: 3.45
     maximum: 3.75
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
 
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    # EP_num_paste_pads: [2, 2]
     paste_between_vias: 1
     paste_rings_outside: 1
-    #EP_paste_coverage: 0.75
     grid: [0.85, 0.85]
-    # bottom_pad_size:
     paste_avoid_via: True
 
   pitch: 0.65
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 
 ##############################################################################
@@ -1632,13 +1365,9 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
 # JEDEC MO-220, WGGD-8
   device_type: 'LFCSP'
   library: Package_CSP
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_24_14.pdf'
   # link above is broken, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/cp_24_14.pdf
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4
@@ -1669,42 +1398,26 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
     maximum: 2.44
     nominal: 2.30
     minimum: 2.16
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
     EP_paste_coverage: 0.70
-    #grid: [1, 1]
-    # bottom_pad_size:
     paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 LFCSP-24-1EP_4x4mm_P0.5mm_EP0.5x0.5mm:
 # JEDEC MO-248, variation UGGD
   device_type: 'LFCSP'
   library: Package_CSP
-  #manufacturer: 'man'
-  #part_number: 'mpn'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/CP_24_25.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
+  ipc_class: 'qfn'
   body_size_x:
     minimum: 3.9
     nominal: 4
@@ -1735,18 +1448,11 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP0.5x0.5mm:
     maximum: 0.6
     nominal: 0.5
     minimum: 0.4
-  # EP_paste_coverage: 0.65
   EP_num_paste_pads: [1, 1]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

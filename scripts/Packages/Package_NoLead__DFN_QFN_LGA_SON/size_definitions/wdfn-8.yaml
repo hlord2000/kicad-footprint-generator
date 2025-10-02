@@ -62,12 +62,10 @@ WDFN-8-1EP_8x6mm_P1.27mm_EP6x4.8mm_ThermalVias:
   num_pins_x: 0
   num_pins_y: 4
 
-  # Thermal vias based on datasheet (see size_source above),
-  # paste so it fits the thermal vias with avoidance
   thermal_vias:
-    count: [5, 4]
+    count: [5, 4]  # Thermal vias based on datasheet (see size_source above)
     drill: 0.33
-    paste_via_clearance: 0.1
+    paste_via_clearance: 0.1  # paste so it fits the thermal vias with avoidance
     EP_num_paste_pads: [4, 3]
     paste_avoid_via: True
 
