@@ -40,10 +40,7 @@ def make_qfn(
 
     a = a1 + a2
 
-    if lead_to_edge == 0.0:
-        case = cq.Workplane("XY").box(e - a1, d - a1, a2)  # margin to see fused pins
-    else:
-        case = cq.Workplane("XY").box(e, d, a2)  # NO margin, pins don't emerge
+    case = cq.Workplane("XY").box(e, d, a2)
     if body_fillet != 0.0:
         case.edges("|X").fillet(body_fillet)
         case.edges("|Z").fillet(body_fillet)
@@ -88,45 +85,30 @@ def make_qfn(
         pinmark = None
 
     bpin_shape: dict[str, cq.Workplane] = {}
+    bpin_cut: dict[str, cq.Workplane] = {}
     for axis, length, width in zip(
         ["x", "y"], [lead_len_h, lead_len_v], [lead_width_h, lead_width_v]
     ):
-        if lead_shape == "square":  # square pins
-            bpin = (
-                cq.Workplane("XY")
-                .moveTo(width, 0)
-                .lineTo(width, length)
-                .lineTo(0, length)
-                .lineTo(0, 0)
-                .close()
-                .extrude(lead_height)
-                .translate((-width / 2, -d / 2, 0))
-                .rotate((0, 0, 0), (0, 0, 1), -180)
-            )
-            bpin_shape[axis] = bpin
+        # Create pins centered on the x- and y-plane
+        if lead_shape == "square":
+            bpin_shape[axis] = cq.Workplane().box(width, length, lead_height, centered = (True, True, False))
         elif lead_shape == "rounded":
+            radius = width / 2
             bpin = (
                 cq.Workplane("XY")
-                .moveTo(width, 0)
-                .lineTo(width, length - width / 2)
-                .threePointArc((width / 2, length), (0, length - width / 2))
-                .lineTo(0, 0)
+                .moveTo(-radius, -length/2 + radius)
+                .threePointArc((0, -length/2), (radius, -length/2 + radius),)
+                .lineTo(radius, length/2)
+                .lineTo(-radius, length/2)
                 .close()
                 .extrude(lead_height)
-                .translate((-width / 2, -d / 2, 0))
-                .rotate((0, 0, 0), (0, 0, 1), -180)
             )
             bpin_shape[axis] = bpin
         elif lead_shape == "concave":
-            pincut = (
-                cq.Workplane("XY")
-                .box(width, length, a2 + a1 * 2)
-                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
-            )
+            pincut = cq.Workplane().box(width, length, a2 + a1 * 2, centered = (True, True, False))
             bpin = (
                 cq.Workplane("XY")
-                .box(width, length, a2 + a1 * 2)
-                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
+                .box(width, length, a2 + a1 * 2, centered = (True, True, False))
                 .edges("|X")
                 .fillet(a1)
                 .faces(">Z")
@@ -136,11 +118,10 @@ def make_qfn(
                 .cutThruAll()
             )
             bpin_shape[axis] = bpin
+            bpin_cut[axis] = pincut
         elif lead_shape == "cshaped":
             bpin = (
-                cq.Workplane("XY")
-                .box(width, length, a2 + a1 * 2)
-                .translate((0, d / 2 - length / 2, a2 / 2 + a1))
+                cq.Workplane().box(width, length, a2 + a1 * 2, centered = (True, True, False))
                 .edges("|X")
                 .fillet(a1)
             )
@@ -148,9 +129,9 @@ def make_qfn(
 
     pitch_x = nlc.pitch_x.nominal
     pitch_y = nlc.pitch_y.nominal
-    pins: list[cq.Workplane] = []
     pincounter = 1
     if lead_shape == "custom":
+        merged_pins = cq.Workplane()
         for pin_shape in lead_shape_custom:
             first_point = pin_shape[0]
             pin = cq.Workplane("XY").moveTo(first_point[0], first_point[1])
@@ -158,73 +139,86 @@ def make_qfn(
                 point = pin_shape[i]
                 pin = pin.lineTo(point[0], point[1])
             pin = pin.close().extrude(lead_height)
-            pins.append(pin)
-        pincounter += 1
+            merged_pins = merged_pins.union(pin)
     else:
-        # create top, bottom side pins
-        first_pos_x = (npx - 1) * pitch_x / 2
-        for i in range(npx):
-            if pincounter not in excluded_pins:
-                pin = (
-                    bpin_shape["x"]
-                    .translate((first_pos_x - i * pitch_x, -lead_to_edge, 0))
-                    .rotate((0, 0, 0), (0, 0, 1), 180)
-                )
-                pins.append(pin)
-                if lead_shape == "concave":
-                    pinsubtract = pincut.translate(
-                        (first_pos_x - i * pitch_x, -lead_to_edge, 0)
-                    ).rotate((0, 0, 0), (0, 0, 1), 180)
-                    case = case.cut(pinsubtract)
-            pincounter += 1
+        valid_locs_h: list[cq.Location] = []
+        valid_locs_v: list[cq.Location] = []
 
+        # Left row:
         first_pos_y = (npy - 1) * pitch_y / 2
+        x = -e / 2 + lead_to_edge + lead_len_v / 2
         for i in range(npy):
             if pincounter not in excluded_pins:
-                pin = (
-                    bpin_shape["y"]
-                    .translate(
-                        (first_pos_y - i * pitch_y, (e - d) / 2 - lead_to_edge, 0)
-                    )
-                    .rotate((0, 0, 0), (0, 0, 1), 270)
-                )
-                pins.append(pin)
-                if lead_shape == "concave":
-                    pinsubtract = pincut.translate(
-                        (first_pos_y - i * pitch_y, (e - d) / 2 - lead_to_edge, 0)
-                    ).rotate((0, 0, 0), (0, 0, 1), 270)
-                    case = case.cut(pinsubtract)
+                y = first_pos_y - i * pitch_y
+                translation = cq.Vector(x, y, 0)
+                valid_locs_v.append(cq.Location(translation, cq.Vector(0, 0, 1), 90))
             pincounter += 1
 
+        # Bottom row:
+        y = -d / 2 + lead_to_edge + lead_len_h / 2
+        first_pos_x = -(npx - 1) * pitch_x / 2
         for i in range(npx):
             if pincounter not in excluded_pins:
-                pin = bpin_shape["x"].translate(
-                    (first_pos_x - i * pitch_x, -lead_to_edge, 0)
-                )
-                pins.append(pin)
-                if lead_shape == "concave":
-                    pinsubtract = pincut.translate(
-                        (first_pos_x - i * pitch_x, -lead_to_edge, 0)
-                    )
-                    case = case.cut(pinsubtract)
+                x = first_pos_x + i * pitch_x
+                translation = cq.Vector(x, y, 0)
+                valid_locs_h.append(cq.Location(translation, cq.Vector(0, 0, 1), 180))
             pincounter += 1
 
+        # Right row:
+        x = e / 2 - lead_to_edge - lead_len_v / 2
         for i in range(npy):
             if pincounter not in excluded_pins:
-                pin = (
-                    bpin_shape["y"]
-                    .translate(
-                        (first_pos_y - i * pitch_y, (e - d) / 2 - lead_to_edge, 0)
-                    )
-                    .rotate((0, 0, 0), (0, 0, 1), 90)
-                )
-                pins.append(pin)
-                if lead_shape == "concave":
-                    pinsubtract = pincut.translate(
-                        (first_pos_y - i * pitch_y, (e - d) / 2 - lead_to_edge, 0)
-                    ).rotate((0, 0, 0), (0, 0, 1), 90)
-                    case = case.cut(pinsubtract)
+                y = -first_pos_y + i * pitch_y
+                translation = cq.Vector(x, y, 0)
+                valid_locs_v.append(cq.Location(translation, cq.Vector(0, 0, 1), 270))
             pincounter += 1
+
+        # Top row:
+        y = d / 2 - lead_to_edge - lead_len_h / 2
+        for i in range(npx):
+            if pincounter not in excluded_pins:
+                x = -first_pos_x - i * pitch_x
+                translation = cq.Vector(x, y, 0)
+                valid_locs_h.append(cq.Location(translation))
+            pincounter += 1
+
+
+        merged_pins = cq.Workplane()
+        merged_cuts = cq.Workplane()
+        # Create all horizontal pins in a single, efficient operation
+        if npx:
+            merged_pins = (
+                cq.Workplane("XY")
+                .pushPoints(valid_locs_h)
+                .each(lambda loc: bpin_shape["x"].val().located(loc), combine="a")  # type: ignore
+            )
+            if lead_shape == "concave":
+                merged_cuts = (
+                    cq.Workplane("XY")
+                    .pushPoints(valid_locs_h)
+                    .each(lambda loc: bpin_cut["x"].val().located(loc), combine="a")  # type: ignore
+                )
+        # Create all vertical pins in a single, efficient operation
+        if npy:
+            merged_pins_v = (
+                cq.Workplane("XY")
+                .pushPoints(valid_locs_v)
+                .each(lambda loc: bpin_shape["y"].val().located(loc), combine="a")  # type: ignore
+            )
+            merged_pins = merged_pins.union(merged_pins_v)
+            if lead_shape == "concave":
+                merged_cuts_v = (
+                    cq.Workplane("XY")
+                    .pushPoints(valid_locs_v)
+                    .each(lambda loc: bpin_cut["y"].val().located(loc), combine="a")  # type: ignore
+                )
+                merged_cuts = merged_cuts.union(merged_cuts_v)
+        if lead_shape == "concave":
+            case = case.cut(merged_cuts)
+        
+    # extract pins from case
+    if lead_shape != "concave":
+        case = case.cut(merged_pins)
 
     # create exposed thermal pad if requested
     if nlc.has_ep:
@@ -259,17 +253,9 @@ def make_qfn(
                 epads.append(epad)
         # merge all epads to a single object
         merged_epads = epads[0]
-        for p in pins[1:]:
+        for p in epads[1:]:
             merged_epads = merged_epads.union(p)
     else:
         merged_epads = None
-
-    # merge all pins to a single object
-    merged_pins = pins[0]
-    for p in pins[1:]:
-        merged_pins = merged_pins.union(p)
-
-    # extract pins from case
-    case = case.cut(merged_pins)
 
     return case, merged_pins, merged_epads, pinmark
