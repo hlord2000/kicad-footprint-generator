@@ -432,7 +432,7 @@ if __name__ == "__main__":
     FootprintGenerator.run_on_files(
         NoLeadGenerator,
         args,
-        file_autofind_dir="size_definitions",
+        file_autofind_dir="../../../data/no_lead/",
         configuration=configuration,
         ipc_defs=ipc_rule_defs,
     )

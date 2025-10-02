@@ -6,10 +6,10 @@ run_generate() {
     ./ipc_noLead_generator.py "$1" -v
 }
 
-for file in size_definitions/*.yaml; do
+for file in ../../../data/no_lead/*.yaml; do
     run_generate "$file"
 done
 
-for file in size_definitions/qfn/*.yaml; do
+for file in ../../../data/no_lead/qfn/*.yaml; do
     run_generate "$file"
 done
