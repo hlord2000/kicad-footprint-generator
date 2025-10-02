@@ -3,23 +3,19 @@ Texas_R-PUSON-N14:
   library: Package_SON
   size_source: 'https://www.ti.com/lit/ds/symlink/tpd6e05u06.pdf#page=28'
   ipc_class: 'qfn'
-
   custom_name_format: 'Texas_R-PUSON-N14'
-
   body_size_x:
     minimum: 1.25
     maximum: 1.45
   body_size_y:
     minimum: 3.4
     maximum: 3.6
-
   lead_width:
     minimum: 0.15
     maximum: 0.25
   lead_len:
     minimum: 0.25
     maximum: 0.35
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 7
@@ -49,7 +45,6 @@ ST_UQFN-6L_1.5x1.7mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -59,15 +54,11 @@ Texas_R-PUSON-N8_USON-8-1EP_1.6x2.1mm_P0.5mm_EP0.4x1.7mm:
   library: Package_SON
   size_source: 'https://www.ti.com/lit/gpn/tpd3f303#page=15'
   ipc_class: 'qfn'
-
   custom_name_format: 'Texas_R-PUSON-N8_USON-8-1EP_1.6x2.1mm_P0.5mm_EP0.4x1.7mm'
-
   body_size_x: 1.5 .. 1.7
   body_size_y: 2.0 .. 2.2
-
   lead_width: 0.2 .. 0.3
   lead_len: 0.28 .. 0.38
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -81,13 +72,10 @@ Nexperia_HUSON-8_USON-8-1EP_1.35x1.7mm_P0.4mm_EP0.4x1.2mm:
   part_number: 'HUSON-8'
   size_source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
   ipc_class: 'qfn'
-
   body_size_x: 1.25 .. 1.35  .. 1.45
   body_size_y: 1.6 .. 1.7 .. 1.8
-
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 4
@@ -101,13 +89,10 @@ Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
   part_number: 'HUSON-12'
   size_source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
   ipc_class: 'qfn'
-
   body_size_x: 1.25 .. 1.35 .. 1.45
   body_size_y: 2.4 .. 2.5 .. 2.6
-
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 6
@@ -121,13 +106,10 @@ Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
   part_number: 'HUSON-16'
   size_source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
   ipc_class: 'qfn'
-
   body_size_x: 1.25 .. 1.35 .. 1.45
   body_size_y: 3.2 .. 3.3 .. 3.4
-
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 8
@@ -140,17 +122,13 @@ USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:
   manufacturer: 'Winbond'
   size_source: 'https://www.lcsc.com/datasheet/lcsc_datasheet_2205122030_Winbond-Elec-W25Q16JVUXIQ_C2843335.pdf#page=66f'
   ipc_class: 'qfn'
-
   body_size_x: 2.9 .. 3.0 .. 3.1
   body_size_y: 1.9 .. 2.0 .. 2.1
-
   lead_width: 0.20 .. 0.25 .. 0.30
   lead_len: 0.4 .. 0.45 .. 0.5
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 0.15 .. 0.2 .. 0.25
   EP_size_y: 1.55 .. 1.6 .. 1.65
 
@@ -161,29 +139,24 @@ MicroCrystal_C7_SON-8_1.5x3.2mm_P0.9mm:
   part_number: 'C7'
   size_source: 'https://www.microcrystal.com/fileadmin/Media/Products/RTC/App.Manual/RV-3028-C7_App-Manual.pdf#page=107'
   ipc_class: 'qfn'
-
   overall_height:
     maximum: 0.8
-
   body_size_x:
     nominal: 1.5
     tolerance: 0.1
   body_size_y:
     nominal: 3.2
     tolerance: 0.1
-
   lead_width:
-    # Widened pad for solderability: 0.4 (package lead width) + 0.2
-    # Resultant pad width = 0.65 mm (> 0.5 mm in recommended footprint)
+  # Widened pad for solderability: 0.4 (package lead width) + 0.2
+  # Resultant pad width = 0.65 mm (> 0.5 mm in recommended footprint)
     nominal: 0.6
   lead_len:
-    # Resultant pad length = 0.925 mm (> 0.8 mm in recommended footprint)
+  # Resultant pad length = 0.925 mm (> 0.8 mm in recommended footprint)
     nominal: 0.5
-
   pitch: 0.9
   num_pins_x: 0
   num_pins_y: 4
-
   compatible_mpns:
     - MicroCrystal-RV3028-C7
 
@@ -220,7 +193,7 @@ MPS_USON-6_1.2x1.6mm_P0.5mm:
     maximum: 0.35 #Hack to get a footprint similar to manufacturer's recommended land pattern. Real value is 0.40.
   pad_overrides:
     1:
-      #lead_len: 0.40 .. 0.50 # IT'S NOT WORKING
+    #lead_len: 0.40 .. 0.50 # IT'S NOT WORKING
       size_increase: [0.10, null]
       move: [0.05, null] # moving to the right, exactly 0.10/2
   pitch: 0.50

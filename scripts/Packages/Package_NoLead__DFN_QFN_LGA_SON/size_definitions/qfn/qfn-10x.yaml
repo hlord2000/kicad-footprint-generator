@@ -19,35 +19,28 @@ QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.15
     nominal: 0.20
     maximum: 0.25
-
   lead_len:
     minimum: 0.35
     nominal: 0.40
     maximum: 0.45
-
   EP_size_x:
     minimum: 7.30
     nominal: 7.40
     maximum: 7.50
-
   EP_size_y:
     minimum: 7.30
     nominal: 7.40
     maximum: 7.50
-
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 25
   num_pins_y: 25
@@ -72,7 +65,6 @@ VQFN-100-1EP_12x12mm_P0.4mm_EP8x8mm:
     minimum: 0.5
     nominal: 0.6
     maximum: 0.7
-
   EP_size_x:
     nominal: 8
     tolerance: 0.1
@@ -80,13 +72,11 @@ VQFN-100-1EP_12x12mm_P0.4mm_EP8x8mm:
     nominal: 8
     tolerance: 0.1
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-
   pitch: 0.4
   num_pins_x: 25
   num_pins_y: 25

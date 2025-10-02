@@ -17,14 +17,12 @@ QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x:
     nominal: 5.41
     tolerance: 0.1
@@ -32,13 +30,11 @@ QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
     nominal: 6.45
     tolerance: 0.1
   EP_num_paste_pads: [4, 5]
-
   thermal_vias:
     count: [5, 6]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 14
@@ -47,7 +43,6 @@ QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
   device_type: 'QFN'
   size_source: 'https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=634'
   ipc_class: 'qfn'
-
   body_size_x:
     nominal: 7
     tolerance: 0.1
@@ -57,29 +52,24 @@ QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
   overall_height:
     nominal: 0.9
     tolerance: 0.08
-
   lead_width:
     nominal: 0.18
     tolerance: 0.05
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x:
     nominal: 3.2
     tolerance: 0.1
   EP_size_y:
     nominal: 3.2
     tolerance: 0.1
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 14
   num_pins_y: 14
@@ -88,7 +78,6 @@ QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
   device_type: 'QFN'
   size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32-s2_datasheet_en.pdf#page=41'
   ipc_class: 'qfn'
-
   body_size_x:
     nominal: 7
     tolerance: 0.05
@@ -98,29 +87,24 @@ QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
   overall_height:
     nominal: 0.85
     tolerance: 0.05
-
   lead_width:
     nominal: 0.2
     tolerance: 0.05
   lead_len:
     nominal: 0.4
     tolerance: 0.05
-
   EP_size_x:
     nominal: 4
     tolerance: 0.05
   EP_size_y:
     nominal: 4
     tolerance: 0.05
-
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 14
   num_pins_y: 14
@@ -138,14 +122,12 @@ QFN-56-1EP_7x7mm_P0.4mm_EP5.6x5.6mm:
   overall_height:
     nominal: 0.55
     tolerance: 0.05
-
   lead_width:
     nominal: 0.2
     tolerance: 0.05
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x:
     nominal: 5.6
     tolerance: 0.1
@@ -153,13 +135,11 @@ QFN-56-1EP_7x7mm_P0.4mm_EP5.6x5.6mm:
     nominal: 5.6
     tolerance: 0.1
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 14
   num_pins_y: 14
@@ -180,7 +160,6 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
     minimum: 0.70
     nominal: 0.85
     maximum: 1.00
-
   lead_width:
     minimum: 0.15 #according to Note 2 on page 40 (table min. value is 0.18 mm)
     nominal: 0.25
@@ -189,7 +168,6 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
     minimum: 0.30
     nominal: 0.40
     maximum: 0.50
-
   EP_size_x:
     minimum: 4.20
     nominal: 4.30
@@ -199,13 +177,11 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.3x4.3mm:
     nominal: 4.30
     maximum: 4.40
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
@@ -232,7 +208,6 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 5
     maximum: 5.2
@@ -240,7 +215,6 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.1x4.96mm:
     minimum: 4.86
     maximum: 5.06
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
@@ -284,7 +258,6 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
     minimum: 0.35
     nominal: 0.45
     maximum: 0.55
-
   EP_size_x:
   # Datasheet has conflicting values for EP!
   # page 2: [5.00 - 5.20] x [4.86 x 5.06]
@@ -300,7 +273,6 @@ VQFN-56-1EP_8x8mm_P0.5mm_EP5.5x5.06mm:
     minimum: 4.96
     maximum: 5.16
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
@@ -323,14 +295,12 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
   overall_height:
     minimum: 0.8
     maximum: 0.9
-
   lead_width:
     nominal: 0.23
     tolerance: [-0.05, 0.07]
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 4.35
     maximum: 4.65
@@ -338,19 +308,17 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
     minimum: 5.05
     maximum: 5.35
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
 
 QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
-  # also known as Texas RTQ (S-PVQFN-N56)
+# also known as Texas RTQ (S-PVQFN-N56)
   device_type: 'QFN'
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5957.pdf#page=23'
   ipc_class: 'qfn'
@@ -363,14 +331,12 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
   overall_height:
     minimum: 0.8
     maximum: 1
-
   lead_width:
     minimum: 0.18
     maximum: 0.30
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 5.6
     tolerance: 0.1
@@ -378,13 +344,11 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
     nominal: 5.6
     tolerance: 0.1
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
@@ -405,7 +369,6 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.9x5.9mm:
     minimum: 0.70
     nominal: 0.85
     maximum: 1.00
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -414,7 +377,6 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.9x5.9mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     nominal: 5.9
     tolerance: 0.1
@@ -422,13 +384,11 @@ QFN-56-1EP_8x8mm_P0.5mm_EP5.9x5.9mm:
     nominal: 5.9
     tolerance: 0.1
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
@@ -450,10 +410,9 @@ QFN-56-1EP_8x8mm_P0.5mm_EP6.1x6.1mm:
   overall_height:
     nominal: 0.85 # Different to MO-220 dim A
     tolerance: 0.1 # Inferred from Table 2 for "V" class
-
   lead_width: # MO-220 dimension b
-    # -0.07/+0.05 tol. inferred from Table 3
-    # combined with the 0.23 nominal from the DS
+  # -0.07/+0.05 tol. inferred from Table 3
+  # combined with the 0.23 nominal from the DS
     minimum: 0.16
     nominal: 0.23
     maximum: 0.28
@@ -461,7 +420,6 @@ QFN-56-1EP_8x8mm_P0.5mm_EP6.1x6.1mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
   # EP: MO-220 dimension D2, E2
   # MO-220 doesn't give an exact size, but the tolerance is
@@ -472,17 +430,14 @@ QFN-56-1EP_8x8mm_P0.5mm_EP6.1x6.1mm:
     nominal: 6.1
     tolerance: 0.1
   EP_num_paste_pads: [4, 4]
-
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
-
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -507,7 +462,6 @@ LFCSP-56-1EP_8x8mm_P0.5mm_EP6.6x6.6mm:
     maximum: 0.8
     nominal: 0.75
     minimum: 0.7
-
   lead_width:
     maximum: 0.30
     nominal: 0.25
@@ -516,11 +470,9 @@ LFCSP-56-1EP_8x8mm_P0.5mm_EP6.6x6.6mm:
     maximum: 0.45
     nominal: 0.4
     minimum: 0.35
-
   EP_size_x: 6.5 .. 6.6 .. 6.7
-  EP_size_y:  6.5 .. 6.6 .. 6.7
+  EP_size_y: 6.5 .. 6.6 .. 6.7
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -528,14 +480,14 @@ LFCSP-56-1EP_8x8mm_P0.5mm_EP6.6x6.6mm:
     EP_num_paste_pads: [3, 3]
     EP_paste_coverage: 0.75
     paste_avoid_via: True
-
   pitch: 0.5
   num_pins_x: 14
   num_pins_y: 14
   compatible_mpns:
-     - Analog-LFCSP_WQ-CP-56-9
-     - JEDEC-MO-220-WLLD-5-Modified-EP-size
+    - Analog-LFCSP_WQ-CP-56-9
+    - JEDEC-MO-220-WLLD-5-Modified-EP-size
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
+

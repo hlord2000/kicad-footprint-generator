@@ -20,7 +20,6 @@ QFN-72-1EP_10x10mm_P0.5mm_EP6x6mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -29,7 +28,6 @@ QFN-72-1EP_10x10mm_P0.5mm_EP6x6mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 5.9
     nominal: 6.0
@@ -39,14 +37,12 @@ QFN-72-1EP_10x10mm_P0.5mm_EP6x6mm:
     nominal: 6.0
     maximum: 6.1
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [6, 6]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [5, 5]
     EP_paste_coverage: 0.6
-
   pitch: 0.5
   num_pins_x: 18
   num_pins_y: 18
@@ -65,7 +61,6 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 1
-
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -73,7 +68,6 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x:
     nominal: 3.8
     tolerance: 0.2
@@ -81,7 +75,6 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
     nominal: 3.8
     tolerance: 0.2
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -90,7 +83,6 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
     paste_rings_outside: 1
     grid: [1.2, 1.2]
     paste_avoid_via: True
-
   pitch: 0.4
   num_pins_x: 19
   num_pins_y: 19
@@ -122,7 +114,6 @@ QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
     nominal: 6.31
     tolerance: 0.25
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [ 3, 3 ]
     drill: 0.2
@@ -131,11 +122,9 @@ QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
     paste_rings_outside: 1
     grid: [ 2.0, 2.25 ]
     paste_avoid_via: True
-
   pitch: 0.4
   num_pins_x: 19
   num_pins_y: 19
-
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -169,7 +158,6 @@ LFCSP-72-1EP_10x10mm_Pitch0.5mm_EP5.3x5.3mm_ThermalVias:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 5.15
     nominal: 5.3
@@ -179,13 +167,11 @@ LFCSP-72-1EP_10x10mm_Pitch0.5mm_EP5.3x5.3mm_ThermalVias:
     nominal: 5.3
     maximum: 5.45
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.3
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.65
-
   pitch: 0.5
   num_pins_x: 18
   num_pins_y: 18
@@ -193,3 +179,4 @@ LFCSP-72-1EP_10x10mm_Pitch0.5mm_EP5.3x5.3mm_ThermalVias:
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
+

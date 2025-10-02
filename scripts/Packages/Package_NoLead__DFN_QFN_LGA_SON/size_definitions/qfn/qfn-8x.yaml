@@ -18,7 +18,6 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
-
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -27,7 +26,6 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
     minimum: 0.35
     nominal: 0.40
     maximum: 0.45
-
   EP_size_x:
     minimum: 3.35
     nominal: 3.40
@@ -37,14 +35,12 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
     nominal: 3.40
     maximum: 3.45
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [5, 5]
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 20
   num_pins_y: 20
@@ -64,35 +60,28 @@ QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
     minimum: 0.85
     nominal: 0.9
     maximum: 0.95
-
   lead_width:
     minimum: 0.15
     nominal: 0.20
     maximum: 0.25
-
   lead_len:
     minimum: 0.35
     nominal: 0.40
     maximum: 0.45
-
   EP_size_x:
     minimum: 6.64
     nominal: 6.74
     maximum: 6.84
-
   EP_size_y:
     minimum: 6.64
     nominal: 6.74
     maximum: 6.84
-
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [4, 4]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-
   pitch: 0.4
   num_pins_x: 22
   num_pins_y: 22

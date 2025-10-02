@@ -5,14 +5,12 @@ Oscillator_SMD_Silicon_Labs_LGA-6_2.5x3.2mm_P1.25mm:
   manufacturer: 'Silicon_Labs'
   size_source: 'https://www.silabs.com/documents/public/data-sheets/si512-13.pdf'
   ipc_class: 'qfn_pull_back'
-
   body_size_x:
     nominal: 2.5
     tolerance: 0
   body_size_y:
     nominal: 3.2
     tolerance: 0
-
   lead_width:
     minimum: 0.45
     nominal: 0.5
@@ -24,7 +22,6 @@ Oscillator_SMD_Silicon_Labs_LGA-6_2.5x3.2mm_P1.25mm:
   lead_center_to_center_x:
     nominal: 1.65
     tolerance: 0
-
   pitch: 1.25
   num_pins_x: 0
   num_pins_y: 3

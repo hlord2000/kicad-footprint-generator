@@ -42,7 +42,6 @@ Texas_X2QFN-RUE-12_1.4x2mm_P0.4mm:
     maximum: 2.05
   overall_height:
     maximum: 0.45
-
   lead_width:
     minimum: 0.15
     maximum: 0.25
@@ -52,7 +51,6 @@ Texas_X2QFN-RUE-12_1.4x2mm_P0.4mm:
   lead_len_H:
     minimum: 0.35
     maximum: 0.45
-
   pitch: 0.4
   num_pins_x: 1
   num_pins_y: 5
@@ -73,14 +71,12 @@ IDT_QFN-12-1EP_2x2mm_P0.5mm_EP1.1x1.1mm:
   overall_height:
     maximum: 0.5
     tolerance: 0.05
-
   lead_width:
     nominal: 0.2
     tolerance: 0.05
   lead_len:
     nominal: 0.275
     tolerance: 0.05
-
   EP_size_x:
     nominal: 1.1
     tolerance: 0.05
@@ -88,14 +84,12 @@ IDT_QFN-12-1EP_2x2mm_P0.5mm_EP1.1x1.1mm:
     nominal: 1.1
     tolerance: 0.05
   EP_num_paste_pads: [1, 1]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.7
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 3
@@ -114,7 +108,6 @@ Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
     maximum: 1.65
   overall_height:
     maximum: 0.4
-
   lead_width:
     minimum: 0.15
     maximum: 0.25
@@ -124,9 +117,7 @@ Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
   lead_len_H:
     minimum: 0.4
     maximum: 0.6
-
   heel_reduction: 0.075
-
   pitch: 0.4
   num_pins_x: 4
   num_pins_y: 2
@@ -149,14 +140,12 @@ Texas_S-PX2QFN-N14:
     maximum: 2.1
   overall_height:
     maximum: 0.4
-
   lead_width:
     minimum: 0.15
     maximum: 0.25
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   pitch: 0.4
   num_pins_x: 2
   num_pins_y: 5
@@ -178,7 +167,6 @@ DHVQFN-14-1EP_2.5x3mm_P0.5mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -187,7 +175,6 @@ DHVQFN-14-1EP_2.5x3mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 0.85
     nominal: 1.00
@@ -197,11 +184,9 @@ DHVQFN-14-1EP_2.5x3mm_P0.5mm:
     nominal: 1.50
     maximum: 1.35
   EP_num_paste_pads: [1, 1]
-
   pitch: 0.5
   num_pins_x: 2
   num_pins_y: 5
-
   pad_numbers:
     generator: 'increment'
     init: 1
@@ -224,7 +209,6 @@ DHVQFN-16-1EP_2.5x3.5mm_P0.5mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -233,7 +217,6 @@ DHVQFN-16-1EP_2.5x3.5mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 0.85
     nominal: 1.00
@@ -243,15 +226,12 @@ DHVQFN-16-1EP_2.5x3.5mm_P0.5mm:
     nominal: 2.00
     maximum: 2.15
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 2
   num_pins_y: 6
-
   compatible_mpns:
     - Nexperia_SOT763-1 # https://assets.nexperia.com/documents/package-information/SOT763-1.pdf
     - Texas_BQB0016A # https://www.ti.com/lit/ml/pptd364/pptd364.pdf
-
   pad_numbers:
     generator: 'increment'
     init: 1
@@ -274,7 +254,6 @@ DHVQFN-20-1EP_2.5x4.5mm_P0.5mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -283,7 +262,6 @@ DHVQFN-20-1EP_2.5x4.5mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 0.85
     nominal: 1.00
@@ -293,16 +271,13 @@ DHVQFN-20-1EP_2.5x4.5mm_P0.5mm:
     nominal: 3.00
     maximum: 3.15
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 2
   num_pins_y: 8
-
   pad_numbers:
     generator: 'increment'
     init: 1
     offset: 1
-
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -344,3 +319,4 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
+

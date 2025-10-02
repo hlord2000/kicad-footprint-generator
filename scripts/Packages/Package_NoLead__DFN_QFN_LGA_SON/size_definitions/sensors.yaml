@@ -6,19 +6,16 @@ Winson_GM-402B_5x5mm_P1.27mm:
   ipc_class: 'qfn'
   library: 'Sensor'
   custom_name_format: '{man:s}_{mpn:s}_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}'
-
   body_size_x:
     nominal: 5
   body_size_y:
     nominal: 5
   overall_height:
     nominal: 1.55
-
   lead_width:
     nominal: 0.6
   lead_len:
     nominal: 1.2
-
   pitch: 1.27
   num_pins_x: 1
   num_pins_y: 3
@@ -31,23 +28,18 @@ Sensirion_SCD4x-1EP_10.1x10.1mm_P1.25mm_EP4.8x4.8mm:
   ipc_class: 'qfn'
   library: 'Sensor'
   custom_name_format: '{man:s}_{mpn:s}-1EP_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}_EP{ep_size_x:g}x{ep_size_y:g}mm'
-
   body_size_x: 10.1+/-0.3
   body_size_y: 10.1+/-0.3
   overall_height: 6.3+/-0.5
-
   lead_width: 0.8
   lead_len: 1.5
-
   lead_center_pos_x: 4
   lead_center_pos_y: 4
-
   EP_size_x: 4.8
   EP_size_y: 4.8
   EP_mask_x: 5
   EP_mask_y: 5
   EP_num_paste_pads: [2, 2]
-
   pitch: 1.25
   num_pins_x: 5
   num_pins_y: 5

@@ -23,9 +23,7 @@ UQFN-10_1.3x1.8mm_P0.4mm:
   lead_len_H:
     minimum: 0.45
     maximum: 0.55
-
   heel_reduction: 0.05 #fnecessary to reach 0.2mm clearance between vertical and horizontal pads
-
   pitch: 0.4
   num_pins_x: 3
   num_pins_y: 2
@@ -49,19 +47,15 @@ UQFN-10_1.4x1.8mm_P0.4mm:
   lead_len_H:
     minimum: 0.3
     maximum: 0.5
-
   heel_reduction: 0.05 # necessary to reach 0.15mm clearance between vertical and horizontal pads
-
   pad_overrides:
     1:
       lead_len: 0.4 .. 0.6
       size_increase: [0.2, null] # 0.2mm wider than standard pins
       move: [0.1, null] # Move inside (half of size increase)
-
   pitch: 0.4
   num_pins_x: 3
   num_pins_y: 2
-
   compatible_mpns:
     - 'ONSemi-UQFN10-488AT-01' # e.g. NL3S22S
 
@@ -84,13 +78,11 @@ Texas_RSW0010A_UQFN-10_1.4x1.8mm_P0.4mm:
   lead_len: # JEDEC is 0.30 .. 0.50 mm
     minimum: 0.35
     maximum: 0.45
-
   pad_overrides:
     1:
       lead_len: 0.45..0.55
       size_increase: [0.1, null] # 0.1mm longer than standard pins
       move: [0.05, null] # Move inside (half of size increase)
-
   pitch: 0.4
   num_pins_x: 3
   num_pins_y: 2
@@ -114,7 +106,6 @@ UQFN-10_1.6x2.1mm_P0.5mm:
   lead_len_H:
     minimum: 0.6
     maximum: 0.7
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 2
@@ -135,7 +126,6 @@ LQFN-10-1EP_2x2mm_P0.5mm_EP0.7x0.7mm:
     minimum: 0.66
     nominal: 0.75
     maximum: 0.84
-
   lead_width:
     minimum: 0.22
     nominal: 0.25
@@ -144,14 +134,12 @@ LQFN-10-1EP_2x2mm_P0.5mm_EP0.7x0.7mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     nominal: 0.7
     tolerance: 0.1
   EP_size_y:
     nominal: 0.7
     tolerance: 0.1
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 2
@@ -172,7 +160,6 @@ WQFN-12_1.8x1.8mm_P0.4mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.2
     tolerance: 0.05
@@ -182,7 +169,6 @@ WQFN-12_1.8x1.8mm_P0.4mm:
   lead_len_V:
     nominal: 0.4
     tolerance: 0.1
-
   pitch: 0.4
   num_pins_x: 4
   num_pins_y: 2
@@ -210,14 +196,12 @@ MPS_QFN-12-1EP_2x2mm_P0.4mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.15
     maximum: 0.25
   lead_len:
     minimum: 0.30
     maximum: 0.40
-
   pitch: 0.4
   num_pins_x: 2
   num_pins_y: 4
@@ -239,7 +223,6 @@ LQFN-12-1EP_2x2mm_P0.5mm_EP0.7x0.7mm:
     minimum: 0.65
     nominal: 0.74
     maximum: 0.83
-
   lead_width:
     minimum: 0.22
     nominal: 0.25
@@ -248,7 +231,6 @@ LQFN-12-1EP_2x2mm_P0.5mm_EP0.7x0.7mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     nominal: 0.7
     tolerance: 0.1
@@ -289,7 +271,6 @@ UQFN-12-1EP_2x2mm_P0.4mm_EP1.1x1.1mm:
     maximum: 0.28
   EP_size_x: 1.1 +/- 0.2
   EP_size_y: 1.1 +/- 0.2
-
   pitch: 0.4
   num_pins_x: 3
   num_pins_y: 3
@@ -329,12 +310,10 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
     nominal: 1.45
     maximum: 1.55
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [1, 2]
     drill: 0.2
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 3
@@ -350,14 +329,12 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   overall_height:
     minimum: 0.8
     maximum: 0.9
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.40
     maximum: 1.60
@@ -367,7 +344,6 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   EP_size_x_overwrite: 1.6
   EP_size_y_overwrite: 1.6
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3,3]
     drill: 0.2
@@ -375,7 +351,6 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     EP_num_paste_pads: [3, 3]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 3
@@ -395,14 +370,12 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.55
     nominal: 1.65
@@ -413,7 +386,6 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
     maximum: 1.75
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -421,7 +393,6 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 3
   num_pins_y: 3
@@ -439,14 +410,12 @@ QFN-12-1EP_3x3mm_P0.51mm_EP1.45x1.45mm:
   overall_height:
     nominal: 0.89
     tolerance: 0.1016
-
   lead_width:
     nominal: 0.23
     tolerance: 0.1016
   lead_len:
     nominal: 0.41
     tolerance: 0.1016
-
   EP_size_x:
     nominal: 1.45
     tolerance: 0.1016
@@ -454,7 +423,6 @@ QFN-12-1EP_3x3mm_P0.51mm_EP1.45x1.45mm:
     nominal: 1.45
     tolerance: 0.1016
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.51
   num_pins_x: 3
   num_pins_y: 3
@@ -479,7 +447,6 @@ VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
     minimum: 0.4
     nominal: 0.5
     maximum: 0.6
-
   EP_size_x:
     nominal: 2.1
     tolerance: 0.1
@@ -487,13 +454,11 @@ VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
     nominal: 2.1
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-
   pitch: 0.8
   num_pins_x: 3
   num_pins_y: 3
@@ -511,14 +476,12 @@ WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.24
     tolerance: 0.06
   lead_len:
     nominal: 0.3
     tolerance: 0 # no tolerance given in datasheet
-
   EP_size_x:
     nominal: 1.45
     tolerance: 0.05
@@ -526,7 +489,6 @@ WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm:
     nominal: 1.45
     tolerance: 0.05
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -534,7 +496,6 @@ WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.7
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 3
@@ -560,17 +521,14 @@ UQFN-16_1.8x2.6mm_P0.4mm:
   lead_len:
     minimum: 0.35
     maximum: 0.45
-
   pad_overrides:
     1:
       lead_len: 0.45..0.55
       size_increase: [0.1, null] # 0.1mm longer than standard pins
       move: [0.05, null] # Move inside (half of size increase)
-
   pitch: 0.4
   num_pins_y: 4
   num_pins_x: 4
-  
 
 QFN-16-1EP_1.8x2.6mm_P0.4mm_EP0.7x1.5mm:
   device_type: 'QFN'
@@ -606,14 +564,12 @@ QFN-16-1EP_1.8x2.6mm_P0.4mm_EP0.7x1.5mm:
     minimum: 1.45
     nominal: 1.5
     maximum: 1.55
-
   thermal_vias:
     count: [1, 2]
     drill: 0.2
     EP_num_paste_pads: [1, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.4
   num_pins_x: 4
   num_pins_y: 4
@@ -633,17 +589,14 @@ Renesas_UQFN-16_2x2mm_P0.4mm:
   body_size_x: 2.0 +/- 0.1
   body_size_y: 2.0 +/- 0.1
   overall_height: 0.55 +/- 0.05 # This makes it a UQFN, 'Ultra Thin'
-
   lead_width: 0.18 +/- 0.05 # Similar to JEITA, 0.15 .. 0.20 .. 0.25 mm in JEDEC
   lead_len: 0.23 # HACK, generates pads with 0.575 mm (0.30 mm inside the component / F.Fab outline), so distance between opposite pads = 1.4 mm (see land pattern in datasheet, page 230)
   # lead_len: 0.30 +/- 0.05 # Generates 0.75 mm; 0.30 .. 0.40 .. 0.50 mm in JEDEC
-
   pad_overrides:
     3:
-      # lead_len: 0.40 +/- 0.05 # Generates 0.85 mm, but it's NOT WORKING
+    # lead_len: 0.40 +/- 0.05 # Generates 0.85 mm, but it's NOT WORKING
       size_increase: [0.10, null]
       move: [0.05, null]
-
   pitch: 0.40
   num_pins_x: 3
   num_pins_y: 5
@@ -663,14 +616,12 @@ Texas_RTE0016D_WQFN-16-1EP_3x3mm_P0.5mm_EP0.8x0.8mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 0.8
     tolerance: 0.1
@@ -678,7 +629,6 @@ Texas_RTE0016D_WQFN-16-1EP_3x3mm_P0.5mm_EP0.8x0.8mm:
     nominal: 0.8
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 1]
     drill: 0.2
@@ -686,7 +636,6 @@ Texas_RTE0016D_WQFN-16-1EP_3x3mm_P0.5mm_EP0.8x0.8mm:
     EP_num_paste_pads: [1, 1]
     EP_paste_coverage: 0.90
     paste_avoid_via: false
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -710,21 +659,18 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.1x1.1mm:
   lead_len:
     nominal: 0.35
     tolerance: 0.1
-
   EP_size_x:
     nominal: 1.1
     tolerance: 0.1
   EP_size_y:
     nominal: 1.1
     tolerance: 0.1
-
   thermal_vias:
     count: 1
     drill: 0.33
     paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -744,14 +690,12 @@ Texas_RTE_WQFN-16-1EP_3x3mm_P0.5mm_EP1.2x0.8mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
@@ -759,7 +703,6 @@ Texas_RTE_WQFN-16-1EP_3x3mm_P0.5mm_EP1.2x0.8mm:
     nominal: 0.8
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 1]
     drill: 0.3
@@ -767,7 +710,6 @@ Texas_RTE_WQFN-16-1EP_3x3mm_P0.5mm_EP1.2x0.8mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.70
     paste_avoid_via: false
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -793,18 +735,15 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x: 1.23
   EP_size_y: 1.23
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -822,18 +761,15 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x: 1.45
   EP_size_y: 1.45
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.3
@@ -841,7 +777,6 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -864,7 +799,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.45
     tolerance: 0.1
@@ -872,7 +806,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
     nominal: 1.45
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -880,7 +813,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
     paste_between_vias: 2
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -912,7 +844,6 @@ NXP_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   lead_len:
     minimum: 0.50
     maximum: 0.75
-
   EP_size_x:
     minimum: 1.95
     maximum: 2.25
@@ -923,7 +854,6 @@ NXP_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   EP_size_y_overwrite: 2.1  # from page 4, "PCB Design Guidelines - I/O pads and solderable area"
   EP_num_paste_pads: [2, 2]
   EP_paste_coverage: 0.625  # (4 x 0.83 ^ 2) / (2.1 ^ 2) =~ 0.625, see page 4 and 5, "PCB Design Guidelines - solder paste stencil"
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -950,7 +880,6 @@ HVQFN-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.45
     maximum: 1.75
@@ -960,7 +889,6 @@ HVQFN-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
   EP_size_x_overwrite: 1.5
   EP_size_y_overwrite: 1.5
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -983,7 +911,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.6
     tolerance: 0.05
@@ -991,7 +918,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     nominal: 1.6
     tolerance: 0.05
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -999,7 +925,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     paste_between_vias: 2
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1021,14 +946,12 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.6
     nominal: 1.8
@@ -1039,13 +962,10 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     maximum: 1.9
   EP_size_x_overwrite: 1.6
   EP_size_y_overwrite: 1.6
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
-
   compatible_mpns:
     - 'Pericom-TQFN-16-ZH' # e.g. PI6C5946002
     - 'Analog-CP-16-22' # e.g. ADL5303ACP
@@ -1062,14 +982,12 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     maximum: 3.15
   overall_height:
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.6
     tolerance: 0.1
@@ -1077,7 +995,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     nominal: 1.6
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1085,7 +1002,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1105,21 +1021,18 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.675x1.675mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.55
     maximum: 1.80
   EP_size_y:
     minimum: 1.55
     maximum: 1.80
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1142,7 +1055,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.68
     tolerance: 0.07
@@ -1151,7 +1063,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
     tolerance: 0.07
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1159,7 +1070,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
     paste_between_vias: 2
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1176,14 +1086,12 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
     maximum: 3.1
   overall_height:
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.68
     tolerance: 0.07
@@ -1191,7 +1099,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
     nominal: 1.68
     tolerance: 0.07
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1199,7 +1106,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1220,24 +1126,19 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x: 1.7
   EP_size_y: 1.7
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1258,7 +1159,6 @@ LQFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 0.65
     nominal: 0.74
     maximum: 0.83
-
   lead_width:
     minimum: 0.22
     nominal: 0.25
@@ -1267,14 +1167,12 @@ LQFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.7
     tolerance: 0.1
   EP_size_y:
     nominal: 1.7
     tolerance: 0.1
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1294,14 +1192,12 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.65
     maximum: 1.85
@@ -1309,7 +1205,6 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
     minimum: 1.65
     maximum: 1.85
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1317,7 +1212,6 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1334,14 +1228,12 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
     tolerance: 0
   overall_height:
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.4
-
   EP_size_x:
     minimum: 1.65
     maximum: 1.75
@@ -1351,7 +1243,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
     maximum: 1.75
   EP_size_y_overwrite: 1.75
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1359,7 +1250,6 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.75x1.75mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1388,7 +1278,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
-
   EP_size_x:
     minimum: 1.7
     nominal: 1.8
@@ -1399,7 +1288,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
     maximum: 1.9
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.2 #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1407,7 +1295,6 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
     paste_between_vias: 2
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1422,15 +1309,12 @@ WCH_QFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
   overall_height: 0.75+/-0.05 # Datasheet is unclear if its 0.75 or 0.55 +- 0.05. Using the worst case
   lead_width: 0.25+/-0.07
   lead_len: 0.35+/-0.12
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
-
   EP_size_x: 1.8+/-0.2
   EP_size_y: 1.8+/-0.2
   EP_num_paste_pads: [2, 2]
-
 
 HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
   device_type: 'HXQFN'
@@ -1446,27 +1330,22 @@ HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
     maximum: 3.1
   overall_height:
     maximum: 0.5
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.75
     maximum: 1.95
   EP_size_y:
     minimum: 1.75
     maximum: 1.95
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1485,24 +1364,20 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
   overall_height:
     minimum: 0.5
     maximum: 0.65
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.25
     maximum: 0.45
-
   EP_size_x:
     minimum: 1.8
     maximum: 2.0
   EP_size_y:
     minimum: 1.8
     maximum: 2.0
-
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -1510,7 +1385,6 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1530,14 +1404,12 @@ Texas_RVA_VQFN-16-1EP_3.5x3.5mm_P0.5mm_EP2.14x2.14mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     maximum: 0.30
   lead_len:
     minimum: 0.30
     maximum: 0.50
-
   EP_size_x:
     nominal: 2.14
     tolerance: 0.1
@@ -1545,16 +1417,14 @@ Texas_RVA_VQFN-16-1EP_3.5x3.5mm_P0.5mm_EP2.14x2.14mm:
     nominal: 2.14
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
-    # Manufacturer recommendations for thermal vias
-    # See size_source above
+  # Manufacturer recommendations for thermal vias
+  # See size_source above
     count: [2, 2]
     drill: 0.3
     grid: [1.0, 1.0]
     paste_avoid_via: false
     EP_paste_coverage: 0.63
-
   pitch: 0.50
   num_pins_x: 4
   num_pins_y: 4
@@ -1572,14 +1442,12 @@ QFN-16-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   overall_height:
     nominal: 0.9
     tolerance: 0.1
-
   lead_width:
     nominal: 0.25
     tolerance: [-0.07, 0.05]
   lead_len:
     nominal: 0.4
     tolerance: 0.01
-
   EP_size_x:
     nominal: 2.45
     tolerance: [-0.15, 0.1]
@@ -1587,7 +1455,6 @@ QFN-16-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
     nominal: 2.45
     tolerance: [-0.15, 0.1]
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -1595,7 +1462,6 @@ QFN-16-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1612,14 +1478,12 @@ WQFN-16-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
     maximum: 4.1
   overall_height:
     maximum: 0.8
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.6
     tolerance: 0.1
@@ -1627,7 +1491,6 @@ WQFN-16-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
     nominal: 2.6
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -1635,7 +1498,6 @@ WQFN-16-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -1656,18 +1518,15 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   overall_height:
     nominal: 0.9
     tolerance: 0.05
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.35
     maximum: 0.45
-
   EP_size_x: 2.1
   EP_size_y: 2.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -1675,7 +1534,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1695,14 +1553,12 @@ Texas_RGV0016A_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.23
     maximum: 0.38
   lead_len:
     minimum: 0.45
     maximum: 0.65
-
   EP_size_x:
     nominal: 2.1
     tolerance: 0.1
@@ -1710,14 +1566,12 @@ Texas_RGV0016A_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     nominal: 2.1
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1737,14 +1591,12 @@ Texas_RTY_WQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.23
     maximum: 0.38
   lead_len:
     minimum: 0.45
     maximum: 0.65
-
   EP_size_x:
     nominal: 2.1
     tolerance: 0.1
@@ -1752,14 +1604,12 @@ Texas_RTY_WQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     nominal: 2.1
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.7
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1785,15 +1635,12 @@ TQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     minimum: 0.45
     nominal: 0.55
     maximum: 0.65
-
   EP_size_x: 2.1
   EP_size_y: 2.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1811,14 +1658,12 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.3
     tolerance: 0.05
   lead_len:
     nominal: 0.55
     tolerance: 0.2
-
   EP_size_x:
     nominal: 2.15
     tolerance: 0.1
@@ -1826,7 +1671,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
     nominal: 2.15
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -1834,7 +1678,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1850,7 +1693,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
   overall_height:
     nominal: 0.9
     tolerance: 0.1
-
   lead_width:
     minimum: 0.25
     nominal: 0.30
@@ -1859,21 +1701,17 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
     minimum: 0.30
     nominal: 0.40
     maximum: 0.50
-
   EP_size_x:
-      minimum: 2.50
-      nominal: 2.65
-      maximum: 2.80
-
+    minimum: 2.50
+    nominal: 2.65
+    maximum: 2.80
   EP_size_y:
-      minimum: 2.50
-      nominal: 2.65
-      maximum: 2.80
-
+    minimum: 2.50
+    nominal: 2.65
+    maximum: 2.80
   EP_size_x_overwrite: 2.5
   EP_size_y_overwrite: 2.5
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -1881,7 +1719,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1901,14 +1738,12 @@ Texas_RUM0016A_WQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.6
     tolerance: 0.1
@@ -1916,14 +1751,12 @@ Texas_RUM0016A_WQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     nominal: 2.6
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.743
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1951,7 +1784,6 @@ Texas_RUM0016E_WQFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
   pad_center_to_center_x: 3.8
   pad_length: 0.6
   pad_width: 0.3
-
   EP_size_x:
     nominal: 2.5
     tolerance: 0.1
@@ -1959,14 +1791,12 @@ Texas_RUM0016E_WQFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
     nominal: 2.5
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.743
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -1989,7 +1819,6 @@ UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 2.5
     maximum: 2.7
@@ -1997,7 +1826,6 @@ UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     minimum: 2.5
     maximum: 2.7
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -2005,7 +1833,6 @@ UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -2026,19 +1853,16 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x: 2.7
   EP_size_y: 2.7
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -2046,7 +1870,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -2066,14 +1889,12 @@ Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.23
     maximum: 0.38
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.7
     tolerance: 0.1
@@ -2081,13 +1902,11 @@ Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
     nominal: 2.7
     tolerance: 0.1
   EP_num_paste_pads: [3, 3]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.5
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -2107,7 +1926,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
-
   lead_width:
     minimum: 0.25
     nominal: 0.3
@@ -2119,7 +1937,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
   lead_to_edge:
     minimum: 0
     maximum: 0.15
-
   EP_size_x:
     minimum: 2.6
     nominal: 2.7
@@ -2129,7 +1946,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
     nominal: 2.7
     maximum: 2.8
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -2137,7 +1953,6 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -2156,7 +1971,6 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP2.29x2.29mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.25
     nominal: 0.3
@@ -2165,7 +1979,6 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP2.29x2.29mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 2.19
     nominal: 2.29
@@ -2175,17 +1988,16 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP2.29x2.29mm:
     nominal: 2.29
     maximum: 2.39
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.8
   num_pins_x: 4
   num_pins_y: 4
+
 QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
   device_type: 'QFN'
   size_source: 'http://www.intersil.com/content/dam/Intersil/documents/l16_/l16.5x5.pdf'
@@ -2198,14 +2010,12 @@ QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
-
   lead_width:
     minimum: 0.28
     maximum: 0.40
   lead_len:
     minimum: 0.35
     maximum: 0.75
-
   EP_size_x:
     minimum: 2.55
     nominal: 2.7
@@ -2215,7 +2025,6 @@ QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
     nominal: 2.7
     maximum: 2.85
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
@@ -2223,7 +2032,6 @@ QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.8
   num_pins_x: 4
   num_pins_y: 4
@@ -2241,7 +2049,6 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP3.1x3.1mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.25
     nominal: 0.3
@@ -2250,7 +2057,6 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP3.1x3.1mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     minimum: 3.0
     nominal: 3.1
@@ -2260,17 +2066,16 @@ TQFN-16-1EP_5x5mm_P0.8mm_EP3.1x3.1mm:
     nominal: 3.1
     maximum: 3.2
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.8
   num_pins_x: 4
   num_pins_y: 4
+
 MPS_QFN-16_3x3mm_P0.5mm:
   device_type: 'QFN'
   manufacturer: 'MPS'
@@ -2287,10 +2092,8 @@ MPS_QFN-16_3x3mm_P0.5mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width: 0.2 .. 0.3
   lead_len: 0.35 .. 0.45
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2301,29 +2104,27 @@ MPS_QFN-16_3x3mm_P0.5mm:
   # Adding the chamfer on all the edge pins is no big issue and it increases
   # the distance from the corner pins 1 (slightly longer) and 16 to 0.2mm.
   chamfer_edge_pins: 0.05
-
   pad_overrides:
-    # Slightly larger pin 1: 0.5mm length
+  # Slightly larger pin 1: 0.5mm length
     1:
       size_increase: [0.1, null]
       move: [0.05, null]
-
-    # Bottom pad extensions
+      
+      # Bottom pad extensions
     6:
       size_increase: [null, 0.5]
       move: [null, -0.25]
     7:
       size_increase: [null, 0.5]
       move: [null, -0.25]
-
-    # Top pad extensions
+      
+      # Top pad extensions
     14:
       size_increase: [null, 0.5]
       move: [null, 0.25]
     15:
       size_increase: [null, 0.5]
       move: [null, 0.25]
-
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -2344,7 +2145,6 @@ LFCSP-10_2x2mm_P0.5mm:
     minimum: 0.5
     nominal: 0.53
     maximum: 0.6
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -2353,7 +2153,6 @@ LFCSP-10_2x2mm_P0.5mm:
     minimum: 0.4
     nominal: 0.45
     maximum: 0.5
-
   pitch: 0.5
   num_pins_x: 2
   num_pins_y: 3
@@ -2365,7 +2164,6 @@ LFCSP-16_3x3mm_P0.5mm:
   # manufacturer: 'Analog'
   # part_number: 'CP_16_32'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_32.pdf'
-
   body_size_x:
     minimum: 2.9
     nominal: 3
@@ -2378,7 +2176,6 @@ LFCSP-16_3x3mm_P0.5mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.20
     nominal: 0.25
@@ -2387,7 +2184,6 @@ LFCSP-16_3x3mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2399,7 +2195,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
   # manufacturer: 'Analog'
   # part_number: 'CP-16-21'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_21.pdf'
-
   body_size_x:
     minimum: 2.9
     nominal: 3
@@ -2412,7 +2207,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     maximum: 0.30
     nominal: 0.23
@@ -2421,7 +2215,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     maximum: 1.45
     nominal: 1.30
@@ -2431,14 +2224,12 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
     nominal: 1.30
     minimum: 1.15
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.3
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2461,7 +2252,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     minimum: 0.2
     nominal: 0.25
@@ -2470,12 +2260,9 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x: 1.5
   EP_size_y: 1.5
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2498,7 +2285,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     maximum: 0.30
     nominal: 0.23
@@ -2507,7 +2293,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     maximum: 1.75
     nominal: 1.60
@@ -2517,7 +2302,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     nominal: 1.60
     minimum: 1.45
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.3
@@ -2525,7 +2309,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2548,7 +2331,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 0.75
     nominal: 0.85
     maximum: 0.95
-
   lead_width:
     maximum: 0.30
     nominal: 0.25
@@ -2557,7 +2339,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     maximum: 0.35
     nominal: 0.30
     minimum: 0.25
-
   EP_size_x:
     maximum: 1.92
     nominal: 1.70
@@ -2567,7 +2348,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     nominal: 1.70
     minimum: 1.48
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 2]
     drill: 0.3
@@ -2575,7 +2355,6 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
@@ -2597,7 +2376,6 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1.0
-
   lead_width:
     minimum: 0.27
     nominal: 0.33
@@ -2606,7 +2384,6 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
     minimum: 0.5
     nominal: 0.6
     maximum: 0.7
-
   EP_size_x:
     maximum: 2.55
     nominal: 2.40
@@ -2616,7 +2393,6 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
     nominal: 2.40
     minimum: 2.25
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.3
@@ -2624,7 +2400,6 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
@@ -2775,3 +2550,4 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
+

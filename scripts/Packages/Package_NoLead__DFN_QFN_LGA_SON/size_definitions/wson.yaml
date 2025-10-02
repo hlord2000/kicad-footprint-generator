@@ -4,7 +4,6 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
   manufacturer: 'Texas'
   size_source: 'http://www.ti.com/lit/ds/symlink/drv5032.pdf#page=28'
   ipc_class: 'qfn'
-
   body_size_x:
     minimum: 1.05
     maximum: 1.15
@@ -13,14 +12,12 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
     maximum: 1.45
   overall_height:
     maximum: 0.4
-
   lead_width:
     minimum: 0.17
     maximum: 0.27
   lead_len:
     minimum: 0.15
     maximum: 0.25
-
   EP_size_x:
     nominal: 0.8
     tolerance: 0.1
@@ -29,15 +26,12 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
     tolerance: 0.1
   EP_num_paste_pads: 1
   EP_pin_number: 5
-
   pitch: 0.5
   num_pins_x: 2
   num_pins_y: 0
-
   pad_numbers:
     generator: 'ccw_dual'
     axis: 'x'
-
   thermal_vias:
     count: 1
     drill: 0.2
@@ -52,22 +46,18 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   library: Package_SON
   size_source: 'http://www.ti.com/lit/ds/symlink/tps61040.pdf#page=35'
   ipc_class: 'qfn_pull_back'
-
   body_size_x:
     minimum: 1.9
     maximum: 2.1
   body_size_y:
     minimum: 1.9
     maximum: 2.1
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.2
     maximum: 0.3
-
-
   EP_size_x:
     nominal: 1
     tolerance: 0.1
@@ -75,7 +65,6 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
     nominal: 1.6
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [1, 2]
     drill: 0.2
@@ -84,7 +73,6 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
     EP_paste_coverage: 0.75
     grid: [1.1, 1.1]
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 3
@@ -104,12 +92,9 @@ SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
   lead_width_max: 0.30
   lead_len_min: 0.33
   lead_len_max: 0.47
-
-
   EP_size_x: 1.4
   EP_size_y: 1.6
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
@@ -168,14 +153,12 @@ Texas_S-PWSON-N8_EP1.2x2mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     minimum: 0.4
     maximum: 0.6
-
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
@@ -183,14 +166,12 @@ Texas_S-PWSON-N8_EP1.2x2mm:
     nominal: 2
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -214,7 +195,6 @@ WSON-8-1EP_3.0x2.5mm_P0.5mm_EP1.2x1.5mm:
     nominal: 0.5
     tolerance: 0.1
   lead_to_edge: 0.1
-
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
@@ -222,11 +202,9 @@ WSON-8-1EP_3.0x2.5mm_P0.5mm_EP1.2x1.5mm:
     nominal: 1.5
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
-
   thermal_vias:
     count: [2, 2]
     drill: 0.2
@@ -249,12 +227,9 @@ WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.0mm:
   lead_width_max: 0.48
   lead_len_min: 0.5
   lead_len_max: 0.75
-
-
   EP_size_x: 3.4
   EP_size_y: 4.0
   EP_num_paste_pads: [2, 2]
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -284,7 +259,6 @@ WSON-8-1EP_6x5mm_P1.27mm_E3.4x4.3mm:
     minimum: 0.55
     nominal: 0.6
     maximum: 0.65
-
   EP_size_x:
     minimum: 3.35
     nominal: 3.4
@@ -294,7 +268,6 @@ WSON-8-1EP_6x5mm_P1.27mm_E3.4x4.3mm:
     nominal: 4.3
     maximum: 4.35
   EP_num_paste_pads: [2, 2]
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -324,7 +297,6 @@ WSON-8-1EP_8x6mm_P1.27mm_E3.4x4.3mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
-
   EP_size_x:
     minimum: 3.3
     nominal: 3.4
@@ -334,7 +306,6 @@ WSON-8-1EP_8x6mm_P1.27mm_E3.4x4.3mm:
     nominal: 4.3
     maximum: 4.4
   EP_num_paste_pads: [2, 2]
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -352,19 +323,16 @@ WSON-8-1EP_4x4mm_P0.8mm_EP2.2x3mm:
     maximum: 4.1
   overall_height:
     maximum: 0.8
-
   lead_width:
     maximum: 0.35
     minimum: 0.25
   lead_len:
     minimum: 0.4
     maximum: 0.6
-
   lead_center_to_center_x: 3.3
   # This value is tricky. The recommended footprint has pad-center-to-center as 3.3mm
   # But Adding EP + EP-Pad-Distance + Pad (2.2 + (0.2+0.15)*2 + 0.5 gives 3.4mm.
   # The above addition works on reference-dimensions. So is not to be trusted.
-
   EP_size_x:
     nominal: 2.2
     tolerance: 0.05
@@ -372,13 +340,11 @@ WSON-8-1EP_4x4mm_P0.8mm_EP2.2x3mm:
     nominal: 3
     tolerance: 0.05
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: True
-
   pitch: 0.8
   num_pins_x: 0
   num_pins_y: 4
@@ -396,10 +362,8 @@ WSON-8-1EP_4x4mm_P0.8mm_EP1.98x3mm:
     tolerance: 0.1
   overall_height:
     maximum: 0.8
-
   lead_width: 0.3 +/- 0.05
   lead_len: 0.4 +/- 0.1
-
   EP_size_x:
     nominal: 1.98
     tolerance: 0.1
@@ -407,13 +371,11 @@ WSON-8-1EP_4x4mm_P0.8mm_EP1.98x3mm:
     nominal: 3
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: True
-
   pitch: 0.8
   num_pins_x: 0
   num_pins_y: 4
@@ -431,14 +393,12 @@ WSON-8-1EP_4x4mm_P0.8mm_EP2.6x3mm:
     maximum: 4.1
   overall_height:
     maximum: 0.8
-
   lead_width:
     maximum: 0.35
     minimum: 0.25
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.6
     tolerance: 0.05
@@ -446,13 +406,11 @@ WSON-8-1EP_4x4mm_P0.8mm_EP2.6x3mm:
     nominal: 3
     tolerance: 0.05
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: True
-
   pitch: 0.8
   num_pins_x: 0
   num_pins_y: 4
@@ -471,14 +429,12 @@ WSON-8-1EP_3x3mm_P0.5mm_EP1.2x2mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     minimum: 0.4
     maximum: 0.6
-
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
@@ -486,14 +442,12 @@ WSON-8-1EP_3x3mm_P0.5mm_EP1.2x2mm:
     nominal: 2
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -512,14 +466,12 @@ WSON-8-1EP_3x3mm_P0.5mm_EP1.45x2.4mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     minimum: 0.4
     maximum: 0.6
-
   EP_size_x:
     nominal: 1.45
     tolerance: 0.1
@@ -527,14 +479,12 @@ WSON-8-1EP_3x3mm_P0.5mm_EP1.45x2.4mm:
     nominal: 2.4
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -553,14 +503,12 @@ WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.25
     maximum: 0.35
-
   EP_size_x:
     nominal: 0.84
     tolerance: 0.1
@@ -568,14 +516,12 @@ WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
     nominal: 2.4
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [1, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -594,14 +540,12 @@ WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
   overall_height:
     minimum: 0.6
     maximum: 0.8
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.35
     maximum: 0.45
-
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
@@ -609,14 +553,12 @@ WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
     nominal: 2
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -635,14 +577,12 @@ WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
-
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.6
     tolerance: 0.1
@@ -650,21 +590,17 @@ WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
     nominal: 3
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.8
   num_pins_x: 0
   num_pins_y: 5
-
   compatible_mpns:
     - Texas_DPR0010A # https://www.ti.com/lit/ml/qfnd434a/qfnd434a.pdf
-
 
 Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
   device_type: 'WSON'
@@ -678,9 +614,7 @@ Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
   lead_len: 0.25 .. 0.35
   EP_size_x: 0.8 .. 1.0
   EP_size_y: 1.4 .. 1.6
-
   EP_paste_coverage: 0.88
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 5
@@ -702,14 +636,12 @@ WSON-12-1EP_4x4mm_P0.5mm_EP2.6x3mm:
   overall_height:
     minimum: 0.8
     maximum: 1
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 2.6
     tolerance: 0.1
@@ -717,14 +649,12 @@ WSON-12-1EP_4x4mm_P0.5mm_EP2.6x3mm:
     nominal: 3
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 6
@@ -742,14 +672,12 @@ WSON-12-1EP_3x3mm_P0.5mm_EP1.5x2.5mm:
     maximum: 3.1
   overall_height:
     maximum: 0.8
-
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     nominal: 1.5
     tolerance: 0.1
@@ -757,14 +685,12 @@ WSON-12-1EP_3x3mm_P0.5mm_EP1.5x2.5mm:
     nominal: 2.5
     tolerance: 0.1
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 6
@@ -785,14 +711,12 @@ Texas_DRX_WSON-10_2.5x2.5mm_P0.5mm:
   overall_height:
     minimum: 0.6
     maximum: 0.8
-
   lead_width:
     minimum: 0.18
     maximum: 0.30
   lead_len:
     minimum: 0.9
     maximum: 1.1
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -810,9 +734,7 @@ Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm:
   lead_len: 0.2 .. 0.4
   EP_size_x: 0.8 .. 1.0
   EP_size_y: 1.4 .. 1.6
-
   EP_paste_coverage: 0.87
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 5

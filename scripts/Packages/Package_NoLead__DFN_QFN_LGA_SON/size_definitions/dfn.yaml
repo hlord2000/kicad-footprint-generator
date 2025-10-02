@@ -12,7 +12,6 @@ CDFN-4_2x2.5mm_P1.65mm:
   num_pins_x: 0
   num_pins_y: 2
 
-
 CDFN-4_2.5x3.2mm_P2.1mm:
   compatible_mpns:
     - Microchip-DFN3225-4LD-PL-1
@@ -26,7 +25,6 @@ CDFN-4_2.5x3.2mm_P2.1mm:
   pitch: 2.10
   num_pins_x: 0
   num_pins_y: 2
-
 
 CDFN-4_3.2x5mm_P2.54mm:
   compatible_mpns:
@@ -42,7 +40,6 @@ CDFN-4_3.2x5mm_P2.54mm:
   num_pins_x: 0
   num_pins_y: 2
 
-
 DFN-4_5x7mm_P5.08mm:
   compatible_mpns:
     - Microchip-DFN75-4LD-PL-1
@@ -55,7 +52,6 @@ DFN-4_5x7mm_P5.08mm:
   pitch: 5.08
   num_pins_x: 0
   num_pins_y: 2
-
   rule_areas:
     central_area:
       name: 'Keepout'
@@ -67,10 +63,7 @@ DFN-4_5x7mm_P5.08mm:
       shapes:
         - type: rect
           center: [0, 0]
-          size: [
-            $(3.5 + 0.1 + 0.2),
-            $(2.2 + 0.1 + 0.2)
-          ]
+          size: [$(3.5 + 0.1 + 0.2), $(2.2 + 0.1 + 0.2)]
 
 DFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
   device_type: 'DFN'
@@ -88,11 +81,9 @@ DFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
   lead_width_max: 0.23
   lead_len_min: 0.15
   lead_len_max: 0.25
-
   EP_size_x: 0.2 .. 0.4
   EP_size_y: 0.84 .. 1.04
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 3
@@ -109,7 +100,6 @@ DFN-6-1EP_2x1.6mm_P0.5mm_EP1.15x1.3mm:
   lead_len:
     minimum: 0.15
     maximum: 0.35
-
   EP_size_x:
     minimum: 0.95
     maximum: 1.15
@@ -119,7 +109,6 @@ DFN-6-1EP_2x1.6mm_P0.5mm_EP1.15x1.3mm:
     maximum: 1.3
   EP_size_y_overwrite: 1.3
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -139,12 +128,10 @@ DFN-6-1EP_2x1.8mm_P0.5mm_EP1.2x1.6mm:
   lead_width_max: 0.25
   lead_len_min: 0.2
   lead_len_max: 0.3
-
   EP_size_x: 1.2
   EP_size_y: 1.6
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -164,11 +151,9 @@ DFN-6-1EP_2x2mm_P0.5mm_EP0.6x1.37mm:
   lead_width_max: 0.3
   lead_len_min: 0.3
   lead_len_max: 0.5
-
   EP_size_x: 0.6
   EP_size_y: 1.37
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -188,11 +173,9 @@ DFN-6-1EP_2x2mm_P0.5mm_EP0.7x1.6mm:
   lead_width_max: 0.3
   lead_len_min: 0.3
   lead_len_max: 0.4
-
   EP_size_x: 0.7
   EP_size_y: 1.6
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -212,11 +195,9 @@ DFN-6-1EP_2x2mm_P0.65mm_EP1.01x1.7mm:
   lead_width_max: 0.35
   lead_len_min: 0.25
   lead_len_max: 0.35
-
   EP_size_x: 1.01
   EP_size_y: 1.7
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 3
@@ -255,12 +236,10 @@ DFN-6-1EP_3x2mm_P0.5mm_EP1.65x1.35mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x: 1.65
   EP_size_y: 1.35
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.0 #for relatively large EP pads (increase clearance)
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -297,7 +276,6 @@ MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
   lead_len:
     nominal: 0.35
     tolerance: 0.05
-
   EP_size_x:
     nominal: 0.5
     tolerance: 0.05
@@ -305,7 +283,6 @@ MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
     nominal: 1.26
     tolerance: 0.05
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 3
@@ -345,7 +322,6 @@ Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   lead_len:
     nominal: 0.35
     tolerance: 0.05
-
   EP_size_x:
     nominal: 0.6
     tolerance: 0.1
@@ -353,18 +329,15 @@ Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
     nominal: 1.2
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
-
   thermal_vias:
     count: [1, 2]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
 
 DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   device_type: 'DFN'
@@ -374,11 +347,9 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
   overall_height: 0.8 .. 0.9 .. 1.0
   lead_width: 0.20 .. 0.25 .. 0.30
   lead_len: 0.25 .. 0.35 .. 0.45
-
   EP_size_x: 0.5 .. 0.6 .. 0.7
   EP_size_y: 1.1 .. 1.2 .. 1.3
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -400,11 +371,9 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.7mm:
   lead_width_max: 0.3
   lead_len_min: 0.25
   lead_len_max: 0.35
-
   EP_size_x: 0.9
   EP_size_y: 1.7
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -427,7 +396,6 @@ DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   EP_size_x:
     nominal: 0.56
     tolerance: 0.05
@@ -437,7 +405,6 @@ DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm:
     tolerance: 0.05
   EP_size_y_overwrite: 2.20
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -450,16 +417,13 @@ DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm:
   body_size_x: 2.9 .. 3.0 .. 3.1
   body_size_y: 1.9 .. 2.0 .. 2.1
   overall_height: 0.80 .. 1.05
-
   lead_width: 0.18 .. 0.30
   lead_len: 0.3 .. 0.5
-
   EP_size_x: 1.65 .. 1.85
   EP_size_y: 1.50 .. 1.70
   EP_size_x_overwrite: 1.7
   EP_size_y_overwrite: 1.6
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -482,7 +446,6 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
   lead_len:
     minimum: 0.25
     maximum: 0.35
-
   EP_size_x:
     minimum: 0.7
     maximum: 0.9
@@ -492,7 +455,6 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
     maximum: 1.3
   EP_size_y_overwrite: 1.3
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -511,10 +473,8 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.6mm:
     tolerance: 0.1
   lead_width: 0.25 +/-0.05
   lead_len: 0.30 +/-0.05
-
   EP_size_x: 0.8 +/-0.05
   EP_size_y: 1.6 +/-0.05
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -534,12 +494,10 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.5mm:
   lead_len:
     nominal: 0.3
     tolerance: 0.1
-
   EP_size_x: 0.9
   EP_size_y: 1.5
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.025 #for relatively large EP pads (increase clearance)
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -563,7 +521,6 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.86x1.55mm:
     minimum: 0.25
     nominal: 0.3
     maximum: 0.35
-
   EP_size_x:
     minimum: 0.76
     nominal: 0.86
@@ -617,12 +574,9 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm:
   body_size_x: 1.85 .. 2.00 .. 2.15
   body_size_y: 1.85 .. 2.00 .. 2.15
   lead_width: 0.18 .. 0.25 .. 0.30
-  lead_len: 0.20 .. 0.30 .. 0.50 # only max given in DS.
-                                 # Min and nominal from JEDEC MO-229 V2020D-3
-
+  lead_len: 0.20 .. 0.30 .. 0.50 # only max given in DS. Min and nominal from JEDEC MO-229 V2020D-3
   EP_size_x: 0.75 .. 0.9 .. 1.00
   EP_size_y: 1.45 .. 1.6 .. 1.70
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -642,14 +596,11 @@ DFN-8-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 1.65
   EP_size_y: 2.38
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
@@ -657,22 +608,18 @@ DFN-8-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
 
-
 DFN-8-1EP_3x3mm_P0.5mm_EP1.7x2.4mm:
   device_type: 'DFN'
   size_source: 'https://stcmicro.com/datasheet/STC8G-en.pdf#page=81'
   body_size_x: 2.89..3.0..3.11
-  body_size_y:  2.89..3.0..3.11
+  body_size_y: 2.89..3.0..3.11
   lead_width: 0.175..0.2..0.225
   lead_len: 0.381..0.40..0.419
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x: 1.65..1.70..1.75
   EP_size_y: 2.35..2.40..2.45
-
   compatible_mpns:
     - 'STC8G1K08A-36I-DFN8'
 
@@ -691,11 +638,9 @@ DFN-8-1EP_3x3mm_P0.65mm_EP1.7x2.05mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.05
-
   EP_size_x: 1.7
   EP_size_y: 2.05
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -713,14 +658,11 @@ AO_DFN-8-1EP_3x3mm_P0.65mm_EP1.25x2.7mm:
     tolerance: 0.1
   lead_width: 0.3 -0.06 +0.05
   lead_len: 0.4 +/-0.1
-
   EP_size_x: 1.15
   EP_size_y: 2.35
   EP_size_x_overwrite: 1.25  # Override the size of the footprint's EP (according to datasheet recommendations)
   EP_size_y_overwrite: 2.7  # Override the size of the footprint's EP (according to datasheet recommendations)
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.65
   num_pins_x: 0 # DFN only has pins on two sides
   num_pins_y: 4
@@ -735,7 +677,6 @@ DFN-8-1EP_3x3mm_P0.65mm_EP1.5x2.25mm:
   EP_size_x: 1.40 .. 1.50 .. 1.60
   EP_size_y: 2.15 .. 2.25 .. 2.35
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -759,26 +700,20 @@ DFN-8-1EP_4x4mm_P0.8mm_EP2.3x3.24mm:
     minimum: 0.4
     nominal: 0.5
     maximum: 0.6
-
   EP_size_x:
     minimum: 2.05
     nominal: 2.20
     maximum: 2.30
-
   EP_size_y:
     minimum: 2.82
     nominal: 3
     maximum: 3.23
-
   EP_size_x_overwrite: 2.30
   EP_size_y_overwrite: 3.24
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.80
   num_pins_x: 0
   num_pins_y: 4
-
 
 DFN-8-1EP_1.5x1.5mm_P0.4mm_EP0.7x1.2mm:
   device_type: 'DFN'
@@ -796,15 +731,12 @@ DFN-8-1EP_1.5x1.5mm_P0.4mm_EP0.7x1.2mm:
     nominal: 0.175
     tolerance: 0.05
   overall_height: 0.45 .. 0.5 .. 0.55
-
   EP_size_x: 0.65 .. 0.7 .. 0.75
   EP_size_y: 1.15 .. 1.2 .. 1.25
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 4
-
 
 DFN-8-1EP_2x2mm_P0.45mm_EP0.64x1.38mm:
   device_type: 'DFN'
@@ -824,15 +756,12 @@ DFN-8-1EP_2x2mm_P0.45mm_EP0.64x1.38mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   EP_size_x: 0.64 +/- 0.10
   EP_size_y: 1.37 +/- 0.10
   EP_num_paste_pads: [1, 2]
-
   pitch: 0.45
   num_pins_x: 0
   num_pins_y: 4
-
 
 DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm:
   device_type: 'DFN'
@@ -846,26 +775,21 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   EP_size_x:
     minimum: 1.45
     maximum: 17.5
   EP_size_x_overwrite: 1.7
-
   EP_size_y:
     minimum: 2.25
     maximum: 2.55
   EP_size_y_overwrite: 2.5
-
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -883,7 +807,6 @@ DFN-10-1EP_2.6x2.6mm_P0.5mm_EP1.3x2.2mm:
     maximum: 2.7
   overall_height:
     maximum: 0.5
-
   lead_width:
     minimum: 0.20
     nominal: 0.25
@@ -892,7 +815,6 @@ DFN-10-1EP_2.6x2.6mm_P0.5mm_EP1.3x2.2mm:
     minimum: 0.30
     nominal: 0.35
     maximum: 0.40
-
   EP_size_x:
     minimum: 1.2
     nominal: 1.25
@@ -903,16 +825,13 @@ DFN-10-1EP_2.6x2.6mm_P0.5mm_EP1.3x2.2mm:
     nominal: 2.15
     maximum: 2.2
   EP_size_y_overwrite: 2.2
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -929,7 +848,6 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.58x2.35mm:
   overall_height:
     nominal: 0.90
     tolerance: 0.10
-
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -937,7 +855,6 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.58x2.35mm:
   lead_len:
     nominal: 0.40
     tolerance: 0.10
-
   EP_size_x:
     minimum: 1.4
     nominal: 1.58
@@ -946,16 +863,13 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.58x2.35mm:
     minimum: 2.20
     nominal: 2.35
     maximum: 2.48
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [1, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -972,30 +886,25 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     nominal: 0.38
     tolerance: 0.1
-
   EP_size_x:
     nominal: 1.65
     tolerance: 0.05
   EP_size_y:
     nominal: 2.38
     tolerance: 0.05
-
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -1011,7 +920,6 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.646x3.1mm:
   overall_height: 0.80 .. 0.90 .. 1.00
   lead_width: 0.20 .. 0.25 .. 0.30
   lead_len: 0.30 .. 0.40 .. 0.50
-
   EP_size_x: 1.546 .. 1.646 .. 1.746 # E2  # Exposed pad size from ST (package sizes)
   EP_size_y: 2.284 .. 2.384 .. 2.484 # D2  # Exposed pad size from ST (package sizes)
   EP_size_x_overwrite: 1.646
@@ -1137,7 +1045,6 @@ Texas_S-PDSO-N10_EP1.2x2.0mm:
   lead_len:
     minimum: 0.35
     maximum: 0.45
-
   EP_size_x:
     minimum: 1.1
     maximum: 1.3
@@ -1152,7 +1059,6 @@ Texas_S-PDSO-N10_EP1.2x2.0mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.7
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -1165,7 +1071,6 @@ WDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
   body_size_y: 2.0
   lead_width: 0.25 +/- 0.05
   lead_len: 0.3 +/- 0.05
-
   EP_size_x:
     minimum: 0.7
     nominal: 0.8
@@ -1175,7 +1080,6 @@ WDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
     nominal: 1.2
     maximum: 1.3
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -1194,12 +1098,9 @@ WDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm:
   lead_width_max: 0.3
   lead_len_min: 0.25
   lead_len_max: 0.45
-
-
   EP_size_x: 1.3
   EP_size_y: 1.4
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -1218,7 +1119,6 @@ WDFN-8-1EP_4x3mm_P0.65mm_EP2.4x1.8mm:
   lead_width_max: 0.3
   lead_len_min: 0.45
   lead_len_max: 0.55
-
   EP_size_x:
     minimum: 2.3
     maximum: 2.5
@@ -1232,8 +1132,6 @@ WDFN-8-1EP_4x3mm_P0.65mm_EP2.4x1.8mm:
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -1244,10 +1142,8 @@ DFN-12-1EP_3x3mm_P0.5mm_EP1.6x2.5mm:
   body_size_x: 3 +/-0.05
   body_size_y: 3 +/-0.05
   overall_height: 0.85 +/-0.05
-
   lead_width: 0.23 +/-0.05
   lead_len: 0.4 +/-0.5
-
   EP_size_x: 1.7
   EP_size_x_overwrite: 1.6
   EP_size_y: 2.4
@@ -1259,7 +1155,6 @@ DFN-12-1EP_3x3mm_P0.5mm_EP1.6x2.5mm:
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 6
@@ -1271,13 +1166,10 @@ ST_UFDFPN-12-1EP_3x3mm_P0.5mm_EP1.4x2.55mm:
   body_size_x: 2.95 .. 3.0 .. 3.1
   body_size_y: 2.95 .. 3.0 .. 3.1
   overall_height: 0.45 .. 0.55 .. 0.6
-
   lead_width: 0.2 .. 0.25 .. 0.3
   lead_len: 0.25 .. 0.3 .. 0.35
-
   EP_size_x: 1.35 .. 1.40 .. 1.45
   EP_size_y: 2.5 .. 2.55 .. 2.6
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 6
@@ -1296,12 +1188,9 @@ WDFN-12-1EP_3x3mm_P0.45mm_EP1.7x2.5mm:
   lead_width_max: 0.25
   lead_len_min: 0.35
   lead_len_max: 0.45
-
-
   EP_size_x: 1.7
   EP_size_y: 2.5
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.45
   num_pins_x: 0
   num_pins_y: 6
@@ -1363,18 +1252,15 @@ TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
   overall_height: 0.8
   lead_width: 0.3 +/-0.05
   lead_len: 0.3 +/-0.05
-
   EP_size_x: 1.3 +/-0.05
   EP_size_y: 2.0 +/-0.05
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 3
@@ -1461,18 +1347,15 @@ TDFN-12-1EP_3x3mm_P0.4mm_EP1.7x2.45mm:
   overall_height: 0.75
   lead_width: 0.2 +/-0.05
   lead_len: 0.4 +/-0.05
-
   EP_size_x: 1.7 +/-0.1
   EP_size_y: 2.45 +/-0.1
   EP_num_paste_pads: [3, 4]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
     paste_via_clearance: 0.1
     EP_num_paste_pads: [3, 4]
     paste_avoid_via: False
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 6
@@ -1486,13 +1369,11 @@ TDFN-14-1EP_3x3mm_P0.4mm_EP1.78x2.35mm:
   overall_height: 0.7 .. 0.75 .. 0.8
   lead_width: 0.2 +/-0.05
   lead_len: 0.2 .. 0.3 .. 0.4
-
   EP_size_x: 1.7 +/- 0.1
   EP_size_y: 2.3 +/-0.1
   EP_size_x_overwrite: 1.78
   EP_size_y_overwrite: 2.35
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.2
@@ -1500,7 +1381,6 @@ TDFN-14-1EP_3x3mm_P0.4mm_EP1.78x2.35mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 7
@@ -1518,30 +1398,25 @@ TDFN-10-1EP_2x3mm_P0.5mm_EP2.0x0.8mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
-
   lead_width:
     nominal: 0.25
     tolerance: 0.05
   lead_len:
     nominal: 0.30
     tolerance: 0.1
-
   EP_size_x:
     nominal: 0.9
     tolerance: 0.1
   EP_size_y:
     nominal: 2.0
     tolerance: 0.1
-
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count: [1, 2]
     drill: 0.3
     paste_via_clearance: 0.1
     EP_num_paste_pads: [1, 2]
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -1554,7 +1429,6 @@ TDFN-8_1.4x1.6mm_P0.4mm:
   overall_height: 0.75
   lead_width: 0.2 +/-0.05
   lead_len: 0.35 +/-0.05
-
   pitch: 0.40
   num_pins_x: 0
   num_pins_y: 4
@@ -1568,12 +1442,10 @@ TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.30mm:
   overall_height: 0.75
   lead_width: 0.25 +/-0.05
   lead_len: 0.3 +/-0.1
-
   EP_size_x: 0.8 +/-0.1
   EP_size_y: 1.20 +/-0.1
   EP_size_y_overwrite: 1.30 +/-0.1
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
@@ -1587,11 +1459,9 @@ TDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm:
   overall_height: 0.75
   lead_width: 0.25 +/-0.05
   lead_len: 0.3 +0.15 -0.05
-
   EP_size_x: 1.3 +/-0.05
   EP_size_y: 1.4 +/-0.05
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
@@ -1614,11 +1484,9 @@ TDFN-8-1EP_3x2mm_P0.5mm_EP1.4x1.4mm:
     minimum: 0.25
     nominal: 0.30
     maximum: 0.45
-
   EP_size_x: 1.20 .. 1.60
   EP_size_y: 1.20 .. 1.60
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
@@ -1638,7 +1506,6 @@ DFN-14_1.35x3.5mm_P0.5mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
-
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1647,7 +1514,6 @@ DFN-14_1.35x3.5mm_P0.5mm:
     minimum: 0.35
     nominal: 0.4
     maximum: 0.45
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 7
@@ -1664,7 +1530,6 @@ OnSemi_UDFN-16-1EP_3.3x1.35mm_P0.4mm_EP2.8x0.4mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
-
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1673,11 +1538,9 @@ OnSemi_UDFN-16-1EP_3.3x1.35mm_P0.4mm_EP2.8x0.4mm:
     minimum: 0.2
     nominal: 0.25
     maximum: 0.3
-
   EP_size_x: 0.30 .. 0.50
   EP_size_y: 2.70 .. 2.90
   EP_num_paste_pads: [1, 3]
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 8
@@ -1690,22 +1553,18 @@ OnSemi_DFN-14-1EP_4x4mm_P0.5mm_EP2.7x3.4mm:
     nominal: 4.0
   body_size_y:
     nominal: 4.0
-
   overall_height:
     minimum: 0.8
     maximum: 1.0
-
   lead_width:
     minimum: 0.18
     maximum: 0.30
   lead_len:
     minimum: 0.3
     maximum: 0.4
-
   EP_size_x: 2.60 .. 2.80
   EP_size_y: 3.30 .. 3.50
   EP_num_paste_pads: [3, 3]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 7
@@ -1715,15 +1574,12 @@ DFN-6_1.6x1.3mm_P0.4mm:
   size_source: 'https://www.st.com/resource/en/datasheet/tsv991.pdf'
   body_size_x: 1.6
   body_size_y: 1.3
-
   overall_height:
     minimum: 0.50
     nominal: 0.55
     maximum: 0.60
-
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.453 .. 0.553 .. 0.653
-
   pitch: 0.4
   num_pins_x: 0
   num_pins_y: 3

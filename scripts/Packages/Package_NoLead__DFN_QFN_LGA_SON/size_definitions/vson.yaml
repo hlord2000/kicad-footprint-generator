@@ -13,7 +13,6 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   lead_width_max: 0.3
   lead_len_min: 0.3
   lead_len_max: 0.5
-
   EP_size_x_min: 1.1
   EP_size_x: 1.2
   EP_size_x_max: 1.3
@@ -21,7 +20,6 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   EP_size_y: 2.0
   EP_size_y_max: 2.2
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [1, 2]
     drill: 0.3
@@ -29,7 +27,6 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
@@ -51,7 +48,6 @@ VSON-8_1.5x2.0mm_P0.5mm:
   lead_len:
     minimum: 0.30
     maximum: 0.50
-
   pitch: 0.50
   num_pins_x: 0
   num_pins_y: 4
@@ -73,21 +69,17 @@ VSON-8-1EP_3x3mm_P0.65mm_EP1.65x2.4mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   overall_height: 1
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_size_x:
     minimum: 1.55
     maximum: 1.75
   EP_size_y:
     minimum: 2.3
     maximum: 2.5
-
   EP_num_paste_pads: [1, 2]
-
   thermal_vias:
     count:
       x: 2
@@ -111,21 +103,17 @@ VSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
   lead_len:
     minimum: 0.3
     maximum: 0.5
-
   overall_height: 1
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
-
   EP_num_paste_pads: [1, 2]
-
   EP_size_x:
     minimum: 1.55
     maximum: 1.65
   EP_size_y:
     minimum: 2.35
     maximum: 2.45
-
 
 VSON-14-1EP_3x4.5mm_P0.65mm_EP1.6x4.2mm:
   device_type: 'VSON'
@@ -163,7 +151,6 @@ VSON-14-1EP_3x4.5mm_P0.65mm_EP1.6x4.2mm:
     paste_between_vias: [1, 1]
     grid: [0.75, 1.5]
     paste_rings_outside: [1, 1]
-
 
 MPS_VSON-6_1x1.5mm_P0.5mm:
   device_type: 'VSON'

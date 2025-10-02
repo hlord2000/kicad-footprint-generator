@@ -17,7 +17,6 @@ HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm:
   lead_len:
     minimum: 0.4
     maximum: 0.65
-
   EP_size_x:
     minimum: 2.05
     maximum: 2.35
@@ -25,7 +24,6 @@ HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm:
     minimum: 2.95
     maximum: 3.25
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.8
   num_pins_x: 0
   num_pins_y: 4
@@ -55,7 +53,6 @@ HVSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
     minimum: 0.35
     nominal: 0.4
     maximum: 0.45
-
   EP_size_x:
     minimum: 1.55
     nominal: 1.6
@@ -65,7 +62,6 @@ HVSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
     nominal: 2.4
     maximum: 2.45
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4

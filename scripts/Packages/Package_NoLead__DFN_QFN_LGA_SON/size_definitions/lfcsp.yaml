@@ -41,11 +41,9 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.74x1.45mm:
   lead_width_max: 0.3
   lead_len_min: 0.3
   lead_len_max: 0.5
-
   EP_size_x: 1.35 .. 1.55
   EP_size_y: 1.64 .. 1.84
   EP_num_paste_pads: [2, 2]
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -69,7 +67,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.60x2.34mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     maximum: 0.30
     nominal: 0.25
@@ -78,7 +75,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.60x2.34mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     maximum: 1.70
     nominal: 1.60
@@ -88,7 +84,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.60x2.34mm:
     nominal: 2.34
     minimum: 2.24
   EP_num_paste_pads: [2, 2]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.3
@@ -96,7 +91,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.60x2.34mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
@@ -120,7 +114,6 @@ LFCSP-WD-8-1EP_3x3mm_P0.65mm_EP1.6x2.44mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     maximum: 0.35
     nominal: 0.30
@@ -129,7 +122,6 @@ LFCSP-WD-8-1EP_3x3mm_P0.65mm_EP1.6x2.44mm:
     minimum: 0.35
     nominal: 0.4
     maximum: 0.45
-
   EP_size_x:
     maximum: 1.70
     nominal: 1.60
@@ -139,13 +131,11 @@ LFCSP-WD-8-1EP_3x3mm_P0.65mm_EP1.6x2.44mm:
     nominal: 2.44
     minimum: 2.34
   EP_num_paste_pads: [2, 3]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.3
     EP_num_paste_pads: [2, 3]
     paste_avoid_via: False
-
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
@@ -168,7 +158,6 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
-
   lead_width:
     maximum: 0.30
     nominal: 0.25
@@ -177,7 +166,6 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-
   EP_size_x:
     maximum: 1.74
     nominal: 1.64
@@ -187,7 +175,6 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
     nominal: 2.38
     minimum: 2.23
   EP_num_paste_pads: [2, 3]
-
   thermal_vias:
     count: [2, 3]
     drill: 0.3
@@ -195,7 +182,6 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
     EP_num_paste_pads: [2, 3]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
-
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 5
