@@ -5,8 +5,8 @@
 # - JEITA ED-7311-22, ED-7324
 
 QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
-  device_type: "QFN"
   size_source: "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf"
+  device_type: "QFN"
   ipc_class: "qfn"
   body_size_x:
     nominal: 10
@@ -18,6 +18,9 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 20
+  num_pins_y: 20
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -38,17 +41,14 @@ QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm:
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [5, 5]
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 20
-  num_pins_y: 20
+    paste_via_clearance: 0.1
 
 QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
+  size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=43'
   device_type: 'QFN'
   manufacturer: 'ArtInChip'
-  size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=43'
   ipc_class: 'qfn_pull_back'
   body_size_x:
     nominal: 10
@@ -60,6 +60,9 @@ QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
     minimum: 0.85
     nominal: 0.9
     maximum: 0.95
+  num_pins_x: 22
+  num_pins_y: 22
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -80,8 +83,5 @@ QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 22
-  num_pins_y: 22
+    paste_via_clearance: 0.1

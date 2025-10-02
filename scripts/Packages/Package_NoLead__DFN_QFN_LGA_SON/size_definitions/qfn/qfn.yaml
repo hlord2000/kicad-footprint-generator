@@ -1,6 +1,6 @@
 QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
-  device_type: 'QFN'
   size_source: 'https://help.1nce.com/dev-hub/docs/sim-chips-iot-industrial'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -11,6 +11,9 @@ QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
   overall_height:
     nominal: 0.9
     tolerance: 0.0
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width:
     nominal: 0.4
     tolerance: 0.1
@@ -24,23 +27,20 @@ QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
     nominal: 4.2
     tolerance: 0.0
   EP_num_paste_pads: [2, 2]
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
 
 Texas_UQFN-8_1.5x1.5mm_P0.5mm:
+  size_source: 'https://www.ti.com/lit/ml/mpqf207e/mpqf207e.pdf'
   device_type: 'UQFN'
   manufacturer: 'Texas'
-  size_source: 'https://www.ti.com/lit/ml/mpqf207e/mpqf207e.pdf'
   ipc_class: 'qfn'
   body_size_x: 1.45 .. 1.55
   body_size_y: 1.45 .. 1.55
   overall_height: 0.5 .. 0.6
-  lead_width: 0.15 .. 0.25  # These are the dimension of the smallest pins, 2 and 6.
-  lead_len: 0.3 .. 0.4  # These are the dimension of the smallest pins, 2 and 6.
-  pitch: 0.5
   num_pins_x: 1
   num_pins_y: 3
+  pitch: 0.5
+  lead_width: 0.15 .. 0.25  # These are the dimension of the smallest pins, 2 and 6.
+  lead_len: 0.3 .. 0.4  # These are the dimension of the smallest pins, 2 and 6.
   pad_overrides:
     1:
       size_increase: [null, 0.05]

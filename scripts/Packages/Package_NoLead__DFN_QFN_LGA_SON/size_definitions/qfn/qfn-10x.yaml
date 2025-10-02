@@ -5,9 +5,9 @@
 # - JEITA ED-7311-22, ED-7324
 
 QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
+  size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=44'
   device_type: 'QFN'
   manufacturer: 'ArtInChip'
-  size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=44'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 12
@@ -19,6 +19,9 @@ QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
+  num_pins_x: 25
+  num_pins_y: 25
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -39,15 +42,12 @@ QFN-100-1EP_12x12mm_P0.4mm_EP7.4x7.4mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 25
-  num_pins_y: 25
+    paste_via_clearance: 0.1
 
 VQFN-100-1EP_12x12mm_P0.4mm_EP8x8mm:
-  device_type: 'VQFN'
   size_source: 'https://ww1.microchip.com/downloads/aemDocuments/documents/UNG/ProductDocuments/DataSheets/USB7206C-Data-Sheet-DS00003850.pdf'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 12
@@ -57,6 +57,9 @@ VQFN-100-1EP_12x12mm_P0.4mm_EP8x8mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 25
+  num_pins_y: 25
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -77,6 +80,3 @@ VQFN-100-1EP_12x12mm_P0.4mm_EP8x8mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.4
-  num_pins_x: 25
-  num_pins_y: 25

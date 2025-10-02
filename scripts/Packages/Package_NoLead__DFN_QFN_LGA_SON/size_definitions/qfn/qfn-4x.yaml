@@ -5,12 +5,15 @@
 # - JEITA ED-7311-22, ED-7324
 
 VQFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
-  device_type: 'VQFN'
   size_source: 'JEDEC MO-220-K.01, variation VHHE-1, https://www.jedec.org/system/files/docs/MO-220K01.pdf'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x: 4.90 .. 5.00 .. 5.10
   body_size_y: 4.90 .. 5.00 .. 5.10
   overall_height: 0.80 .. 0.90 .. 1.00
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.4
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.30 .. 0.40 .. 0.50
   EP_size_x: 3.45 .. 3.60 .. 3.75
@@ -20,12 +23,9 @@ VQFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
     count: [4, 4]
     grid: [0.9, 0.9] # https://www.infineon.com/dgdl/Infineon-AN72845_Design_Guidelines_For_Infineon_Quad_Flat_No_Lead_(QFN)_Packaged_Devices-ApplicationNotes-v04_00-EN.pdf?fileId=8ac78c8c7cdc391c017d0735936858e5#page=6
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.75 # compensate the paste on the vias
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.4
-  num_pins_x: 10
-  num_pins_y: 10
 
 VQFN-40-1EP_5x5mm_P0.4mm_EP3.5x3.5mm:
   inherit: VQFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm
@@ -48,8 +48,8 @@ TQFN-40-1EP_5x5mm_P0.40mm_EP3.50x3.50mm:
 # We should merge this footprint with QFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm below,
 # since Maxim / Analog Devices land pattern recommendation is EP3.6x3.6, see https://www.analog.com/media/en/package-pcb-resources/land-pattern/tqfn/90-0016.pdf
 # Only MAX32670GTL is using it, seach for 21-0140 and 90-0016 in https://www.analog.com/media/en/technical-documentation/data-sheets/max32670-max32671.pdf
-  device_type: 'TQFN'
   size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0140.PDF (T4055-1)'
+  device_type: 'TQFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 5
@@ -59,6 +59,9 @@ TQFN-40-1EP_5x5mm_P0.40mm_EP3.50x3.50mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.40
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -67,6 +70,7 @@ TQFN-40-1EP_5x5mm_P0.40mm_EP3.50x3.50mm:
     minimum: 0.30
     nominal: 0.40
     maximum: 0.50
+  chamfer_edge_pins: 0.12
   EP_size_x:
     minimum: 3.40
     nominal: 3.50
@@ -79,18 +83,14 @@ TQFN-40-1EP_5x5mm_P0.40mm_EP3.50x3.50mm:
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.40
-  num_pins_x: 10
-  num_pins_y: 10
-  chamfer_edge_pins: 0.12
 
 QFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
 # This is a WQFN, similar to JEDEC MO-220-K.01, variation WHHE-1
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=297'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 5
@@ -102,6 +102,9 @@ QFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.4
   lead_width:
     minimum: 0.17
     nominal: 0.2
@@ -120,15 +123,12 @@ QFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 10
-  num_pins_y: 10
+    paste_via_clearance: 0.1
 
 QFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
-  device_type: 'QFN'
   size_source: 'http://www.issi.com/WW/pdf/31FL3736.pdf#page=28'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 4.9
@@ -142,6 +142,9 @@ QFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -153,24 +156,21 @@ QFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
   EP_size_x:
     minimum: 3.15
     maximum: 3.8
-  EP_size_x_overwrite: 3.8
   EP_size_y:
     minimum: 3.15
     maximum: 3.8
+  EP_size_x_overwrite: 3.8
   EP_size_y_overwrite: 3.8
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 10
-  num_pins_y: 10
+    paste_via_clearance: 0.1
 
 UQFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
-  device_type: 'UQFN'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=345'
+  device_type: 'UQFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 5
@@ -180,6 +180,9 @@ UQFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -192,29 +195,26 @@ UQFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
     minimum: 3.6
     nominal: 3.7
     maximum: 3.8
-  EP_size_x_overwrite: 3.8
   EP_size_y:
     minimum: 3.6
     nominal: 3.7
     maximum: 3.8
+  EP_size_x_overwrite: 3.8
   EP_size_y_overwrite: 3.8
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [3, 3]
+    grid: [1.3, 1.3]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.3, 1.3]
-  pitch: 0.4
-  num_pins_x: 10
-  num_pins_y: 10
 
 Texas_RNQ0040A_WQFN-40-1EP_6x4mm_P0.4mm_EP4.7x2.7mm:
+  size_source: 'https://www.ti.com/lit/ds/symlink/tusb1046-dci.pdf#page=45'
   device_type: 'WQFN'
   manufacturer: 'Texas'
   part_number: 'RNQ0040A'
-  size_source: 'https://www.ti.com/lit/ds/symlink/tusb1046-dci.pdf#page=45'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -224,6 +224,9 @@ Texas_RNQ0040A_WQFN-40-1EP_6x4mm_P0.4mm_EP4.7x2.7mm:
     maximum: 4.1
   overall_height:
     maximum: 0.8
+  num_pins_x: 12
+  num_pins_y: 8
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     maximum: 0.25
@@ -236,20 +239,17 @@ Texas_RNQ0040A_WQFN-40-1EP_6x4mm_P0.4mm_EP4.7x2.7mm:
   EP_size_y:
     nominal: 2.7
     tolerance: 0.1
-  EP_num_paste_pads: [3, 2]
   EP_paste_coverage: 0.73
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 8
+  EP_num_paste_pads: [3, 2]
   thermal_vias:
     count: [4, 3]
     drill: 0.2
 
 Texas_RHA0040D_VQFN-40-1EP_6x6mm_P0.5mm_EP2.9x2.9mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf#page=111 JEDEC MO-220 variation VJJD-2'
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RHA0040D'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf#page=111 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -259,6 +259,9 @@ Texas_RHA0040D_VQFN-40-1EP_6x6mm_P0.5mm_EP2.9x2.9mm:
     maximum: 6.1
   overall_height:
     maximum: 1.0
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.20
     maximum: 0.30
@@ -275,18 +278,15 @@ Texas_RHA0040D_VQFN-40-1EP_6x6mm_P0.5mm_EP2.9x2.9mm:
   thermal_vias:
     count: [3, 3]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.7
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
 
 Texas_RHA0040E_VQFN-40-1EP_6x6mm_P0.5mm_EP3.52x2.62mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf#page=57 JEDEC MO-220 variation VJJD-2'
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RHA0040E'
-  size_source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf#page=57 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.85
@@ -297,6 +297,9 @@ Texas_RHA0040E_VQFN-40-1EP_6x6mm_P0.5mm_EP3.52x2.62mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     maximum: 0.30
@@ -313,16 +316,13 @@ Texas_RHA0040E_VQFN-40-1EP_6x6mm_P0.5mm_EP3.52x2.62mm:
   thermal_vias:
     count: [4, 3]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.7
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
 
 HVQFN-40-1EP_6x6mm_P0.5mm_EP4.1x4.1mm:
-  device_type: 'HVQFN'
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT618-1.pdf'
+  device_type: 'HVQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -336,6 +336,9 @@ HVQFN-40-1EP_6x6mm_P0.5mm_EP4.1x4.1mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 1
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     nominal: 0.21
@@ -354,17 +357,14 @@ HVQFN-40-1EP_6x6mm_P0.5mm_EP4.1x4.1mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
+    paste_via_clearance: 0.1
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP4.2x4.2mm:
-  device_type: 'VQFN'
   size_source: 'Based on JEDEC MO-220 variation VKKD-2 (using Figure 1), custom Exposed Pad from NXP, https://www.jedec.org/document_search?search_api_views_fulltext=MO-220, https://www.nxp.com/docs/en/package-information/SOT619-28.pdf'
   compatible_mpns:
     - 'NXP_SOT619-28'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -378,6 +378,9 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.2x4.2mm:
     minimum: 0.8
     nominal: 0.90 # JEDEC size (NXP size is 0.90)
     maximum: 1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18 # NXP / JEDEC
     nominal: 0.25 # JEDEC
@@ -400,16 +403,15 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.2x4.2mm:
     grid: [1.0, 1.0]
     drill: 0.2
     EP_paste_coverage: 0.67
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 VQFN-40-1EP_6x6mm_P0.5mm_EP3.5x3.5mm:
 # NOTE: Listed as MO-220-WJJD-5 in the ADIN1100 datasheet,
 # but this is wrong: WJJD-5 EP is 4.65mm sq nom.
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-40/cp-40-29.pdf'
+  compatible_mpns:
+    - Analog_CP-40-29 # ADIN1100 datasheet
   device_type: 'VQFN'
   # manufacturer: 'Analog'
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-40/cp-40-29.pdf'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -423,6 +425,9 @@ VQFN-40-1EP_6x6mm_P0.5mm_EP3.5x3.5mm:
     minimum: 0.70
     nominal: 0.75
     maximum: 0.80
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.20
     nominal: 0.25
@@ -443,17 +448,12 @@ VQFN-40-1EP_6x6mm_P0.5mm_EP3.5x3.5mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-  compatible_mpns:
-    - Analog_CP-40-29 # ADIN1100 datasheet
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
 
 Texas_RHA0040B_VQFN-40-1EP_6x6mm_P0.5mm_EP4.15x4.15mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=72 JEDEC MO-220 variation VJJD-2'
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RHA0040B'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=72 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -463,6 +463,9 @@ Texas_RHA0040B_VQFN-40-1EP_6x6mm_P0.5mm_EP4.15x4.15mm:
     maximum: 6.1
   overall_height:
     maximum: 1.0
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.17
     maximum: 0.27
@@ -478,19 +481,16 @@ Texas_RHA0040B_VQFN-40-1EP_6x6mm_P0.5mm_EP4.15x4.15mm:
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
+    grid: [1.0, 1.0]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.0, 1.0]
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
 
 QFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
 # this is actually VQFN, height A = 0.80 .. 0.90 .. 1.00 mm
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=295'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -498,6 +498,9 @@ QFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
   body_size_y:
     nominal: 6
     tolerance: 0
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -510,27 +513,24 @@ QFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
     minimum: 4.5
     nominal: 4.65
     maximum: 4.8
-  EP_size_x_overwrite: 4.6
   EP_size_y:
     minimum: 4.5
     nominal: 4.65
     maximum: 4.8
+  EP_size_x_overwrite: 4.6
   EP_size_y_overwrite: 4.6
   EP_num_paste_pads: [4, 4]
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
+    paste_via_clearance: 0.1
 
 Texas_RHA_VQFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/dac7750.pdf#page=49'
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RHA'
-  size_source: 'http://www.ti.com/lit/ds/symlink/dac7750.pdf#page=49'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.85
@@ -541,6 +541,9 @@ Texas_RHA_VQFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
   overall_height:
     minimum: 0.8
     maximum: 1.0
+  num_pins_x: 10
+  num_pins_y: 10
+  pitch: 0.5
   lead_width:
     nominal: 0.23
     tolerance: [-0.05, 0.07]
@@ -556,18 +559,15 @@ Texas_RHA_VQFN-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
+    grid: [1.15, 1.15]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.15, 1.15]
-  pitch: 0.5
-  num_pins_x: 10
-  num_pins_y: 10
 
 QFN-42-1EP_5x6mm_P0.4mm_EP3.7x4.7mm:
-  device_type: 'QFN'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/05081875_0_UHE42.pdf'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 5
@@ -578,6 +578,9 @@ QFN-42-1EP_5x6mm_P0.4mm_EP3.7x4.7mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
+  num_pins_x: 9
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -594,15 +597,12 @@ QFN-42-1EP_5x6mm_P0.4mm_EP3.7x4.7mm:
   thermal_vias:
     count: [4, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.4
-  num_pins_x: 9
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 WQFN-42-1EP_3.5x9mm_P0.5mm_EP2.05x7.55mm:
-  device_type: 'WQFN'
   size_source: 'http://www.ti.com/lit/ds/symlink/ts3l501e.pdf#page=23'
+  device_type: 'WQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 3.4
@@ -613,6 +613,9 @@ WQFN-42-1EP_3.5x9mm_P0.5mm_EP2.05x7.55mm:
   overall_height:
     minimum: 0.7
     maximum: 0.8
+  num_pins_x: 4
+  num_pins_y: 17
+  pitch: 0.5
   lead_width:
     minimum: 0.2
     maximum: 0.3
@@ -631,19 +634,23 @@ WQFN-42-1EP_3.5x9mm_P0.5mm_EP2.05x7.55mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 4
-  num_pins_y: 17
 
 TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
 # this is WQFN
-  device_type: 'TQFN'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf' #T4477
+  compatible_mpns:
+    - 'T4477+2'
+    - 'T4477+2C'
+    - 'T4477+3'
+  device_type: 'TQFN'
   ipc_class: 'qfn'
   #custom_name_format:
   body_size_x: 6.9 .. 7.0 .. 7.1
   body_size_y: 6.9 .. 7.0 .. 7.1
   overall_height: 0.70 .. 0.75 .. 0.80
+  num_pins_x: 11
+  num_pins_y: 11
+  pitch: 0.5
   lead_width: 0.20 .. 0.25 .. 0.30
   lead_len: 0.45 .. 0.55 .. 0.65
   EP_size_x: 4.55 .. 4.70 .. 4.85
@@ -652,20 +659,13 @@ TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 11
-  num_pins_y: 11
-  compatible_mpns:
-    - 'T4477+2'
-    - 'T4477+2C'
-    - 'T4477+3'
 
 QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm:
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/2512S.pdf#page=17'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -679,6 +679,9 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
+  num_pins_x: 11
+  num_pins_y: 11
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     nominal: 0.23
@@ -699,15 +702,12 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 11
-  num_pins_y: 11
+    paste_via_clearance: 0.1
 
 QFN-44-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
-  device_type: 'QFN'
   size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_44_05-08-1763.pdf'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -718,6 +718,9 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
+  num_pins_x: 11
+  num_pins_y: 11
+  pitch: 0.5
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -734,15 +737,12 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 11
-  num_pins_y: 11
+    paste_via_clearance: 0.1
 
 QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm:
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/39935c.pdf#page=152'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 8
@@ -754,6 +754,9 @@ QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
+  num_pins_x: 11
+  num_pins_y: 11
+  pitch: 0.65
   lead_width:
     minimum: 0.25
     nominal: 0.3
@@ -774,19 +777,19 @@ QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm:
   thermal_vias:
     count: [6, 6]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.65
-  num_pins_x: 11
-  num_pins_y: 11
+    paste_via_clearance: 0.1
 
 VQFN-46-1EP_5x6mm_P0.4mm_EP2.8x3.8mm:
-  device_type: 'VQFN'
   size_source: 'http://www.ti.com/lit/ds/symlink/lp5036.pdf#page=59'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x: 4.9 .. 5.1
   body_size_y: 5.9 .. 6.1
   overall_height: 1.0
+  num_pins_x: 10
+  num_pins_y: 13
+  pitch: 0.4
   lead_width: 0.15 .. 0.25
   lead_len: 0.25 .. 0.45
   EP_size_x:
@@ -799,16 +802,13 @@ VQFN-46-1EP_5x6mm_P0.4mm_EP2.8x3.8mm:
   thermal_vias:
     count: [3, 4]
     drill: 0.2
-    paste_via_clearance: 0
     EP_paste_coverage: 0.75
+    paste_via_clearance: 0
     paste_avoid_via: False
-  pitch: 0.4
-  num_pins_x: 10
-  num_pins_y: 13
 
 QFN-48-1EP_5x5mm_P0.35mm_EP3.7x3.7mm:
-  device_type: 'QFN'
   size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf#page=47'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 4.95
@@ -822,6 +822,9 @@ QFN-48-1EP_5x5mm_P0.35mm_EP3.7x3.7mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 10
+  num_pins_y: 14
+  pitch: 0.35
   lead_width:
     minimum: 0.13
     nominal: 0.18
@@ -842,15 +845,12 @@ QFN-48-1EP_5x5mm_P0.35mm_EP3.7x3.7mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.35
-  num_pins_x: 10
-  num_pins_y: 14
+    paste_via_clearance: 0.1
 
 VQFN-48-1EP_6x6mm_P0.4mm_EP4.1x4.1mm:
-  device_type: 'VQFN'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/48L_VQFN_6x6mm_6LX_C04-00494a.pdf'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x:
   #minimum: 5.85
@@ -864,6 +864,9 @@ VQFN-48-1EP_6x6mm_P0.4mm_EP4.1x4.1mm:
     minimum: 0.8
     #nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -880,13 +883,10 @@ VQFN-48-1EP_6x6mm_P0.4mm_EP4.1x4.1mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
-  device_type: 'QFN'
   size_source: 'https://static.dev.sifive.com/SiFive-FE310-G000-datasheet-v1p5.pdf#page=20'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -897,6 +897,9 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   overall_height:
     nominal: 0.85
     tolerance: 0.08
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     nominal: 0.2
     tolerance: 0.05
@@ -912,20 +915,17 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
+    grid: [1.05, 1.05]
     drill: 0.2
     paste_via_clearance: 0.1
+    paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.05, 1.05]
-    paste_avoid_via: True
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
+  size_source: 'https://www.qorvo.com/products/d/da006847'
   device_type: 'TQFN66' # we should change it later to WQFN
   manufacturer: 'Qorvo'
-  size_source: 'https://www.qorvo.com/products/d/da006847'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -936,6 +936,9 @@ Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     nominal: 0.2
     tolerance: 0.05
@@ -952,16 +955,13 @@ Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
+    paste_via_clearance: 0.1
     paste_avoid_via: True
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_6x6mm_P0.5mm_EP4.3x4.3mm:
-  device_type: 'QFN'
   size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf#page=38'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.95
@@ -975,6 +975,9 @@ QFN-48-1EP_6x6mm_P0.5mm_EP4.3x4.3mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -996,16 +999,13 @@ QFN-48-1EP_6x6mm_P0.5mm_EP4.3x4.3mm:
     count: [4, 4]
     drill: 0.2
     paste_via_clearance: 0.1
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_6x6mm_P0.4mm_EP4.4x4.4mm:
-  device_type: 'QFN'
+  size_source: 'https://www.st.com/resource/en/datasheet/stm32wb06cc.pdf#page=60'
   compatible_mpns:
     - "ST-Package-A0BE"
     - "VFQFPN-48"
-  size_source: 'https://www.st.com/resource/en/datasheet/stm32wb06cc.pdf#page=60'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -1015,6 +1015,9 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.4x4.4mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1036,13 +1039,10 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.4x4.4mm:
     count: [4, 4]
     drill: 0.2
     paste_via_clearance: 0.1
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 UQFN-48-1EP_6x6mm_P0.4mm_EP4.45x4.45mm:
-  device_type: 'UQFN'
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=347'
+  device_type: 'UQFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -1052,6 +1052,9 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.45x4.45mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1064,27 +1067,24 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.45x4.45mm:
     minimum: 4.45
     nominal: 4.6
     maximum: 4.75
-  EP_size_x_overwrite: 4.45
   EP_size_y:
     minimum: 4.45
     nominal: 4.6
     maximum: 4.75
+  EP_size_x_overwrite: 4.45
   EP_size_y_overwrite: 4.45
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [3, 3]
+    grid: [1.4, 1.4]
     drill: 0.2
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.4, 1.4]
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_6x6mm_P0.4mm_EP4.6x4.6mm:
-  device_type: 'QFN'
   size_source: 'http://infocenter.nordicsemi.com/pdf/nRF51822_PS_v3.3.pdf#page=67'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -1096,6 +1096,9 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.6x4.6mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1115,19 +1118,16 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.6x4.6mm:
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
+    grid: [1.2, 1.2]
     drill: 0.2
     paste_via_clearance: 0.1
+    paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.2, 1.2]
-    paste_avoid_via: True
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
-  device_type: 'UQFN'
   size_source: 'https://gitlab.com/kicad/libraries/kicad-symbols/-/merge_requests/1189#note_423250741'
+  device_type: 'UQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 5.9
@@ -1137,6 +1137,9 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
     minimum: 5.9
     nominal: 6
     maximum: 6.1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -1151,17 +1154,14 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [3, 3]
     EP_paste_coverage: 0.6
+    paste_via_clearance: 0.1
     paste_avoid_via: True
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_6x6mm_P0.4mm_EP4.66x4.66mm:
-  device_type: 'QFN'
   size_source: 'https://www.onsemi.com/pub/Collateral/485BA.PDF'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6
@@ -1172,6 +1172,9 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.66x4.66mm:
   overall_height:
     minimum: 0.8
     maximum: 1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.4
   lead_width:
     minimum: 0.15
     maximum: 0.25
@@ -1181,31 +1184,31 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.66x4.66mm:
   EP_size_x:
     minimum: 4.4
     maximum: 4.6
-  EP_size_x_overwrite: 4.66
   EP_size_y:
     minimum: 4.4
     maximum: 4.6
+  EP_size_x_overwrite: 4.66
   EP_size_y_overwrite: 4.66
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [4, 4]
+    grid: [1.2, 1.2]
     drill: 0.2
     paste_via_clearance: 0.1
+    paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
-    grid: [1.2, 1.2]
-    paste_avoid_via: True
-  pitch: 0.4
-  num_pins_x: 12
-  num_pins_y: 12
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP2.6x2.6mm:
-  device_type: 'VQFN'
   size_source: 'Based on JEDEC MO-220 variation VKKD-2 (using Figure 1), custom Exposed Pad from STMicroeletronics, https://www.jedec.org/document_search?search_api_views_fulltext=MO-220, https://www.st.com/resource/en/datasheet/stspin32f0a.pdf#page=37'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x: 6.90 .. 7.00 .. 7.10
   body_size_y: 6.90 .. 7.00 .. 7.10
   overall_height: 0.90 .. 0.95 .. 1.00 # ST, theses sizes are a subset of JEDEC
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width: 0.20 .. 0.25 .. 0.30 # minimum from ST, nominal / maximum from JEDEC
   lead_len: 0.30 .. 0.40 .. 0.50
   EP_size_x: 2.50 .. 2.60 .. 2.70
@@ -1217,13 +1220,10 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP2.6x2.6mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/devicedoc/00002117f.pdf#page=69'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -1234,6 +1234,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
   overall_height:
     nominal: 0.85
     tolerance: 0.05
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -1250,15 +1253,12 @@ QFN-48-1EP_7x7mm_P0.5mm_EP3.5x3.5mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
-  device_type: 'VQFN'
   size_source: 'http://www.ti.com/lit/ds/symlink/cc430f5137.pdf#page=128'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.85
@@ -1270,6 +1270,9 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
     maximum: 7.15
   overall_height:
     maximum: 1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -1288,13 +1291,10 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
-  device_type: 'QFN'
   size_source: 'http://ww1.microchip.com/downloads/en/devicedoc/00002117f.pdf#page=70'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -1305,6 +1305,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
   overall_height:
     nominal: 0.85
     tolerance: 0.05
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -1321,20 +1324,23 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
 # this is a WQFN
-  device_type: 'TQFN'
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf' #T4877-3
+  compatible_mpns:
+    - 'T4877+3'
+    - 'T4877+3C'
+  device_type: 'TQFN'
   ipc_class: 'qfn'
   body_size_x: 6.9 .. 7.0 .. 7.1
   body_size_y: 6.9 .. 7.0 .. 7.1
   overall_height: 0.70 .. 0.75 .. 0.80
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width: 0.20 .. 0.25 .. 0.30
   lead_len: 0.30 .. 0.40 .. 0.50
   EP_size_x: 4.95 .. 5.10 .. 5.25
@@ -1343,19 +1349,13 @@ TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.75
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
-  compatible_mpns:
-    - 'T4877+3'
-    - 'T4877+3C'
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
-  device_type: 'VQFN'
   size_source: 'http://www.ti.com/lit/ds/symlink/cc1312r.pdf#page=48'
+  device_type: 'VQFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -1369,6 +1369,9 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   #minimum: 0.8
   #nominal: 0.85
     maximum: 1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     #nominal: 0.24
@@ -1389,15 +1392,12 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf#page=113'
   device_type: 'VQFN'
   manufacturer: 'Texas'
   part_number: 'RGZ0048A'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf#page=113'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -1407,6 +1407,9 @@ Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
     maximum: 7.1
   overall_height:
     maximum: 1.0
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -1422,19 +1425,16 @@ Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   EP_num_paste_pads: [4, 4]
   thermal_vias:
     count: [5, 5]
+    grid: [1, 1]
     drill: 0.2
+    EP_paste_coverage: 0.65
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-    EP_paste_coverage: 0.65
-    grid: [1, 1]
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.30x5.30mm:
-  device_type: 'QFN'
   size_source: 'https://www.trinamic.com/fileadmin/assets/Products/ICs_Documents/TMC2041_datasheet.pdf#page=62'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -1446,6 +1446,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.30x5.30mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.2
     nominal: 0.25
@@ -1466,15 +1469,12 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.30x5.30mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm:
-  device_type: 'QFN'
   size_source: 'http://www.thatcorp.com/datashts/THAT_626x_Datasheet.pdf'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -1485,6 +1485,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm:
   overall_height:
     minimum: 0.8
     maximum: 1
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.2
     maximum: 0.3
@@ -1494,24 +1497,25 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm:
   EP_size_x:
     minimum: 5.31
     maximum: 5.6
-  EP_size_x_overwrite: 5.45
   EP_size_y:
     minimum: 5.31
     maximum: 5.6
+  EP_size_x_overwrite: 5.45
   EP_size_y_overwrite: 5.45
   EP_num_paste_pads: [4, 4]
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.65
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm:
-  device_type: 'QFN'
   size_source: 'http://www.st.com/resource/en/datasheet/stm32f042k6.pdf#page=94'
+  compatible_mpns:
+    - ST_UFQFPN48 # from size source
+    - Analog_CP-48-13 # ADIN2111 datasheet
+    - JEDEC_MO-220-WKKD-4 # listed as compatible in ADIN2111 datasheet
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     minimum: 6.9
@@ -1525,6 +1529,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm:
     minimum: 0.5
     nominal: 0.55
     maximum: 0.6
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.2
     nominal: 0.25
@@ -1545,19 +1552,12 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
-  compatible_mpns:
-    - ST_UFQFPN48 # from size source
-    - Analog_CP-48-13 # ADIN2111 datasheet
-    - JEDEC_MO-220-WKKD-4 # listed as compatible in ADIN2111 datasheet
+    paste_via_clearance: 0.1
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
-  device_type: 'QFN'
   size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_48_05-08-1704.pdf'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -1568,6 +1568,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   overall_height:
     nominal: 0.75
     tolerance: 0.05
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -1584,15 +1587,12 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.70x5.70mm:
-  device_type: 'QFN'
   size_source: 'https://www.renesas.com/us/en/document/dst/upd720201upd720202-datasheet'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 7
@@ -1600,6 +1600,9 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.70x5.70mm:
     nominal: 7
   overall_height:
     nominal: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -1615,15 +1618,12 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.70x5.70mm:
   thermal_vias:
     count: [5, 5]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm:
-  device_type: 'QFN'
   size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT232H.pdf#page=49'
+  device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 8
@@ -1635,6 +1635,9 @@ QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.2
     nominal: 0.25
@@ -1655,11 +1658,8 @@ QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm:
   thermal_vias:
     count: [6, 6]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.6
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
+    paste_via_clearance: 0.1
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -1668,12 +1668,12 @@ QFN-48-1EP_8x8mm_P0.5mm_EP6.2x6.2mm:
 
 LFCSP-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
 # JEDEC MO-220, variation WKKD (but custom Analog Devices' Exposed Pad), it's WQFN
-  device_type: 'LFCSP'
-  library: Package_CSP
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_48_5.pdf'
   # backup source, above is broken: https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-48/cp_48_5.pdf
-  ipc_class: 'qfn'
+  library: Package_CSP
   custom_name_format: 'LFCSP-{pincount}-1EP_{size_x:g}x{size_x:g}mm_P{pitch:g}mm_EP{ep_size_x:g}x{ep_size_x:g}mm{vias:s}'
+  device_type: 'LFCSP'
+  ipc_class: 'qfn'
   body_size_x:
     nominal: 7
     tolerance: 0
@@ -1684,6 +1684,9 @@ LFCSP-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
+  num_pins_x: 12
+  num_pins_y: 12
+  pitch: 0.5
   lead_width:
     minimum: 0.18
     nominal: 0.23
@@ -1704,87 +1707,84 @@ LFCSP-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
   thermal_vias:
     count: [4, 4]
     drill: 0.2
-    paste_via_clearance: 0.1
     EP_paste_coverage: 0.7
+    paste_via_clearance: 0.1
     paste_avoid_via: False
-  pitch: 0.5
-  num_pins_x: 12
-  num_pins_y: 12
 
 LFCSP-40-1EP_6x6mm_P0.5mm_EP4.65x4.65mm:
 # Supposed to be JEDEC MO-220, variation VJJD-5, needs updates later
-  device_type: 'LFCSP'
-  library: Package_CSP
   size_source: 'https://www.jedec.org/system/files/docs/MO-220K01.pdf (variation VJJD-5)'
+  library: Package_CSP
+  device_type: 'LFCSP'
   ipc_class: 'qfn'
   body_size_x: 5.9 .. 6 .. 6.1 # JEDEC does not give tolerance, where is this coming from ?
   body_size_y: 5.9 .. 6 .. 6.1
   overall_height: 0.85 .. 0.95 .. 1.0 # JEDEC A = 0.80 .. 0.90.. 1.00
-  lead_width: 0.18 .. 0.25 .. 0.3
-  lead_len: 0.35 .. 0.4 .. 0.45
-  pitch: 0.5
   num_pins_x: 10
   num_pins_y: 10
+  pitch: 0.5
+  lead_width: 0.18 .. 0.25 .. 0.3
+  lead_len: 0.35 .. 0.4 .. 0.45
   EP_size_x: 4.50 .. 4.65 .. 4.80
   EP_size_y: 4.50 .. 4.65 .. 4.80
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.70
+    paste_via_clearance: 0.1
     paste_avoid_via: True
 
 LFCSP-40-1EP_6x6mm_P0.5mm_EP4.6x4.6mm:
 # JEDEC MO-220, variation VJJD-5
-  device_type: 'LFCSP'
-  library: Package_CSP
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-40/CP_40_15.pdf'
+  library: Package_CSP
+  device_type: 'LFCSP'
   ipc_class: 'qfn'
   body_size_x: 5.9 .. 6 .. 6.1
   body_size_y: 5.9 .. 6 .. 6.1
   overall_height: 0.85 .. 0.95 .. 1.0
-  lead_width: 0.18 .. 0.25 .. 0.3
-  lead_len: 0.35 .. 0.4 .. 0.45
-  pitch: 0.5
   num_pins_x: 10
   num_pins_y: 10
+  pitch: 0.5
+  lead_width: 0.18 .. 0.25 .. 0.3
+  lead_len: 0.35 .. 0.4 .. 0.45
   EP_size_x: 4.50 .. 4.60 .. 4.70
   EP_size_y: 4.50 .. 4.60 .. 4.70
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.70
+    paste_via_clearance: 0.1
     paste_avoid_via: True
 
 LFCSP-40-1EP_6x6mm_P0.5mm_EP3.9x3.9mm:
 # JEDEC MO-220, variation WWJD-5
-  device_type: 'LFCSP'
-  library: Package_CSP
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_40_14.pdf'
   # backup source, above is broken: https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-40/cp_40_14.pdf
+  library: Package_CSP
+  device_type: 'LFCSP'
   ipc_class: 'qfn'
   body_size_x: 5.9 .. 6 .. 6.1
   body_size_y: 5.9 .. 6 .. 6.1
   overall_height: 0.7 .. 0.75 .. 0.8
-  lead_width: 0.18 .. 0.25 .. 0.3
-  lead_len: 0.35 .. 0.4 .. 0.45
-  pitch: 0.5
   num_pins_x: 10
   num_pins_y: 10
+  pitch: 0.5
+  lead_width: 0.18 .. 0.25 .. 0.3
+  lead_len: 0.35 .. 0.4 .. 0.45
   EP_size_x: 3.75 .. 3.9 .. 4.05
   EP_size_y: 3.75 .. 3.9 .. 4.05
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
     drill: 0.3
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.70
+    paste_via_clearance: 0.1
     paste_avoid_via: True
 
 ##############################################################################

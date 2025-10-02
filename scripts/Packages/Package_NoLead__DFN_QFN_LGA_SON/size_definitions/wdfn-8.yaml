@@ -1,6 +1,6 @@
 WDFN-8-1EP_6x5mm_P1.27mm_EP3.4x4mm:
-  device_type: 'WDFN'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/8L_WDFN_5x6mm_MF_C04210B.pdf'
+  device_type: 'WDFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6.0
@@ -8,6 +8,9 @@ WDFN-8-1EP_6x5mm_P1.27mm_EP3.4x4mm:
   body_size_y:
     nominal: 5.0
     tolerance: 0
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width_min: 0.35
   lead_width_max: 0.48
   lead_len_min: 0.50
@@ -15,13 +18,10 @@ WDFN-8-1EP_6x5mm_P1.27mm_EP3.4x4mm:
   EP_size_x: 3.4
   EP_size_y: 4
   EP_num_paste_pads: [2, 2]
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
 
 W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
-  device_type: 'W-PDFN'
   size_source: 'https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qljs_u_256_aba_0.pdf#page=22'
+  device_type: 'W-PDFN'
   ipc_class: 'qfn'
   body_size_x:
     nominal: 6.0
@@ -29,6 +29,9 @@ W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
   body_size_y:
     nominal: 5.0
     tolerance: 0.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width_min: 0.35
   lead_width_max: 0.45
   lead_len_min: 0.55
@@ -36,44 +39,41 @@ W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
   EP_size_x: 3
   EP_size_y: 3
   EP_num_paste_pads: [2, 2]
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
 
 WDFN-8-1EP_8x6mm_P1.27mm_EP6x4.8mm_ThermalVias:
-  device_type: 'WDFN'
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/8L_WDFN_6x8mm_MN_C04172A.pdf'
+  compatible_mpns:
+    - Microchip-8L-WDFN-6x8mm-MN-C04172A
+  device_type: 'WDFN'
   ipc_class: 'qfn'
   body_size_x: 8.0
   body_size_y: 6.0
+  overall_height: 0.7 .. 0.75 .. 0.8
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width: 0.35 .. 0.40 ..0.45
   lead_len: 0.45 .. 0.50 .. 0.55
-  overall_height: 0.7 .. 0.75 .. 0.8
   EP_size_x: 6
   EP_size_y: 4.8
   EP_num_paste_pads: [4, 3]
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
   thermal_vias:
     count: [5, 4]  # Thermal vias based on datasheet (see size_source above)
     drill: 0.33
-    paste_via_clearance: 0.1  # paste so it fits the thermal vias with avoidance
     EP_num_paste_pads: [4, 3]
+    paste_via_clearance: 0.1  # paste so it fits the thermal vias with avoidance
     paste_avoid_via: True
-  compatible_mpns:
-    - Microchip-8L-WDFN-6x8mm-MN-C04172A
 
 WFDFPN-8-1EP_3x2mm_P0.5mm_EP1.2x1.3mm:
-  device_type: 'WFDFPN'
   size_source: 'https://www.st.com/resource/en/datasheet/m95512-r.pdf#page=34'
+  device_type: 'WFDFPN'
   ipc_class: 'qfn'
   body_size_x: 2.9 .. 3.0 .. 3.1
   body_size_y: 1.9 .. 2.0 .. 2.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.5
   lead_width: 0.2 .. 0.25 .. 0.3
   lead_len: 0.3 .. 0.5
   EP_size_x: 1.050 .. 1.450
   EP_size_y: 1.050 .. 1.650
-  pitch: 0.5
-  num_pins_x: 0
-  num_pins_y: 4

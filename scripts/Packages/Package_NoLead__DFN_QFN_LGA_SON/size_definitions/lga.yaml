@@ -1,7 +1,7 @@
 LGA-8_8x6mm_P1.27mm:
-  device_type: 'LGA'
   size_source: 'https://datasheet.lcsc.com/lcsc/2005251034_XTX-XTSD01GLGEAG_C558837.pdf#page=6'
   library: 'Package_LGA'
+  device_type: 'LGA'
   body_size_x:
     minimum: 7.95
     nominal: 8.00
@@ -14,6 +14,9 @@ LGA-8_8x6mm_P1.27mm:
     minimum: 0.85
     nominal: 0.90
     maximum: 0.95
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width:
     minimum: 0.55
     nominal: 0.60
@@ -22,37 +25,34 @@ LGA-8_8x6mm_P1.27mm:
     minimum: 0.75
     nominal: 0.80
     maximum: 0.85
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
 
 LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
-  device_type: 'LGA'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
   library: Package_LGA
   use_name_format: 'LGA'
-  size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
+  device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
-  body_size_x_min: 2.85
   body_size_x: 3.0
+  body_size_x_min: 2.85
   body_size_x_max: 3.15
-  body_size_y_min: 2.85
   body_size_y: 3.0
+  body_size_y_min: 2.85
   body_size_y_max: 3.15
+  num_pins_x: 3
+  num_pins_y: 5
+  pitch: 0.5
   lead_width_min: 0.19
   lead_width_max: 0.31
+  lead_len_min: 0.29
+  lead_len_max: 0.41
   lead_to_edge:
     minimum: 0.04
     maximum: 0.16
-  lead_len_min: 0.29
-  lead_len_max: 0.41
-  pitch: 0.5
-  num_pins_x: 3
-  num_pins_y: 5
 
 LGA-8_8x6.2mm_P1.27mm:
-  device_type: 'LGA'
   size_source: 'https://datasheet.lcsc.com/lcsc/2303241700_Zetta-ZDSD64GLGEAG-R_C5277948.pdf#page=17'
   library: 'Package_LGA'
+  device_type: 'LGA'
   body_size_x:
     minimum: 7.95
     nominal: 8.00
@@ -65,6 +65,9 @@ LGA-8_8x6.2mm_P1.27mm:
     minimum: 0.75
     nominal: 0.80
     maximum: 0.85
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
   lead_width:
     minimum: 0.55
     nominal: 0.60
@@ -73,99 +76,97 @@ LGA-8_8x6.2mm_P1.27mm:
     minimum: 0.75
     nominal: 0.80
     maximum: 0.85
-  pitch: 1.27
-  num_pins_x: 0
-  num_pins_y: 4
 
 LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
-  device_type: 'LGA'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
   library: Package_LGA
   use_name_format: 'LGA'
-  ipc_density: 'least'
-  size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
+  device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
-  body_size_x_min: 1.85
+  ipc_density: 'least'
   body_size_x: 2.0
+  body_size_x_min: 1.85
   body_size_x_max: 2.15
-  body_size_y_min: 1.85
   body_size_y: 2.0
+  body_size_y_min: 1.85
   body_size_y_max: 2.15
-  lead_width_min: 0.2
-  lead_width_max: 0.2
-  lead_to_edge:
-    nominal: 0.1
-  lead_len_min: 0.275
-  lead_len_max: 0.275
-  pitch: 0.35
   num_pins_x: 3
   num_pins_y: 4
+  pitch: 0.35
+  lead_width_min: 0.2
+  lead_width_max: 0.2
+  lead_len_min: 0.275
+  lead_len_max: 0.275
+  lead_to_edge:
+    nominal: 0.1
 
 LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
-  device_type: 'LGA'
+  size_source: 'https://www.st.com/resource/en/datasheet/lsm6ds3tr-c.pdf'
   library: Package_LGA
   use_name_format: 'LGA'
-  size_source: 'https://www.st.com/resource/en/datasheet/lsm6ds3tr-c.pdf'
+  device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
   body_size_x: 3.0 +/- 0.1
   body_size_y: 2.5 +/- 0.1
-  lead_width: 0.25 +/- 0.05
-  lead_to_edge: 0.1
-  lead_len: 0.475 +/- 0.05
-  pitch: 0.5
   num_pins_x: 3
   num_pins_y: 4
+  pitch: 0.5
+  lead_width: 0.25 +/- 0.05
+  lead_len: 0.475 +/- 0.05
+  lead_to_edge: 0.1
 
 LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
-  device_type: 'LGA'
+  size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
   library: Package_LGA
   use_name_format: 'LGA'
-  size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
+  device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
-  body_size_x_min: 2.85
   body_size_x: 3.0
+  body_size_x_min: 2.85
   body_size_x_max: 3.15
-  body_size_y_min: 4.85
   body_size_y: 5.0
+  body_size_y_min: 4.85
   body_size_y_max: 5.15
-  lead_width_min: 0.5
-  lead_width_max: 0.5
-  lead_to_edge:
-    nominal: 0.1
-  lead_len_min: 0.8
-  lead_len_max: 0.8
-  pitch: 0.8
   num_pins_x: 1
   num_pins_y: 6
-
-LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
-  device_type: 'LGA'
-  library: Package_LGA
-  use_name_format: 'LGA'
-  size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
-  ipc_class: 'qfn_pull_back'
-  body_size_x_min: 3.85
-  body_size_x: 4.0
-  body_size_x_max: 4.15
-  body_size_y_min: 3.85
-  body_size_y: 4.0
-  body_size_y_max: 4.15
-  lead_width_min: 0.3
-  lead_width_max: 0.3
+  pitch: 0.8
+  lead_width_min: 0.5
+  lead_width_max: 0.5
+  lead_len_min: 0.8
+  lead_len_max: 0.8
   lead_to_edge:
     nominal: 0.1
-  lead_len_min: 0.4
-  lead_len_max: 0.4
-  pitch: 0.65
-  num_pins_x: 4
-  num_pins_y: 4
 
-NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
-  device_type: 'LGA'
+LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
+  size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'LGA'
+  ipc_class: 'qfn_pull_back'
+  body_size_x: 4.0
+  body_size_x_min: 3.85
+  body_size_x_max: 4.15
+  body_size_y: 4.0
+  body_size_y_min: 3.85
+  body_size_y_max: 4.15
+  num_pins_x: 4
+  num_pins_y: 4
+  pitch: 0.65
+  lead_width_min: 0.3
+  lead_width_max: 0.3
+  lead_len_min: 0.4
+  lead_len_max: 0.4
+  lead_to_edge:
+    nominal: 0.1
+
+NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf#page=15'
+  library: Package_LGA
+  use_name_format: 'LGA'
+  device_type: 'LGA'
   manufacturer: 'NXP'
   #part_number: 'MPL115A1'
-  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf#page=15'
+  suffix: '_H1.2mm'
   body_size_x:
     nominal: 3
     tolerance: 0
@@ -174,26 +175,26 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
     tolerance: 0
   body_height:
     maximum: 1.2
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.25
   lead_width:
     nominal: 0.5
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.8
     tolerance: 0.05
   lead_center_pos_x:
     nominal: 1
     tolerance: 0
-  lead_len:
-    nominal: 0.8
-    tolerance: 0.05
-  pitch: 1.25
-  num_pins_x: 0
-  num_pins_y: 4
-  suffix: '_H1.2mm'
 
 NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.1mm:
-  device_type: 'LGA'
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL3115A2.pdf#page=42'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'LGA'
   manufacturer: 'NXP'
-  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL3115A2.pdf#page=42'
+  suffix: '_H1.1mm'
   body_size_x:
     nominal: 3
     tolerance: 0
@@ -203,69 +204,68 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.1mm:
   body_height:
     maximum: 1.1
     tolerance: 0.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.25
   lead_width:
     nominal: 0.5
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.8
     tolerance: 0.05
   lead_center_pos_x:
     nominal: 1
     tolerance: 0
-  lead_len:
-    nominal: 0.8
-    tolerance: 0.05
-  pitch: 1.25
-  num_pins_x: 0
-  num_pins_y: 4
-  suffix: '_H1.1mm'
 
 Bosch_LGA-8_3x3mm_P0.8mm:
-  device_type: 'LGA'
+  size_source: 'https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'LGA'
   manufacturer: 'Bosch'
-  size_source: 'https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44'
+  suffix: '_ClockwisePinNumbering'
   ipc_class: 'qfn_pull_back'
-  body_size_x_min: 2.95
   body_size_x: 3.0
+  body_size_x_min: 2.95
   body_size_x_max: 3.05
-  body_size_y_min: 2.95
   body_size_y: 3.0
+  body_size_y_min: 2.95
   body_size_y_max: 3.05
+  num_pins_x: 4
+  num_pins_y: 0
+  pitch: 0.8
   lead_width_min: 0.37
   lead_width_max: 0.43
+  lead_len_min: 0.37
+  lead_len_max: 0.43
   lead_to_edge:
     minimum: 0.05
     maximum: 0.15
-  lead_len_min: 0.37
-  lead_len_max: 0.43
-  pitch: 0.8
-  num_pins_x: 4
-  num_pins_y: 0
-  suffix: '_ClockwisePinNumbering'
 
 Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
-  device_type: 'LGA'
+  size_source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'LGA'
   manufacturer: 'Bosch'
-  size_source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
+  suffix: '_ClockwisePinNumbering'
   ipc_class: 'qfn_pull_back'
   body_size_x: 4.5 +/- 0.05
   body_size_y: 3.0 +/- 0.05
   overall_height: 0.95
-  lead_width: 0.25
-  lead_len: 0.475
-  pad_length: 0.675
-  pad_width: 0.25
-  pad_center_to_center_x: 4.025
-  pad_center_to_center_y: 2.525
-  pitch: 0.5
   num_pins_x: 7
   num_pins_y: 1
+  pitch: 0.5
+  lead_width: 0.25
+  lead_len: 0.475
+  pad_center_to_center_x: 4.025
+  pad_center_to_center_y: 2.525
+  pad_width: 0.25
+  pad_length: 0.675
   pad_numbers:
     generator: 'increment'
     increment: -1
     offset: 15
-  suffix: '_ClockwisePinNumbering'
   rule_areas:
     central_area:
       name: 'Keepout'
@@ -280,11 +280,11 @@ Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
           size: [3.35, 1.85]
 
 ST_HLGA-10_2.5x2.5mm_P0.6mm:
-  device_type: 'HLGA'
+  size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'HLGA'
   manufacturer: 'ST'
-  size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
   ipc_class: 'qfn_pull_back'
   body_size_x:
     nominal: 2.5
@@ -292,8 +292,14 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm:
   body_size_y:
     nominal: 2.5
     tolerance: 0.1
+  num_pins_x: 3
+  num_pins_y: 2
+  pitch: 0.6
   lead_width:
     nominal: 0.3
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.45
     tolerance: 0.05
   lead_center_pos_x:
     nominal: 0.92
@@ -301,19 +307,13 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm:
   lead_center_pos_y:
     nominal: 0.92
     tolerance: 0
-  lead_len:
-    nominal: 0.45
-    tolerance: 0.05
-  pitch: 0.6
-  num_pins_x: 3
-  num_pins_y: 2
 
 ST_HLGA-10_2x2mm_P0.5mm:
-  device_type: 'HLGA'
+  size_source: 'https://www.st.com/resource/en/datasheet/lps22hh.pdf#page=55'
   library: Package_LGA
   use_name_format: 'LGA'
+  device_type: 'HLGA'
   manufacturer: 'ST'
-  size_source: 'https://www.st.com/resource/en/datasheet/lps22hh.pdf#page=55'
   ipc_class: 'qfn_pull_back'
   body_size_x:
     nominal: 2.0
@@ -324,23 +324,23 @@ ST_HLGA-10_2x2mm_P0.5mm:
   overall_height:
     nominal: 0.73
     maximum: 0.8
+  num_pins_x: 3
+  num_pins_y: 2
+  pitch: 0.5
   lead_width:
     nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.275
     tolerance: 0.05
   lead_to_edge:
     nominal: 0.1
     tolerance: 0
-  lead_len:
-    nominal: 0.275
-    tolerance: 0.05
-  pitch: 0.5
-  num_pins_x: 3
-  num_pins_y: 2
 
 Broadcom_LGA-8_2.0x2.0mm_P0.5mm:
-  device_type: 'LGA'
   size_source: 'https://docs.broadcom.com/doc/APDS-9251-001-DS#page=19'
   library: 'OptoDevice'
+  device_type: 'LGA'
   manufacturer: 'Broadcom'
   ipc_class: 'qfn_pull_back'
   body_size_x:
@@ -352,6 +352,9 @@ Broadcom_LGA-8_2.0x2.0mm_P0.5mm:
   overall_height:
     nominal: 0.65
     tolerance: 0.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.5
   lead_width:
     nominal: 0.2
     tolerance: 0.1
@@ -360,14 +363,11 @@ Broadcom_LGA-8_2.0x2.0mm_P0.5mm:
     tolerance: 0.1
   lead_to_edge:
     nominal: 0.05
-  pitch: 0.5
-  num_pins_x: 0
-  num_pins_y: 4
 
 Broadcom_LGA-8_2.0x2.0mm_P0.53mm:
-  device_type: 'LGA'
   size_source: 'https://docs.broadcom.com/docs/AV02-4755EN'
   library: 'OptoDevice'
+  device_type: 'LGA'
   manufacturer: 'Broadcom'
   ipc_class: 'qfn_pull_back'
   body_size_x:
@@ -379,6 +379,9 @@ Broadcom_LGA-8_2.0x2.0mm_P0.53mm:
   overall_height:
     nominal: 0.34
     tolerance: 0.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.53
   lead_width:
     nominal: 0.31
     tolerance: 0.1
@@ -387,16 +390,13 @@ Broadcom_LGA-8_2.0x2.0mm_P0.53mm:
     tolerance: 0.1
   lead_to_edge:
     nominal: 0.05
-  pitch: 0.53
-  num_pins_x: 0
-  num_pins_y: 4
 
 Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
-  device_type: 'LGA'
   size_source: 'https://www.digikey.com/Site/Global/Layouts/DownloadPdf.ashx?pdfUrl=3557DE8B1578472CBA17FB72BE0052DC#page=4'
   library: 'Package_LGA'
-  manufacturer: 'Kionix'
   use_name_format: 'LGA'
+  device_type: 'LGA'
+  manufacturer: 'Kionix'
   ipc_class: 'qfn_pull_back'
   body_size_x:
     nominal: 2.0
@@ -405,6 +405,9 @@ Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
     nominal: 2.0
     tolerance: 0.05
   overall_height: 0.9
+  num_pins_x: 2
+  num_pins_y: 4
+  pitch: 0.5
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -413,19 +416,16 @@ Kionix_LGA-12_2x2mm_P0.5mm_LayoutBorder2x4y:
     tolerance: 0.05
   lead_to_edge:
     nominal: 0.1
-  pitch: 0.5
-  num_pins_x: 2
-  num_pins_y: 4
-  pad_length: 0.275
-  pad_width: 0.250
   pad_center_to_center_x: 1.525
   pad_center_to_center_y: 1.525
+  pad_width: 0.250
+  pad_length: 0.275
   mask_margin: 0.0635
 
 VLGA-4_2.5x2.0mm:
-  device_type: 'VLGA'
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/DSC60XX-Ultra-Small-Ultra-Low-Power-MEMS-Oscillator-DS20005625C.pdf#page=15'
   library: 'Package_LGA'
+  device_type: 'VLGA'
   ipc_class: 'qfn_pull_back'
   body_size_x:
     nominal: 2
@@ -437,6 +437,9 @@ VLGA-4_2.5x2.0mm:
     minimum: 0.79
     nominal: 0.84
     maximum: 0.89
+  num_pins_x: 0
+  num_pins_y: 2
+  pitch: 1.65
   lead_width:
     minimum: 0.60
     nominal: 0.65
@@ -447,6 +450,3 @@ VLGA-4_2.5x2.0mm:
     maximum: 0.70
   lead_center_to_center_x:
     nominal: 1.25
-  pitch: 1.65
-  num_pins_x: 0
-  num_pins_y: 2
