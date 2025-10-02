@@ -181,13 +181,6 @@ class NoLeadConfiguration:
         self.marker_dy: float | None
         """Distance along the y-axis between the marker and the border."""
 
-        # Instance attributes related to the data completeness to generate a FP or a
-        # model:
-        self.has_3d_data: bool
-        """True if the no-lead configuration has a full data set for the 3D model."""
-        self.has_fp_data: bool
-        """True if the no-lead configuration has a full data set for the footprint."""
-
         # Instance attributes related to the names:
         self.fp_name_without_vias: str
         """Name of the footprint if it is created without vias."""
@@ -198,15 +191,17 @@ class NoLeadConfiguration:
         self.lib_name: str
         """Name of the library."""
 
+        # Instance attributes related to the data completeness to generate a FP or a
+        # model:
+        self.has_3d_data: bool
+        """True if the no-lead configuration has a full data set for the 3D model."""
+        self.has_fp_data: bool
+        """True if the no-lead configuration has a full data set for the footprint."""
+
         # Assign the source parameters:
         self.pkg_id = pkg_id
         self.spec = spec
-        if header:
-            self.header = header
-            self.has_fp_data = True
-        else:
-            self.header = {}
-            self.has_fp_data = False
+        self.header = header if header else {}
         self.config = config
 
         self._extract_generator_independent_data()
@@ -218,6 +213,7 @@ class NoLeadConfiguration:
         self._extract_marker_data()
         self._compose_device_names()
         self._compose_lib_name()
+        self._has_3D_and_FP_data()
 
     def _extract_generator_independent_data(self) -> None:
         self.metadata = common_metadata.CommonMetadata(self.spec)
@@ -248,7 +244,6 @@ class NoLeadConfiguration:
 
     def _extract_body_data(self) -> None:
         tsh = self.toleranced_size_handler
-        self.has_3d_data = True
         body_pcb_gap = tsh.get_or_none("body_pcb_gap")
         body_height = tsh.get_or_none("body_height")
         overall_height = tsh.get_or_none("overall_height")
@@ -271,7 +266,6 @@ class NoLeadConfiguration:
             body_height = TolerancedSize(nominal=0.0)
             overall_height = TolerancedSize(nominal=0.0)
             body_pcb_gap = TolerancedSize(nominal=0.0)
-            self.has_3d_data = False
         self.body_height = body_height
         self.overall_height = overall_height
         self.body_pcb_gap = body_pcb_gap
@@ -339,10 +333,6 @@ class NoLeadConfiguration:
             self.lead_len_v = lead_len_v
         self.lead_shape = self.spec.get("lead_shape", "rounded")
         self.lead_shape_custom = self.spec.get("lead_shape_custom", [])
-        if not self.lead_height:
-            self.has_3d_data = False
-        else:
-            self.has_3d_data = True
 
     def _extract_exposed_pad_data(self) -> None:
         tsh = self.toleranced_size_handler
@@ -499,3 +489,13 @@ class NoLeadConfiguration:
         self.lib_name = self.spec.get(
             "library", self.header.get("library", "Package_DFN_QFN")
         )
+
+    def _has_3D_and_FP_data(self) -> None:
+        if self.body_height.nominal == 0.0 or self.lead_height == 0.0:
+            self.has_3d_data = False
+        else:
+            self.has_3d_data = True
+        if self.header:
+            self.has_fp_data = True
+        else:
+            self.has_fp_data = False

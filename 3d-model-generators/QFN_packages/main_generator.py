@@ -95,7 +95,7 @@ def make_models(
     # be optimized in the future.
 
     no_lead_path = os.path.dirname(os.path.realpath(__file__))
-    all_yaml_files = glob.glob(f"{no_lead_path}/*.yaml")  # ../../data/no_lead/
+    all_yaml_files = glob.glob(f"{no_lead_path}/../../data/no_lead/*.yaml")
 
     # We load the configuration file (of the footprint generators):
     with open("../scripts/Packages/package_config_KLCv3.yaml", "r") as config_stream:
