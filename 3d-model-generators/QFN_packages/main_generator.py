@@ -74,7 +74,7 @@ from src.generators.no_lead.configuration import (  # type: ignore
 
 from .qfn_packages import make_qfn
 
-FUSED_AND_COMPRESSED = False
+FUSED_AND_COMPRESSED = True
 
 
 def make_models(
