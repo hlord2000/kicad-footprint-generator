@@ -184,7 +184,7 @@ class GullwingConfiguration:
             self.has_fp_data = True
         else:
             self._header = {}
-            self.has_fp_data = False 
+            self.has_fp_data = False
         self._config = config
         self.pkg_id = pkg_id
 
