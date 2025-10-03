@@ -12,20 +12,20 @@ Texas_R-PUSON-N14:
   body_size_y:
     minimum: 3.4
     maximum: 3.6
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height: 0.45 .. 0.55
   num_pins_x: 0
   num_pins_y: 7
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.15
     maximum: 0.25
   lead_len:
     minimum: 0.25
     maximum: 0.35
-  overall_height: 0.45 .. 0.55
-  body_pcb_gap: 0.0 .. 0.05
   lead_height:
     nominal: 0.1
-  lead_shape: rounded
   EP_chamfer: 0.01
 
 ST_UQFN-6L_1.5x1.7mm_P0.5mm:
@@ -81,19 +81,19 @@ Nexperia_HUSON-8_USON-8-1EP_1.35x1.7mm_P0.4mm_EP0.4x1.2mm:
   ipc_class: 'qfn'
   body_size_x: 1.25 .. 1.35  .. 1.45
   body_size_y: 1.6 .. 1.7 .. 1.8
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height:
+    maximum: 0.55
   num_pins_x: 0
   num_pins_y: 4
   pitch: 0.4
+  lead_shape: square
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-  EP_size_x: 0.35 .. 0.40 .. 0.45
-  EP_size_y: 1.1 .. 1.2 .. 1.3
-  overall_height:
-    maximum: 0.55
-  body_pcb_gap: 0.0 .. 0.05
   lead_height:
     nominal: 0.127
-  lead_shape: square
+  EP_size_x: 0.35 .. 0.40 .. 0.45
+  EP_size_y: 1.1 .. 1.2 .. 1.3
   EP_chamfer: 0.25
 
 Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
@@ -104,19 +104,19 @@ Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
   ipc_class: 'qfn'
   body_size_x: 1.25 .. 1.35 .. 1.45
   body_size_y: 2.4 .. 2.5 .. 2.6
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height:
+    maximum: 0.55
   num_pins_x: 0
   num_pins_y: 6
   pitch: 0.4
+  lead_shape: square
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-  EP_size_x: 0.35 .. 0.40 .. 0.45
-  EP_size_y: 1.9 .. 2.0 .. 2.1
-  overall_height:
-    maximum: 0.55
-  body_pcb_gap: 0.0 .. 0.05
   lead_height:
     nominal: 0.127
-  lead_shape: square
+  EP_size_x: 0.35 .. 0.40 .. 0.45
+  EP_size_y: 1.9 .. 2.0 .. 2.1
   EP_chamfer: 0.25
 
 Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
@@ -127,19 +127,19 @@ Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
   ipc_class: 'qfn'
   body_size_x: 1.25 .. 1.35 .. 1.45
   body_size_y: 3.2 .. 3.3 .. 3.4
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height:
+    maximum: 0.55
   num_pins_x: 0
   num_pins_y: 8
   pitch: 0.4
+  lead_shape: square
   lead_width: 0.15 .. 0.20 .. 0.25
   lead_len: 0.2 .. 0.25 .. 0.3
-  EP_size_x: 0.35 .. 0.40 .. 0.45
-  EP_size_y: 2.7 .. 2.8 .. 2.9
-  overall_height:
-    maximum: 0.55
-  body_pcb_gap: 0.0 .. 0.05
   lead_height:
     nominal: 0.127
-  lead_shape: square
+  EP_size_x: 0.35 .. 0.40 .. 0.45
+  EP_size_y: 2.7 .. 2.8 .. 2.9
   EP_chamfer: 0.25
 
 USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:

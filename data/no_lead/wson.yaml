@@ -12,17 +12,21 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
   body_size_y:
     minimum: 1.35
     maximum: 1.45
+  body_pcb_gap: 0.0 .. 0.05
   overall_height:
     maximum: 0.4
   num_pins_x: 2
   num_pins_y: 0
   pitch: 0.5
+  lead_shape: square
   lead_width:
     minimum: 0.17
     maximum: 0.27
   lead_len:
     minimum: 0.15
     maximum: 0.25
+  lead_height:
+    nominal: 0.13
   pad_numbers:
     generator: 'ccw_dual'
     axis: 'x'
@@ -32,6 +36,7 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
   EP_size_y:
     nominal: 0.6
     tolerance: 0.1
+  EP_chamfer: 0.15
   EP_pin_number: 5
   EP_num_paste_pads: 1
   thermal_vias:
@@ -42,11 +47,6 @@ Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.13
-  lead_shape: square
-  EP_chamfer: 0.15
 
 WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tps61040.pdf#page=35'
@@ -58,21 +58,27 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   body_size_y:
     minimum: 1.9
     maximum: 2.1
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height: 0.7 .. 0.8
   num_pins_x: 0
   num_pins_y: 3
   pitch: 0.65
+  lead_shape: square
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.2
     maximum: 0.3
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     nominal: 1
     tolerance: 0.1
   EP_size_y:
     nominal: 1.6
     tolerance: 0.1
+  EP_chamfer: 0.25
   EP_num_paste_pads: [1, 2]
   thermal_vias:
     count: [1, 2]
@@ -82,12 +88,6 @@ WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  overall_height: 0.7 .. 0.8
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: square
-  EP_chamfer: 0.25
 
 SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
   size_source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
@@ -499,24 +499,29 @@ WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
   body_size_y:
     minimum: 2.9
     maximum: 3.1
+  body_pcb_gap: 0.0 .. 0.05
   overall_height:
     minimum: 0.7
     maximum: 0.8
   num_pins_x: 0
   num_pins_y: 5
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.25
     maximum: 0.35
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     nominal: 0.84
     tolerance: 0.1
   EP_size_y:
     nominal: 2.4
     tolerance: 0.1
+  EP_chamfer: 0.2
   EP_num_paste_pads: [1, 2]
   thermal_vias:
     count: [1, 3]
@@ -524,11 +529,6 @@ WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.2
 
 WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
   size_source: 'http://www.ti.com/lit/gpn/tps63030#page=24'
@@ -540,24 +540,29 @@ WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
   body_size_y:
     minimum: 2.4
     maximum: 2.6
+  body_pcb_gap: 0.0 .. 0.05
   overall_height:
     minimum: 0.7
     maximum: 0.8
   num_pins_x: 0
   num_pins_y: 5
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.2
     maximum: 0.3
   lead_len:
     minimum: 0.35
     maximum: 0.45
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     nominal: 1.2
     tolerance: 0.1
   EP_size_y:
     nominal: 2
     tolerance: 0.1
+  EP_chamfer: 0.25
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [2, 3]
@@ -565,11 +570,6 @@ WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.25
 
 WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
   size_source: 'https://www.ti.com/lit/ml/qfnd434a/qfnd434a.pdf'
@@ -583,24 +583,29 @@ WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
+  body_pcb_gap: 0.0 .. 0.05
   overall_height:
     minimum: 0.7
     maximum: 0.8
   num_pins_x: 0
   num_pins_y: 5
   pitch: 0.8
+  lead_shape: rounded
   lead_width:
     minimum: 0.25
     maximum: 0.35
   lead_len:
     minimum: 0.3
     maximum: 0.5
+  lead_height:
+    nominal: 0.1
   EP_size_x:
     nominal: 2.6
     tolerance: 0.1
   EP_size_y:
     nominal: 3
     tolerance: 0.1
+  EP_chamfer: 0.25
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
@@ -608,11 +613,6 @@ WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.1
-  lead_shape: rounded
-  EP_chamfer: 0.25
 
 Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
   size_source: 'https://www.ti.com/lit/gpn/BQ25185'
@@ -622,24 +622,24 @@ Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
   part_number: 'DLH0010A'
   body_size_x: 2.1 .. 2.3
   body_size_y: 1.9 .. 2.1
+  body_pcb_gap: 0.0 .. 0.05
   overall_height:
     maximum: 0.8
   num_pins_x: 0
   num_pins_y: 5
   pitch: 0.4
+  lead_shape: square
   lead_width: 0.15 .. 0.25
   lead_len: 0.25 .. 0.35
+  lead_height:
+    nominal: 0.1
   EP_size_x: 0.8 .. 1.0
   EP_size_y: 1.4 .. 1.6
+  EP_chamfer: 0.0
   EP_paste_coverage: 0.88
   thermal_vias:
     count: [1,2]
     drill: 0.2
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.1
-  lead_shape: square
-  EP_chamfer: 0.0
 
 WSON-12-1EP_4x4mm_P0.5mm_EP2.6x3mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/ldc1312.pdf#page=62'
@@ -745,20 +745,20 @@ Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm:
   part_number: 'DSQ0010A'
   body_size_x: 2.0 +/- 0.1
   body_size_y: 2.0 +/- 0.1
+  body_pcb_gap: 0.0 .. 0.05
   overall_height: 0.7 .. 0.8
   num_pins_x: 0
   num_pins_y: 5
   pitch: 0.4
+  lead_shape: square
   lead_width: 0.15 .. 0.25
   lead_len: 0.2 .. 0.4
+  lead_height:
+    nominal: 0.2
   EP_size_x: 0.8 .. 1.0
   EP_size_y: 1.4 .. 1.6
+  EP_chamfer: 0.0
   EP_paste_coverage: 0.87
   thermal_vias:
     count: [1,2]
     drill: 0.2
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: square
-  EP_chamfer: 0.0

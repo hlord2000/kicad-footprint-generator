@@ -598,6 +598,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
     minimum: 4.9
     nominal: 5
     maximum: 5.1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.7
     nominal: 0.85
@@ -605,6 +606,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
   num_pins_x: 8
   num_pins_y: 8
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -613,6 +615,8 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     minimum: 3.2
     nominal: 3.3
@@ -621,6 +625,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
     minimum: 3.2
     nominal: 3.3
     maximum: 3.4
+  EP_chamfer: 0.2
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [3, 3]
@@ -629,11 +634,6 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.2
 
 TQFN-32-1EP_5x5mm_P0.50mm_EP3.40x3.40mm:
 # this is a WQFN
@@ -804,6 +804,7 @@ UQFN-32_5x5mm_P0.5mm:
   device_type: 'UQFN'
   body_size_x: 5.0
   body_size_y: 5.0
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.50
     nominal: 0.60
@@ -811,6 +812,7 @@ UQFN-32_5x5mm_P0.5mm:
   num_pins_x: 8
   num_pins_y: 8
   pitch: 0.5
+  lead_shape: square
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -819,10 +821,8 @@ UQFN-32_5x5mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   lead_height:
     maximum: 0.22
-  lead_shape: square
 
 VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
   size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT4222H.pdf#page=40'
@@ -958,6 +958,8 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     minimum: 4.95
     nominal: 5.00
     maximum: 5.05
+  body_pcb_gap:
+    maximum: 0.05
   overall_height:
     minimum: 0.80
     nominal: 0.85
@@ -965,6 +967,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
   num_pins_x: 8
   num_pins_y: 8
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.20
     nominal: 0.25
@@ -973,6 +976,8 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     minimum: 0.35
     nominal: 0.40
     maximum: 0.45
+  lead_height:
+    nominal: 0.203
   EP_size_x:
     minimum: 3.65
     nominal: 3.70
@@ -981,6 +986,7 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     minimum: 3.65
     nominal: 3.70
     maximum: 3.75
+  EP_chamfer: 0.3
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
@@ -989,12 +995,6 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-  body_pcb_gap:
-    maximum: 0.05
-  lead_height:
-    nominal: 0.203
-  lead_shape: rounded
-  EP_chamfer: 0.3
 
 QFN-32-1EP_7x7mm_P0.65mm_EP4.65x4.65mm:
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8209-8-bit%20AVR%20ATmega16M1-32M1-64M1_Datasheet.pdf#page=426'
@@ -1516,6 +1516,9 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     minimum: 4.9
     nominal: 5
     maximum: 5.1
+  body_pcb_gap:
+    noinal: 0.02
+    maximum: 0.05
   overall_height:
     minimum: 0.7
     nominal: 0.75
@@ -1523,6 +1526,7 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
   num_pins_x: 8
   num_pins_y: 8
   pitch: 0.5
+  lead_shape: rounded
   lead_width:
     minimum: 0.18
     nominal: 0.25
@@ -1531,6 +1535,8 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     minimum: 3.55
     nominal: 3.6
@@ -1539,6 +1545,7 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     minimum: 3.55
     nominal: 3.6
     maximum: 3.75
+  EP_chamfer: 0.5
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [3, 3]
@@ -1547,13 +1554,6 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     EP_paste_coverage: 0.70
     paste_via_clearance: 0.1
     paste_avoid_via: False
-  body_pcb_gap:
-    noinal: 0.02
-    maximum: 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.5
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

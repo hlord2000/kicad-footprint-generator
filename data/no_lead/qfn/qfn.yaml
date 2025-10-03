@@ -38,28 +38,11 @@ Texas_UQFN-8_1.5x1.5mm_P0.5mm:
   ipc_class: 'qfn'
   body_size_x: 1.45 .. 1.55
   body_size_y: 1.45 .. 1.55
+  body_pcb_gap: 0.0 .. 0.05
   overall_height: 0.5 .. 0.6
   num_pins_x: 1
   num_pins_y: 3
   pitch: 0.5
-  lead_width: 0.15 .. 0.25  # These are the dimension of the smallest pins, 2 and 6.
-  lead_len: 0.3 .. 0.4  # These are the dimension of the smallest pins, 2 and 6.
-  pad_overrides:
-    1:
-      size_increase: [null, 0.05]
-    3:
-      size_increase: [null, 0.05]
-    5:
-      size_increase: [null, 0.05]
-    7:
-      size_increase: [null, 0.05]
-    4:
-      size_increase: [0.1, 0.05]
-    8:
-      size_increase: [0.1, 0.05]
-  body_pcb_gap: 0.0 .. 0.05
-  lead_height:
-    nominal: 0.12
   lead_shape: custom
   lead_shape_custom: [
     [
@@ -113,4 +96,21 @@ Texas_UQFN-8_1.5x1.5mm_P0.5mm:
     [0.35, -0.15],
     ],
   ]
+  lead_width: 0.15 .. 0.25  # These are the dimension of the smallest pins, 2 and 6.
+  lead_len: 0.3 .. 0.4  # These are the dimension of the smallest pins, 2 and 6.
+  lead_height:
+    nominal: 0.12
+  pad_overrides:
+    1:
+      size_increase: [null, 0.05]
+    3:
+      size_increase: [null, 0.05]
+    5:
+      size_increase: [null, 0.05]
+    7:
+      size_increase: [null, 0.05]
+    4:
+      size_increase: [0.1, 0.05]
+    8:
+      size_increase: [0.1, 0.05]
   EP_chamfer: 0.5

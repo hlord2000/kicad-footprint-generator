@@ -298,6 +298,7 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
     nominal: 1.3
   body_size_y:
     nominal: 1.6
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.5
     nominal: 0.55
@@ -305,6 +306,7 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
   num_pins_x: 3
   num_pins_y: 2
   pitch: 0.4
+  lead_shape: rounded
   lead_width:
     nominal: 0.2
   lead_len_V:
@@ -315,13 +317,11 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.55
+  lead_height:
+    nominal: 0.2  # Guessed
   pad_numbers:
     generator: 'increment'
     offset: 1 # non-standard numbering 2, 3, ..., 10, 1
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_height:
-    nominal: 0.2  # Guessed
-  lead_shape: rounded
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

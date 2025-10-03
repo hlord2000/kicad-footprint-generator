@@ -58,6 +58,7 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
   body_size_y:
     nominal: 8
     tolerance: 0
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.8
     nominal: 0.85
@@ -65,6 +66,7 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
   num_pins_x: 16
   num_pins_y: 16
   pitch: 0.4
+  lead_shape: rounded
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -73,6 +75,8 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
     minimum: 0.35
     nominal: 0.4
     maximum: 0.45
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     minimum: 6.4
     nominal: 6.5
@@ -81,17 +85,13 @@ QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
     minimum: 6.4
     nominal: 6.5
     maximum: 6.6
+  EP_chamfer: 0.3
   EP_num_paste_pads: [5, 5]
   thermal_vias:
     count: [6, 6]
     drill: 0.2
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.3
 
 QFN-64-1EP_9x9mm_P0.5mm_EP3.4x3.4mm:
   size_source: 'www.intel.com/content/www/us/en/ethernet-controllers/i210-ethernet-controller-datasheet.html'
@@ -151,22 +151,22 @@ QFN-64-1EP_9x9mm_P0.5mm_EP4.1x4.1mm:
   ipc_class: 'qfn'
   body_size_x: 9.0
   body_size_y: 9.0
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  overall_height: 0.8 .. 0.85 .. 0.90
   num_pins_x: 16
   num_pins_y: 16
   pitch: 0.5
+  lead_shape: square
   lead_width: 0.18 .. 0.25 .. 0.30
   lead_len: 0.30 .. 0.40 .. 0.50
   EP_size_x: 3.95 .. 4.10 .. 4.25
   EP_size_y: 3.95 .. 4.10 .. 4.25
+  EP_chamfer: 0.2
   EP_num_paste_pads: [3, 3]
   thermal_vias:
     count: [3, 3]
     drill: 0.2
     paste_via_clearance: 0.1
-  overall_height: 0.8 .. 0.85 .. 0.90
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_shape: square
-  EP_chamfer: 0.2
 
 Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5217.pdf#page=122'
@@ -180,24 +180,29 @@ Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
   body_size_y:
     minimum: 8.9
     maximum: 9.1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.8
     maximum: 1.0
   num_pins_x: 16
   num_pins_y: 16
   pitch: 0.5
+  lead_shape: square
   lead_width:
     minimum: 0.18
     maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     nominal: 4.25
     tolerance: 0.1
   EP_size_y:
     nominal: 4.25
     tolerance: 0.1
+  EP_chamfer: 0.25
   EP_num_paste_pads: [2, 2]
   thermal_vias:
     count: [5, 5]
@@ -207,11 +212,6 @@ Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: square
-  EP_chamfer: 0.25
 
 QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm:
   size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT2232H.pdf#page=57'
@@ -650,6 +650,7 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
   body_size_y:
     nominal: 8
     tolerance: 0
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
   overall_height:
     minimum: 0.8
     nominal: 0.85
@@ -657,6 +658,7 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
   num_pins_x: 17
   num_pins_y: 17
   pitch: 0.4
+  lead_shape: rounded
   lead_width:
     minimum: 0.15
     nominal: 0.2
@@ -665,6 +667,8 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
+  lead_height:
+    nominal: 0.2
   EP_size_x:
     minimum: 5.1
     nominal: 5.2
@@ -673,17 +677,13 @@ QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
     minimum: 5.1
     nominal: 5.2
     maximum: 5.3
+  EP_chamfer: 0.3
   EP_num_paste_pads: [4, 4]
   thermal_vias:
     count: [5, 5]
     drill: 0.2
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
-  body_pcb_gap: 0.0 .. 0.02 .. 0.05
-  lead_height:
-    nominal: 0.2
-  lead_shape: rounded
-  EP_chamfer: 0.3
 
 QFN-68-1EP_8x8mm_P0.4mm_EP6.4x6.4mm:
   size_source: 'https://www.st.com/resource/en/datasheet/stm32h725ze.pdf'
@@ -740,11 +740,11 @@ LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
   body_size_x:
     minimum: 8.9
     nominal: 9
-      minimum: 9.1
+    minimum: 9.1
   body_size_y:
     minimum: 8.9
     nominal: 9
-      minimum: 9.1
+    minimum: 9.1
   body_height:
     minimum: 0.8
     nominal: 0.85

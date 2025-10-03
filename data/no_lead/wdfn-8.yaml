@@ -32,21 +32,21 @@ W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
   body_size_y:
     nominal: 5.0
     tolerance: 0.1
+  body_pcb_gap:
+    minimum: 0.0
+  overall_height: 0.75 +/- 0.05
   num_pins_x: 0
   num_pins_y: 4
   pitch: 1.27
+  lead_shape: rounded
   lead_width_min: 0.35
   lead_width_max: 0.45
   lead_len_min: 0.55
   lead_len_max: 0.65
   EP_size_x: 3
   EP_size_y: 3
-  EP_num_paste_pads: [2, 2]
-  body_pcb_gap:
-    minimum: 0.0
-  overall_height: 0.75 +/- 0.05
-  lead_shape: rounded
   EP_chamfer: 0.5
+  EP_num_paste_pads: [2, 2]
 
 WDFN-8-1EP_8x6mm_P1.27mm_EP6x4.8mm_ThermalVias:
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/8L_WDFN_6x8mm_MN_C04172A.pdf'
