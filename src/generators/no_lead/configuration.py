@@ -244,28 +244,36 @@ class NoLeadConfiguration:
 
     def _extract_body_data(self) -> None:
         tsh = self.toleranced_size_handler
-        body_pcb_gap = tsh.get_or_none("body_pcb_gap")
         body_height = tsh.get_or_none("body_height")
         overall_height = tsh.get_or_none("overall_height")
-        if body_pcb_gap and body_height:
-            overall_height = body_pcb_gap + body_height
-            if overall_height:
-                if abs((overall_height - body_height - body_pcb_gap).maximum) > 0.01:
-                    raise KeyError(
-                        f"Body height is over constrained and maximum dimensions "
-                        f"do not match:\n"
-                        f"body_pcb_gap={self.body_pcb_gap.maximum}, "
-                        f"body_height={self.body_height.maximum}, "
-                        f"overall_height={overall_height.maximum}"
-                    )
-        elif body_pcb_gap and overall_height:
-            body_height = overall_height - body_pcb_gap
-        elif body_height and overall_height:
-            body_pcb_gap = overall_height - body_height
+        body_pcb_gap = tsh.get_or_none("body_pcb_gap")
+        if not body_pcb_gap:
+            if body_height and overall_height:
+                body_pcb_gap = overall_height - body_height
+            else:
+                body_pcb_gap = TolerancedSize(nominal=0.0)
         else:
-            body_height = TolerancedSize(nominal=0.0)
-            overall_height = TolerancedSize(nominal=0.0)
-            body_pcb_gap = TolerancedSize(nominal=0.0)
+            if body_pcb_gap.maximum < 0:
+                # Workaround: until the generator supports negative seating planes
+                # we just set the value to zero:
+                body_pcb_gap = TolerancedSize(nominal=0.0)
+
+        if not body_height:
+            if overall_height:
+                body_height = overall_height - body_pcb_gap
+            else:
+                body_height = TolerancedSize(nominal=0.0)
+        if not overall_height:
+            overall_height = body_pcb_gap + body_height
+        diff = overall_height.maximum - body_height.maximum - body_pcb_gap.minimum
+        if abs(diff) > 0.01:
+            raise KeyError(
+                f"{self.pkg_id}: "
+                f"Body height is over constrained and dimensions do not match:\n"
+                f"min(body_pcb_gap)={body_pcb_gap.min}, "
+                f"max(body_height)={body_height.maximum}, "
+                f"max(overall_height)={overall_height.maximum}"
+            )
         self.body_height = body_height
         self.overall_height = overall_height
         self.body_pcb_gap = body_pcb_gap
@@ -314,7 +322,6 @@ class NoLeadConfiguration:
 
     def _extract_pin_shape_data(self) -> None:
         tsh = self.toleranced_size_handler
-        self.lead_height = tsh.get("lead_height", 0.0)
         self.lead_width_h = tsh.get(["lead_width_H", "lead_width"])
         self.lead_width_v = tsh.get(["lead_width_V", "lead_width"])
         self.lead_to_edge = tsh.get("lead_to_edge", 0.0)
@@ -331,6 +338,22 @@ class NoLeadConfiguration:
                 )
             self.lead_len_h = lead_len_h
             self.lead_len_v = lead_len_v
+        lead_height = tsh.get_or_none("lead_height")
+        if lead_height is None:
+            if self.lead_to_edge.nominal > 0.0:
+                # For LGAs the height does not matter -> we set it to a fix value:
+                self.lead_height = TolerancedSize(
+                    nominal=max(0.1, self.body_pcb_gap.maximum)
+                )
+            else:
+                # For QFN/DFN, etc. the typical lead height is about 1/4 total height:
+                self.lead_height = TolerancedSize(
+                    minimum=self.overall_height.minimum / 5,
+                    nominal=self.overall_height.nominal / 5,
+                    maximum=self.overall_height.maximum / 5,
+                )
+        else:
+            self.lead_height = lead_height
         self.lead_shape = self.spec.get("lead_shape", "rounded")
         self.lead_shape_custom = self.spec.get("lead_shape_custom", [])
 
@@ -491,7 +514,7 @@ class NoLeadConfiguration:
         )
 
     def _has_3D_and_FP_data(self) -> None:
-        if self.body_height.nominal == 0.0 or self.lead_height == 0.0:
+        if self.overall_height.nominal == 0.0:
             self.has_3d_data = False
         else:
             self.has_3d_data = True

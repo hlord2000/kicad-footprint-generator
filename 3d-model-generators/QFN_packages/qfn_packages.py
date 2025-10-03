@@ -14,11 +14,13 @@ def make_qfn(
     # Body size parameters
     e = nlc.body_size_x.nominal
     d = nlc.body_size_y.nominal
-    a1 = nlc.body_pcb_gap.maximum
+    a1 = nlc.body_pcb_gap.minimum
     a2 = nlc.body_height.maximum
     body_fillet = nlc.body_fillet
 
     # Lead parameters
+    pitch_x = nlc.pitch_x.nominal
+    pitch_y = nlc.pitch_y.nominal
     lead_height = nlc.lead_height.nominal
     lead_width_h = nlc.lead_width_h.nominal
     lead_width_v = nlc.lead_width_v.nominal
@@ -34,20 +36,16 @@ def make_qfn(
     # Excluded pins:
     excluded_pins = nlc.deleted_pins + nlc.hidden_pins
 
-    if a1 < 0.02:
-        print("A1 can NOT be zero (or this script will fail). Setting A1 to 0.02.")
-        a1 = 0.02
-
+    # Total height:
     a = a1 + a2
 
-    case = cq.Workplane("XY").box(e, d, a2)
+    # Construct the case:
+    case = cq.Workplane("XY").box(e, d, a2).translate((0, 0, a2 / 2 + a1))
     if body_fillet != 0.0:
         case.edges("|X").fillet(body_fillet)
         case.edges("|Z").fillet(body_fillet)
-    # translate the object
-    case = case.translate((0, 0, a2 / 2 + a1)).rotate((0, 0, 0), (0, 0, 1), 0)
 
-    # first pin indicator is created with a cylindrical pocket
+    # First pin marker:
     marker_diameter = max(d, e) / 10.0
     if min(d, e) < 5 * marker_diameter:
         marker_edge_clearance = marker_diameter / 4.0
@@ -60,13 +58,11 @@ def make_qfn(
         marker_dx = marker_edge_clearance
     if marker_dy is None:
         marker_dy = marker_edge_clearance
-
     if lead_shape in ("concave", "cshaped"):
         if npy != 0:
             marker_dx = marker_dx + lead_len_h - a1 / 2
         if npx != 0:
             marker_dy = marker_dy + lead_len_v - a1 / 2
-
     if marker == "bar":
         pinmark = cq.Workplane(
             "XY", (-e / 2 + marker_diameter / 2 + marker_dx, 0, a - marker_depth / 2)
@@ -84,31 +80,39 @@ def make_qfn(
     else:
         pinmark = None
 
+    # Create a base pin for the x- and y-axis each (this pin is later copied):
     bpin_shape: dict[str, cq.Workplane] = {}
     bpin_cut: dict[str, cq.Workplane] = {}
     for axis, length, width in zip(
         ["x", "y"], [lead_len_h, lead_len_v], [lead_width_h, lead_width_v]
     ):
-        # Create pins centered on the x- and y-plane
+        # Create pins centered on the x- and y-plane:
         if lead_shape == "square":
-            bpin_shape[axis] = cq.Workplane().box(width, length, lead_height, centered = (True, True, False))
+            bpin_shape[axis] = cq.Workplane().box(
+                width, length, lead_height, centered=(True, True, False)
+            )
         elif lead_shape == "rounded":
             radius = width / 2
             bpin = (
                 cq.Workplane("XY")
-                .moveTo(-radius, -length/2 + radius)
-                .threePointArc((0, -length/2), (radius, -length/2 + radius),)
-                .lineTo(radius, length/2)
-                .lineTo(-radius, length/2)
+                .moveTo(-radius, -length / 2 + radius)
+                .threePointArc(
+                    (0, -length / 2),
+                    (radius, -length / 2 + radius),
+                )
+                .lineTo(radius, length / 2)
+                .lineTo(-radius, length / 2)
                 .close()
                 .extrude(lead_height)
             )
             bpin_shape[axis] = bpin
         elif lead_shape == "concave":
-            pincut = cq.Workplane().box(width, length, a2 + a1 * 2, centered = (True, True, False))
+            pincut = cq.Workplane().box(
+                width, length, a2 + a1 * 2, centered=(True, True, False)
+            )
             bpin = (
                 cq.Workplane("XY")
-                .box(width, length, a2 + a1 * 2, centered = (True, True, False))
+                .box(width, length, a2 + a1 * 2, centered=(True, True, False))
                 .edges("|X")
                 .fillet(a1)
                 .faces(">Z")
@@ -121,15 +125,14 @@ def make_qfn(
             bpin_cut[axis] = pincut
         elif lead_shape == "cshaped":
             bpin = (
-                cq.Workplane().box(width, length, a2 + a1 * 2, centered = (True, True, False))
+                cq.Workplane()
+                .box(width, length, a2 + a1 * 2, centered=(True, True, False))
                 .edges("|X")
                 .fillet(a1)
             )
             bpin_shape[axis] = bpin
 
-    pitch_x = nlc.pitch_x.nominal
-    pitch_y = nlc.pitch_y.nominal
-    pincounter = 1
+    # For custom shaped pins, construct and unite them all:
     if lead_shape == "custom":
         merged_pins = cq.Workplane()
         for pin_shape in lead_shape_custom:
@@ -141,8 +144,11 @@ def make_qfn(
             pin = pin.close().extrude(lead_height)
             merged_pins = merged_pins.union(pin)
     else:
+        # For all other pin shapes first calculate the location and rotation of the
+        # pins (later they are created in an efficient way based on that information):
         valid_locs_h: list[cq.Location] = []
         valid_locs_v: list[cq.Location] = []
+        pincounter = 1
 
         # Left row:
         first_pos_y = (npy - 1) * pitch_y / 2
@@ -182,7 +188,7 @@ def make_qfn(
                 valid_locs_h.append(cq.Location(translation))
             pincounter += 1
 
-
+        # Create all pins:
         merged_pins = cq.Workplane()
         merged_cuts = cq.Workplane()
         # Create all horizontal pins in a single, efficient operation
@@ -198,6 +204,7 @@ def make_qfn(
                     .pushPoints(valid_locs_h)
                     .each(lambda loc: bpin_cut["x"].val().located(loc), combine="a")  # type: ignore
                 )
+
         # Create all vertical pins in a single, efficient operation
         if npy:
             merged_pins_v = (
@@ -213,14 +220,16 @@ def make_qfn(
                     .each(lambda loc: bpin_cut["y"].val().located(loc), combine="a")  # type: ignore
                 )
                 merged_cuts = merged_cuts.union(merged_cuts_v)
+
+        # Cut the pins out of the case:
         if lead_shape == "concave":
             case = case.cut(merged_cuts)
-        
-    # extract pins from case
+
+    # Cut the pins out of the case:
     if lead_shape != "concave":
         case = case.cut(merged_pins)
 
-    # create exposed thermal pad if requested
+    # Create exposed thermal pad if required
     if nlc.has_ep:
         epads: list[cq.Workplane] = []
         ep_size_x = nlc.ep_size_x.nominal
@@ -246,12 +255,13 @@ def make_qfn(
                     .lineTo(-ep_size_x / 2, ep_size_y / 2)
                     .lineTo(-ep_size_x / 2, -ep_size_y / 2 + ep_chamfer)
                     .close()
-                    .extrude(a1 + a1 / 2)
+                    .extrude(lead_height)
                     .translate((epad_offset_x + offset_x, epad_offset_y + offset_y, 0))
                     .rotate((0, 0, 0), (0, 0, 1), nlc.ep_angle)
                 )
                 epads.append(epad)
-        # merge all epads to a single object
+
+        # Merge all exposed pads to a single object:
         merged_epads = epads[0]
         for p in epads[1:]:
             merged_epads = merged_epads.union(p)
