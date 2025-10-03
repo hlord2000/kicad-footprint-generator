@@ -66,10 +66,10 @@ import yaml
 from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
-from kilibs.util import dict_tools  # type: ignore
-from scripts.Packages.Gullwing.gullwing_configuration import (  # type: ignore
+from kilibs.declarative_defs.packages.gullwing_configuration import (  # type: ignore
     GullwingConfiguration,
 )
+from kilibs.util import dict_tools  # type: ignore
 
 from .gullwing import make_gw
 
@@ -94,7 +94,7 @@ def make_models(
     # be optimized in the future.
 
     gullwing_path = os.path.dirname(os.path.realpath(__file__))
-    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/Gullwing/*.yaml")
+    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/gullwing/*.yaml")
 
     if not all_yaml_files:
         print("No YAML files found to process.")
