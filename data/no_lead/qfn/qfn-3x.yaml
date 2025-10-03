@@ -629,6 +629,11 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 TQFN-32-1EP_5x5mm_P0.50mm_EP3.40x3.40mm:
 # this is a WQFN
@@ -814,6 +819,10 @@ UQFN-32_5x5mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    maximum: 0.22
+  lead_shape: square
 
 VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
   size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT4222H.pdf#page=40'
@@ -980,6 +989,12 @@ QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap:
+    maximum: 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: rounded
+  EP_chamfer: 0.3
 
 QFN-32-1EP_7x7mm_P0.65mm_EP4.65x4.65mm:
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8209-8-bit%20AVR%20ATmega16M1-32M1-64M1_Datasheet.pdf#page=426'
@@ -1532,6 +1547,13 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     EP_paste_coverage: 0.70
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    noinal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

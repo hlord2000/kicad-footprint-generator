@@ -89,6 +89,11 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
     paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.4
 
 QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
   size_source: 'https://ftdichip.com/wp-content/uploads/2020/07/DS_FT600Q-FT601Q-IC-Datasheet.pdf#page=27'
@@ -128,6 +133,11 @@ QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
     paste_avoid_via: True
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.35
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under

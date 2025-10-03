@@ -150,7 +150,7 @@ D_SOD-882D:
   num_pins_y: 1
   library: Diode_SMD
   lead_shape_custom: [[[ 0.2, -0.25], [ 0.45, -0.25], [ 0.45, -0.125], [ 0.5, -0.125], [ 0.5, 0.125], [ 0.45, 0.125], [ 0.45, 0.25], [ 0.2, 0.25]],
-               [[-0.2, -0.25], [-0.45, -0.25], [-0.45, -0.125], [-0.5, -0.125], [-0.5, 0.125], [-0.45, 0.125], [-0.45, 0.25], [-0.2, 0.25]]]
+    [[-0.2, -0.25], [-0.45, -0.25], [-0.45, -0.125], [-0.5, -0.125], [-0.5, 0.125], [-0.45, 0.125], [-0.45, 0.25], [-0.2, 0.25]]]
   size_source: 'https://www.nxp.com/docs/en/package-information/SOD882D.pdf'
 
 AMS_LGA-10-1EP_2.7x4mm_P0.6mm:
@@ -219,40 +219,6 @@ LGA-16_3x3mm_P0.5mm:
   num_pins_x: 4
   library: Package_LGA
   size_source: 'https://www.mouser.com/datasheet/2/389/cd00250937-1797158.pdf'
-
-LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
-  lead_height: 0.2
-  lead_len: 0.35
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 1.0
-  lead_width: 0.25
-  pitch: 0.5
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 5
-  num_pins_x: 3
-  library: Package_LGA
-  size_source: 'https://www.mouser.com/datasheet/2/389/cd00250937-1797158.pdf'
-
-LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.025
-  body_height: 1.0
-  lead_width: 0.3
-  pitch: 0.65
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  library: Package_LGA
-  size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
 
 LGA-24L_3x3.5mm_P0.43mm:
   lead_height: 0.2
@@ -680,24 +646,6 @@ DFN-4-1EP_1x1mm_P0.65mm_EP0.5x0.5mm:
   lead_shape_custom: [[[-0.4375, -0.5], [-0.2125, -0.5], [-0.2125, -0.43], [-0.3925, -0.25], [-0.4375, -0.25]], [[0.4375, -0.5], [0.2125, -0.5], [0.2125, -0.43], [0.3925, -0.25], [0.4375, -0.25]], [[0.4375, 0.5], [0.2125, 0.5], [0.2125, 0.43], [0.3925, 0.25], [0.4375, 0.25]], [[-0.4375, 0.5], [-0.2125, 0.5], [-0.2125, 0.43], [-0.3925, 0.25], [-0.4375, 0.25]]]
   size_source: 'https://web.archive.org/web/20190616232205/https://ww1.microchip.com/downloads/en/DeviceDoc/MIC550x-300mA-Single-Output-LDO-in-Small-Packages-DS20006006A.pdf'
 
-DFN-6-1EP_1.2x1.2mm_P0.4mm_EP0.3x0.94mm:
-  lead_height: 0.025
-  lead_len: 0.2
-  EP_chamfer: 0.15
-  body_size_y: 1.2
-  body_size_x: 1.2
-  body_pcb_gap: 0.02
-  body_height: 0.375
-  lead_width: 0.18
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 3
-  num_pins_x: 0
-  EP_size_x: 0.3
-  EP_size_y: 0.94
-  library: Package_DFN_QFN
-  size_source: 'http://www.onsemi.com/pub/Collateral/NCP133-D.PDF'
-
 Balun_Johanson_0896BM15A0001:
   lead_height: 0.7
   lead_len: 0.3
@@ -716,42 +664,6 @@ Balun_Johanson_0896BM15A0001:
   library: RF_Converter
   size_source: 'http://www.onsemi.com/pub/Collateral/NCP133-D.PDF'
 
-Balun_Johanson_0900FM15K0039:
-  lead_height: 0.8
-  lead_len: 0.2
-  marker_dx: 0.3
-  marker_dy: 0.45
-  EP_chamfer: 0.15
-  body_size_y: 2
-  body_size_x: 1.25
-  body_pcb_gap: 0.02
-  body_height: 0.779
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 1
-  library: RF_Converter
-  size_source: 'https://www.johansontechnology.com/datasheets/0900FM15K0039/0900FM15K0039.pdf'
-
-Balun_Johanson_0900PC15J0013:
-  lead_height: 1
-  lead_len: 0.2
-  marker_dx: 0.15
-  marker_dy: 0.45
-  EP_chamfer: 0.15
-  body_size_y: 2
-  body_size_x: 1.25
-  body_pcb_gap: 0.0
-  body_height: 1
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 1
-  library: RF_Converter
-  size_source: 'https://www.johansontechnology.com/datasheets/0900PC15J0013/0900PC15J0013.pdf'
-
 DFN-6-1EP_2x2mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -769,22 +681,6 @@ DFN-6-1EP_2x2mm_Pitch0.5mm:
   EP_size_y: 1.37
   library: Package_DFN_QFN
   size_source: 'http://cds.linear.com/docs/en/packaging/05081703_C_DC6.pdf'
-
-Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
-  lead_height: 0.2
-  lead_len_H: 0.4
-  lead_len_V: 0.3
-  body_size_y: 1.6
-  body_size_x: 1.3
-  body_pcb_gap: 0.02
-  body_height: 0.53
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 2
-  num_pins_x: 3
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_10_10.pdf'
 
 DFN-6-1EP_2x2mm_Pitch0.65mm:
   lead_height: 0.2
@@ -821,43 +717,6 @@ LFCSP-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
   EP_size_y: 1.6
   library: Package_CSP
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_6_3.pdf'
-
-TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
-  lead_height: 0.2
-  lead_len: 0.3
-  EP_chamfer: 0.1
-  body_size_y: 2.5
-  body_size_x: 2.5
-  body_pcb_gap: 0.05
-  body_height: 0.8
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 3
-  num_pins_x: 0
-  EP_size_x: 1.3
-  EP_size_y: 2.0
-  library: Package_DFN_QFN
-  size_source: 'https://www.nve.com/Downloads/ab3.pdf'
-
-Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.1
-  body_size_y: 2
-  body_size_x: 3
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.25
-  pitch: 0.5
-  lead_to_edge: 0
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 1.75
-  EP_size_y: 1.63
-  library: Package_DFN_QFN
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tdfn-ep/21-0174.pdf'
 
 DFN-6-1EP_3x3mm_Pitch0.95mm:
   lead_height: 0.2
@@ -947,24 +806,6 @@ DFN-8-1EP_2x2mm_Pitch0.5mm:
   library: Package_DFN_QFN
   size_source: 'https://www.onsemi.com/pub/Collateral/506AQ.PDF'
 
-DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
-  lead_height: 0.2
-  lead_len: 0.35
-  EP_chamfer: 0.2
-  body_size_y: 2.0
-  body_size_x: 2.0
-  body_pcb_gap: 0.02
-  body_height: 0.9
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 0.6
-  EP_size_y: 1.2
-  library: Package_DFN_QFN
-  size_source: 'https://www.onsemi.com/pub/Collateral/506AQ.PDF' # also https://www.qorvo.com/products/d/da001879
-
 DFN-8-1EP_2x2mm_Pitch0.45mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1000,24 +841,6 @@ DFN-8-1EP_2x3mm_Pitch0.5mm:
   EP_size_y: 2.15
   library: Package_DFN_QFN
   size_source: 'http://cds.linear.com/docs/en/packaging/05081702_C_DDB8.pdf'
-
-DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 2.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.90
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 1.75
-  EP_size_y: 1.6
-  library: Package_DFN_QFN
-  size_source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8904DD/document_id/1244/'
 
 DFN-8-1EP_3x2mm_Pitch0.5mm:
   lead_height: 0.2
@@ -1091,24 +914,6 @@ DFN-8-1EP_3x3mm_Pitch0.65mm:
   library: Package_DFN_QFN
   size_source: 'https://www.onsemi.com/pub/Collateral/506BY.PDF'
 
-DFN-8-1EP_3x3mm_P0.65mm_EP1.5x2.25mm:
-  lead_height: 0.15
-  lead_len: 0.45
-  EP_chamfer: 0.2 # it should have been rounded
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.58
-  lead_width: 0.25
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 1.50
-  EP_size_y: 2.25
-  library: Package_DFN_QFN
-  size_source: 'https://www.diodes.com/assets/Package-Files/U-DFN3030-8-Type-E.pdf'
-
 DFN-8-1EP_4x4mm_Pitch0.8mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1181,24 +986,6 @@ DFN-12-1EP_2x3mm_Pitch0.45mm:
   library: Package_DFN_QFN
   size_source: 'http://cds.linear.com/docs/en/packaging/DFN_12_05-08-1723.pdf'
 
-DFN-12-1EP_3x3mm_P0.45mm_EP1.65x2.38mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.725
-  lead_width: 0.23
-  pitch: 0.45
-  lead_shape: rounded
-  num_pins_y: 6
-  num_pins_x: 0
-  EP_size_x: 1.65
-  EP_size_y: 2.38
-  library: Package_DFN_QFN
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-dfn/dfn_12_05-08-1725.pdf'
-
 DFN-12-1EP_3x4mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1252,24 +1039,6 @@ DFN-12-1EP_4x4mm_Pitch0.65mm:
   EP_size_y: 3.4
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/506CE.PDF'
-
-OnSemi_DFN-14-1EP_4x4mm_P0.5mm_EP2.7x3.4mm:
-  lead_height: 0.2
-  lead_len: 0.35
-  EP_chamfer: 0.35
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.025
-  body_height: 0.875
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 7
-  num_pins_x: 0
-  EP_size_x: 2.7
-  EP_size_y: 3.4
-  library: Package_DFN_QFN
-  size_source: 'https://www.onsemi.com/pub/Collateral/506CM.PDF'
 
 DFN-16-1EP_3x4mm_Pitch0.45mm:
   lead_height: 0.2
@@ -1524,24 +1293,6 @@ DFN-S-8-1EP_6x5mm_Pitch1.27mm:
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/506BG.PDF'
 
-MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
-  lead_height: 0.15
-  lead_len: 0.35
-  EP_chamfer: 0.01
-  body_size_y: 1.6
-  body_size_x: 1.6
-  body_pcb_gap: 0.02
-  body_height: 0.55
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 3
-  num_pins_x: 0
-  EP_size_x: 0.5
-  EP_size_y: 1.26
-  library: Package_DFN_QFN
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/mic5353.pdf'
-
 QFN-12-1EP_3x3mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1577,42 +1328,6 @@ QFN-16-1EP_3x3mm_Pitch0.5mm:
   EP_size_y: 1.65
   library: Package_DFN_QFN
   size_source: 'http://cds.linear.com/docs/en/packaging/QFN_16_05-08-1700.pdf'
-
-QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
-  lead_height: 0.2
-  lead_len: 0.55
-  EP_chamfer: 0.35
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.025
-  body_height: 0.725
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.15
-  EP_size_y: 2.15
-  library: Package_DFN_QFN
-  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/4001f.pdf'
-
-QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.35
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.1
-  EP_size_y: 2.1
-  library: Package_DFN_QFN
-  size_source: 'https://ftdichip.com/wp-content/uploads/2021/10/DS_FT230X.pdf'
 
 QFN-16-1EP_5x5mm_Pitch0.8mm:
   lead_height: 0.2
@@ -1790,24 +1505,6 @@ QFN-24-1EP_4x4mm_Pitch0.5mm:
   library: Package_DFN_QFN
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/%28UF24%29%20QFN%2005-08-1697%20Rev%20B.pdf'
 
-QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
-  lead_height: 0.203
-  lead_len: 0.4
-  EP_chamfer: 0.35
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.75
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 6
-  num_pins_x: 6
-  EP_size_x: 2.7
-  EP_size_y: 2.7
-  library: Package_DFN_QFN
-  size_source: 'https://www.diodes.com/assets/Datasheets/AP33771.pdf'
-
 QFN-24-1EP_4x5mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1952,24 +1649,6 @@ QFN-28-1EP_6x6mm_Pitch0.65mm:
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/560AC.PDF'
 
-QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.25
-  body_size_y: 6.0
-  body_size_x: 6.0
-  body_pcb_gap: 0.03
-  body_height: 0.9
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 7
-  num_pins_x: 7
-  EP_size_x: 4.8
-  EP_size_y: 4.8
-  library: Package_DFN_QFN
-  size_source: 'https://semtech.file.force.com/sfc/dist/version/download/?oid=00DE0000000JelG&ids=0682R000006TQEPQA4&d=%2Fa%2F2R0000001Rbr%2F6EfVZUorrpoKFfvaF_Fkpgp5kzjiNyiAbqcpqh9qSjE&operationContext=DELIVERY&asPdf=true&viewId=05H3n000000sDmVEAU&dpt='
-
 QFN-32-1EP_4x4mm_Pitch0.4mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -1988,21 +1667,6 @@ QFN-32-1EP_4x4mm_Pitch0.4mm:
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/485CD.PDF'
 
-UQFN-32_5x5mm_P0.5mm:
-  lead_height: 0.22 # Pin thickness = A3 in MO-248
-  lead_len: 0.4
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.02  # = A1 in MO-248
-  body_height: 0.58  # = A - A1 in MO-248
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 8
-  num_pins_x: 8
-  library: Package_DFN_QFN
-  size_source: 'JEDEC MO-248 variation UHHD, 0.65mm maximum overall height, https://www.jedec.org/document_search?search_api_views_fulltext=MO-248'
-
 QFN-32-1EP_5x5mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -2020,42 +1684,6 @@ QFN-32-1EP_5x5mm_Pitch0.5mm:
   EP_size_y: 3.45
   library: Package_DFN_QFN
   size_source: 'http://cds.linear.com/docs/en/packaging/QFN_32_05-08-1693.pdf'
-
-QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.025
-  body_height: 0.85
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 8
-  num_pins_x: 8
-  EP_size_x: 3.3
-  EP_size_y: 3.3
-  library: Package_DFN_QFN
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/00002164B.pdf'
-
-QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
-  lead_height: 0.203
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.05
-  body_height: 0.8
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 8
-  num_pins_x: 8
-  EP_size_x: 3.7
-  EP_size_y: 3.7
-  library: Package_DFN_QFN
-  size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32-c6_datasheet_en.pdf'
 
 QFN-32-1EP_7x7mm_Pitch0.65mm:
   lead_height: 0.2
@@ -2327,78 +1955,6 @@ QFN-56-1EP_7x7mm_Pitch0.4mm:
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/485BT-01.pdf'
 
-QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.05
-  body_height: 0.85
-  lead_width: 0.18
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 14
-  num_pins_x: 14
-  EP_size_x: 3.1
-  EP_size_y: 3.1
-  library: Package_DFN_QFN
-  size_source: 'https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=608'
-
-QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
-  lead_height: 0.203
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.025
-  body_height: 0.85
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 14
-  num_pins_x: 14
-  EP_size_x: 4
-  EP_size_y: 4
-  library: Package_DFN_QFN
-  size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32-s2_datasheet_en.pdf#page=41'
-
-QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 8.0
-  body_size_x: 8.0
-  body_pcb_gap: 0.02
-  body_height: 0.98
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 14
-  num_pins_x: 14
-  EP_size_x: 4.5
-  EP_size_y: 5.2
-  library: Package_DFN_QFN
-  size_source: 'http://www.cypress.com/file/138911/download'
-
-QFN-64-1EP_8x8mm_P0.4mm_EP6.5x6.5mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 8.0
-  body_size_x: 8.0
-  body_pcb_gap: 0.02
-  body_height: 0.85
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 16
-  num_pins_x: 16
-  EP_size_x: 6.5
-  EP_size_y: 6.5
-  library: Package_DFN_QFN
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/64L_VQFN_8x8_with%206_5x6_5%20EP_JXX_C04-0437A.pdf'
-
 QFN-64-1EP_9x9mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -2434,59 +1990,6 @@ ArtInChip_QFN-68-1EP_7x7mm_P0.35mm_EP5.49x5.49mm:
   EP_size_y: 5.49
   library: Package_DFN_QFN
   size_source: 'https://artinchip.com/upload/files/product/20240112/17050529177725663.pdf/#page=42'
-
-QFN-68-1EP_8x8mm_P0.4mm_EP5.2x5.2mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 8.0
-  body_size_x: 8.0
-  body_pcb_gap: 0.02
-  body_height: 0.85
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 17
-  num_pins_x: 17
-  EP_size_x: 5.2
-  EP_size_y: 5.2
-  library: Package_DFN_QFN
-  size_source: 'https://www.mouser.com/ds/2/523/Microsemi_VSC8541-01_Datasheet_10496_V40-1148034.pdf'
-
-QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.4
-  body_size_y: 9.0
-  body_size_x: 9.0
-  body_pcb_gap: 0.02
-  body_height: 0.85
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 19
-  num_pins_x: 19
-  EP_size_x: 3.8
-  EP_size_y: 3.8
-  library: Package_DFN_QFN
-  size_source: 'https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/'
-
-QFN-76-1EP_9x9mm_P0.4mm_EP5.81x6.31mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.35
-  body_size_y: 9.0
-  body_size_x: 9.0
-  body_pcb_gap: 0.02
-  body_height: 0.85
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 19
-  num_pins_x: 19
-  EP_size_x: 6.31
-  EP_size_y: 5.81
-  size_source: 'https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/'
 
 ArtInChip_QFN-88-1EP_10x10mm_P0.4mm_EP6.74x6.74mm:
   lead_height: 0.2
@@ -2594,22 +2097,6 @@ UQFN-20-1EP_3x3mm_Pitch0.4mm:
   library: Package_DFN_QFN
   size_source: 'http://www.onsemi.com/pub/Collateral/523AL.PDF'
 
-UQFN-20_3x3mm_P0.4mm:
-  lead_height: 0.2
-  lead_len: 0.5
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.05
-  body_height: 0.6
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 5
-  library: Package_DFN_QFN
-  size_source: 'https://resurgentsemi.com/wp-content/uploads/2018/09/MPR121_rev5-Resurgent.pdf'
-
 UQFN-20-1EP_4x4mm_Pitch0.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -2663,24 +2150,6 @@ UQFN-40-1EP_5x5mm_Pitch0.4mm:
   EP_size_y: 3.7
   library: Package_DFN_QFN
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/41364E.pdf'
-
-Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.08
-  body_height: 0.67
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 6
-  num_pins_x: 6
-  EP_size_x: 2.7
-  EP_size_y: 2.7
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/ds/symlink/bq25895.pdf'
 
 UQFN-48-1EP_6x6mm_Pitch0.4mm:
   lead_height: 0.2
@@ -2836,60 +2305,6 @@ USON-6_1x1.45mm_P0.5mm:
   library: Package_SON
   size_source: 'https://www.ti.com/lit/gpn/tpd4s012'
 
-Nexperia_HUSON-8_USON-8-1EP_1.35x1.7mm_P0.4mm_EP0.4x1.2mm:
-  lead_height: 0.127
-  lead_len: 0.25
-  EP_chamfer: 0.25
-  body_size_y: 1.7
-  body_size_x: 1.35
-  body_pcb_gap: 0.025
-  body_height: 0.525
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 0.4
-  EP_size_y: 1.2
-  library: Package_SON
-  size_source: 'https://assets.nexperia.com/documents/package-information/SOT1166-1.pdf'
-
-Nexperia_HUSON-12_USON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
-  lead_height: 0.127
-  lead_len: 0.25
-  EP_chamfer: 0.25
-  body_size_y: 2.5
-  body_size_x: 1.35
-  body_pcb_gap: 0.025
-  body_height: 0.525
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 6
-  num_pins_x: 0
-  EP_size_x: 0.4
-  EP_size_y: 2.0
-  library: Package_SON
-  size_source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
-
-Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm:
-  lead_height: 0.127
-  lead_len: 0.25
-  EP_chamfer: 0.25
-  body_size_y: 3.3
-  body_size_x: 1.35
-  body_pcb_gap: 0.025
-  body_height: 0.525
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 8
-  num_pins_x: 0
-  EP_size_x: 0.4
-  EP_size_y: 2.8
-  library: Package_SON
-  size_source: 'https://assets.nexperia.com/documents/data-sheet/IP4251_52_53_54-TTL.pdf'
-
 Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:
   lead_height: 0.15
   lead_len: 0.45
@@ -2907,24 +2322,6 @@ Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm:
   EP_size_y: 1.6
   library: Package_SON
   size_source: 'https://www.lcsc.com/datasheet/lcsc_datasheet_2205122030_Winbond-Elec-W25Q16JVUXIQ_C2843335.pdf#page=67'
-
-WSON-6-1EP_2x2mm_P0.65mm_EP1x1.6mm:
-  lead_height: 0.2
-  lead_len: 0.25
-  EP_chamfer: 0.25
-  body_size_y: 2.0
-  body_size_x: 2.0
-  body_pcb_gap: 0.02
-  body_height: 0.8
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 3
-  num_pins_x: 0
-  EP_size_x: 1.0
-  EP_size_y: 1.6
-  library: Package_SON
-  size_source: 'http://www.ti.com/lit/ds/symlink/tvs3300.pdf'
 
 WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm:
   lead_height: 0.2
@@ -2980,80 +2377,6 @@ WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm:
   library: Package_SON
   size_source: 'https://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf#page=94'
 
-WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.25
-  body_size_y: 2.5
-  body_size_x: 2.5
-  body_pcb_gap: 0.025
-  body_height: 0.725
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 1.2
-  EP_size_y: 2.0
-  library: Package_SON
-  size_source: 'www.ti.com/lit/ds/symlink/tps63030.pdf'
-
-WSON-10-1EP_2x3mm_P0.5mm_EP0.84x2.4mm:
-  lead_height: 0.2
-  lead_len: 0.3
-  EP_chamfer: 0.2
-  body_size_y: 3
-  body_size_x: 2
-  body_pcb_gap: 0.025
-  body_height: 0.725
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 0.84
-  EP_size_y: 2.4
-  library: Package_SON
-  size_source: 'http://www.ti.com/lit/ds/symlink/tps62177.pdf'
-
-WSON-10-1EP_4x4mm_P0.8mm_EP2.6x3mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.25
-  body_size_y: 4
-  body_size_x: 4
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.3
-  pitch: 0.8
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 2.6
-  EP_size_y: 3
-  library: Package_SON
-  size_source: 'https://www.ti.com/lit/ml/mpss046b/mpss046b.pdf?ts=1728800628041&ref_url=https%253A%252F%252Fwww.ti.com%252Fpackaging%252Fdocs%252Fsearchtipackages.tsp%253FpackageName%253DSON'
-
-
-Texas_DLH0010A_WSON-10-1EP_2.2x2mm_P0.4mm_EP0.9x1.5mm:
-  lead_height: 0.1
-  lead_len: 0.3
-  EP_chamfer: 0.0
-  body_size_y: 2
-  body_size_x: 2.2
-  body_pcb_gap: 0.025
-  body_height: 0.775 # 0.8-A1
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 0.9
-  EP_size_y: 1.5
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/gpn/BQ25185'
-
-
 WSON-12-1EP_1.35x2.5mm_P0.4mm_EP0.4x2mm:
   lead_height: 0.2
   lead_len: 0.25
@@ -3107,7 +2430,6 @@ VSON-10-1EP_3x3mm_Pitch0.5mm_ThermalPad:
   EP_size_y: 2.35
   library: Package_SON
   size_source: 'http://chip.tomsk.ru/chip/chipdoc.nsf/Package/D8A64DD165C2AAD9472579400024FC41!OpenDocument'
-
 
 Texas_S-PDSO-N12:
   lead_height: 0.2
@@ -3231,7 +2553,6 @@ Texas_RUN0010A_WQFN-10_2x2mm_P0.5mm:
   library: Package_DFN_QFN
   size_source: 'https://www.ti.com/lit/ds/symlink/tmp461.pdf#page=35'
 
-
 USON-10_2.5x1.0mm_Pitch0.5mm:
   lead_height: 0.13
   lead_len: 0.36
@@ -3265,22 +2586,6 @@ Texas_R-PUSON-N8_USON-8-1EP_1.6x2.1mm_P0.5mm_EP0.40x1.7mm:
   EP_size_y: 1.7
   library: Package_SON
   size_source: 'https://www.ti.com/lit/gpn/tpd3f303#page=15'
-
-Texas_R-PUSON-N14:
-  lead_height: 0.1
-  lead_len: 0.3
-  EP_chamfer: 0.01
-  body_size_y: 3.5
-  body_size_x: 1.35
-  body_pcb_gap: 0.025
-  body_height: 0.5
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 7
-  num_pins_x: 0
-  library: Package_SON
-  size_source: 'https://www.ti.com/lit/ml/mpdf004a/mpdf004a.pdf'
 
 Texas_DQK:
   lead_height: 0.2
@@ -3418,23 +2723,6 @@ WSON-14_1EP_4.0x4.0mm_Pitch0.5mm:
   library: Package_SON
   size_source: 'http://www.ti.com/lit/ds/symlink/lp3947.pdf'
 
-DFN-10-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.725
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 1.65
-  EP_size_y: 2.38
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-dfn/DFN_10_05-08-1699.pdf'
-
 DFN-10-1EP_4x4mm_P0.65mm_EP2.65x3.05mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -3485,25 +2773,6 @@ Infineon_SG-WLL-2-3_0.58x0.28_P0.36mm:
   library: Diode_SMD
   size_source: 'N/A'
 
-Micrel_MLF-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm:
-  lead_height: 0.203
-  lead_len: 0.35
-  EP_chamfer: 0.25
-  body_size_y: 2.0
-  body_size_x: 2.0
-  body_pcb_gap: 0.03
-  body_height: 0.82
-  lead_width: 0.25
-  pitch: 0.5
-  lead_to_edge: 0
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 0.6
-  EP_size_y: 1.2
-  library: Package_DFN_QFN
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/mic23050.pdf'
-
 OnSemi_SIP-38-6EP-9x7mm_P0.65mm_EP1.2x1.2mm:
 # EP size is determined by pad size on PCB
   lead_height: 0.2
@@ -3544,96 +2813,6 @@ Vishay_PowerPAK_1212-8_Single:
   library: Package_SO
   size_source: 'https://www.vishay.com/docs/62847/siss27dn.pdf'
 
-QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.75
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.7
-  EP_size_y: 1.7
-  library: Package_DFN_QFN
-  size_source: 'https://www.magntek.com.cn/upload/MT6701_Rev.1.5.pdf'
-
-QFN-64-1EP_9x9mm_P0.5mm_EP4.1x4.1mm:
-  lead_height: 0.2
-  lead_len: 0.40
-  EP_chamfer: 0.2
-  body_size_y: 9.0
-  body_size_x: 9.0
-  body_pcb_gap: 0.02
-  body_height: 0.83
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 16
-  num_pins_x: 16
-  EP_size_x: 4.1
-  EP_size_y: 4.1
-  library: Package_DFN_QFN
-  size_source: 'https://www.silabs.com/documents/public/data-sheets/cp2108-datasheet.pdf'
-
-TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.75
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.6
-  EP_size_y: 1.6
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
-
-TQFN-20-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.35
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 5
-  EP_size_x: 2.7
-  EP_size_y: 2.7
-  library: Package_DFN_QFN
-  size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0139.PDF (T2044-5C)'
-
-TQFN-20-1EP_5x5mm_P0.65mm_EP3.1x3.1mm:
-  lead_height: 0.2
-  lead_len: 0.55
-  EP_chamfer: 0.35
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.02
-  body_height: 0.75
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 5
-  EP_size_x: 3.1
-  EP_size_y: 3.1
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
-
 TQFN-40-1EP_5x5mm_P0.4mm_EP3.5x3.5mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -3651,114 +2830,6 @@ TQFN-40-1EP_5x5mm_P0.4mm_EP3.5x3.5mm:
   EP_size_y: 3.5
   library: Package_DFN_QFN
   size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0140.PDF (T4055-1)'
-
-TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
-  lead_height: 0.2
-  lead_len: 0.55
-  EP_chamfer: 0.35
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded # optionally rounded
-  num_pins_y: 11
-  num_pins_x: 11
-  EP_size_x: 4.7
-  EP_size_y: 4.7
-  library: Package_DFN_QFN
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf'
-
-TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.35
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded # optionally rounded
-  num_pins_y: 12
-  num_pins_x: 12
-  EP_size_x: 5.1
-  EP_size_y: 5.1
-  library: Package_DFN_QFN
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfn/21-0144.pdf'
-
-VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.05
-  body_height: 1.0
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 12
-  num_pins_x: 12
-  EP_size_x: 4.1
-  EP_size_y: 4.1
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/ds/symlink/cc430f5137.pdf (Page 128,'
-
-WDFN-8-1EP_4x3mm_P0.65mm_EP2.4x1.8mm:
-  lead_height: 0.2
-  lead_len: 0.5
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.05
-  body_height: 0.8
-  lead_width: 0.25
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 2.4
-  EP_size_y: 1.8
-  library: Package_DFN_QFN
-  size_source: 'https://web.archive.org/web/20201024093626if_/https://www.onsemi.com/pub/Collateral/LC709203F-D.PDF'
-
-W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
-  lead_height: 0.2
-  lead_len: 0.6
-  EP_chamfer: 0.5
-  body_size_y: 5.0
-  body_size_x: 6.0
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.4
-  pitch: 1.27
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 0
-  EP_size_x: 3
-  EP_size_y: 3
-  library: Package_DFN_QFN
-  size_source: 'https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qljs_u_256_aba_0.pdf#page=22'
-
-WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.24
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.6
-  EP_size_y: 1.6
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf'
 
 AMS_LGA-20_4.7x4.5mm_P0.65mm:
   lead_height: 0.1
@@ -3793,23 +2864,6 @@ Bosch_LGA-14_3x2.5mm_P0.5mm:
   num_pins_x: 3
   library: Package_LGA
   size_source: 'https://web.archive.org/web/20181011150227if_/https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMI160-DS000-07.pdf'
-
-Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
-  lead_height: 0.1
-  lead_len: 0.475
-  EP_chamfer: 0.25
-  body_size_y: 3.0
-  body_size_x: 4.5
-  body_pcb_gap: 0.1
-  body_height: 0.85
-  lead_width: 0.25
-  pitch: 0.5
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 1
-  num_pins_x: 7
-  library: Package_LGA
-  size_source: 'https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf#page=55'
 
 Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering:
   lead_height: 0.1
@@ -3861,57 +2915,6 @@ Bosch_LGA-8_3x3mm_P0.8mm_ClockwisePinNumbering:
   num_pins_x: 4
   library: Package_LGA
   size_source: 'https://web.archive.org/web/20180829083223if_/http://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
-
-LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 2.0
-  body_size_x: 2.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.14
-  pitch: 0.35
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 3
-  library: Package_LGA
-  size_source: 'https://web.archive.org/web/20220705040609if_/https://www.st.com/resource/en/datasheet/lis2dh.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
-
-LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
-  lead_height: 0.1
-  lead_len: 0.4
-  EP_chamfer: 0.25
-  body_size_y: 2.5
-  body_size_x: 3.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 3
-  library: Package_LGA
-  size_source: 'https://web.archive.org/web/20210813004000if_/https://www.st.com/resource/en/datasheet/lsm6ds3.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
-
-LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
-  lead_height: 0.1
-  lead_len: 0.6
-  EP_chamfer: 0.25
-  body_size_y: 5.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.32
-  pitch: 0.8
-  lead_to_edge: 0.1
-  lead_shape: square
-  num_pins_y: 6
-  num_pins_x: 1
-  library: Package_LGA
-  size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf, generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py'
 
 LGA-8_3x5mm_P1.25mm:
   lead_height: 0.1
@@ -4001,24 +3004,6 @@ Texas_RVE0028A_VQFN-28-1EP_3.5x4.5mm_P0.4mm_EP2.1x3.1mm:
   library: Package_DFN_QFN
   size_source: 'http://www.ti.com/lit/ds/symlink/tps51363.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
-Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 6
-  num_pins_x: 6
-  EP_size_x: 2.7
-  EP_size_y: 2.7
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=42&zoom=200,-13,779, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
-
 Texas_RGY_R-PVQFN-N24_EP2.05x3.1mm:
   lead_height: 0.2
   lead_len: 0.4
@@ -4057,42 +3042,6 @@ Texas_RGY_R-PVQFN-N20_EP2.05x3.05mm:
   library: Package_DFN_QFN
   size_source: 'https://www.ti.com/lit/ds/symlink/txb0108.pdf#page=33, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
-Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.25
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.7
-  EP_size_y: 2.7
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2001.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
-
-Texas_RGP0020H_VQFN-20-1EP_4x4mm_P0.5mm_EP2.4x2.4mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 5
-  num_pins_x: 5
-  EP_size_x: 2.4
-  EP_size_y: 2.4
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/cc1101.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
-
 QFN-20-1EP_4x4mm_P0.5mm:
   lead_height: 0.1
   lead_len: 0.2
@@ -4108,24 +3057,6 @@ QFN-20-1EP_4x4mm_P0.5mm:
   num_pins_x: 5
   library: Package_DFN_QFN
   size_source: 'http://www.ti.com/lit/gpn/drv8662'
-
-Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 6
-  num_pins_x: 6
-  EP_size_x: 2.1
-  EP_size_y: 2.1
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5720.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
 
 Texas_RHB0032E_VQFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm:
   lead_height: 0.1
@@ -4179,42 +3110,6 @@ QFN-40-1EP_6x6mm_P0.5mm:
   library: Package_DFN_QFN
   size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf'
 
-Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 7.0
-  body_size_x: 7.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 12
-  num_pins_x: 12
-  EP_size_x: 5.15
-  EP_size_y: 5.15
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
-
-Texas_RGC0064B_VQFN-64-1EP_9x9mm_P0.5mm_EP4.25x4.25mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 9.0
-  body_size_x: 9.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 16
-  num_pins_x: 16
-  EP_size_x: 4.25
-  EP_size_y: 4.25
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5217.pdf, generated with kicad-footprint-generator ipc_dfn_qfn_generator.py'
-
 Texas_S-PWQFN-N20:
   lead_height: 0.1
   lead_len: 0.2
@@ -4265,42 +3160,6 @@ Texas_VQFN-RGR-20-1EP_3.5x3.5mm_Pitch0.5mm:
   library: Package_DFN_QFN
   size_source: 'N/A'
 
-Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm:
-  lead_height: 0.1
-  lead_len: 0.2
-  EP_chamfer: 0.25
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.03
-  body_height: 0.75
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: square
-  num_pins_y: 5
-  num_pins_x: 5
-  EP_size_x: 3.15
-  EP_size_y: 3.15
-  library: Package_DFN_QFN
-  size_source: 'N/A'
-
-Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
-  lead_height: 0.1
-  lead_len: 0.4
-  EP_chamfer: 0.25
-  body_size_y: 5.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.05
-  body_height: 0.95
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 7
-  num_pins_x: 5
-  EP_size_x: 2.65
-  EP_size_y: 3.65
-  library: Package_DFN_QFN
-  size_source: 'http://www.ti.com/lit/ds/symlink/tps2660.pdf#page=51'
-
 Texas_WQFN-MR-100:
   lead_height: 0.1
   lead_len: 0.2
@@ -4316,221 +3175,6 @@ Texas_WQFN-MR-100:
   num_pins_x: 13
   library: Package_DFN_QFN
   size_source: 'N/A'
-
-Texas_X2SON-4-1EP_1.1x1.4mm_P0.5mm_EP0.8x0.6mm:
-  lead_height: 0.2
-  lead_len: 0.22
-  EP_chamfer: 0.15
-  body_size_y: 1.4
-  body_size_x: 1.1
-  body_pcb_gap: 0.025
-  body_height: 0.35
-  lead_width: 0.2
-  pitch: 0.5
-  lead_shape: square
-  num_pins_y: 0
-  num_pins_x: 2
-  EP_size_x: 0.8
-  EP_size_y: 0.6
-  library: Package_SON
-  size_source: 'http://www.ti.com/lit/ds/symlink/drv5032.pdf'
-
-LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 5.0
-  body_size_x: 5.0
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 8
-  num_pins_x: 8
-  EP_size_x: 3.6
-  EP_size_y: 3.6
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-32/CP_32_12.pdf'
-
-LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.50
-  lead_shape: rounded
-  num_pins_y: 6
-  num_pins_x: 6
-  EP_size_x: 2.5
-  EP_size_y: 2.5
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/cp_24_7.pdf'
-
-LFCSP-20-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
-  lead_height: 0.2
-  lead_len: 0.6
-  EP_chamfer: 0.5
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.50
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 5
-  EP_size_x: 2.1
-  EP_size_y: 2.1
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-20/cp_20_6.pdf'
-
-LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.05
-  body_height: 0.75
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.6
-  EP_size_y: 2.6
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_17.pdf'
-
-Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
-  lead_height: 0.203
-  lead_len: 0.6
-  EP_chamfer: 0.5
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.1
-  EP_size_y: 2.1
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_23.pdf'
-
-Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.35x2.35mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.3
-  pitch: 0.65
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 2.35
-  EP_size_y: 2.35
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_20.pdf'
-
-LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.23
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.3
-  EP_size_y: 1.3
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_21.pdf'
-
-LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.5
-  EP_size_y: 1.5
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_27.pdf'
-
-LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.23
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.6
-  EP_size_y: 1.6
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_22.pdf'
-
-LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
-  lead_height: 0.2
-  lead_len: 0.3
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.83
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.7
-  EP_size_y: 1.7
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP-16-38.pdf'
-# size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/HMC7992.pdf'
-
-LFCSP-16_3x3mm_P0.5mm:
-  lead_height: 0.152
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_32.pdf'
 
 LFCSP-8-1EP_3x3mm_P0.5mm_EP1.45x1.74mm:
   lead_height: 0.203
@@ -4550,24 +3194,6 @@ LFCSP-8-1EP_3x3mm_P0.5mm_EP1.45x1.74mm:
   library: Package_CSP
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-8/CP_8_13.pdf'
 
-LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
-  lead_height: 0.20
-  lead_len: 0.4
-  EP_chamfer: 0.5
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.02
-  body_height: 0.73
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 1.64
-  EP_size_y: 2.38
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-10/CP_10_9.pdf'
-
 VLGA-4_2x2.5mm_P1.65mm:
   lead_height: 0.2
   lead_len: 0.65
@@ -4583,176 +3209,3 @@ VLGA-4_2x2.5mm_P1.65mm:
   num_pins_x: 0
   library: Package_LGA
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/DSC60XX-Ultra-Small-Ultra-Low-Power-MEMS-Oscillator-DS20005625C.pdf#page=15'
-
-Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  EP_chamfer: 0.3
-  body_size_y: 6.0
-  body_size_x: 6.0
-  body_pcb_gap: 0.025
-  body_height: 0.75
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: rounded
-  num_pins_y: 12
-  num_pins_x: 12
-  EP_size_x: 4.2
-  EP_size_y: 4.2
-  library: Package_DFN_QFN
-  size_source: 'https://www.qorvo.com/products/d/da006847'
-
-LFCSP-10_2x2mm_P0.5mm:
-  lead_height: 0.2
-  lead_len: 0.45
-  EP_chamfer: 0.5
-  body_size_y: 2
-  body_size_x: 2
-  body_pcb_gap: 0.02
-  body_height: 0.53
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 3
-  num_pins_x: 2
-  library: Package_CSP
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_10_11.pdf'
-
-VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
-  lead_height: 0.2
-  lead_len: 0.5
-  EP_chamfer: 0.2
-  body_size_y: 4.0
-  body_size_x: 4.0
-  body_pcb_gap: 0.02
-  body_height: 0.83
-  lead_width: 0.3
-  pitch: 0.8
-  lead_shape: rounded
-  num_pins_y: 3
-  num_pins_x: 3
-  EP_size_x: 2.1
-  EP_size_y: 2.1
-  library: Package_DFN_QFN
-  size_source: 'https://www.mouser.ch/datasheet/2/268/EMC2301_2_3_5_Data_Sheet_DS20006532A-3443118.pdf (page 56-58)'
-
-HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
-  lead_height: 0.127
-  lead_len: 0.35
-  EP_chamfer: 0.2
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.05
-  body_height: 0.45
-  lead_width: 0.3
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  EP_size_x: 1.85
-  EP_size_y: 1.85
-  library: Package_DFN_QFN
-  size_source: 'https://www.nxp.com/docs/en/data-sheet/NX3L4051.pdf (page 17)'
-
-MPS_QFN-16_3x3mm_P0.5mm:
-  lead_height: 0.2
-  lead_len: 0.4
-  body_size_y: 3.0
-  body_size_x: 3.0
-  body_pcb_gap: 0.025
-  body_height: 0.875
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: rounded
-  num_pins_y: 4
-  num_pins_x: 4
-  library: Package_DFN_QFN
-  size_source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8859/document_id/4033/ (page 32)'
-
-Texas_UQFN-8_1.5x1.5mm_P0.5mm:
-  lead_height: 0.2
-  lead_len: 0.375
-  EP_chamfer: 0.5
-  body_size_y: 1.5
-  body_size_x: 1.5
-  body_pcb_gap: 0.025  # Pin thickness from drawing: minimum 0, maximum 0.05 mm
-  body_height: 0.525
-  # Total height from board to top of package from drawing: minimum 0.5 mm, maximum 0.6 mm
-  # Use the middle of the range and subtract the pin thickness to get this value
-  lead_width: 0.25
-  pitch: 0.5
-  lead_shape: custom
-  num_pins_y: 3
-  num_pins_x: 1
-  library: Package_DFN_QFN
-  lead_shape_custom: [
-    [
-      # Pin 1 with chamfer
-      [-0.625, -0.75],
-      [-0.375, -0.75],
-      [-0.375, -0.4],
-      [-0.525, -0.4],
-      [-0.625, -0.5],
-    ],
-    [
-      [-0.1, -0.75],
-      [0.1, -0.75],
-      [0.1, -0.4],
-      [-0.1, -0.4],
-    ],
-    [
-      [0.625, -0.75],
-      [0.375, -0.75],
-      [0.375, -0.4],
-      [0.625, -0.4],
-    ],
-    [
-      [-0.75, -0.15],
-      [-0.75, 0.15],
-      [-0.35, 0.15],
-      [-0.35, -0.15],
-    ],
-    [
-      [0.625, 0.75],
-      [0.375, 0.75],
-      [0.375, 0.4],
-      [0.625, 0.4],
-    ],
-    [
-      [-0.1, 0.75],
-      [0.1, 0.75],
-      [0.1, 0.4],
-      [-0.1, 0.4],
-    ],
-    [
-      [-0.625, 0.75],
-      [-0.375, 0.75],
-      [-0.375, 0.4],
-      [-0.625, 0.4],
-    ],
-    [
-      [0.75, -0.15],
-      [0.75, 0.15],
-      [0.35, 0.15],
-      [0.35, -0.15],
-    ],
-  ]
-  size_source: 'https://www.ti.com/lit/ml/mpqf207e/mpqf207e.pdf'
-
-Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm:
-  lead_height: 0.1
-  lead_len: 0.3
-  EP_chamfer: 0.0
-  body_size_y: 2
-  body_size_x: 2
-  body_pcb_gap: 0.025
-  body_height: 0.775 # 0.8-A1
-  lead_width: 0.2
-  pitch: 0.4
-  lead_shape: square
-  num_pins_y: 5
-  num_pins_x: 0
-  EP_size_x: 0.9
-  EP_size_y: 1.5
-  library: Package_DFN_QFN
-  size_source: 'https://www.ti.com/lit/pdf/mpds335b'

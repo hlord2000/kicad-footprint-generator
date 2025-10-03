@@ -43,7 +43,7 @@ QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm:
     paste_via_clearance: 0.1
 
 QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
-  size_source: 'https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=634'
+  size_source: 'https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf#page=607'
   device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
@@ -53,8 +53,7 @@ QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
     nominal: 7
     tolerance: 0.1
   overall_height:
-    nominal: 0.9
-    tolerance: 0.08
+    maximum: 0.9
   num_pins_x: 14
   num_pins_y: 14
   pitch: 0.4
@@ -76,6 +75,11 @@ QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm:
     drill: 0.2
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
+  body_pcb_gap: 0.00 .. 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: square
+  EP_chamfer: 0.3
 
 QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
   size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32-s2_datasheet_en.pdf#page=41'
@@ -111,6 +115,11 @@ QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm:
     drill: 0.2
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: rounded
+  EP_chamfer: 0.3
 
 QFN-56-1EP_7x7mm_P0.4mm_EP5.6x5.6mm:
   size_source: 'http://www.cypress.com/file/416486/download#page=40'
@@ -319,6 +328,11 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.5x5.2mm:
     drill: 0.2
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.3
 
 QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm:
 # also known as Texas RTQ (S-PVQFN-N56)

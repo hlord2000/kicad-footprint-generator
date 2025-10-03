@@ -29,7 +29,7 @@ LGA-8_8x6mm_P1.27mm:
     maximum: 0.85
 
 LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
-  size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
+  size_source: 'https://www.st.com/resource/en/datasheet/lis331dlh.pdf'
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -49,6 +49,12 @@ LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
   lead_to_edge:
     minimum: 0.04
     maximum: 0.16
+  body_pcb_gap:
+    nominal: -0.2
+  overall_height:
+    maximum: 1.0
+  lead_shape: square
+  EP_chamfer: 0.2
 
 LGA-8_8x6.2mm_P1.27mm:
   size_source: 'https://datasheet.lcsc.com/lcsc/2303241700_Zetta-ZDSD64GLGEAG-R_C5277948.pdf#page=17'
@@ -78,7 +84,7 @@ LGA-8_8x6.2mm_P1.27mm:
     maximum: 0.85
 
 LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
-  size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
+  size_source: 'https://www.st.com/resource/en/datasheet/lis2dh12.pdf'
   use_name_format: 'LGA'
   device_type: 'LGA'
   ipc_class: 'qfn_pull_back'
@@ -98,6 +104,11 @@ LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
   lead_len_max: 0.275
   lead_to_edge:
     nominal: 0.1
+  body_pcb_gap: 0.03
+  overall_height:
+    maximum: 1.0
+  lead_shape: square
+  EP_chamfer: 0.25
 
 LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
   size_source: 'https://www.st.com/resource/en/datasheet/lsm6ds3tr-c.pdf'
@@ -112,6 +123,11 @@ LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
   lead_width: 0.25 +/- 0.05
   lead_len: 0.475 +/- 0.05
   lead_to_edge: 0.1
+  body_pcb_gap: 0.03
+  overall_height:
+    maximum: 0.86
+  lead_shape: square
+  EP_chamfer: 0.25
 
 LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
   size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
@@ -133,6 +149,11 @@ LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
   lead_len_max: 0.8
   lead_to_edge:
     nominal: 0.1
+  body_pcb_gap: -0.24 .. -0.2 .. -0.16
+  overall_height:
+    maximum: 1.0
+  lead_shape: square
+  EP_chamfer: 0.25
 
 LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
@@ -154,6 +175,12 @@ LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   lead_len_max: 0.4
   lead_to_edge:
     nominal: 0.1
+  body_pcb_gap:
+    nominal: -0.2
+  overall_height:
+    maximum: 1.0
+  lead_shape: square
+  EP_chamfer: 0.2
 
 NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
   size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf#page=15'
@@ -244,7 +271,7 @@ Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
   ipc_class: 'qfn_pull_back'
   body_size_x: 4.5 +/- 0.05
   body_size_y: 3.0 +/- 0.05
-  overall_height: 0.95
+  overall_height: 0.95 +/- 0.05
   num_pins_x: 7
   num_pins_y: 1
   pitch: 0.5
@@ -270,6 +297,9 @@ Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering:
         - type: rect
           center: [0, 0]
           size: [3.35, 1.85]
+  body_pcb_gap: -0.13 +/- 0.07
+  lead_shape: square
+  EP_chamfer: 0.25
 
 ST_HLGA-10_2.5x2.5mm_P0.6mm:
   size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'

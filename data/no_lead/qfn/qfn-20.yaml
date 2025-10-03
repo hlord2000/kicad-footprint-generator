@@ -79,6 +79,9 @@ UQFN-20_3x3mm_P0.4mm: # No exposed pad
     minimum: 0.4
     maximum: 0.6
   chamfer_edge_pins: 0.12
+  body_pcb_gap: 0.0 .. 0.05
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 QFN-20-1EP_3x3mm_P0.4mm_EP1.65x1.65mm:
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3553fc.pdf#page=34'
@@ -585,6 +588,11 @@ Texas_RGP0020H_VQFN-20-1EP_4x4mm_P0.5mm_EP2.4x2.4mm:
     drill: 0.2
     EP_paste_coverage: 0.5
     paste_via_clearance: 0.1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.25
 
 QFN-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=274'
@@ -839,6 +847,11 @@ TQFN-20-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.35
 
 UQFN-20-1EP_4x4mm_P0.5mm_EP2.8x2.8mm:
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf#page=464'
@@ -1002,6 +1015,11 @@ TQFN-20-1EP_5x5mm_P0.65mm_EP3.1x3.1mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.35
 
 Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/tps7a47.pdf#page=29'
@@ -1040,6 +1058,11 @@ Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.1
+  lead_shape: square
+  EP_chamfer: 0.25
 
 TQFN-20-1EP_5x5mm_P0.65mm_EP3.25x3.25mm:
 # This is a WQFN
@@ -1184,7 +1207,7 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
     minimum: 3.9
     nominal: 4
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.70
     nominal: 0.75
     maximum: 0.80
@@ -1215,6 +1238,13 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
     EP_paste_coverage: 0.70
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
 # JEDEC MO-220, WGGD-11

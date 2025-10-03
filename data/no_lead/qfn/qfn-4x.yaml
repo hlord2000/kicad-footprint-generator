@@ -665,6 +665,11 @@ TQFN-44-1EP_7x7mm_P0.5mm_EP4.7x4.7mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded # optionally rounded
+  EP_chamfer: 0.35
 
 QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm:
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/2512S.pdf#page=17'
@@ -926,7 +931,7 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
     paste_rings_outside: 1
 
 Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
-  size_source: 'https://www.qorvo.com/products/d/da006847'
+  size_source: 'https://www.qorvo.com/products/d/da006805'
   device_type: 'TQFN66' # we should change it later to WQFN
   manufacturer: 'Qorvo'
   ipc_class: 'qfn'
@@ -961,6 +966,11 @@ Qorvo_TQFN66-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
     paste_avoid_via: True
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: rounded
+  EP_chamfer: 0.3
 
 QFN-48-1EP_6x6mm_P0.5mm_EP4.3x4.3mm:
   size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf#page=38'
@@ -1272,7 +1282,7 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
     #nominal: 7
     maximum: 7.15
   overall_height:
-    maximum: 1
+    maximum: 1.0
   num_pins_x: 12
   num_pins_y: 12
   pitch: 0.5
@@ -1294,6 +1304,11 @@ VQFN-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.2
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
   size_source: 'http://ww1.microchip.com/downloads/en/devicedoc/00002117f.pdf#page=70'
@@ -1355,6 +1370,11 @@ TQFN-48-1EP_7x7mm_P0.5mm_EP5.1x5.1mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded # optionally rounded
+  EP_chamfer: 0.35
 
 VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/cc1312r.pdf#page=48'
@@ -1434,6 +1454,11 @@ Texas_RGZ0048A_VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.25
 
 QFN-48-1EP_7x7mm_P0.5mm_EP5.30x5.30mm:
   size_source: 'https://www.trinamic.com/fileadmin/assets/Products/ICs_Documents/TMC2041_datasheet.pdf#page=62'

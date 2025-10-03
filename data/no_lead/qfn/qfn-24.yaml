@@ -244,7 +244,7 @@ Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
     minimum: 3.9
     maximum: 4.1
   overall_height:
-    maximum: 1
+    maximum: 1.0
   num_pins_x: 6
   num_pins_y: 6
   pitch: 0.5
@@ -269,6 +269,11 @@ Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
     EP_paste_coverage: 0.65
     paste_via_clearance: 0.05
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.25
 
 TQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm:
 # This is a WQFN, JEDEC MO-220-K.01, variation WGGD-9 (but custom Exposed Pad from Maxim)
@@ -799,7 +804,7 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.6mm:
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
 # this is actually VQFN
-  size_source: 'http://www.alfarzpp.lv/eng/sc/AS3330.pdf'
+  size_source: 'https://www.alldatasheet.com/datasheet-pdf/pdf/1159021/ALFA/AS3330.html'
   device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
@@ -833,6 +838,11 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.20
+  lead_shape: rounded
+  EP_chamfer: 0.35
 
 Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=40'
@@ -872,6 +882,11 @@ Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.05
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.25
 
 Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/bq25601.pdf#page=54'
@@ -910,6 +925,11 @@ Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
     EP_paste_coverage: 0.7
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 QFN-24-1EP_4x4mm_P0.5mm_EP2.75x2.75mm:
   size_source: 'https://www.infineon.com/dgdl/Infineon-EZ-PD_BCR_Datasheet_USB_Type-C_Port_Controller_for_Power_Sinks-DataSheet-v03_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0ee7ce9d70ad'
@@ -1065,6 +1085,11 @@ Texas_RHF0024A_VQFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
     EP_num_paste_pads: [2, 3]
     EP_paste_coverage: 0.75
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.1
+  lead_shape: rounded
+  EP_chamfer: 0.25
 
 QFN-24-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
 # This is actually WQFN
@@ -1268,8 +1293,7 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.6x3.6mm:
 
 LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
 # JEDEC MO-220, WGGD-8
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_24_14.pdf'
-  # link above is broken, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/cp_24_14.pdf
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-24/cp_24_14.pdf'
   library: Package_CSP
   device_type: 'LFCSP'
   ipc_class: 'qfn'
@@ -1281,7 +1305,7 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
     minimum: 3.9
     nominal: 4
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.70
     nominal: 0.75
     maximum: 0.80
@@ -1312,6 +1336,13 @@ LFCSP-24-1EP_4x4mm_P0.5mm_EP2.3x2.3mm:
     EP_paste_coverage: 0.70
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-24-1EP_4x4mm_P0.5mm_EP0.5x0.5mm:
 # JEDEC MO-248, variation UGGD

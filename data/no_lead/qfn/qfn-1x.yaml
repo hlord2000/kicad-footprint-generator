@@ -440,8 +440,8 @@ VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
     nominal: 4
   overall_height:
     minimum: 0.8
-    nominal: 0.85
-    maximum: 0.9
+    nominal: 0.9
+    maximum: 1.0
   num_pins_x: 3
   num_pins_y: 3
   pitch: 0.8
@@ -465,6 +465,11 @@ VQFN-12-1EP_4x4mm_P0.8mm_EP2.1x2.1mm:
     drill: 0.2
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.02 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm:
   size_source: 'https://www.onsemi.com/pub/Collateral/FUSB302B-D.PDF#page=32'
@@ -972,6 +977,11 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   EP_size_x_overwrite: 1.6
   EP_size_y_overwrite: 1.6
   EP_num_paste_pads: [2, 2]
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.2
 
 WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   size_source: 'https://www.ti.com/lit/ds/symlink/tpa6132a2.pdf#page=24'
@@ -983,8 +993,7 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   body_size_y:
     minimum: 2.85
     maximum: 3.15
-  overall_height:
-    maximum: 0.8
+  overall_height: 0.7 .. 0.8
   num_pins_x: 4
   num_pins_y: 4
   pitch: 0.5
@@ -1008,6 +1017,11 @@ WQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.1
+  lead_shape: square
+  EP_chamfer: 0.2
 
 QFN-16-1EP_3x3mm_P0.5mm_EP1.675x1.675mm:
   size_source: 'https://media.melexis.com/-/media/files/documents/datasheets/mlx90395-datasheet-melexis.pdf#page=55'
@@ -1126,9 +1140,9 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     nominal: 3.0
     maximum: 3.1
   overall_height:
-    minimum: 0.8
-    nominal: 0.9
-    maximum: 1
+    minimum: 0.9
+    nominal: 0.95
+    maximum: 1.0
   num_pins_x: 4
   num_pins_y: 4
   pitch: 0.5
@@ -1145,6 +1159,11 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   thermal_vias:
     count: [2, 2]
     drill: 0.2
+  body_pcb_gap: 0.025
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.2
 
 LQFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-lqfn/05081595_0_lqfn16.pdf'
@@ -1355,6 +1374,11 @@ HXQFN-16-1EP_3x3mm_P0.5mm_EP1.85x1.85mm:
     EP_num_paste_pads: [2, 2]
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.127
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
   size_source: 'https://www.nxp.com/docs/en/package-information/98ASA00525D.pdf'
@@ -1540,6 +1564,10 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.02
+  lead_height: 0.2 +/- 0.05
+  lead_shape: square
+  EP_chamfer: 0.35
 
 Texas_RGV0016A_VQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/ina3221.pdf#page=44'
@@ -1684,6 +1712,11 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.35
 
 QFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm:
   size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=266'
@@ -1913,6 +1946,11 @@ Texas_RSA_VQFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
     drill: 0.2
     EP_paste_coverage: 0.5
     paste_via_clearance: 0.1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: square
+  EP_chamfer: 0.25
 
 QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
   size_source: 'https://ams.com/documents/20143/36005/AS5055A_DS000304_2-00.pdf#page=24'
@@ -2128,6 +2166,10 @@ MPS_QFN-16_3x3mm_P0.5mm:
     15:
       size_increase: [null, 0.5]
       move: [null, 0.25]
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -2144,9 +2186,9 @@ LFCSP-10_2x2mm_P0.5mm:
     nominal: 2
   body_size_y:
     nominal: 2
-  body_height:
+  overall_height:
     minimum: 0.5
-    nominal: 0.53
+    nominal: 0.55
     maximum: 0.6
   num_pins_x: 2
   num_pins_y: 3
@@ -2159,6 +2201,13 @@ LFCSP-10_2x2mm_P0.5mm:
     minimum: 0.4
     nominal: 0.45
     maximum: 0.5
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-16_3x3mm_P0.5mm:
 # JEDEC MO-220, variation WEED
@@ -2175,7 +2224,7 @@ LFCSP-16_3x3mm_P0.5mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -2190,6 +2239,13 @@ LFCSP-16_3x3mm_P0.5mm:
     minimum: 0.3
     nominal: 0.4
     maximum: 0.5
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.152
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
 # JEDEC MO-220, variation WEED-6
@@ -2206,7 +2262,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -2236,6 +2292,13 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
     EP_num_paste_pads: [2, 2]
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
 # JEDEC MO-220, variation WEED-6
@@ -2269,6 +2332,13 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
   EP_size_x: 1.5
   EP_size_y: 1.5
   EP_num_paste_pads: [2, 2]
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
 # JEDEC MO-220, variation WEED-6
@@ -2284,7 +2354,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -2315,6 +2385,13 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
 # JEDEC MO-220, variation VEED-4 (Analog comment: "WITH THE EXCEPTION OF PACKAGE EDGE TO LEAD EDGE")
@@ -2330,7 +2407,7 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.75
     nominal: 0.85
     maximum: 0.95
@@ -2361,6 +2438,13 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.2
 
 LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp-16-40.pdf'
@@ -2409,7 +2493,7 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.4x2.4mm:
 
 Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
 # JEDEC MO-220, variation VGGC-4
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_23.pdf, CP-16-23'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_23.pdf, CP-16-23'
   library: Package_CSP
   device_type: 'LFCSP'
   manufacturer: 'Analog'
@@ -2422,7 +2506,7 @@ Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     minimum: 3.9
     nominal: 4
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -2453,11 +2537,17 @@ Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.203
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.35x2.35mm:
 # JEDEC MO-220, varation WGGC-3
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_16_20.pdf, CP-16-20'
-  # backup source, above is broken: https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_20.pdf
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/cp_16_20.pdf, CP-16-20'
   library: Package_CSP
   device_type: 'LFCSP'
   manufacturer: 'Analog'
@@ -2501,6 +2591,13 @@ Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.35x2.35mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
 # JEDEC MO-220, varation WGGC-3
@@ -2518,7 +2615,7 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     minimum: 3.9
     nominal: 4.0
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.70
     nominal: 0.75
     maximum: 0.80
@@ -2549,6 +2646,13 @@ LFCSP-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     EP_paste_coverage: 0.75
     paste_via_clearance: 0.1
     paste_avoid_via: False
+  body_pcb_gap:
+    nominal: 0.02
+    maximum: 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section

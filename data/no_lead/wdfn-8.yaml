@@ -23,7 +23,7 @@ WDFN-8-1EP_6x5mm_P1.27mm_EP3.4x4mm:
   EP_num_paste_pads: [2, 2]
 
 W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
-  size_source: 'https://media-www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-a/mt25q_qljs_u_256_aba_0.pdf#page=22'
+  size_source: 'https://www.mouser.com/datasheet/2/671/mt25q_qljs_u_256_aba_0-3178731.pdf#page=22'
   device_type: 'W-PDFN'
   ipc_class: 'qfn'
   body_size_x:
@@ -42,6 +42,11 @@ W-PDFN-8-1EP_6x5mm_P1.27mm_EP3x3mm:
   EP_size_x: 3
   EP_size_y: 3
   EP_num_paste_pads: [2, 2]
+  body_pcb_gap:
+    minimum: 0.0
+  overall_height: 0.75 +/- 0.05
+  lead_shape: rounded
+  EP_chamfer: 0.5
 
 WDFN-8-1EP_8x6mm_P1.27mm_EP6x4.8mm_ThermalVias:
   size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/8L_WDFN_6x8mm_MN_C04172A.pdf'

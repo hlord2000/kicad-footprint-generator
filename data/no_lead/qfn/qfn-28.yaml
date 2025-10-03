@@ -899,7 +899,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.25x4.25mm:
     paste_rings_outside: 1
 
 QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
-  size_source: 'https://www.semtech.com/uploads/documents/sx1272.pdf#page=125'
+  size_source: 'https://semtech.my.salesforce.com/sfc/p/#E0000000JelG/a/440000001NCE/v_VBhk1IolDgxwwnOpcS_vTFxPfSEPQbuneK3mWsXlU page=125'
   device_type: 'QFN'
   ipc_class: 'qfn'
   body_size_x:
@@ -940,6 +940,11 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
     paste_via_clearance: 0.1
     paste_between_vias: 1
     paste_rings_outside: 1
+  body_pcb_gap: 0.0 .. 0.05
+  lead_height:
+    nominal: 0.2
+  lead_shape: rounded
+  EP_chamfer: 0.25
 
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
@@ -955,11 +960,11 @@ LFCSP-28-1EP_5x5mm_P0.5mm_EP3.14x3.14mm:
   body_size_x:
     minimum: 4.9
     nominal: 5
-    minimum: 5.1
+      minimum: 5.1
   body_size_y:
     minimum: 4.9
     nominal: 5
-    minimum: 5.1
+      minimum: 5.1
   body_height:
     minimum: 0.7
     nominal: 0.75
