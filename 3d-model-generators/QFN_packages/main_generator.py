@@ -132,42 +132,30 @@ def make_models(
         flush=True,
     )
 
-    for idx, nlc in enumerate(nl_configs):
-        print(
-            f"    => Executing thread {idx+1}/{number_of_models}: "
-            f"'{nlc.pkg_id}' from library 'no_lead'"
-        )
-        make_single_no_lead_model(
-            output_dir_prefix,
-            nlc,
-            enable_vrml,
-            "",
-        )
-
-    # with multiprocessing.Pool(processes=number_of_processes) as pool:
-    #     async_results: list[multiprocessing.pool.AsyncResult[None]] = []
-    #     for idx, gwc in enumerate(nl_configs):
-    #         str_display = (
-    #             f"    => Executing thread {idx+1}/{number_of_models}: "
-    #             f"'{gwc.model_name}' from library 'no_lead'"
-    #         )
-    #         async_result = pool.apply_async(
-    #             make_single_no_lead_model,
-    #             args=(
-    #                 output_dir_prefix,
-    #                 gwc,
-    #                 enable_vrml,
-    #                 str_display,
-    #             ),
-    #         )
-    #         async_results.append(async_result)
-    #     for async_result in async_results:
-    #         try:
-    #             async_result.get()
-    #         except Exception as e:
-    #             print(f"An error occurred in a subprocess: {e}", file=sys.stderr)
-    # pool.close()
-    # pool.join()
+    with multiprocessing.Pool(processes=number_of_processes) as pool:
+        async_results: list[multiprocessing.pool.AsyncResult[None]] = []
+        for idx, gwc in enumerate(nl_configs):
+            str_display = (
+                f"    => Executing thread {idx+1}/{number_of_models}: "
+                f"'{gwc.model_name}' from library 'no_lead'"
+            )
+            async_result = pool.apply_async(
+                make_single_no_lead_model,
+                args=(
+                    output_dir_prefix,
+                    gwc,
+                    enable_vrml,
+                    str_display,
+                ),
+            )
+            async_results.append(async_result)
+        for async_result in async_results:
+            try:
+                async_result.get()
+            except Exception as e:
+                print(f"An error occurred in a subprocess: {e}", file=sys.stderr)
+    pool.close()
+    pool.join()
 
 
 def make_single_no_lead_model(
