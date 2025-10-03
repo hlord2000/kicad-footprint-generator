@@ -796,7 +796,7 @@ DFN-8-1EP_2x2mm_P0.45mm_EP0.64x1.38mm:
   EP_num_paste_pads: [1, 2]
 
 DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm:
-  size_source: 'https://www.monolithicpower.com/pub/media/document/MPQ2483_r1.05.pdf'
+  size_source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MPQ2483/document_id/2064/'
   device_type: 'DFN'
   body_size_x:
     minimum: 2.9
@@ -818,7 +818,7 @@ DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm:
     maximum: 0.5
   EP_size_x:
     minimum: 1.45
-    maximum: 17.5
+    maximum: 1.75
   EP_size_y:
     minimum: 2.25
     maximum: 2.55
