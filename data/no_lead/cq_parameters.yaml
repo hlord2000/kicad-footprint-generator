@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/No-lead
+
 D_0603_1608Metric:
   size_source: 'http://datasheets.avx.com/schottky.pdf'
   library: Diode_SMD
