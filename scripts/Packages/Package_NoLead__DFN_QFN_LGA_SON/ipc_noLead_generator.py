@@ -13,6 +13,9 @@ from KicadModTree import (
     FootprintType,
 )
 from KicadModTree.nodes.specialized.PadArray import get_pad_radius_from_arrays
+from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
+    NoLeadConfiguration,
+)
 from kilibs.geom import Vector2D
 from kilibs.ipc_tools import ipc_rules
 from scripts.Packages.utils.ep_handling_utils import getEpRoundRadiusParams
@@ -29,7 +32,6 @@ from scripts.tools.nodes.layouts.dual_and_quad_pad_array_layout import (
     DualAndQuadPadArrayLayout,
 )
 from scripts.tools.quad_dual_pad_border import create_dual_or_quad_pad_border
-from src.generators.no_lead.configuration import NoLeadConfiguration
 
 category = "NoLead"
 

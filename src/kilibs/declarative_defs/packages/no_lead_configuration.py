@@ -1,7 +1,10 @@
 from typing import Any, Literal, cast
 
 from kilibs.ipc_tools import ipc_rules  # type: ignore
-from kilibs.util.toleranced_size import TolerancedSize, TolerancedSizeHandler
+from kilibs.util.toleranced_size import (  # type: ignore
+    TolerancedSize,
+    TolerancedSizeHandler,
+)
 from scripts.tools.declarative_def_tools import (  # type: ignore
     common_metadata,
     fp_additional_drawing,
@@ -270,7 +273,7 @@ class NoLeadConfiguration:
             raise KeyError(
                 f"{self.pkg_id}: "
                 f"Body height is over constrained and dimensions do not match:\n"
-                f"min(body_pcb_gap)={body_pcb_gap.min}, "
+                f"min(body_pcb_gap)={body_pcb_gap.minimum}, "
                 f"max(body_height)={body_height.maximum}, "
                 f"max(overall_height)={overall_height.maximum}"
             )

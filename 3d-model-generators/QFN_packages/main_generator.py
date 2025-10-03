@@ -67,10 +67,10 @@ import yaml
 from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
-from kilibs.util import dict_tools  # type: ignore
-from src.generators.no_lead.configuration import (  # type: ignore
+from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
     NoLeadConfiguration,
 )
+from kilibs.util import dict_tools  # type: ignore
 
 from .qfn_packages import make_qfn
 

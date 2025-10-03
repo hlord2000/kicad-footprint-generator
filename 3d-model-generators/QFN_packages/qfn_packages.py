@@ -1,6 +1,6 @@
 import cadquery as cq
 
-from src.generators.no_lead.configuration import (  # type: ignore
+from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
     NoLeadConfiguration,
 )
 
