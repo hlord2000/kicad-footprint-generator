@@ -2440,10 +2440,10 @@ Texas_S-PDSO-N12:
   body_size_y: 2.5
   body_pcb_gap: 0.02
   body_height: 0.9
-  num_pins_x: 7
+  num_pins_x: 2
   num_pins_y: 6
-  deleted_pins: [8, 9, 10, 11, 12, 21, 22, 23, 24, 25]
-  pitch: 0.4
+  pitch_x: 2.25
+  pitch_y: 0.4
   lead_shape: rounded
   lead_width: 0.24
   lead_len: 0.4
@@ -3013,10 +3013,10 @@ Texas_RGY_R-PVQFN-N24_EP2.05x3.1mm:
   body_size_y: 5.5
   body_pcb_gap: 0.025
   body_height: 0.875
-  num_pins_x: 4
+  num_pins_x: 2
   num_pins_y: 10
-  deleted_pins: [3, 4, 17, 18]
-  pitch: 0.5
+  pitch_x: 1.5
+  pitch_y: 0.5
   lead_shape: square
   lead_width: 0.24
   lead_len: 0.4
