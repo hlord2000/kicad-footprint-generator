@@ -17,6 +17,11 @@ from KicadModTree import (
     RoundRadiusHandler,
     Text,
 )
+from kilibs.declarative_defs.packages.grid_array_configuration import (
+    BGAConfiguration,
+    LayoutData,
+    load_config,
+)
 from kilibs.geom import Direction, Vector2D
 from scripts.tools.declarative_def_tools import (
     ast_evaluator,
@@ -25,11 +30,6 @@ from scripts.tools.declarative_def_tools import (
 from scripts.tools.footprint_generator import FootprintGenerator
 from scripts.tools.global_config_files import global_config as GC
 from scripts.tools.nodes import pin1_arrow
-from src.generators.BGA.bga_configuration import (
-    BGAConfiguration,
-    LayoutData,
-    load_config,
-)
 
 
 class BGAGenerator(FootprintGenerator):

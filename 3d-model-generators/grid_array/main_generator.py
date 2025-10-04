@@ -74,11 +74,11 @@ from _tools import (  # type:ignore
 )
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
-from kilibs.util import dict_tools  # type: ignore
-from src.generators.BGA.bga_configuration import (  # type: ignore
+from kilibs.declarative_defs.packages.grid_array_configuration import (  # type: ignore
     BGAConfiguration,
     load_config,
 )
+from kilibs.util import dict_tools  # type: ignore
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
@@ -261,7 +261,7 @@ def make_models(
     """
 
     gullwing_path = os.path.dirname(os.path.realpath(__file__))
-    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/BGA/*.yaml")
+    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/grid_array/*.yaml")
 
     if not all_yaml_files:
         print("No YAML files found to process.")
