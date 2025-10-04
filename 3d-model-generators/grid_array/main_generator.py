@@ -82,7 +82,7 @@ from kilibs.util import dict_tools  # type: ignore
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
-FUSED_AND_COMPRESSED = False
+FUSED_AND_COMPRESSED = True
 
 
 def make_plg(
