@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+
 # SOIC - small outline integrated circuit
 #
 # This file cointains JEDEC SOIC and JEITA/EIAJ P-SOP (or simplifying SOP) packages with lead space / pitch 1.27 mm (and some 2.54 mm), and maximum height greater than 1.70 mm

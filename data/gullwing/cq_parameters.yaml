@@ -1,3 +1,8 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+# DO NOT ADD MODELS TO THIS FILE!
+# This file is strictly for legacy 3D models without parametric footprints. To add a new
+# 3D model, please include it directly within the corresponding footprint parameters file.
+
 D_SOD-123:
   body_angle: 8.0
   lead_angle: 0.0

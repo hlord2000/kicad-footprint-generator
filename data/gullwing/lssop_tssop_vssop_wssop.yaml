@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+
 # SSOP subgroup (shrink small outline package)
 #
 # This file cointains JEDEC SSOP and JEITA/EIAJ P-SSOP packages with lead space / pitch equal or less than 1.00 mm,

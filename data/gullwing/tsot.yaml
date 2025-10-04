@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+
 FileHeader:
   device_type: 'TSOT'
   library_Suffix: 'TO_SOT_SMD'

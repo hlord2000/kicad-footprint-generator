@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+
 # TSOP-I / TSOP Type 1 - thin small outline package type 1
 #
 # Packages with height A = 1.20 mm maximum, pitch can be 0.55 / 0.50 mm, leads extending from the shorter sides (body_size_x > body_size_y)

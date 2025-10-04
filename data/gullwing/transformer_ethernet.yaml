@@ -1,3 +1,5 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
+
 # Usage: python3 ipc_gullwing_generator.py size_definitions\transformer_ethernet.yaml
 
 FileHeader:
