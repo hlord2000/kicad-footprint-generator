@@ -1,3 +1,8 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/grid_array
+# DO NOT ADD MODELS TO THIS FILE!
+# This file is strictly for legacy 3D models without parametric footprints. To add a new
+# 3D model, please include it directly within the corresponding footprint parameters file.
+
 Fujitsu_WLP-15_2.28x3.092mm_Layout3x5_P0.4mm:
 # from https://www.fujitsu.com/uk/Images/MB85RS1MT-DS501-00022-7v0-E.pdf
   body_size_y: 3.09

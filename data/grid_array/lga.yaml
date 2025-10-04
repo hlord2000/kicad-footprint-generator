@@ -1,5 +1,7 @@
+# Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/grid_array
+
 # This originally created since a specific LGA package had a similar footprint to BGA packages, 
-#   so it uses the BGA generator instead of the LGA generator defined in Package_NoLead__DGN_QFN_LGA_SON
+# so it uses the BGA generator instead of the LGA generator defined in Packages/no_lead
 
 FileHeader:
   package_type: "LGA"
