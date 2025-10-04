@@ -1,4 +1,8 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/No-lead
+# DO NOT ADD MODELS TO THIS FILE!
+# This file is strictly for legacy 3D models without parametric footprints. To add a new
+# 3D model, please include it directly within the corresponding footprint parameters file.
+
 
 D_0603_1608Metric:
   size_source: 'http://datasheets.avx.com/schottky.pdf'
