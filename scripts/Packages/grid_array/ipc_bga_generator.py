@@ -409,7 +409,7 @@ class GridArrayGenerator(FootprintGenerator):
                     at=pad_data_list[i].position,
                 )
             )
-            if ref_paste_pad:
+            if ref_paste_pad is not None:
                 f.append(
                     ReferencedPad(
                         reference_pad=ref_paste_pad,
