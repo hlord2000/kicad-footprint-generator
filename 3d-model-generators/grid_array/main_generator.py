@@ -75,7 +75,7 @@ from _tools import (  # type:ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.declarative_defs.packages.grid_array_configuration import (  # type: ignore
-    BGAConfiguration,
+    GridArrayConfiguration,
     load_config,
 )
 from kilibs.util import dict_tools  # type: ignore
@@ -113,21 +113,21 @@ def make_plg(
 
 
 def make_case(
-    bga_config: BGAConfiguration,
+    config: GridArrayConfiguration,
 ) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
 
-    ef = bga_config.body_fillet
-    cff = bga_config.first_corner_chamfer
-    cf = bga_config.corner_chamfer
-    d = bga_config.body_size_y
-    e = bga_config.body_size_x
-    d1 = bga_config.mold_size_y
-    e1 = bga_config.mold_size_x
-    a1 = bga_config.body_pcb_gap
-    a2 = bga_config.mold_size_z_bottom
-    a = bga_config.overall_height
-    sp = bga_config.seating_plane
-    b = bga_config.ball_diameter
+    ef = config.body_fillet
+    cff = config.first_corner_chamfer
+    cf = config.corner_chamfer
+    d = config.body_size_y
+    e = config.body_size_x
+    d1 = config.mold_size_y
+    e1 = config.mold_size_x
+    a1 = config.body_pcb_gap
+    a2 = config.mold_size_z_bottom
+    a = config.overall_height
+    sp = config.seating_plane
+    b = config.ball_diameter
     if b is None:
         raise KeyError("Cannot generate 3D model without a `ball_diameter` parameter.")
 
@@ -137,7 +137,7 @@ def make_case(
     bpin = sphere.translate((0, 0, b / 2 - sp))
 
     pin_positions: list[cq.Location] = []
-    for layout_data in bga_config.layout_data_list:
+    for layout_data in config.layout_data_list:
         for pad_data in layout_data.pad_data_list:
             pos = pad_data.position
             pin_positions.append(cq.Location(cq.Vector(pos.x, pos.y)))
@@ -156,7 +156,7 @@ def make_case(
         marker_edge_clearance = marker_diameter / 4.0
     else:
         marker_edge_clearance = marker_diameter / 2.0
-    if bga_config.molded:
+    if config.molded:
         the = 24
         d1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
         e1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
@@ -227,11 +227,11 @@ def make_case(
         )
         case_bot = None
 
-    if bga_config.marker is not None:
+    if config.marker is not None:
         pad_position_found = False
-        for layout_data in bga_config.layout_data_list:
+        for layout_data in config.layout_data_list:
             for pad_data in layout_data.pad_data_list:
-                if pad_data.name == bga_config.marker:
+                if pad_data.name == config.marker:
                     pad_position_found = True
                     pos = pad_data.position
                     pinmark = (
@@ -244,7 +244,7 @@ def make_case(
                 break
         if not pad_position_found:
             raise ValueError(
-                f"Mark is '{bga_config.marker}', however no such pin was found."
+                f"Mark is '{config.marker}', however no such pin was found."
             )
     case = case.cut(pinmark)
 
@@ -267,9 +267,9 @@ def make_models(
         print("No YAML files found to process.")
         return
 
-    config = load_config("../scripts/Packages/package_config_KLCv3.yaml")
+    package_config = load_config("../scripts/Packages/package_config_KLCv3.yaml")
 
-    bga_configs: list[BGAConfiguration] = []
+    configs: list[GridArrayConfiguration] = []
     for yaml_file in all_yaml_files:
         file_path = Path(yaml_file)
         with open(file_path, "r") as stream:
@@ -283,9 +283,11 @@ def make_models(
                         or model_to_build == "all"
                         or model_to_build == None
                     ):
-                        bgac = BGAConfiguration(key, value, header, config)
-                        if bgac.has_3d_data:
-                            bga_configs.append(bgac)
+                        config = GridArrayConfiguration(
+                            key, value, header, package_config
+                        )
+                        if config.has_3d_data:
+                            configs.append(config)
 
     if output_dir_prefix == None:
         print("ERROR: An output directory must be provided.")
@@ -306,7 +308,7 @@ def make_models(
     mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
 
     # Step through the selected models
-    for bga_config in bga_configs:
+    for bga_config in configs:
         # Generate the current model
         case_bot, case, pins, pinmark = make_case(bga_config)
 

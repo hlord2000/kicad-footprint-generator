@@ -18,7 +18,7 @@ from KicadModTree import (
     Text,
 )
 from kilibs.declarative_defs.packages.grid_array_configuration import (
-    BGAConfiguration,
+    GridArrayConfiguration,
     LayoutData,
     load_config,
 )
@@ -32,7 +32,7 @@ from scripts.tools.global_config_files import global_config as GC
 from scripts.tools.nodes import pin1_arrow
 
 
-class BGAGenerator(FootprintGenerator):
+class GridArrayGenerator(FootprintGenerator):
     def __init__(self, configuration: dict[str, Any], **kwargs: dict[str, Any]) -> None:
         super().__init__(**kwargs)  # type: ignore
 
@@ -44,20 +44,20 @@ class BGAGenerator(FootprintGenerator):
         pkg_id: str,
         header_info: dict[str, Any] | None = None,
     ) -> None:
-        # Thin wrapper around generateBGAFootprint
-        logging.info(f"Generating BGA footprint: {pkg_id}")
-        self.generateBGAFootprint(
+        # Thin wrapper around generate_grid_array_footprint
+        logging.info(f"Generating footprint: {pkg_id}")
+        self.generate_grid_array_footprint(
             self.configuration, device_params, pkg_id, header_info
         )
 
-    def generateBGAFootprint(
+    def generate_grid_array_footprint(
         self,
         config: dict[str, Any],
         fpParams: dict[str, Any],
         fpId: str,
         header_info: dict[str, Any] | None = None,
     ) -> None:
-        device_config = BGAConfiguration(fpId, fpParams, header_info, config)
+        device_config = GridArrayConfiguration(fpId, fpParams, header_info, config)
         if device_config.has_fp_data:
             if "pad_diameter" in fpParams:
                 pad_diameter = fpParams["pad_diameter"]
@@ -91,19 +91,19 @@ class BGAGenerator(FootprintGenerator):
             fpParams["pad_size"] = [pad_diameter, pad_diameter]
             self._createFootprintVariant(device_config)
 
-    def _createFootprintVariant(self, bga_conf: BGAConfiguration) -> None:
+    def _createFootprintVariant(self, config: GridArrayConfiguration) -> None:
         # Pull out the old-style parameter dictionary
-        spec = bga_conf.spec
+        spec = config.spec
 
-        evaluator_params = {"pitch": bga_conf.pitch}
+        evaluator_params = {"pitch": config.pitch}
 
         fp_evaluator = ast_evaluator.ASTevaluator(symbols=evaluator_params)  # type: ignore
 
-        pkg_x = bga_conf.body_size_x
-        pkg_y = bga_conf.body_size_y
+        pkg_x = config.body_size_x
+        pkg_y = config.body_size_y
         f_fab_ref_rot = 0.0
 
-        f = Footprint(bga_conf.name, FootprintType.SMD)
+        f = Footprint(config.name, FootprintType.SMD)
         if "mask_margin" in spec:
             f.setMaskMargin(spec["mask_margin"])
         if "paste_margin" in spec:
@@ -139,13 +139,13 @@ class BGAGenerator(FootprintGenerator):
                 x = -x
             return x
 
-        pitchX, pitchY, staggered = bga_conf.calculate_stagger()
+        pitchX, pitchY, staggered = config.calculate_stagger()
 
         xCenter = 0.0
         xLeftFab = xCenter - pkg_x / 2.0
         xRightFab = xCenter + pkg_x / 2.0
         xChamferFab = xLeftFab + chamfer
-        xPadLeft = xCenter - pitchX * ((bga_conf.layout_x - 1) / 2.0)
+        xPadLeft = xCenter - pitchX * ((config.layout_x - 1) / 2.0)
         xLeftCrtYd = crt_round(xCenter - (pkg_x / 2.0 + crtYdOffset))
         xRightCrtYd = crt_round(xCenter + (pkg_x / 2.0 + crtYdOffset))
 
@@ -153,7 +153,7 @@ class BGAGenerator(FootprintGenerator):
         yTopFab = yCenter - pkg_y / 2.0
         yBottomFab = yCenter + pkg_y / 2.0
         yChamferFab = yTopFab + chamfer
-        yPadTop = yCenter - pitchY * ((bga_conf.layout_y - 1) / 2.0)
+        yPadTop = yCenter - pitchY * ((config.layout_y - 1) / 2.0)
         yTopCrtYd = crt_round(yCenter - (pkg_y / 2.0 + crtYdOffset))
         yBottomCrtYd = crt_round(yCenter + (pkg_y / 2.0 + crtYdOffset))
         yRef = yTopFab - 1.0
@@ -204,7 +204,7 @@ class BGAGenerator(FootprintGenerator):
         f.append(
             Property(
                 name=Property.VALUE,
-                text=bga_conf.name,
+                text=config.name,
                 at=[xCenter, yValue],
                 layer="F.Fab",
                 size=s1,
@@ -275,13 +275,13 @@ class BGAGenerator(FootprintGenerator):
         )
 
         # Pads
-        for layout_data in bga_conf.layout_data_list:
+        for layout_data in config.layout_data_list:
             self._make_pad_grid(
-                f, layout_data, bga_conf, x_center=xCenter, y_center=yCenter
+                f, layout_data, config, x_center=xCenter, y_center=yCenter
             )
 
         dwg_nodes = fp_additional_drawing.create_additional_drawings(  # type: ignore
-            bga_conf.additional_drawings, self.global_config, fp_evaluator
+            config.additional_drawings, self.global_config, fp_evaluator
         )
         f.extend(dwg_nodes)
 
@@ -293,37 +293,37 @@ class BGAGenerator(FootprintGenerator):
             sdesc = ""
 
         description_parts = [
-            bga_conf.metadata.description if bga_conf.metadata.description else "",
+            config.metadata.description if config.metadata.description else "",
             f"{pkg_x}x{pkg_y}mm",
-            f"{bga_conf.num_balls} Ball",
-            f"{sdesc}{bga_conf.layout_x}x{bga_conf.layout_y} Layout",
+            f"{config.num_balls} Ball",
+            f"{sdesc}{config.layout_x}x{config.layout_y} Layout",
             f"{pdesc}mm Pitch",
             f"generated with kicad-footprint-generator {os.path.basename(__file__)}",
         ]
 
-        if bga_conf.metadata.datasheet:
-            description_parts.append(bga_conf.metadata.datasheet)
+        if config.metadata.datasheet:
+            description_parts.append(config.metadata.datasheet)
 
         f.description = ", ".join(description_parts)
 
-        f.tags = [bga_conf.package_type, str(bga_conf.num_balls), pdesc]
-        f.tags += bga_conf.metadata.compatible_mpns
-        f.tags += bga_conf.metadata.additional_tags
+        f.tags = [config.package_type, str(config.num_balls), pdesc]
+        f.tags += config.metadata.compatible_mpns
+        f.tags += config.metadata.additional_tags
 
         # #################### Output and 3d model ############################
-        self.add_standard_3d_model_to_footprint(f, bga_conf.lib_name, bga_conf.name)
-        self.write_footprint(f, bga_conf.lib_name)
+        self.add_standard_3d_model_to_footprint(f, config.lib_name, config.name)
+        self.write_footprint(f, config.lib_name)
 
     def _make_pad_grid(
         self,
         f: Footprint,
         layout_info: LayoutData,
-        bga_conf: BGAConfiguration,
+        config: GridArrayConfiguration,
         x_center: float = 0.0,
         y_center: float = 0.0,
     ) -> None:
         layout_dict = layout_info.layout_dict
-        spec = bga_conf.spec
+        spec = config.spec
         pad_data_list = layout_info.pad_data_list
 
         pad_shape = layout_dict.get("pad_shape", spec.get("pad_shape", "circle"))
@@ -450,8 +450,8 @@ if __name__ == "__main__":
     configuration = load_config(args.naming_config)
 
     FootprintGenerator.run_on_files(  # type: ignore
-        BGAGenerator,
+        GridArrayGenerator,
         args,
-        file_autofind_dir="../../../data/BGA/",
+        file_autofind_dir="../../../data/grid_array/",
         configuration=configuration,
     )

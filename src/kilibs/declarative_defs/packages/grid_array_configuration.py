@@ -26,7 +26,7 @@ class LayoutData(NamedTuple):
     pad_data_list: list[PadData]
 
 
-class BGAConfiguration:
+class GridArrayConfiguration:
     """
     A type that represents the configuration of a BGA footprint
     (probably from a YAML config block).
