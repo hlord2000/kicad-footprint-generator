@@ -56,10 +56,10 @@ import cadquery as cq
 from cadquery.cq import CQObject
 from cadquery.occ_impl.shapes import Edge
 
-from kilibs.util.toleranced_size import TolerancedSize  # type:ignore
-from scripts.Packages.Gullwing.gullwing_configuration import (
+from kilibs.declarative_defs.packages.gullwing_configuration import (
     GullwingConfiguration,  # type: ignore
 )
+from kilibs.util.toleranced_size import TolerancedSize  # type:ignore
 
 MAX_CC1 = 1
 DEFAULT_PIN_SLOPE = 10.0
