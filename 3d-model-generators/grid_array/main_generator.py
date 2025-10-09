@@ -331,7 +331,7 @@ def make_models(
 
         if FUSED_AND_COMPRESSED:
             # Export the assembly to STEP
-            component.export(  # type: ignore
+            component.save(  # type: ignore
                 os.path.join(part_output_dir, bga_config.name + ".step"),
                 cq.exporters.ExportTypes.STEP,
                 mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
@@ -373,7 +373,7 @@ def make_models(
             )
         else:
             # Export the assembly to STEP
-            component.export(  # type: ignore
+            component.save(  # type: ignore
                 os.path.join(part_output_dir, bga_config.name + ".step"),
                 cq.exporters.ExportTypes.STEP,
                 mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
