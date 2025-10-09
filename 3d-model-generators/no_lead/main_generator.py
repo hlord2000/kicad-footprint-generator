@@ -198,14 +198,14 @@ def make_single_no_lead_model(
     component.name = nlc.model_name
 
     if not FUSED_AND_COMPRESSED:
-        component.export(  # type: ignore
+        component.save(  # type: ignore
             os.path.join(output_dir, nlc.model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
             write_pcurves=False,
         )
     else:
-        component.export(  # type: ignore
+        component.save(  # type: ignore
             os.path.join(output_dir, nlc.model_name + ".step"),
             cq.exporters.ExportTypes.STEP,
             mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
