@@ -18,6 +18,8 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
+from scripts.tools.footprint_generator import FootprintGenerator
+from scripts.tools.footprint_scripts_pin_headers import FPconfiguration
 from scripts.tools.drawing_tools import roundCrt
 from scripts.tools.global_config_files import global_config as GC
 
@@ -40,25 +42,40 @@ txt_offset = 1
 #   OOO      OOO  |       +-------------------------------+
 #                 +-------+
 #
-def makePinHeadAngled(
-    global_config: GC.GlobalConfig,
-    pos_count: int,
-    row_count: int,
-    pin_pitch: float,
-    row_pitch: float,
-    body_width: float,
-    body_offset: float,
-    pin_length: float,
-    pin_width: float,
-    pins_drill: float,
-    pad: Vec2DCompatible,
-    tags_additional: list[str] = [],
-    lib_name: str = "Pin_Headers",
-    classname: str = "Pin_Header",
-    class_description: str = "pin header",
-):
-    gc = global_config
-    pad = Vector2D(pad)
+def makePinHeadAngled(generator: FootprintGenerator, cfg: FPconfiguration):
+    gc = GC.DefaultGlobalConfig()
+    pos_count = cfg.pos_count
+    row_count = cfg.row_count
+    pin_pitch = cfg.pin_pitch
+    row_pitch = cfg.row_pitch
+    body_width = cfg.body_width
+    body_offset = cfg.body_offset
+    pin_length = cfg.pins_length
+    pin_width = cfg.pins_width
+    pins_drill = cfg.pins_drill
+
+     # assemble library and footprint name:
+    cfg.lib_name 	= cfg.getLibraryName()	
+    cfg.footpr_name = cfg.getFootprintName()
+    # information about what is generated:
+    # import pprint
+    # pprint.pprint(cfg)
+    print(f"{cfg.footpr_name}")
+
+    # init kicad footprint
+    kicad_mod = Footprint(cfg.footpr_name, cfg.footpr_type)
+    kicad_mod.description = cfg.getDescription()
+    # if cfg.datasheet != None:
+    #     kicad_mod.description += ", " + cfg.datasheet
+    kicad_mod.tags = cfg.getBaseTags()
+
+    # instantiate footprint (SMD origin at center, THT at pin 1)
+    offset = Vector2D(0, 0)
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+
+    pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
+
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
     # This is set a bit further out than normal, not quite clear why.
@@ -90,51 +107,13 @@ def makePinHeadAngled(
     l_crt = -pin_pitch / 2 - crtyd_offset
     t_crt = -pin_pitch / 2 - crtyd_offset
 
-    # if pin_pitch == 2.54:
-    #    footprint_name = "Pin_Header_Angled_{0}x{1:02}".format(row_count, pos_count)
-    # else:
-    footprint_name = "{3}_{0}x{1:02}_P{2:03.2f}mm_Horizontal".format(row_count, pos_count, pin_pitch, classname)
-
-    description = "Through hole angled {4}, {0}x{1:02}, {2:03.2f}mm pitch, {3}mm pin length".format(row_count, pos_count,
-                                                                                                    pin_pitch,
-                                                                                                    pin_length,
-                                                                                                    class_description)
-    tags = "Through hole angled {3} THT {0}x{1:02} {2:03.2f}mm".format(row_count, pos_count, pin_pitch, class_description)
-    if row_count == 1:
-        description = description + ", single row"
-        tags = tags + " single row"
-    elif row_count == 2:
-        description = description + ", double rows"
-        tags = tags + " double row"
-    elif row_count == 3:
-        description = description + ", triple rows"
-        tags = tags + " triple row"
-
-    if len(tags_additional) > 0:
-        for t in tags_additional:
-            footprint_name = footprint_name + "_" + t
-            description = description + ", " + t
-            tags = tags + " " + t
-
-    print(footprint_name)
-
-    # init kicad footprint
-    kicad_mod = Footprint(footprint_name, FootprintType.THT)
-    kicad_mod.description = description
-    kicad_mod.tags = tags
-
-    # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-    offset = Vector2D(0, 0)
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
-
     # set general values
     kicad_modg.append(
         Property(name=Property.REFERENCE, text='REF**', at=[l_crt + w_crt / 2, t_crt + crtyd_offset - txt_offset], layer='F.SilkS'))
     kicad_modg.append(
         Text(text='${REFERENCE}', at=[l_fabb + (w_fabb/2), t_crt + offset.y + (h_crt/2)], rotation=90, layer='F.Fab', size=fabref_text_size, thickness=fabref_text_thickness))
     kicad_modg.append(
-        Property(name=Property.VALUE, text=footprint_name, at=[l_crt + w_crt / 2, t_crt + h_crt - crtyd_offset + txt_offset],
+        Property(name=Property.VALUE, text=cfg.footpr_name, at=[l_crt + w_crt / 2, t_crt + h_crt - crtyd_offset + txt_offset],
              layer='F.Fab'))
 
     # create FAB-layer
@@ -326,14 +305,12 @@ def makePinHeadAngled(
     kicad_modg.append(
         Model(
             filename=gc.model_3d_prefix
-            + lib_name
+            + cfg.lib_name
             + ".3dshapes/"
-            + footprint_name
-            + global_config.model_3d_suffix
+            + cfg.footpr_name
+            + gc.model_3d_suffix
         )
     )
 
-    # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    generator.write_footprint(kicad_mod, cfg.lib_name)
 

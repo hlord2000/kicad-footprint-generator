@@ -18,6 +18,8 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
+from scripts.tools.footprint_generator import FootprintGenerator
+from scripts.tools.footprint_scripts_pin_headers import FPconfiguration
 from scripts.tools.drawing_tools import roundCrt
 from scripts.tools.global_config_files import global_config as GC
 
@@ -38,28 +40,48 @@ txt_offset = 1
 # | OOO      OOO |
 # +--------------+
 #
-def makePinHeadStraight(
-    global_config: GC.GlobalConfig,
-    pos_count: int,
-    row_count: int,
-    pin_pitch: float,
-    row_pitch: float,
-    body_width: float,
-    body_overlength: float,
-    pins_drill: float,
-    pad: Vec2DCompatible,
-    tags_additional: list[str] = [],
-    lib_name: str = "Pin_Headers",
-    class_name: str = "PinHeader",
-    class_description: str = "pin header",
-    isSocket: bool = False,
-    name_format: str | None = None,
-):
-    gc = global_config
+def makePinHeadStraight(generator: FootprintGenerator, cfg: FPconfiguration):
+    gc = GC.DefaultGlobalConfig()
+    pos_count = cfg.pos_count
+    row_count = cfg.row_count
+    pin_pitch = cfg.pin_pitch
+    row_pitch = cfg.row_pitch
+    body_width = cfg.body_width
+    body_overlength = cfg.body_overlength
+    pins_drill = cfg.pins_drill
+
+     # assemble library and footprint name:
+    cfg.lib_name 	= cfg.getLibraryName()	
+    cfg.footpr_name = cfg.getFootprintName()
+    # information about what is generated:
+    # import pprint
+    # pprint.pprint(cfg)
+    print(f"{cfg.footpr_name}")
+
+    # body_overlength is symetrical but keep separated as top/bottom internally.
     overlen_top = pin_pitch/2 + body_overlength
     overlen_bot = pin_pitch/2 + body_overlength
 
-    pad = Vector2D(pad)
+    if cfg.class_name == "PinSocket":
+        isSocket: bool = True
+    else:
+        isSocket: bool = False
+
+    # init kicad footprint
+    kicad_mod = Footprint(cfg.footpr_name, cfg.footpr_type)
+    kicad_mod.description = cfg.getDescription()
+    #if isSocket and cfg.datasheet != None:
+    #    kicad_mod.description += " (" + cfg.datasheet + "), script generated"
+    kicad_mod.tags = cfg.getBaseTags()
+
+    # instantiate footprint (SMD origin at center, THT at pin 1)
+    offset = Vector2D(0, 0)
+    if isSocket and row_count > 1:
+        offset.x = -row_pitch
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+
+    pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
 
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
@@ -92,55 +114,13 @@ def makePinHeadStraight(
     # That causes diffs, use the old unrounded calc for now
     fabref_text_thickness = fabref_text_size.y * 0.15
 
-    # Samtec HPM have a different name format for...reasons
-    # This is the default
-    if name_format is None:
-        name_format = "{class_name}_{row_count}x{pos_count:02}_P{pitch:03.2f}mm_Vertical"
-
-    footprint_name = name_format.format(class_name=class_name, row_count=row_count, pos_count=pos_count, pitch=pin_pitch)
-
-    description = "Through hole straight {3}, {0}x{1:02}, {2:03.2f}mm pitch".format(row_count, pos_count, pin_pitch, class_description)
-    tags = "Through hole {3} THT {0}x{1:02} {2:03.2f}mm".format(row_count, pos_count, pin_pitch, class_description)
-    if (row_count == 1):
-        description = description + ", single row"
-        tags = tags + " single row"
-    elif row_count == 2:
-        description = description + ", double rows"
-        tags = tags + " double row"
-    elif row_count == 3:
-        description = description + ", triple rows"
-        tags = tags + " triple row"
-    elif row_count == 4:
-        description = description + ", quadruple rows"
-        tags = tags + " quadruple row"
-
-    if len(tags_additional) > 0:
-        for t in tags_additional:
-            footprint_name = footprint_name + "_" + t
-            description = description + ", " + t
-            tags = tags + " " + t
-
-    print(footprint_name)
-
-    # init kicad footprint
-    kicad_mod = Footprint(footprint_name, FootprintType.THT)
-    kicad_mod.description = description
-    kicad_mod.tags = tags
-
-    # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-    offset = Vector2D(0, 0)
-    if isSocket and row_count > 1:
-        offset.x = -row_pitch
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
-
     # set general values
     kicad_modg.append(
         Property(name=Property.REFERENCE, text='REF**', at=[row_pitch * (row_count - 1) / 2, t_slk - txt_offset], layer='F.SilkS'))
     kicad_modg.append(
         Text(text='${REFERENCE}', at=[pin_pitch/2*(row_count-1), t_crt + offset.x + (h_crt/2)], rotation=90, layer='F.Fab', size=fabref_text_size, thickness=fabref_text_thickness))
     kicad_modg.append(
-        Property(name=Property.VALUE, text=footprint_name, at=[row_pitch * (row_count - 1) / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
+        Property(name=Property.VALUE, text=cfg.footpr_name, at=[row_pitch * (row_count - 1) / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
 
     # create FAB-layer
     chamfer = w_fab/4
@@ -321,14 +301,12 @@ def makePinHeadStraight(
     kicad_modg.append(
         Model(
             filename=gc.model_3d_prefix
-            + lib_name
+            + cfg.lib_name
             + ".3dshapes/"
-            + footprint_name
-            + global_config.model_3d_suffix
+            + cfg.footpr_name
+            + gc.model_3d_suffix
         )
     )
 
-    # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    generator.write_footprint(kicad_mod, cfg.lib_name)
 

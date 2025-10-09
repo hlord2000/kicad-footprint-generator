@@ -18,48 +18,65 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
+from scripts.tools.footprint_generator import FootprintGenerator
+from scripts.tools.footprint_scripts_pin_headers import FPconfiguration
 from scripts.tools.drawing_tools import roundCrt
 from scripts.tools.global_config_files import global_config as GC
 
 txt_offset = 1
 
 
-def makeIdcHeader(
-    global_config: GC.GlobalConfig,
-    pos_count: int,
-    row_count: int,
-    pin_pitch: float,
-    row_pitch: float,
-    body_width: float,
-    body_overlength: float,
-    body_offset: float,
-    pins_drill: float,
-    pad: Vec2DCompatible,
-    mating_overlen: float,
-    wall_thickness: float,
-    notch_width: float,
-    orientation: str,
-    latching: float,
-    latch_length: float,
-    latch_width: float,
-    mhole_drill: float,
-    mhole_pad: Vec2DCompatible,
-    mhole_overlength: float,
-    mhole_offset: float,
-    mhole_nr: str,
-    tags_additional: list[str],
-    extra_description: str,
-    lib_name: str,
-    classname: str,
-    class_description: str,
-):
-    # If pins_drill is zero, then create a SMD footprint:
-    gc = global_config
+def makeIdcHeader(generator: FootprintGenerator, cfg: FPconfiguration):
+    gc = GC.DefaultGlobalConfig()
+    pos_count = cfg.pos_count
+    row_count = cfg.row_count
+    pin_pitch = cfg.pin_pitch
+    row_pitch = cfg.row_pitch
+    body_width = cfg.body_width
+    body_overlength = cfg.body_overlength
+    body_offset = cfg.body_offset
+    pins_drill = cfg.pins_drill
+
+    mating_overlen = cfg.mating_overlen
+    wall_thickness = cfg.body_wall_thick
+    notch_width = cfg.body_notch_width
+    orientation = cfg.orientation
+    latching = cfg.latch_enable
+    latch_length = cfg.latch_length
+    latch_width = cfg.latch_width
+
+    mhole_drill = cfg.mhole_drill
+    mhole_overlength = cfg.mhole_overlength
+    mhole_offset = cfg.mhole_offset
+    mhole_nr = gc.get_pad_name(GC.PadName.MECHANICAL)
+
+    # assemble library and footprint name:
+    cfg.lib_name 	= cfg.getLibraryName()	
+    cfg.footpr_name = cfg.getFootprintName()
+    # information about what is generated:
+    # import pprint
+    # pprint.pprint(cfg)
+    print(f"{cfg.footpr_name}")
+
+    # body_overlength is symetrical but keep separated as top/bottom internally.
     overlen_top = pin_pitch/2 + body_overlength
     overlen_bot = pin_pitch/2 + body_overlength
-    pad = Vector2D(pad)
 
-    mhole_pad = Vector2D(mhole_pad)
+    # init kicad footprint
+    kicad_mod = Footprint(cfg.footpr_name, cfg.footpr_type)
+    kicad_mod.description = cfg.getDescription()
+    if cfg.datasheet != None:
+        kicad_mod.description += ", " + cfg.datasheet
+    kicad_mod.tags = cfg.getBaseTags()
+
+    # instantiate footprint (SMD origin at center, THT at pin 1)
+    offset = Vector2D(0, 0)
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+
+    pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
+
+    mhole_pad = Vector2D(cfg.mhole_width, cfg.mhole_length)
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
     pin_size = 0.64  # square pin side length; this appears to be the same for all connectors so use a fixed internal value
@@ -105,63 +122,10 @@ def makeIdcHeader(
     fab_text_props = gc.get_text_properties_for_layer("F.Fab")
     text_size, text_thickness = fab_text_props.clamp_size(w_fab * 0.6)
 
-    footprint_name = "{3}_{0}x{1:02}{7}_P{2:03.2f}mm{4}{5}_{6}{8}".format(row_count, pos_count, pin_pitch, classname, "_Latch" if latching else "", "{0:03.1f}mm".format(latch_length) if latch_length > 0 else "", orientation, "-1MP" if mh_present else "", "_SMD"if pins_drill==0 else "")
-    # footprint_name = footprint_name_base + "_MountHole" if mh_present else footprint_name_base
-
-    if row_count == 1:
-        description_rows = "single row"
-        tags_rows = "single row"
-    elif row_count == 2:
-        description_rows = "double rows"
-        tags_rows = "double row"
-    elif row_count == 3:
-        description_rows = "triple rows"
-        tags_rows = "triple row"
-    elif row_count == 4:
-        description_rows = "quadruple rows"
-        tags_rows = "quadruple row"
-    else:
-        raise ValueError("Unsupported number of rows: {0}".format(row_count))
-
-    if pins_drill == 0:
-        description = "SMD"
-        tags = "SMD"
-        mounting_type = ""
-    else:
-        description = "Through hole"
-        tags = "Through hole"
-        mounting_type = "THT"
-
-    description = description + " {3}, {0}x{1:02}, {2:03.2f}mm pitch, DIN 41651 / IEC 60603-13, {4}{5}{6}{7}".format(row_count, pos_count, pin_pitch, class_description, description_rows, ", {0:03.1f}mm".format(latch_length) if latch_length > 0 else "", " latches" if latching else "", ", mounting holes" if mh_present else "", orientation.lower())
-    tags = tags + " {5} {3} {6} {0}x{1:02} {2:03.2f}mm {4}".format(row_count, pos_count, pin_pitch, class_description, tags_rows, orientation.lower(), mounting_type)
-
-    if len(tags_additional) > 0:
-        for t in tags_additional:
-            footprint_name = footprint_name + "_" + t
-            description = description + ", " + t
-            tags = tags + " " + t
-
-    if extra_description:
-        description = description + ", " + extra_description
-
-    print(footprint_name)
-
-    footprint_type = FootprintType.SMD if pins_drill == 0 else FootprintType.THT
-
-    # init kicad footprint
-    kicad_mod = Footprint(footprint_name, footprint_type)
-    kicad_mod.description = description
-    kicad_mod.tags = tags
-
-    # instantiate footprint (SMD origin at center, THT at pin 1)
-    offset = Vector2D(0, 0)
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
-
     # set general values
     kicad_modg.append(Property(name=Property.REFERENCE, text='REF**', at=[center_fp.x, t_crt - text_size.y / 2], layer='F.SilkS'))
     kicad_modg.append(Text(text='${REFERENCE}', at=[center_fab.x, center_fab.y], rotation=90, layer='F.Fab', size=text_size, thickness=text_thickness))
-    kicad_modg.append(Property(name=Property.VALUE, text=footprint_name, at=[center_fp.x, t_crt + h_crt + text_size.y / 2], layer='F.Fab'))
+    kicad_modg.append(Property(name=Property.VALUE, text=cfg.footpr_name, at=[center_fp.x, t_crt + h_crt + text_size.y / 2], layer='F.Fab'))
 
     # for shrouded headers, fab and silk layers have very similar geometry
     # can use the same code to build lines on both layers with slight changes in values between layers
@@ -327,12 +291,12 @@ def makeIdcHeader(
         for start_pos, initial in zip([-row_pitch/2, row_pitch/2], range(1, row_count + 1)):
             kicad_modg.append(PadArray(pincount=pos_count, spacing=[0,pin_pitch], start=[start_pos,-(pos_count-1)*pin_pitch/2], initial=initial, increment=row_count,
                 type=pad_type, shape=pad_shape, size=pad, drill=pins_drill, layers=pad_layers,
-                round_radius_handler=global_config.roundrect_radius_handler))
+                round_radius_handler=gc.roundrect_radius_handler))
     else:
         for start_pos, initial in zip([0, row_pitch], range(1, row_count + 1)):
             kicad_modg.append(PadArray(pincount=pos_count, spacing=[0,pin_pitch], start=[start_pos,0], initial=initial, increment=row_count,
                 type=pad_type, shape=pad_shape, size=pad, drill=pins_drill, layers=pad_layers,
-                round_radius_handler=global_config.roundrect_radius_handler))
+                round_radius_handler=gc.roundrect_radius_handler))
 
     # create mounting hole pads
     if mh_present:
@@ -344,14 +308,12 @@ def makeIdcHeader(
     kicad_modg.append(
         Model(
             filename=gc.model_3d_prefix
-            + lib_name
+            + cfg.lib_name
             + ".3dshapes/"
-            + footprint_name
-            + global_config.model_3d_suffix
+            + cfg.footpr_name
+            + gc.model_3d_suffix
         )
     )
 
-    # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    generator.write_footprint(kicad_mod, cfg.lib_name)
 

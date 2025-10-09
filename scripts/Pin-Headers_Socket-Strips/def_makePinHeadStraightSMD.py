@@ -18,6 +18,8 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
+from scripts.tools.footprint_generator import FootprintGenerator
+from scripts.tools.footprint_scripts_pin_headers import FPconfiguration
 from scripts.tools.drawing_tools import roundCrt
 from scripts.tools.global_config_files import global_config as GC
 
@@ -40,30 +42,50 @@ txt_offset = 1
 # +                      +
 # | OOOOOOO              |
 # | OOOOOOO ====         |
-def makePinHeadStraightSMD(
-    global_config: GC.GlobalConfig,
-    pos_count: int,
-    row_count: int,
-    pin_pitch: float,
-    row_pitch: float,
-    smd_pad_offset: float,
-    posx_pin_length: float,
-    pin_width: float,
-    body_width: float,
-    body_overlength: float,
-    pad: Vec2DCompatible,
-    start_left: bool = True,
-    tags_additional: list[str] = [],
-    lib_name: str = "Pin_Headers",
-    classname: str = "Pin_Header",
-    class_description: str = "pin header",
-    isSocket: bool = False,
-):
-    gc = global_config
+def makePinHeadStraightSMD(generator: FootprintGenerator, cfg: FPconfiguration):
+    gc = GC.DefaultGlobalConfig()
+    pos_count = cfg.pos_count
+    row_count = cfg.row_count
+    pin_pitch = cfg.pin_pitch
+    row_pitch = cfg.row_pitch
+    smd_pad_offset = cfg.pads_offset
+    posx_pin_length = cfg.pins_smd_length
+    pin_width = cfg.pins_width
+    body_width = cfg.body_width
+    body_overlength = cfg.body_overlength
+    start_left = cfg.pin1_left
+
+     # assemble library and footprint name:
+    cfg.lib_name 	= cfg.getLibraryName()	
+    cfg.footpr_name = cfg.getFootprintName()
+    # information about what is generated:
+    # import pprint
+    # pprint.pprint(cfg)
+    print(f"{cfg.footpr_name}")
+
+    # body_overlength is symetrical but keep separated as top/bottom internally.
     overlen_top = pin_pitch/2 + body_overlength
     overlen_bot = pin_pitch/2 + body_overlength
 
-    pad = Vector2D(pad)
+    if cfg.class_name == "PinSocket":
+        isSocket: bool = True
+    else:
+        isSocket: bool = False
+
+    # init kicad footprint
+    kicad_mod = Footprint(cfg.footpr_name, cfg.footpr_type)
+    kicad_mod.description = cfg.getDescription()
+    #if isSocket and cfg.datasheet != None:
+    #    kicad_mod.description += " (" + cfg.datasheet + "), script generated"
+    kicad_mod.tags = cfg.getBaseTags()
+
+    # instantiate footprint (SMD origin at center, THT at pin 1)
+    offset = Vector2D(-(row_count-1)*row_pitch/2, -(pos_count-1)*pin_pitch/2.0)
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+
+    pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
+
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
     # This is set a bit further out than normal, not quite clear why.
@@ -71,6 +93,7 @@ def makePinHeadStraightSMD(
     silk_pad_offset = gc.silk_pad_clearance + gc.silk_fab_offset
 
     pins_drill = 0.5
+
     h_fab = (pos_count - 1) * pin_pitch + overlen_top + overlen_bot
     w_fab = body_width
     l_fab = (row_pitch * (row_count - 1) - w_fab) / 2
@@ -92,54 +115,13 @@ def makePinHeadStraightSMD(
     l_crt = row_pitch * (row_count - 1) / 2 - w_crt / 2
     t_crt = (pos_count - 1) * pin_pitch / 2 - h_crt / 2
 
-    # if pin_pitch == 2.54:
-    #    footprint_name = "Pin_Header_Straight_{0}x{1:02}".format(row_count, pos_count)
-    # else:
-    footprint_name = "{3}_{0}x{1:02}_P{2:03.2f}mm_Vertical_SMD".format(row_count, pos_count, pin_pitch,classname)
-
-    description = "surface-mounted straight {3}, {0}x{1:02}, {2:03.2f}mm pitch".format(row_count, pos_count, pin_pitch,class_description)
-    tags = "Surface mounted {3} SMD {0}x{1:02} {2:03.2f}mm".format(row_count, pos_count, pin_pitch,class_description)
-    if row_count == 1:
-        description = description + ", single row"
-        tags = tags + " single row"
-        if start_left:
-            description = description + ", style 1 (pin 1 left)"
-            tags = tags + " style1 pin1 left"
-            footprint_name = footprint_name + "_Pin1Left"
-        else:
-            description = description + ", style 2 (pin 1 right)"
-            tags = tags + " style2 pin1 right"
-            footprint_name = footprint_name + "_Pin1Right"
-    elif row_count == 2:
-        description = description + ", double rows"
-        tags = tags + " double row"
-
-    if len(tags_additional) > 0:
-        for t in tags_additional:
-            footprint_name = footprint_name + "_" + t
-            description = description + ", " + t
-            tags = tags + " " + t
-
-    print(footprint_name)
-
-    # init kicad footprint
-    kicad_mod = Footprint(footprint_name, FootprintType.SMD)
-    kicad_mod.description = description
-    kicad_mod.tags = tags
-
-    # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-    offset = Vector2D(-(row_count-1)*row_pitch/2, -(pos_count-1)*pin_pitch/2.0)
-
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
-
     # set general values
     kicad_modg.append(
         Property(name=Property.REFERENCE, text='REF**', at=[row_pitch * (row_count - 1) / 2, t_slk - txt_offset], layer='F.SilkS'))
     kicad_modg.append(
         Text(text='${REFERENCE}', at=[pin_pitch/2*(row_count-1),(pos_count-1)*pin_pitch/2.0], rotation=90, layer='F.Fab'))
     kicad_modg.append(
-        Property(name=Property.VALUE, text=footprint_name, at=[row_pitch * (row_count - 1) / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
+        Property(name=Property.VALUE, text=cfg.footpr_name, at=[row_pitch * (row_count - 1) / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
 
     cleft = range(0, pos_count, 2)
     cright = range(1, pos_count, 2)
@@ -252,14 +234,12 @@ def makePinHeadStraightSMD(
     kicad_modg.append(
         Model(
             filename=gc.model_3d_prefix
-            + lib_name
+            + cfg.lib_name
             + ".3dshapes/"
-            + footprint_name
-            + global_config.model_3d_suffix
+            + cfg.footpr_name
+            + gc.model_3d_suffix
         )
     )
 
-    # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    generator.write_footprint(kicad_mod, cfg.lib_name)
 

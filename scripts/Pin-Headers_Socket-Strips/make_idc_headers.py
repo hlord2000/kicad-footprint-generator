@@ -1,0 +1,69 @@
+#! /usr/bin/env python3
+
+# Run this script from the root of the repository with the venv activated and optional output_dir:
+# Unix:			./scripts/Pin-Headers_Socket-Strips/pin_headers_gen.py --output-dir ../footprints/
+# Powershell: 	python .\scripts\Pin-Headers_Socket-Strips\pin_headers_gen.py --output-dir ..\footprints\
+
+# check README.md in repository root for installing venv
+# on windows powershell: (deactivate script does not always work)
+# .\venv\Scripts\Activate.ps1
+# & {. .\venv\Scripts\Activate.ps1; deactivate}
+
+from pathlib import Path
+import argparse, sys
+import logging
+from typing import Any
+
+from scripts.tools.footprint_generator import FootprintGenerator
+from scripts.tools.footprint_scripts_pin_headers import FPconfiguration #, makePinHeadOrSocket
+from def_makeIdcHeader import makeIdcHeader
+
+class IDCHeaderGenerator(FootprintGenerator):
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+
+	def generateFootprint(
+		self, spec: dict[str, Any], pkg_id: str, header_info: dict[str, Any]
+	) -> None:
+		fp_config = FPconfiguration(spec)
+				
+		for pos_count in fp_config.pos_range:
+			fp_config.pos_count = pos_count
+			#print(fp_config.pos_range, fp_config.pos_count)
+			
+			for latch_length in (fp_config.latch_length_range if fp_config.latch_length_range is not None else [fp_config.latch_length]):
+				fp_config.latch_length = latch_length
+				if (	fp_config.mount_type == "THT"):
+					makeIdcHeader(self, fp_config)
+				elif (	fp_config.mount_type == "SMD" and fp_config.orientation == "Vertical"):
+					makeIdcHeader(self, fp_config)
+				else:
+					raise ValueError(
+						f"Unsupported mount/orientation combination: {fp_config.mount_type}/{fp_config.orientation}"
+					)
+
+
+if __name__ == "__main__":
+
+	parser = argparse.ArgumentParser(
+		description="use config .yaml files to create socket strips."
+	)
+	parser.add_argument(
+		"files",
+		metavar="file",
+		type=str,
+		nargs="*",
+		help="list of files holding information about what devices should be created.",
+	)
+	args = FootprintGenerator.add_standard_arguments(parser)
+	if args.output_dir == None:
+		args.output_dir = Path.cwd() # working directory: usually root of repository
+	logging.info("Generating in dir {}".format(args.output_dir.resolve(),))
+
+	# Do not use the autofind feature of FootprintGenerator.run_on_files() so we can have multiple generators+yaml combos
+	if not args.files:
+		script_dir = sys.path[0] # Only use the yaml definitions in this folder.
+		args.files = list(Path(script_dir).rglob('idc_headers_*.yaml'))
+		logging.info("No .yaml files given, using default .yaml file(s): {}".format(args.files))
+
+	FootprintGenerator.run_on_files(IDCHeaderGenerator, args)

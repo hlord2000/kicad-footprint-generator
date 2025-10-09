@@ -192,7 +192,8 @@ if __name__ == "__main__":
     pin_pitch = 1.00
     pins_drill = 0.5
     pad = [0.85, 0.85]
-    body_widths = [1.5, 2.5]
+    body_widths = [1.5, 2.5] # THT Straight
+    body_width_1row = 1.27 # SMD
     body_overlength = 0.75
     # (right) angled:
     # body_width_ra = 1

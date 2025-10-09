@@ -1,0 +1,149 @@
+defaults_PS_THT_Vertical:
+  lib_format: 'Connector_PinSocket_{pin_pitch:03.2f}mm'
+  class_name: PinSocket
+  class_descr: socket strip
+  footpr_format: "{class_name}_{row_count}x{pos_count:02}_P{pin_pitch:03.2f}mm_{orientation}"
+  descr_format: '{mount_text} straight {class_descr}, {row_count}x{pos_count:02}, {pin_pitch:03.2f}mm pitch{row_text}'
+  tags_base: '{mount_text} {class_descr} {mount_type} {row_count}x{pos_count:02} {pin_pitch:03.2f}mm{row_text}'
+  mount_type: THT
+  mount_text: Through hole
+  orientation: Vertical
+  pin_pitch: 2.00
+
+defaults_PS_THT_Horizontal:
+  inherit: defaults_PS_THT_Vertical
+  descr_format: '{mount_text} angled {class_descr}, {row_count}x{pos_count:02}, {pin_pitch:03.2f}mm pitch, {body_width:g}mm socket length{row_text}'
+  tags_base: '{mount_text} angled {class_descr} {mount_type} {row_count}x{pos_count:02} {pin_pitch:03.2f}mm{row_text}'
+  mount_type: THT
+  orientation: Horizontal
+
+defaults_PS_SMD_1Row_Vertical:
+  lib_format: 'Connector_PinSocket_{pin_pitch:03.2f}mm'
+  class_name: PinSocket
+  class_descr: socket strip
+  footpr_format: "{class_name}_{row_count}x{pos_count:02}_P{pin_pitch:03.2f}mm_Vertical_SMD{pin1_text}"
+  descr_format: 'surface-mounted straight {class_descr}, {row_count}x{pos_count:02}, {pin_pitch:03.2f}mm pitch{row_text}{pin1_text}'
+  tags_base: '{mount_text} {class_descr} {mount_type} {row_count}x{pos_count:02} {pin_pitch:03.2f}mm{row_text}{pin1_text}'
+  mount_type: SMD
+  mount_text: Surface mounted
+  orientation: Vertical
+  pin_pitch: 2.00
+
+defaults_PS_SMD_2Row_Vertical:
+  lib_format: 'Connector_PinSocket_{pin_pitch:03.2f}mm'
+  class_name: PinSocket
+  class_descr: socket strip
+  footpr_format: "{class_name}_{row_count}x{pos_count:02}_P{pin_pitch:03.2f}mm_Vertical_SMD"
+  descr_format: 'surface-mounted straight {class_descr}, {row_count}x{pos_count:02}, {pin_pitch:03.2f}mm pitch{row_text}'
+  tags_base: '{mount_text} {class_descr} {mount_type} {row_count}x{pos_count:02} {pin_pitch:03.2f}mm{row_text}'
+  mount_type: SMD
+  mount_text: Surface mounted
+  orientation: Vertical
+  pin_pitch: 2.00
+
+# THT Straight(Vertical) logic:
+THT-1row_Straight_Right:
+  inherit: defaults_PS_THT_Vertical
+  pin1_left: False
+  row_count: 1
+  pos_range:
+    range: [1, 40]
+  body:
+    width:  2.00
+    height: 5.6
+    offset: 0.0
+    overlength: 0.0
+  pins:
+    width:  0.5
+    drill:  0.8
+    offset: 0.0
+    #length: 2.5
+  pads:
+    length: 1.35
+    width:  1.35
+    offset: 0
+  datasheet: from Kicad 4.0.7
+
+THT-2row_Straight_Right:
+  inherit: THT-1row_Straight_Right
+  row_count: 2
+  body:
+    width:  4.00
+
+# THT Angled(Horizontal) logic:
+THT-1row_Angled_Right:
+  inherit: defaults_PS_THT_Horizontal
+  pin1_left: False
+  row_count: 1
+  pos_range:
+    range: [1, 40]
+  body:
+    width:  6.35
+    height: 2.00
+    offset: 1.27
+    overlength: 0.0
+  pins:
+    width:  0.5
+    drill:  0.8
+    offset: 0.2
+    length: 2.5
+  pads:
+    length: 1.35
+    width:  1.35
+    offset: 0
+  datasheet: from Kicad 4.0.7
+
+THT-2row_Angled_Left:
+  inherit: THT-1row_Angled_Right
+  row_count: 2
+  body:
+    height: 4.00
+
+# SMD Straight(Vertical) logic:
+SMD-1row_Straight_Right:
+  inherit: defaults_PS_SMD_1Row_Vertical
+  pin1_left: False
+  row_count: 1
+  pos_range:
+    range: [2, 40]
+  body:
+    width:  2.0
+    height: 4.3
+    offset: 0.0
+    overlength: 0.0
+  pins:
+    width:  0.5
+    drill:  0
+    offset: 0.0
+    smd_length: 2.0
+  pads:
+    length: 2.75
+    width:  1.0
+    offset: 2.125
+  datasheet: https://www.jayconsystems.com/fileuploader/download/download/?d=1&file=custom%2Fupload%2FFile-1375728122.pdf
+
+SMD-1row_Straight_Left:
+  inherit: SMD-1row_Straight_Right
+  pin1_left: True
+
+SMD-2row_Straight_Right:
+  inherit: defaults_PS_SMD_2Row_Vertical
+  pin1_left: False
+  row_count: 2
+  pos_range:
+    range: [1, 40]
+  body:
+    width:  4.0
+    height: 4.5
+    offset: 0.0
+    overlength: 0.0
+  pins:
+    width:  0.5
+    drill:  0
+    offset: 0.0
+    smd_length: 2.0
+  pads:
+    length: 2.75
+    width:  1.0
+    offset: 2.125
+  datasheet: from Kicad 4.0.7
