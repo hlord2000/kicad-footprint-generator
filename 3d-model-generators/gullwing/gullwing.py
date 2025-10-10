@@ -287,7 +287,7 @@ def make_gw(
     if gwc.ep_size_x.nominal and gwc.ep_size_y.nominal:
         ex = gwc.ep_size_x.nominal
         ey = gwc.ep_size_y.nominal
-        ez = min(a1, 0.01)
+        ez = max(a1, 0.01)
         epad = cq.Workplane("XY").box(ex, ey, ez).translate((0, 0, ez / 2))
         case = case.cut(epad)
     else:
