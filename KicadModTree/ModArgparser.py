@@ -117,9 +117,9 @@ class ModArgparser(object):
 
         self._params[name] = kwargs
 
-    def run(self) -> None:
-        """Execute the ModArgparser and run all tasks defined via the command line
-        arguments of this script.
+    def run(self, arguments: list[str] | None = None) -> None:
+        """Execute the ModArgparser and run all tasks defined via the parameter
+        `arguments` or, if `None`, via the command line arguments of this script.
 
         This method parses the commandline arguments to determine which actions to take.
         Beside of parsing .yaml and .csv files, it also allows us to output example
@@ -166,7 +166,7 @@ class ModArgparser(object):
 
         # TODO: allow writing into sub dir
 
-        args = parser.parse_args()
+        args = parser.parse_args(arguments)
 
         self.output_dir = args.output_dir
 

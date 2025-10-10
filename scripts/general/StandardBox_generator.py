@@ -222,7 +222,7 @@ def converter(args: dict[str, Any]) -> None:
     lib.save(f)
 
 
-def main(args):
+def main(args: list[str] | None = None):
     ipc_default_courtyard_clearance = 0.25
 
     # parse arguments using optparse or argparse or what have you
@@ -249,7 +249,7 @@ def main(args):
     parser.add_parameter("arrow_points", type=str, required=False)
 
     # now run our script which handles the whole part of parsing the files
-    parser.run()
+    parser.run(args)
 
 if __name__ == '__main__':
     import sys
