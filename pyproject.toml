@@ -33,7 +33,6 @@ dev = [
     "isort",
     "flake8",
     "mypy",
-    "pyright",
     "unittest2",
     "nose2",
     "nose2-cov"
@@ -99,27 +98,6 @@ exclude = [
     "KicadModTree/examples",
     "tests",
 ]
-
-# Configure pyright static type checker
-[tool.pyright]
-include = [
-    "src",
-    "KicadModTree",
-    "scripts/tools/footprint_scripts_pin_headers.py",
-    "scripts/tools/ipc_pad_size_calculators.py",
-]
-exclude = ["**/__pycache__"]
-ignore = [
-    "src/kilibs/declarative_defs",
-    "KicadModTree/nodes/specialized/RectLine.py",
-    "KicadModTree/nodes/specialized/PolygonLine.py",
-    "KicadModTree/nodes/specialized/ChamferedNativePad.py",
-    "KicadModTree/nodes/specialized/ChamferedRect.py",
-    "KicadModTree/examples",
-    "KicadModTree/tests",
-]
-typeCheckingMode = "strict"
-reportIncompatibleMethodOverride = false
 
 [tool.pydocstringformatter]
 write = true

@@ -59,7 +59,7 @@ static_type_check() {
     set -e
     echo ''
     echo '[!] Running static typing check'
-    pyright
+    mypy
     set +e
 }
 
