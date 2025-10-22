@@ -1,4 +1,4 @@
-L_0805:
+SMD_0805:
     code_imperial: "0805"
     code_metric: "2012"
     body_length:
@@ -12,7 +12,7 @@ L_0805:
         maximum: 0.3
     size_info: '(Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)'
 
-L_1008:
+SMD_1008:
   code_imperial: "1008"
   code_metric: "2520"
   body_length:
@@ -26,7 +26,7 @@ L_1008:
     tolerance: 0.25
   size_info: '(Body size source: https://ecsxtal.com/store/pdf/ECS-MPI2520-SMD-POWER-INDUCTOR.pdf)'
 
-L_1206:
+SMD_1206:
     code_imperial: "1206"
     code_metric: "3216"
     body_length:
@@ -40,7 +40,7 @@ L_1206:
         maximum: 0.5
     size_info: '(Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)'
 
-L_1806:
+SMD_1806:
     code_imperial: "1806"
     code_metric: "4516"
     body_length:
