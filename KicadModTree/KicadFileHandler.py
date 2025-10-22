@@ -16,9 +16,7 @@
 
 from __future__ import annotations
 
-import abc
 from collections.abc import Callable
-from pathlib import Path
 from typing import Any
 
 from KicadModTree.FileHandler import FileHandler
@@ -220,72 +218,3 @@ class KicadFileHandler(FileHandler):
             return KicadFileHandler._NODE_SERIALIZER_MAP[node_type]
         except KeyError:
             return KicadFileHandler._get_serializer_func(node_type.__bases__[0])
-
-
-class KicadModLibrary(abc.ABC):
-    """Abstract base class for serialising a footprint to a library (e.g. a .kicad_mod
-    file, a .pretty directory, or a nickname in an IPC library).
-    """
-
-    @abc.abstractmethod
-    def save(self, fp: Footprint) -> None:
-        """Save the footprint to the path."""
-        pass
-
-
-class KicadPrettyLibrary(KicadModLibrary):
-    """Implementation of the KicadModLibrary for .pretty directories (i.e. direct file
-    write).
-    """
-
-    def __init__(self, lib_name: str, output_dir: Path | None) -> None:
-        """Create a footprint library.
-
-        Args:
-            lib_name: The name of the library.
-            output_dir: The output directory.
-        """
-
-        # Instance attributes:
-        self.path: Path
-        """The path to which the footprints are saved."""
-
-        if not lib_name.endswith(".pretty"):
-            lib_name += ".pretty"
-
-        # If the environment variable is set, it will be the output
-        # prefix to any non-absolute paths.
-        #
-        # This is a bit of a hack to allow this to work with
-        # generate.sh type generators (which don't allow the output
-        # dir to be set, and have no unified interface).
-        #
-        # The correct thing to do is inject this path properly, but
-        # that requires all the generators to be updated to be
-        # fully-Python.
-        import os
-
-        env_var = os.getenv("KICAD_FP_GENERATOR_OUTPUT_DIR")
-
-        # In these cases, apply the prefix
-        if env_var:
-            if not output_dir:
-                output_dir = Path(env_var)
-            elif not output_dir.is_absolute():
-                output_dir = Path(env_var) / output_dir
-
-        # No environment variable, or given path
-        # Legacy behaviour, just use the current working directory
-        if not output_dir:
-            output_dir = Path.cwd()
-
-        self.path = output_dir / lib_name
-
-    def save(self, fp: Footprint) -> None:
-        """Save the footprint to the file."""
-
-        self.path.mkdir(parents=True, exist_ok=True)
-
-        # Delegate to the s-expression serialiser
-        file_handler = KicadFileHandler(fp)
-        file_handler.writeFile(self.path / (fp.name + ".kicad_mod"))

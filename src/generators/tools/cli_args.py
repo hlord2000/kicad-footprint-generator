@@ -10,13 +10,26 @@
 # If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) The KiCad Librarian Team
+"""
+The parsed command line interface (CLI) arguments.
 
-"""Tools."""
+This module is designed to be imported only once, providing direct access to the single,
+static Namespace instance containing all command-line configuration.
+"""
 
-from .list_tools import list_filter, list_filter_attr, list_filter_idx
+from argparse import Namespace
 
-__all__ = [
-    "list_filter",
-    "list_filter_idx",
-    "list_filter_attr",
-]
+
+def init(cli_args: Namespace) -> None:
+    """Initialize the CLI arguments.
+    This method needs to be called once for each process.
+
+    Args:
+        cli_args: The parsed CLI arguments.
+    """
+    global CLI_ARGS
+    CLI_ARGS = cli_args  # pyright: ignore
+
+
+CLI_ARGS = Namespace()
+"""The CLI arguments singleton."""

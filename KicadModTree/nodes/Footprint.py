@@ -15,6 +15,7 @@
 """Class definition for the footprint node."""
 
 
+import logging
 import re
 import uuid
 from enum import Enum
@@ -92,6 +93,7 @@ class Footprint(Container[Node]):
         """If `True` the component is not populated."""
 
         super().__init__()
+        logging.info(name)
         self.name = name
         self._description = None
         self._tags = []
@@ -212,4 +214,46 @@ class Footprint(Container[Node]):
             side=side,
             silk_pad_clearance=silk_pad_clearance,
             silk_line_width=silk_line_width,
+        )
+
+    def get_standard_3d_model_path(self, library_name: str, model_name: str) -> str:
+        """Get the path of the the "usual" 3D model (with the global config path).
+
+        Args:
+            library_name: The name of the library where the footprint/3D model resides.
+            model_name: The name of the model.
+
+        Returns:
+            The full path of the "usual" 3D model.
+        """
+        from kilibs.config import global_config as GC
+
+        assert GC.GLOBAL_CONFIG.model_3d_suffix not in model_name, f"model_name "
+        f"should not contain the {GC.GLOBAL_CONFIG.model_3d_suffix} "
+        f"extension: {model_name}."
+        assert "/" not in model_name, f"model_name should be only the model name, not "
+        f"a path: {model_name}."
+
+        prefix = GC.GLOBAL_CONFIG.model_3d_prefix.rstrip("/")
+        lib3d_dir = f"{library_name}.3dshapes"
+
+        return f"{prefix}/{lib3d_dir}/{model_name}{GC.GLOBAL_CONFIG.model_3d_suffix}"
+
+    def add_standard_3d_model_to_footprint(
+        self, library_name: str, model_name: str
+    ) -> None:
+        """Add the "usual" 3D model (with the global config path) to the given
+        footprint.
+
+        Args:
+            library_name: The name of the library in which the foodprint / 3D model
+                resides.
+            model_name: The name of the footprint / model.
+        """
+        from KicadModTree import Model
+
+        self.append(
+            Model(
+                filename=self.get_standard_3d_model_path(library_name, model_name),
+            )
         )

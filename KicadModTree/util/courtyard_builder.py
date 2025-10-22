@@ -37,7 +37,7 @@ from kilibs.geom.shapes.geom_rectangle import GeomRectangle
 from kilibs.geom.shapes.geom_shape import GeomShape, GeomShapeClosed
 from kilibs.geom.operations import is_polygon_clockwise, round_to_grid_increasing_area
 from kilibs.geom.vector import Vector2D
-from scripts.tools.global_config_files.global_config import GlobalConfig
+from kilibs.config.global_config import GlobalConfig
 
 
 class CourtyardBuilder:

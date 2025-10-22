@@ -11,12 +11,4 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Tools."""
-
-from .list_tools import list_filter, list_filter_attr, list_filter_idx
-
-__all__ = [
-    "list_filter",
-    "list_filter_idx",
-    "list_filter_attr",
-]
+"""Configuration files, environment constants and singletons."""

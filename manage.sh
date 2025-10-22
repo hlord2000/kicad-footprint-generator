@@ -23,7 +23,11 @@ update_3d_packages() {
     pip3 install --upgrade -e '.[3d]'
 }
 
-fp_format_check() {
+update_doc_packages() {
+    pip3 install --upgrade -e '.[documentation]'
+}
+
+format_check() {
     set -e
     echo ''
     echo '[!] Running footprint formatting check'
@@ -36,17 +40,15 @@ fp_format_check() {
         "$KICADMODTREE_DIR/nodes/specialized/RoundRectangle.py"
         "$KICADMODTREE_DIR/nodes/specialized/Stadium.py"
         "$KICADMODTREE_DIR/nodes/specialized/Trapezoid.py"
-        "src"
+        "src/kilibs"
         "tests"
-        "scripts/tests/test_utils"
-        "scripts/tools/drawing_tools.py"
-        "scripts/tools/misc_tools.py"
-        "scripts/tools/nodes/layouts"
-        "scripts/generator.py"
-        "scripts/Connector_Dsub"
-        "scripts/Connector_PinSocket/pin_sockets.py"
-        "scripts/LEDs_SMD"
-        "scripts/TerminalBlock_Barrier"
+        "src/generators/tools/footprint/drawing_tools.py"
+        "src/generators/tools/footprint/misc_tools.py"
+        "src/generators/tools/footprint/nodes/layouts"
+        "src/generators/generate.py"
+        "src/generators/connector/D_sub"
+        "src/generators/LED/SMD"
+        "src/generators/terminal_block/Barrier"
     )
 
     black --check \
@@ -87,15 +89,6 @@ py_test_coverage() {
     PYTHONPATH=`pwd` python3 -m nose2 -C --coverage "$KICADMODTREE_DIR" --coverage-report term-missing -s "$KICADMODTREE_DIR/tests"
 }
 
-3d_format_check() {
-    set -e
-    echo ''
-    echo '[!] Running 3D formatting check'
-    cd '3d-model-generators'
-    python -m isort --check .
-    black --check .
-    set +e
-}
 
 run_shellcheck() {
     set -e
@@ -107,9 +100,8 @@ run_shellcheck() {
 
 tests() {
     unit_tests
-    fp_format_check
+    format_check
     static_type_check
-    # 3d_format_check
 }
 
 
@@ -122,8 +114,7 @@ help() {
 Commands
 ========
     help                 - This text
-    fp_format_check      - pycodestyle/black/isort validation
-    3d_format_check      - black/isort validation for 3D generators
+    format_check         - pycodestyle/black/isort validation
     flake8_check         - flake8 validation
     run_shellcheck       - Run CI checks for footprint generators
     unit_tests           - Run unit tests
@@ -132,6 +123,7 @@ Commands
     update_packages      - Check & update production dependency changes
     update_dev_packages  - Check & update development and production dependency changes
     update_3d_packages   - Check & update 3d model generator dependency changes
+    update_doc_packages - CHeck & update the documentation depencency changes
     static_type_check    - Run a static type check
 "
 }

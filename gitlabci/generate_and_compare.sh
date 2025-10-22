@@ -137,13 +137,13 @@ function generate_all_footprints() {
     dest_root="$2"
 
     # Generate in the main script directory = all
-    cd "$src_root/scripts"
+    cd "$src_root/src/generators"
 
     if [ ${#script_subdirs[@]} -ne 0 ]; then
         # Collect all the subdirectories to run the generator in the -l parameter
-        time ./generator.py -j0 -v --output-dir "${dest_root}" --separate-outputs -l "${script_subdirs[@]}"
+        time ./generate.py --output-dir-footprints "${dest_root}" --separate-outputs -l "${script_subdirs[@]}"
     else
-        time ./generator.py -j0 -v --output-dir "${dest_root}" --separate-outputs
+        time ./generate.py --output-dir-footprints "${dest_root}" --separate-outputs
     fi
 
     popd

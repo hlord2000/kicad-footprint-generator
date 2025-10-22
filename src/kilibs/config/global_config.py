@@ -1,3 +1,17 @@
+# kilibs is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# kilibs is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with kilibs.
+# If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+"""Global config."""
+
 from __future__ import annotations
 
 from enum import Enum, auto
@@ -356,8 +370,28 @@ def DefaultGlobalConfig() -> GlobalConfig:
 
     default_global_config_name = "config_KLCv3.0.yaml"
 
-    resource = resources.files("scripts.tools.global_config_files").joinpath(
+    resource = resources.files("kilibs.config.global_configs").joinpath(
         default_global_config_name
     )
     with resources.as_file(resource) as default_global_config:
         return GlobalConfig.load_from_file(default_global_config)
+
+
+def _init() -> GlobalConfig:
+    """Initialize the global config singleton."""
+    from .cli_args import CLI_ARGS
+
+    try:
+        if CLI_ARGS.global_config is not None:
+            import os
+
+            path = os.path.expandvars(CLI_ARGS.global_config)
+            return GlobalConfig.load_from_file(path)
+        else:
+            return DefaultGlobalConfig()
+    except AttributeError:
+        return DefaultGlobalConfig()
+
+
+GLOBAL_CONFIG = _init()
+"""The global config singleton."""

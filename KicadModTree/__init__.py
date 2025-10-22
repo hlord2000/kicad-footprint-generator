@@ -15,7 +15,7 @@
 
 """The 'node' library."""
 
-from KicadModTree.KicadFileHandler import KicadFileHandler, KicadPrettyLibrary
+from KicadModTree.KicadFileHandler import KicadFileHandler
 from KicadModTree.ModArgparser import ModArgparser
 from KicadModTree.nodes import (
     Arc,
@@ -90,7 +90,6 @@ __all__ = [
     "Hatch",
     "Keepouts",
     "KicadFileHandler",
-    "KicadPrettyLibrary",
     "Line",
     "LineStyle",
     "ModArgparser",

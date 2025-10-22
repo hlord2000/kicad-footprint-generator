@@ -221,6 +221,8 @@ class TolerancedSize:
         else:
             try:
                 nominal = float(s)
+            except KeyboardInterrupt:
+                raise
             except Exception as e:
                 raise ValueError(
                     "Dimension specifier not recognised: {}\n\t Valid options are nom, nom+/-tol, nom+tolp-toln, min...max or min...nom...max".format(

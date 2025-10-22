@@ -155,7 +155,7 @@ class IpcRules:
         if file_name.endswith(".yaml"):
             return get_data(file_name)
         else:
-            resource = resources.files("kilibs.ipc_tools.data").joinpath(
+            resource = resources.files("kilibs.config.ipc_configs").joinpath(
                 file_name + ".yaml"
             )
             with resources.as_file(resource) as res_path:
@@ -246,3 +246,19 @@ class ManufacturingTolerance:
     """Manufacturing tolerance in mm. This is the F value in IPC rules."""
     placement_tolerance: float
     """Placement tolerance in mm. This is the P value in IPC rules."""
+
+
+def _init() -> IpcRules:
+    """Initialize the default IPC rules singleton."""
+    from .cli_args import CLI_ARGS
+
+    try:
+        rules_file = CLI_ARGS.ipc_rules
+    except AttributeError:
+        rules_file = "ipc_7351b"
+
+    return IpcRules.from_file(rules_file)
+
+
+DEFAULT_IPC_RULES = _init()
+"""The default IPC rules singleton."""
