@@ -115,11 +115,6 @@ if __name__ == '__main__':
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname)
     for rm in [5.08]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname)
-    seriesname = "Axial"; w = 24; d = 7.1; ddrill = 1.0; R_POW = 0; add_description="http://www.vishay.com/docs/34035/im10.pdf"; name_additions=["Vishay","IM-10-28"]
-    for rm in [30.48]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname)
-    for rm in [5.08]:
-        makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname)
     seriesname = "Axial"; w = 16; d = 9.5; ddrill = 1; R_POW = 0; add_description="http://www.vishay.com/docs/34030/im10.pdf"; name_additions=["Vishay","IM-10-37"]
     for rm in [20.32]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname)
