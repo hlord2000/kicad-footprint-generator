@@ -126,32 +126,34 @@ class DSubGenerator(FootprintGenerator):
                 self.finalise_and_write(fp)
 
                 # Edge-mount variant, Pins&Socket
-                fp = DSubScripts.makeDSubEdge(
-                    global_config=self.global_config,
-                    pins=pins,
-                    isMale=has_pins,
-                    rmx=rmx,
-                    pad=soldercup_padsize,
-                    mountingdrill=self.mountingdrill,
-                    mountingdistance=mounting_dist,
-                    shield_width=outline_sizex,
-                    shieldthickness=self.shieldthickness,
-                    connwidth=connwidth,
-                    can_height=can_height_v,
-                    backcan_width=connwidth + 2 * self.shieldthickness,
-                    backcan_height=self.backcan_height,
-                    smaller_backcan_offset=smaller_backcan_offset,
-                    smaller_backcan_height=self.smaller_backcan_height,
-                    soldercup_length=self.soldercup_length,
-                    soldercup_diameter=self.soldercup_diameter,
-                    soldercup_pad_edge_offset=soldercup_pad_edge_offset,
-                    tags_additional=[],
-                    classname=self.classname,
-                    classname_description=self.classname_description,
-                    webpage=self.webpage,
-                )
+                if not mountingdrill_v:
+                    # There's no variant with mounting drills for angled connectors:
+                    fp = DSubScripts.makeDSubEdge(
+                        global_config=self.global_config,
+                        pins=pins,
+                        isMale=has_pins,
+                        rmx=rmx,
+                        pad=soldercup_padsize,
+                        mountingdrill=self.mountingdrill,
+                        mountingdistance=mounting_dist,
+                        shield_width=outline_sizex,
+                        shieldthickness=self.shieldthickness,
+                        connwidth=connwidth,
+                        can_height=can_height_v,
+                        backcan_width=connwidth + 2 * self.shieldthickness,
+                        backcan_height=self.backcan_height,
+                        smaller_backcan_offset=smaller_backcan_offset,
+                        smaller_backcan_height=self.smaller_backcan_height,
+                        soldercup_length=self.soldercup_length,
+                        soldercup_diameter=self.soldercup_diameter,
+                        soldercup_pad_edge_offset=soldercup_pad_edge_offset,
+                        tags_additional=[],
+                        classname=self.classname,
+                        classname_description=self.classname_description,
+                        webpage=self.webpage,
+                    )
 
-                self.finalise_and_write(fp)
+                    self.finalise_and_write(fp)
 
             # Horizontal connectors, Pins&Socket, 5 different 'distances'
             for mounting_pcb_distance_v, pin_pcb_distance_v in angled_distances:
@@ -175,35 +177,37 @@ class DSubGenerator(FootprintGenerator):
                     mountingdrill_v,
                     can_height_v,
                 ) in subvariant_straight:
-                    fp = DSubScripts.makeDSubAngled(
-                        global_config=self.global_config,
-                        pins=pins,
-                        isMale=has_pins,
-                        HighDensity=HighDensity,
-                        rmx=rmx,
-                        rmy=rmy,
-                        pindrill=self.pindrill,
-                        pad=self.pad,
-                        pin_pcb_distance=pin_pcb_distance,
-                        mountingdrill=self.mountingdrill,
-                        mountingpad=self.mountingpad,
-                        mountingdistance=mounting_dist,
-                        mounting_pcb_distance=mounting_pcb_distance,
-                        shield_width=outline_sizex,
-                        shield_thickness=self.shieldthickness,
-                        can_width=connwidth,
-                        can_height=can_height_v,
-                        backbox_width=outline_sizex,
-                        backbox_height=backbox_height,
-                        nut_diameter=self.nut_diameter,
-                        nut_length=self.nut_length,
-                        tags_additional=[],
-                        classname=self.classname,
-                        classname_description=self.classname_description,
-                        webpage=self.webpage,
-                    )
+                    if not mountingdrill_v:
+                        # There's no variant with mounting drills for angled connectors:
+                        fp = DSubScripts.makeDSubAngled(
+                            global_config=self.global_config,
+                            pins=pins,
+                            isMale=has_pins,
+                            HighDensity=HighDensity,
+                            rmx=rmx,
+                            rmy=rmy,
+                            pindrill=self.pindrill,
+                            pad=self.pad,
+                            pin_pcb_distance=pin_pcb_distance,
+                            mountingdrill=self.mountingdrill,
+                            mountingpad=self.mountingpad,
+                            mountingdistance=mounting_dist,
+                            mounting_pcb_distance=mounting_pcb_distance,
+                            shield_width=outline_sizex,
+                            shield_thickness=self.shieldthickness,
+                            can_width=connwidth,
+                            can_height=can_height_v,
+                            backbox_width=outline_sizex,
+                            backbox_height=backbox_height,
+                            nut_diameter=self.nut_diameter,
+                            nut_length=self.nut_length,
+                            tags_additional=[],
+                            classname=self.classname,
+                            classname_description=self.classname_description,
+                            webpage=self.webpage,
+                        )
 
-                    self.finalise_and_write(fp)
+                        self.finalise_and_write(fp)
 
         #
         # unboxed angled
@@ -226,38 +230,40 @@ class DSubGenerator(FootprintGenerator):
                 can_height_v,
             ) in subvariant_straight:
                 # two y-pin-pitch variants
-                for rmy_v in [rmy, rmy_unboxed2]:
-                    fp = DSubScripts.makeDSubAngled(
-                        global_config=self.global_config,
-                        pins=pins,
-                        isMale=has_pins,
-                        HighDensity=HighDensity,
-                        rmx=rmx,
-                        rmy=rmy_v,
-                        pindrill=self.pindrill,
-                        pad=self.pad,
-                        pin_pcb_distance=pin_pcb_distance,
-                        mountingdrill=0,
-                        mountingpad=self.mountingpad,
-                        mountingdistance=mounting_dist,
-                        mounting_pcb_distance=pin_pcb_distance,
-                        shield_width=outline_sizex,
-                        shield_thickness=self.shieldthickness,
-                        backbox_width=0,
-                        backbox_height=0,
-                        can_width=connwidth,
-                        can_height=can_height_v,
-                        backcan_width=connwidth + 2 * self.shieldthickness,
-                        backcan_height=backcan_height_unboxed,
-                        nut_diameter=0,
-                        nut_length=0,
-                        tags_additional=[],
-                        classname=self.classname,
-                        classname_description=self.classname_description,
-                        webpage=webpage_unboxed,
-                    )
+                if not mountingdrill_v:
+                    # There's no variant with mounting drills for angled connectors:
+                    for rmy_v in [rmy, rmy_unboxed2]:
+                        fp = DSubScripts.makeDSubAngled(
+                            global_config=self.global_config,
+                            pins=pins,
+                            isMale=has_pins,
+                            HighDensity=HighDensity,
+                            rmx=rmx,
+                            rmy=rmy_v,
+                            pindrill=self.pindrill,
+                            pad=self.pad,
+                            pin_pcb_distance=pin_pcb_distance,
+                            mountingdrill=0,
+                            mountingpad=self.mountingpad,
+                            mountingdistance=mounting_dist,
+                            mounting_pcb_distance=pin_pcb_distance,
+                            shield_width=outline_sizex,
+                            shield_thickness=self.shieldthickness,
+                            backbox_width=0,
+                            backbox_height=0,
+                            can_width=connwidth,
+                            can_height=can_height_v,
+                            backcan_width=connwidth + 2 * self.shieldthickness,
+                            backcan_height=backcan_height_unboxed,
+                            nut_diameter=0,
+                            nut_length=0,
+                            tags_additional=[],
+                            classname=self.classname,
+                            classname_description=self.classname_description,
+                            webpage=webpage_unboxed,
+                        )
 
-                    self.finalise_and_write(fp)
+                        self.finalise_and_write(fp)
 
         # fmt: off
 
