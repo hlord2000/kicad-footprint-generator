@@ -446,25 +446,6 @@ LQFP-36_7x7mm_P0.65mm:
   num_pins_x: 9
   num_pins_y: 9
 
-LQFP-44_10x10mm_P0.8mm:
-# CASE-561AA, https://www.mouser.com/datasheet/2/308/1/AMIS_492X0_D-1801898.pdf#page=17
-  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ASS23225W.pdf?&fsrch=1'
-  device_type: 'LQFP'
-  body_size_x: 10
-  body_size_y: 10
-  body_height: 1.35 .. 1.40 .. 1.45
-  overall_height: 1.60 # max, similar to JEDEC MS-026 variation BCB
-  # https://www.nxp.com/docs/en/package-information/98ASS23225W.pdf
-  body_pcb_gap: 0.05 .. 0.15
-  overall_size_x: 12
-  overall_size_y: 12
-  lead_width: 0.3 .. 0.45
-  lead_len: 0.45 .. 0.75
-  lead_height: 0.09 .. 0.20
-  pitch: 0.8
-  num_pins_x: 11
-  num_pins_y: 11
-
 LQFP-52_10x10mm_P0.65mm:
   size_source: 'https://www.nxp.com/docs/en/package-information/98ARL10526D.pdf'
   device_type: 'LQFP'
@@ -1350,22 +1331,49 @@ TQFP-32_7x7mm_P0.8mm:
   num_pins_y: 8
 
 TQFP-44_10x10mm_P0.8mm:
-  size_source: 'JEDEC MS-026 variation ACB, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=658'
+  size_source: 'JEDEC MS-026 variation ACB, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=658'
+  compatible_mpns:
+    - 'Microchip_44-Lead-Plastic-Thin-Quad-Flatpack-(PT)'
   device_type: 'TQFP'
-  body_size_x: 10.0
-  body_size_y: 10.0
+  body_size_x: 10.00
+  body_size_y: 10.00
   body_height: 0.95 .. 1.00 .. 1.05
-  overall_height:
-    maximum: 1.20
+  overall_height: 1.00 .. 1.20 # JEDEC, minimum calculated from A1_min + A2_min
   body_pcb_gap: 0.05 .. 0.15
-  overall_size_x: 12.0
-  overall_size_y: 12.0
+  overall_size_x: 12.00
+  overall_size_y: 12.00
   lead_width: 0.30 .. 0.37 .. 0.45
   lead_len: 0.45 .. 0.60 .. 0.75
   lead_height: 0.09 .. 0.20
   pitch: 0.80
   num_pins_x: 11
   num_pins_y: 11
+
+TQFP-44-1EP_10x10mm_P0.8mm_EP4.5x4.5mm:
+  inherit: TQFP-44_10x10mm_P0.8mm
+  size_source: 'JEDEC MS-026 variation ACB, 1.00mm body thickness, custom Exposed Pad from Microchip, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=662' # https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=444
+  compatible_mpns:
+    - 'Microchip_44-Lead-Plastic-Thin-Quad-Flatpack-(MW)'
+  EP_size_x: 4.40 .. 4.50 .. 4.60
+  EP_size_y: 4.40 .. 4.50 .. 4.60
+  EP_num_paste_pads: [3, 3]
+  thermal_vias:
+    count: [4, 4]
+    grid: [1, 1]
+    drill: 0.2
+
+LQFP-44_10x10mm_P0.8mm:
+  inherit: TQFP-44_10x10mm_P0.8mm
+  size_source: 'JEDEC MS-026 variation BCB, 1.40mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://www.nxp.com.cn/docs/en/package-information/98ASS23225W.pdf'
+  compatible_mpns:
+    - 'NXP_SOT389-2'
+    - 'Onsemi_CASE-561AA' # https://www.mouser.com/datasheet/2/308/1/AMIS_492X0_D-1801898.pdf#page=17'
+    - 'Renesas_44-TQFP Renesas_PPG44D1' # https://www.renesas.com/en/document/psc/44-tqfp-package-outline-drawing-100-x100-x-14-mm-body-080mm-pitch-ppg44d1
+    - 'Infineon_PG-TQFP-44-801' # https://www.infineon.com/package/PG-TQFP-44-801
+    - 'Analog_ST-44-1' # https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lqfpst/st_44_1.pdf
+  device_type: 'LQFP'
+  body_height: 1.35 .. 1.40 .. 1.45
+  overall_height: 1.40 .. 1.60 # JEDEC, minimum calculated from A1_min + A2_min
 
 TQFP-64_14x14mm_P0.8mm:
   size_source: 'JEDEC MS-026 variation AEB, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BZ.pdf#page=672'
