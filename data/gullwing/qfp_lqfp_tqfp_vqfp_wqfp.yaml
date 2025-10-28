@@ -1166,34 +1166,34 @@ LQFP-160_24x24mm_P0.5mm:
   num_pins_x: 40
   num_pins_y: 40
 
-LQFP-176_20x20mm_P0.4mm:
-  size_source: 'https://www.onsemi.com/pub/Collateral/566DB.PDF'
-  device_type: 'LQFP'
-  body_size_x:
-    nominal: 20
-    tolerance: 0.1
-  body_size_y:
-    nominal: 20
-    tolerance: 0.1
-  body_height: 1.35 .. 1.40 .. 1.45
-  overall_height: 1.60 # max
-  body_pcb_gap: 0.05 .. 0.15
-  overall_size_x:
-    nominal: 22
-    tolerance: 0.2
-  overall_size_y:
-    nominal: 22
-    tolerance: 0.2
-  lead_width:
-    nominal: 0.15
-    tolerance: [0.04, 0.05]
-  lead_len:
-    nominal: 0.5
-    tolerance: 0.2
-  lead_height: 0.09 .. 0.20
-  pitch: 0.4
+TQFP-176_20x20mm_P0.4mm:
+  size_source: 'JEDEC MS-026 variation AFC, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
+  compatible_mpns:
+    - 'Microsemi_VQ176' # https://web.archive.org/web/20220119120813/https://www.microsemi.com/document-portal/doc_download/131095-pd3068-package-mechanical-drawings#page=64
+  device_type: 'TQFP'
+  body_size_x: 20.00
+  body_size_y: 20.00
+  body_height: 0.95 .. 1.00 .. 1.05 # JEDEC A2
+  overall_height: 1.00 .. 1.20 # JEDEC A, minimum calculated from A1_min + A2_min
+  body_pcb_gap: 0.05 .. 0.15 # JEDEC A1
+  overall_size_x: 22.00
+  overall_size_y: 22.00
+  lead_width: 0.13 .. 0.18 .. 0.23 # JEDEC b
+  lead_len: 0.45 .. 0.60 .. 0.75 # JEDEC L
+  lead_height: 0.09 .. 0.20 # JEDEC c
+  pitch: 0.40
   num_pins_x: 44
   num_pins_y: 44
+
+LQFP-176_20x20mm_P0.4mm:
+  inherit: TQFP-176_20x20mm_P0.4mm
+  size_source: 'JEDEC MS-026 variation BFC, 1.40mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
+  compatible_mpns:
+    - 'Onsemi_CASE-566DB' # Onsemi version has tolerances in body_size_x / others, lead_width / lead_len have small differences, https://www.onsemi.com/pub/Collateral/566DB.PDF
+    - 'Texas_PBL-(S-PQFP-G176)' # https://www.ti.com/lit/ml/mtqf018c/mtqf018c.pdf
+  device_type: 'LQFP'
+  body_height: 1.35 .. 1.40 .. 1.45
+  overall_height: 1.40 .. 1.60 # JEDEC A, minimum calculated from A1_min + A2_min
 
 LQFP-176_24x24mm_P0.5mm:
   size_source: 'https://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=163' # actually page 160
@@ -2003,33 +2003,6 @@ VQFP-128_14x14mm_P0.4mm:
   pitch: 0.4
   num_pins_x: 32
   num_pins_y: 32
-
-VQFP-176_20x20mm_P0.4mm:
-# JEDEC MS-026 variation BFC, this is actually TQFP (height A = 1.20 mm max),
-# 3D model has height = 1.60 mm, and there's already a LQFP in the library,
-# we should RENAME it to TQFP-176. There's no symbol using it yet
-  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-  device_type: 'VQFP'
-  body_size_x:
-    nominal: 20
-  body_size_y:
-    nominal: 20
-  body_height: 1.5  # Not verified
-  body_pcb_gap: 0.1  # Not verified
-  overall_size_x:
-    nominal: 22
-  overall_size_y:
-    nominal: 22
-  lead_width:
-    minimum: 0.13
-    maximum: 0.23
-  lead_len:
-    minimum: 0.45
-    maximum: 0.75
-  lead_height: 0.1  # Not verified
-  pitch: 0.4
-  num_pins_x: 44
-  num_pins_y: 44
 
 ##############################################################################
 # VQFP, height A = 0.80 .. 1.00 mm
