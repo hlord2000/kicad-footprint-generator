@@ -591,37 +591,9 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             print("ERROR: No match found for the model_class")
             continue
 
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-
         # Export the assembly to STEP
-        component.save(
-            os.path.join(output_dir, model + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
-
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, model)
-
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, model)
+        export_tools.export_step(component, output_dir, model)
 
         # Export the assembly to VRML
         if enable_vrml:
             export_VRML(os.path.join(output_dir, model + ".wrl"), parts, colors)
-
-        # Update the license
-        from _tools import add_license
-
-        add_license.addLicenseToStep(
-            output_dir,
-            model + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
-        )

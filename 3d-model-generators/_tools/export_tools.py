@@ -7,6 +7,54 @@ from _tools.stepreduce import stepreduce
 skip_list = []
 
 
+def export_step(
+    component: cq.Assembly, output_dir: str, model: str, fused: bool = True
+) -> None:
+    # Setting this to True might help in faster development cycle as the step files generate more quickly
+    QUICK_STEP_GENERATE = False
+
+    # Create the output directory if it does not exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    if not fused or QUICK_STEP_GENERATE:
+        mode = cq.exporters.assembly.ExportModes.DEFAULT
+    else:
+        mode = cq.exporters.assembly.ExportModes.FUSED
+
+    # Export the assembly to STEP
+    component.save(
+        os.path.join(output_dir, model + ".step"),
+        cq.exporters.ExportTypes.STEP,
+        mode=mode,
+        write_pcurves=False,
+    )
+
+    # Don't improve the step files any further in the quick mode
+    if QUICK_STEP_GENERATE:
+        return
+
+    # Check for a proper union
+    if fused:
+        check_step_export_union(component, output_dir, model)
+
+    # Do STEP post-processing
+    postprocess_step(component, output_dir, model)
+
+    # Update the license
+    from _tools import add_license  # type: ignore
+
+    add_license.addLicenseToStep(  # type: ignore
+        output_dir,
+        model + ".step",
+        add_license.LIST_int_license,
+        add_license.STR_int_licAuthor,
+        add_license.STR_int_licEmail,
+        add_license.STR_int_licOrgSys,
+        add_license.STR_int_licPreProc,
+    )
+
+
 def check_step_export_union(
     component: cq.Assembly, output_dir: str, model: str
 ) -> None:

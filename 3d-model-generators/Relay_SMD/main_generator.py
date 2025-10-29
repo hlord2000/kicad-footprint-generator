@@ -152,26 +152,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             pins, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
         )
 
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-
         model_name = all_params[model]["model_name"]
 
         # Export the assembly to STEP
         component.name = model_name
-        component.save(
-            os.path.join(output_dir, model_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
-
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, model)
-
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, model)
+        export_tools.export_step(component, output_dir, model_name)
 
         # Export the assembly to VRML
         if enable_vrml:
@@ -186,16 +171,3 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                 colors.append(all_params[model]["marker_color_key"])
 
             export_VRML(os.path.join(output_dir, model_name + ".wrl"), parts, colors)
-
-        # Update the license
-        from _tools import add_license
-
-        add_license.addLicenseToStep(
-            output_dir,
-            model_name + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
-        )

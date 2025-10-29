@@ -82,8 +82,6 @@ from kilibs.util import dict_tools  # type: ignore
 
 dest_dir_prefix = "Package_BGA.3dshapes"
 
-FUSED_AND_COMPRESSED = True
-
 
 def make_plg(
     wp: cq.Workplane, rw: float, rh: float, cv1: float, cv: float
@@ -325,57 +323,18 @@ def make_models(
             output_dir_prefix, bga_config.lib_name + ".3dshapes"
         )
 
-        # Create the output directory if it does not exist
-        if not os.path.exists(part_output_dir):
-            os.makedirs(part_output_dir)
+        # Export the assembly to STEP
+        export_tools.export_step(component, part_output_dir, bga_config.name)
 
-        if FUSED_AND_COMPRESSED:
-            # Export the assembly to STEP
-            component.save(  # type: ignore
-                os.path.join(part_output_dir, bga_config.name + ".step"),
-                cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
-                write_pcurves=False,
-            )
-
-            # Check for a proper union
-            export_tools.check_step_export_union(
-                component, part_output_dir, bga_config.name
-            )
-
-            # Do STEP post-processing
-            export_tools.postprocess_step(component, part_output_dir, bga_config.name)
-
-            # Export the assembly to VRML
-            if enable_vrml:
-                parts = [case, pins, pinmark]
-                colors = ["black body", "metal grey pins", "light brown label"]
-                if case_bot != None:
-                    parts.append(case_bot)
-                    colors.append("dark green body")
-                export_VRML(
-                    os.path.join(part_output_dir, bga_config.name + ".wrl"),
-                    parts,
-                    colors,
-                )
-
-            # Update the license
-            from _tools import add_license  # type: ignore
-
-            add_license.addLicenseToStep(  # type: ignore
-                part_output_dir,
-                bga_config.name + ".step",
-                add_license.LIST_int_license,
-                add_license.STR_int_licAuthor,
-                add_license.STR_int_licEmail,
-                add_license.STR_int_licOrgSys,
-                add_license.STR_int_licPreProc,
-            )
-        else:
-            # Export the assembly to STEP
-            component.save(  # type: ignore
-                os.path.join(part_output_dir, bga_config.name + ".step"),
-                cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
-                write_pcurves=False,
+        # Export the assembly to VRML
+        if enable_vrml:
+            parts = [case, pins, pinmark]
+            colors = ["black body", "metal grey pins", "light brown label"]
+            if case_bot != None:
+                parts.append(case_bot)
+                colors.append("dark green body")
+            export_VRML(
+                os.path.join(part_output_dir, bga_config.name + ".wrl"),
+                parts,
+                colors,
             )

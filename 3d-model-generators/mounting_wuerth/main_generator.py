@@ -174,24 +174,7 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
             # Export the assembly to STEP
             component.name = file_name
-            component.save(
-                os.path.join(output_dir, file_name + ".step"),
-                cq.exporters.ExportTypes.STEP,
-                mode=cq.exporters.assembly.ExportModes.FUSED,
-                write_pcurves=False,
-            )
-
-            # Check for a proper union
-            export_tools.check_step_export_union(component, output_dir, file_name)
-
-            # Do STEP post-processing
-            export_tools.postprocess_step(component, output_dir, file_name)
-
-            # Add the custom license info
-            from _tools import add_license
-
-            add_license.STR_licAuthor = "Rene Poeschl"
-            add_license.STR_licEmail = "poeschlr@gmail.com"
+            export_tools.export_step(component, output_dir, file_name)
 
             # Export the assembly to VRML
             if enable_vrml:
@@ -200,14 +183,3 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                     [body],
                     [all_params[model]["body_color_key"]],
                 )
-
-            # Update the license
-            add_license.addLicenseToStep(
-                output_dir,
-                file_name + ".step",
-                add_license.LIST_int_license,
-                add_license.STR_int_licAuthor,
-                add_license.STR_int_licEmail,
-                add_license.STR_int_licOrgSys,
-                add_license.STR_int_licPreProc,
-            )

@@ -192,58 +192,23 @@ def make_single_gullwing_model(
     if epad:
         component.add(epad, color=pin_color)  # type: ignore
 
-    # Create the output directory if it does not exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
     # Export the assembly to STEP
     component.name = gwc.model_name
 
-    if not FUSED_AND_COMPRESSED:
-        component.export(  # type: ignore
-            os.path.join(output_dir, gwc.model_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.DEFAULT,  # type: ignore
-            write_pcurves=False,
-        )
-    else:
-        component.export(  # type: ignore
-            os.path.join(output_dir, gwc.model_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,  # type: ignore
-            write_pcurves=False,
-        )
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, gwc.model_name)
+    export_tools.export_step(component, output_dir, gwc.model_name)
 
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, gwc.model_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            components = [body, pins]
-            colors = ["black body", "metal grey pins"]
-            if epad:
-                components.append(epad)
-                colors.append("metal grey pins")
-            if mark:
-                components.append(mark)
-                colors.append("light brown label")
-            export_VRML(
-                os.path.join(output_dir, gwc.model_name + ".wrl"),
-                components,
-                colors,
-            )
-
-        # Update the license
-        from _tools import add_license  # type: ignore
-
-        add_license.addLicenseToStep(  # type: ignore
-            output_dir,
-            gwc.model_name + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
+    # Export the assembly to VRML
+    if enable_vrml:
+        components = [body, pins]
+        colors = ["black body", "metal grey pins"]
+        if epad:
+            components.append(epad)
+            colors.append("metal grey pins")
+        if mark:
+            components.append(mark)
+            colors.append("light brown label")
+        export_VRML(
+            os.path.join(output_dir, gwc.model_name + ".wrl"),
+            components,
+            colors,
         )

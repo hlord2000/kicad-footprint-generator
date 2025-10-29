@@ -62,7 +62,7 @@ from typing import Any
 import cadquery as cq
 import yaml
 
-from _tools import add_license, cq_color_correct, export_tools, shaderColors
+from _tools import cq_color_correct, export_tools, shaderColors
 from exportVRML.export_part_to_VRML import export_VRML
 
 from kilibs.declarative_defs.packages.smd_inductor_properties import (
@@ -248,24 +248,10 @@ class SmdInductorGenerator:
         output_dir = os.path.join(
             self.output_prefix, (series_data.library_name + ".3dshapes")
         )
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
 
         # Export the assembly to STEP
         component.name = file_name
-        component.save(
-            os.path.join(output_dir, file_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
-
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, file_name)
-
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, file_name)
+        export_tools.export_step(component, output_dir, file_name)
 
         # Export the assembly to VRML
         # Dec 2022- do not use CadQuery VRML export, it scales/uses inches.
@@ -284,17 +270,6 @@ class SmdInductorGenerator:
             os.path.join(output_dir, file_name + ".wrl"),
             PartList,
             ColorList,
-        )
-
-        # Update the license
-        add_license.addLicenseToStep(
-            output_dir,
-            file_name + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
         )
 
 
