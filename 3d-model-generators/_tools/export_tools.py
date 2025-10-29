@@ -22,8 +22,12 @@ def export_step(
     else:
         mode = cq.exporters.assembly.ExportModes.FUSED
 
+    if not hasattr(component, "export"):
+        # for backward compatibility with CadQuery < 2.5.0
+        component.export = component.save
+
     # Export the assembly to STEP
-    component.save(
+    component.export(
         os.path.join(output_dir, model + ".step"),
         cq.exporters.ExportTypes.STEP,
         mode=mode,
