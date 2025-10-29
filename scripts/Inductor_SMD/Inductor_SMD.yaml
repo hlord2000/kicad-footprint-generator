@@ -119,25 +119,3 @@ L_TDK_SLF12575:
   size: [12.5, 12.5]
   smd_tht: "smd"
   pins: [["smd", "1", -5.55, 0, 2.6, 3.2, 0.0], ["smd", "2", 5.55, 0, 2.6, 3.2, 0.0]]
-
-L_Wuerth_WE-XHMI-6060:
-  library_name: "Inductor_SMD"
-  description: "Inductor, Wuerth, WE-XHMI 6060, 6.45mmx6.65mm"
-  datasheet: "https://www.we-online.com/components/products/datasheet/74439346068.pdf"
-  tags: "Inductor Wuerth WE-XHMI 6060"
-#  extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
-  at: [-3.225, 3.325]
-  size: [6.45, 6.65]
-  smd_tht: "smd"
-  pins: [["smd", "1", -2, 0, 1.45, 5.5, 0.0], ["smd", "2", 2, 0, 1.45, 5.5, 0.0]]
-
-L_Wuerth_WE-XHMI-8080:
-  library_name: "Inductor_SMD"
-  description: "Inductor, Wuerth, WE-XHMI 8080, 8.3mmx8.8mm"
-  datasheet: "https://katalog.we-online.de/pbs/datasheet/74439358068.pdf"
-  tags: "Inductor Wuerth WE-XHMI 8080"
-#  extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
-  at: [-4.15, 4.4]
-  size: [8.3, 8.8]
-  smd_tht: "smd"
-  pins: [["smd", "1", -2.5, 0, 1.6, 7.35, 0.0], ["smd", "2", 2.5, 0, 1.6, 7.35, 0.0]]
