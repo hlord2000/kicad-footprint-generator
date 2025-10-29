@@ -1,9 +1,0 @@
-#! /usr/bin/env bash
-
-set -ex
-
-run_generate() {
-    ./make_TerminalBlock_Xinya.py -v
-}
-
-run_generate
