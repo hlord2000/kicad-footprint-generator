@@ -847,32 +847,35 @@ LQFP-100_14x14mm_P0.5mm:
   num_pins_x: 25
   num_pins_y: 25
 
-LQFP-128_14x14mm_P0.4mm:
-  size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q128.14x14.pdf'
-  device_type: 'LQFP'
-  body_size_x:
-    nominal: 14
-  body_size_y:
-    nominal: 14
-  body_height: 1.35 .. 1.40 .. 1.45
-  overall_height: 1.60 # max
+TQFP-128_14x14mm_P0.4mm:
+  size_source: 'JEDEC MS-026 variation AEE, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
+  compatible_mpns:
+    - 'Microsemi_VQ128' # https://web.archive.org/web/20220119120813/https://www.microsemi.com/document-portal/doc_download/131095-pd3068-package-mechanical-drawings#page=64
+    - 'Onsemi_CASE-932BB' # Onsemi version has tolerances in body_size_x / others, lead_width / lead_len have small differences, https://www.onsemi.cn/pub/Collateral/932BB.PDF
+  device_type: 'TQFP'
+  body_size_x: 14.00
+  body_size_y: 14.00
+  body_height: 0.95 .. 1.00 .. 1.05
+  overall_height: 1.00 .. 1.20 # JEDEC A, minimum calculated from A1_min + A2_min
   body_pcb_gap: 0.05 .. 0.15
-  overall_size_x:
-    nominal: 16
-  overall_size_y:
-    nominal: 16
-  lead_width:
-    minimum: 0.13
-    nominal: 0.16
-    maximum: 0.23
-  lead_len:
-    minimum: 0.45
-    nominal: 0.6
-    maximum: 0.75
+  overall_size_x: 16.00
+  overall_size_y: 16.00
+  lead_width: 0.13 .. 0.18 .. 0.23
+  lead_len: 0.45 .. 0.60 .. 0.75
   lead_height: 0.09 .. 0.20
-  pitch: 0.4
+  pitch: 0.40
   num_pins_x: 32
   num_pins_y: 32
+
+LQFP-128_14x14mm_P0.4mm:
+  inherit: TQFP-128_14x14mm_P0.4mm
+  size_source: 'JEDEC MS-026 variation BEE, 1.40mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=423' # https://ww1.microchip.com/downloads/aemDocuments/documents/corporate-responsibilty/environmental/material-compliance-documents/128L_LQFP_14x14x1_4mm_C04-00058b.pdf
+  compatible_mpns:
+    - 'Microchip_128-Lead-Low-Profile-Plastic-Quad-Flat-Pack-(PT)'
+    - 'Renesas_Q128.14x14' # small difference in lead_width / 'b' nominal value which is 0.16mm, https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q128.14x14.pdf
+  device_type: 'LQFP'
+  body_height: 1.35 .. 1.40 .. 1.45
+  overall_height: 1.40 .. 1.60 # JEDEC A, minimum calculated from A1_min + A2_min
 
 LQFP-128_14x20mm_P0.5mm:
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT425-1.pdf'
@@ -1976,33 +1979,6 @@ TQFP-100_12x12mm_P0.4mm:
   num_pins_x: 25
   num_pins_y: 25
   pad_size_y_overwrite: 0.20 # keep same pad width from old handmade and Microchip land pattern, this way it generates with gap between pads of 0.20 mm
-
-VQFP-128_14x14mm_P0.4mm:
-# JEDEC MS-026 variation AEE, this is actually TQFP (height A = 1.20 mm max),
-# 3D model has height = 1.60 mm, and there's already a LQFP and TQFP in the library,
-# we should MERGE it with TQFP-128 since it is not script generated yet. There's no symbol using it
-  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-  device_type: 'VQFP'
-  body_size_x:
-    nominal: 14
-  body_size_y:
-    nominal: 14
-  body_height: 1.5  # Not verified
-  body_pcb_gap: 0.1  # Not verified
-  overall_size_x:
-    nominal: 16
-  overall_size_y:
-    nominal: 16
-  lead_width:
-    minimum: 0.13
-    maximum: 0.23
-  lead_len:
-    minimum: 0.45
-    maximum: 0.75
-  lead_height: 0.1  # Not verified
-  pitch: 0.4
-  num_pins_x: 32
-  num_pins_y: 32
 
 ##############################################################################
 # VQFP, height A = 0.80 .. 1.00 mm

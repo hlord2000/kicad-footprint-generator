@@ -105,26 +105,6 @@ TQFP-120_14x14mm_P0.4mm:
   override_lib_name: 'Package_QFP'
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
 
-TQFP-128_14x14mm_P0.4mm:
-  body_angle: 12.0
-  body_size_top_delta: 0.15
-  lead_height: 0.1
-  lead_radius_top: 0.1
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.2
-  corners_chamfer: 0.25
-  body_size_y: 14.0
-  body_size_x: 14.0
-  overall_size_x: 16.0
-  body_pcb_gap: 0.1
-  body_height: 1.0
-  lead_width: 0.18
-  pitch: 0.4
-  num_pins_y: 32
-  num_pins_x: 32
-  override_lib_name: 'Package_QFP'
-  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-
 TQFP-144_16x16mm_P0.4mm:
   body_angle: 12.0
   body_size_top_delta: 0.15
