@@ -602,6 +602,26 @@ Texas_DSBGA-9_1.62x1.58mm_Layout3x3_P0.5mm:
   pad_diameter: 0.245
   mask_margin: 0.05
 
+Texas_DSBGA-12_2.11x1.61mm_Layout4x3_P0.5mm:
+  compatible_mpns:
+    - "UFBGA-12_2.11x1.61mm_Layout4x3_P0.5mm"
+  additional_tags:
+    - "Die-Size-Ball-Grid-Array"
+  size_source: "https://www.ti.com/lit/ds/symlink/tsc2007.pdf#page=34, https://www.ti.com/lit/ml/mxbg028d/mxbg028d.pdf"
+  description: "Texas Instruments, YZG (R-XBGA-N12) package, 0.275 .. 0.475mm body thickness, NSMD"
+  device_type: "DSBGA"
+  manufacturer: "Texas"
+  body_size_y: 1.61 # maximum, value is actually 1.50 .. 1.61 mm
+  body_size_x: 2.11 # maximum, value is actually 2.00 .. 2.11 mm
+  body_pcb_gap: 0.25 # nominal value from 0.15 .. 0.35
+  overall_height: 0.625 # maximum
+  pitch: 0.5
+  layout_y: 3
+  layout_x: 4
+  ball_diameter: 0.30 # nominal value from 0.25 .. 0.35
+  ball_type: 'collapsible'
+  mask_margin: 0.05
+
 Texas_MicroStar_Junior_BGA-113_7x7mm_Layout12x12_P0.5mm:
   size_source: "http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf, http://www.ti.com/lit/wp/ssyz015b/ssyz015b.pdf"
   description: "Texas Instruments, BGA Microstar Junior, NSMD"
