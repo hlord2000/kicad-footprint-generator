@@ -440,6 +440,9 @@ QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
   body_size_y: 9.0
   body_size_y_min: 8.9
   body_size_y_max: 9.1
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height:
+    maximum: 1.0
   num_pins_x: 16
   num_pins_y: 16
   pitch: 0.5
@@ -447,6 +450,8 @@ QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
   lead_width_max: 0.3
   lead_len_min: 0.3
   lead_len_max: 0.5
+  lead_height:
+    nominal: 0.2
   EP_size_x: 5.95 .. 6 .. 6.05
   EP_size_y: 5.95 .. 6 .. 6.05
   EP_num_paste_pads: [4, 4]
