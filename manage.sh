@@ -45,6 +45,7 @@ fp_format_check() {
         "scripts/Connector_Dsub"
         "scripts/Connector_PinSocket/pin_sockets.py"
         "scripts/LEDs_SMD"
+        "scripts/TerminalBlock_Barrier"
     )
 
     black --check \

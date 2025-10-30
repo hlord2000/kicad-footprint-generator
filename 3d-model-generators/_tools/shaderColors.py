@@ -288,7 +288,7 @@ named_colors = {
         transparency=0.39,
         shininess=0.642424,
     ),
-    "glass gren": shaderColor(
+    "glass green": shaderColor(
         name="GLASS-GREEN",
         ambientIntensity=0.25,
         diffuseColor=(0.0, 0.75, 0.44),

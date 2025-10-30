@@ -79,6 +79,10 @@ def _getTextFieldDetails(
             position_y = "inside_left"
         elif text_y_inside_position == 'right':
             position_y = "inside_right"
+        elif text_y_inside_position == "above":
+            position_y = "outside_top"
+        elif text_y_inside_position == "below":
+            position_y = "outside_bottom"
         elif isinstance(text_y_inside_position, int) or isinstance(text_y_inside_position, float):
             at[1] = text_y_inside_position
 
@@ -127,7 +131,7 @@ def addTextFields(kicad_mod,
     :param courtyard: The bounding box of the courtyard of the footprint
     :param fp_name: The name of the footprint
     :param text_y_inside_position: The position of the text inside the body. This can be
-        'center', 'top', 'bottom', 'left', 'right', or a specific Y position.
+        'center', 'top', 'bottom', 'left', 'right', 'above', 'below' or a specific Y position.
     :param allow_rotation: Allow the text to be rotated if it fits better
     """
 

@@ -295,6 +295,14 @@ named_colors = {
         transparency=0.37,
         shininess=0.127273,
     ),
+    "glass orange": shaderColor(
+        name="GLASS-ORANGE",
+        ambientIntensity=0.25,
+        diffuseColor=(0.75, 0.44, 0.0),
+        specularColor=(0.915152, 0.915152, 0.915152),
+        transparency=0.39,
+        shininess=0.642424,
+    ),
     "metal copper": shaderColor(
         name="MET-COPPER",
         ambientIntensity=0.022727,
