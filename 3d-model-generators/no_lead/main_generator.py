@@ -121,48 +121,16 @@ def make_models(
                         if nlc.has_3d_data:
                             nl_configs.append(nlc)
 
-    # Always use maximum number of processes
-    number_of_models = len(nl_configs)
-    number_of_processes = os.cpu_count()
-    print(
-        f"Creating {number_of_models} threads (one per model) and executing them "
-        f"in {number_of_processes} asynchronous processes.",
-        flush=True,
-    )
-
-    with multiprocessing.Pool(processes=number_of_processes) as pool:
-        async_results: list[multiprocessing.pool.AsyncResult[None]] = []
-        for idx, gwc in enumerate(nl_configs):
-            str_display = (
-                f"    => Executing thread {idx+1}/{number_of_models}: "
-                f"'{gwc.model_name}' from library 'no_lead'"
-            )
-            async_result = pool.apply_async(
-                make_single_no_lead_model,
-                args=(
-                    output_dir_prefix,
-                    gwc,
-                    enable_vrml,
-                    str_display,
-                ),
-            )
-            async_results.append(async_result)
-        for async_result in async_results:
-            try:
-                async_result.get()
-            except Exception as e:
-                print(f"An error occurred in a subprocess: {e}", file=sys.stderr)
-    pool.close()
-    pool.join()
+    for spec in nl_configs:
+        make_single_no_lead_model(output_dir_prefix, spec, enable_vrml)
 
 
 def make_single_no_lead_model(
     output_dir_prefix: str,
     nlc: NoLeadConfiguration,
     enable_vrml: bool,
-    str_display: str,
 ) -> None:
-    print(str_display, flush=True)
+    print(nlc.model_name, flush=True)
     lib_name = nlc.lib_name + ".3dshapes"
     output_dir = os.path.join(output_dir_prefix, lib_name)
     # Load the appropriate colors

@@ -1,10 +1,18 @@
 import os
+import sys
 
 import cadquery as cq
 
 from _tools.stepreduce import stepreduce
 
 skip_list = []
+
+_exit_process_after_first_part = False
+
+
+def make_only_one_part_per_process() -> None:
+    global _exit_process_after_first_part
+    _exit_process_after_first_part = True
 
 
 def export_step(
@@ -57,6 +65,9 @@ def export_step(
         add_license.STR_int_licOrgSys,
         add_license.STR_int_licPreProc,
     )
+
+    if _exit_process_after_first_part:
+        sys.exit(0)
 
 
 def check_step_export_union(

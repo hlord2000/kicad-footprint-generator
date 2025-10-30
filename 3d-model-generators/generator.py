@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
+import concurrent.futures as cf
 import datetime
 import importlib
-import multiprocessing
 import os
 import sys
 
 from OCP.Message import Message, Message_Gravity
 
-from _tools import parameters
+from _tools import export_tools, parameters
 
 
 def get_package_names(dir_name):
@@ -34,7 +34,9 @@ def main():
         help="Sets the directory to write the generated models to.",
     )
     parser.add_argument(
-        "-l", "--library", help="Selects a specific library to generate models for."
+        "-l",
+        "--library",
+        help="Selects a specific library to generate models for.",
     )
     parser.add_argument(
         "-p",
@@ -59,6 +61,11 @@ def main():
         default=1,
         help="Parallelize library generation, specify number of processes to generate libraries. Example: -t 2 will use two processes to generate libraries.",
         type=int,
+    )
+    parser.add_argument(
+        "--one-part-per-generator",
+        help="Generate only a single part per generator (the first one in the YAML file).",
+        action="store_true",
     )
     args = parser.parse_args()
 
@@ -101,7 +108,7 @@ def main():
         libraries_to_generate = [library]
 
     start_time = datetime.datetime.now()
-    if args.threads == 1:
+    if args.threads == 1 and not args.one_part_per_generator:
         for index, library in enumerate(libraries_to_generate):
             generate_library(library, index, len(libraries_to_generate), args)
     else:
@@ -109,19 +116,15 @@ def main():
             threads = os.cpu_count()
         else:
             threads = args.threads
-        with multiprocessing.Pool(processes=threads) as pool:
+        with cf.ProcessPoolExecutor(threads) as executor:
             for index, library in enumerate(libraries_to_generate):
-                pool.apply_async(
+                executor.submit(
                     generate_library,
-                    args=(
-                        library,
-                        index,
-                        len(libraries_to_generate),
-                        args,
-                    ),
+                    library,
+                    index,
+                    len(libraries_to_generate),
+                    args,
                 )
-            pool.close()
-            pool.join()
 
     stop_time = datetime.datetime.now()
     print("Generation complete. Execution time:", stop_time - start_time)
@@ -157,6 +160,10 @@ def generate_library(library, index, libraries_count, args):
                 else:
                     print(f"Part '{package}' does not exist in library {library}")
                     sys.exit(1)
+
+    if args.one_part_per_generator:
+        packages_to_generate = [list(packages_to_generate)[0]]
+        export_tools.make_only_one_part_per_process()
 
     if len(packages_to_generate) > 1:
         print(f"Generating library {index+1}/{libraries_count}: {library}")

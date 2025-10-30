@@ -67,11 +67,7 @@ from typing import Any
 import cadquery as cq
 import yaml
 
-from _tools import (  # type:ignore
-    cq_color_correct,
-    export_tools,
-    shaderColors,
-)
+from _tools import cq_color_correct, export_tools, shaderColors  # type:ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.declarative_defs.packages.grid_array_configuration import (  # type: ignore
