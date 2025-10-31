@@ -45,3 +45,15 @@
     - ferrite
     - power
   library_name: Inductor_SMD
+
+- series: IHLP
+  manufacturer: Vishay
+  csv: vishay_ihlp.csv
+  3d:
+    type: 2 # best effort, these parts are more like tantalum caps
+    bodyColor: black body
+    pinColor: metal grey pins
+  tags:
+    - shielded
+    - SMT
+  library_name: Inductor_SMD
