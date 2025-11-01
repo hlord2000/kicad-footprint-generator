@@ -906,32 +906,32 @@ LQFP-128_14x20mm_P0.5mm:
   num_pins_x: 26
   num_pins_y: 38
 
-LQFP-144_20x20mm_P0.5mm:
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=425'
-  device_type: 'LQFP'
-  body_size_x:
-    nominal: 20
-  body_size_y:
-    nominal: 20
-  body_height: 1.35 .. 1.40 .. 1.45
-  overall_height: 1.60 # max
+TQFP-144_20x20mm_P0.5mm:
+  size_source: 'JEDEC MS-026 variation AFB, 1.00mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
+  device_type: 'TQFP'
+  body_size_x: 20.00
+  body_size_y: 20.00
+  body_height: 0.95 .. 1.00 .. 1.05
+  overall_height: 1.00 .. 1.20 # JEDEC A, minimum calculated from A1_min + A2_min
   body_pcb_gap: 0.05 .. 0.15
-  overall_size_x:
-    nominal: 22
-  overall_size_y:
-    nominal: 22
-  lead_width:
-    minimum: 0.17
-    nominal: 0.22
-    maximum: 0.27
-  lead_len:
-    minimum: 0.45
-    nominal: 0.6
-    maximum: 0.75
+  overall_size_x: 22.00
+  overall_size_y: 22.00
+  lead_width: 0.17 .. 0.22 .. 0.27
+  lead_len: 0.45 .. 0.60 .. 0.75
   lead_height: 0.09 .. 0.20
-  pitch: 0.5
+  pitch: 0.50
   num_pins_x: 36
   num_pins_y: 36
+
+LQFP-144_20x20mm_P0.5mm:
+  inherit: TQFP-144_20x20mm_P0.5mm
+  size_source: 'JEDEC MS-026 variation BFB, 1.40mm body thickness, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026, https://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=425'
+  compatible_mpns:
+    - 'Microchip_144-Lead-Plastic-Low-Profile-Quad-Flatpack-(PL)'
+    - 'Microsemi_TQ144' # https://web.archive.org/web/20220119120813/https://www.microsemi.com/document-portal/doc_download/131095-pd3068-package-mechanical-drawings#page=64
+  device_type: 'LQFP'
+  body_height: 1.35 .. 1.40 .. 1.45
+  overall_height: 1.40 .. 1.60 # JEDEC A, minimum calculated from A1_min + A2_min
 
 EQFP-144-1EP_20x20mm_P0.5mm_EP4x4mm:
 # Based on JEDEC MS-026, variation BFB-HD, it's LQFP (height 1.65mm max)
@@ -1003,36 +1003,22 @@ EQFP-144-1EP_20x20mm_P0.5mm_EP5x5mm:
     paste_between_vias: 1
     paste_rings_outside: 1
 
-LQFP-144_20x20mm_P0.5mm_EP6.5x6.5mm:
-  size_source: https://www.infineon.com/dgdl/Infineon-XMC4500-DS-v01_05-EN.pdf?fileId=5546d46254e133b40154e1b56cbe0123
+LQFP-144-1EP_20x20mm_P0.5mm_EP6.5x6.5mm:
+  inherit: LQFP-144_20x20mm_P0.5mm
+  size_source: 'JEDEC MS-026 variation BFB, 1.40mm body thickness, custom Exposed Pad from Infineon, https://www.infineon.com/dgdl/Infineon-XMC4500-DS-v01_05-EN.pdf#page=107, https://www.jedec.org/document_search?search_api_views_fulltext=MS-026'
   compatible_mpns:
   # Has 'U-groove'/anti-flash groove, overall EP size for soldering purposes is 6.5x6.5
-  # See also https://www.infineon.com/dgdl/Infineon-Board_Assembly_Recommendations-QFP-Package-v06_00-EN.pdf?fileId=5546d46275b79adb0175bd38e18f6099#page=7
-    - Infineon-PG-LQFP-144-24
+  # See also https://www.infineon.com/dgdl/Infineon-Board_Assembly_Recommendations-QFP-Package-v06_00-EN.pdf#page=7
+    - 'Infineon_PG-LQFP-144-24'
   # No U-groove
-    - Infineon-PG-LQFP-144-26
-  device_type: 'LQFP'
-  body_size_x:
-    nominal: 20
-  body_size_y:
-    nominal: 20
-  overall_height: 1.60 # max
-  overall_size_x:
-    nominal: 22
-  overall_size_y:
-    nominal: 22
+    - 'Infineon_PG-LQFP-144-26'
   lead_width: 0.2 + 0.07 - 0.03
-  lead_len: 0.6 +/- 0.15
-  pitch: 0.5
-  num_pins_x: 36
-  num_pins_y: 36
-  EP_size_x:
-    nominal: 6.5
-  EP_size_y:
-    nominal: 6.5
+  EP_size_x: 6.5 +/- 0.2
+  EP_size_y: 6.5 +/- 0.2
   EP_num_paste_pads: [3, 3]
   thermal_vias:
-    count: [4, 4]
+    count: [6, 6]
+    grid: [1, 1]
     drill: 0.2
 
 EQFP-144-1EP_20x20mm_P0.5mm_EP6.61x5.615mm:
@@ -1882,33 +1868,6 @@ LQFP-100-1EP_14x14mm_P0.5mm_EP6.9x.96mm:
     count: [4, 4]
     drill: 0.2
     paste_via_clearance: 0.1
-
-TQFP-144_20x20mm_P0.5mm:
-# Microsemi calls it TQ144, but height A = 1.60 mm (which is actually LQFP),
-# 3D Model has height = 1.10 mm, and there's already a LQFP in the lib,
-# we should change 'size_source' to match JEDEC MS-026 variation AFB (TQFP, height A = 1.20 mm max)
-  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
-  device_type: 'TQFP'
-  body_size_x:
-    nominal: 20
-  body_size_y:
-    nominal: 20
-  body_height: 0.95 .. 1.00 .. 1.05
-  body_pcb_gap: 0.05 .. 0.15
-  overall_size_x:
-    nominal: 22
-  overall_size_y:
-    nominal: 22
-  lead_width:
-    minimum: 0.17
-    maximum: 0.27
-  lead_len:
-    minimum: 0.45
-    maximum: 0.75
-  lead_height: 0.09 .. 0.20
-  pitch: 0.5
-  num_pins_x: 36
-  num_pins_y: 36
 
 TQFP-176_24x24mm_P0.5mm:
 # Manufacturer calls it 'TQ176' and says it's based on MS-026 VAR BCA ('C' here is probably a typo),
