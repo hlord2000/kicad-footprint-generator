@@ -736,8 +736,10 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.7
 
-SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
-  size_source: 'http://www.ti.com/lit/ds/symlink/lm5017.pdf#page=31'
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm:
+  size_source: 'JEDEC MS-012 variation BA (thermally enhanced), using tolerances and Exposed Pad from Texas Instruments DDA0008B, https://www.ti.com/lit/ml/pptd058j/pptd058j.pdf, https://www.ti.com/lit/ds/symlink/lm5017.pdf#page=35, https://www.jedec.org/document_search?search_api_views_fulltext=MS-012' # https://web.archive.org/web/20200209135113/https://www.ti.com/lit/ds/symlink/lm5017.pdf#page=31
+  compatible_mpns:
+    - 'Texas_PowerPAD'
   device_type: 'SOIC' # temporary
   body_size_x:
     minimum: 3.8
@@ -754,7 +756,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
     minimum: 0.31
     maximum: 0.51
   lead_len:
-    minimum: 0.4
+    minimum: 0.40
     maximum: 1.27
   pitch: 1.27
   num_pins_x: 0
@@ -774,10 +776,15 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
     count: [2, 4]
     drill: 0.2
     grid: [1.3, 1.3]
-    paste_avoid_via: False
-    paste_via_clearance: 0.1
     EP_num_paste_pads: [2, 2]
-    EP_paste_coverage: 0.7
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.34x2.34mm:
+  inherit: SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm
+  size_source: 'JEDEC MS-012 variation BA (thermally enhanced), using tolerances and Exposed Pad from Texas Instruments DDA0008A, https://www.ti.com/lit/ml/pptd272a/pptd272a.pdf, https://www.ti.com/lit/ds/symlink/tps92511.pdf#page=29, https://www.jedec.org/document_search?search_api_views_fulltext=MS-012'
+  EP_size_x: 2.24 .. 2.34
+  EP_size_y: 2.24 .. 2.34
+  EP_mask_x: 2.34
+  EP_mask_y: 2.34
 
 HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
 # it was previously in hsop.yaml file
