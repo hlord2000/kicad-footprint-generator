@@ -56,7 +56,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_belton_socket import cq_belton_socket
 from .cq_dongxin_socket import cq_dongxin_socket
@@ -66,84 +67,59 @@ from .cq_parameters_tube_CK6418 import cq_parameters_tube_CK6418
 from .cq_parameters_tube_generic import cq_parameters_tube_generic
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Valves")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    if "Belton" in spec.spec["model_name"]:
+        cqm = cq_belton_socket()
+    elif "Dongxin" in spec.spec["model_name"]:
+        cqm = cq_dongxin_socket()
+    elif "Glimm" in spec.spec["model_name"]:
+        cqm = cq_parameters_glim()
+    elif "CK6418" in spec.spec["model_name"]:
+        cqm = cq_parameters_tube_CK6418()
+    elif "Tube" in spec.spec["model_name"]:
+        cqm = cq_parameters_tube_generic()
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        cqm = cq_parameters_socket_generic()
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    # Make the parts of the model
+    (body_top, body, pins, npth_pins) = cqm.make_3D_model(spec.spec)
+    body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    if body_top:
+        body_top = body_top.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    if pins:
+        pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    if npth_pins:
+        npth_pins = npth_pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-        if "Belton" in all_params[model]["model_name"]:
-            cqm = cq_belton_socket()
-        elif "Dongxin" in all_params[model]["model_name"]:
-            cqm = cq_dongxin_socket()
-        elif "Glimm" in all_params[model]["model_name"]:
-            cqm = cq_parameters_glim()
-        elif "CK6418" in all_params[model]["model_name"]:
-            cqm = cq_parameters_tube_CK6418()
-        elif "Tube" in all_params[model]["model_name"]:
-            cqm = cq_parameters_tube_generic()
-        else:
-            cqm = cq_parameters_socket_generic()
+    parts: list[cq.Workplane] = []
+    color_names: list[str] = []
+    if body is not None:
+        parts.append(body)
+        color_names.append(spec.spec["body_color_key"])
+    if body_top is not None:
+        parts.append(body_top)
+        color_names.append(spec.spec["body_top_color_key"])
+    if pins is not None:
+        parts.append(pins)
+        color_names.append(spec.spec["pin_color_key"])
+    if npth_pins is not None:
+        parts.append(npth_pins)
+        color_names.append(spec.spec["npth_pin_color_key"])
 
-        # Make the parts of the model
-        (body_top, body, pins, npth_pins) = cqm.make_3D_model(all_params[model])
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        if body_top:
-            body_top = body_top.rotate(
-                (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-            )
-        if pins:
-            pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        if npth_pins:
-            npth_pins = npth_pins.rotate(
-                (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-            )
-
-        parts: list[cq.Workplane] = []
-        color_names: list[str] = []
-        if body is not None:
-            parts.append(body)
-            color_names.append(all_params[model]["body_color_key"])
-        if body_top is not None:
-            parts.append(body_top)
-            color_names.append(all_params[model]["body_top_color_key"])
-        if pins is not None:
-            parts.append(pins)
-            color_names.append(all_params[model]["pin_color_key"])
-        if npth_pins is not None:
-            parts.append(npth_pins)
-            color_names.append(all_params[model]["npth_pin_color_key"])
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

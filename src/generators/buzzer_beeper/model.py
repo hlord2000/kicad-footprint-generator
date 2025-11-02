@@ -61,9 +61,12 @@ __Comment__ = (
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from . import cq_parameters_smd_generic_rectangular
 from .cq_parameters_CUI_CST_931RP_A import cq_parameters_CUI_CST_931RP_A
@@ -84,116 +87,94 @@ from .cq_parameters_TDK_PS1240P02BT import cq_parameters_TDK_PS1240P02BT
 from .cq_parameters_tht_generic_round import cq_parameters_tht_generic_round
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Collections of the components and their matching colors to export to VRML
+    parts: list[cq.Workplane] = []
+    color_names: list[str] = []
 
-    all_params = parameters.load_parameters("Buzzer_Beeper")
+    BODY_PINS = ("cq_parameters_smd_generic_rectangular",)
+    CASETOP_PINS = (
+        "cq_parameters_murata_PKMCS0909E4000",
+        "cq_parameters_CUI_CST_931RP_A",
+        "cq_parameters_EMB84Q_RO_SMT_0825_S_4_R",
+        "cq_parameters_ProSignal_ABI_XXX_RC",
+        "cq_parameters_StarMicronics_HMB_06_HMB_12",
+    )
+    CASETOP_BODY_PINS = (
+        "cq_parameters_kingstate_KCG0601",
+        "cq_parameters_ProjectsUnlimited_AI_4228_TWT_R",
+        "cq_parameters_TDK_PS1240P02BT",
+        "cq_parameters_PUI_AI_1440_TWT_24V_2_R",
+    )
+    CASETOP_BODY_PINS_NTHPIN = ("cq_parameters_tht_generic_round",)
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+    model_class_name = spec.spec["model_class"]
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+    if model_class_name in BODY_PINS:
+        cqm = globals()[model_class_name]
+        body = cqm.make_body(spec.spec)
+        pins = cqm.make_pins(spec.spec)
+        parts = [body, pins]
+        color_names = [
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+        ]
 
-        model_to_build = all_params.keys()[0]
+    elif model_class_name in CASETOP_PINS:
+        cqm = globals()[model_class_name]()
+        case_top = cqm.make_case(spec.spec)
+        pins = cqm.make_pins(spec.spec)
+        parts = [case_top, pins]
+        color_names = [
+            spec.spec["case_top_color_key"],
+            spec.spec["pins_color_key"],
+        ]
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    elif model_class_name in CASETOP_BODY_PINS:
+        cqm = globals()[model_class_name]()
+        case_top = cqm.make_top(spec.spec)
+        case = cqm.make_case(spec.spec)
+        pins = cqm.make_pins(spec.spec)
+        parts = [case_top, case, pins]
+        color_names = [
+            spec.spec["case_top_color_key"],
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+        ]
+
+    elif model_class_name in CASETOP_BODY_PINS_NTHPIN:
+        cqm = globals()[model_class_name]()
+        case_top = cqm.make_top(spec.spec)
+        case = cqm.make_case(spec.spec)
+        pins = cqm.make_pins(spec.spec)
+        npth_pins = cqm.make_npth_pins(spec.spec)
+        parts = [case_top, case, pins]
+        color_names = [
+            spec.spec["case_top_color_key"],
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+        ]
+        if npth_pins:
+            parts.append(npth_pins)
+            color_names.append(spec.spec["npth_pin_color_key"])
     else:
-        models = {model_to_build: all_params[model_to_build]}
+        logging.error("No match found for the model_class")
+        return 0
 
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Collections of the components and their matching colors to export to VRML
-        parts: list[cq.Workplane] = []
-        color_names: list[str] = []
-
-        BODY_PINS = ("cq_parameters_smd_generic_rectangular",)
-        CASETOP_PINS = (
-            "cq_parameters_murata_PKMCS0909E4000",
-            "cq_parameters_CUI_CST_931RP_A",
-            "cq_parameters_EMB84Q_RO_SMT_0825_S_4_R",
-            "cq_parameters_ProSignal_ABI_XXX_RC",
-            "cq_parameters_StarMicronics_HMB_06_HMB_12",
-        )
-        CASETOP_BODY_PINS = (
-            "cq_parameters_kingstate_KCG0601",
-            "cq_parameters_ProjectsUnlimited_AI_4228_TWT_R",
-            "cq_parameters_TDK_PS1240P02BT",
-            "cq_parameters_PUI_AI_1440_TWT_24V_2_R",
-        )
-        CASETOP_BODY_PINS_NTHPIN = ("cq_parameters_tht_generic_round",)
-
-        model_class_name = all_params[model]["model_class"]
-
-        if model_class_name in BODY_PINS:
-            cqm = globals()[model_class_name]
-            body = cqm.make_body(all_params[model])
-            pins = cqm.make_pins(all_params[model])
-            parts = [body, pins]
-            color_names = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
-
-        elif model_class_name in CASETOP_PINS:
-            cqm = globals()[model_class_name]()
-            case_top = cqm.make_case(all_params[model])
-            pins = cqm.make_pins(all_params[model])
-            parts = [case_top, pins]
-            color_names = [
-                all_params[model]["case_top_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
-
-        elif model_class_name in CASETOP_BODY_PINS:
-            cqm = globals()[model_class_name]()
-            case_top = cqm.make_top(all_params[model])
-            case = cqm.make_case(all_params[model])
-            pins = cqm.make_pins(all_params[model])
-            parts = [case_top, case, pins]
-            color_names = [
-                all_params[model]["case_top_color_key"],
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
-
-        elif model_class_name in CASETOP_BODY_PINS_NTHPIN:
-            cqm = globals()[model_class_name]()
-            case_top = cqm.make_top(all_params[model])
-            case = cqm.make_case(all_params[model])
-            pins = cqm.make_pins(all_params[model])
-            npth_pins = cqm.make_npth_pins(all_params[model])
-            parts = [case_top, case, pins]
-            color_names = [
-                all_params[model]["case_top_color_key"],
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
-            if npth_pins:
-                parts.append(npth_pins)
-                color_names.append(all_params[model]["npth_pin_color_key"])
-        else:
-            print("ERROR: No match found for the model_class")
-            continue
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

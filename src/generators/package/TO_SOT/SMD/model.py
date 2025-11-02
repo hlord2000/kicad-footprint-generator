@@ -59,11 +59,14 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
-from .DPAK_factory import (
+from .cq_DPAK_factory import (
     ATPAK,
     HSOF8,
     SOT89,
@@ -77,77 +80,56 @@ from .DPAK_factory import (
 )
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Check the model name to see which class to load
+    available_models = {
+        "TO-252": TO252,
+        "TO-263": TO263,
+        "TO-268": TO268,
+        "ATPAK": ATPAK,
+        "HSOF8": HSOF8,
+        "LFPAK56": SOT669,
+        "LFPAK88": SOT1235,
+        "SOT89": SOT89,
+        "Infineon_PG_TO_220_7Lead_TabPin8": Infineon_PG_TO_220_7Lead_TabPin8,
+        "Rohm_HRP7": Rohm_HRP7,
+    }
+    try:
+        cqm = available_models[spec.id]()
+    except KeyError:
+        logging.error(
+            f"Model not recognized '{spec.id}'. Please choose from the available models: {list(sorted(available_models.keys()))}."
+        )
+        return 0
 
-    all_params = parameters.load_parameters("TO_SOT_Packages_SMD_custom")
+    # Build all the variants
+    for variant in spec.spec["variants"]:
+        # Make the parts of the model
+        (body, tab, pins, file_name) = cqm.build_series(
+            spec.spec["base"], spec.spec["variants"][variant]
+        )
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+        parts: list[cq.Workplane] = [body, tab, pins]
+        color_names: list[str] = [
+            spec.spec["base"]["device"]["body"]["colour"],
+            spec.spec["base"]["device"]["tab"]["colour"],
+            spec.spec["base"]["device"]["pins"]["colour"],
+        ]
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Check the model name to see which class to load
-        available_models = {
-            "TO-252": TO252,
-            "TO-263": TO263,
-            "TO-268": TO268,
-            "ATPAK": ATPAK,
-            "HSOF8": HSOF8,
-            "LFPAK56": SOT669,
-            "LFPAK88": SOT1235,
-            "SOT89": SOT89,
-            "Infineon_PG_TO_220_7Lead_TabPin8": Infineon_PG_TO_220_7Lead_TabPin8,
-            "Rohm_HRP7": Rohm_HRP7,
-        }
-        try:
-            cqm = available_models[model]()
-        except KeyError:
-            print(
-                f"Model not recognized '{model}'. Please choose from the available models: {list(sorted(available_models.keys()))}."
-            )
-            continue
-
-        # Build all the variants
-        for variant in all_params[model]["variants"]:
-            # Make the parts of the model
-            (body, tab, pins, file_name) = cqm.build_series(
-                all_params[model]["base"], all_params[model]["variants"][variant]
-            )
-
-            parts: list[cq.Workplane] = [body, tab, pins]
-            color_names: list[str] = [
-                all_params[model]["base"]["device"]["body"]["colour"],
-                all_params[model]["base"]["device"]["tab"]["colour"],
-                all_params[model]["base"]["device"]["pins"]["colour"],
-            ]
-
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
-            )
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(spec.spec["variants"])

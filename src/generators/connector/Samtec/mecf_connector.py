@@ -1,11 +1,21 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import math
-import argparse
-import yaml
-
+from typing import Any
 from KicadModTree import *  # NOQA
-from scripts.tools.footprint_text_fields import addTextFields
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
 
 
 lib_name_category = 'PCBEdge'
@@ -60,7 +70,7 @@ def roundToBase(value, base):
     return round(value/base) * base
 
 
-def generate_one_footprint(pol, n, configuration):
+def generate_one_footprint(generator_name: str, pol, n, configuration):
     off = configuration['silk_fab_offset']
     CrtYd_offset = configuration['courtyard_offset']['default']
     fp_name = 'Samtec_MECF-' + n + '-0_-'
@@ -275,28 +285,13 @@ def generate_one_footprint(pol, n, configuration):
 
     lib_name = configuration['lib_name_specific_function_format_string'].format(category=lib_name_category)
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
     for pol in [True, False]:
         for pincount in pinrange:
-            generate_one_footprint(pol, pincount, configuration)
+            generate_one_footprint(generator_name, pol, pincount, configuration)
+            num_fps_generated += 1
+    return num_fps_generated

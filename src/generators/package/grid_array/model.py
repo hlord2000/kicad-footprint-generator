@@ -58,23 +58,13 @@ __Comment__ = "make BGA ICs 3D models exported to STEP and VRML"
 
 ___ver___ = "2.0.0"
 
-import glob
-import os
 from math import radians, tan
-from pathlib import Path
-from typing import Any
 
 import cadquery as cq
-import yaml
 
-from _tools import export_tools
-from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
+from generators.tools.model import export_tools
 
-from kilibs.declarative_defs.packages.grid_array_configuration import (  # type: ignore
-    GridArrayConfiguration,
-    load_config,
-)
-from kilibs.util import dict_tools  # type: ignore
+from .spec import GridArraySpec
 
 
 def make_plg(
@@ -104,22 +94,31 @@ def make_plg(
     return wp.polyline(points, includeCurrent=False).wire()
 
 
-def make_case(
-    config: GridArrayConfiguration,
-) -> tuple[cq.Workplane | None, cq.Workplane, Any, cq.Workplane]:
+def create_models(spec: GridArraySpec, generator_name: str) -> int:
+    """Create the model corresponding to the spec.
 
-    ef = config.body_fillet
-    cff = config.first_corner_chamfer
-    cf = config.corner_chamfer
-    d = config.body_size_y
-    e = config.body_size_x
-    d1 = config.mold_size_y
-    e1 = config.mold_size_x
-    a1 = config.body_pcb_gap
-    a2 = config.mold_size_z_bottom
-    a = config.overall_height
-    sp = config.seating_plane
-    b = config.ball_diameter
+    Args:
+        spec: the grid array specification.
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of models generated.
+    """
+    if not spec.has_3d_data:
+        return 0
+
+    ef = spec.body_fillet
+    cff = spec.first_corner_chamfer
+    cf = spec.corner_chamfer
+    d = spec.body_size_y
+    e = spec.body_size_x
+    d1 = spec.mold_size_y
+    e1 = spec.mold_size_x
+    a1 = spec.body_pcb_gap
+    a2 = spec.mold_size_z_bottom
+    a = spec.overall_height
+    sp = spec.seating_plane
+    b = spec.ball_diameter
     if b is None:
         raise KeyError("Cannot generate 3D model without a `ball_diameter` parameter.")
 
@@ -129,7 +128,7 @@ def make_case(
     bpin = sphere.translate((0, 0, b / 2 - sp))
 
     pin_positions: list[cq.Location] = []
-    for layout_data in config.layout_data_list:
+    for layout_data in spec.layout_data_list:
         for pad_data in layout_data.pad_data_list:
             pos = pad_data.position
             pin_positions.append(cq.Location(cq.Vector(pos.x, pos.y)))
@@ -148,7 +147,7 @@ def make_case(
         marker_edge_clearance = marker_diameter / 4.0
     else:
         marker_edge_clearance = marker_diameter / 2.0
-    if config.molded:
+    if spec.molded:
         the = 24
         d1_t = d1 - 2 * tan(radians(the)) * (a - a1 - a2)
         e1_t = e1 - 2 * tan(radians(the)) * (a - a1 - a2)
@@ -173,7 +172,7 @@ def make_case(
         if ef != 0:
             BS = cq.selectors.BoxSelector
             case = case.edges(
-                BS((-e1 / 2, -d1 / 2, a2 + 0.001), (e1 / 2, d1 / 2, a + 0.001))
+                BS((-e1 / 2, -d1 / 2, a2 + 0.001), (e1 / 2, d1 / 2, a + 0.001))  # type: ignore
             ).fillet(ef)
         case = case.translate((0, 0, a2 - 0.01))
         pinmark = (
@@ -219,11 +218,11 @@ def make_case(
         )
         case_bot = None
 
-    if config.marker is not None:
+    if spec.marker is not None:
         pad_position_found = False
-        for layout_data in config.layout_data_list:
+        for layout_data in spec.layout_data_list:
             for pad_data in layout_data.pad_data_list:
-                if pad_data.name == config.marker:
+                if pad_data.name == spec.marker:
                     pad_position_found = True
                     pos = pad_data.position
                     pinmark = (
@@ -235,68 +234,20 @@ def make_case(
             if pad_position_found:
                 break
         if not pad_position_found:
-            raise ValueError(
-                f"Mark is '{config.marker}', however no such pin was found."
-            )
+            raise ValueError(f"Mark is '{spec.marker}', however no such pin was found.")
     case = case.cut(pinmark)
 
-    return (case_bot, case, merged_pins, pinmark)
+    parts: list[cq.Workplane] = [case, merged_pins, pinmark]
+    color_names: list[str] = ["black body", "metal grey pins", "light brown label"]
+    if case_bot is not None:
+        parts.append(case_bot)
+        color_names.append("dark green body")
 
-
-def make_models(
-    model_to_build: str | None = None,
-    output_dir_prefix: str | None = None,
-    enable_vrml: bool = True,
-) -> None:
-    """
-    Main entry point into this generator.
-    """
-
-    gullwing_path = os.path.dirname(os.path.realpath(__file__))
-    all_yaml_files = glob.glob(f"{gullwing_path}/../../data/grid_array/*.yaml")
-
-    if not all_yaml_files:
-        print("No YAML files found to process.")
-        return
-
-    package_config = load_config("../scripts/Packages/package_config_KLCv3.yaml")
-
-    configs: list[GridArrayConfiguration] = []
-    for yaml_file in all_yaml_files:
-        file_path = Path(yaml_file)
-        with open(file_path, "r") as stream:
-            yaml_dict = yaml.safe_load(stream)
-            dict_tools.dictInherit(yaml_dict)
-            header = yaml_dict.get("FileHeader")
-            for key, value in yaml_dict.items():
-                if key != "FileHeader":
-                    if (
-                        model_to_build == key
-                        or model_to_build == "all"
-                        or model_to_build == None
-                    ):
-                        config = GridArrayConfiguration(
-                            key, value, header, package_config
-                        )
-                        if config.has_3d_data:
-                            configs.append(config)
-
-    # Step through the selected models
-    for bga_config in configs:
-        # Generate the current model
-        case_bot, case, pins, pinmark = make_case(bga_config)
-
-        parts: list[cq.Workplane] = [case, pins, pinmark]
-        color_names: list[str] = ["black body", "metal grey pins", "light brown label"]
-        if case_bot is not None:
-            parts.append(case_bot)
-            color_names.append("dark green body")
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=bga_config.lib_name,
-            model_name=bga_config.name,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.lib_name,
+        model_name=spec.name,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

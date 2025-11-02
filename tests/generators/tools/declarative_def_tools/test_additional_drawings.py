@@ -1,9 +1,9 @@
 import pytest
 
-from scripts.tools.declarative_def_tools import fp_additional_drawing as AD
-from scripts.tools.declarative_def_tools import ast_evaluator
-from scripts.tests.test_utils import node_test_utils
-from scripts.tests.test_utils.node_test_utils import testing_global_config
+from generators.tools.footprint.declarative_def_tools import ast_evaluator
+from generators.tools.footprint.declarative_def_tools import fp_additional_drawing as AD
+from tests.generators.test_utils import node_test_utils
+from tests.generators.test_utils.node_test_utils import testing_global_config
 
 
 def test_basic(testing_global_config):

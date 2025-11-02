@@ -1,25 +1,20 @@
-#!/usr/bin/env python3
-
-"""
-KicadModTree is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-KicadModTree is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-Authors:
-    - Armin Schoisswohl (@armin.sch), <armin.schoisswohl@myotis.at>
-    - Carlos Nieves Ónega (@cnieves1)
-    - John Beard (@johnbeard)
-    - ... (not complete)
-"""
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# Original authors:
+#   - Armin Schoisswohl (@armin.sch), <armin.schoisswohl@myotis.at>
+#   - Carlos Nieves Ónega (@cnieves1)
+#   - John Beard (@johnbeard)
+#   - ... (not complete)
+# (C) The KiCad Librarian Team
 
 import abc
 import copy
@@ -33,7 +28,6 @@ import math
 from fnmatch import fnmatch
 from typing import Any, Iterable, Callable
 from dataclasses import dataclass, asdict
-
 from KicadModTree import (
     Pad,
     RoundRadiusHandler,
@@ -43,17 +37,22 @@ from KicadModTree import (
     PolygonLine,
     Circle,
     RectLine,
-    KicadPrettyLibrary,
     Model,
 )
 from kilibs.util import dict_tools
 from kilibs.geom import BoundingBox, Vector2D
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.declarative_def_tools import utils, rule_area_properties, fp_additional_drawing
-from scripts.tools.declarative_def_tools.utils import DotDict
-from scripts.tools.declarative_def_tools.ast_evaluator import ASTevaluator, ASTexprEvaluator
-from scripts.tools.drawing_tools import point_is_on_segment
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.declarative_def_tools import utils, rule_area_properties, fp_additional_drawing
+from generators.tools.footprint.declarative_def_tools.utils import DotDict
+from generators.tools.footprint.declarative_def_tools.ast_evaluator import ASTevaluator, ASTexprEvaluator
+from generators.tools.footprint.drawing_tools import point_is_on_segment
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
+
+from generators.tools.spec.base_spec import BaseSpec
+from .spec import ConnectorSpec
+from kilibs.config.global_config import GLOBAL_CONFIG
+from ..config import CONNECTOR_CONFIG
 
 
 DEFAULT_SMT_PAD_SHAPE = 'roundrect'
@@ -540,7 +539,9 @@ def parse_body_shape(spec, *, side: str, eval_expr: Callable):
                     try:
                         xy = Vector2D(*[eval_expr(coord) for coord in node])
                         nodes.append(sign * xy)
-                    except Exception as e:
+                    except KeyboardInterrupt:
+                        raise
+                    except Exception:
                         raise ValueError("failed to parse polyline node '%s'" % node)
             else:
                 raise ValueError("only polyline shapes are implemented, not '%s'" % shape)
@@ -559,6 +560,7 @@ def parse_body_shape(spec, *, side: str, eval_expr: Callable):
 
 
 def generate_one_footprint(
+    generator_name: str,
     global_config: GC.GlobalConfig,
     positions: int,
     spec: dict,
@@ -596,9 +598,6 @@ def generate_one_footprint(
         fp_name += "_Pol%02d" % fp_config.gap_pos
 
     fp_name += fp_config.spec.get("fp_suffix", "").format(**format_dict)
-
-    ## information about what is generated
-    print("  - %s" % fp_name)
 
     ## create the footprint
     kicad_mod = Footprint(fp_name, fp_config.type)
@@ -688,7 +687,7 @@ def generate_one_footprint(
         kicad_mod.append(pin1_silk)
 
     if (fp_config.draw_pin1_marker_on_fab):
-        pin1_fab_pnts = make_pin1_fab_marker_points(fp_config)
+        pin1_fab_pnts = make_pin1_fab_marker_points(fp_config, global_config)
         # close polygon only if the closing line is not contained in the F.Fab outline
         if (not check_if_points_on_lines(kicad_mod, [pin1_fab_pnts[n] for n in [0, -1]], layer='F.Fab')):
             pin1_fab_pnts.append(pin1_fab_pnts[0])
@@ -724,8 +723,7 @@ def generate_one_footprint(
     kicad_mod.append(Model(filename=f"{global_config.model_3d_prefix}{lib_name}.3dshapes/{fp_name}{global_config.model_3d_suffix}",
                             at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 def calculate_courtyard(bbox: BoundingBox, offsets, global_config: GC.GlobalConfig):
@@ -789,7 +787,7 @@ def check_if_points_on_lines(kicad_mod, points, layer):
     return False
 
 
-def make_pin1_fab_marker_points(fp_config: FPconfiguration) -> list:
+def make_pin1_fab_marker_points(fp_config: FPconfiguration, global_config: GC.GlobalConfig) -> list:
     # pin 1 on Fab is a triangle
 
     # location of the tip in x
@@ -911,42 +909,21 @@ def add_mount_pad(kicad_mod, global_config, pad_pos_range, pad_spec, pad_center_
             kicad_mod.append(Pad(at=pad_pos, number=num, **pad_props.as_args()))
 
 
-if __name__ == "__main__":
+def create_footprints(spec: ConnectorSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    parser.add_argument('--filter', type=str, nargs='?', default="*", help='filter footprints to generate (wildcard matching)')
-    parser.add_argument('yaml_file', type=str, help='name of the configuration parameter file')
-    args = parser.parse_args()
+    Args:
+        spec: The specification.
+        generator_name: The name of this generator.
 
-    global_config = GC.GlobalConfig.load_from_file(args.global_config)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.yaml_file, "r") as yaml_file:
-        try:
-            yaml_spec = yaml.safe_load(yaml_file)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    dict_tools.dictInherit(yaml_spec)
-
-    for variant, spec in yaml_spec.items():
-        if (
-            variant.startswith("defaults")
-            or not fnmatch(variant, args.filter)
-        ):
-            continue
-
-        print("- %s:" % variant)
-        list_of_positions = spec["positions"]
-        if (isinstance(list_of_positions, str) and (match := re.match(r"^\s*\$\((.+)\)\s*$", list_of_positions))):
-            list_of_positions = ASTexprEvaluator().eval(match[1])
-        for idx, positions in enumerate(utils.as_list(list_of_positions)):
-            generate_one_footprint(global_config, positions, idx=idx, spec=spec, configuration=configuration)
-        print("")
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
+    list_of_positions = spec.spec["positions"]
+    if (isinstance(list_of_positions, str) and (match := re.match(r"^\s*\$\((.+)\)\s*$", list_of_positions))):
+        list_of_positions = ASTexprEvaluator().eval(match[1])
+    for idx, positions in enumerate(utils.as_list(list_of_positions)):
+        generate_one_footprint(generator_name, GLOBAL_CONFIG, positions, idx=idx, spec=spec.spec, configuration=CONNECTOR_CONFIG)
+        num_fps_generated += 1
+    return num_fps_generated

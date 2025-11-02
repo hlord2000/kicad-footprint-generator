@@ -1,13 +1,23 @@
-#! /usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
 import dataclasses
 import enum
 from typing import Any
 
-import socket_strips
-
-from scripts.tools.footprint_generator import FootprintGenerator
+import generators.connector.pin_socket.socket_strips as socket_strips
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_dicts
 
 
 class Orientation(enum.Enum):
@@ -90,55 +100,47 @@ class PinSocketProperies:
         )
 
 
-class PinSocketGenerator(FootprintGenerator):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    def generateFootprint(
-        self, spec: dict[str, Any], pkg_id: str, header_info: dict[str, Any]
-    ) -> None:
-        fp_config = PinSocketProperies(spec)
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
 
-        for pin_count in fp_config.pin_counts:
-            fp_config.dparams.num_pins = pin_count
+    Returns:
+        The number of footprints generated.
+    """
+    import generators.connector.Phoenix_SPT.phoenixcontact_terminal_block_spt_tht as con
 
-            if (
-                fp_config.mount_type == MountType.THT
-                and fp_config.orientation == Orientation.VERTICAL
-            ):
-                builder = socket_strips.pinSocketVerticalTHT(fp_config.dparams)
-            elif (
-                fp_config.mount_type == MountType.THT
-                and fp_config.orientation == Orientation.HORIZONTAL
-            ):
-                builder = socket_strips.pinSocketHorizontalTHT(fp_config.dparams)
-            elif (
-                fp_config.mount_type == MountType.SMD
-                and fp_config.orientation == Orientation.VERTICAL
-            ):
-                builder = socket_strips.pinSocketVerticalSMD(fp_config.dparams)
-            # elif fp_config.mount == "SMD" and fp_config.orientation == Orientation.HORIZONTAL:
-            #     builder = socket_strips.pinSocketHorizontalSMD(fp_config.dparams)
-            else:
-                raise ValueError(
-                    f"Unsupported mount/orientation combination: {fp_config.mount_type}/{fp_config.orientation}"
-                )
-
-            builder.make()
-
-
-if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(
-        description="use config .yaml files to create socket strips."
-    )
-    parser.add_argument(
-        "files",
-        metavar="file",
-        type=str,
-        nargs="*",
-        help="list of files holding information about what devices should be created.",
-    )
-    args = FootprintGenerator.add_standard_arguments(parser)
-
-    FootprintGenerator.run_on_files(PinSocketGenerator, args)
+    num_fps_generated = 0
+    spec_dicts = get_spec_dicts(generator_name)
+    # Create each part
+    for _, yaml in spec_dicts:
+        for _, spec in yaml.items():
+            fp_config = PinSocketProperies(spec)
+            for pin_count in fp_config.pin_counts:
+                fp_config.dparams.num_pins = pin_count
+                if (
+                    fp_config.mount_type == MountType.THT
+                    and fp_config.orientation == Orientation.VERTICAL
+                ):
+                    builder = socket_strips.pinSocketVerticalTHT(fp_config.dparams)
+                elif (
+                    fp_config.mount_type == MountType.THT
+                    and fp_config.orientation == Orientation.HORIZONTAL
+                ):
+                    builder = socket_strips.pinSocketHorizontalTHT(fp_config.dparams)
+                elif (
+                    fp_config.mount_type == MountType.SMD
+                    and fp_config.orientation == Orientation.VERTICAL
+                ):
+                    builder = socket_strips.pinSocketVerticalSMD(fp_config.dparams)
+                # elif fp_config.mount == "SMD" and fp_config.orientation == Orientation.HORIZONTAL:
+                #     builder = socket_strips.pinSocketHorizontalSMD(fp_config.dparams)
+                else:
+                    raise ValueError(
+                        f"Unsupported mount/orientation combination: {fp_config.mount_type}/{fp_config.orientation}"
+                    )
+                builder.make(generator_name)
+                num_fps_generated += 1
+    return num_fps_generated

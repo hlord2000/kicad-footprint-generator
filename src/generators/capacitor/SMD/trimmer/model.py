@@ -56,135 +56,116 @@ __Comment__ = """Makes varistor 3D models exported to STEP and VRML."""
 ___ver___ = "2.0.0"
 
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from . import cq_murata, cq_sprague_goodman, cq_voltronics
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("C_Trimmer")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Generate the current model
+    if spec.spec["model_class"] == "murata":
+        cqm = cq_murata.cq_murata()
+    elif spec.spec["model_class"] == "sprague_goodman":
+        cqm = cq_sprague_goodman.cq_sprague_goodman()
+    elif spec.spec["model_class"] == "voltronics":
+        cqm = cq_voltronics.cq_voltronics()
     else:
-        models = {model_to_build: all_params[model_to_build]}
+        logging.error("No match found for the model_class")
+        return 0
 
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Generate the current model
-        if all_params[model]["model_class"] == "murata":
-            cqm = cq_murata.cq_murata()
-        elif all_params[model]["model_class"] == "sprague_goodman":
-            cqm = cq_sprague_goodman.cq_sprague_goodman()
-        elif all_params[model]["model_class"] == "voltronics":
-            cqm = cq_voltronics.cq_voltronics()
+    # The CP Axial capacitors are a special case
+    if spec.spec["model_class"] == "murata":
+        if spec.spec["modelName"].endswith("Murata_TZB4-A"):
+            body_top = cqm.make_top_Murata_TZB4_A(spec.spec)
+            body = cqm.make_case_Murata_TZB4_A(spec.spec)
+            pins = cqm.make_pin_Murata_TZB4_A(spec.spec)
+        elif spec.spec["modelName"].endswith("Murata_TZB4-B"):
+            body_top = cqm.make_top_Murata_TZB4_B(spec.spec)
+            body = cqm.make_case_Murata_TZB4_B(spec.spec)
+            pins = cqm.make_pin_Murata_TZB4_B(spec.spec)
+        elif spec.spec["modelName"].endswith("Murata_TZC3"):
+            body_top = cqm.make_top_Murata_TZC3(spec.spec)
+            body = cqm.make_case_Murata_TZC3(spec.spec)
+            pins = cqm.make_pin_Murata_TZC3(spec.spec)
+        elif spec.spec["modelName"].endswith("Murata_TZR1"):
+            body_top = cqm.make_top_Murata_TZR1(spec.spec)
+            body = cqm.make_case_Murata_TZR1(spec.spec)
+            pins = cqm.make_pin_Murata_TZR1(spec.spec)
+        elif spec.spec["modelName"].endswith("Murata_TZW4"):
+            body_top = cqm.make_top_Murata_TZW4(spec.spec)
+            body = cqm.make_case_Murata_TZW4(spec.spec)
+            pins = cqm.make_pin_Murata_TZW4(spec.spec)
+        elif spec.spec["modelName"].endswith("Murata_TZY2"):
+            body_top = cqm.make_top_Murata_TZY2(spec.spec)
+            body = cqm.make_case_Murata_TZY2(spec.spec)
+            pins = cqm.make_pin_Murata_TZY2(spec.spec)
         else:
-            print("ERROR: No match found for the model_class")
-            continue
-
-        # The CP Axial capacitors are a special case
-        if all_params[model]["model_class"] == "murata":
-            if all_params[model]["modelName"].endswith("Murata_TZB4-A"):
-                body_top = cqm.make_top_Murata_TZB4_A(all_params[model])
-                body = cqm.make_case_Murata_TZB4_A(all_params[model])
-                pins = cqm.make_pin_Murata_TZB4_A(all_params[model])
-            elif all_params[model]["modelName"].endswith("Murata_TZB4-B"):
-                body_top = cqm.make_top_Murata_TZB4_B(all_params[model])
-                body = cqm.make_case_Murata_TZB4_B(all_params[model])
-                pins = cqm.make_pin_Murata_TZB4_B(all_params[model])
-            elif all_params[model]["modelName"].endswith("Murata_TZC3"):
-                body_top = cqm.make_top_Murata_TZC3(all_params[model])
-                body = cqm.make_case_Murata_TZC3(all_params[model])
-                pins = cqm.make_pin_Murata_TZC3(all_params[model])
-            elif all_params[model]["modelName"].endswith("Murata_TZR1"):
-                body_top = cqm.make_top_Murata_TZR1(all_params[model])
-                body = cqm.make_case_Murata_TZR1(all_params[model])
-                pins = cqm.make_pin_Murata_TZR1(all_params[model])
-            elif all_params[model]["modelName"].endswith("Murata_TZW4"):
-                body_top = cqm.make_top_Murata_TZW4(all_params[model])
-                body = cqm.make_case_Murata_TZW4(all_params[model])
-                pins = cqm.make_pin_Murata_TZW4(all_params[model])
-            elif all_params[model]["modelName"].endswith("Murata_TZY2"):
-                body_top = cqm.make_top_Murata_TZY2(all_params[model])
-                body = cqm.make_case_Murata_TZY2(all_params[model])
-                pins = cqm.make_pin_Murata_TZY2(all_params[model])
-            else:
-                print("ERROR: No match found for the modelName")
-                continue
-        elif all_params[model]["model_class"] == "sprague_goodman":
-            body_top = cqm.make_top_Sprague_Goodman_SGC3(all_params[model])
-            body = cqm.make_case_Sprague_Goodman_SGC3(all_params[model])
-            pins = cqm.make_pin_Sprague_Goodman_SGC3(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif all_params[model]["model_class"] == "voltronics":
-            if all_params[model]["modelName"].endswith("Voltronics_JN"):
-                body_top = cqm.make_top_Voltronics_JN(all_params[model])
-                body = cqm.make_case_Voltronics_JN_JQ(all_params[model])
-                pins = cqm.make_pin_Voltronics_JN_JQ(all_params[model])
-            elif all_params[model]["modelName"].endswith("Voltronics_JQ"):
-                body_top = cqm.make_top_Voltronics_JQ(all_params[model])
-                body = cqm.make_case_Voltronics_JN_JQ(all_params[model])
-                pins = cqm.make_pin_Voltronics_JN_JQ(all_params[model])
-            elif all_params[model]["modelName"].endswith("Voltronics_JR"):
-                body_top = cqm.make_top_Voltronics_JR(all_params[model])
-                body = cqm.make_case_Voltronics_JR(all_params[model])
-                pins = cqm.make_pin_Voltronics_JR(all_params[model])
-            elif all_params[model]["modelName"].endswith("Voltronics_JV"):
-                body_top = cqm.make_top_Voltronics_JV(all_params[model])
-                body = cqm.make_case_Voltronics_JV(all_params[model])
-                pins = cqm.make_pin_Voltronics_JV(all_params[model])
-            elif all_params[model]["modelName"].endswith("Voltronics_JZ"):
-                body_top = cqm.make_top_Voltronics_JZ(all_params[model])
-                body = cqm.make_case_Voltronics_JZ(all_params[model])
-                pins = cqm.make_pin_Voltronics_JZ(all_params[model])
-            else:
-                print("ERROR: No match found for the modelName")
-                continue
+            logging.error("No match found for the modelName.")
+            return 0
+    elif spec.spec["model_class"] == "sprague_goodman":
+        body_top = cqm.make_top_Sprague_Goodman_SGC3(spec.spec)
+        body = cqm.make_case_Sprague_Goodman_SGC3(spec.spec)
+        pins = cqm.make_pin_Sprague_Goodman_SGC3(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.spec["model_class"] == "voltronics":
+        if spec.spec["modelName"].endswith("Voltronics_JN"):
+            body_top = cqm.make_top_Voltronics_JN(spec.spec)
+            body = cqm.make_case_Voltronics_JN_JQ(spec.spec)
+            pins = cqm.make_pin_Voltronics_JN_JQ(spec.spec)
+        elif spec.spec["modelName"].endswith("Voltronics_JQ"):
+            body_top = cqm.make_top_Voltronics_JQ(spec.spec)
+            body = cqm.make_case_Voltronics_JN_JQ(spec.spec)
+            pins = cqm.make_pin_Voltronics_JN_JQ(spec.spec)
+        elif spec.spec["modelName"].endswith("Voltronics_JR"):
+            body_top = cqm.make_top_Voltronics_JR(spec.spec)
+            body = cqm.make_case_Voltronics_JR(spec.spec)
+            pins = cqm.make_pin_Voltronics_JR(spec.spec)
+        elif spec.spec["modelName"].endswith("Voltronics_JV"):
+            body_top = cqm.make_top_Voltronics_JV(spec.spec)
+            body = cqm.make_case_Voltronics_JV(spec.spec)
+            pins = cqm.make_pin_Voltronics_JV(spec.spec)
+        elif spec.spec["modelName"].endswith("Voltronics_JZ"):
+            body_top = cqm.make_top_Voltronics_JZ(spec.spec)
+            body = cqm.make_case_Voltronics_JZ(spec.spec)
+            pins = cqm.make_pin_Voltronics_JZ(spec.spec)
         else:
-            print("ERROR: No match for model_class")
-            continue
+            logging.error("No match found for the modelName.")
+            return 0
+    else:
+        logging.error("No match for model_class.")
+        return 0
 
-        parts: list[cq.Workplane] = [body_top, body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_top_color_key"],
-            all_params[model]["body_color_key"],
-            all_params[model]["pins_color_key"],
-        ]
+    parts: list[cq.Workplane] = [body_top, body, pins]
+    color_names: list[str] = [
+        spec.spec["body_top_color_key"],
+        spec.spec["body_color_key"],
+        spec.spec["pins_color_key"],
+    ]
 
-        # Handle nth pins
-        if all_params[model]["model_class"] == "sprague_goodman":
-            parts.append(npth_pins)
-            color_names.append(all_params[model]["pins_color_key"])
+    # Handle nth pins
+    if spec.spec["model_class"] == "sprague_goodman":
+        parts.append(npth_pins)
+        color_names.append(spec.spec["pins_color_key"])
 
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

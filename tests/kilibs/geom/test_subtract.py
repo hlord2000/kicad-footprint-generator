@@ -37,7 +37,7 @@ from kilibs.geom import (
 )
 from kilibs.geom.operations import subtract
 from kilibs.geom.tolerances import TOL_MM
-from scripts.tools.drawing_tools import applyKeepouts
+from generators.tools.footprint.drawing_tools import applyKeepouts
 from tests.kilibs.geom.geom_test_shapes import TEST_SHAPES
 from tests.kilibs.geom.is_equal import is_equal
 

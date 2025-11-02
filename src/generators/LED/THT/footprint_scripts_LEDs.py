@@ -1,14 +1,25 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import math
 
 from KicadModTree import *  # NOQA
-from scripts.tools.drawing_tools import *
-from scripts.tools.footprint_global_properties import *
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import *
+from generators.tools.footprint.footprint_global_properties import *
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
-
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 
 # LED footprints
@@ -55,6 +66,7 @@ global_config = GC.DefaultGlobalConfig()
 #           <-------w-------->
 # in the center a second circle is drawn if rin>0
 def makeLEDRadial(
+    generator_name,
     pitch,
     w,
     h,
@@ -173,8 +185,6 @@ def makeLEDRadial(
     for n in name_additions:
         if len(n) > 0:
             footprint_name = footprint_name + "_" + n
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -328,8 +338,7 @@ def makeLEDRadial(
         kicad_modg.append(
             Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 # LED footprints for horizontally mounted LEDs
@@ -345,6 +354,7 @@ def makeLEDRadial(
 #
 #  led_type="round"/"rect"
 def makeLEDHorizontal(
+    generator_name,
     pins=2,
     pitch=2.54,
     dled=5,
@@ -466,8 +476,6 @@ def makeLEDHorizontal(
         if len(n) > 0:
             footprint_name = footprint_name + "_" + n
 
-    print(footprint_name)
-
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
     kicad_mod.setDescription(", ".join(description))
@@ -567,6 +575,5 @@ def makeLEDHorizontal(
         kicad_modg.append(
             Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 

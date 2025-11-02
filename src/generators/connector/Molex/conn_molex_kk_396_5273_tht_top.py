@@ -1,59 +1,53 @@
-#!/usr/bin/env python3
-
-# KicadModTree is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
 #
-# KicadModTree is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) The KiCad Librarian Team
 
-
+from typing import Any
 from math import sqrt
-import argparse
-import yaml
-
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
-series = "KK-396"
-series_long = 'KK 396 Interconnect System'
-manufacturer = 'Molex'
-orientation = 'V'
-number_of_rows = 1
-datasheet = 'https://www.molex.com/pdm_docs/sd/009652028_sd.pdf'
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pincount, configuration):
 
-pitch = 3.96
-drill = 1.8
-start_pos_x = 0 # Where should pin 1 be located.
-pad_to_pad_clearance = 0.8
-max_annular_ring = 1.2 # How much copper should be in y direction?
-min_annular_ring = 0.3
+    series = "KK-396"
+    series_long = 'KK 396 Interconnect System'
+    manufacturer = 'Molex'
+    orientation = 'V'
+    number_of_rows = 1
+    datasheet = 'https://www.molex.com/pdm_docs/sd/009652028_sd.pdf'
 
-pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
-if pad_size[0] - drill < 2*min_annular_ring:
-    pad_size[0] = drill + 2*min_annular_ring
-if pad_size[0] - drill > 2*max_annular_ring:
-    pad_size[0] = drill + 2*max_annular_ring
+    pitch = 3.96
+    drill = 1.8
+    start_pos_x = 0 # Where should pin 1 be located.
+    pad_to_pad_clearance = 0.8
+    max_annular_ring = 1.2 # How much copper should be in y direction?
+    min_annular_ring = 0.3
 
-pad_shape=Pad.SHAPE_OVAL
-if pad_size[1] == pad_size[0]:
-    pad_shape=Pad.SHAPE_CIRCLE
+    pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
+    if pad_size[0] - drill < 2*min_annular_ring:
+        pad_size[0] = drill + 2*min_annular_ring
+    if pad_size[0] - drill > 2*max_annular_ring:
+        pad_size[0] = drill + 2*max_annular_ring
 
-eng_mpn = '5273-{n:02d}A'
-new_mpn_example = '09-65-2{n:02d}8'
+    pad_shape=Pad.SHAPE_OVAL
+    if pad_size[1] == pad_size[0]:
+        pad_shape=Pad.SHAPE_CIRCLE
 
-def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configuration):
+    eng_mpn = '5273-{n:02d}A'
+    new_mpn_example = '09-65-2{n:02d}8'
 
     mpn = eng_mpn.format(n=pincount)
     new_mpn = new_mpn_example.format(n=pincount)
@@ -170,28 +164,12 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use config .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
     for pincount in range(2, 13):
-        generate_one_footprint(global_config, pincount, configuration)
+        generate_one_footprint(generator_name, global_config, pincount, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

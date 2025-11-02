@@ -1,18 +1,32 @@
-from KicadModTree import *  # NOQA
-from KicadModTree import Trapezoid, RoundRectangle
-from scripts.tools.drawing_tools import (
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
+from generators.tools.footprint.drawing_tools import (
     addKeepoutRect,
     addKeepoutRound,
     allEqualSidedDownTriangle,
     roundCrt,
 )
+
 # Vestigial global properties that should be from global_config
-from scripts.tools.footprint_global_properties import (
+from generators.tools.footprint.footprint_global_properties import (
     fab_text_size_min,
     slk_offset,
     txt_offset,
 )
-from scripts.tools.global_config_files.global_config import GlobalConfig
+from KicadModTree import *  # NOQA
+from KicadModTree import RoundRectangle, Trapezoid
+from kilibs.config.global_config import GlobalConfig
 
 
 def makeDSubStraight(
@@ -66,7 +80,9 @@ def makeDSubStraight(
     li_slk = li_fab - slk_offset
     ti_slk = ti_fab - slk_offset
 
-    crt_offset = global_config.get_courtyard_offset(GlobalConfig.CourtyardType.CONNECTOR)
+    crt_offset = global_config.get_courtyard_offset(
+        GlobalConfig.CourtyardType.CONNECTOR
+    )
 
     w_crt = (
         max([w_fab, mountingpad + mountingdistance, mountingpad + mountingdistance])
@@ -124,8 +140,6 @@ def makeDSubStraight(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     pinstop = int((pins + 1) / 2)
     pinsmid = 0
@@ -518,7 +532,9 @@ def makeDSubEdge(
 
     w_slk = int((pins - 1) / 2) * rmx + pad[0] + (slk_pad_offset + 2 * lw_slk)
 
-    crt_offset = global_config.get_courtyard_offset(GlobalConfig.CourtyardType.CONNECTOR)
+    crt_offset = global_config.get_courtyard_offset(
+        GlobalConfig.CourtyardType.CONNECTOR
+    )
 
     text_size = w_slk * 0.6
     fab_text_size_max = 1.0
@@ -563,8 +579,6 @@ def makeDSubEdge(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     pinstop = int((pins + 1) / 2)
     pinsbot = int((pins - 1) / 2)
@@ -1076,8 +1090,6 @@ def makeDSubAngled(
             description = description + ", " + t
             tags = tags + " " + t
 
-    print(footprint_name)
-
     rows = 2
     pinstop = int((pins + 1) / 2)
     pinsmid = 0
@@ -1101,7 +1113,9 @@ def makeDSubAngled(
 
     ypcb_edge = drmy + pin_pcb_distance
 
-    crt_offset = global_config.get_courtyard_offset(GlobalConfig.CourtyardType.CONNECTOR)
+    crt_offset = global_config.get_courtyard_offset(
+        GlobalConfig.CourtyardType.CONNECTOR
+    )
 
     back_height = backbox_height
     if hasNoBackBox:

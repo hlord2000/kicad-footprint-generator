@@ -1,21 +1,29 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-from helpers import *
-import re
-import fnmatch
-import argparse
-import yaml
-
+from .helpers import *
+from typing import Any
 from KicadModTree import *
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
-from mc_params import seriesParams, dimensions, generate_description, all_params
+from .mc_params import seriesParams, dimensions, generate_description, all_params
 
 series = ['MC', '1,5']
 
-def generate_one_footprint(global_config: GC.GlobalConfig, params, configuration):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, params, model, configuration):
 
     # Through-hole type shrouded header, Top entry type
     subseries, connector_style = params.series_name.split('-')
@@ -217,31 +225,13 @@ def generate_one_footprint(global_config: GC.GlobalConfig, params, configuration
     kicad_mod.append(Model(filename=p3dname,
                            at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_phoenix_KLCv3.0.yaml')
-    parser.add_argument('--model_filter', type=str, nargs='?', help='define a filter for what should be generated.', default="*")
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    model_filter_regobj=re.compile(fnmatch.translate(args.model_filter))
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
     for model, params in all_params.items():
-        if model_filter_regobj.match(model):
-            generate_one_footprint(global_config, params, configuration)
+        generate_one_footprint(generator_name, global_config, params, model, configuration)
+        num_fps_generated += 1
+    return num_fps_generated
+

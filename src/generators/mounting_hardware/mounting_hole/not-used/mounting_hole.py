@@ -1,4 +1,15 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import argparse
 import yaml
@@ -6,6 +17,7 @@ import math
 
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
+from generators.tools.footprint.save_footprint import write_footprint
 
 
 def create_footprint(name, **kwargs):
@@ -136,8 +148,7 @@ def create_footprint(name, **kwargs):
 
     # write file
     lib_name = "MountingHole"
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 def parse_and_execute_yml_file(filepath):

@@ -1,21 +1,27 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
 
-import argparse
+from ..footprint_scripts_terminal_blocks import *
 
-from scripts.tools.footprint_generator import FootprintGenerator
-from scripts.tools.footprint_scripts_terminal_blocks import *
-from scripts.tools.global_config_files.global_config import GlobalConfig
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.footprint.save_footprint import write_footprint
 
-
-class FourUcon_TerminalBlock(FootprintGenerator):
+class FourUcon_TerminalBlock:
 
     script_generated_note = "script-generated using https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/TerminalBlock_4Ucon"
     classname = "TerminalBlock_4Ucon"
-
-    def generateFootprint(self, pins: int):
-        raise NotImplementedError()
 
 
 class FourUcon_H8_3_TerminalBlock(FourUcon_TerminalBlock):
@@ -23,7 +29,7 @@ class FourUcon_H8_3_TerminalBlock(FourUcon_TerminalBlock):
     # Pins known to be available for this footprint type
     PINS = [2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
-    def generateFootprint(self, pins: int):
+    def generateFootprint(self, pins: int, generator_name: str):
 
         rm = 3.5
         package_height = 8.3
@@ -50,6 +56,7 @@ class FourUcon_H8_3_TerminalBlock(FourUcon_TerminalBlock):
         footprint_name = f"TerminalBlock_4Ucon_1x{pins:02}_P{rm:3.2f}mm_Vertical"
 
         kicad_mod = makeTerminalBlockVertical(
+            generator_name,
             footprint_name=footprint_name,
             pins=pins,
             rm=rm,
@@ -77,8 +84,8 @@ class FourUcon_H8_3_TerminalBlock(FourUcon_TerminalBlock):
             script_generated_note=self.script_generated_note,
         )
 
-        self.add_standard_3d_model_to_footprint(kicad_mod, self.classname, footprint_name)
-        self.write_footprint(kicad_mod, self.classname)
+        kicad_mod.add_standard_3d_model_to_footprint(self.classname, footprint_name)
+        write_footprint(kicad_mod, self.classname, generator_name)
 
 
 class FourUCon_H7_TerminalBlock(FourUcon_TerminalBlock):
@@ -86,7 +93,7 @@ class FourUCon_H7_TerminalBlock(FourUcon_TerminalBlock):
     PINS = [2,3,4,5,6,7,8,9,10,11,12,13,14,15]
     ITEM_NOS=[19963,20193,20001,20223,19964,10684,19965,10686,10687,10688,10689,10690,10691,10692]
 
-    def generateFootprint(self, pins: int):
+    def generateFootprint(self, pins: int, generator_name: str):
 
         assert pins in self.PINS, f"Invalid number of pins: {pins}"
         index = self.PINS.index(pins)
@@ -116,6 +123,7 @@ class FourUCon_H7_TerminalBlock(FourUcon_TerminalBlock):
         footprint_name=f"TerminalBlock_4Ucon_1x{pins:02}_P{rm:3.2f}mm_Horizontal"
 
         kicad_mod = makeTerminalBlockStd(
+            generator_name,
             footprint_name=footprint_name,
             pins=pins,
             rm=rm,
@@ -144,22 +152,30 @@ class FourUCon_H7_TerminalBlock(FourUcon_TerminalBlock):
             script_generated_note=self.script_generated_note,
         )
 
-        self.add_standard_3d_model_to_footprint(kicad_mod, self.classname, footprint_name)
-        self.write_footprint(kicad_mod, self.classname)
+        kicad_mod.add_standard_3d_model_to_footprint(self.classname, footprint_name)
+        write_footprint(kicad_mod, self.classname, generator_name)
 
 
-if __name__ == '__main__':
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    parser = argparse.ArgumentParser(description='Generate a 4Ucon Terminal Block Footprint')
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
 
-    args = FootprintGenerator.add_standard_arguments(parser)
-
-    g = FourUcon_H8_3_TerminalBlock(args.output_dir, args.global_config)
-
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
+    
+    g = FourUcon_H8_3_TerminalBlock()
     for pins in g.PINS:
-        g.generateFootprint(pins)
+        g.generateFootprint(pins, generator_name)
+    num_fps_generated += len(g.PINS)
 
-    g = FourUCon_H7_TerminalBlock(args.output_dir, args.global_config)
-
+    g = FourUCon_H7_TerminalBlock()
     for pins in g.PINS:
-        g.generateFootprint(pins)
+        g.generateFootprint(pins, generator_name)
+    num_fps_generated += len(g.PINS)
+
+    return num_fps_generated

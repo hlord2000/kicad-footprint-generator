@@ -18,9 +18,10 @@
 from KicadModTree import *  # NOQA
 
 
-def example_footprint(args):
+def example_footprint(generator_name, args):
     print("now we can create a footprint using the following parameters:")
     print(args)
+    return 0
 
 
 if __name__ == '__main__':

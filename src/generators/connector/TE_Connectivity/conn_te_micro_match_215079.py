@@ -1,4 +1,15 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 """
 
@@ -6,13 +17,12 @@ Drawing:
 https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Customer+Drawing%7F215079%7FY1%7Fpdf%7FEnglish%7FENG_CD_215079_Y1.pdf%7F215079-4
 
 """
-
-import argparse
 import math
-import yaml
+from typing import Any
 from KicadModTree import *
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 man_lib = 'TE-Connectivity'
@@ -55,7 +65,7 @@ def make_part_number(pincount):
     return f'2-{series_no}-0', f'9-{series_no}-{pincount}'
 
 
-def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configuration):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pincount, configuration):
     partno, alt_partno = make_part_number(pincount)
     body_length = body_lengths[pincount]
 
@@ -70,7 +80,6 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
         pitch=pitch,
         orientation=orientation_str
     )
-    print(footprint_name)
 
     # Initialize footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -209,28 +218,10 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
     model_name = f'{model3d_path_prefix}{lib_name}.3dshapes/{footprint_name}{model3d_path_suffix}'
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
     for pins_per_row in pins_per_row_range:
-        generate_one_footprint(global_config, pins_per_row, configuration)
+        generate_one_footprint(generator_name, global_config, pins_per_row, configuration)
+    return len(pins_per_row_range)

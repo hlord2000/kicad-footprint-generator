@@ -17,8 +17,11 @@ from collections.abc import Sequence
 from fnmatch import fnmatch
 from typing import TypeVar
 
-SeqVar = TypeVar("SeqVar")
+_SeqVar = TypeVar("_SeqVar", bound=Sequence[str])
 """Type variable for sequences."""
+
+_T = TypeVar("_T")
+"""Type variable."""
 
 
 def list_filter(
@@ -40,18 +43,18 @@ def list_filter(
     else:
         inc = set(names)
     if exclude_globs:
-        exc = set([n for n in names for g in exclude_globs if fnmatch(n, g)])
+        exc: set[str] = set([n for n in names for g in exclude_globs if fnmatch(n, g)])
     else:
-        exc: set[str] = set()
+        exc = set()
     return list(inc - exc)
 
 
 def list_filter_idx(
-    sequences: list[SeqVar],
+    sequences: list[_SeqVar],
     idx: int,
     include_globs: Sequence[str],
     exclude_globs: Sequence[str],
-) -> list[SeqVar]:
+) -> list[_SeqVar]:
     """Filter a list of sequences based on explicit inclusion and exclusion globs.
 
     Args:
@@ -65,22 +68,30 @@ def list_filter_idx(
         A list of the filtered sequences.
     """
     if include_globs:
-        inc = set([s for s in sequences for g in include_globs if fnmatch(s[idx], g)])
+        inc: list[_SeqVar] = []
+        for g in include_globs:
+            for s in sequences:
+                if fnmatch(s[idx], g) and s not in inc:
+                    inc.append(s)
     else:
-        inc = set(sequences)
+        inc = sequences
     if exclude_globs:
-        exc = set([s for s in sequences for g in exclude_globs if fnmatch(s[idx], g)])
+        exc: list[_SeqVar] = []
+        for g in exclude_globs:
+            for s in inc:
+                if fnmatch(s[idx], g) and s not in inc:
+                    exc.append(s)
+        return [s for s in inc if s not in exc]
     else:
-        exc: set[SeqVar] = set()
-    return list(inc - exc)
+        return inc
 
 
 def list_filter_attr(
-    objects: list[SeqVar],
+    objects: list[_T],
     attr_name: str,
     include_globs: Sequence[str],
     exclude_globs: Sequence[str],
-) -> list[SeqVar]:
+) -> list[_T]:
     """Filter a list of objects based on explicit inclusion and exclusion globs.
 
     Args:
@@ -105,7 +116,7 @@ def list_filter_attr(
     else:
         inc = set(objects)
     if exclude_globs:
-        exc = set(
+        exc: set[_T] = set(
             [
                 s
                 for s in objects
@@ -114,5 +125,5 @@ def list_filter_attr(
             ]
         )
     else:
-        exc: set[SeqVar] = set()
+        exc = set()
     return list(inc - exc)

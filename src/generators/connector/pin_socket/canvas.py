@@ -1,26 +1,17 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2017 by Terje Io, <http://github.com/terjeio>
+# (C) The KiCad Librarian Team
 
-#
-# Generic extension module for KicadModTree in the kicad-footprint-generator framework
-#
-# This module requires the kicad-footprint-generator framework
-# by Thomas Pointhuber,
-# https://gitlab.com/kicad/libraries/kicad-footprint-generator
-#
-# This module is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This module is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-#
 # This module contains wrapper classes and methods for parts
 # of the KicadModTree primitives.
 # They provide "turtle style" drawing using relative moves in order
@@ -31,8 +22,6 @@
 # A canvas is somewhat similar to a workplane in CadQuery which is
 # often used for creating KiCad 3D models.
 #
-# (C) 2017 by Terje Io, <http://github.com/terjeio>
-
 #
 # NOTE:
 # The code for the the Keepout class is loosely based on code from drawing_tools.py

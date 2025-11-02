@@ -1,7 +1,19 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
+from generators.tools.footprint.save_footprint import write_footprint
 
 
 def create_shielding(name, outer_size, size,
@@ -93,11 +105,10 @@ def create_shielding(name, outer_size, size,
     # kicad_mod.insert(Translation(outer_size / 2., attachment_positions[-1] / 2.))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == '__main__':
+def generate_all(global_config) -> int:
     # http://katalog.we-online.de/pbs/datasheet/36503205.pdf
     create_shielding('Würth_36503205_20x20mm', 20.5, 20.5, 1.1, 1.7, [5.08, 15.24])
 
@@ -112,3 +123,5 @@ if __name__ == '__main__':
 
     # http://katalog.we-online.de/pbs/datasheet/36503605.pdf
     create_shielding('Würth_36503605_60x60mm', 60.5, 60.5, 1.1, 1.7, [5.08, 15.24, 25.40, 35.56, 45.72, 55.88])
+    
+    return 5

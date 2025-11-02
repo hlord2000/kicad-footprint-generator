@@ -54,83 +54,33 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
-import glob
-import os
-from pathlib import Path
 
 import cadquery as cq
-import yaml
 
-from _tools import export_tools  # type: ignore
-from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
-
-from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
-    NoLeadConfiguration,
+from generators.tools.model import export_tools  # type: ignore
+from generators.tools.model.exportVRML.export_part_to_VRML import (
+    export_VRML,  # type: ignore
 )
-from kilibs.util import dict_tools  # type: ignore
 
-from .qfn_packages import make_qfn
+from .qfn_packages import make_qfn  # type: ignore
+from .spec import NoLeadSpec
 
 
-def make_models(
-    model_to_build: str | None = None,
-    output_dir_prefix: str | None = None,
-    enable_vrml: bool = True,
-) -> None:
+def create_models(spec: NoLeadSpec, generator_name: str) -> int:
+    """Create the model corresponding to the spec.
+
+    Args:
+        spec: the no lead specification.
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-
-    if output_dir_prefix is None:
-        print("ERROR: An output directory must be provided.")
-        return
-
-    # model_to_build can be 'all', or a specific model that could be in any yaml file.
-    # In either case we have to load all the model files to memory. This method could
-    # be optimized in the future.
-
-    no_lead_path = os.path.dirname(os.path.realpath(__file__))
-    all_yaml_files = glob.glob(f"{no_lead_path}/../../data/no_lead/*.yaml")
-
-    # We load the configuration file (of the footprint generators):
-    with open("../scripts/Packages/package_config_KLCv3.yaml", "r") as config_stream:
-        try:
-            config = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-            raise FileNotFoundError("Could not load 'package_config_KLCv3.yaml'")
-
-    nl_configs: list[NoLeadConfiguration] = []
-    for yaml_file in all_yaml_files:
-        file_path = Path(yaml_file)
-        with open(file_path, "r") as stream:
-            yaml_dict = yaml.safe_load(stream)
-            dict_tools.dictInherit(yaml_dict)
-            header = yaml_dict.get("FileHeader")
-            for key, value in yaml_dict.items():
-                if key != "FileHeader":
-                    if (
-                        model_to_build == key
-                        or model_to_build == "all"
-                        or model_to_build == None
-                    ):
-                        nlc = NoLeadConfiguration(key, value, header, config)
-                        if nlc.has_3d_data:
-                            nl_configs.append(nlc)
-
-    for spec in nl_configs:
-        make_single_no_lead_model(output_dir_prefix, spec, enable_vrml)
-
-
-def make_single_no_lead_model(
-    output_dir_prefix: str,
-    nlc: NoLeadConfiguration,
-    enable_vrml: bool,
-) -> None:
-    print(nlc.model_name, flush=True)
+    if not spec.has_3d_data:
+        return 0
 
     # Make the parts of the model
-    (body, pins, epad, mark) = make_qfn(nlc)
+    (body, pins, epad, mark) = make_qfn(spec)
 
     parts: list[cq.Workplane] = [body, pins]
     color_names: list[str] = ["black body", "metal grey pins"]
@@ -142,10 +92,10 @@ def make_single_no_lead_model(
         color_names.append("light brown label")
 
     export_tools.export(
-        root_output_dir=output_dir_prefix,
-        lib_name=nlc.lib_name,
-        model_name=nlc.model_name,
+        generator_name=generator_name,
+        lib_name=spec.lib_name,
+        model_name=spec.model_name,
         parts=parts,
         color_names=color_names,
-        export_as_vrml=enable_vrml,
     )
+    return 1

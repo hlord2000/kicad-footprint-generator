@@ -29,7 +29,7 @@ import math
 
 import cadquery as cq
 
-from _tools.utils import as_list, pingen
+from generators.tools.model.utils import as_list, pingen
 
 
 def make_shell_top_lips(body, params):

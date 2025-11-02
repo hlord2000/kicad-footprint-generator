@@ -1,12 +1,35 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from __future__ import division
 
 from KicadModTree import *  # NOQA
-from scripts.tools.footprint_scripts_terminal_blocks import *
+from ..footprint_scripts_terminal_blocks import *
 
 
-if __name__ == '__main__':
+from generators.tools.spec.base_spec import BaseSpec
+
+
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
     script_generated_note = ("script-generated using https://gitlab.com"
             "/kicad/libraries/kicad-footprint-generator/scripts/TerminalBlock_TE-Connectivity")
     long_classname = "TerminalBlock_TE-Connectivity"
@@ -37,38 +60,42 @@ if __name__ == '__main__':
     for p in pins:
         name_prefix = "{}-".format(p // 10) if p // 10 > 0 else ""
         name = "{}282834-{}".format(name_prefix, p % 10)
-        webpage = ("http://www.te.com/commerce/DocumentDelivery/DDEController"
-                "?Action=showdoc&DocId=Customer+Drawing%7F282834%7FC1%7Fpdf"
-                "%7FEnglish%7FENG_CD_282834_C1.pdf")
+        webpage = (
+            "http://www.te.com/commerce/DocumentDelivery/DDEController"
+            "?Action=showdoc&DocId=Customer+Drawing%7F282834%7FC1%7Fpdf"
+            "%7FEnglish%7FENG_CD_282834_C1.pdf"
+        )
         classname_description = "Terminal Block TE {0}".format(name)
         footprint_name = "{}_{}_1x{:02}_P{:3.2f}mm_Horizontal".format(
-                classname, name, p, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                pins=p,
-                rm=rm,
-                package_height=package_height,
-                leftbottom_offset=leftbottom_offset,
-                ddrill=ddrill,
-                pad=pad,
-                screw_diameter=screw_diameter,
-                bevel_height=bevel_height,
-                slit_screw=slit_screw,
-                screw_pin_offset=screw_pin_offset,
-                secondHoleDiameter=secondHoleDiameter,
-                secondHoleOffset=secondHoleOffset,
-                thirdHoleDiameter=thirdHoleDiameter,
-                thirdHoleOffset=thirdHoleOffset,
-                fourthHoleDiameter=fourthHoleDiameter,
-                fourthHoleOffset=fourthHoleOffset,
-                secondDrillDiameter=secondDrillDiameter,
-                secondDrillOffset=secondDrillOffset,
-                secondDrillPad=secondDrillPad,
-                nibbleSize=nibbleSize,
-                nibblePos=nibblePos,
-                fabref_offset=fabref_offset,
-                tags_additional=[],
-                lib_name=long_classname,
-                classname=classname,
-                classname_description=classname_description,
-                webpage=webpage,
-                script_generated_note=script_generated_note)
+            classname, name, p, rm
+        )
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+            pins=p,
+            rm=rm,
+            package_height=package_height,
+            leftbottom_offset=leftbottom_offset,
+            ddrill=ddrill,
+            pad=pad,
+            screw_diameter=screw_diameter,
+            bevel_height=bevel_height,
+            slit_screw=slit_screw,
+            screw_pin_offset=screw_pin_offset,
+            secondHoleDiameter=secondHoleDiameter,
+            secondHoleOffset=secondHoleOffset,
+            thirdHoleDiameter=thirdHoleDiameter,
+            thirdHoleOffset=thirdHoleOffset,
+            fourthHoleDiameter=fourthHoleDiameter,
+            fourthHoleOffset=fourthHoleOffset,
+            secondDrillDiameter=secondDrillDiameter,
+            secondDrillOffset=secondDrillOffset,
+            secondDrillPad=secondDrillPad,
+            nibbleSize=nibbleSize,
+            nibblePos=nibblePos,
+            fabref_offset=fabref_offset,
+            tags_additional=[],
+            lib_name=long_classname,
+            classname=classname,
+            classname_description=classname_description,
+            webpage=webpage,
+            script_generated_note=script_generated_note)
+    return len(pins)

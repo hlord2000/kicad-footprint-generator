@@ -1,11 +1,22 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
-from scripts.tools.footprint_scripts_terminal_blocks import *
+from ..footprint_scripts_terminal_blocks import *
 
 
-if __name__ == '__main__':
-
+def generate_all(generator_name: str) -> int:
+    num_fps_generated = 0
     script_generated_note="script-generated using https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/TerminalBlock_MetzConnect";
     classname="TerminalBlock_MetzConnect"
 
@@ -43,7 +54,7 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/312051/863728.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad,  vsegment_lines_offset=vsegment_lines_offset,
@@ -53,6 +64,7 @@ if __name__ == '__main__':
                                   secondEllipseSize=secondEllipseSize,secondEllipseOffset=secondEllipseOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=3.81
@@ -78,13 +90,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310861/863404.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=5.0
@@ -110,14 +123,14 @@ if __name__ == '__main__':
         webpage="https://americancableassemblies.com/content/metz/863188.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
-
+    num_fps_generated += len(pins)
 
     pins=range(2,5+1)
     rm=10
@@ -143,14 +156,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310671/863296.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
-
+    num_fps_generated += len(pins)
 
     pins=range(2,3+1)
     rm=9.52
@@ -176,13 +189,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/317031/863835.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=5.0
@@ -208,13 +222,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310941/863441.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=5.08
@@ -240,13 +255,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/311011/863468.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=3.5
@@ -272,14 +288,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310591/863246.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
-
+    num_fps_generated += len(pins)
 
     pins=range(2,3+1)
     rm=5.08
@@ -305,13 +321,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310731/863336.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,3+1)
     rm=6.35
@@ -337,14 +354,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/317011/863830.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
-
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=7.5
@@ -370,13 +387,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/311711/863695.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,6+1)
     rm=7.5
@@ -402,13 +420,14 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/311751/863710.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,4+1)
     rm=5
@@ -434,10 +453,13 @@ if __name__ == '__main__':
         webpage="https://www.metz-connect.com/externalfiles/310551/863212.PDF"
         footprint_name="TerminalBlock_MetzConnect_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         classname_description="terminal block Metz Connect {0}".format(name, rm)
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
                                   pins=p, rm=rm,
                                   package_height=package_height, leftbottom_offset=leftbottom_offset,
                                   ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
                                   webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
+
+    return num_fps_generated

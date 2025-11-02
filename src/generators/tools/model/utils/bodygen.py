@@ -29,7 +29,7 @@ import math
 
 import cadquery as cq
 
-from _tools.utils import as_list
+from generators.tools.model.utils import as_list
 
 
 def make_body_shell_top_clip_pocket(body, params):

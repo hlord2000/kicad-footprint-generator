@@ -1,4 +1,15 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 """
 Generator for SMD connectors (single row with two mounting pads)
@@ -9,23 +20,27 @@ Generator for SMD connectors (single row with two mounting pads)
       |____________|
 """
 
-import argparse
-import yaml
 from math import sqrt
+import os
 
 from kilibs.geom import GeomRectangle, Direction
 from kilibs.declarative_defs import evaluable_defs as EDs
 from KicadModTree import *
 from KicadModTree.util.courtyard_builder import CourtyardBuilder
-from scripts.tools.declarative_def_tools.connectors_config import (
+from generators.tools.footprint.declarative_def_tools.connectors_config import (
     ConnectorsConfiguration,
     ConnectorOrientation,
 )
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.declarative_def_tools import ast_evaluator, fp_additional_drawing
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
+from generators.tools.footprint.declarative_def_tools import ast_evaluator, fp_additional_drawing
 
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_dicts
+from kilibs.config.global_config import GLOBAL_CONFIG
+from generators.tools.cli_args import CLI_ARGS
 
 class SMDSingleRowPlusMPProperties:
     """
@@ -163,7 +178,7 @@ class SMDSingleRowPlusMPProperties:
 
         self.additional_drawings = (
             fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(
-                series_definition
+                series_def
             )
         )
 
@@ -182,6 +197,7 @@ class SMDSingleRowPlusMPProperties:
 
 
 def generate_one_footprint(
+    generator_name: str,
     global_config: GC.GlobalConfig,
     idx: int,
     pincount: int,
@@ -596,37 +612,31 @@ def generate_one_footprint(
         model3d_path_suffix=global_config.model_3d_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('files', metavar='file', type=str, nargs='+',
-                        help='list of files holding information about what devices should be created.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    global_config = GC.GlobalConfig.load_from_file(args.global_config)
-    conn_config = ConnectorsConfiguration.load_from_file(args.series_config)
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
 
-    for filepath in args.files:
-        with open(filepath, "r") as stream:
-            try:
-                yaml_file = yaml.safe_load(stream)
-            except yaml.YAMLError as exc:
-                print(exc)
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
+    configuration = ConnectorsConfiguration.load_from_file(os.path.expandvars(CLI_ARGS.connector_config))
+    for _, yaml_file in get_spec_dicts(generator_name):
         series_definitions = yaml_file["device_definition"]
-
         for series_id, series_definition in series_definitions.items():
             group_definition = yaml_file["group_definitions"]
-
             series_props = SMDSingleRowPlusMPProperties(
                 series_definition, group_definition, series_id
             )
-
             for idx, pincount in enumerate(series_props.pin_range):
                 generate_one_footprint(
-                    global_config, idx, pincount, series_props, conn_config
+                    generator_name, GLOBAL_CONFIG, idx, pincount, series_props, configuration,
                 )
+                num_fps_generated += 1
+    return num_fps_generated

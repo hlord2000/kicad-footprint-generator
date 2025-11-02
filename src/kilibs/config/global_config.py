@@ -198,6 +198,8 @@ class GlobalConfig:
 
         self.handsoldering_suffix = data["handsoldering_suffix"]
 
+        self.raw_data = data
+
     def get_courtyard_offset(self, courtyard_type: CourtyardType) -> float:
         return self._cy_offs[courtyard_type]
 
@@ -345,13 +347,30 @@ class GlobalConfig:
         return self._rotation_suffix_pattern.format(rotation=rotation_level.value)
 
     @classmethod
-    def load_from_file(cls, path: str | Path) -> GlobalConfig:
+    def load_from_file(cls, path: str | Path = "config_KLCv3.0") -> GlobalConfig:
         """
-        Simple helper to open a global config from some data file
+        Simple helper to open a global config from some data file.
+
+        Args:
+            file_name: The file name.
+
+        If the filename is a path (with a YAML extension), use it directly, otherwise
+        use the package data with that name.
         """
-        with open(path, "r") as config_stream:
-            data = yaml.safe_load(config_stream)
-            return cls(data)
+
+        def get_data(path: Path | str) -> GlobalConfig:
+            with open(path, "r") as file:
+                data = yaml.safe_load(file)
+                return cls(data)
+
+        if str(path).endswith(".yaml"):
+            return get_data(path)
+        else:
+            resource = resources.files("kilibs.config.global_configs").joinpath(
+                str(path) + ".yaml"
+            )
+            with resources.as_file(resource) as res_path:
+                return get_data(res_path)
 
 
 def DefaultGlobalConfig() -> GlobalConfig:
@@ -377,21 +396,11 @@ def DefaultGlobalConfig() -> GlobalConfig:
         return GlobalConfig.load_from_file(default_global_config)
 
 
-def _init() -> GlobalConfig:
-    """Initialize the global config singleton."""
-    from .cli_args import CLI_ARGS
-
-    try:
-        if CLI_ARGS.global_config is not None:
-            import os
-
-            path = os.path.expandvars(CLI_ARGS.global_config)
-            return GlobalConfig.load_from_file(path)
-        else:
-            return DefaultGlobalConfig()
-    except AttributeError:
-        return DefaultGlobalConfig()
+def init(global_config_file: str = "config_KLCv3.0") -> None:
+    """Initialize the default global config singleton."""
+    global GLOBAL_CONFIG
+    GLOBAL_CONFIG = GlobalConfig.load_from_file(global_config_file)  # pyright: ignore
 
 
-GLOBAL_CONFIG = _init()
+GLOBAL_CONFIG = DefaultGlobalConfig()
 """The global config singleton."""

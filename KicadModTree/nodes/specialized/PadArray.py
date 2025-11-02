@@ -28,7 +28,7 @@ from kilibs.geom import (
     Vec2DCompatible,
     Vector2D,
 )
-from scripts.tools.declarative_def_tools.pad_overrides import PadOverrides
+from generators.tools.footprint.declarative_def_tools.pad_overrides import PadOverrides
 
 
 class _ApplyOverrideResult(NamedTuple):

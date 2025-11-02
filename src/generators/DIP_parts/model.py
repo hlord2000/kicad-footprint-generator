@@ -56,7 +56,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_model_piano_switch import dip_switch_piano, dip_switch_piano_cts
 from .cq_model_pin_switch import dip_switch, dip_switch_low_profile
@@ -78,138 +79,116 @@ from .cq_model_smd_switch_omron import dip_switch_omron_a6h, dip_switch_omron_a6
 from .cq_model_socket_turned_pin import dip_socket_turned_pin
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("DIP_parts")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Make a model for each type of DIP part
-        for i in range(0, 15):
-            # Choose the right module/method
-            if i == 0:
-                cqm = dip_switch_piano(all_params[model])
-                offsets = (
-                    cqm.pin_rows_distance / 2.0,
-                    -(cqm.body_length / 2.0) + 1.40 + cqm.pin_width,
-                    cqm.body_board_distance,
-                )
-            elif i == 1:
-                cqm = dip_switch_piano_cts(all_params[model])
-                offsets = (
-                    cqm.pin_rows_distance / 2.0,
-                    -(cqm.body_length / 2.0) + 1.85 + cqm.pin_width,
-                    cqm.body_board_distance,
-                )
-            elif i == 2:
-                cqm = dip_socket_turned_pin(all_params[model])
-                offsets = cqm.offsets
-            elif i == 3:
-                cqm = dip_switch(all_params[model])
-                offsets = (
-                    cqm.pin_rows_distance / 2.0,
-                    -(cqm.body_length / 2.0) + 1.80 + cqm.pin_width,
-                    cqm.body_board_distance,
-                )
-            elif i == 4:
-                cqm = dip_switch_low_profile(all_params[model])
-                offsets = (
-                    cqm.pin_rows_distance / 2.0,
-                    -(cqm.body_length / 2.0) + 1.50 + cqm.pin_width,
-                    cqm.body_board_distance,
-                )
-            elif i == 5:
-                cqm = dip_smd_switch(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 6:
-                cqm = dip_smd_switch_lowprofile(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 7:
-                cqm = dip_smd_switch_lowprofile_jpin(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 8:
-                cqm = dip_switch_copal_CHS_A(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 9:
-                cqm = dip_switch_copal_CHS_B(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 10:
-                cqm = dip_switch_copal_CVS(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 11:
-                cqm = dip_switch_omron_a6h(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 12:
-                cqm = dip_switch_omron_a6s(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 13:
-                cqm = dip_switch_kingtek_dshp04tj(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-            elif i == 14:
-                cqm = dip_switch_kingtek_dshp06ts(all_params[model])
-                offsets = (0, 0, cqm.pin_thickness / 2.0)
-
-            # Make the parts of the model
-            body = cqm.make_body()
-            pins = cqm.make_pins()
-            if i != 2:
-                buttons = cqm.make_buttons()
-                mark = cqm.make_pinmark(cqm.button_width + 0.2)
-
-            # Put the parts in the correct position relative to the pads on the board
-            if i != 2:
-                rotation = 90
-            else:
-                rotation = -90
-            body = body.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
-            pins = pins.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
-            if i != 2:
-                buttons = buttons.rotate((0, 0, 0), (0, 0, 1), rotation).translate(
-                    offsets
-                )
-                mark = mark.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
-
-            parts: list[cq.Workplane] = [body, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
-            if i != 2:
-                parts.append(buttons)
-                parts.append(mark)
-                color_names.append(all_params[model]["button_color_key"])
-                color_names.append(all_params[model]["mark_color_key"])
-
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=cqm.makeModelName(model),
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
+    # Make a model for each type of DIP part
+    pin_range = range(0, 15)
+    for i in pin_range:
+        # Choose the right module/method
+        if i == 0:
+            cqm = dip_switch_piano(spec.spec)
+            offsets = (
+                cqm.pin_rows_distance / 2.0,
+                -(cqm.body_length / 2.0) + 1.40 + cqm.pin_width,
+                cqm.body_board_distance,
             )
+        elif i == 1:
+            cqm = dip_switch_piano_cts(spec.spec)
+            offsets = (
+                cqm.pin_rows_distance / 2.0,
+                -(cqm.body_length / 2.0) + 1.85 + cqm.pin_width,
+                cqm.body_board_distance,
+            )
+        elif i == 2:
+            cqm = dip_socket_turned_pin(spec.spec)
+            offsets = cqm.offsets
+        elif i == 3:
+            cqm = dip_switch(spec.spec)
+            offsets = (
+                cqm.pin_rows_distance / 2.0,
+                -(cqm.body_length / 2.0) + 1.80 + cqm.pin_width,
+                cqm.body_board_distance,
+            )
+        elif i == 4:
+            cqm = dip_switch_low_profile(spec.spec)
+            offsets = (
+                cqm.pin_rows_distance / 2.0,
+                -(cqm.body_length / 2.0) + 1.50 + cqm.pin_width,
+                cqm.body_board_distance,
+            )
+        elif i == 5:
+            cqm = dip_smd_switch(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 6:
+            cqm = dip_smd_switch_lowprofile(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 7:
+            cqm = dip_smd_switch_lowprofile_jpin(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 8:
+            cqm = dip_switch_copal_CHS_A(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 9:
+            cqm = dip_switch_copal_CHS_B(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 10:
+            cqm = dip_switch_copal_CVS(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 11:
+            cqm = dip_switch_omron_a6h(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 12:
+            cqm = dip_switch_omron_a6s(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 13:
+            cqm = dip_switch_kingtek_dshp04tj(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+        elif i == 14:
+            cqm = dip_switch_kingtek_dshp06ts(spec.spec)
+            offsets = (0, 0, cqm.pin_thickness / 2.0)
+
+        # Make the parts of the model
+        body = cqm.make_body()
+        pins = cqm.make_pins()
+        if i != 2:
+            buttons = cqm.make_buttons()
+            mark = cqm.make_pinmark(cqm.button_width + 0.2)
+
+        # Put the parts in the correct position relative to the pads on the board
+        if i != 2:
+            rotation = 90
+        else:
+            rotation = -90
+        body = body.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
+        pins = pins.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
+        if i != 2:
+            buttons = buttons.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
+            mark = mark.rotate((0, 0, 0), (0, 0, 1), rotation).translate(offsets)
+
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pin_color_key"],
+        ]
+        if i != 2:
+            parts.append(buttons)
+            parts.append(mark)
+            color_names.append(spec.spec["button_color_key"])
+            color_names.append(spec.spec["mark_color_key"])
+
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=cqm.makeModelName(spec.id),
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(pin_range)

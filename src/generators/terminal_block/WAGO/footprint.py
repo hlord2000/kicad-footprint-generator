@@ -1,7 +1,20 @@
-#!/usr/bin/env python3
-from KicadModTree import *  # NOQA
-from scripts.tools.footprint_scripts_terminal_blocks import *
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
+from KicadModTree import *  # NOQA
+from ..footprint_scripts_terminal_blocks import *
+
+from generators.tools.spec.base_spec import BaseSpec
 
 # These terminal blocks can be split and joined as needed to make terminal strips
 # of any length, the last terminal in the row usually gets a cover plate.
@@ -11,13 +24,20 @@ from scripts.tools.footprint_scripts_terminal_blocks import *
 # The 804-xx series seems to be sold only pre-assembled in strips of two terminals
 # and more (12/2024).
 
-if __name__ == '__main__':
 
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
     script_generated_note="script-generated using https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/TerminalBlock_WAGO";
     classname="TerminalBlock_WAGO"
-
-
-
 
     # 2 through 12 is available from WAGO as of 2024
     # 1, 16, 24 used to be in the library in addition
@@ -55,17 +75,17 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, vsegment_lines_offset=vsegment_lines_offset,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening_elliptic=opening_elliptic,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, fifthHoleDiameter=fifthHoleDiameter,fifthHoleOffset=fifthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  secondEllipseSize=secondEllipseSize,secondEllipseOffset=secondEllipseOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
-
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, vsegment_lines_offset=vsegment_lines_offset,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening_elliptic=opening_elliptic,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, fifthHoleDiameter=fifthHoleDiameter,fifthHoleOffset=fifthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                secondEllipseSize=secondEllipseSize,secondEllipseOffset=secondEllipseOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     # 2 through 16 is available from WAGO as of 2024
     # 1, 24 used to be in the library in addition
@@ -103,19 +123,17 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,  vsegment_lines_offset=vsegment_lines_offset,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening_elliptic=opening_elliptic,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, fifthHoleDiameter=fifthHoleDiameter,fifthHoleOffset=fifthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  secondEllipseSize=secondEllipseSize,secondEllipseOffset=secondEllipseOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
-
-
-
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,  vsegment_lines_offset=vsegment_lines_offset,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening_elliptic=opening_elliptic,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, fifthHoleDiameter=fifthHoleDiameter,fifthHoleOffset=fifthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                secondEllipseSize=secondEllipseSize,secondEllipseOffset=secondEllipseOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     # Available as individual terminals
     # Provide 1 through 16 for the sake of completeness, and 24, 36, 48  for historic reasons
@@ -147,28 +165,28 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
         name="236-{0}".format(400+p);
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
-
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += 2*len(pins)
 
     # Available as individual terminals
     # Provide 1 through 16 for the sake of completeness, and 24 for historic reasons
@@ -200,27 +218,28 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
         name="236-{0}".format(500+p);
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += 2*len(pins)
 
     # Available as individual terminals
     # Provide 1 through 16 for the sake of completeness, and 24 for historic reasons
@@ -252,28 +271,28 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
         name="236-{0}".format(600+p);
         webpage="";
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
-        makeTerminalBlock45Degree(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad,
-                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
-                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
-
+        makeTerminalBlock45Degree(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad,
+                                opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset,
+                                bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += 2*len(pins)
 
     # WAGO 2601
 
@@ -291,7 +310,7 @@ if __name__ == '__main__':
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
 
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
             pins=p,
             rm=rm,
             package_height=package_height,
@@ -319,6 +338,7 @@ if __name__ == '__main__':
             classname_description="Terminal Block WAGO {0}".format(name),
             webpage=webpage,
             script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=[2,3,4,5,6,7,8,9,10,11,12,14,24]
     rm=3.5
@@ -334,7 +354,7 @@ if __name__ == '__main__':
         classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_Vertical".format(name, rm, p)
 
-        makeTerminalBlockStd(footprint_name=footprint_name,
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
             pins=p,
             rm=rm,
             package_height=package_height,
@@ -362,3 +382,5 @@ if __name__ == '__main__':
             classname_description="Terminal Block WAGO {0}".format(name),
             webpage=webpage,
             script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
+    return num_fps_generated

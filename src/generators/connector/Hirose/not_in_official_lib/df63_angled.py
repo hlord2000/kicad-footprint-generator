@@ -1,22 +1,19 @@
-#!/usr/bin/env python3
-
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import sys
 import os
+from generators.tools.footprint.save_footprint import write_footprint
 
 output_dir = os.getcwd()
 
@@ -36,9 +33,9 @@ if output_dir and not output_dir.endswith(os.sep):
 
 from KicadModTree import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
 
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 """
 footprint specific details to go here
@@ -233,5 +230,4 @@ for pincount in pins:
     lib_name = "Connector_Hirose"
 
     fp.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix))
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(fp)
+    write_footprint(fp, lib_name, generator_name)

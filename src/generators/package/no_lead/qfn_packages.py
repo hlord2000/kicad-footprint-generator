@@ -1,12 +1,9 @@
 import cadquery as cq
 
-from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
-    NoLeadConfiguration,
-)
-
+from .spec import NoLeadSpec
 
 def make_qfn(
-    nlc: NoLeadConfiguration,
+    nlc: NoLeadSpec,
 ) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
 
     marker = nlc.marker

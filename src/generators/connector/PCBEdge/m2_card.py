@@ -7,16 +7,14 @@ M.2 card footprint generator script for KiCad
 Supported dimensions: 2242, 2280, 22110, 3042, 3080, 30110
 Supported notches: A, B, E and M
 """
-import os
-import argparse
-import yaml
 
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
 
-global_config = GC.DefaultGlobalConfig()
+from ..config import CONNECTOR_CONFIG
+from generators.tools.footprint.save_footprint import write_footprint
+
+
 lib_name = "Connector_PCBEdge"
 
 notchTypes = ['A', 'B', 'E', 'M']
@@ -26,7 +24,7 @@ heightTypes = [30, 42, 60, 80, 110]
 description = "M.2 card edge connector"
 datasheet = "https://web.archive.org/web/20210118201723/http://read.pudn.com/downloads794/doc/project/3133918/PCIe_M.2_Electromechanical_Spec_Rev1.0_Final_11012013_RS_Clean.pdf"
 
-def generate_footprint(widthType, heightType, notchType, configuration):
+def generate_footprint(widthType, heightType, notchType, configuration, generator_name: str):
     footprint_name = "M.2_" + str(widthType) + str(heightType) + "-xx-" + str(notchType)
     f = Footprint(footprint_name, FootprintType.UNSPECIFIED)
     f.setDescription(description + ", " + datasheet)
@@ -47,7 +45,6 @@ def generate_footprint(widthType, heightType, notchType, configuration):
     radius_handler = RoundRadiusHandler(
         radius_ratio=0.2,
     )
-    padRadiusRatio = 0.2
     notchWidth = 1.2
     notch = notchOffset.get(notchType)
     cutWidth = 0.2
@@ -55,13 +52,11 @@ def generate_footprint(widthType, heightType, notchType, configuration):
     conHeight = 4
     conRadius = 0.5
     holeWidth = 3.5
-    holeCopperWidth = 1.5
     layers_top = ['F.Cu', 'F.Mask']
     layers_bottom = ['B.Cu', 'B.Mask']
     yPad = conHeight - padHeightTop/2 - padChamfer
     xPadRight = ((padCount-1)/2 * padToPad)/2
     triangleWidth = 0.8
-    courtyardWidth = 0.1
     courtyardBorder = 0.1
     courtyardRadius = 3
     t1 = 0.1
@@ -73,8 +68,6 @@ def generate_footprint(widthType, heightType, notchType, configuration):
     chamferOffset = 5.5
     thicknessText = "PCB thickness 0.8 mm"
     thicknessOffset = 7
-    valueTextOffset = -1.5
-    referenceTextOffset = (-conWidth/2)+4
    
     # connector cutout
     f.append(PolygonLine(shape=[[(-holeWidth/2), -(heightType-conHeight)],
@@ -174,40 +167,39 @@ def generate_footprint(widthType, heightType, notchType, configuration):
     addTextFields(kicad_mod=f, configuration=configuration, body_edges=body_edge,
     courtyard=courtyard, fp_name=footprint_name, text_y_inside_position='center', allow_rotation=True)
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use config .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
 
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-    generate_footprint(30,30,'A',configuration)
-    generate_footprint(30,30,'E',configuration)
-    generate_footprint(30,42,'B',configuration)
-    generate_footprint(22,30,'A',configuration)
-    generate_footprint(22,30,'E',configuration)
-    generate_footprint(22,30,'B',configuration)
-    generate_footprint(22,30,'M',configuration)
-    generate_footprint(22,42,'B',configuration)
-    generate_footprint(22,42,'M',configuration)
-    generate_footprint(22,60,'B',configuration)
-    generate_footprint(22,60,'M',configuration)
-    generate_footprint(22,80,'B',configuration)
-    generate_footprint(22,80,'M',configuration)
-    generate_footprint(22,110,'B',configuration)
-    generate_footprint(22,110,'M',configuration)
-
+def generate_all(generator_name: str) -> int:
+    num_fps_generated = 0
+    generate_footprint(30,30,'A',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(30,30,'E',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(30,42,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,30,'A',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,30,'E',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,30,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,30,'M',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,42,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,42,'M',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,60,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,60,'M',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,80,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,80,'M',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,110,'B',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint(22,110,'M',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    return num_fps_generated

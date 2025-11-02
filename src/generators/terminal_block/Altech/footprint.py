@@ -1,15 +1,29 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-from scripts.tools.footprint_scripts_terminal_blocks import (
+from ..footprint_scripts_terminal_blocks import (
     makeTerminalBlock45Degree,
     makeTerminalBlockStd,
 )
+
+from generators.tools.spec.base_spec import BaseSpec
+
 
 script_generated_note = "generated with kicad-footprint-generator TerminalBlock_Altech"
 classname = "TerminalBlock_Altech"
 
 
-def gen_ak100():
+def gen_ak100(generator_name: str) -> int:
 
     pins = range(2, 24 + 1)
     rm = 5.0  # pitch
@@ -29,6 +43,7 @@ def gen_ak100():
         footprint_name = "Altech_{0}_1x{1:02}_P{2:3.2f}mm".format(name, p, rm)
 
         makeTerminalBlockStd(
+            generator_name,
             footprint_name=footprint_name,
             pins=p,
             rm=rm,
@@ -48,9 +63,10 @@ def gen_ak100():
             webpage=webpage,
             script_generated_note=script_generated_note,
         )
+    return len(pins)
 
 
-def gen_ak300():
+def gen_ak300(generator_name: str) -> int:
 
     pins = range(2, 24 + 1)
     rm = 5.0  # pitch
@@ -72,6 +88,7 @@ def gen_ak300():
         classname_description = "Terminal block Altech {0}".format(name)
         footprint_name = "Altech_{0}_1x{1:02}_P{2:3.2f}mm_45-Degree".format(name, p, rm)
         makeTerminalBlock45Degree(
+            generator_name,
             footprint_name=footprint_name,
             pins=p,
             rm=rm,
@@ -94,8 +111,20 @@ def gen_ak300():
             webpage=webpage,
             script_generated_note=script_generated_note,
         )
+    return len(pins)
 
 
-if __name__ == "__main__":
-    gen_ak100()
-    gen_ak300()
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
+    num_fps_generated += gen_ak100(generator_name)
+    num_fps_generated += gen_ak300(generator_name)
+    return num_fps_generated

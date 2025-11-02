@@ -1,17 +1,32 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 from collections.abc import Callable, Generator, Iterator
 from typing import Any, TypeAlias
 
+from generators.tools.footprint.drawing_tools import SilkArrowSize
+from generators.tools.footprint.drawing_tools_silk import (
+    auto_silk_triangle_for_pad_and_box,
+)
 from KicadModTree import Pad
 from KicadModTree.util import courtyard_builder
+from kilibs.config import global_config as GC
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from kilibs.geom import (
     Direction,
     GeomRectangle,
     Vector2D,
 )
-from scripts.tools.drawing_tools import SilkArrowSize
-from scripts.tools.drawing_tools_silk import auto_silk_triangle_for_pad_and_box
-from scripts.tools.global_config_files import global_config as GC
 
 from .footprint_layout import FabStyle, FootprintLayout, SilkStyle
 

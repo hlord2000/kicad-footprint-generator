@@ -62,7 +62,7 @@ from collections import namedtuple
 import cadquery as cq
 
 # import FreeCAD
-from _tools.cq_helpers import *
+from generators.tools.model.cq_helpers import *
 
 
 class seriesParams:

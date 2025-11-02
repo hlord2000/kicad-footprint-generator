@@ -56,7 +56,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_models.conn_phoenix_mc import generate_part as generate_part_mc
 from .cq_models.conn_phoenix_mc import seriesParams as series_params_mc
@@ -68,187 +69,163 @@ from .cq_models.conn_phoenix_mstb import generate_part as generate_part_mstb
 from .cq_models.conn_phoenix_mstb import seriesParams as series_params_mstb
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Convert the number of pins to an array of one if there is only one pin
+    num_pins_list = (
+        [spec.spec["num_pins"]]
+        if type(spec.spec["num_pins"]).__name__ == "int"
+        else spec.spec["num_pins"]
+    )
+    for num_pins in num_pins_list:
+        insert = None
+        mount_screw = None
 
-    all_params = parameters.load_parameters("phoenix_contact")
+        if spec.id == "AK300" or spec.id == "MKDS_1_5":
+            # Make the parts of the model
+            body = make_case_MKDS_1_5_10_5_08(spec.spec, num_pins)
+            pins = make_pins_MKDS_1_5_10_5_08(spec.spec, num_pins)
+            body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+            pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+        elif spec.id.startswith("MC"):
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Convert the number of pins to an array of one if there is only one pin
-        num_pins_list = (
-            [all_params[model]["num_pins"]]
-            if type(all_params[model]["num_pins"]).__name__ == "int"
-            else all_params[model]["num_pins"]
-        )
-        for num_pins in num_pins_list:
-            insert = None
-            mount_screw = None
-
-            if model == "AK300" or model == "MKDS_1_5":
-                # Make the parts of the model
-                body = make_case_MKDS_1_5_10_5_08(all_params[model], num_pins)
-                pins = make_pins_MKDS_1_5_10_5_08(all_params[model], num_pins)
-                body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-                pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-            elif model.startswith("MC"):
-
-                (pins, body, insert, mount_screw, _, _) = generate_part_mc(
-                    all_params[model], num_pins
-                )
-
-                body = body.rotate(
-                    (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-                ).translate((0, -3.0, 3.0))
-                pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-                if not all_params[model]["angled"]:
-                    pins = pins.translate((0, 0, 3.0))
-                if insert != None:
-                    insert = insert.rotate(
-                        (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-                    ).translate((0, -3.0, 3.0))
-                if mount_screw != None:
-                    if all_params[model]["angled"]:
-                        mount_screw = mount_screw.rotate(
-                            (0, 0, 0), (1, 0, 0), -90
-                        ).translate(
-                            (
-                                0,
-                                -series_params_mc.mount_screw_head_height
-                                - series_params_mc.body_height / 2.0,
-                                series_params_mc.thread_insert_r,
-                            )
-                        )
-                    else:
-                        mount_screw = mount_screw.rotate(
-                            (1, 0, 0), (0, 0, 0), 180
-                        ).translate(
-                            (
-                                0,
-                                series_params_mc.mount_screw_head_height
-                                - series_params_mc.body_height / 2.0,
-                                series_params_mc.body_height
-                                + series_params_mc.mount_screw_head_height,
-                            )
-                        )
-
-            elif model.startswith("MSTB") or model.startswith("GMSTB"):
-
-                (pins, body, insert, mount_screw, plug, plug_screws) = (
-                    generate_part_mstb(all_params[model], num_pins)
-                )
-                # print(pins)
-                # Rotate and translate parts so they end up in the correct location/orientation
-                body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-                if (
-                    model.startswith("MSTB") or model.startswith("GMSTB")
-                ) and all_params[model]["angled"]:
-                    body = body.translate((0, -3.0, 3.0))
-                pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-                if insert != None and all_params[model]["angled"]:
-                    insert = insert.rotate(
-                        (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-                    ).translate((0, -3.0, 3.0))
-                if mount_screw != None:
-                    if all_params[model]["angled"]:
-                        mount_screw = mount_screw.rotate(
-                            (1, 0, 0), (0, 0, 0), 90
-                        ).translate(
-                            (
-                                0,
-                                -series_params_mstb.mount_screw_head_height
-                                - series_params_mstb.body_height / 2.0,
-                                series_params_mstb.thread_r / 2.0,
-                            )
-                        )
-                    else:
-                        mount_screw = mount_screw.rotate(
-                            (1, 0, 0), (0, 0, 0), 180
-                        ).translate(
-                            (
-                                0,
-                                0,
-                                series_params_mstb.body_height
-                                - series_params_mstb.mount_screw_head_height,
-                            )
-                        )
-
-            # Assemble the filename
-            file_name = all_params[model]["file_name"].format(
-                pin_num=num_pins,
-                pad_pin_num="0" + str(num_pins) if num_pins < 10 else str(num_pins),
-                row_num=1,
-                pitch=all_params[model]["pin_pitch"],
-                comma_pitch=str(all_params[model]["pin_pitch"]).replace(".", ","),
-                pad_pitch=(
-                    all_params[model]["pin_pitch"]
-                    if len(str(all_params[model]["pin_pitch"]).split(".")[1]) == 2
-                    else str(all_params[model]["pin_pitch"]) + "0"
-                ),
-                prefix=all_params[model]["series_name"].split("-")[0],
-                midfix=all_params[model]["series_name"].split("-")[1],
-                orientation=(
-                    "Horizontal"
-                    if "angled" in all_params[model]
-                    and all_params[model]["angled"] == True
-                    else "Vertical"
-                ),
-                flanged=(
-                    "_ThreadedFlange"
-                    if "flanged" in all_params[model]
-                    and all_params[model]["flanged"] == True
-                    else ""
-                ),
-                mount_hole=(
-                    "_MountHole"
-                    if "mount_hole" in all_params[model]
-                    and all_params[model]["mount_hole"] == True
-                    else ""
-                ),
+            (pins, body, insert, mount_screw, _, _) = generate_part_mc(
+                spec.spec, num_pins
             )
 
-            parts: list[cq.Workplane] = [body, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
+            body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"]).translate(
+                (0, -3.0, 3.0)
+            )
+            pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+            if not spec.spec["angled"]:
+                pins = pins.translate((0, 0, 3.0))
             if insert != None:
-                parts.append(insert)
-                color_names.append(all_params[model]["insert_color_key"])
+                insert = insert.rotate(
+                    (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+                ).translate((0, -3.0, 3.0))
             if mount_screw != None:
-                parts.append(mount_screw)
-                color_names.append(all_params[model]["screw_color_key"])
+                if spec.spec["angled"]:
+                    mount_screw = mount_screw.rotate(
+                        (0, 0, 0), (1, 0, 0), -90
+                    ).translate(
+                        (
+                            0,
+                            -series_params_mc.mount_screw_head_height
+                            - series_params_mc.body_height / 2.0,
+                            series_params_mc.thread_insert_r,
+                        )
+                    )
+                else:
+                    mount_screw = mount_screw.rotate(
+                        (1, 0, 0), (0, 0, 0), 180
+                    ).translate(
+                        (
+                            0,
+                            series_params_mc.mount_screw_head_height
+                            - series_params_mc.body_height / 2.0,
+                            series_params_mc.body_height
+                            + series_params_mc.mount_screw_head_height,
+                        )
+                    )
 
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
+        elif spec.id.startswith("MSTB") or spec.id.startswith("GMSTB"):
+
+            (pins, body, insert, mount_screw, plug, plug_screws) = generate_part_mstb(
+                spec.spec, num_pins
             )
+            # print(pins)
+            # Rotate and translate parts so they end up in the correct location/orientation
+            body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+            if (
+                spec.id.startswith("MSTB") or spec.id.startswith("GMSTB")
+            ) and spec.spec["angled"]:
+                body = body.translate((0, -3.0, 3.0))
+            pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+            if insert != None and spec.spec["angled"]:
+                insert = insert.rotate(
+                    (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+                ).translate((0, -3.0, 3.0))
+            if mount_screw != None:
+                if spec.spec["angled"]:
+                    mount_screw = mount_screw.rotate(
+                        (1, 0, 0), (0, 0, 0), 90
+                    ).translate(
+                        (
+                            0,
+                            -series_params_mstb.mount_screw_head_height
+                            - series_params_mstb.body_height / 2.0,
+                            series_params_mstb.thread_r / 2.0,
+                        )
+                    )
+                else:
+                    mount_screw = mount_screw.rotate(
+                        (1, 0, 0), (0, 0, 0), 180
+                    ).translate(
+                        (
+                            0,
+                            0,
+                            series_params_mstb.body_height
+                            - series_params_mstb.mount_screw_head_height,
+                        )
+                    )
+
+        # Assemble the filename
+        file_name = spec.spec["file_name"].format(
+            pin_num=num_pins,
+            pad_pin_num="0" + str(num_pins) if num_pins < 10 else str(num_pins),
+            row_num=1,
+            pitch=spec.spec["pin_pitch"],
+            comma_pitch=str(spec.spec["pin_pitch"]).replace(".", ","),
+            pad_pitch=(
+                spec.spec["pin_pitch"]
+                if len(str(spec.spec["pin_pitch"]).split(".")[1]) == 2
+                else str(spec.spec["pin_pitch"]) + "0"
+            ),
+            prefix=spec.spec["series_name"].split("-")[0],
+            midfix=spec.spec["series_name"].split("-")[1],
+            orientation=(
+                "Horizontal"
+                if "angled" in spec.spec and spec.spec["angled"] == True
+                else "Vertical"
+            ),
+            flanged=(
+                "_ThreadedFlange"
+                if "flanged" in spec.spec and spec.spec["flanged"] == True
+                else ""
+            ),
+            mount_hole=(
+                "_MountHole"
+                if "mount_hole" in spec.spec and spec.spec["mount_hole"] == True
+                else ""
+            ),
+        )
+
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pin_color_key"],
+        ]
+        if insert != None:
+            parts.append(insert)
+            color_names.append(spec.spec["insert_color_key"])
+        if mount_screw != None:
+            parts.append(mount_screw)
+            color_names.append(spec.spec["screw_color_key"])
+
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(num_pins_list)

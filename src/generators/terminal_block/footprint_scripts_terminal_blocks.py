@@ -1,14 +1,24 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import os
 from typing import Optional
 
-import scripts.tools.drawing_tools as DT
+import generators.tools.footprint.drawing_tools as DT
 from KicadModTree import (
     Circle,
     Footprint,
     FootprintType,
-    KicadPrettyLibrary,
     Line,
     Model,
     Node,
@@ -19,10 +29,10 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import BoundingBox, Direction, Vector2D, GeomRectangle, GeomShapeClosed
-from scripts.tools.footprint_global_properties import *
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.nodes import pin1_arrow
-
+from generators.tools.footprint.footprint_global_properties import *
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
+from generators.tools.footprint.nodes import pin1_arrow
 
 crt_offset = 0.5  # different for connectors
 slk_offset = lw_slk
@@ -119,6 +129,7 @@ def make_silk_outline_with_pin1_arrow(
 #
 #
 def makeTerminalBlockStd(
+    generator_name,
     footprint_name,
     pins,
     rm,
@@ -150,7 +161,7 @@ def makeTerminalBlockStd(
     webpage="",
     script_generated_note="",
 ):
-    global_config = GC.DefaultGlobalConfig()
+    global_config = GC.GLOBAL_CONFIG
 
     package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
@@ -207,8 +218,6 @@ def makeTerminalBlockStd(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags.append(t)
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -664,9 +673,7 @@ def makeTerminalBlockStd(
                 rotate=[0, 0, 0],
             )
         )
-
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
     return kicad_mod
 
@@ -686,6 +693,7 @@ def makeTerminalBlockStd(
 #
 #
 def makeTerminalBlockVertical(
+    generator_name,
     footprint_name,
     pins,
     rm,
@@ -717,7 +725,7 @@ def makeTerminalBlockVertical(
     webpage="",
     script_generated_note="",
 ):
-    global_config = GC.DefaultGlobalConfig()
+    global_config = GC.GLOBAL_CONFIG
 
     package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
@@ -775,8 +783,6 @@ def makeTerminalBlockVertical(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags.append(t)
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -1223,8 +1229,7 @@ def makeTerminalBlockVertical(
             )
         )
 
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
     return kicad_mod
 
@@ -1245,6 +1250,7 @@ def makeTerminalBlockVertical(
 #
 #
 def makeTerminalBlock45Degree(
+    generator_name,
     footprint_name,
     pins,
     rm,
@@ -1283,7 +1289,7 @@ def makeTerminalBlock45Degree(
     webpage="",
     script_generated_note="",
 ):
-    global_config = GC.DefaultGlobalConfig()
+    global_config = GC.GLOBAL_CONFIG
 
     package_size = Vector2D.from_floats(2 * leftbottom_offset[0] + (pins - 1) * rm, package_height)
     if len(leftbottom_offset) == 3:
@@ -1341,8 +1347,6 @@ def makeTerminalBlock45Degree(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags.append(t)
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -1897,8 +1901,7 @@ def makeTerminalBlock45Degree(
             )
         )
 
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
     return kicad_mod
 
@@ -1911,6 +1914,7 @@ def makeTerminalBlock45Degree(
 # slit_screw=true|False: type of screw
 # block_size [w,h]: size of block
 def makeScrewTerminalSingleStd(
+    generator_name,
     footprint_name,
     block_size,
     block_offset,
@@ -1927,7 +1931,7 @@ def makeScrewTerminalSingleStd(
     webpage="",
     script_generated_note="",
 ):
-    global_config = GC.DefaultGlobalConfig()
+    global_config = GC.GLOBAL_CONFIG
 
     h_fab = block_size[1]
     w_fab = block_size[0]
@@ -1978,8 +1982,6 @@ def makeScrewTerminalSingleStd(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags.append(t)
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -2113,7 +2115,6 @@ def makeScrewTerminalSingleStd(
             )
         )
 
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
     return kicad_mod

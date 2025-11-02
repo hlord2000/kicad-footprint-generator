@@ -1,19 +1,32 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import itertools
 import math
-from collections.abc import Generator
-from string import ascii_uppercase
 from typing import Any, Literal, NamedTuple
-
-import yaml
+import itertools
 
 from kilibs.geom import Vector2D
-from scripts.tools.declarative_def_tools import (
+from generators.tools.footprint.declarative_def_tools import (
     common_metadata,
     fp_additional_drawing,
     rule_area_properties,
 )
+
+from generators.tools.spec.spec_registry import register_spec
+from ..package_spec import PackageSpec
+
+from ..config import PACKAGE_CONFIG
+from .config import ROW_NAMES
 
 
 class PadData(NamedTuple):
@@ -26,9 +39,10 @@ class LayoutData(NamedTuple):
     pad_data_list: list[PadData]
 
 
-class GridArrayConfiguration:
+@register_spec
+class GridArraySpec(PackageSpec):
     """
-    A type that represents the configuration of a BGA footprint
+    A type that represents the configuration of a grid array footprint
     (probably from a YAML config block).
 
     Over time, add more type-safe accessors to this class, and replace
@@ -37,24 +51,21 @@ class GridArrayConfiguration:
 
     def __init__(
         self,
-        pkg_id: str,
-        spec: dict[str, Any],
-        header: dict[str, Any] | None,
-        config: dict[str, Any],
+        id: str = "",
+        spec: dict[str, Any] = {},
+        header: dict[str, Any] = {},
+        file_name: str = "",
     ) -> None:
-        # Instance attributes:
-        self.spec: dict[str, Any]
-        """The dictionary containing the specification of the device."""
-        self.header: dict[str, Any]
-        """The dictionary containing the file header."""
-        self.config: dict[str, Any]
-        """The dictionary containing the generator configuration."""
-        self.pkg_id: str
-        """The package name as given by the dictionary key."""
+        """Create an instance of `PackageSpec`.
 
+        Args:
+            id: The name/identifier of the spec. Typically, this is the name of the key
+                of the spec (in the YAML file) or the name of the component.
+            spec: The dictionary containing the specification of the component.
+            header: The dictionary containing the header (`FileHeader` in YAML files).
+            file_name: The name of the YAML file that holds this spec definition.
+        """
         # Instance attributes for generator independent data:
-        self.metadata: common_metadata.CommonMetadata
-        """The common meta data."""
         self.additional_drawings: list[fp_additional_drawing.FPAdditionalDrawing]
         """The list containing additional drawings."""
         self.rule_areas: list[rule_area_properties.RuleAreaProperties] = []
@@ -117,15 +128,12 @@ class GridArrayConfiguration:
         self.lib_name: str
         """Name of the library."""
 
-        self.pkg_id = pkg_id
-        self.spec = spec
+        super().__init__(id, spec, header, file_name)
+
         if header:
-            self.header = header
             self.has_fp_data = True
         else:
-            self.header = {}
             self.has_fp_data = False
-        self.config = config
 
         self.marker = spec.get("marker")
         self.layout_data_list = []
@@ -141,9 +149,9 @@ class GridArrayConfiguration:
         self.metadata = common_metadata.CommonMetadata(self.spec)
 
         self.additional_drawings = (
-            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self.spec)
-        )  # type: ignore
-        self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(  # type: ignore
+            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self.spec)  # type: ignore
+        )
+        self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(  # pyright: ignore
             self.spec
         )
 
@@ -233,10 +241,10 @@ class GridArrayConfiguration:
         self, layout_dict: dict[str, Any], x_center: float = 0.0, y_center: float = 0.0
     ) -> int:
         pad_data_list: list[PadData] = []
-        layout_x = layout_dict["layout_x"]
-        layout_y = layout_dict["layout_y"]
+        layout_x: int = layout_dict["layout_x"]
+        layout_y: int = layout_dict["layout_y"]
         row_names = layout_dict.get(
-            "row_names", self.spec.get("row_names", self.config["row_names"])
+            "row_names", self.spec.get("row_names", ROW_NAMES)
         )
         if row_prefix := layout_dict.get("row_name_prefix"):
             row_names = [str(row_prefix) + n for n in row_names]
@@ -320,13 +328,13 @@ class GridArrayConfiguration:
         )
 
         if not self.header:  # for 3d models defined in cq_parameters.yaml
-            self.name = self.pkg_id
+            self.name = self.id
             return
         if "name" in self.spec:
             self.name = self.spec["name"]
             return
         elif self.spec.get("name_equal_to_key"):
-            self.name = self.pkg_id
+            self.name = self.id
             return
 
         # Compute number of balls + diverse suffix strings
@@ -355,7 +363,7 @@ class GridArrayConfiguration:
         if self.metadata.custom_name_format:
             name_format = self.metadata.custom_name_format
         else:
-            name_format = self.config["fp_name_bga_format_string_no_trailing_zero"]
+            name_format = PACKAGE_CONFIG["fp_name_bga_format_string_no_trailing_zero"]
 
         pad_suffix = ""
         if (
@@ -399,26 +407,3 @@ class GridArrayConfiguration:
 
     def _compose_lib_name(self) -> None:
         self.lib_name = f"Package_{self.package_type}"
-
-
-def _row_name_generator(seq: list[str]) -> Generator[str, Any, None]:
-    for n in itertools.count(1):
-        for s in itertools.product(seq, repeat=n):
-            yield "".join(s)
-
-
-def load_config(config_file_name: str) -> dict[str, Any]:
-    with open(config_file_name, "r") as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-            raise exc
-
-    # generate dict of A, B .. Y, Z, AA, AB .. CY less easily-confused letters
-    rowNamesList: list[str] = [x for x in ascii_uppercase if x not in "IOQSXZ"]
-    configuration.update(
-        {"row_names": list(itertools.islice(_row_name_generator(rowNamesList), 80))}
-    )
-
-    return configuration

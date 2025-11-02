@@ -1,14 +1,26 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
+from typing import Any
 from KicadModTree import *
-from scripts.tools.global_config_files import global_config as GC
-global_config = GC.DefaultGlobalConfig()
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
 def roundCrtYd(x):
     sign = x / abs(x)
     return int((x + 0.0001 * sign) * 100) / 100.0
 
-def textool(args):
+def textool(generator_name: str, args: dict[str, Any]) -> int:
     name = args["name"]
     nPads = args["n_pads"]
     dimA = args["a"]
@@ -186,11 +198,13 @@ def textool(args):
         f.append(Pad(number=str(nPads-i), type=Pad.TYPE_THT, shape=pShape,
                      at=[xRightPads, y], size=p, layers=Pad.LAYERS_THT, drill=d))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
+    return 1
 
 
-if __name__ == '__main__':
+def generate_all(generator_name: str, global_conf: GC.GlobalConfig, file: str) -> int:
+    global global_config
+    global_config = global_conf
     parser = ModArgparser(textool)
     # the root node of .yml files is parsed as name
     parser.add_parameter("name", type=str, required=True)
@@ -204,4 +218,4 @@ if __name__ == '__main__':
     parser.add_parameter("max", type=float, required=True)
 
     # now run our script which handles the whole part of parsing the files
-    parser.run()
+    return parser.run(generator_name, [file])

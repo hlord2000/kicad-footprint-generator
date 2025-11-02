@@ -56,131 +56,111 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_models import c_axial_tht, c_disc_tht, c_rect_tht, cp_axial_tht
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Capacitor_THT")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Generate the current model
+    if spec.spec["model_class"] == "c_axial_tht":
+        cqm = c_axial_tht
+    elif spec.spec["model_class"] == "c_disc_tht":
+        cqm = c_disc_tht
+    elif spec.spec["model_class"] == "c_rect_tht":
+        cqm = c_rect_tht
+    elif spec.spec["model_class"] == "cp_axial_tht":
+        cqm = cp_axial_tht
     else:
-        models = {model_to_build: all_params[model_to_build]}
+        logging.error("No match found for the model_class.")
+        return 0
 
-    # Step through the selected models
-    for model in models:
+    # The CP Axial capacitors are a special case
+    if spec.spec["model_class"] == "cp_axial_tht":
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+        body, mmb, bar, leads, top = cqm.generate_part(spec.spec)
 
-        # Generate the current model
-        if all_params[model]["model_class"] == "c_axial_tht":
-            cqm = c_axial_tht
-        elif all_params[model]["model_class"] == "c_disc_tht":
-            cqm = c_disc_tht
-        elif all_params[model]["model_class"] == "c_rect_tht":
-            cqm = c_rect_tht
-        elif all_params[model]["model_class"] == "cp_axial_tht":
-            cqm = cp_axial_tht
-        else:
-            print("ERROR: No match found for the model_class")
-            continue
+        body = body.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        leads = leads.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        mmb = mmb.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        bar = bar.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        top = top.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-        # The CP Axial capacitors are a special case
-        if all_params[model]["model_class"] == "cp_axial_tht":
+        parts = [body, leads, mmb, bar, top]
+        color_names = [
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+            spec.spec["mark_vg_color_key"],
+            spec.spec["mark_bg_color_key"],
+            spec.spec["endcaps_color_key"],
+        ]
+    else:
+        body, leads = cqm.generate_part(spec.spec)
 
-            body, mmb, bar, leads, top = cqm.generate_part(all_params[model])
-
-            body = body.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            leads = leads.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            mmb = mmb.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            bar = bar.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            top = top.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-            parts = [body, leads, mmb, bar, top]
-            color_names = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-                all_params[model]["mark_vg_color_key"],
-                all_params[model]["mark_bg_color_key"],
-                all_params[model]["endcaps_color_key"],
-            ]
-        else:
-            body, leads = cqm.generate_part(all_params[model])
-
-            body = body.translate(
-                (
-                    all_params[model]["body_setback_distance"],
-                    0.0,
-                    all_params[model]["body_board_distance"],
-                )
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            leads = leads.translate(
-                (all_params[model]["body_setback_distance"], 0.0, 0.0)
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-            parts = [body, leads]
-            color_names = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
+        body = body.translate(
+            (
+                spec.spec["body_setback_distance"],
+                0.0,
+                spec.spec["body_board_distance"],
+            )
+        ).rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        leads = leads.translate((spec.spec["body_setback_distance"], 0.0, 0.0)).rotate(
+            (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
         )
+
+        parts = [body, leads]
+        color_names = [
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+        ]
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

@@ -17,13 +17,14 @@ import os
 from typing import Any
 
 import yaml
-
-from kilibs.config.cli_args import CLI_ARGS
-from kilibs.config.paths import DATA_PATH
+from pathlib import Path
+from generators.tools.cli_args import CLI_ARGS
 from kilibs.util import dict_tools, list_filter, list_filter_idx
 
 from .base_spec import BaseSpec, TypeSpec
 
+DATA_PATH = Path(__file__).resolve().parent.parent.parent.parent.parent / "data"
+"""The path of the data folder."""
 
 def get_spec_file_names(
     generator_name: str, globs: list[str] = ["*.yaml"]

@@ -1,4 +1,15 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from typing import Any
 from dataclasses import dataclass, fields, asdict
@@ -8,7 +19,6 @@ from math import sqrt, isclose
 from KicadModTree import (
     Footprint,
     FootprintType,
-    KicadPrettyLibrary,
     Line,
     Model,
     Pad,
@@ -21,9 +31,14 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
-from scripts.tools.drawing_tools import roundCrt
-import scripts.tools.misc_tools as MT
-from scripts.tools.global_config_files import global_config as GC
+import generators.tools.footprint.misc_tools as MT
+from kilibs.config import global_config as GC
+from generators.tools.footprint.drawing_tools import roundCrt
+from kilibs.config import global_config as GC
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_registry import register_spec
+from generators.tools.footprint.save_footprint import write_footprint
+from pathlib import Path
 
 txt_offset = 1
 
@@ -41,8 +56,11 @@ class ClassName(enum.Enum):
     PS = "PinSocket"
     IDC = "IDC-Header"
 
+@register_spec
 @dataclass
-class FPconfiguration:
+class FPconfiguration(BaseSpec):
+
+    type: str = ""
     lib_format: str = ""
     class_name: str = "" # checked against class ClassName(enum.Enum)
     class_descr: str = ""
@@ -131,7 +149,30 @@ class FPconfiguration:
         return True
 
 
-    def __init__(self, spec: dict[str, Any]):
+    def __init__(
+        self,
+        id: str = "",
+        spec: dict[str, Any] = {},
+        header: dict[str, Any] = {},
+        file_name: str = "",
+    ) -> None:
+        """Create an instance of `BaseSpec`.
+
+        Args:
+            id: The name/identifier of the spec. Typically, this is the name of the key
+                of the spec (in the YAML file) or the name of the component.
+            spec: The dictionary containing the specification of the component.
+            header: The dictionary containing the header (`FileHeader` in YAML files).
+            file_name: The name of the YAML file that holds this spec definition.
+        """
+        super().__init__(id, spec, header, file_name)
+        if Path(file_name).stem.startswith("pin_headers"):
+            self.type = "pin_headers"
+        elif Path(file_name).stem.startswith("idc_headers"):
+            self.type = "idc_headers"
+        else:
+            self.type = "pin_sockets"
+
         for key, value in spec.items():
             if key == "class_name":
                 if value not in [member.value for member in ClassName]:
@@ -263,6 +304,7 @@ class FPconfiguration:
 # +--------------+
 #
 def makePinHeadStraight(
+    generator_name,
     global_config: GC.GlobalConfig,
     pos_count: int,
     row_count: int,
@@ -343,8 +385,6 @@ def makePinHeadStraight(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -553,11 +593,11 @@ def makePinHeadStraight(
     )
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 def makeIdcHeader(
+    generator_name,
     global_config: GC.GlobalConfig,
     pos_count: int,
     row_count: int,
@@ -676,8 +716,6 @@ def makeIdcHeader(
 
     if extra_description:
         description = description + ", " + extra_description
-
-    print(footprint_name)
 
     footprint_type = FootprintType.SMD if pins_drill == 0 else FootprintType.THT
 
@@ -884,8 +922,7 @@ def makeIdcHeader(
         )
     )
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 # THT Angled (Horizontal) Pinheader:
 #####################################
@@ -904,6 +941,7 @@ def makeIdcHeader(
 #                 +-------+
 #
 def makePinHeadAngled(
+    generator_name,
     global_config: GC.GlobalConfig,
     pos_count: int,
     row_count: int,
@@ -978,8 +1016,6 @@ def makePinHeadAngled(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -1196,8 +1232,7 @@ def makePinHeadAngled(
         )
     )
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 # THT Angled (Horizontal) PinSocket:
@@ -1216,6 +1251,7 @@ def makePinHeadAngled(
 # +---------------------------------------+
 #
 def makeSocketStripAngled(
+    generator_name,
     global_config: GC.GlobalConfig,
     pos_count: int,
     row_count: int,
@@ -1277,8 +1313,6 @@ def makeSocketStripAngled(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -1387,8 +1421,7 @@ def makeSocketStripAngled(
         )
     )
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 # SMD Straight (Vertical) Pinheader:
@@ -1408,6 +1441,7 @@ def makeSocketStripAngled(
 # | OOOOOOO              |
 # | OOOOOOO ====         |
 def makePinHeadStraightSMD(
+    generator_name,
     global_config: GC.GlobalConfig,
     pos_count: int,
     row_count: int,
@@ -1486,8 +1520,6 @@ def makePinHeadStraightSMD(
             footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.SMD)
@@ -1626,5 +1658,4 @@ def makePinHeadStraightSMD(
         )
     )
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)

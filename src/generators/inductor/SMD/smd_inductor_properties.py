@@ -1,24 +1,26 @@
-# kilibs is free software: you can redistribute it and/or modify it under the terms of
-# the GNU General Public License as published by the Free Software Foundation, either
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
 # version 3 of the License, or (at your option) any later version.
 #
-# kilibs is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-# PURPOSE. See the GNU General Public License for more details.
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with kilibs.
-# If not, see < http://www.gnu.org/licenses/ >.
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) The KiCad Librarian Team
+
 """Classes for SMD inductor properties."""
 
 import abc
 import csv
 import logging
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
+from generators.tools.spec.base_spec import BaseSpec
 from kilibs.geom import Vector3D
 from kilibs.util import dict_tools
 
@@ -58,9 +60,9 @@ class TwoPadInductorParameters(InductorBodyParameters):
         """Length of the inductor in mm."""
         self.height: float
         """Overall height of the inductor in mm."""
-        landing_dims: TwoPadDimensions
+        self.landing_dims: TwoPadDimensions
         """Dimensions of PCB landing pads in mm."""
-        device_pad_dims: TwoPadDimensions
+        self.device_pad_dims: TwoPadDimensions
         """Dimensions of pads on the inductor in mm."""
 
         self.width_x = float(data["widthX"])
@@ -119,7 +121,7 @@ class TwoPadInductorParameters(InductorBodyParameters):
         """
         pad_y = _get_key_as_float_or_none(data, "padY")
         if pad_y is None:
-            logging.info(
+            logging.debug(
                 "No physical pad dimensions (padY) found - using body and PCB landing "
                 "dimensions (lengthY, landingY) as a substitute."
             )
@@ -134,7 +136,7 @@ class TwoPadInductorParameters(InductorBodyParameters):
         except ValueError:
             # We don't have enough info here to construct the pad dimensions
             # So construct a pad width to be getting on with.
-            logging.info(
+            logging.debug(
                 "No physical pad dimensions (padX) found - using landing dimensions "
                 "as a substitute."
             )
@@ -242,7 +244,7 @@ class SmdInductorProperties:
         self.part_number = part_block["PartNumber"]
         self.datasheet = part_block.get("datasheet", None)
 
-        body_type_key = part_block.get("3d", {}).get("type", 1)
+        body_type_key = cast(int | str, part_block.get("3d", {}).get("type", 1))  # type: ignore
 
         # Switch the inductor type based on the 'type' key
         match body_type_key:
@@ -258,7 +260,7 @@ class SmdInductorProperties:
                 )
 
 
-class InductorSeriesProperties:
+class InductorSeriesProperties(BaseSpec):
     """Object that represents the definition of a series of inductors, read from a dict,
     probably from a YAML file.
 
@@ -271,26 +273,6 @@ class InductorSeriesProperties:
     are all part of the same series in the manufacturer's catalog.
     """
 
-    name: str
-    """The name of the series."""
-    manufacturer: str
-    """The manufacturer of the inductors."""
-    tags: list[str]
-    """The tags."""
-    has_orientation: bool
-    """`True` if the inductors have an orientation and require a pin 1 marker."""
-    library_name: str
-    """The name of the library to store the output in."""
-    series_description: str | None = None
-    """Optional name of the series, used in the footprint description if the part
-    number isn't enough."""
-    additional_description: str | None = None
-    """Optional additional description for the series, used in the footprint
-    description, after the series. Can be useful when the 'series' def is only
-    a subset of the manufacturer-described series."""
-    parts: list[SmdInductorProperties]
-    """List of the part definitions in the series."""
-
     def __init__(self, series_block: dict[str, Any], csv_dir: Path | None) -> None:
         """Create an instance of `InductorSeriesProperties` by loading the data from
         the given dictionary (and optionally additional CSV files).
@@ -300,8 +282,42 @@ class InductorSeriesProperties:
             csv_dir: Optionally, the path of the directory containing the CSV files that
                 might be referenced by the dictionary.
         """
-        self.name = series_block["series"]
-        logging.info(f"Processing properties for series: {self.name}")
+        # General instance attributes
+        self.id: str
+        """The name of the series."""
+        self.manufacturer: str
+        """The manufacturer of the inductors."""
+        self.tags: list[str]
+        """The tags."""
+        self.has_orientation: bool
+        """`True` if the inductors have an orientation and require a pin 1 marker."""
+        self.library_name: str
+        """The name of the library to store the output in."""
+        self.series_description: str | None = None
+        """Optional name of the series, used in the footprint description if the part
+        number isn't enough."""
+        self.additional_description: str | None = None
+        """Optional additional description for the series, used in the footprint
+        description, after the series. Can be useful when the 'series' def is only
+        a subset of the manufacturer-described series."""
+        self.parts: list[SmdInductorProperties]
+        """List of the part definitions in the series."""
+
+        # Instance attributes for the 3D model
+        self.has_3d_data: bool
+        """`True` if this spec has all information required for the 3D model."""
+        self.body_color: str
+        """Color of the body, if there is one"""
+        self.pad_color: str
+        """Color of the pads"""
+        self.pad_thickness: float
+        """Thickness of the pads"""
+        self.coil_color: str | None
+        """Color of the coil, if drawn"""
+
+        super().__init__()
+
+        self.id = series_block["series"]
         self.manufacturer = series_block["manufacturer"]
         # space delimited list of the tags
         self.tags = series_block.get("tags", [])
@@ -310,6 +326,16 @@ class InductorSeriesProperties:
 
         self.has_orientation = series_block.get("has_orientation", False)
         self.library_name = series_block["library_name"]
+
+        if "3d" in series_block:
+            self.has_3d_data = True
+        else:
+            self.has_3d_data = False
+        block_3d = series_block.get("3d", {})
+        self.body_color = block_3d.get("bodyColor", "black body")
+        self.coil_color = block_3d.get("wireColor", "metal dark cu")
+        self.pad_color = block_3d.get("pinColor", "metal grey pins")
+        self.pad_thickness = block_3d.get("padThickness", 0.05)
 
         def csv_line_filter(line: str) -> bool:
             """Filter function to remove lines that are comments or empty."""

@@ -56,7 +56,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_audio_jack_cui import cq_audio_jack_cui
 from .cq_audio_jack_ledino import cq_audio_jack_ledino
@@ -64,84 +65,63 @@ from .cq_audio_jack_neutrik import cq_audio_jack_neutrik
 from .cq_audio_jack_qingpu import cq_audio_jack_qingpu
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Connector_Audio")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Generate the correct model
+    if "CUI" in spec.spec["model_name"]:
+        cqm = cq_audio_jack_cui()
+        body_top = cqm.make_top_Jack_3_5mm_CUI(spec.spec)
+        body = cqm.make_case_Jack_3_5mm_CUI(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif "Ledino" in spec.spec["model_name"]:
+        cqm = cq_audio_jack_ledino()
+        body_top = cqm.make_top_Jack_3_5mm_Ledino(spec.spec)
+        body = cqm.make_case_Jack_3_5mm_Ledino(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif "Neutrik" in spec.spec["model_name"]:
+        cqm = cq_audio_jack_neutrik()
+        body_top = cqm.make_top_Jack_3_5mm_Neutrik(spec.spec)
+        body = cqm.make_case_Jack_3_5mm_Neutrik(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        cqm = cq_audio_jack_qingpu()
+        body_top = cqm.make_top_type(spec.spec)
+        body = cqm.make_case_type(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+        npth_pins = cqm.make_npthpin_type(spec.spec)
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    # Export the assembly to VRML
+    parts: list[cq.Workplane] = []
+    color_names: list[str] = []
+    if body_top:
+        parts.append(body_top)
+        color_names.append(spec.spec["body_top_color_key"])
+    if body:
+        parts.append(body)
+        color_names.append(spec.spec["body_color_key"])
+    if pins:
+        parts.append(pins)
+        color_names.append(spec.spec["pin_color_key"])
+    if npth_pins:
+        parts.append(pins)
+        color_names.append(spec.spec["npth_pin_color_key"])
 
-        # Generate the correct model
-        if "CUI" in all_params[model]["model_name"]:
-            cqm = cq_audio_jack_cui()
-            body_top = cqm.make_top_Jack_3_5mm_CUI(all_params[model])
-            body = cqm.make_case_Jack_3_5mm_CUI(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif "Ledino" in all_params[model]["model_name"]:
-            cqm = cq_audio_jack_ledino()
-            body_top = cqm.make_top_Jack_3_5mm_Ledino(all_params[model])
-            body = cqm.make_case_Jack_3_5mm_Ledino(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif "Neutrik" in all_params[model]["model_name"]:
-            cqm = cq_audio_jack_neutrik()
-            body_top = cqm.make_top_Jack_3_5mm_Neutrik(all_params[model])
-            body = cqm.make_case_Jack_3_5mm_Neutrik(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        else:
-            cqm = cq_audio_jack_qingpu()
-            body_top = cqm.make_top_type(all_params[model])
-            body = cqm.make_case_type(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-            npth_pins = cqm.make_npthpin_type(all_params[model])
-
-        # Export the assembly to VRML
-        parts: list[cq.Workplane] = []
-        color_names: list[str] = []
-        if body_top:
-            parts.append(body_top)
-            color_names.append(all_params[model]["body_top_color_key"])
-        if body:
-            parts.append(body)
-            color_names.append(all_params[model]["body_color_key"])
-        if pins:
-            parts.append(pins)
-            color_names.append(all_params[model]["pin_color_key"])
-        if npth_pins:
-            parts.append(pins)
-            color_names.append(all_params[model]["npth_pin_color_key"])
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

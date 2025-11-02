@@ -83,7 +83,7 @@ class LICENCE_Info:
 
 import cadquery as cq
 
-from _tools.cq_helpers import *
+from generators.tools.model.cq_helpers import *
 
 # from Helpers import show
 # from collections import namedtuple

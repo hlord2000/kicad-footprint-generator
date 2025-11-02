@@ -1,19 +1,35 @@
-import re
-from dataclasses import dataclass
 from typing import Any
 
 from kilibs.geom import Vector2D, Vector3D
-from scripts.tools.declarative_def_tools import common_metadata
+from generators.tools.footprint.declarative_def_tools import common_metadata
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_registry import register_spec
 
 
-@dataclass
-class TerminalBlockBarrierProperties:
+@register_spec
+class TerminalBlockBarrierProperties(BaseSpec):
 
     lib_description = "Barrier terminal block"
 
-    def __init__(self, spec: dict[str, Any], pkg_id: str):
+    def __init__(
+        self,
+        id: str = "",
+        spec: dict[str, Any] = {},
+        header: dict[str, Any] = {},
+        file_name: str = "",
+    ) -> None:
+        """Create an instance of `PackageSpec`.
 
-        self.name: str = pkg_id
+        Args:
+            id: The name/identifier of the spec. Typically, this is the name of the key
+                of the spec (in the YAML file) or the name of the component.
+            spec: The dictionary containing the specification of the component.
+            header: The dictionary containing the header (`FileHeader` in YAML files).
+            file_name: The name of the YAML file that holds this spec definition.
+        """
+        super().__init__(id, spec, header, file_name)
+
+        self.name: str = id
 
         self.name_template: str = spec["name_template"]
         """ the name of module (template) """

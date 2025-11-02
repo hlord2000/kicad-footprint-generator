@@ -1,15 +1,35 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
-from scripts.tools.footprint_scripts_terminal_blocks import *
+from ..footprint_scripts_terminal_blocks import *
+
+from generators.tools.spec.base_spec import BaseSpec
 
 
-if __name__ == '__main__':
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
     script_generated_note="script-generated using https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/TerminalBlock_Phoenix";
     classname="TerminalBlock_Phoenix"
-
-
 
     pins=range(2,8+1)
     rm=2.5
@@ -38,16 +58,15 @@ if __name__ == '__main__':
         webpage="http://www.produktinfo.conrad.com/datenblaetter/550000-574999/556444-da-01-de-LEITERPLATTENKL__PTSM_0_5__4_2_5_V_THR.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Vertical".format(name, rm, p)
-        makeTerminalBlockVertical(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening=opening,
-                                  ddrill=ddrill, pad=pad, bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockVertical(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening=opening,
+                                ddrill=ddrill, pad=pad, bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,8+1)
     rm=2.5
@@ -76,16 +95,15 @@ if __name__ == '__main__':
         webpage="http://www.produktinfo.conrad.com/datenblaetter/550000-574999/556441-da-01-de-LEITERPLATTENKL__PTSM_0_5__8_2_5_H_THR.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,16+1)
     rm=5.08
@@ -111,15 +129,14 @@ if __name__ == '__main__':
         webpage="http://www.farnell.com/datasheets/100425.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,16+1)
     rm=5
@@ -145,15 +162,14 @@ if __name__ == '__main__':
         webpage="http://www.farnell.com/datasheets/100425.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,16+1)
     rm=5.08
@@ -179,15 +195,14 @@ if __name__ == '__main__':
         webpage="http://www.farnell.com/datasheets/2138224.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,13+1)
     rm=3.81
@@ -209,21 +224,20 @@ if __name__ == '__main__':
     nibbleSize=None
     nibblePos=None
     pin_to_mfr = {            2:1727010,  3:1727023,  4:1727036,  5:1727049,  6:1727052,  7:1727065,  8:1727078,
-                  9:1727081, 10:1727094, 11:1727104, 12:1727117, 13:1931754}
+                9:1727081, 10:1727094, 11:1727104, 12:1727117, 13:1931754}
     for p in pins:
         name="MKDS-1-{0}-{1:2.3}".format(p,rm);
         webpage="http://www.phoenixcontact.com/us/products/{0}/pdf".format(pin_to_mfr[p]);
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name, 
-                                  pins=p, rm=rm, 
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, 
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name, 
+                                pins=p, rm=rm, 
+                                package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description, 
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,16+1)
     rm=3.5
@@ -252,16 +266,15 @@ if __name__ == '__main__':
         webpage="";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,16+1)
     rm=5.0
@@ -290,16 +303,15 @@ if __name__ == '__main__':
         webpage="http://www.mouser.com/ds/2/324/ItemDetail_1935161-922578.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(2,3+1)
     rm=2.54
@@ -328,16 +340,15 @@ if __name__ == '__main__':
         webpage="http://www.mouser.com/ds/2/324/ItemDetail_1725656-920552.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
-
-
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
 
     pins=range(4,12+1)
     rm=2.54
@@ -366,11 +377,13 @@ if __name__ == '__main__':
         webpage="http://www.mouser.com/ds/2/324/ItemDetail_1725672-916605.pdf";
         classname_description="Terminal Block Phoenix {0}".format(name);
         footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
-        makeTerminalBlockStd(footprint_name=footprint_name,
-                                  pins=p, rm=rm,
-                                  package_height=package_height, leftbottom_offset=leftbottom_offset,
-                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
-                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
-                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
-                                  tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
-                                  webpage=webpage, script_generated_note=script_generated_note)
+        makeTerminalBlockStd(generator_name, footprint_name=footprint_name,
+                                pins=p, rm=rm,
+                                package_height=package_height, leftbottom_offset=leftbottom_offset,
+                                ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset,
+                                secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                tags_additional=[], lib_name=classname, classname=classname, classname_description=classname_description,
+                                webpage=webpage, script_generated_note=script_generated_note)
+    num_fps_generated += len(pins)
+    return num_fps_generated

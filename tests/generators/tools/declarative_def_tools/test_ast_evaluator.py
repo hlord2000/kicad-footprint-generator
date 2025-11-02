@@ -1,12 +1,15 @@
-import os
-import pytest
-import re
 import math
+import os
+import re
 
-from scripts.tools.declarative_def_tools.ast_evaluator import ASTevaluator, ASTexprEvaluator
-from scripts.tools.declarative_def_tools.utils import DotDict
+import pytest
 
-from scripts.tests.callstack import __caller_frame__
+from generators.tools.footprint.declarative_def_tools.ast_evaluator import (
+    ASTevaluator,
+    ASTexprEvaluator,
+)
+from generators.tools.footprint.declarative_def_tools.utils import DotDict
+from tests.generators.callstack import __caller_frame__
 
 
 class CustomException(AssertionError):
@@ -25,8 +28,8 @@ class TestASTevaluator:
         request.cls.ast = ASTevaluator(symbols=dict(num_pos=self.__num_pos__))
 
     def test_unallowed(self):
-        import tempfile
         import pathlib
+        import tempfile
 
         filename = pathlib.Path(tempfile.mktemp()).as_posix()
 
@@ -60,7 +63,7 @@ class TestASTevaluator:
         pytest.raises(Exception, ast.eval, a_stmt, suppress_warnings=True)
 
     def test_eval_str(self):
-        from math import sin, cos, radians
+        from math import cos, radians, sin
         ast = self.ast
         assert (
             ast.eval(

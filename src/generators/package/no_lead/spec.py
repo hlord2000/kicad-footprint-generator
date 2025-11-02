@@ -1,17 +1,20 @@
 from typing import Any, Literal, cast
 
-from kilibs.ipc_tools import ipc_rules  # type: ignore
+from kilibs.config import ipc_rules  # type: ignore
 from kilibs.util.toleranced_size import (  # type: ignore
     TolerancedSize,
     TolerancedSizeHandler,
 )
-from scripts.tools.declarative_def_tools import (  # type: ignore
+from generators.tools.footprint.declarative_def_tools import (  # type: ignore
     common_metadata,
     fp_additional_drawing,
     pad_overrides,
     rule_area_properties,
 )
 
+from ..package_spec import PackageSpec
+from ..config import PACKAGE_CONFIG
+from generators.tools.spec.spec_registry import register_spec
 
 class TopSlugConfiguration:
     """
@@ -54,31 +57,29 @@ class TopSlugConfiguration:
         return s
 
 
-class NoLeadConfiguration:
+@register_spec
+class NoLeadSpec(PackageSpec):
     """
-    A type that represents the configuration of a no-lead footprint
-    (probably from a YAML config block).
+    A type that represents the spec of a no lead package.
+    """
 
-    Over time, add more type-safe accessors to this class, and replace
-    use of the raw dictionary.
-    """
 
     def __init__(
         self,
-        pkg_id: str,
-        spec: dict[str, Any],
-        header: dict[str, Any] | None,
-        config: dict[str, Any],
+        id: str = "",
+        spec: dict[str, Any] = {},
+        header: dict[str, Any] = {},
+        file_name: str = "",
     ) -> None:
-        # Instance attributes for the raw source:
-        self.pkg_id: str
-        """The package name as given by the dictionary key."""
-        self.spec: dict[str, Any]
-        """The dictionary containing the specification of the device."""
-        self.header: dict[str, Any]
-        """The dictionary containing the file header."""
-        self.config: dict[str, Any]
-        """The dictionary containing the generator configuration."""
+        """Create an instance of `PackageSpec`.
+
+        Args:
+            id: The name/identifier of the spec. Typically, this is the name of the key
+                of the spec (in the YAML file) or the name of the component.
+            spec: The dictionary containing the specification of the component.
+            header: The dictionary containing the header (`FileHeader` in YAML files).
+            file_name: The name of the YAML file that holds this spec definition.
+        """
 
         # Instance attributes for generator independent data:
         self.metadata: common_metadata.CommonMetadata
@@ -194,18 +195,7 @@ class NoLeadConfiguration:
         self.lib_name: str
         """Name of the library."""
 
-        # Instance attributes related to the data completeness to generate a FP or a
-        # model:
-        self.has_3d_data: bool
-        """True if the no-lead configuration has a full data set for the 3D model."""
-        self.has_fp_data: bool
-        """True if the no-lead configuration has a full data set for the footprint."""
-
-        # Assign the source parameters:
-        self.pkg_id = pkg_id
-        self.spec = spec
-        self.header = header if header else {}
-        self.config = config
+        super().__init__(id, spec, header, file_name)
 
         self._extract_generator_independent_data()
         self._extract_general_data()
@@ -271,7 +261,7 @@ class NoLeadConfiguration:
         diff = overall_height.maximum - body_height.maximum - body_pcb_gap.minimum
         if abs(diff) > 0.01:
             raise KeyError(
-                f"{self.pkg_id}: "
+                f"{self.id}: "
                 f"Body height is over constrained and dimensions do not match:\n"
                 f"min(body_pcb_gap)={body_pcb_gap.minimum}, "
                 f"max(body_height)={body_height.maximum}, "
@@ -411,20 +401,20 @@ class NoLeadConfiguration:
 
         layout = ""
         if self.has_ep:
-            name_format = self.config[
+            name_format = PACKAGE_CONFIG[
                 "fp_name_EP_format_string_no_trailing_zero_pincount_text"
             ]
         else:
-            name_format = self.config[
+            name_format = PACKAGE_CONFIG[
                 "fp_name_format_string_no_trailing_zero_pincount_text"
             ]
             if spec.get("use_name_format", "QFN") == "LGA":
-                name_format = self.config[
+                name_format = PACKAGE_CONFIG[
                     "fp_name_lga_format_string_no_trailing_zero_pincount_text"
                 ]
 
                 if self.num_pins_x > 0 and self.num_pins_y > 0:
-                    layout = self.config["lga_layout_border"].format(
+                    layout = PACKAGE_CONFIG["lga_layout_border"].format(
                         nx=spec["num_pins_x"], ny=spec["num_pins_y"]
                     )
 
@@ -501,7 +491,7 @@ class NoLeadConfiguration:
                 .lstrip("_")
             )
         else:
-            self.model_name = self.pkg_id
+            self.model_name = self.id
 
         if "fp_name_prefix" in spec:
             prefix = spec["fp_name_prefix"]

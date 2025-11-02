@@ -1,9 +1,22 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 from __future__ import division
 from copy import copy
 from KicadModTree import Pad, PadArray
 from kilibs.geom import CornerSelection
-from scripts.tools.declarative_def_tools import pad_overrides
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.declarative_def_tools import pad_overrides
+from kilibs.config import global_config as GC
 
 from .pad_number_generators import get_generator
 

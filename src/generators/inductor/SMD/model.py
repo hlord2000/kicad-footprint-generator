@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-#
 # This is derived from a cadquery script for generating PDIP models in X3D format
 #
 # from https://bitbucket.org/hyOzd/freecad-macros
@@ -54,179 +51,75 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 ___ver___ = "2.0.0"
 
 import abc
-import glob
-import os
-from pathlib import Path
-from typing import Any
 
 import cadquery as cq
-import yaml
 
-from _tools import export_tools
+from generators.tools.model import export_tools
+from generators.tools.cli_args import CLI_ARGS
+from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 
-from kilibs.declarative_defs.packages.smd_inductor_properties import (
+from .model_coil import DSectionFootAirCoreCoil
+from .smd_inductor_properties import (
     CuboidParameters,
     HorizontalAirCoreParameters,
     InductorSeriesProperties,
     ShieldedDrumRoundedRectBlockParameters,
     SmdInductorProperties,
 )
-from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
-
-from .src.make_coil_model import DSectionFootAirCoreCoil
 
 
-class Inductor3DProperties:
-    """
-    Class that represents the result of declarative (e.g. YAML) definitions of
-    SMD inductor 3D properties
-    """
+def create_models(spec: InductorSeriesProperties, generator_name: str) -> int:
 
-    def __init__(self, data: dict[str, Any]):
-        self.body_color: str
-        """Color of the body, if there is one"""
-        self.pad_color: str
-        """Color of the pads"""
-        self.pad_thickness: float
-        """Thickness of the pads"""
-        self.coil_color: str | None
-        """Color of the coil, if drawn"""
+    if not spec.has_3d_data:
+        # This series does not have 3D properties
+        # (presumably a footprint-only definition)
+        return 0
 
-        self.body_color = data.get("bodyColor", "black body")
-        self.coil_color = data.get("wireColor", "metal dark cu")
-        self.pad_color = data.get("pinColor", "metal grey pins")
-
-        self.pad_thickness = data.get("padThickness", 0.05)
+    for part_data in spec.parts:
+        _generate_model(spec, part_data, generator_name)
+    return len(spec.parts)
 
 
-def make_models(
-    model_to_build: str | None = None,
-    output_dir_prefix: str | None = None,
-    enable_vrml: bool = True,
+def _generate_model(
+    series_data: InductorSeriesProperties,
+    part_data: SmdInductorProperties,
+    generator_name: str,
 ):
-    """
-    Main entry point into this generator.
-    """
 
-    if output_dir_prefix is None:
-        print("ERROR: An output directory must be provided.")
-        return
+    model_builder: InductorModelBuilder
 
-    # model_to_build can be 'all', or a specific YAML file
-    # find yaml files here, need to figure out the path to do so
+    # Dispatch the body type to the appropriate function
+    if isinstance(part_data.body, CuboidParameters):
+        model_builder = CubicInductorBuilder(part_data, series_data)
+    elif isinstance(part_data.body, HorizontalAirCoreParameters):
+        model_builder = HoriziontalAirCoreBuilder(part_data)
+    elif isinstance(part_data.body, ShieldedDrumRoundedRectBlockParameters):
+        model_builder = ShieldedDrumModelBuilder(part_data, series_data)
+    else:
+        raise ValueError(f"Invalid body_type: {type(part_data.body)}")
 
-    inductorPath = os.path.dirname(os.path.realpath(__file__))
-    allYamlFiles = glob.glob(f"{inductorPath}/../../data/Inductor_SMD/*.yaml")
+    model_parts = model_builder.build()
 
-    if not allYamlFiles:
-        print("No YAML files found to process.")
-        return
+    parts: list[cq.Workplane] = []
+    color_names: list[str] = []
 
-    fileList = []
+    if model_parts.case is not None:
+        parts.append(model_parts.case)
+        color_names.append(series_data.body_color)
+    if model_parts.coil is not None:
+        parts.append(model_parts.coil)
+        color_names.append(series_data.coil_color)  # type: ignore
+    if model_parts.pins is not None:
+        parts.append(model_parts.pins)
+        color_names.append(series_data.pad_color)
 
-    if model_to_build != "all":
-        for yamlFile in allYamlFiles:
-            basefilename = os.path.splitext(os.path.basename(yamlFile))[0]
-            if basefilename == model_to_build:
-                fileList = [yamlFile]  # The file list will be just 1 item, our specific
-                break
-
-    # 2 possibilities now - fileList is a single file that we found,
-    # or fileList is empty (didn't find file, or building all)
-
-    # Trying to build a specific file and it was not found
-    if model_to_build != "all" and not fileList:
-        print(f"Could not find YAML for model {model_to_build}")
-        return
-    elif model_to_build == "all":
-        fileList = allYamlFiles
-
-    generator = SmdInductorGenerator(Path(output_dir_prefix))
-
-    print(f"Files to process : {fileList}")
-
-    for yamlFile in fileList:
-        with open(yamlFile, "r") as stream:
-            print(f"Processing file {yamlFile}")
-            data_loaded = yaml.safe_load(stream)
-
-            csv_dir = Path(yamlFile).parent
-
-            # For each series block in the yaml file, we process the CSV
-            for series_block in data_loaded:
-                print(f"  Processing series: {series_block["series"]}")
-                generator.generate_series(series_block, csv_dir, enable_vrml)
-
-
-class SmdInductorGenerator:
-
-    output_prefix: Path
-
-    def __init__(self, output_prefix: Path):
-        self.output_prefix = output_prefix
-
-    def generate_series(
-        self, series_block: dict[str, Any], csv_dir: Path, enable_vrml: bool
-    ):
-        series_data = InductorSeriesProperties(series_block, csv_dir)
-
-        if "3d" not in series_block:
-            # This series does not have 3D properties
-            # (presumably a footprint-only definition)
-            return
-
-        for part_data in series_data.parts:
-            # Construct an 3D properties object, which will use defaults
-            # if not given
-            model_props = Inductor3DProperties(series_block["3d"])
-            print("  Part number:", part_data.part_number)
-
-            self._generate_model(series_data, model_props, part_data, enable_vrml)
-
-    def _generate_model(
-        self,
-        series_data: InductorSeriesProperties,
-        series_3d_props: Inductor3DProperties,
-        part_data: SmdInductorProperties,
-        enable_vrml: bool,
-    ):
-
-        model_builder: InductorModelBuilder
-
-        # Dispatch the body type to the appropriate function
-        if isinstance(part_data.body, CuboidParameters):
-            model_builder = CubicInductorBuilder(part_data, series_3d_props)
-        elif isinstance(part_data.body, HorizontalAirCoreParameters):
-            model_builder = HoriziontalAirCoreBuilder(part_data)
-        elif isinstance(part_data.body, ShieldedDrumRoundedRectBlockParameters):
-            model_builder = ShieldedDrumModelBuilder(part_data, series_3d_props)
-        else:
-            raise ValueError(f"Invalid body_type: {type(part_data.body)}")
-
-        model_parts = model_builder.build()
-
-        # Export the assembly to VRML
-        # Dec 2022- do not use CadQuery VRML export, it scales/uses inches.
-        parts: list[cq.Workplane] = []
-        color_names: list[str] = []
-        if model_parts.case is not None:
-            parts.append(model_parts.case)
-            color_names.append(series_3d_props.body_color)
-        if model_parts.coil is not None:
-            parts.append(model_parts.coil)
-            color_names.append(series_3d_props.coil_color)
-        if model_parts.pins is not None:
-            parts.append(model_parts.pins)
-            color_names.append(series_3d_props.pad_color)
-
-        export_tools.export(
-            root_output_dir=self.output_prefix,
-            lib_name=series_data.library_name,
-            model_name=f"L_{series_data.manufacturer}_{part_data.part_number}",
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=series_data.library_name,
+        model_name=f"L_{series_data.manufacturer}_{part_data.part_number}",
+        parts=parts,
+        color_names=color_names,
+    )
 
 
 def build_pins(
@@ -292,10 +185,10 @@ class InductorModelBuilder(abc.ABC):
     """
 
     def __init__(
-        self, part_data: SmdInductorProperties, series_3d_props: Inductor3DProperties
+        self, part_data: SmdInductorProperties, series_data: InductorSeriesProperties
     ):
         self.part_data = part_data
-        self.series_3d_props = series_3d_props
+        self.series_data = series_data
 
     @abc.abstractmethod
     def build(self) -> InductorParts:
@@ -310,9 +203,9 @@ class CubicInductorBuilder(InductorModelBuilder):
     def __init__(
         self,
         part_data: SmdInductorProperties,
-        series_3d_props: Inductor3DProperties,
+        series_data: InductorSeriesProperties,
     ):
-        super().__init__(part_data, series_3d_props)
+        super().__init__(part_data, series_data)
 
     def build(self) -> InductorParts:
 
@@ -334,9 +227,9 @@ class CubicInductorBuilder(InductorModelBuilder):
             print(f"padY = {pad_dims.size_crosswise}")
             print(f"landingX = {landing.size_inline}")
             print(f"landingY = {landing.size_crosswise}")
-            print(f"seriesType = {series_3d_props.body_type}")
-            print(f"seriesPadThickness = {series_3d_props.pad_thickness}")
-            print(f"seriesCornerRadius = {series_3d_props.corner_radius}")
+            print(f"seriesType = {series_data.body_type}")
+            print(f"seriesPadThickness = {series_data.pad_thickness}")
+            print(f"seriesCornerRadius = {series_data.corner_radius}")
         rotation = 0
         case = cq.Workplane("XY").box(widthX, lengthY, height, (True, True, False))
 
@@ -363,7 +256,7 @@ class CubicInductorBuilder(InductorModelBuilder):
         if not body_data.bottom_pads:  # Exposed "wings"
             pad_thickness = min(3, height * 0.3)
         else:
-            pad_thickness = self.series_3d_props.pad_thickness
+            pad_thickness = self.series_data.pad_thickness
 
         pins = build_pins(pad_dims, pad_thickness, widthX)
         case = case.cut(pins)
@@ -399,9 +292,9 @@ class ShieldedDrumModelBuilder(InductorModelBuilder):
     def __init__(
         self,
         part_data: SmdInductorProperties,
-        series_3d_props: Inductor3DProperties,
+        series_data: InductorSeriesProperties,
     ):
-        super().__init__(part_data, series_3d_props)
+        super().__init__(part_data, series_data)
 
     def build(self) -> InductorParts:
 
@@ -480,7 +373,7 @@ class ShieldedDrumModelBuilder(InductorModelBuilder):
         # Create the pins
         pins = build_pins(
             body.device_pad_dims,
-            self.series_3d_props.pad_thickness,
+            self.series_data.pad_thickness,
             body.width_x,
         )
 

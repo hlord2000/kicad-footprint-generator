@@ -1,11 +1,23 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import os
 import string
 import sys
 from KicadModTree import *
-from scripts.tools.drawing_tools import *
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import *
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 from math import ceil
 
 # According to IEC 60603-2 §3 and DIN 41612-1 §2 connector names should be like
@@ -40,7 +52,7 @@ from math import ceil
 # https://github.com/KiCad/kicad-footprints/pull/1076
 
 lib_name = "Connector_DIN"
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 large_holes = {
     "pin_hole_diameter": 1.6,
@@ -283,7 +295,7 @@ datasheets = [
     "https://b2b.harting.com/files/livebooks/en/PRD0200000100063/downloads/livebook.pdf",
 ]
 
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 mounting_args = dict(
     type=Pad.TYPE_NPTH,
@@ -385,7 +397,7 @@ def build_pins(mod, config, pins, rows, row_direction, column_direction):
     return first
 
 
-def build_din41612_connector_horizontal(mod, series, direction, pins, rows, config):
+def build_din41612_connector_horizontal(generator_name, mod, series, direction, pins, rows, config):
 
     center = Vector2D(config["pin_column_offset"] * ((config["row_pins"] + config["pin_nr_offset"] * 2) / 2 - 0.5), 0)
     mounting = Vector2D(center.x - config["mounting_width"] / 2, -config["a1_mounting"])
@@ -716,7 +728,7 @@ def build_din41612_connector_horizontal(mod, series, direction, pins, rows, conf
             )
 
 
-def build_din41612_connector_vertical(mod, series, direction, pins, rows, config):
+def build_din41612_connector_vertical(generator_name, mod, series, direction, pins, rows, config):
     all_rows = "zabcde"
     min_row_index = all_rows.find(config["series_rows"][0])
     max_row_index = all_rows.find(config["series_rows"][-1])
@@ -990,7 +1002,7 @@ def build_din41612_connector_vertical(mod, series, direction, pins, rows, config
     )
 
 
-def build_din41612_connector(series, direction, pins, rows, extra_args={}):
+def build_din41612_connector(generator_name, series, direction, pins, rows, extra_args={}):
     width = "full"
     try:
         if series in {"M", "M-flat", "M-invers"} and pins == 78:
@@ -1063,12 +1075,11 @@ def build_din41612_connector(series, direction, pins, rows, extra_args={}):
     )
 
     if direction == "Horizontal":
-        build_din41612_connector_horizontal(mod, series, direction, pins, rows, config)
+        build_din41612_connector_horizontal(generator_name, mod, series, direction, pins, rows, config)
     else:
-        build_din41612_connector_vertical(mod, series, direction, pins, rows, config)
+        build_din41612_connector_vertical(generator_name, mod, series, direction, pins, rows, config)
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(mod)
+    write_footprint(mod, lib_name, generator_name)
     return mod
 
 
@@ -1108,21 +1119,26 @@ connectors = {
 # TODO: check all manufacturer special variants
 # make fab shape depend on mounting position not on front of connector
 
-for direction in ("Horizontal", "Vertical"):
-    for series, variants in connectors.items():
-        if direction in (dimensions["series"])[series.split("/")[0]]["directions"]:
-            for v in variants:
-                pins = v[0]
-                rows = v[1]
-                if len(v) > 2:
-                    args = v[2]
-                else:
-                    args = {}
-                print(f"building {series} {v} {direction}")
-                build_din41612_connector(
-                    series=series,
-                    direction=direction,
-                    pins=pins,
-                    rows=rows,
-                    extra_args=args,
-                )
+
+def generate_all(generator_name: str) -> int:
+    num_fps_generated = 0
+    for direction in ("Horizontal", "Vertical"):
+        for series, variants in connectors.items():
+            if direction in (dimensions["series"])[series.split("/")[0]]["directions"]:
+                for v in variants:
+                    pins = v[0]
+                    rows = v[1]
+                    if len(v) > 2:
+                        args = v[2]
+                    else:
+                        args = {}
+                    build_din41612_connector(
+                        generator_name,
+                        series=series,
+                        direction=direction,
+                        pins=pins,
+                        rows=rows,
+                        extra_args=args,
+                    )
+                    num_fps_generated += 1
+    return num_fps_generated

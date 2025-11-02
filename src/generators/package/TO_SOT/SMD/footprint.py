@@ -1,76 +1,45 @@
-#!/usr/bin/env python3
-
-# KicadModTree is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
 #
-# KicadModTree is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
-
-import argparse
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
 
-
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--family",
-        help="device type to build: TO-252 | TO-263 | TO-268  (default is all)",
-        type=str,
-        nargs=1,
-    )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        help="show extra information while generating the footprint",
-        action="store_true",
-    )
-    return parser.parse_args()
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_file_names
 
 
-if __name__ == "__main__":
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    print("Building DPAK")
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
 
-    args = get_args()
+    Returns:
+        The number of footprints generated.
+    """
+    from .DPAK import TO252, TO263, TO268, ATPAK, Texas_NDW
 
-    print("Rebuilding DPAK")
-
-    from DPAK import DPAK, TO252, TO263, TO268, ATPAK, Texas_NDW
-
-    CONFIG = "DPAK_config.yaml"
-
-    if args.family:
-        if args.family[0] == "TO252":
-            build_list = [TO252(CONFIG)]
-        elif args.family[0] == "TO263":
-            build_list = [TO263(CONFIG)]
-        elif args.family[0] == "TO268":
-            build_list = [TO268(CONFIG)]
-        elif args.family[0] == "ATPAK":
-            build_list = [ATPAK(CONFIG)]
-        elif args.family[0] == "Texas_NDW":
-            build_list = [Texas_NDW(CONFIG)]
-        else:
-            print("ERROR: family not recognised")
-            build_list = []
-    else:
+    config_files = get_spec_file_names(generator_name)
+    num_fps_generated = 0
+    for config_file in config_files:
         build_list = [
-            TO252(CONFIG),
-            TO263(CONFIG),
-            TO268(CONFIG),
-            ATPAK(CONFIG),
-            Texas_NDW(CONFIG),
+            TO252(config_file),
+            TO263(config_file),
+            TO268(config_file),
+            ATPAK(config_file),
+            Texas_NDW(config_file),
         ]
-
-    for package in build_list:
-        package.build_series(verbose=args.verbose)
+        for package in build_list:
+            num_fps_generated += package.build_series(generator_name, verbose=False)
+    return num_fps_generated

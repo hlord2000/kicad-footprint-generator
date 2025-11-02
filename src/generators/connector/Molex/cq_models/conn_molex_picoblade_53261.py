@@ -81,7 +81,7 @@ else:
 
 import cadquery as cq
 
-from _tools.cq_helpers import *
+from generators.tools.model.cq_helpers import *
 
 # from math import sqrt
 # from Helpers import show

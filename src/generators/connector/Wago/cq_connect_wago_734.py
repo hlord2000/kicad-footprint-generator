@@ -51,7 +51,7 @@ from collections import namedtuple
 
 import cadquery as cq
 
-from _tools.cq_helpers import union_all
+from generators.tools.model.cq_helpers import union_all
 
 # from Helpers import show
 

@@ -1,4 +1,15 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *
 from KicadModTree.nodes.specialized.ChamferedRectangle import (
@@ -6,12 +17,11 @@ from KicadModTree.nodes.specialized.ChamferedRectangle import (
     ChamferSizeHandler,
     CornerSelection,
 )
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
-global_config = GC.DefaultGlobalConfig()
 
-
-def plcc4(args):
+def plcc4(generator_name: str, args):
     footprint_name = args["name"]
 
     pkgWidth = args["pkg_width"]
@@ -211,11 +221,14 @@ def plcc4(args):
         )
     )
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
+    return 1
 
 
-if __name__ == "__main__":
+def generate_all(global_conf: GC.GlobalConfig, file: str, generator_name: str) -> int:
+    global global_config
+    global_config = global_conf
+
     parser = ModArgparser(plcc4)
     # the root node of .yml files is parsed as name
     parser.add_parameter("name", type=str, required=True)
@@ -230,4 +243,4 @@ if __name__ == "__main__":
     parser.add_parameter("pads_clockwise", type=bool, required=False, default=True)
 
     # now run our script which handles the whole part of parsing the files
-    parser.run()
+    return parser.run(generator_name, [file])

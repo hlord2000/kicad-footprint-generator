@@ -53,7 +53,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_models import (
     conn_jst_eh_models,
@@ -63,85 +64,60 @@ from .cq_models import (
 )
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Create a model for each number of pins
+    for pin_num in spec.spec["pin_range"]:
+        spec.spec["num_pins"] = pin_num
+        spec.spec["body_length"] = spec.spec["body_start_length"] + (
+            spec.spec["pin_pitch"] * (pin_num - 1)
+        )
 
-    all_params = parameters.load_parameters("jst")
+        # Figure out which code to execute to create the models
+        if spec.spec["series"] == "EH":
+            cqm = conn_jst_eh_models
+        elif spec.spec["series"] == "GH":
+            cqm = conn_jst_gh_models
+        elif spec.spec["series"] == "PH":
+            cqm = conn_jst_ph_models
+        elif spec.spec["series"] == "XH" or spec.spec["series"] == "XHVS":
+            cqm = conn_jst_xh_models
+        else:
+            print("Model not recognized: {}".format(spec.spec["series"]))
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+        # Make the parts of the model
+        body = cqm.generate_body(spec.spec)
+        pins = cqm.generate_pins(spec.spec)
+        body = body.rotateAboutCenter((0, 0, 1), spec.spec["rotation"])
+        pins = pins.rotateAboutCenter((0, 0, 1), spec.spec["rotation"])
+        body = body.translate(spec.spec["translation"])
+        pins = pins.translate(spec.spec["translation"])
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+        # Assemble the filename
+        pad_pins = "0" + str(pin_num) if pin_num < 10 else str(pin_num)
+        file_name = spec.spec["file_name"].format(
+            num_pins=pin_num, padded_pins=pad_pins
+        )
 
-        model_to_build = all_params.keys()[0]
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pin_color_key"],
+        ]
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Create a model for each number of pins
-        for pin_num in all_params[model]["pin_range"]:
-            all_params[model]["num_pins"] = pin_num
-            length = all_params[model]["body_length"]
-            all_params[model]["body_length"] = all_params[model][
-                "body_start_length"
-            ] + (all_params[model]["pin_pitch"] * (pin_num - 1))
-
-            # Figure out which code to execute to create the models
-            if all_params[model]["series"] == "EH":
-                cqm = conn_jst_eh_models
-            elif all_params[model]["series"] == "GH":
-                cqm = conn_jst_gh_models
-            elif all_params[model]["series"] == "PH":
-                cqm = conn_jst_ph_models
-            elif (
-                all_params[model]["series"] == "XH"
-                or all_params[model]["series"] == "XHVS"
-            ):
-                cqm = conn_jst_xh_models
-            else:
-                print("Model not recognized: {}".format(all_params[model]["series"]))
-
-            # Make the parts of the model
-            body = cqm.generate_body(all_params[model])
-            pins = cqm.generate_pins(all_params[model])
-            body = body.rotateAboutCenter((0, 0, 1), all_params[model]["rotation"])
-            pins = pins.rotateAboutCenter((0, 0, 1), all_params[model]["rotation"])
-            body = body.translate(all_params[model]["translation"])
-            pins = pins.translate(all_params[model]["translation"])
-
-            # Assemble the filename
-            pad_pins = "0" + str(pin_num) if pin_num < 10 else str(pin_num)
-            file_name = all_params[model]["file_name"].format(
-                num_pins=pin_num, padded_pins=pad_pins
-            )
-
-            parts: list[cq.Workplane] = [body, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
-
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
-            )
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(spec.spec["pin_range"])

@@ -4,7 +4,7 @@ import sys
 import cadquery as cq
 
 # from Helpers import show
-from .ribbon import Ribbon
+from .cq_ribbon import Ribbon
 
 # sys.path.append('./')
 

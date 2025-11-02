@@ -6,7 +6,7 @@ like finding nodes in lists, setting up some standard nodes, etc.
 import pytest
 
 from KicadModTree import Circle
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
 
 
 @pytest.fixture(autouse=True, scope="session")

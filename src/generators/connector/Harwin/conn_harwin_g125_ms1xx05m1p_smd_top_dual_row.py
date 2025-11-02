@@ -1,20 +1,17 @@
-#!/usr/bin/env python3
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import yaml
-
+from typing import Any
 from kilibs.geom import Direction, Vector2D
 from KicadModTree import (
     Arc,
@@ -26,38 +23,36 @@ from KicadModTree import (
     PolygonLine,
     Stadium,
     Line,
-    KicadPrettyLibrary,
 )
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.drawing_tools_fab import draw_pin1_chevron_on_hline
-from scripts.tools.drawing_tools_silk import (
+from kilibs.config import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.drawing_tools_fab import draw_pin1_chevron_on_hline
+from generators.tools.footprint.drawing_tools_silk import (
     draw_silk_triangle45_clear_of_fab_hline_and_pad,
     SilkArrowSize,
 )
+from generators.tools.footprint.save_footprint import write_footprint
 
-series = 'Gecko'
-series_long = 'Male Vertical Surface Mount Double Row 1.25mm (0.049 inch) Pitch PCB Connector'
-manufacturer = 'Harwin'
-datasheet = 'https://cdn.harwin.com/pdfs/G125-MS1XX05M2P.pdf'
-pn = 'G125-MS1{n:02}05M2P'
-number_of_rows = 2
-orientation = 'V'
-
-pitch = 1.25
-mount_drill = 2.25
-mount_pad = 4.4
-pad_size = Vector2D(0.7,2.5)
-
-pincount_range = [6, 10, 12, 16, 20, 26, 34, 50]
 
 def roundToBase(value, base):
     if base == 0:
         return value
     return round(value/base) * base
 
-def generate_footprint(global_config: GC.GlobalConfig, pins, configuration):
+def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, pins, configuration):
+    series = 'Gecko'
+    series_long = 'Male Vertical Surface Mount Double Row 1.25mm (0.049 inch) Pitch PCB Connector'
+    manufacturer = 'Harwin'
+    datasheet = 'https://cdn.harwin.com/pdfs/G125-MS1XX05M2P.pdf'
+    pn = 'G125-MS1{n:02}05M2P'
+    number_of_rows = 2
+    orientation = 'V'
 
+    pitch = 1.25
+    mount_drill = 2.25
+    mount_pad = 4.4
+    pad_size = Vector2D(0.7,2.5)
+    
     mpn = pn.format(n=pins)
     pins_per_row = int(pins / 2)
 
@@ -68,7 +63,6 @@ def generate_footprint(global_config: GC.GlobalConfig, pins, configuration):
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
-    print(footprint_name)
     kicad_mod = Footprint(footprint_name, FootprintType.SMD)
     kicad_mod.description = "Harwin {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(
         series_long, mpn, pins_per_row, datasheet
@@ -226,22 +220,13 @@ def generate_footprint(global_config: GC.GlobalConfig, pins, configuration):
 
     kicad_mod.append(Model(filename=f"{global_config.model_3d_prefix}{lib_name}.3dshapes/{footprint_name}{global_config.model_3d_suffix}"))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
 
-    global_config = GC.GlobalConfig.load_from_file(args.global_config)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    pincount_range = [6, 10, 12, 16, 20, 26, 34, 50]
+    num_fps_generated = 0
     for pincount in pincount_range:
-        generate_footprint(global_config, pincount, configuration)
+        generate_footprint(generator_name, global_config, pincount, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

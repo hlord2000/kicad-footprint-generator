@@ -1,15 +1,48 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
-from KicadModTree import KicadPrettyLibrary
+from generators.tools.footprint.save_footprint import write_footprint
 from KicadModTree.nodes.base.Pad import Pad
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_file_names
+from kilibs.config.global_config import GLOBAL_CONFIG
 
-global_config = GC.DefaultGlobalConfig()
 
-lib_name = "Buzzer_Beeper"
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-def buzzer_round_tht(args):
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    parser = ModArgparser(buzzer_round_tht)
+    parser.add_parameter("name", type=str, required=True)  # the root node of .yml files is parsed as name
+    parser.add_parameter("datasheet", type=str, required=False)
+    parser.add_parameter("courtyard", type=float, required=False, default=0.25)
+    parser.add_parameter("diameter", type=float, required=True)
+    parser.add_parameter("hole_size", type=float, required=True)
+    parser.add_parameter("pad_size", type=float, required=True)
+    parser.add_parameter("pad_spacing", type=float, required=True)
+
+    return parser.run(generator_name, get_spec_file_names(generator_name, globs=["*.csv"]))
+
+def buzzer_round_tht(generator_name: str, args):
+    lib_name = "Buzzer_Beeper"
+
     # some variables
     buzzer_center = args['pad_spacing'] / 2.
     buzzer_radius = args['diameter'] / 2.
@@ -38,29 +71,16 @@ def buzzer_round_tht(args):
 
     # create pads
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                         at=[0, 0], size=args['pad_size'], drill=args['hole_size'], layers=Pad.LAYERS_THT))
+                        at=[0, 0], size=args['pad_size'], drill=args['hole_size'], layers=Pad.LAYERS_THT))
     kicad_mod.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                         at=[args['pad_spacing'], 0], size=args['pad_size'], drill=args['hole_size'], layers=Pad.LAYERS_THT))
+                        at=[args['pad_spacing'], 0], size=args['pad_size'], drill=args['hole_size'], layers=Pad.LAYERS_THT))
 
     # add model
     kicad_mod.append(Model(
-        filename="{prefix}{lib_name}.3dshapes/{fp_name}{suffix}".format(prefix = global_config.model_3d_prefix, suffix=global_config.model_3d_suffix, lib_name=lib_name, fp_name=args["name"]),
+        filename="{prefix}{lib_name}.3dshapes/{fp_name}{suffix}".format(prefix = GLOBAL_CONFIG.model_3d_prefix, suffix=GLOBAL_CONFIG.model_3d_suffix, lib_name=lib_name, fp_name=args["name"]),
         at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-
     # write file
-    lib = KicadPrettyLibrary(lib_name, args["output_dir"])
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
+    return 1
 
-
-if __name__ == '__main__':
-    parser = ModArgparser(buzzer_round_tht)
-    parser.add_parameter("name", type=str, required=True)  # the root node of .yml files is parsed as name
-    parser.add_parameter("datasheet", type=str, required=False)
-    parser.add_parameter("courtyard", type=float, required=False, default=0.25)
-    parser.add_parameter("diameter", type=float, required=True)
-    parser.add_parameter("hole_size", type=float, required=True)
-    parser.add_parameter("pad_size", type=float, required=True)
-    parser.add_parameter("pad_spacing", type=float, required=True)
-
-    parser.run()  # now run our script which handles the whole part of parsing the files

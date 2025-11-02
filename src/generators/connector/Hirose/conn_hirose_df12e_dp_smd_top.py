@@ -1,45 +1,38 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
-
-import argparse
-import yaml
-
+from typing import Any
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
-series = 'DF12'
-series_long = 'DF12E SMD'
-manufacturer = 'Hirose'
-orientation = 'V'
-number_of_rows = 2
-datasheet = 'https://www.hirose.com/product/document?clcode=CL0537-0834-6-81&productname=DF12E(3.0)-50DP-0.5V(81)&series=DF12&documenttype=2DDrawing&lang=en&documentid=0000992393'
 
-#Hirose part number
-part_code = "DF12E3.0-{n:02}DP-0.5V"
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, idx, pins, configuration):
+    series = 'DF12'
+    series_long = 'DF12E SMD'
+    manufacturer = 'Hirose'
+    orientation = 'V'
+    number_of_rows = 2
+    datasheet = 'https://www.hirose.com/product/document?clcode=CL0537-0834-6-81&productname=DF12E(3.0)-50DP-0.5V(81)&series=DF12&documenttype=2DDrawing&lang=en&documentid=0000992393'
 
-pitch = 0.5
-pad_size = [0.3, 1.6]
-pad_size_paste = [0.28,1.2]
+    #Hirose part number
+    part_code = "DF12E3.0-{n:02}DP-0.5V"
 
-pins_per_row_range = [10,20,30,40,50,60,80,14,32,36]
-
-def generate_one_footprint(global_config: GC.GlobalConfig, idx, pins, configuration):
+    pitch = 0.5
+    pad_size = [0.3, 1.6]
+    pad_size_paste = [0.28,1.2]
 
     mpn = part_code.format(n=pins)
 
@@ -198,30 +191,14 @@ def generate_one_footprint(global_config: GC.GlobalConfig, idx, pins, configurat
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    #pins_per_row per row
+    pins_per_row_range = [10,20,30,40,50,60,80,14,32,36]
     idx = 0
     for pincount in pins_per_row_range:
-        generate_one_footprint(global_config, idx, pincount, configuration)
+        generate_one_footprint(generator_name, global_config, idx, pincount, configuration)
         idx += 1
+    return idx

@@ -1,5 +1,19 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 import argparse
 from KicadModTree import *
+from generators.tools.footprint.save_footprint import write_footprint
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Commandline tool for generating ring pads.')
@@ -31,5 +45,4 @@ kicad_mod.append(
         paste_round_radius_radio=args.paste_round_radius_radio,
         paste_to_paste_clearance=args.paste_clearance))
 
-file_handler = KicadFileHandler(kicad_mod)
-file_handler.writeFile(args.name + '.kicad_mod')
+write_footprint(kicad_mod, "RingPad", "RingPadGenerator")

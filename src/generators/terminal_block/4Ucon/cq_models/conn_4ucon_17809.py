@@ -55,7 +55,7 @@ ___ver___ = "0.3 18/06/2020"
 
 import cadquery as cq
 
-from _tools.ribbon import Ribbon
+from generators.tools.model.ribbon import Ribbon
 
 # from Helpers import show
 # from collections import namedtuple

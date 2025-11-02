@@ -248,17 +248,11 @@ class ManufacturingTolerance:
     """Placement tolerance in mm. This is the P value in IPC rules."""
 
 
-def _init() -> IpcRules:
+def init(rules_file: str = "ipc_7351b") -> None:
     """Initialize the default IPC rules singleton."""
-    from .cli_args import CLI_ARGS
-
-    try:
-        rules_file = CLI_ARGS.ipc_rules
-    except AttributeError:
-        rules_file = "ipc_7351b"
-
-    return IpcRules.from_file(rules_file)
+    global DEFAULT_IPC_RULES
+    DEFAULT_IPC_RULES = IpcRules.from_file(rules_file)  # pyright: ignore
 
 
-DEFAULT_IPC_RULES = _init()
+DEFAULT_IPC_RULES = IpcRules.from_file()
 """The default IPC rules singleton."""

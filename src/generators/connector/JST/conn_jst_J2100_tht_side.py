@@ -1,28 +1,24 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
-
-import argparse
-import yaml
+from typing import Any
 from math import sqrt
 
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 series = "J2100"
 manufacturer = 'JST'
@@ -51,7 +47,7 @@ def incrementPadNumber(old_number):
     return old_number[0] + str(int(old_number[1:])+1)
 #FP description and tags
 
-def generate_one_footprint(global_config: GC.GlobalConfig, pins, configuration, keying):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pins, configuration, keying):
     #calculate fp dimensions
     pins_per_row = int(pins / number_of_rows)
     A = (pins_per_row - 1) * pitch
@@ -65,7 +61,6 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pins, configuration, 
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
-    print('Building footprint: {}'.format(footprint_name))
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
@@ -189,30 +184,12 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pins, configuration, 
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    #for pins_per_row in pin_range:
-        #generate_one_footprint(global_config, pins_per_row, configuration)
-    for pin_count in pin_range:
-        generate_one_footprint(global_config, pin_count, configuration, 'X')
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
+    for pincount in pin_range:
+        generate_one_footprint(generator_name, global_config, pincount, configuration, "X")
+        num_fps_generated += 1
+    return num_fps_generated

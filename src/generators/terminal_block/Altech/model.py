@@ -65,21 +65,19 @@ import math
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 
-def make_case_AK300(model, params, pinnumber):
-    W = params[model]["W"]  # package width
-    H = params[model]["H"]  # package height
-    WD = params[model]["WD"]  # > Y distance form pin center to package edge
-    A1 = params[model]["A1"]  # Body seperation height
-    PE = params[model]["PE"]  # Distance from edge to pin
-    PS = params[model]["PS"]  # Pin distance
-    PD = params[model]["PD"]  # Pin diameter
-    PL = params[model]["PL"]  # Pin diameter
-    PF = params[model]["PF"]  # Pin form
-    SW = params[model]["SW"]  # Blender width
-    rotation = params[model]["rotation"]  # rotation if required
+def make_case_AK300(params, pinnumber):
+    W = params["W"]  # package width
+    H = params["H"]  # package height
+    WD = params["WD"]  # > Y distance form pin center to package edge
+    A1 = params["A1"]  # Body seperation height
+    PE = params["PE"]  # Distance from edge to pin
+    PS = params["PS"]  # Pin distance
+    SW = params["SW"]  # Blender width
+    rotation = params["rotation"]  # rotation if required
 
     lw = (2.0 * PE) + ((pinnumber - 1) * PS)
 
@@ -109,7 +107,6 @@ def make_case_AK300(model, params, pinnumber):
     SL = SW / 1.1  # Screw diameter
 
     px = 0.0
-    pins = None
 
     for i in range(0, pinnumber):
         pp = (
@@ -146,18 +143,18 @@ def make_case_AK300(model, params, pinnumber):
     return case
 
 
-def make_pins_AK300(model, params, pinnumber):
-    W = params[model]["W"]  # package width
-    H = params[model]["H"]  # package height
-    WD = params[model]["WD"]  # > Y distance form pin center to package edge
-    A1 = params[model]["A1"]  # Body separation height
-    PE = params[model]["PE"]  # Distance from edge to pin
-    PS = params[model]["PS"]  # Pin distance
-    PD = params[model]["PD"]  # Pin diameter
-    PL = params[model]["PL"]  # Pin diameter
-    PF = params[model]["PF"]  # Pin form
-    SW = params[model]["SW"]  # Blender width
-    rotation = params[model]["rotation"]  # rotation if required
+def make_pins_AK300(params, pinnumber):
+    W = params["W"]  # package width
+    H = params["H"]  # package height
+    WD = params["WD"]  # > Y distance form pin center to package edge
+    A1 = params["A1"]  # Body separation height
+    PE = params["PE"]  # Distance from edge to pin
+    PS = params["PS"]  # Pin distance
+    PD = params["PD"]  # Pin diameter
+    PL = params["PL"]  # Pin diameter
+    PF = params["PF"]  # Pin form
+    SW = params["SW"]  # Blender width
+    rotation = params["rotation"]  # rotation if required
 
     px = 0.0
     pins = None
@@ -259,49 +256,27 @@ def make_pins_AK300(model, params, pinnumber):
     return pins
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    body = make_case_AK300(spec.spec, spec.spec["pin_number"])
+    pins = make_pins_AK300(spec.spec, spec.spec["pin_number"])
 
-    all_params = parameters.load_parameters("Altech")
+    parts: list[cq.Workplane] = [body, pins]
+    color_names = ["black body", "metal grey pins"]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        body = make_case_AK300(model, all_params, all_params[model]["pin_number"])
-        pins = make_pins_AK300(model, all_params, all_params[model]["pin_number"])
-
-        parts: list[cq.Workplane] = [body, pins]
-        color_names = ["black body", "metal grey pins"]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name="TerminalBlock_Altech",
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name="TerminalBlock_Altech",
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

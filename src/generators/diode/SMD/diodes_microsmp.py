@@ -1,6 +1,6 @@
 import cadquery as cq
 
-from _tools import cq_color_correct, parameters, shaderColors
+from generators.tools.model import cq_color_correct, parameters, shaderColors
 
 # these sizes are without the pins (see *_OVERHANG)
 BOTTOM_BODY_WIDTH = 2.2

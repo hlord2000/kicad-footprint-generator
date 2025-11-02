@@ -1,34 +1,23 @@
-#!/usr/bin/env python
-
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
 #
-# Parts script module for socket strip footprints for KicCad
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-# This script is built on top of the kicad-footprint-generator framework
-# by Thomas Pointhuber,
-# https://gitlab.com/kicad/libraries/kicad-footprint-generator
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
 #
-# This module is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This module is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-#
-# based on scripts/tools/footprint_scripts_pin_headers.py
+# Based on footprint_scripts_pin_headers.py
 # refactored by and (C) 2017 Terje Io, <http://github.com/terjeio>
-#
+# (C) The KiCad Librarian Team
 
-from KicadModTree import Footprint, FootprintType, Translation, Pad, Model, KicadPrettyLibrary, Property
-from canvas import Layer, PadLayer, Keepout
-from scripts.tools.global_config_files import global_config as GC
-global_config = GC.DefaultGlobalConfig()
+from KicadModTree import Footprint, FootprintType, Translation, Pad, Model, Property
+from .canvas import Layer, PadLayer, Keepout
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
+global_config = GC.GLOBAL_CONFIG
 
 
 txt_descr = ["", ", single row", ", double cols", ", double cols", ", triple cols", ", quadruple cols"]
@@ -49,7 +38,7 @@ class pinSocketVerticalTHT (object):
     def makeModelName(self, genericName):
         return "PinSocket_{0}x{1:02}_P{2:03.2f}mm_Vertical".format(self.params.num_pin_rows, self.params.num_pins, self.params.pin_pitch)
 
-    def make(self, tags_additional=[], isSocket=True):
+    def make(self, generator_name, tags_additional=[], isSocket=True):
 
         param = self.params
 
@@ -74,8 +63,6 @@ class pinSocketVerticalTHT (object):
             description += " (" + param.datasheet + ")"
 
         description += ", script generated"
-
-        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -191,8 +178,7 @@ class pinSocketVerticalTHT (object):
         kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix))
 
         # write file
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
 
 
@@ -217,7 +203,7 @@ class pinSocketHorizontalTHT (object):
     def makeModelName(self, genericName):
         return "PinSocket_{0}x{1:02}_P{2:03.2f}mm_Horizontal".format(self.params.num_pin_rows, self.params.num_pins, self.params.pin_pitch)
 
-    def make(self, tags_additional=[], isSocket=True):
+    def make(self, generator_name, tags_additional=[], isSocket=True):
 
         param = self.params
 
@@ -243,8 +229,6 @@ class pinSocketHorizontalTHT (object):
             description += " (" + param.datasheet + ")"
 
         description += ", script generated"
-
-        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -354,8 +338,7 @@ class pinSocketHorizontalTHT (object):
         kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix))
 
         # write file
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
 
 class pinSocketVerticalSMD (object):
@@ -366,7 +349,7 @@ class pinSocketVerticalSMD (object):
         genericName = "PinSocket_{0}x{1:02}_P{2:03.2f}mm_Vertical_SMD".format(self.params.num_pin_rows, self.params.num_pins, self.params.pin_pitch)
         return genericName + (("_Pin1Right" if self.params.pin1start_right else "_Pin1Left") if self.params.num_pin_rows == 1 else "" )
 
-    def make(self, tags_additional=[], isSocket=True):
+    def make(self, generator_name, tags_additional=[], isSocket=True):
 
         param = self.params
 
@@ -402,8 +385,6 @@ class pinSocketVerticalSMD (object):
             description += " (" + param.datasheet + ")"
 
         description += ", script generated"
-
-        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name, FootprintType.SMD)
@@ -521,5 +502,4 @@ class pinSocketVerticalSMD (object):
         kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix))
 
         # write file
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)

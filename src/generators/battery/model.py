@@ -61,104 +61,84 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 # import .battery_casebutton
-from .battery_casebutton import *
+from .cq_model.battery_casebutton import *
 
 # import .battery_caseBX0036
-from .battery_caseBX0036 import *
+from .cq_model.battery_caseBX0036 import *
 
 # import .battery_casecylinder
-from .battery_casecylinder import *
+from .cq_model.battery_casecylinder import *
 
 # import .battery_common
-from .battery_common import *
+from .cq_model.battery_common import *
 
 # import .battery_contact
-from .battery_contact import *
+from .cq_model.battery_contact import *
 
 # import .battery_pins
-from .battery_pins import *
+from .cq_model.battery_pins import *
 
 # import .cq_Keystone_2993
-from .cq_Keystone_2993 import *
+from .cq_model.cq_Keystone_2993 import *
 
 # import .cq_Seiko_MSXXXX
-from .cq_Seiko_MSXXXX import *
+from .cq_model.cq_Seiko_MSXXXX import *
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Handle each model type
+    if spec.id == "BatteryHolder_Seiko_MS621F":
+        case = make_case_Seiko_MS621F(spec.spec)
+        pins = make_pins_Seiko_MS621F(spec.spec)
+    elif spec.id == "BatteryHolder_Keystone_2993":
+        case = make_case_Keystone_2993(spec.spec)
+        pins = make_pins_Keystone_2993(spec.spec)
+    elif spec.spec["modeltype"] == "BX0036":
+        case = make_case_BX0036(spec.spec)
+        pins = make_pins(spec.spec)
+    elif spec.spec["modeltype"] == "Button1":
+        case = make_case_Button1(spec.spec)
+        pins = make_pins(spec.spec)
+    elif spec.spec["modeltype"] == "Button2":
+        case = make_case_Button2(spec.spec)
+        pins = make_pins(spec.spec)
+    elif spec.spec["modeltype"] == "Button3":
+        case = make_case_Button3(spec.spec)
+        pins = make_pins(spec.spec)
+    elif spec.spec["modeltype"] == "Button4":
+        case = make_case_Button4(spec.spec)
+        pins = make_pins(spec.spec)
+    elif spec.spec["modeltype"] == "Cylinder1":
+        case = make_case_Cylinder1(spec.spec)
+        pins = make_pins(spec.spec)
 
-    all_params = parameters.load_parameters("Battery")
+    parts: list[cq.Workplane] = []
+    color_names: list[str] = []
+    if case is not None:
+        parts.append(case)
+        color_names.append(spec.spec["body_color_key"])
+    if pins is not None:
+        parts.append(pins)
+        color_names.append(spec.spec["pins_color_key"])
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Handle each model type
-        if model == "BatteryHolder_Seiko_MS621F":
-            case = make_case_Seiko_MS621F(all_params[model])
-            pins = make_pins_Seiko_MS621F(all_params[model])
-        elif model == "BatteryHolder_Keystone_2993":
-            case = make_case_Keystone_2993(all_params[model])
-            pins = make_pins_Keystone_2993(all_params[model])
-        elif all_params[model]["modeltype"] == "BX0036":
-            case = make_case_BX0036(all_params[model])
-            pins = make_pins(all_params[model])
-        elif all_params[model]["modeltype"] == "Button1":
-            case = make_case_Button1(all_params[model])
-            pins = make_pins(all_params[model])
-        elif all_params[model]["modeltype"] == "Button2":
-            case = make_case_Button2(all_params[model])
-            pins = make_pins(all_params[model])
-        elif all_params[model]["modeltype"] == "Button3":
-            case = make_case_Button3(all_params[model])
-            pins = make_pins(all_params[model])
-        elif all_params[model]["modeltype"] == "Button4":
-            case = make_case_Button4(all_params[model])
-            pins = make_pins(all_params[model])
-        elif all_params[model]["modeltype"] == "Cylinder1":
-            case = make_case_Cylinder1(all_params[model])
-            pins = make_pins(all_params[model])
-
-        parts: list[cq.Workplane] = []
-        color_names: list[str] = []
-        if case is not None:
-            parts.append(case)
-            color_names.append(all_params[model]["body_color_key"])
-        if pins is not None:
-            parts.append(pins)
-            color_names.append(all_params[model]["pins_color_key"])
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name="Battery",
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name="Battery",
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

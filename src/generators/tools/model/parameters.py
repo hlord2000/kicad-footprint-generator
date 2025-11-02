@@ -9,12 +9,13 @@ def load_parameters(module_dir_name):
     """
     Responsible for reading the package parameter values from the included yaml file.
     """
+    module_dir_name = module_dir_name.lower()
     try:
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        modules_dir = Path(this_dir).parent
+        this_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = this_dir.parent.parent / "data"
 
         with open(
-            os.path.join(modules_dir, module_dir_name, "cq_parameters.yaml"), "r"
+            os.path.join(data_dir, module_dir_name, "cq_parameters.yaml"), "r"
         ) as f:
             all_params = yaml.load(f, Loader=yaml.FullLoader)
     except yaml.YAMLError as exc:

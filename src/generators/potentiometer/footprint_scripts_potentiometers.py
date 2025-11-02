@@ -1,13 +1,25 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import math
 
 from KicadModTree import *  # NOQA
-from scripts.tools.drawing_tools import *
-from scripts.tools.footprint_global_properties import *
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import *
+from generators.tools.footprint.footprint_global_properties import *
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 
 '''
@@ -20,7 +32,7 @@ See make_Potentiometer_SMD.py and make_Potentiomter_THT.py
 
 '''
 
-def makePotentiometerHorizontal(class_name="", wbody=0, hbody=0, dscrew=0, style="normal", ddrill=0,
+def makePotentiometerHorizontal(generator_name, class_name="", wbody=0, hbody=0, dscrew=0, style="normal", ddrill=0,
                               wscrew=0, wshaft=0, dshaft=0,
                               pinxoffset=0, pinyoffset=0, pins=3, R_POW=0, x_3d=[0, 0, 0], s_3d=[1, 1, 1], r_3d=[0, 0, 0], has3d=1,
                               rmx=5.08, rmy=5.08,
@@ -198,8 +210,6 @@ def makePotentiometerHorizontal(class_name="", wbody=0, hbody=0, dscrew=0, style
             pow_rat = pow_rat + " = 1/{0}W".format(int(1 / R_POW))
 
     tgs = specialtags
-    print(tgs)
-    print(class_name)
     tgs.append(class_name)
     if len(pow_rat) > 0:
         tgs.append(pow_rat)
@@ -215,8 +225,6 @@ def makePotentiometerHorizontal(class_name="", wbody=0, hbody=0, dscrew=0, style
     footprint_name = ""
     for n in name_additions: footprint_name = footprint_name + "_" + n
     footprint_name = name_prefix + "_" + "_".join(class_name.split()) + "_Horizontal"
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -273,11 +281,10 @@ def makePotentiometerHorizontal(class_name="", wbody=0, hbody=0, dscrew=0, style
     if (has3d != 0):
         kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=x_3d, scale=s_3d, rotate=r_3d))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def makePotentiometerVertical(class_name, wbody, hbody, screwstyle="none", style="normal", d_body=0, dshaft=6,
+def makePotentiometerVertical(generator_name, class_name, wbody, hbody, screwstyle="none", style="normal", d_body=0, dshaft=6,
                                 dscrew=7, c_ddrill=0, c_offsetx=0, c_offsety=0, pinxoffset=0, pinyoffset=0,
                                 pins=3, rmx=5.08, rmy=5.08, ddrill=1.5, shaft_hole=False, SMD_pads=False,
                                 SMD_padsize=[], SMD_type="3-5", R_POW=0, x_3d=[0, 0, 0], s_3d=[1, 1, 1], r_3d=[0, 0, 0], has3d=1,
@@ -505,8 +512,6 @@ def makePotentiometerVertical(class_name, wbody, hbody, screwstyle="none", style
     footprint_name = name_prefix + "_" + "_".join(class_name.split()) + "_Vertical"
     if shaft_hole: footprint_name = footprint_name + "_Hole"
 
-    print(footprint_name)
-
     footprint_type = FootprintType.SMD if SMD_pads else FootprintType.THT
 
     # init kicad footprint
@@ -626,11 +631,10 @@ def makePotentiometerVertical(class_name, wbody, hbody, screwstyle="none", style
         else:
             kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=x_3d, scale=s_3d, rotate=r_3d))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def makeSpindleTrimmer(class_name, wbody, hbody, pinxoffset, pinyoffset, rmx2, rmy2, rmx3, rmy3, dscrew, ddrill=1,
+def makeSpindleTrimmer(generator_name, class_name, wbody, hbody, pinxoffset, pinyoffset, rmx2, rmy2, rmx3, rmy3, dscrew, ddrill=1,
                             wscrew=0, screwxoffset=0, screwyoffset=0, style = "screwleft", screwstyle="slit",
                             shaft_hole=False, SMD_pads=False, SMD_padsize=[], R_POW=0, x_3d=[0, 0, 0], s_3d=[1, 1, 1], r_3d=[0, 0, 0],
                             has3d=1, specialtags=[], add_description="", lib_name="Potentiometer", name_additions=[],
@@ -796,8 +800,6 @@ def makeSpindleTrimmer(class_name, wbody, hbody, pinxoffset, pinyoffset, rmx2, r
     footprint_name = name_prefix + "_" + "_".join(class_name.split()) + "_" + orientation.capitalize()
     if shaft_hole: footprint_name = footprint_name + "_Hole"
 
-    print(footprint_name)
-
     footprint_type = FootprintType.SMD if SMD_pads else FootprintType.THT
 
     # init kicad footprint
@@ -891,5 +893,4 @@ def makeSpindleTrimmer(class_name, wbody, hbody, pinxoffset, pinyoffset, rmx2, r
     if (has3d != 0):
         kicad_modg.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=x_3d, scale=s_3d, rotate=r_3d))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)

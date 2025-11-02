@@ -1,4 +1,15 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
@@ -15,11 +26,12 @@ You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
 
+from generators.tools.footprint.save_footprint import write_footprint
 from KicadModTree import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
 
-global_config = GC.DefaultGlobalConfig()
+global_config = GC.GLOBAL_CONFIG
 
 
 if __name__ == '__main__':
@@ -63,5 +75,4 @@ if __name__ == '__main__':
     #print(kicad_mod.getCompleteRenderTree())
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)

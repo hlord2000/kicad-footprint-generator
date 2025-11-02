@@ -1,20 +1,62 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import os
-import argparse
 import yaml
 import math
+import os
 
-from kilibs.ipc_tools import ipc_rules
+from kilibs.config import ipc_rules
 from kilibs.util.toleranced_size import TolerancedSize
 from KicadModTree import *  # NOQA
-from KicadModTree.nodes.base.Pad import Pad  # NOQA
-from scripts.tools.ipc_pad_size_calculators import ipc_gull_wing
-from scripts.tools.global_config_files.global_config import DefaultGlobalConfig
+from generators.tools.footprint.ipc_pad_size_calculators import ipc_gull_wing
+
+from generators.tools.footprint.save_footprint import write_footprint
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_file_names
+from generators.tools.cli_args import CLI_ARGS
+from kilibs.config.global_config import GLOBAL_CONFIG
 
 
-def create_footprint(name, configuration, **kwargs):
-    global_config = DefaultGlobalConfig()
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    series_path = os.path.expandvars(str(CLI_ARGS.capacitor_config))
+    with open(series_path, 'r') as config_stream:
+        configuration = yaml.safe_load(config_stream)
+
+    ipc_defs = ipc_rules.IpcRules.from_file(CLI_ARGS.capacitor_ipc_rules)
+
+    configuration['ipc_density'] = ipc_rules.IpcDensity(CLI_ARGS.ipc_density)
+    configuration['force_rectangular_pads'] = CLI_ARGS.force_rectangular_pads
+    
+    num_fps_generated = 0
+    for filepath in get_spec_file_names(generator_name):
+        with open(filepath, 'r') as stream:
+            yaml_parsed = yaml.safe_load(stream)
+            for footprint in yaml_parsed:
+                num_fps_generated += create_footprint(generator_name, footprint, configuration, ipc_defs, **yaml_parsed.get(footprint))
+    return num_fps_generated
+
+
+def create_footprint(generator_name, name, configuration, ipc_definitions, **kwargs) -> int:
+    courtyard_offset = GLOBAL_CONFIG.get_courtyard_offset(GLOBAL_CONFIG.CourtyardType.DEFAULT)
     kicad_mod = Footprint(name, FootprintType.SMD)
 
     # init kicad footprint
@@ -48,27 +90,27 @@ def create_footprint(name, configuration, **kwargs):
     kicad_mod.setTags(tags)
 
     # set general values
-    text_offset_y = body_size['width'] / 2.0 + configuration['courtyard_offset']['default'] + 0.8
+    text_offset_y = body_size['width'] / 2.0 + courtyard_offset + 0.8
 
     # silkscreen REF**
-    silk_text_config = global_config.get_text_properties_for_layer("F.SilkS")
+    silk_text_config = GLOBAL_CONFIG.get_text_properties_for_layer("F.SilkS")
     silk_text_size = silk_text_config.size_nom
     silk_text_thickness = silk_text_size * silk_text_config.thickness_ratio
     kicad_mod.append(Property(name=Property.REFERENCE, text='REF**', at=[0, -text_offset_y], layer='F.SilkS', size=[
-                     silk_text_size, silk_text_size], thickness=silk_text_thickness))
+                    silk_text_size, silk_text_size], thickness=silk_text_thickness))
     # fab value
-    fab_text_config = global_config.get_text_properties_for_layer("F.Fab")
+    fab_text_config = GLOBAL_CONFIG.get_text_properties_for_layer("F.Fab")
     fab_text_size = fab_text_config.size_nom
     fab_text_thickness = fab_text_size * fab_text_config.thickness_ratio
     kicad_mod.append(Property(name=Property.VALUE, text=name, at=[0, text_offset_y], layer='F.Fab', size=[
-                     fab_text_size, fab_text_size], thickness=fab_text_thickness))
+                    fab_text_size, fab_text_size], thickness=fab_text_thickness))
     # fab REF**
     fab_text_size = device_dimensions["body_diameter"].nominal / 5.0
     fab_text_size = min(fab_text_size, fab_text_config.size_max)
     fab_text_size = max(fab_text_size, fab_text_config.size_min)
     fab_text_thickness = fab_text_size * fab_text_config.thickness_ratio
     kicad_mod.append(Text(text='${REFERENCE}', at=[0, 0], layer='F.Fab', size=[
-                     fab_text_size, fab_text_size], thickness=fab_text_thickness))
+                    fab_text_size, fab_text_size], thickness=fab_text_thickness))
 
     # create pads
     # all pads have these properties
@@ -79,9 +121,9 @@ def create_footprint(name, configuration, **kwargs):
     }
 
     # prefer IPC-7351C compliant rounded rectangle pads
-    if not configuration['force_rectangle_pads']:
+    if not configuration['force_rectangular_pads']:
         pad_params['shape'] = Pad.SHAPE_ROUNDRECT
-        pad_params['round_radius_handler'] = global_config.roundrect_radius_handler
+        pad_params['round_radius_handler'] = GLOBAL_CONFIG.roundrect_radius_handler
 
     # prefer calculating pads from lead dimensions per IPC
     # fall back to using pad sizes directly if necessary
@@ -128,49 +170,48 @@ def create_footprint(name, configuration, **kwargs):
     fab_y = body_size['width'] / 2.0
 
     if kwargs['pin1_chamfer'] == 'auto':
-        fab_edge = min(fab_x/2.0, fab_y/2.0, configuration['fab_pin1_marker_length'])
+        fab_edge = min(fab_x/2.0, fab_y/2.0, GLOBAL_CONFIG.fab_pin1_marker_length)
     else:
         fab_edge = kwargs['pin1_chamfer']
     fab_x_edge = fab_x - fab_edge
     fab_y_edge = fab_y - fab_edge
-    kicad_mod.append(Line(start=[fab_x, -fab_y], end=[fab_x, fab_y], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(Line(start=[-fab_x_edge, -fab_y], end=[fab_x, -fab_y], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(Line(start=[-fab_x_edge, fab_y], end=[fab_x, fab_y], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Line(start=[fab_x, -fab_y], end=[fab_x, fab_y], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
+    kicad_mod.append(Line(start=[-fab_x_edge, -fab_y], end=[fab_x, -fab_y], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
+    kicad_mod.append(Line(start=[-fab_x_edge, fab_y], end=[fab_x, fab_y], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
     if fab_edge > 0:
-        kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x, fab_y_edge], layer='F.Fab', width=configuration['fab_line_width']))
-        kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x_edge, -fab_y], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(Line(start=[-fab_x, fab_y_edge], end=[-fab_x_edge, fab_y], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(Circle(center=[0, 0], radius=body_size['diameter']/2.0, layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x, fab_y_edge], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
+        kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x_edge, -fab_y], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
+    kicad_mod.append(Line(start=[-fab_x, fab_y_edge], end=[-fab_x_edge, fab_y], layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
+    kicad_mod.append(Circle(center=[0, 0], radius=body_size['diameter']/2.0, layer='F.Fab', width=GLOBAL_CONFIG.fab_line_width))
 
     # create silkscreen
-    fab_to_silk_offset = configuration['silk_fab_offset']
+    fab_to_silk_offset = GLOBAL_CONFIG.silk_fab_offset
     silk_x = body_size['length'] / 2.0 + fab_to_silk_offset
     silk_y = body_size['width'] / 2.0 + fab_to_silk_offset
-    silk_y_start = pad_params['size'][1] / 2.0 + configuration['silk_pad_clearance'] + configuration['silk_line_width']/2.0
+    silk_y_start = pad_params['size'][1] / 2.0 + GLOBAL_CONFIG.silk_pad_clearance + GLOBAL_CONFIG.silk_line_width/2.0
     silk_45deg_offset = fab_to_silk_offset*math.tan(math.radians(22.5))
     silk_x_edge = fab_x - fab_edge + silk_45deg_offset
     silk_y_edge = fab_y - fab_edge + silk_45deg_offset
 
-    kicad_mod.append(Line(start=[silk_x, silk_y], end=[silk_x, silk_y_start], layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(Line(start=[silk_x, -silk_y], end=[silk_x, -silk_y_start], layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(Line(start=[-silk_x_edge, -silk_y], end=[silk_x, -silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(Line(start=[-silk_x_edge, silk_y], end=[silk_x, silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Line(start=[silk_x, silk_y], end=[silk_x, silk_y_start], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+    kicad_mod.append(Line(start=[silk_x, -silk_y], end=[silk_x, -silk_y_start], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+    kicad_mod.append(Line(start=[-silk_x_edge, -silk_y], end=[silk_x, -silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+    kicad_mod.append(Line(start=[-silk_x_edge, silk_y], end=[silk_x, silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
 
     if silk_y_edge > silk_y_start:
-        kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x, silk_y_start], layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x, -silk_y_start], layer='F.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x, silk_y_start], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+        kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x, -silk_y_start], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
 
-        kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x_edge, -silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x_edge, silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x_edge, -silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+        kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x_edge, silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
     else:
         silk_x_cut = silk_x - (silk_y_start - silk_y_edge) # because of the 45 degree edge we can user a simple apporach
         silk_y_edge_cut = silk_y_start
 
-        kicad_mod.append(Line(start=[-silk_x_cut, -silk_y_edge_cut], end=[-silk_x_edge, -silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(Line(start=[-silk_x_cut, silk_y_edge_cut], end=[-silk_x_edge, silk_y], layer='F.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Line(start=[-silk_x_cut, -silk_y_edge_cut], end=[-silk_x_edge, -silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
+        kicad_mod.append(Line(start=[-silk_x_cut, silk_y_edge_cut], end=[-silk_x_edge, silk_y], layer='F.SilkS', width=GLOBAL_CONFIG.silk_line_width))
 
     # create courtyard
-    courtyard_offset = configuration['courtyard_offset']['default']
     courtyard_x = body_size['length'] / 2.0 + courtyard_offset
     courtyard_y = body_size['width'] / 2.0 + courtyard_offset
     courtyard_pad_x = x_pad_spacing + pad_params['size'][0] / 2.0 + courtyard_offset
@@ -192,71 +233,30 @@ def create_footprint(name, configuration, **kwargs):
     courtyard_x_lower_edge = float(format(courtyard_x_lower_edge, ".2f"))
 
     # drawing courtyard
-    kicad_mod.append(Line(start=[courtyard_x, -courtyard_y], end=[courtyard_x, -courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[courtyard_x, -courtyard_pad_y], end=[courtyard_pad_x, -courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[courtyard_pad_x, -courtyard_pad_y], end=[courtyard_pad_x, courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[courtyard_pad_x, courtyard_pad_y], end=[courtyard_x, courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[courtyard_x, courtyard_pad_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(Line(start=[courtyard_x, -courtyard_y], end=[courtyard_x, -courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[courtyard_x, -courtyard_pad_y], end=[courtyard_pad_x, -courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[courtyard_pad_x, -courtyard_pad_y], end=[courtyard_pad_x, courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[courtyard_pad_x, courtyard_pad_y], end=[courtyard_x, courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[courtyard_x, courtyard_pad_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
 
-    kicad_mod.append(Line(start=[-courtyard_x_edge, courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[-courtyard_x_edge, -courtyard_y], end=[courtyard_x, -courtyard_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(Line(start=[-courtyard_x_edge, courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[-courtyard_x_edge, -courtyard_y], end=[courtyard_x, -courtyard_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
     if fab_edge > 0:
-        kicad_mod.append(Line(start=[-courtyard_x_lower_edge, courtyard_y_edge], end=[-courtyard_x_edge, courtyard_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-        kicad_mod.append(Line(start=[-courtyard_x_lower_edge, -courtyard_y_edge], end=[-courtyard_x_edge, -courtyard_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
+        kicad_mod.append(Line(start=[-courtyard_x_lower_edge, courtyard_y_edge], end=[-courtyard_x_edge, courtyard_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+        kicad_mod.append(Line(start=[-courtyard_x_lower_edge, -courtyard_y_edge], end=[-courtyard_x_edge, -courtyard_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
     if courtyard_y_edge > courtyard_pad_y:
-        kicad_mod.append(Line(start=[-courtyard_x, -courtyard_y_edge], end=[-courtyard_x, -courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-        kicad_mod.append(Line(start=[-courtyard_x, courtyard_pad_y], end=[-courtyard_x, courtyard_y_edge], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[-courtyard_x_lower_edge, -courtyard_pad_y], end=[-courtyard_pad_x, -courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[-courtyard_pad_x, -courtyard_pad_y], end=[-courtyard_pad_x, courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(Line(start=[-courtyard_pad_x, courtyard_pad_y], end=[-courtyard_x_lower_edge, courtyard_pad_y], layer='F.CrtYd', width=configuration['courtyard_line_width']))
+        kicad_mod.append(Line(start=[-courtyard_x, -courtyard_y_edge], end=[-courtyard_x, -courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+        kicad_mod.append(Line(start=[-courtyard_x, courtyard_pad_y], end=[-courtyard_x, courtyard_y_edge], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[-courtyard_x_lower_edge, -courtyard_pad_y], end=[-courtyard_pad_x, -courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[-courtyard_pad_x, -courtyard_pad_y], end=[-courtyard_pad_x, courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
+    kicad_mod.append(Line(start=[-courtyard_pad_x, courtyard_pad_y], end=[-courtyard_x_lower_edge, courtyard_pad_y], layer='F.CrtYd', width=GLOBAL_CONFIG.courtyard_line_width))
 
     lib_name ='Capacitor_SMD'
     # add model
     modelname = name.replace("_HandSoldering", "")
-    kicad_mod.append(Model(filename="{model_prefix:s}{lib_name:s}.3dshapes/{name:s}{suffix:s}".format(model_prefix=configuration['3d_model_prefix'], lib_name=lib_name, name=modelname, suffix=global_config.model_3d_suffix),
+    kicad_mod.append(Model(filename="{model_prefix:s}{lib_name:s}.3dshapes/{name:s}{suffix:s}".format(model_prefix=GLOBAL_CONFIG.model_3d_prefix, lib_name=lib_name, name=modelname, suffix=GLOBAL_CONFIG.model_3d_suffix),
                             at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Parse *.kicad_mod.yml file(s) and create matching footprints')
-    parser.add_argument('files', metavar='file', type=str, nargs='+', help='yml-files to parse')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../SMD_2terminal_chip_molded/package_config_KLCv3.0.yaml')
-    parser.add_argument('--ipc_definition', type=str, nargs='?', help='the IPC definition file', default='ipc7351B_capae_crystal')
-    parser.add_argument('--ipc_density', type=str, nargs='?', help='the IPC density', default='nominal')
-    parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle (KiCad 4.x compatibility.)')
-    #parser.add_argument('-v', '--verbose', help='show more information when creating footprint', action='store_true')
-    # TODO: allow writing into sub file
-
-    args = parser.parse_args()
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    ipc_defs = ipc_rules.IpcRules.from_file(args.ipc_definition)
-    ipc_definitions = ipc_defs
-
-    configuration['ipc_density'] = ipc_rules.IpcDensity(args.ipc_density)
-    configuration['force_rectangle_pads'] = args.force_rectangle_pads
-
-    for filepath in args.files:
-        with open(filepath, 'r') as stream:
-            try:
-                yaml_parsed = yaml.safe_load(stream)
-                for footprint in yaml_parsed:
-                    print("generate {name}.kicad_mod".format(name=footprint))
-                    create_footprint(footprint, configuration , **yaml_parsed.get(footprint))
-            except yaml.YAMLError as exc:
-                print(exc)
+    write_footprint(kicad_mod, lib_name, generator_name)
+    return 1

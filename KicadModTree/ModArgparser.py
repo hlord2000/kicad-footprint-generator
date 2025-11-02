@@ -16,6 +16,7 @@
 
 import argparse
 import csv
+import logging
 import sys
 from pathlib import Path
 from typing import Any, Callable
@@ -24,7 +25,7 @@ try:
     import yaml
 
 except ImportError:
-    print("pyyaml not available!")
+    logging.error("pyyaml not available!")
     sys.exit(1)
 
 
@@ -69,7 +70,9 @@ class ModArgparser(object):
         >>> parser.run()
     """
 
-    def __init__(self, footprint_function: Callable[[dict[str, Any]], None]) -> None:
+    def __init__(
+        self, footprint_function: Callable[[str, dict[str, Any]], int]
+    ) -> None:
         """Create a ModArgparser.
 
         Args:
@@ -78,12 +81,10 @@ class ModArgparser(object):
         """
 
         # Instance attributes:
-        self._footprint_function: Callable[[dict[str, Any]], None]
+        self._footprint_function: Callable[[str, dict[str, Any]], int]
         """A function which is called for every footprint we want to generate."""
         self._params: dict[str, Any]
         """The parameters."""
-        self.output_dir: Path | None
-        """The output directory for generated footprints."""
 
         self._footprint_function = footprint_function
         self._params = {}
@@ -117,13 +118,16 @@ class ModArgparser(object):
 
         self._params[name] = kwargs
 
-    def run(self, arguments: list[str] | None = None) -> None:
+    def run(self, generator_name: str, arguments: list[str] | None = None) -> int:
         """Execute the ModArgparser and run all tasks defined via the parameter
         `arguments` or, if `None`, via the command line arguments of this script.
 
         This method parses the commandline arguments to determine which actions to take.
         Beside of parsing .yaml and .csv files, it also allows us to output example
         files.
+
+        Returns:
+            The number of footprints created.
 
         >>> from KicadModTree import *
         >>> def footprint_gen(args):
@@ -168,30 +172,34 @@ class ModArgparser(object):
 
         args = parser.parse_args(arguments)
 
-        self.output_dir = args.output_dir
-
         if args.print_yml:
             self._print_example_yml()
-            return
+            return 0
 
         if args.print_csv:
             self._print_example_csv()
-            return
+            return 0
 
         if len(args.files) == 0:
             parser.print_help()
-            return
+            return 0
 
+        num_footprints_generated = 0
         for filepath in args.files:
-            print("use file: {0}".format(filepath))
+            logging.debug("use file: {0}".format(filepath))
             if filepath.endswith(".yml") or filepath.endswith(".yaml"):
-                self._parse_and_execute_yml(filepath)
+                num_footprints_generated += self._parse_and_execute_yml(
+                    filepath, generator_name
+                )
             elif filepath.endswith(".csv"):
-                self._parse_and_execute_csv(filepath)
+                num_footprints_generated += self._parse_and_execute_csv(
+                    filepath, generator_name
+                )
             else:
-                print("unexpected filetype: {0}".format(filepath))
+                logging.error("unexpected filetype: {0}".format(filepath))
+        return num_footprints_generated
 
-    def _parse_and_execute_yml(self, filepath: str) -> None:
+    def _parse_and_execute_yml(self, filepath: str, generator_name: str) -> int:
         """Parse a YAML file and execute the footprint function for each entry.
 
         This private method reads a YAML file, parses its content, and then iterates
@@ -200,31 +208,39 @@ class ModArgparser(object):
 
         Args:
             filepath: The path to the YAML file.
+            generator_name: The name of the generator.
 
         Raises:
             yaml.YAMLError: If there is an error parsing the YAML file.
+
+        Returns:
+            The number of generated footprints.
         """
-        with open(filepath, "r") as stream:
+        num_footprints_generated = 0
+        with open(filepath, "r", encoding="utf-8") as stream:
             try:
                 parsed = yaml.safe_load(stream)  # parse file
 
                 if parsed is None:
-                    print("empty file!")
-                    return
+                    logging.error("Empty file!")
+                    return 0
 
                 for footprint in parsed:
                     kwargs = parsed.get(footprint)
 
                     # name is a reserved key
                     if "name" in kwargs:
-                        print("ERROR: name is already used for root name!")
+                        logging.error("Name is already used for root name!")
                         continue
                     kwargs["name"] = footprint
 
-                    self._execute_script(**kwargs)  # now we can execute the script
+                    num_footprints_generated += self._execute_script(
+                        filepath, generator_name, **kwargs
+                    )  # now we can execute the script
 
             except yaml.YAMLError as exc:
-                print(exc)
+                logging.error(exc)
+        return num_footprints_generated
 
     def _create_example_data_required(self, **kwargs: Any) -> dict[str, Any]:
         """Create a dictionary of example data containing only required parameters.
@@ -320,7 +336,7 @@ class ModArgparser(object):
         }
         print(yaml.dump(data, default_flow_style=False))
 
-    def _parse_and_execute_csv(self, filepath: str) -> None:
+    def _parse_and_execute_csv(self, filepath: str, generator_name: str) -> int:
         """Parse a CSV file and execute the footprint function for each row.
 
         This private method reads a CSV file, parses each row as a dictionary of
@@ -328,8 +344,12 @@ class ModArgparser(object):
 
         Args:
             filepath: The path to the CSV file.
+
+        Returns:
+            The number of generated footprints.
         """
-        with open(filepath, "r") as stream:
+        num_footprints_generated = 0
+        with open(filepath, "r", encoding="utf-8") as stream:
             # dialect = csv.Sniffer().sniff(stream.read(1024))
             # check which type of formatting the csv file likel has
             # stream.seek(0)
@@ -342,7 +362,10 @@ class ModArgparser(object):
                 for k, v in row.items():
                     kwargs[k.strip()] = v.strip()
 
-                self._execute_script(**kwargs)  # now we can execute the script
+                num_footprints_generated += self._execute_script(
+                    filepath, generator_name, **kwargs
+                )
+        return num_footprints_generated
 
     def _print_example_csv(self) -> None:
         """Print an example CSV file to standard output.
@@ -356,7 +379,7 @@ class ModArgparser(object):
         writer.writerow(self._create_example_data_required(include_name=True))
         writer.writerow(self._create_example_data_full(include_name=True))
 
-    def _execute_script(self, **kwargs: Any) -> None:
+    def _execute_script(self, filepath: str, generator_name: str, **kwargs: Any) -> int:
         """Execute the assigned footprint generation function with parsed arguments.
 
         This private method validates and processes the provided keyword arguments
@@ -371,6 +394,9 @@ class ModArgparser(object):
         Raises:
             ParserException: If a required parameter is missing or a type conversion
                 fails.
+
+        Returns:
+            The number of generated footprints.
         """
         parsed_args: dict[str, Any] = {}
         error = False
@@ -397,14 +423,9 @@ class ModArgparser(object):
                         parsed_args[k] = type(v.get("default"))
             except (ValueError, ParserException) as e:
                 error = True
-                print("ERROR: {}".format(e))
-
-        # Pass in the "common" parameters from the original command line
-        parsed_args["output_dir"] = self.output_dir
-
-        print("  - generate {name}.kicad_mod".format(name=kwargs.get("name", "<anon>")))
+                logging.error("ERROR: {}".format(e))
 
         if error:
-            return
+            return 0
 
-        self._footprint_function(parsed_args)
+        return self._footprint_function(generator_name, parsed_args)

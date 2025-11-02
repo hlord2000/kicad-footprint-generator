@@ -1,25 +1,24 @@
-#!/usr/bin/env python3
-
-import argparse
-import yaml
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from kilibs.geom import Direction, CornerSelection
 from KicadModTree import *
 from KicadModTree import ChamferedRectangle
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.drawing_tools_silk import draw_silk_triangle_for_pad, SilkArrowSize
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from kilibs.config import global_config as GC
+from generators.tools.footprint.drawing_tools_silk import draw_silk_triangle_for_pad, SilkArrowSize
+from generators.tools.footprint.save_footprint import write_footprint
 
-
-series = 'M20-890'
-series_long = 'Male Horizontal Surface Mount Single Row 2.54mm (0.1 inch) Pitch PCB Connector'
-manufacturer = 'Harwin'
-pitch = 2.54
-datasheet = 'https://cdn.harwin.com/pdfs/M20-890.pdf'
-pin_min = 3
-pin_max = 20
-mpn = 'M20-890{pincount:02g}xx'
-padsize = [2.5, 1]
 
 def roundToBase(value, base):
     if base == 0:
@@ -86,7 +85,15 @@ def gen_silk_pins(origx, origy, kicad_mod, global_config: GC.GlobalConfig, fill:
             )
         )
 
-def gen_footprint(global_config: GC.GlobalConfig, pinnum, manpart, configuration):
+def gen_footprint(generator_name: str, global_config: GC.GlobalConfig, pinnum, manpart, configuration):
+
+    series = 'M20-890'
+    series_long = 'Male Horizontal Surface Mount Single Row 2.54mm (0.1 inch) Pitch PCB Connector'
+    manufacturer = 'Harwin'
+    pitch = 2.54
+    datasheet = 'https://cdn.harwin.com/pdfs/M20-890.pdf'
+    padsize = [2.5, 1]
+
     orientation_str = configuration['orientation_options']['H']
     footprint_name = configuration['fp_name_format_string'].format(
         man=manufacturer,
@@ -97,9 +104,9 @@ def gen_footprint(global_config: GC.GlobalConfig, pinnum, manpart, configuration
         mounting_pad="",
         pitch=pitch,
         orientation=orientation_str)
+    
     footprint_name = footprint_name.replace('__','_')
 
-    print(footprint_name)
     kicad_mod = Footprint(footprint_name, FootprintType.SMD)
     kicad_mod.setDescription("{manufacturer} {series}, {mpn}{alt_mpn}, {pins_per_row} Pins per row ({datasheet}), generated with kicad-footprint-generator".format(
         manufacturer = manufacturer,
@@ -205,26 +212,15 @@ def gen_footprint(global_config: GC.GlobalConfig, pinnum, manpart, configuration
     kicad_mod.append(Model(filename=model_name))
 
     # Output
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def gen_family(global_config: GC.GlobalConfig, configuration):
+def gen_family(generator_name: str, global_config: GC.GlobalConfig, configuration) -> int:
+    pin_min = 3
+    pin_max = 20
+    mpn = 'M20-890{pincount:02g}xx'
+    num_fps_generated = 0
     for x in range(pin_min, pin_max+1):
-        gen_footprint(global_config, x, mpn.format(pincount=x), configuration)
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    global_config = GC.GlobalConfig.load_from_file(args.global_config)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    gen_family(global_config, configuration)
+        gen_footprint(generator_name, global_config, x, mpn.format(pincount=x), configuration)
+        num_fps_generated += 1
+    return num_fps_generated

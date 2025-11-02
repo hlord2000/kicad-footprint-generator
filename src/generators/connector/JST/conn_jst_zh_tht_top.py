@@ -1,12 +1,22 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import yaml
-
+from typing import Any
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 series = "ZH"
@@ -47,7 +57,7 @@ x_min = -1.5 #housing length past pin 1 on each side (always negative)
 y_max = 2.2
 y_min = (y_max - housing_width)
 
-def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configuration):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pincount, configuration):
     silk_x_min = x_min - configuration['silk_fab_offset']
     silk_y_min = y_min - configuration['silk_fab_offset']
     silk_y_max = y_max + configuration['silk_fab_offset']
@@ -212,28 +222,12 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
     for pincount in pin_range:
-        generate_one_footprint(global_config, pincount, configuration)
+        generate_one_footprint(generator_name, global_config, pincount, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

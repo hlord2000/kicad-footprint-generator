@@ -1,60 +1,69 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import yaml
+from typing import Any
 from math import sqrt
 
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
-pins_per_row_range = range(2,23)
+def make_module(generator_name: str, global_config: GC.GlobalConfig, pins_per_row, configuration):
 
-series = ""
-series_long = 'LY 20 series connector'
-manufacturer = 'JAE'
-orientation = 'H'
-number_of_rows = 2
-datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ038187.pdf'
+    series = ""
+    series_long = 'LY 20 series connector'
+    manufacturer = 'JAE'
+    orientation = 'H'
+    number_of_rows = 2
+    datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ038187.pdf'
 
-part_code = "LY20-{:d}P-DLT1"
+    part_code = "LY20-{:d}P-DLT1"
 
-# def get_name(pin_count):
-#     return 'Molex-502250-{0}91_2Rows-{0}Pins_P0.3mm_Horizontal'.format(pin_count)
+    # def get_name(pin_count):
+    #     return 'Molex-502250-{0}91_2Rows-{0}Pins_P0.3mm_Horizontal'.format(pin_count)
 
-pitch = 2
-drill = 0.8
-start_pos_x = 0 # Where should pin 1 be located.
-pad_to_pad_clearance = 0.8
-max_annular_ring = 0.5 #How much copper should be in y direction?
-min_annular_ring = 0.15
+    pitch = 2
+    drill = 0.8
+    start_pos_x = 0 # Where should pin 1 be located.
+    pad_to_pad_clearance = 0.8
+    max_annular_ring = 0.5 #How much copper should be in y direction?
+    min_annular_ring = 0.15
 
+    pitch_row = 2
 
-pitch_row = 2
+    pad_size = [pitch_row - pad_to_pad_clearance, pitch - pad_to_pad_clearance]
+    if pad_size[0] - drill < 2*min_annular_ring:
+        pad_size[0] = drill + 2*min_annular_ring
+    if pad_size[0] - drill > 2*max_annular_ring:
+        pad_size[0] = drill + 2*max_annular_ring
 
-pad_size = [pitch_row - pad_to_pad_clearance, pitch - pad_to_pad_clearance]
-if pad_size[0] - drill < 2*min_annular_ring:
-    pad_size[0] = drill + 2*min_annular_ring
-if pad_size[0] - drill > 2*max_annular_ring:
-    pad_size[0] = drill + 2*max_annular_ring
+    if pad_size[1] - drill < 2*min_annular_ring:
+        pad_size[1] = drill + 2*min_annular_ring
+    if pad_size[1] - drill > 2*max_annular_ring:
+        pad_size[1] = drill + 2*max_annular_ring
 
-if pad_size[1] - drill < 2*min_annular_ring:
-    pad_size[1] = drill + 2*min_annular_ring
-if pad_size[1] - drill > 2*max_annular_ring:
-    pad_size[1] = drill + 2*max_annular_ring
+    ROW_NAMES = ('a','b')
+    def incrementPadNumber(old_number):
+        return old_number[0] + str(int(old_number[1:])+1)
 
-ROW_NAMES = ('a','b')
-def incrementPadNumber(old_number):
-    return old_number[0] + str(int(old_number[1:])+1)
+    if pad_size[0] == pad_size[1]:
+        pad_shape = Pad.SHAPE_CIRCLE
+    else:
+        pad_shape = Pad.SHAPE_OVAL
 
-if pad_size[0] == pad_size[1]:
-    pad_shape = Pad.SHAPE_CIRCLE
-else:
-    pad_shape = Pad.SHAPE_OVAL
-
-def make_module(global_config: GC.GlobalConfig, pins_per_row, configuration):
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     off = configuration['silk_fab_offset']
 
@@ -255,28 +264,13 @@ def make_module(global_config: GC.GlobalConfig, pins_per_row, configuration):
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
+    pins_per_row_range = range(2,23)
     for pins_per_row in pins_per_row_range:
-        make_module(global_config, pins_per_row, configuration)
+        make_module(generator_name, global_config, pins_per_row, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

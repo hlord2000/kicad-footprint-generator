@@ -54,9 +54,12 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_belfuse import cq_belfuse
 from .cq_bulgin import cq_bulgin
@@ -66,95 +69,74 @@ from .cq_schurter import cq_schurter
 from .cq_tme import cq_tme
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Fuse")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Choose the right model file
+    if spec.spec["type"] == "belfuse":
+        cqm = cq_belfuse()
+    elif spec.spec["type"] == "keystone":
+        cqm = cq_keystone()
+    elif spec.spec["type"] == "bulgin":
+        cqm = cq_bulgin()
+    elif spec.spec["type"] == "schurter":
+        cqm = cq_schurter()
+    elif spec.spec["type"] == "tme":
+        cqm = cq_tme()
+    elif spec.spec["type"] == "littlefuse":
+        cqm = cq_littlefuse()
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        logging.error("Model type {} does not exist".format(spec.spec["type"]))
+        return 0
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    # Set the rotation and translation of the models
+    cqm.set_rotation(spec.spec)
+    cqm.set_translate(spec.id)
 
-        # Choose the right model file
-        if all_params[model]["type"] == "belfuse":
-            cqm = cq_belfuse()
-        elif all_params[model]["type"] == "keystone":
-            cqm = cq_keystone()
-        elif all_params[model]["type"] == "bulgin":
-            cqm = cq_bulgin()
-        elif all_params[model]["type"] == "schurter":
-            cqm = cq_schurter()
-        elif all_params[model]["type"] == "tme":
-            cqm = cq_tme()
-        elif all_params[model]["type"] == "littlefuse":
-            cqm = cq_littlefuse()
-        else:
-            print("Model type {} does not exist".format(all_params[model]["type"]))
-            continue
+    # Make the parts of the model
+    if spec.id == "Bulgin_FX0456":
+        body = cqm.make_body_Bulgin_FX0456(spec.spec, spec.id)
+    elif spec.id == "Bulgin_FX0457":
+        body = cqm.make_body_Bulgin_FX0457(spec.spec, spec.id)
+    elif spec.id == "Schurter_0031-8002":
+        body = cqm.make_body_Schurter_0031_8002(spec.spec, spec.id)
+    elif spec.id == "Schurter_0031_8201":
+        body = cqm.make_body_Schurter_0031_8201(spec.spec, spec.id)
+    elif spec.id == "Schurter_FAB_0031_355x":
+        body = cqm.make_body_Schurter_FAB_0031_355x(spec.spec, spec.id)
+    else:
+        body = cqm.make_body(spec.spec, spec.id)
+    body_top = cqm.make_top(spec.spec, spec.id)
+    if spec.id == "Schurter_0031-8002":
+        pins = cqm.make_pin_Schurter_0031_8002(spec.spec, spec.id)
+    elif spec.id == "Schurter_0031_8201":
+        pins = cqm.make_pin_Schurter_0031_8201(spec.spec, spec.id)
+    elif spec.id == "Schurter_FAB_0031_355x":
+        pins = cqm.make_pin_Schurter_FAB_0031_355x(spec.spec, spec.id)
+    else:
+        pins = cqm.make_pin(spec.spec, spec.id)
+    npth_pins = cqm.make_npth_pin(spec.spec, spec.id)
 
-        # Set the rotation and translation of the models
-        cqm.set_rotation(all_params[model])
-        cqm.set_translate(model)
+    parts: list[cq.Workplane] = [body, body_top, pins, npth_pins]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["body_top_color_key"],
+        spec.spec["pin_color_key"],
+        spec.spec["npth_pin_color_key"],
+    ]
 
-        # Make the parts of the model
-        if model == "Bulgin_FX0456":
-            body = cqm.make_body_Bulgin_FX0456(all_params[model], model)
-        elif model == "Bulgin_FX0457":
-            body = cqm.make_body_Bulgin_FX0457(all_params[model], model)
-        elif model == "Schurter_0031-8002":
-            body = cqm.make_body_Schurter_0031_8002(all_params[model], model)
-        elif model == "Schurter_0031_8201":
-            body = cqm.make_body_Schurter_0031_8201(all_params[model], model)
-        elif model == "Schurter_FAB_0031_355x":
-            body = cqm.make_body_Schurter_FAB_0031_355x(all_params[model], model)
-        else:
-            body = cqm.make_body(all_params[model], model)
-        body_top = cqm.make_top(all_params[model], model)
-        if model == "Schurter_0031-8002":
-            pins = cqm.make_pin_Schurter_0031_8002(all_params[model], model)
-        elif model == "Schurter_0031_8201":
-            pins = cqm.make_pin_Schurter_0031_8201(all_params[model], model)
-        elif model == "Schurter_FAB_0031_355x":
-            pins = cqm.make_pin_Schurter_FAB_0031_355x(all_params[model], model)
-        else:
-            pins = cqm.make_pin(all_params[model], model)
-        npth_pins = cqm.make_npth_pin(all_params[model], model)
-
-        parts: list[cq.Workplane] = [body, body_top, pins, npth_pins]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["body_top_color_key"],
-            all_params[model]["pin_color_key"],
-            all_params[model]["npth_pin_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

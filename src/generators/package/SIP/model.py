@@ -54,159 +54,137 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_eSIP import cq_eSIP
 from .cq_Sanyo_STK4xx import cq_Sanyo_STK4xx
 from .cq_SIP_3 import cq_SIP_3
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Package_SIP")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    if spec.id == "PowerIntegrations_eSIP-7C":
+        cqm = cq_eSIP()
+        body_top = cqm.make_top_eSIP_7C(spec.spec)
+        body = cqm.make_case_eSIP_7C(spec.spec)
+        pins = cqm.make_pins_eSIP_7C(spec.spec)
+        npth_pins = cqm.make_npth_pins(spec.spec)
+    elif spec.id == "PowerIntegrations_eSIP-7F":
+        cqm = cq_eSIP()
+        body_top = cqm.make_top_eSIP_7F(spec.spec)
+        body = cqm.make_case_eSIP_7F(spec.spec)
+        pins = cqm.make_pins_eSIP_7F(spec.spec)
+        npth_pins = cqm.make_npth_pins(spec.spec)
+    elif spec.id == "Sanyo_STK4xx_59_2":
+        cqm = cq_Sanyo_STK4xx()
+        body_top = cqm.make_top_Sanyo_STK4xx_59_2(spec.spec)
+        body = cqm.make_case_Sanyo_STK4xx_59_2(spec.spec)
+        pins = cqm.make_pins_Sanyo_STK4xx_59_2(spec.spec)
+        npth_pins = cqm.make_npth_pins(spec.spec)
+    elif spec.id == "Sanyo_STK4xx_78_0":
+        cqm = cq_Sanyo_STK4xx()
+        body_top = cqm.make_top_Sanyo_STK4xx_78_0(spec.spec)
+        body = cqm.make_case_Sanyo_STK4xx_78_0(spec.spec)
+        pins = cqm.make_pins_Sanyo_STK4xx_78_0(spec.spec)
+        npth_pins = cqm.make_npth_pins(spec.spec)
+    elif spec.id == "SIP4_Sharp_Angled":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP4_Sharp_Angled(spec.spec)
+        pins = cqm.make_pins_SIP4_Sharp_Angled(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SIP4_Sharp_Straight":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP4_Sharp_Straight(spec.spec)
+        pins = cqm.make_pins_SIP4_Sharp_Straight(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SIP-3_P1.30mm":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP_3_P1_30mm(spec.spec)
+        pins = cqm.make_pins_SIP_3_P1_30mm(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SIP-3_P2.90mm":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP_3_P2_90mm(spec.spec)
+        pins = cqm.make_pins_SIP_3_P2_90mm(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SIP-8":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP_8(spec.spec)
+        pins = cqm.make_pins_SIP_8(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SIP-9":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SIP_9(spec.spec)
+        pins = cqm.make_pins_SIP_9(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "SLA704XM":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_SLA704XM(spec.spec)
+        pins = cqm.make_pins_SLA704XM(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "STK672-040-E":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_STK672_040_E(spec.spec)
+        pins = cqm.make_pins_STK672_040_E(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.id == "STK672-080-E":
+        cqm = cq_SIP_3()
+        body_top = cqm.make_top_dummy(spec.spec)
+        body = cqm.make_case_STK672_080_E(spec.spec)
+        pins = cqm.make_pins_STK672_080_E(spec.spec)
+        npth_pins = cqm.make_npth_pins_dummy(spec.spec)
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        if model == "PowerIntegrations_eSIP-7C":
-            cqm = cq_eSIP()
-            body_top = cqm.make_top_eSIP_7C(all_params[model])
-            body = cqm.make_case_eSIP_7C(all_params[model])
-            pins = cqm.make_pins_eSIP_7C(all_params[model])
-            npth_pins = cqm.make_npth_pins(all_params[model])
-        elif model == "PowerIntegrations_eSIP-7F":
-            cqm = cq_eSIP()
-            body_top = cqm.make_top_eSIP_7F(all_params[model])
-            body = cqm.make_case_eSIP_7F(all_params[model])
-            pins = cqm.make_pins_eSIP_7F(all_params[model])
-            npth_pins = cqm.make_npth_pins(all_params[model])
-        elif model == "Sanyo_STK4xx_59_2":
-            cqm = cq_Sanyo_STK4xx()
-            body_top = cqm.make_top_Sanyo_STK4xx_59_2(all_params[model])
-            body = cqm.make_case_Sanyo_STK4xx_59_2(all_params[model])
-            pins = cqm.make_pins_Sanyo_STK4xx_59_2(all_params[model])
-            npth_pins = cqm.make_npth_pins(all_params[model])
-        elif model == "Sanyo_STK4xx_78_0":
-            cqm = cq_Sanyo_STK4xx()
-            body_top = cqm.make_top_Sanyo_STK4xx_78_0(all_params[model])
-            body = cqm.make_case_Sanyo_STK4xx_78_0(all_params[model])
-            pins = cqm.make_pins_Sanyo_STK4xx_78_0(all_params[model])
-            npth_pins = cqm.make_npth_pins(all_params[model])
-        elif model == "SIP4_Sharp_Angled":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP4_Sharp_Angled(all_params[model])
-            pins = cqm.make_pins_SIP4_Sharp_Angled(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SIP4_Sharp_Straight":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP4_Sharp_Straight(all_params[model])
-            pins = cqm.make_pins_SIP4_Sharp_Straight(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SIP-3_P1.30mm":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP_3_P1_30mm(all_params[model])
-            pins = cqm.make_pins_SIP_3_P1_30mm(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SIP-3_P2.90mm":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP_3_P2_90mm(all_params[model])
-            pins = cqm.make_pins_SIP_3_P2_90mm(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SIP-8":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP_8(all_params[model])
-            pins = cqm.make_pins_SIP_8(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SIP-9":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SIP_9(all_params[model])
-            pins = cqm.make_pins_SIP_9(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "SLA704XM":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_SLA704XM(all_params[model])
-            pins = cqm.make_pins_SLA704XM(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "STK672-040-E":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_STK672_040_E(all_params[model])
-            pins = cqm.make_pins_STK672_040_E(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif model == "STK672-080-E":
-            cqm = cq_SIP_3()
-            body_top = cqm.make_top_dummy(all_params[model])
-            body = cqm.make_case_STK672_080_E(all_params[model])
-            pins = cqm.make_pins_STK672_080_E(all_params[model])
-            npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        else:
-            print(
-                "Match for model name {} not found.".format(
-                    all_params[model]["model_name"]
-                )
-            )
-            continue
-
-        # Make the parts of the model
-        body_top = body_top.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        npth_pins = npth_pins.rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
+        logging.error(
+            "Match for model name {} not found.".format(spec.spec["model_name"])
         )
+        return 0
 
-        parts: list[cq.Workplane] = [body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["pin_color_key"],
-        ]
-        # Make sure we do not have a dummy top
-        if not isinstance(body_top.val(), cq.Vector):
-            parts.append(body_top)
-            color_names.append(all_params[model]["body_top_color_key"])
-        # Make sure we do not have dummy nth pins
-        if not isinstance(npth_pins.val(), cq.Vector):
-            parts.append(npth_pins)
-            color_names.append(all_params[model]["npth_pin_color_key"])
+    # Make the parts of the model
+    body_top = body_top.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    npth_pins = npth_pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    parts: list[cq.Workplane] = [body, pins]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["pin_color_key"],
+    ]
+    # Make sure we do not have a dummy top
+    if not isinstance(body_top.val(), cq.Vector):
+        parts.append(body_top)
+        color_names.append(spec.spec["body_top_color_key"])
+    # Make sure we do not have dummy nth pins
+    if not isinstance(npth_pins.val(), cq.Vector):
+        parts.append(npth_pins)
+        color_names.append(spec.spec["npth_pin_color_key"])
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

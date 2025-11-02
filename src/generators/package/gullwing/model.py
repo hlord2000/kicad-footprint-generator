@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# This is derived from a cadquery script for generating PDIP models in X3D format
+# This is derived from a cadquery script for generating QFP models in X3D format
 #
 # from https://bitbucket.org/hyOzd/freecad-macros
 # author hyOzd
-# This is a
-# Dimensions are from Microchips Packaging Specification document:
-# DS00000049BY. Body drawing is the same as QFP generator#
+#
+# Dimensions are from Jedec MS-026D document.
 #
 ## Requirements
 ## CadQuery 2.1 commit e00ac83f98354b9d55e6c57b9bb471cdf73d0e96 or newer
@@ -48,6 +47,12 @@
 # *                                                                          *
 # ****************************************************************************
 
+__title__ = "make GullWings ICs 3D models exported to STEP and VRML"
+__author__ = "scripts: maurice and hyOzd; models: see cq_model files; update: jmwright"
+__Comment__ = """This generator loads cadquery model scripts and generates step/wrl files for the official kicad library."""
+
+___ver___ = "2.0.0"
+
 from collections.abc import Callable
 from math import atan2, cos, degrees, radians, sin, tan
 from typing import cast
@@ -56,10 +61,9 @@ import cadquery as cq
 from cadquery.cq import CQObject
 from cadquery.occ_impl.shapes import Edge
 
-from kilibs.declarative_defs.packages.gullwing_configuration import (
-    GullwingConfiguration,  # type: ignore
-)
-from kilibs.util.toleranced_size import TolerancedSize  # type:ignore
+from generators.tools.model import export_tools
+
+from .spec import GullwingSpec
 
 MAX_CC1 = 1
 DEFAULT_PIN_SLOPE = 10.0
@@ -79,39 +83,76 @@ def get_z_is_not_filter(z1: float, z2: float) -> Callable[[CQObject], bool]:
     return filter_func
 
 
-def make_gw(
-    gwc: GullwingConfiguration,
-) -> tuple[cq.Workplane, cq.Workplane, cq.Workplane | None, cq.Workplane | None]:
+def crect(
+    wp: cq.Workplane, rw: float, rh: float, cv1: float, cv: float
+) -> cq.Workplane:
+    """
+    Creates a rectangle with chamfered corners.
+    wp: workplane object
+    rw: rectangle width (x)
+    rh: rectangle height (y)
+    cv1: chamfer value for 1st corner (top left)
+    cv: chamfer value for other corners
+    """
+    x = rw / 2.0
+    y = rh / 2.0
+    points = [
+        (-x, y - cv1),
+        (-x + cv1, y),
+        (x - cv, y),
+        (x, y - cv),
+        (x, -y + cv),
+        (x - cv, -y),
+        (-x + cv, -y),
+        (-x, -y + cv),
+        (-x, y - cv1),
+    ]
+    return wp.polyline(points, includeCurrent=False).wire()
+
+
+def create_models(spec: GullwingSpec, generator_name: str) -> int:
+    """Create the model corresponding to the spec.
+
+    Args:
+        spec: The gullwing specification.
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of models generated.
+    """
+    if not spec.has_3d_data:
+        return 0
+
     # General parameters
-    pitch = gwc.pitch
-    npx = gwc.num_pins_x
-    npy = gwc.num_pins_y
-    marker = gwc.marker
+    pitch = spec.pitch
+    npx = spec.num_pins_x
+    npy = spec.num_pins_y
+    marker = spec.marker
 
     # Lead parameters
-    l = gwc.lead_len.nominal if gwc.lead_len else None
-    s = gwc.lead_top_flat_part_length
-    b = gwc.lead_width.nominal
-    c = gwc.lead_height
-    r1 = gwc.lead_radius_top
-    r2 = gwc.lead_radius_bottom
-    the_p = gwc.lead_angle
+    l = spec.lead_len.nominal if spec.lead_len else None
+    s = spec.lead_top_flat_part_length
+    b = spec.lead_width.nominal
+    c = spec.lead_height
+    r1 = spec.lead_radius_top
+    r2 = spec.lead_radius_bottom
+    the_p = spec.lead_angle
 
     # Body parameters (except from height)
-    e1 = gwc.body_size_x.nominal
-    d1 = gwc.body_size_y.nominal
-    e = gwc.overall_size_x.nominal
-    ef = gwc.body_fillet
-    tb_s = gwc.body_size_top_delta
-    cc1 = gwc.corners_chamfer
-    the = gwc.body_angle
+    e1 = spec.body_size_x.nominal
+    d1 = spec.body_size_y.nominal
+    e = spec.overall_size_x.nominal
+    ef = spec.body_fillet
+    tb_s = spec.body_size_top_delta
+    cc1 = spec.corners_chamfer
+    the = spec.body_angle
 
     # Body height parameters
-    a1 = gwc.body_pcb_gap
-    a2 = gwc.body_height
+    a1 = spec.body_pcb_gap
+    a2 = spec.body_height
 
     # Excluded pins:
-    excluded_pins = gwc.deleted_pins + gwc.hidden_pins
+    excluded_pins = spec.deleted_pins + spec.hidden_pins
 
     if s is not None and l is not None and the_p is not None:
         print(
@@ -212,32 +253,6 @@ def make_gw(
 
     cc = cc1
 
-    def crect(
-        wp: cq.Workplane, rw: float, rh: float, cv1: float, cv: float
-    ) -> cq.Workplane:
-        """
-        Creates a rectangle with chamfered corners.
-        wp: workplane object
-        rw: rectangle width (x)
-        rh: rectangle height (y)
-        cv1: chamfer value for 1st corner (top left)
-        cv: chamfer value for other corners
-        """
-        x = rw / 2.0
-        y = rh / 2.0
-        points = [
-            (-x, y - cv1),
-            (-x + cv1, y),
-            (x - cv, y),
-            (x, y - cv),
-            (x, -y + cv),
-            (x - cv, -y),
-            (-x + cv, -y),
-            (-x, -y + cv),
-            (-x, y - cv1),
-        ]
-        return wp.polyline(points, includeCurrent=False).wire()
-
     if cc1 != 0:
         case = cq.Workplane("XY").workplane(centerOption="CenterOfMass", offset=a1)
         # Bottom edges:
@@ -280,13 +295,15 @@ def make_gw(
             z_max = a1 + A2_b + c
             is_edge_to_fillet = get_z_is_not_filter(z_min, z_max)
             case = case.edges().filter(is_edge_to_fillet).fillet(ef)
+        except KeyboardInterrupt:
+            raise
         except Exception as exeption:
             print("Filleting failed.\n")
             print("{:s}\n".format(exeption))
 
-    if gwc.ep_size_x.nominal and gwc.ep_size_y.nominal:
-        ex = gwc.ep_size_x.nominal
-        ey = gwc.ep_size_y.nominal
+    if spec.ep_size_x.nominal and spec.ep_size_y.nominal:
+        ex = spec.ep_size_x.nominal
+        ey = spec.ep_size_y.nominal
         ez = max(a1, 0.01)
         epad = cq.Workplane("XY").box(ex, ey, ez).translate((0, 0, ez / 2))
         case = case.cut(epad)
@@ -403,4 +420,20 @@ def make_gw(
 
     case = case.cut(pins)
 
-    return (case, pins, epad, pinmark)
+    parts = [case, pins]
+    color_names = ["black body", "metal grey pins"]
+    if epad is not None:
+        parts.append(epad)
+        color_names.append("metal grey pins")
+    if pinmark is not None:
+        parts.append(pinmark)
+        color_names.append("light brown label")
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.lib_name,
+        model_name=spec.model_name,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

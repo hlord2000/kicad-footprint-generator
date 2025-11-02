@@ -58,92 +58,70 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
-from .wuerth_smt_spacer import generate
+from .cq_wuerth_smt_spacer import generate
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    for part in spec.spec["parts"]:
+        # Make the parts of the model
+        body = generate(spec.spec, part)
 
-    all_params = parameters.load_parameters("mounting_wuerth")
+        # Assemble the filename
+        if "id" in spec.spec["mechanical"]:
+            size = str(spec.spec["mechanical"]["id"])
+        elif "ext_thread" in spec.spec["mechanical"]:
+            size = str(spec.spec["mechanical"]["ext_thread"])
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+        if "M" not in size:
+            size = "{}mm".format(size)
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+        td = ""
+        size_prefix = ""
+        if "thread_depth" in spec.spec["parts"][part]:
+            td = "_ThreadDepth{}mm".format(spec.spec["parts"][part]["thread_depth"])
+        elif "ext_thread" in spec.spec["mechanical"]:
+            size_prefix = "External"
 
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        for part in all_params[model]["parts"]:
-            # Make the parts of the model
-            body = generate(all_params[model], part)
-
-            # Assemble the filename
-            if "id" in all_params[model]["mechanical"]:
-                size = str(all_params[model]["mechanical"]["id"])
-            elif "ext_thread" in all_params[model]["mechanical"]:
-                size = str(all_params[model]["mechanical"]["ext_thread"])
-
-            if "M" not in size:
-                size = "{}mm".format(size)
-
-            td = ""
-            size_prefix = ""
-            if "thread_depth" in all_params[model]["parts"][part]:
-                td = "_ThreadDepth{}mm".format(
-                    all_params[model]["parts"][part]["thread_depth"]
-                )
-            elif "ext_thread" in all_params[model]["mechanical"]:
-                size_prefix = "External"
-
-            h = (
-                all_params[model]["parts"][part]["h"]
-                if "h" in all_params[model]["parts"][part]
-                else all_params[model]["parts"][part]["h1"]
-            )
-
-            suffix = ""
-            if "suffix" in all_params[model]:
-                suffix = "_{}".format(all_params[model]["suffix"])
-
-            file_name = all_params[model]["file_name"].format(
-                series=all_params[model]["series_prefix"],
-                size_prefix=size_prefix,
-                size=size,
-                h=h,
-                td=td,
-                suffix=suffix,
-                mpn=part,
-            )
-
-        parts: list[cq.Workplane] = [body]
-        color_names: list[str] = [all_params[model]["body_color_key"]]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=file_name,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
+        h = (
+            spec.spec["parts"][part]["h"]
+            if "h" in spec.spec["parts"][part]
+            else spec.spec["parts"][part]["h1"]
         )
+
+        suffix = ""
+        if "suffix" in spec.spec:
+            suffix = "_{}".format(spec.spec["suffix"])
+
+        file_name = spec.spec["file_name"].format(
+            series=spec.spec["series_prefix"],
+            size_prefix=size_prefix,
+            size=size,
+            h=h,
+            td=td,
+            suffix=suffix,
+            mpn=part,
+        )
+
+    parts: list[cq.Workplane] = [body]
+    color_names: list[str] = [spec.spec["body_color_key"]]
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=file_name,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

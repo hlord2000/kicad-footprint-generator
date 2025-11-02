@@ -26,8 +26,8 @@
 
 import cadquery as cq
 
-from _tools import fonts
-from _tools.utils import bodygen, features, make_chamfer, make_fillet, pingen, shellgen
+from generators.tools.model import fonts
+from generators.tools.model.utils import bodygen, features, make_chamfer, make_fillet, pingen, shellgen
 
 
 def _make_body_dial_pocket(body, params):

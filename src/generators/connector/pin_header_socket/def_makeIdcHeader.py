@@ -5,7 +5,6 @@ from math import sqrt
 from KicadModTree import (
     Footprint,
     FootprintType,
-    KicadPrettyLibrary,
     Line,
     Model,
     Pad,
@@ -18,16 +17,16 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
-from scripts.tools.footprint_generator import FootprintGenerator
-from scripts.tools.footprint_scripts_pin_headers import FPconfiguration
-from scripts.tools.drawing_tools import roundCrt
-from scripts.tools.global_config_files import global_config as GC
+from .spec import FPconfiguration
+from generators.tools.footprint.drawing_tools import roundCrt
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 txt_offset = 1
 
 
-def makeIdcHeader(generator: FootprintGenerator, cfg: FPconfiguration):
-    gc = GC.DefaultGlobalConfig()
+def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
+    gc = GC.GLOBAL_CONFIG
     pos_count = cfg.pos_count
     row_count = cfg.row_count
     pin_pitch = cfg.pin_pitch
@@ -56,7 +55,6 @@ def makeIdcHeader(generator: FootprintGenerator, cfg: FPconfiguration):
     # information about what is generated:
     # import pprint
     # pprint.pprint(cfg)
-    print(f"{cfg.footpr_name}")
 
     # body_overlength is symetrical but keep separated as top/bottom internally.
     overlen_top = pin_pitch/2 + body_overlength
@@ -314,6 +312,4 @@ def makeIdcHeader(generator: FootprintGenerator, cfg: FPconfiguration):
             + gc.model_3d_suffix
         )
     )
-
-    generator.write_footprint(kicad_mod, cfg.lib_name)
-
+    write_footprint(kicad_mod, cfg.lib_name, generator_name)

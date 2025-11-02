@@ -35,94 +35,71 @@
 # Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Button_Switch_Tactile")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Generate the current model
+    if spec.spec["model_class"] == "tactile":
+        from .cq_models import cq_tactile as cqm
     else:
-        models = {model_to_build: all_params[model_to_build]}
+        logging.error("No match found for the model_class.")
+        return 0
 
-    # Step through the selected models
-    for model in models:
+    body = cqm.make_body(spec.spec)
+    shell = cqm.make_shell(spec.spec)
+    pins = cqm.make_pins(spec.spec)
+    actuator = cqm.make_actuator(spec.spec)
+    actuator_base = cqm.make_actuator_base(spec.spec)
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Generate the current model
-        if all_params[model]["model_class"] == "tactile":
-            from .cq_models import cq_tactile as cqm
-        else:
-            print("ERROR: No match found for the model_class")
-            continue
-
-        body = cqm.make_body(all_params[model])
-        shell = cqm.make_shell(all_params[model])
-        pins = cqm.make_pins(all_params[model])
-        actuator = cqm.make_actuator(all_params[model])
-        actuator_base = cqm.make_actuator_base(all_params[model])
-
-        if all_params[model].get("rotation"):
-            body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            shell = shell.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            actuator = actuator.rotate(
-                (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-            )
-            if actuator_base:
-                actuator_base = actuator_base.rotate(
-                    (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-                )
-
-        if all_params[model].get("translation"):
-            body = body.translate(all_params[model]["translation"])
-            shell = shell.translate(all_params[model]["translation"])
-            pins = pins.translate(all_params[model]["translation"])
-            actuator = actuator.translate(all_params[model]["translation"])
-            if actuator_base:
-                actuator_base = actuator_base.translate(
-                    all_params[model]["translation"]
-                )
-
-        parts: list[cq.Workplane] = [body, shell, pins, actuator]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["shell_color_key"],
-            all_params[model]["pins_color_key"],
-            all_params[model]["actuator_color_key"],
-        ]
+    if spec.spec.get("rotation"):
+        body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        shell = shell.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        actuator = actuator.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
         if actuator_base:
-            parts.append(actuator_base)
-            color_names.append(all_params[model]["actuator_base_color_key"])
+            actuator_base = actuator_base.rotate(
+                (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+            )
 
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    if spec.spec.get("translation"):
+        body = body.translate(spec.spec["translation"])
+        shell = shell.translate(spec.spec["translation"])
+        pins = pins.translate(spec.spec["translation"])
+        actuator = actuator.translate(spec.spec["translation"])
+        if actuator_base:
+            actuator_base = actuator_base.translate(spec.spec["translation"])
+
+    parts: list[cq.Workplane] = [body, shell, pins, actuator]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["shell_color_key"],
+        spec.spec["pins_color_key"],
+        spec.spec["actuator_color_key"],
+    ]
+    if actuator_base:
+        parts.append(actuator_base)
+        color_names.append(spec.spec["actuator_base_color_key"])
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

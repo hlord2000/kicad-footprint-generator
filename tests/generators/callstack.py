@@ -1,5 +1,6 @@
 import inspect
 
+
 def __get_frame__(lvl: int = 0) -> inspect.Traceback:
     # inspired by https://stackoverflow.com/questions/6810999/how-to-determine-file-function-and-line-number
     callerframerecord = inspect.stack()[1 + lvl]  # 0 represents this line, 1 represents line at caller

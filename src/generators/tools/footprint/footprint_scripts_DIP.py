@@ -1,10 +1,20 @@
-#!/usr/bin/env python
-
-import os
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
-from scripts.tools.drawing_tools import *  # NOQA
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import *  # NOQA
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
 
 #    overlen_top                           overlen_bottom
@@ -22,7 +32,7 @@ from scripts.tools.global_config_files import global_config as GC
 #       O          O          O          O                             v
 #
 #       <----RM---->
-def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bottom, ddrill, pad, smd_pads=False,
+def makeDIP(generator_name, pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bottom, ddrill, pad, smd_pads=False,
             socket_width=0, socket_height=0, socket_pinrow_distance_offset=0, tags_additional=[], tags_additional_non3d=[],
             lib_name="Package_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP',
             prefix_name = "", skip_pin = [], skip_count = False, right_cnt_start = -1,
@@ -31,7 +41,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
             outdir="."):
 
     if global_config is None:
-        global_config = GC.DefaultGlobalConfig()
+        global_config = GC.GLOBAL_CONFIG
 
     pinrow_distance = pinrow_distance_in + socket_pinrow_distance_offset
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
@@ -104,8 +114,6 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
 
     if datasheet is not None:
         description += ", " + datasheet
-
-    print(footprint_name)
 
     footprint_type = FootprintType.SMD if smd_pads else FootprintType.THT
 
@@ -231,8 +239,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + model_name + global_config.model_3d_suffix, at=offset3d, scale=scale3d, rotate=rotate3d))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, outdir)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 #    overlen_top                           overlen_bottom
@@ -253,15 +260,14 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
 #
 #  mode=Piano/Slide
 #
-def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width,
+def makeDIPSwitch(generator_name, pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width,
                   switch_height, mode='Piano', smd_pads=False, tags_additional=[],
                   lib_name="Button_Switch_THT", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90],
                   specialFPName="", SOICStyleSilk=False, cornerPads=[], cornerPadOffsetX=0, cornerPadOffsetY=0, webpage="", device_name="", switchtype="SPST",
-                  global_config: GC.GlobalConfig=None,
-                  outdir="."):
+                  global_config: GC.GlobalConfig=None):
 
     if global_config is None:
-        global_config = GC.DefaultGlobalConfig()
+        global_config = GC.GLOBAL_CONFIG
 
     switches = int(pins / 2)
 
@@ -324,8 +330,6 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
 
     if len(specialFPName) > 0:
         footprint_name = specialFPName
-
-    print(footprint_name)
 
     footprint_type = FootprintType.SMD if smd_pads else FootprintType.THT
 
@@ -482,5 +486,4 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     kicad_modg.append(
         Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix, at=offset3d, scale=scale3d, rotate=rotate3d))
 
-    lib = KicadPrettyLibrary(lib_name, outdir)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)

@@ -1,4 +1,15 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import (
     Footprint,
@@ -11,18 +22,18 @@ from KicadModTree import (
     PolygonLine,
     RectLine,
     Line,
-    KicadPrettyLibrary,
     ModArgparser,
 )
-from scripts.tools.drawing_tools import (
+from generators.tools.footprint.drawing_tools import (
     addKeepoutRect,
     addKeepoutRound,
     addRectWithKeepout,
 )
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
 
-def slide_pot(args):
+def slide_pot(generator_name: str, args):
     footprint_name = args["name"]
     dimA = args["dimA"]
     dimB = args["dimB"]
@@ -31,7 +42,6 @@ def slide_pot(args):
     dimE = args["dimE"]
     travel = args["travel"]
 
-    global_config = GC.DefaultGlobalConfig()
     lib_name = "Potentiometer_THT"
 
     f = Footprint(footprint_name, FootprintType.THT)
@@ -178,11 +188,13 @@ def slide_pot(args):
                       layer="F.CrtYd",
                       width=wCrtYd))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
+    return 1
 
 
-if __name__ == '__main__':
+def generate_all(generator_name: str, global_conf: GC.GlobalConfig, file_path: str) -> int:
+    global global_config
+    global_config = global_conf
     parser = ModArgparser(slide_pot)
     # the root node of .yml files is parsed as name
     parser.add_parameter("name", type=str, required=True)
@@ -194,4 +206,4 @@ if __name__ == '__main__':
     parser.add_parameter("travel", type=float, required=True)
 
     # now run our script which handles the whole part of parsing the files
-    parser.run()
+    return parser.run(generator_name, [file_path])

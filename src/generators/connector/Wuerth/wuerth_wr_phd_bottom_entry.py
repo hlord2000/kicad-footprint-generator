@@ -1,16 +1,28 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import yaml
-
+from typing import Any
 from KicadModTree import *
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 from KicadModTree.util.courtyard_builder import CourtyardBuilder
+from pathlib import Path
+import yaml
 
 
 # Function used to generate footprint
-def generate_footprint(global_config: GC.GlobalConfig, params, part_params, mpn, configuration):
+def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, params, part_params, mpn, configuration):
 
     # Build footprint name
     fp_name = "Wuerth_{series_prefix}_{mpn}_{type}_{rows}x{pins:02d}_P{pitch}mm_{orientation}".format(
@@ -109,34 +121,19 @@ def generate_footprint(global_config: GC.GlobalConfig, params, part_params, mpn,
 
     # Create output directory
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-
-    # Parse arguments
-    parser = argparse.ArgumentParser(description='use config .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--params', type=str, nargs='?', help='the part definition file', default='./wuerth_wr_phd_bottom_entry.yaml')
-    args = parser.parse_args()
-
-    # Load configuration
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    # Load yaml file for this library
-    with open(args.params, 'r') as params_stream:
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any], data_path: str) -> int:
+    with open(data_path, 'r') as params_stream:
         try:
             params = yaml.safe_load(params_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
-    # Create each part
+    num_fps_generated = 0
     for series in params:
         for mpn in params[series]['parts']:
-            generate_footprint(global_config, params[series], params[series]['parts'][mpn], mpn, configuration)
+            generate_footprint(generator_name, global_config, params[series], params[series]['parts'][mpn], mpn, configuration)
+            num_fps_generated += 1
+    return num_fps_generated

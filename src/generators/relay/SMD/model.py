@@ -51,7 +51,7 @@
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
 
 from .cq_model_relay_smd import make_case, make_marker, make_pins
 
@@ -64,71 +64,52 @@ __Comment__ = """Generates Relay SMD models for KiCad libraries"""
 ___ver___ = "2.0.0"
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
+
+
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    has_marker = (
+        "marker_pos" in spec.spec
+        and "marker_dim" in spec.spec
+        and "marker_color_key" in spec.spec
+    )
 
-    all_params = parameters.load_parameters("Relay_SMD")
+    body = make_case(spec.spec, has_marker)
+    body = body.translate(spec.spec["translation"])
+    body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+    if has_marker:
+        marker = make_marker(spec.spec)
+        marker = marker.translate(spec.spec["translation"])
+        marker = marker.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+    pins = make_pins(spec.spec)
+    pins = pins.translate(spec.spec["translation"])
+    pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-        model_to_build = all_params.keys()[0]
+    parts: list[cq.Workplane] = [body, pins]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["pin_color_key"],
+    ]
+    if has_marker:
+        parts.append(marker)
+        color_names.append(spec.spec["marker_color_key"])
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s don't exist in 'all_params', skipping." % model)
-            continue
-
-        has_marker = (
-            "marker_pos" in all_params[model]
-            and "marker_dim" in all_params[model]
-            and "marker_color_key" in all_params[model]
-        )
-
-        body = make_case(all_params[model], has_marker)
-        body = body.translate(all_params[model]["translation"])
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-        if has_marker:
-            marker = make_marker(all_params[model])
-            marker = marker.translate(all_params[model]["translation"])
-            marker = marker.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-        pins = make_pins(all_params[model])
-        pins = pins.translate(all_params[model]["translation"])
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-        parts: list[cq.Workplane] = [body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["pin_color_key"],
-        ]
-        if has_marker:
-            parts.append(marker)
-            color_names.append(all_params[model]["marker_color_key"])
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

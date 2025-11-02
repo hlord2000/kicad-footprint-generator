@@ -1,16 +1,28 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import os
 import argparse
 import yaml
 
 from KicadModTree import *
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 # Function used to generate footprint
-def generate_footprint(global_config: GC.GlobalConfig, params, part_params, mpn, configuration):
+def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, params, part_params, mpn, configuration):
 
     # Build footprint name
     fp_name = "PhoenixContact_{series_prefix}{pins}-{orientation_short}-{pitch}{series_sufix}_{rows}x{pins:02d}_P{pitch}mm_{orientation}".format(
@@ -131,38 +143,5 @@ def generate_footprint(global_config: GC.GlobalConfig, params, part_params, mpn,
     kicad_mod.append(Model(filename=model_name))
 
     # Create output directory
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
-
-if __name__ == "__main__":
-
-    # Parse arguments
-    parser = argparse.ArgumentParser(description='use config .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('param_file', type=str, help='the part definition file')
-    # NOTE: Just added for intermediate compat to FootprintGenerator, this has currently no effect!
-    parser.add_argument('-v', '--verbose', action="store_true", help='the part definition file')
-    args = parser.parse_args()
-
-    # Load configuration
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    # Load yaml file for this library
-    with open(args.param_file, 'r') as params_stream:
-        try:
-            params = yaml.safe_load(params_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    # Create each part
-    for series in params:
-        for mpn in params[series]['parts']:
-            generate_footprint(
-                global_config, params[series], params[series]['parts'][mpn], mpn, configuration
-            )

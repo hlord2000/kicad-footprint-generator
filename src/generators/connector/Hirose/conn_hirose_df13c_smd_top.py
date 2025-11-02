@@ -1,50 +1,56 @@
-#!/usr/bin/env python3
-
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from math import sqrt
-import argparse
-import yaml
-
+from typing import Any
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.footprint_keepout_area import addRectangularKeepout
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.footprint_keepout_area import addRectangularKeepout
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
 
-series = 'DF13C'
-series_long = 'DF13C SMD'
-manufacturer = 'Hirose'
-orientation = 'V'
-number_of_rows = 1
-datasheet = 'https://www.hirose.com/product/en/products/DF13/DF13C-10P-1.25V%2851%29/'
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, idx, pins, configuration):
+    series = 'DF13C'
+    series_long = 'DF13C SMD'
+    manufacturer = 'Hirose'
+    orientation = 'V'
+    number_of_rows = 1
+    datasheet = 'https://www.hirose.com/product/en/products/DF13/DF13C-10P-1.25V%2851%29/'
 
-#pins_per_row per row
-pins_per_row_range = [2,3,4,5,6,7,8,9,10,11,12,14,15]
-mpn_param_1 = ['2','5','8','0','3','6','9','1','4','3','6','1','4']
+    mpn_param_1 = ['2','5','8','0','3','6','9','1','4','3','6','1','4']
 
-part_code = "CL535-04{n:02d}-{param_1:s}-51"
+    part_code = "CL535-04{n:02d}-{param_1:s}-51"
 
-# x position mounting inner mounting pad edge relative to nearest pad center
-center_pad_to_mounting_pad_edge = 1.45
-# y dimensions for pad given relative to mounting pad edge
-rel_pad_y_outside_edge = 4.7
-rel_pad_y_inside_edge = 2.9
-pad_size_x = 0.7
-# y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
-rel_body_edge_y = 0.6
-body_size_y = 3.4
-# body_fin_protrusion: 1.6
-# body_fin_width: 0.8
-# x body edge relative to nearest pin
-rel_body_edge_x = 2.2
+    # x position mounting inner mounting pad edge relative to nearest pad center
+    center_pad_to_mounting_pad_edge = 1.45
+    # y dimensions for pad given relative to mounting pad edge
+    rel_pad_y_outside_edge = 4.7
+    rel_pad_y_inside_edge = 2.9
+    pad_size_x = 0.7
+    # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+    rel_body_edge_y = 0.6
+    body_size_y = 3.4
+    # body_fin_protrusion: 1.6
+    # body_fin_width: 0.8
+    # x body edge relative to nearest pin
+    rel_body_edge_x = 2.2
 
+    pitch = 1.25
+    pad_size = [pad_size_x, rel_pad_y_outside_edge - rel_pad_y_inside_edge]
+    mp_size = [1.6, 2.2]
 
-pitch = 1.25
-pad_size = [pad_size_x, rel_pad_y_outside_edge - rel_pad_y_inside_edge]
-mp_size = [1.6, 2.2]
-
-def generate_one_footprint(global_config: GC.GlobalConfig, idx, pins, configuration):
     mpn = part_code.format(n=pins, param_1=mpn_param_1[idx])
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     off = configuration['silk_fab_offset']
@@ -58,7 +64,7 @@ def generate_one_footprint(global_config: GC.GlobalConfig, idx, pins, configurat
     footprint_name = footprint_name.replace("__",'_')
 
     kicad_mod = Footprint(footprint_name, FootprintType.SMD)
-    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
@@ -192,29 +198,15 @@ def generate_one_footprint(global_config: GC.GlobalConfig, idx, pins, configurat
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
+    pins_per_row_range = [2,3,4,5,6,7,8,9,10,11,12,14,15]
     idx = 0
     for pins_per_row in pins_per_row_range:
-        generate_one_footprint(global_config, idx, pins_per_row, configuration)
+        generate_one_footprint(generator_name, global_config, idx, pins_per_row, configuration)
         idx += 1
+        num_fps_generated += 1
+    return num_fps_generated

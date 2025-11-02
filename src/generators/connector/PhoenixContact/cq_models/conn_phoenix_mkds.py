@@ -1,6 +1,6 @@
 import cadquery as cq
 
-from _tools.cq_helpers import union_all
+from generators.tools.model.cq_helpers import union_all
 
 
 def make_case_MKDS_1_5_10_5_08(params, pinnumber):

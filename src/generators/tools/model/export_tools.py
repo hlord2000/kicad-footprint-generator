@@ -1,58 +1,59 @@
+import logging
 import os
-import sys
 
 import cadquery as cq
 
-from _tools import cq_color_correct, shaderColors  # type: ignore
-from _tools.stepreduce import stepreduce  # type: ignore
-from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
-
-skip_list = []
-
-_exit_process_after_first_part = False
-
-
-def make_only_one_part_per_process() -> None:
-    global _exit_process_after_first_part
-    _exit_process_after_first_part = True
+from generators.tools.model import cq_color_correct, shaderColors  # type: ignore
+from generators.tools.model.exportVRML.export_part_to_VRML import (
+    export_VRML,  # type: ignore
+)
+from generators.tools.model.stepreduce import stepreduce  # type: ignore
+from generators.tools.cli_args import CLI_ARGS
 
 
 def export(
-    root_output_dir: str,
+    generator_name: str,
     lib_name: str,
     model_name: str,
     parts: list[cq.Workplane],
     color_names: list[str],
-    export_as_vrml: bool = False,
-    fused: bool = True,
 ) -> None:
     """Save the model as STEP and optionally also as a VRML file.
 
     Args:
-        root_output_dir: The root output directory.
+        generator_name: The name of the generator.
         lib_name: The library name where the model(s) shall be stored.
         model_name: The name of the model(s).
         parts: The list of parts (e.g. pins, body, pin marker) that shall be added
             to the assembly.
         color_names: The names of the colors of each part.
-        export_as_vrml: Whether to also save a VRML file.
-        fused: Whether to fuse the model or not (faster without fusing).
     """
+    logging.info(model_name)
+
+    if CLI_ARGS.dry_run:
+        return
+
     if not parts or not color_names:
+        logging.error(
+            f"Generator '{generator_name}' called export() for model '{model_name}'"
+            "with an empty parts list!"
+        )
         return  # Nothing to export
 
     # Create the output directory if it does not exist:
-    if lib_name.endswith(".3dshapes"):
-        output_dir = os.path.join(root_output_dir, lib_name)
+    if not lib_name.endswith(".3dshapes"):
+        lib_name += ".3dshapes"
+    if CLI_ARGS.separate_outputs:
+        output_dir = str(CLI_ARGS.output_dir_models / generator_name / lib_name)
     else:
-        output_dir = os.path.join(root_output_dir, lib_name + ".3dshapes")
+        output_dir = str(CLI_ARGS.output_dir_models / lib_name)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    if fused:
-        mode = cq.exporters.assembly.ExportModes.FUSED  # pyright: ignore
-    else:
+    if CLI_ARGS.quick:
         mode = cq.exporters.assembly.ExportModes.DEFAULT  # pyright: ignore
+    else:
+        mode = cq.exporters.assembly.ExportModes.FUSED  # pyright: ignore
 
     # Load the required colors:
     colors: list[cq_color_correct.Color] = []
@@ -70,7 +71,7 @@ def export(
 
     if not hasattr(assembly, "export"):
         # for backward compatibility with CadQuery < 2.5.0
-        assembly.export = assembly.save
+        assembly.export = assembly.save  # type: ignore
 
     # Export the assembly to STEP
     assembly.export(  # pyright: ignore
@@ -80,30 +81,27 @@ def export(
         write_pcurves=False,
     )
 
-    # Check for a proper union:
-    if fused:
+    if not CLI_ARGS.quick:
+        # Check for a proper union:
         check_step_export_union(assembly, output_dir, model_name)
 
-    # Do STEP post-processing:
-    postprocess_step(assembly, output_dir, model_name)
+        # Do STEP post-processing:
+        postprocess_step(assembly, output_dir, model_name)
 
-    # Update the license
-    from _tools import add_license  # type: ignore
+        # Update the license
+        from generators.tools.model import add_license  # type: ignore
 
-    add_license.addLicenseToStep(  # type: ignore
-        output_dir,
-        model_name + ".step",
-        add_license.LIST_int_license,
-        add_license.STR_int_licAuthor,
-        add_license.STR_int_licEmail,
-        add_license.STR_int_licOrgSys,
-        add_license.STR_int_licPreProc,
-    )
+        add_license.addLicenseToStep(  # type: ignore
+            output_dir,
+            model_name + ".step",
+            add_license.LIST_int_license,
+            add_license.STR_int_licAuthor,
+            add_license.STR_int_licEmail,
+            add_license.STR_int_licOrgSys,
+            add_license.STR_int_licPreProc,
+        )
 
-    if _exit_process_after_first_part:
-        sys.exit(0)
-
-    if export_as_vrml:
+    if CLI_ARGS.export_vrml:
         export_VRML(
             os.path.join(output_dir, model_name + ".wrl"),
             parts,
@@ -114,10 +112,6 @@ def export(
 def check_step_export_union(
     component: cq.Assembly, output_dir: str, model: str
 ) -> None:
-    # Skip models that cannot be unioned properly
-    if model in skip_list:
-        return
-
     # Path to the STEP file to be validated
     cur_path = os.path.join(output_dir, model + ".step")
 

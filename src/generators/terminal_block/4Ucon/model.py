@@ -58,65 +58,40 @@ import os
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from _tools.parameters import load_aux_parameters
-from exportVRML.export_part_to_VRML import export_VRML
+from generators.tools.model import export_tools
+from generators.tools.model.parameters import load_aux_parameters
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_models.conn_4ucon_17809 import generate_part
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    globals = load_aux_parameters(__file__, "global_parameters.yaml")
 
-    all_params = parameters.load_parameters("4UCON_17809")
+    # Make the parts of the model
+    (pins, body, contacts) = generate_part(spec.spec, globals["globals"])
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+    parts: list[cq.Workplane] = [body, pins, contacts]
+    color_names: list[str] = [
+        globals["globals"]["body_color_key"],
+        globals["globals"]["pin_color_key"],
+        globals["globals"]["contact_color_key"],
+    ]
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Load the global parameters
-            globals = load_aux_parameters(__file__, "global_parameters.yaml")
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Make the parts of the model
-        (pins, body, contacts) = generate_part(all_params[model], globals["globals"])
-
-        parts: list[cq.Workplane] = [body, pins, contacts]
-        color_names: list[str] = [
-            globals["globals"]["body_color_key"],
-            globals["globals"]["pin_color_key"],
-            globals["globals"]["contact_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=globals["globals"]["destination_dir"],
-            model_name=all_params[model]["file_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=globals["globals"]["destination_dir"],
+        model_name=spec.spec["file_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

@@ -1,14 +1,27 @@
-#! /usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
 import yaml
 
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
+from generators.tools.footprint.drawing_tools import round_to_grid
+from kilibs.config import global_config as GC
+from kilibs.config.global_config import GLOBAL_CONFIG
+
 from KicadModTree import *  # NOQA
-from bump import *
-from corners import *
-from chamfers import *
+from .bump import *
+from .corners import *
+from .chamfers import *
 
 
 class Dimensions(object):
@@ -70,15 +83,9 @@ class CapacitorTrimmer:
         self.config = None
 
     def _load_config(self, config_file):
-
         # This will come from FootprintGenerator one day
-        self.global_config = GC.DefaultGlobalConfig()
-
-        try:
-            devices = yaml.safe_load_all(open(config_file))
-        except FileNotFoundError as fnfe:
-            print(fnfe)
-            return
+        self.global_config = GLOBAL_CONFIG
+        devices = yaml.safe_load_all(open(config_file))
         config = None
         for dev in devices:
             if dev['base']['family'] == self.FAMILY:
@@ -170,7 +177,7 @@ class CapacitorTrimmer:
                   rotate=[0, 0, 0]))
         return m
 
-    def _build_footprint(self, base, variant, cut_pin=False, tab_linked=False, verbose=False):
+    def _build_footprint(self, generator_name: str, base, variant, cut_pin=False, tab_linked=False, verbose=False):
 
         # calculate dimensions and other attributes specific to this variant
         dim = Dimensions(base, variant, cut_pin, tab_linked)
@@ -195,21 +202,15 @@ class CapacitorTrimmer:
         # add 3D model
         kicad_mod = self._add_3D_model(kicad_mod, base, dim)
 
-        # print render tree
-        if verbose:
-            print('\r\nMaking {n:s}'.format(n=dim.name))
-            print(kicad_mod.getRenderTree())
-
         # write file
         lib_name = "Capacitor_SMD"
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, lib_name, generator_name)
 
-    def build_series(self, verbose=False):
-        print('Making {p:s}'.format(p=self.config['base']['description']))
+    def build_series(self, generator_name: str, verbose=False) -> int:
         base = self.config['base']
         for variant in self.config['variants']:
-            self._build_footprint(base, variant, verbose=verbose)
+            self._build_footprint(generator_name, base, variant, verbose=verbose)
+        return len(self.config['variants'])
 
 
 class StyleA(CapacitorTrimmer):
@@ -244,30 +245,6 @@ class Factory(object):
 
     def __init__(self, config_file):
         self._config_file = config_file
-        self._parse_command_line()
-        self.verbose = self._args.verbose
-        self._create_build_list()
+        self.build_list = [StyleA(self._config_file), StyleB(self._config_file), StyleC(self._config_file), StyleD(self._config_file)]
 
-    def _parse_command_line(self):
-        parser = argparse.ArgumentParser(description='Select which devices to make')
-        parser.add_argument('--family', help='device families to make: STYLE-A | STYLE-B | STYLE-C | STYLE-D  (default is all families)',
-                            type=str, nargs=1)
-        parser.add_argument('-v', '--verbose', help='show detailed information while making the footprints',
-                            action='store_true')
-        self._args = parser.parse_args()
-
-    def _create_build_list(self):
-        if not self._args.family:
-            self.build_list = [StyleA(self._config_file), StyleB(self._config_file), StyleC(self._config_file), StyleD(self._config_file)]
-        else:
-            self.build_list = []
-            if 'STYLE-A' in self._args.family:
-                self.build_list.append(StyleA(self._config_file))
-            if 'STYLE-B' in self._args.family:
-                self.build_list.append(StyleB(self._config_file))
-            if 'STYLE-C' in self._args.family:
-                self.build_list.append(StyleC(self._config_file))
-            if 'STYLE-D' in self._args.family:
-                self.build_list.append(StyleD(self._config_file))
-            if not self.build_list:
-                print('Family not recognised')
+        

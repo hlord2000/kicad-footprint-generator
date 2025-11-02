@@ -1,60 +1,51 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
-
+from typing import Any
 from math import sqrt
-import argparse
-import yaml
-
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
-series = "Micro-Fit_3.0"
-series_long = 'Micro-Fit 3.0 Connector System'
-manufacturer = 'Molex'
-orientation = 'H'
-number_of_rows = 2
-datasheet = 'http://www.molex.com/pdm_docs/sd/430450210_sd.pdf'
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pins, configuration):
 
+    series = "Micro-Fit_3.0"
+    series_long = 'Micro-Fit 3.0 Connector System'
+    manufacturer = 'Molex'
+    orientation = 'H'
+    number_of_rows = 2
+    datasheet = 'http://www.molex.com/pdm_docs/sd/430450210_sd.pdf'
 
+    #Molex part number
+    #n = number of circuits per row
+    part_code = "43045-{n:02}10"
 
-#Molex part number
-#n = number of circuits per row
-part_code = "43045-{n:02}10"
+    alternative_codes = [
+    "43045-{n:02}11",
+    "43045-{n:02}09"
+    ]
 
-alternative_codes = [
-"43045-{n:02}11",
-"43045-{n:02}09"
-]
+    pitch = 3.0
+    row = 5.5
 
-pitch = 3.0
-pincount_range = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
+    pad_size = [1.27, 2.92]
+    pitch_y = 1.71 + pad_size[1]
 
-row = 5.5
+    mount_pad_size = [3.43, 1.65]
 
-
-pad_size = [1.27, 2.92]
-pitch_y = 1.71 + pad_size[1]
-
-mount_pad_size = [3.43, 1.65]
-
-def generate_one_footprint(global_config: GC.GlobalConfig, pins, configuration):
     pins_per_row = pins//2
 
     mpn = part_code.format(n=pins)
@@ -262,28 +253,13 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pins, configuration):
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
+    pincount_range = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
     for pincount in pincount_range:
-        generate_one_footprint(global_config, pincount, configuration)
+        generate_one_footprint(generator_name, global_config, pincount, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

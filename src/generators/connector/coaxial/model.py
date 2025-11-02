@@ -55,9 +55,12 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 ___ver___ = "2.0.0"
 
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_coaxial_amphenol import *
 from .cq_coaxial_molex import *
@@ -65,90 +68,66 @@ from .cq_coaxial_samtec import *
 from .cq_coaxial_te import *
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Connector_Coaxial")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Generate the correct model
+    if "Amphenol" in spec.spec["model_name"]:
+        cqm = cq_coaxial_amphenol()
+        body_top = cqm.make_top_SMA_Amphenol_132134(spec.spec)
+        body = cqm.make_case_SMA_Amphenol_132134(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+        # npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif "TEConnectivity" in spec.spec["model_name"]:
+        cqm = cq_coaxial_te()
+        body_top = cqm.make_top_BNC_TEConnectivity_1478204(spec.spec)
+        body = cqm.make_case_BNC_TEConnectivity_1478204(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+    #     npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.spec["model_name"] == "SMA_Molex_73251-2200_Horizontal":
+        cqm = cq_coaxial_molex()
+        body_top = cqm.make_top_SMA_Molex_73251_2200(spec.spec)
+        body = cqm.make_case_SMA_Molex_73251_2200(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+    #     npth_pins = cqm.make_npth_pins_dummy(spec.spec)
+    elif spec.spec["model_name"] == "U.FL_Molex_MCRF_73412-0110_Vertical":
+        cqm = cq_coaxial_molex()
+        body_top = cqm.make_top_U_FL_Molex_MCRF_73412_0110(spec.spec)
+        body = cqm.make_case_U_FL_Molex_MCRF_73412_0110(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+    elif spec.spec["model_name"] == "SMA_Molex_73251-1153_EdgeMount_Horizontal":
+        cqm = cq_coaxial_molex()
+        body_top = cqm.make_top_SMA_Molex_73251_1153(spec.spec)
+        body = cqm.make_case_SMA_Molex_73251_1153(spec.spec)
+        pins = cqm.make_pin(spec.spec)
+    elif spec.spec["model_name"] == "SMA_Samtec_SMA-J-P-H-ST-EM1_EdgeMount":
+        cqm = cq_coaxial_samtec()
+        body_top = cqm.make_top_SMA_Samtec_SMA(spec.spec)
+        body = cqm.make_case_SMA_Samtec_SMA(spec.spec)
+        pins = cqm.make_pin(spec.spec)
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        logging.error("Specified model_name is not found.")
+        return 0
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    parts: list[cq.Workplane] = [body_top, body, pins]
+    color_names: list[str] = [
+        spec.spec["body_top_color_key"],
+        spec.spec["body_color_key"],
+        spec.spec["pin_color_key"],
+    ]
 
-        # Generate the correct model
-        if "Amphenol" in all_params[model]["model_name"]:
-            cqm = cq_coaxial_amphenol()
-            body_top = cqm.make_top_SMA_Amphenol_132134(all_params[model])
-            body = cqm.make_case_SMA_Amphenol_132134(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-            # npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif "TEConnectivity" in all_params[model]["model_name"]:
-            cqm = cq_coaxial_te()
-            body_top = cqm.make_top_BNC_TEConnectivity_1478204(all_params[model])
-            body = cqm.make_case_BNC_TEConnectivity_1478204(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-        #     npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif all_params[model]["model_name"] == "SMA_Molex_73251-2200_Horizontal":
-            cqm = cq_coaxial_molex()
-            body_top = cqm.make_top_SMA_Molex_73251_2200(all_params[model])
-            body = cqm.make_case_SMA_Molex_73251_2200(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-        #     npth_pins = cqm.make_npth_pins_dummy(all_params[model])
-        elif all_params[model]["model_name"] == "U.FL_Molex_MCRF_73412-0110_Vertical":
-            cqm = cq_coaxial_molex()
-            body_top = cqm.make_top_U_FL_Molex_MCRF_73412_0110(all_params[model])
-            body = cqm.make_case_U_FL_Molex_MCRF_73412_0110(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-        elif (
-            all_params[model]["model_name"]
-            == "SMA_Molex_73251-1153_EdgeMount_Horizontal"
-        ):
-            cqm = cq_coaxial_molex()
-            body_top = cqm.make_top_SMA_Molex_73251_1153(all_params[model])
-            body = cqm.make_case_SMA_Molex_73251_1153(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-        elif all_params[model]["model_name"] == "SMA_Samtec_SMA-J-P-H-ST-EM1_EdgeMount":
-            cqm = cq_coaxial_samtec()
-            body_top = cqm.make_top_SMA_Samtec_SMA(all_params[model])
-            body = cqm.make_case_SMA_Samtec_SMA(all_params[model])
-            pins = cqm.make_pin(all_params[model])
-        else:
-            print("Specified model_name is not found.")
-            continue
-
-        parts: list[cq.Workplane] = [body_top, body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_top_color_key"],
-            all_params[model]["body_color_key"],
-            all_params[model]["pin_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

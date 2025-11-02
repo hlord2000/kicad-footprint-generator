@@ -1,7 +1,22 @@
-from KicadModTree import Polygon
-from kilibs.geom import Direction, GeomPolygon, Vector2D, BoundingBox
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 import copy
 from typing import Self
+
+from KicadModTree import Polygon
+from kilibs.geom import BoundingBox, Direction, GeomPolygon, Vector2D
+
 
 class SilkscreenArrow(Polygon):
     """
@@ -23,7 +38,7 @@ class SilkscreenArrow(Polygon):
         )
 
     def bbox(self) -> BoundingBox:
-        width = self.width/2 if self.width is not None else 0.0
+        width = self.width / 2 if self.width is not None else 0.0
         return self.bbox().inflate(width)
 
     def as_polygon(self, inflation: float = 0) -> GeomPolygon:
@@ -33,7 +48,7 @@ class SilkscreenArrow(Polygon):
         This is useful for clearing a space for the arrow in other silk features.
         """
         return GeomPolygon(shape=self).inflated(inflation)
-    
+
     def copy(self) -> Self:
         return copy.copy(self)
 
@@ -75,7 +90,7 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
             pos,
             pos + Vector2D.from_floats(-length, size * 0.50),
             pos + Vector2D.from_floats(-length, -size * 0.50),
-            pos
+            pos,
         ]
 
         gpoly = GeomPolygon(shape=arrow_pts)
@@ -83,9 +98,7 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
         # Rotate the arrow backwards (so it points in the right direction)
         gpoly.rotate(angle=-angle, origin=pos)
 
-        super().__init__(
-            shape=gpoly, layer=layer, width=line_width_mm, fill=True
-        )
+        super().__init__(shape=gpoly, layer=layer, width=line_width_mm, fill=True)
 
 
 class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
@@ -103,8 +116,12 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
     """
 
     def __init__(
-        self, apex_position: Vector2D, angle: float | Direction,
-        size: float, layer: str, line_width_mm: float
+        self,
+        apex_position: Vector2D,
+        angle: float | Direction,
+        size: float,
+        layer: str,
+        line_width_mm: float,
     ) -> None:
 
         arrow_pts = [
@@ -125,6 +142,4 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
         if angle != 0:
             gpoly.rotate(-angle, origin=apex_position)
 
-        super().__init__(
-            shape=gpoly, layer=layer, width=line_width_mm, fill=True
-        )
+        super().__init__(shape=gpoly, layer=layer, width=line_width_mm, fill=True)

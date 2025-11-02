@@ -1,14 +1,24 @@
-#!/usr/bin/env python3
-
-import argparse
-import yaml
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from kilibs.geom import GeomRectangle
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
-from scripts.tools.declarative_def_tools import common_metadata
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.footprint_text_fields import addTextFields
+from generators.tools.footprint.declarative_def_tools import common_metadata
+from kilibs.config import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+import yaml
 
 
 class SmdShieldProperties:
@@ -71,7 +81,7 @@ class SmdShieldProperties:
         return pad_spacer_pos
 
 
-def create_smd_shielding(global_config: GC.GlobalConfig, shield_properties: SmdShieldProperties, **kwargs):
+def create_smd_shielding(generator_name: str, global_config: GC.GlobalConfig, shield_properties: SmdShieldProperties, **kwargs):
     lib_name = "RF_Shielding"
     kicad_mod = Footprint(shield_properties.name, FootprintType.SMD)
 
@@ -230,30 +240,15 @@ def create_smd_shielding(global_config: GC.GlobalConfig, shield_properties: SmdS
                 + global_config.model_3d_suffix))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def parse_and_execute_yml_file(global_config, filepath):
+def generate_for_file(generator_name, global_config, filepath) -> int:
+    num_fps_generated = 0
     with open(filepath, 'r') as stream:
-        try:
-            yaml_parsed = yaml.safe_load(stream)
-            for footprint_name, spec_data in yaml_parsed.items():
-                print(footprint_name)
-
-                part_props = SmdShieldProperties(footprint_name, spec_data)
-                create_smd_shielding(global_config, part_props, **spec_data)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Parse *.kicad_mod.yml file(s) and create matching footprints')
-    parser.add_argument('files', metavar='file', type=str, nargs='+',
-                        help='yml-files to parse')
-
-    global_config = GC.DefaultGlobalConfig()
-
-    args = parser.parse_args()
-    for filepath in args.files:
-        parse_and_execute_yml_file(global_config, filepath)
+        yaml_parsed = yaml.safe_load(stream)
+        for footprint_name, spec_data in yaml_parsed.items():
+            part_props = SmdShieldProperties(footprint_name, spec_data)
+            create_smd_shielding(generator_name, global_config, part_props, **spec_data)
+            num_fps_generated += 1
+    return num_fps_generated

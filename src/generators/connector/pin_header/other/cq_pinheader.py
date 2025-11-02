@@ -53,7 +53,7 @@ ___ver___ = "2.0.0 21/11/2017"
 
 import cadquery as cq
 
-from _tools.cq_helpers import union_all
+from generators.tools.model.cq_helpers import union_all
 
 
 def make_Vertical_THT_base(n, pitch, rows, base_width, base_height, base_chamfer):

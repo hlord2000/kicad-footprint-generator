@@ -1,6 +1,6 @@
-from scripts.tools.declarative_def_tools import shape_properties as SP
-
 import pytest
+
+from generators.tools.footprint.declarative_def_tools import shape_properties as SP
 
 
 def test_no_shape_type_key():

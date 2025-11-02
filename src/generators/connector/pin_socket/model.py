@@ -56,166 +56,134 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import cq_color_correct, export_tools, parameters, shaderColors
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_socket_strips import angled_socket_strip, smd_socket_strip, socket_strip
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Create a model for each number of pins
+    pin_range = range(spec.spec["pins_min"], spec.spec["pins_max"] + 1)
+    for pin_num in pin_range:
+        if spec.spec["num_pin_rows"] == 1:
+            spec.spec["num_pins"] = pin_num
+        else:
+            spec.spec["num_pins"] = pin_num * 2
 
-    all_params = parameters.load_parameters("Connector_PinSocket")
+        # Generate the current model
+        if spec.spec["model_class"].startswith("SMD"):
+            cqm = smd_socket_strip(spec.spec)
+        elif spec.spec["model_class"].endswith("Vertical"):
+            cqm = socket_strip(spec.spec)
+        elif spec.spec["model_class"].endswith("Horizontal"):
+            cqm = angled_socket_strip(spec.spec)
+        else:
+            logging.error("No match found for model_class.")
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Create a model for each number of pins
-        for pin_num in range(
-            all_params[model]["pins_min"], all_params[model]["pins_max"] + 1
-        ):
-            if all_params[model]["num_pin_rows"] == 1:
-                all_params[model]["num_pins"] = pin_num
-            else:
-                all_params[model]["num_pins"] = pin_num * 2
-
-            # Generate the current model
-            if all_params[model]["model_class"].startswith("SMD"):
-                cqm = smd_socket_strip(all_params[model])
-            elif all_params[model]["model_class"].endswith("Vertical"):
-                cqm = socket_strip(all_params[model])
-            elif all_params[model]["model_class"].endswith("Horizontal"):
-                cqm = angled_socket_strip(all_params[model])
-            else:
-                print("No match found for model_class.")
-
-            # Used to wrap all the parts into an assembly
-            component = cq.Assembly(name=model)
-
-            # Make the translation correct
-            translation = (0.0, 0.0)
-            if all_params[model]["model_class"] == "THT-1x1.00mm_Vertical":
-                translation = (
-                    all_params[model]["pin_pitch"]
-                    * (pin_num / 2.0 / all_params[model]["num_pin_rows"] - 0.5),
-                    all_params[model]["pin_width"] / 1.5
-                    + all_params[model]["pin_thickness"]
-                    - 0.01,
-                    0.0,
-                )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
-            elif all_params[model]["model_class"] == "THT-1x1.27mm_Vertical":
-                translation = (
-                    all_params[model]["pin_pitch"]
-                    * (pin_num / 2.0 / all_params[model]["num_pin_rows"] - 0.5),
-                    all_params[model]["pin_width"] / 2.0
-                    - all_params[model]["pin_thickness"]
-                    - 0.05,
-                    0.0,
-                )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
-            elif all_params[model]["model_class"] == "THT-1x2.00mm_Vertical":
-                translation = (
-                    all_params[model]["pin_pitch"]
-                    * (pin_num / 2.0 / all_params[model]["num_pin_rows"] - 0.5),
-                    all_params[model]["pin_width"] / 2.0
-                    - all_params[model]["pin_thickness"]
-                    - 0.1,
-                    0.0,
-                )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
-            elif all_params[model]["model_class"] == "THT-1x2.54mm_Vertical":
-                translation = (
-                    all_params[model]["pin_pitch"]
-                    * (pin_num / 2.0 / all_params[model]["num_pin_rows"] - 0.5),
-                    all_params[model]["pin_width"] / 2.0
-                    - all_params[model]["pin_thickness"]
-                    - 0.1,
-                    0.0,
-                )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
-            elif all_params[model]["model_class"].startswith("THT-1") and all_params[
-                model
-            ]["model_class"].endswith("Horizontal"):
-                translation = (
-                    all_params[model]["pin_pitch"] * (pin_num - 1) / 2.0,
-                    all_params[model]["pin_pitch"] / 2.0
-                    - all_params[model]["pin_pitch"] / 2.0,
-                    0.0,
-                )  # all_params[model]['pin_pitch'] / 2.0)
-            elif all_params[model]["model_class"].startswith("THT-2") and all_params[
-                model
-            ]["model_class"].endswith("Horizontal"):
-                translation = (
-                    all_params[model]["pin_pitch"] * (pin_num - 1) / 2.0,
-                    all_params[model]["pin_pitch"] / 2.0
-                    - all_params[model]["pin_width"] / 2.0
-                    + all_params[model]["pin_thickness"]
-                    + 0.1,
-                    0.0,
-                )  # all_params[model]['pin_pitch'] / 2.0)
-            elif all_params[model]["model_class"].startswith("SMD"):
-                translation = (0.0, 0.0, all_params[model]["pin_width"] / 2.0)
-            else:
-                translation = (
-                    all_params[model]["pin_pitch"] * (pin_num - 1) / 2.0,
-                    all_params[model]["pin_pitch"] / 2.0,
-                    0.0,
-                )
-
-            # Generate the current strip
-            body = cqm._make_body()
-            pins = cqm._make_pins()
-            body = body.translate(
-                (-translation[0], translation[1], translation[2])
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            pins = pins.translate(
-                (-translation[0], translation[1], translation[2])
-            ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-            # Make sure the pin name is zero padded
-            if pin_num < 10:
-                pin_num_str = "0" + str(pin_num)
-            else:
-                pin_num_str = str(pin_num)
-
-            # Create the file name based on the rows and pins
-            file_name = all_params[model]["model_name"].format(
-                all_params[model]["num_pin_rows"], pin_num_str
+        # Make the translation correct
+        translation = (0.0, 0.0)
+        if spec.spec["model_class"] == "THT-1x1.00mm_Vertical":
+            translation = (
+                spec.spec["pin_pitch"]
+                * (pin_num / 2.0 / spec.spec["num_pin_rows"] - 0.5),
+                spec.spec["pin_width"] / 1.5 + spec.spec["pin_thickness"] - 0.01,
+                0.0,
+            )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
+        elif spec.spec["model_class"] == "THT-1x1.27mm_Vertical":
+            translation = (
+                spec.spec["pin_pitch"]
+                * (pin_num / 2.0 / spec.spec["num_pin_rows"] - 0.5),
+                spec.spec["pin_width"] / 2.0 - spec.spec["pin_thickness"] - 0.05,
+                0.0,
+            )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
+        elif spec.spec["model_class"] == "THT-1x2.00mm_Vertical":
+            translation = (
+                spec.spec["pin_pitch"]
+                * (pin_num / 2.0 / spec.spec["num_pin_rows"] - 0.5),
+                spec.spec["pin_width"] / 2.0 - spec.spec["pin_thickness"] - 0.1,
+                0.0,
+            )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
+        elif spec.spec["model_class"] == "THT-1x2.54mm_Vertical":
+            translation = (
+                spec.spec["pin_pitch"]
+                * (pin_num / 2.0 / spec.spec["num_pin_rows"] - 0.5),
+                spec.spec["pin_width"] / 2.0 - spec.spec["pin_thickness"] - 0.1,
+                0.0,
+            )  # 1 = num_pin_rows, second pin_pitch = pin_rows_distance
+        elif spec.spec["model_class"].startswith("THT-1") and spec.spec[
+            "model_class"
+        ].endswith("Horizontal"):
+            translation = (
+                spec.spec["pin_pitch"] * (pin_num - 1) / 2.0,
+                spec.spec["pin_pitch"] / 2.0 - spec.spec["pin_pitch"] / 2.0,
+                0.0,
+            )  # spec.spec['pin_pitch'] / 2.0)
+        elif spec.spec["model_class"].startswith("THT-2") and spec.spec[
+            "model_class"
+        ].endswith("Horizontal"):
+            translation = (
+                spec.spec["pin_pitch"] * (pin_num - 1) / 2.0,
+                spec.spec["pin_pitch"] / 2.0
+                - spec.spec["pin_width"] / 2.0
+                + spec.spec["pin_thickness"]
+                + 0.1,
+                0.0,
+            )  # spec.spec['pin_pitch'] / 2.0)
+        elif spec.spec["model_class"].startswith("SMD"):
+            translation = (0.0, 0.0, spec.spec["pin_width"] / 2.0)
+        else:
+            translation = (
+                spec.spec["pin_pitch"] * (pin_num - 1) / 2.0,
+                spec.spec["pin_pitch"] / 2.0,
+                0.0,
             )
 
-            parts: list[cq.Workplane] = [body, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pins_color_key"],
-            ]
+        # Generate the current strip
+        body = cqm._make_body()
+        pins = cqm._make_pins()
+        body = body.translate((-translation[0], translation[1], translation[2])).rotate(
+            (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+        )
+        pins = pins.translate((-translation[0], translation[1], translation[2])).rotate(
+            (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+        )
 
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
-            )
+        # Make sure the pin name is zero padded
+        if pin_num < 10:
+            pin_num_str = "0" + str(pin_num)
+        else:
+            pin_num_str = str(pin_num)
+
+        # Create the file name based on the rows and pins
+        file_name = spec.spec["model_name"].format(
+            spec.spec["num_pin_rows"], pin_num_str
+        )
+
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pins_color_key"],
+        ]
+
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(pin_range)

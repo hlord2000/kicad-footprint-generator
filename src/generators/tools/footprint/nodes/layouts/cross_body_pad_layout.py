@@ -1,10 +1,22 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 from itertools import accumulate
 
+from generators.tools.footprint import drawing_tools_silk
 from KicadModTree import Pad
+from kilibs.config import global_config as GC
 from kilibs.geom import Direction, GeomRectangle, Vector2D
-from scripts.tools import drawing_tools, drawing_tools_silk
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.nodes import pin1_arrow
 
 from .footprint_layout import CourtyardStyle, FabStyle, FootprintLayout, SilkStyle
 
@@ -133,7 +145,7 @@ class CrossBodyPadLayout(FootprintLayout[GeomRectangle, Pad]):
             triangle = drawing_tools_silk.draw_silk_triangle_for_pad(
                 pad,
                 arrow_direction=Direction.EAST,
-                arrow_size=drawing_tools.SilkArrowSize.MEDIUM,
+                arrow_size=drawing_tools_silk.SilkArrowSize.MEDIUM,
                 pad_silk_offset=self.global_config.silk_pad_offset,
                 stroke_width=self.global_config.silk_line_width,
             )
@@ -146,7 +158,7 @@ class CrossBodyPadLayout(FootprintLayout[GeomRectangle, Pad]):
                     arrow_direction=Direction.NORTHEAST,
                     line_y=body_rect.bottom,
                     line_clearance_y=self.global_config.silk_fab_offset,
-                    arrow_size=drawing_tools.SilkArrowSize.MEDIUM,
+                    arrow_size=drawing_tools_silk.SilkArrowSize.MEDIUM,
                 )
             )
             keepout = triangle.bbox()

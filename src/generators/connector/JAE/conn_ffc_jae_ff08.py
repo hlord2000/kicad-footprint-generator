@@ -1,37 +1,47 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import yaml
+from typing import Any
 from math import sqrt
 
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
-pinrange = [25, 29, 41, 51, 71, 81]
 
-series = ""
-series_long = 'JAE 0.2mm pitch, 1mm overall height FFC/FPC connector'
-manufacturer = 'JAE'
-orientation = 'H'
-number_of_rows = 2
-datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ108178.pdf'
+def make_module(generator_name: str, global_config: GC.GlobalConfig, pin_count, configuration):
 
-conn_category = "FFC-FPC"
+    series = ""
+    series_long = 'JAE 0.2mm pitch, 1mm overall height FFC/FPC connector'
+    manufacturer = 'JAE'
+    orientation = 'H'
+    number_of_rows = 2
+    datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ108178.pdf'
 
-lib_by_conn_category = True
+    conn_category = "FFC-FPC"
 
-part_code = "FF08{:02d}SA1"
+    lib_by_conn_category = True
 
-# def get_name(pin_count):
-#     return 'Molex-502250-{0}91_2Rows-{0}Pins_P0.3mm_Horizontal'.format(pin_count)
+    part_code = "FF08{:02d}SA1"
 
-cable_pitch = 0.2
-odd_pad_size = (0.55, 0.18) # bottom
-even_pad_size = (0.7, 0.18) # top
+    # def get_name(pin_count):
+    #     return 'Molex-502250-{0}91_2Rows-{0}Pins_P0.3mm_Horizontal'.format(pin_count)
 
-def make_module(global_config: GC.GlobalConfig, pin_count, configuration):
+    cable_pitch = 0.2
+    odd_pad_size = (0.55, 0.18) # bottom
+    even_pad_size = (0.7, 0.18) # top
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     off = configuration['silk_fab_offset']
 
@@ -183,28 +193,13 @@ def make_module(global_config: GC.GlobalConfig, pin_count, configuration):
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
     
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
+    pinrange = [25, 29, 41, 51, 71, 81]
     for pincount in pinrange:
-        make_module(global_config, pincount, configuration)
+        make_module(generator_name, global_config, pincount, configuration)
+        num_fps_generated += 1
+    return num_fps_generated

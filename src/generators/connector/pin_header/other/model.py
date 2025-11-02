@@ -57,9 +57,10 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
-from .pinheader import (
+from .cq_pinheader import (
     make_Horizontal_THT_base,
     make_Horizontal_THT_pins,
     make_Vertical_SMD_base,
@@ -69,202 +70,163 @@ from .pinheader import (
 )
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    header_type = spec.spec["type"]
+    pitch = spec.spec["pitch"]
+    rows = spec.spec["rows"]
+    base_width = spec.spec["base_width"]
+    base_height = spec.spec["base_height"]
+    base_chamfer = spec.spec["base_chamfer"]
+    base_extra_length = (
+        spec.spec["base_extra_length"] if "base_extra_length" in spec.spec else 0
+    )
+    base_wall_height = (
+        spec.spec["base_wall_height"] if "base_wall_height" in spec.spec else 0
+    )
+    base_wall_internal_width = (
+        spec.spec["base_wall_internal_width"]
+        if "base_wall_internal_width" in spec.spec
+        else 0
+    )
+    base_wall_internal_extra_length = (
+        spec.spec["base_wall_internal_extra_length"]
+        if "base_wall_internal_extra_length" in spec.spec
+        else 0
+    )
+    notch_x_size = spec.spec["notch_x_size"] if "notch_x_size" in spec.spec else 0
+    notch_y_size = spec.spec["notch_y_size"] if "notch_y_size" in spec.spec else 0
+    notch_height = spec.spec["notch_height"] if "notch_height" in spec.spec else 0
+    notch_position = (
+        spec.spec["notch_position"] if "notch_position" in spec.spec else ""
+    )
+    pin_width = spec.spec["pin_width"]
+    pin_length_above_base = spec.spec["pin_length_above_base"]
 
-    all_params = parameters.load_parameters("Connector_PinHeader")
+    pin_end_chamfer = spec.spec["pin_end_chamfer"]
+    rotation = spec.spec["rotation"]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Collect the array of pin numbers so that we can handle the one config that has a custom set in a string
+    if isinstance(spec.spec["pins"], str):
+        pin_set = [int(x) for x in spec.spec["pins"].split(",")]
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        pin_num_start = spec.spec["pins"]["from"]
+        pin_num_end = spec.spec["pins"]["to"]
+        pin_set = range(pin_num_start, pin_num_end + 1)
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
+    if base_chamfer == "auto":
+        base_chamfer = pitch / 10.0
+
+    if pin_end_chamfer == "auto":
+        pin_end_chamfer = pin_width / 4.0
+
+    for num_pins in pin_set:
+        if header_type == "Vertical_THT":
+            pin_length_below_board = spec.spec["pin_length_below_board"]
+            base = make_Vertical_THT_base(
+                num_pins, pitch, rows, base_width, base_height, base_chamfer
+            )
+            pins = make_Vertical_THT_pins(
+                num_pins,
+                pitch,
+                rows,
+                pin_length_above_base,
+                pin_length_below_board,
+                base_height,
+                pin_width,
+                pin_end_chamfer,
+            )
+        elif header_type == "Horizontal_THT":
+            pin_length_below_board = spec.spec["pin_length_below_board"]
+            base_x_offset = spec.spec["base_x_offset"]
+            base = make_Horizontal_THT_base(
+                num_pins,
+                pitch,
+                rows,
+                base_width,
+                base_height,
+                base_x_offset,
+                base_chamfer,
+            )
+            pins = make_Horizontal_THT_pins(
+                num_pins,
+                pitch,
+                rows,
+                pin_length_above_base,
+                pin_length_below_board,
+                base_height,
+                base_width,
+                pin_width,
+                pin_end_chamfer,
+                base_x_offset,
+            )
+        elif header_type == "Vertical_SMD":
+            pin_length_horizontal = spec.spec["pin_length_horizontal"]
+            base_z_offset = spec.spec["base_z_offset"]
+            if rows == 1:
+                pin_1_start = spec.spec["pin_1_start"]
+            else:
+                pin_1_start = None
+            pins = make_Vertical_SMD_pins(
+                num_pins,
+                pitch,
+                rows,
+                pin_length_above_base,
+                pin_length_horizontal,
+                base_height,
+                base_width,
+                pin_width,
+                pin_end_chamfer,
+                base_z_offset,
+                pin_1_start,
+            )
+            base = make_Vertical_SMD_base(
+                num_pins,
+                pitch,
+                base_width,
+                base_height,
+                base_chamfer,
+                base_z_offset,
+                base_extra_length,
+                base_wall_height,
+                base_wall_internal_width,
+                base_wall_internal_extra_length,
+                notch_position,
+                notch_x_size,
+                notch_y_size,
+                notch_height,
+            )
+
+        else:
+            print("Model {} is not recognized.".format(spec.id))
             continue
 
-        header_type = all_params[model]["type"]
-        pitch = all_params[model]["pitch"]
-        rows = all_params[model]["rows"]
-        base_width = all_params[model]["base_width"]
-        base_height = all_params[model]["base_height"]
-        base_chamfer = all_params[model]["base_chamfer"]
-        base_extra_length = (
-            all_params[model]["base_extra_length"]
-            if "base_extra_length" in all_params[model]
-            else 0
-        )
-        base_wall_height = (
-            all_params[model]["base_wall_height"]
-            if "base_wall_height" in all_params[model]
-            else 0
-        )
-        base_wall_internal_width = (
-            all_params[model]["base_wall_internal_width"]
-            if "base_wall_internal_width" in all_params[model]
-            else 0
-        )
-        base_wall_internal_extra_length = (
-            all_params[model]["base_wall_internal_extra_length"]
-            if "base_wall_internal_extra_length" in all_params[model]
-            else 0
-        )
-        notch_x_size = (
-            all_params[model]["notch_x_size"]
-            if "notch_x_size" in all_params[model]
-            else 0
-        )
-        notch_y_size = (
-            all_params[model]["notch_y_size"]
-            if "notch_y_size" in all_params[model]
-            else 0
-        )
-        notch_height = (
-            all_params[model]["notch_height"]
-            if "notch_height" in all_params[model]
-            else 0
-        )
-        notch_position = (
-            all_params[model]["notch_position"]
-            if "notch_position" in all_params[model]
-            else ""
-        )
-        pin_width = all_params[model]["pin_width"]
-        pin_length_above_base = all_params[model]["pin_length_above_base"]
-
-        pin_end_chamfer = all_params[model]["pin_end_chamfer"]
-        rotation = all_params[model]["rotation"]
-
-        # Collect the array of pin numbers so that we can handle the one config that has a custom set in a string
-        if isinstance(all_params[model]["pins"], str):
-            pin_set = [int(x) for x in all_params[model]["pins"].split(",")]
+        # Create the file name based on the rows and pins
+        if num_pins < 10:
+            num_pins_str = "0" + str(num_pins)
         else:
-            pin_num_start = all_params[model]["pins"]["from"]
-            pin_num_end = all_params[model]["pins"]["to"]
-            pin_set = range(pin_num_start, pin_num_end + 1)
+            num_pins_str = str(num_pins)
+        file_name = spec.id.replace("yy", num_pins_str)
 
-        if base_chamfer == "auto":
-            base_chamfer = pitch / 10.0
+        parts: list[cq.Workplane] = [base, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pin_color_key"],
+        ]
 
-        if pin_end_chamfer == "auto":
-            pin_end_chamfer = pin_width / 4.0
-
-        for num_pins in pin_set:
-            if header_type == "Vertical_THT":
-                pin_length_below_board = all_params[model]["pin_length_below_board"]
-                base = make_Vertical_THT_base(
-                    num_pins, pitch, rows, base_width, base_height, base_chamfer
-                )
-                pins = make_Vertical_THT_pins(
-                    num_pins,
-                    pitch,
-                    rows,
-                    pin_length_above_base,
-                    pin_length_below_board,
-                    base_height,
-                    pin_width,
-                    pin_end_chamfer,
-                )
-            elif header_type == "Horizontal_THT":
-                pin_length_below_board = all_params[model]["pin_length_below_board"]
-                base_x_offset = all_params[model]["base_x_offset"]
-                base = make_Horizontal_THT_base(
-                    num_pins,
-                    pitch,
-                    rows,
-                    base_width,
-                    base_height,
-                    base_x_offset,
-                    base_chamfer,
-                )
-                pins = make_Horizontal_THT_pins(
-                    num_pins,
-                    pitch,
-                    rows,
-                    pin_length_above_base,
-                    pin_length_below_board,
-                    base_height,
-                    base_width,
-                    pin_width,
-                    pin_end_chamfer,
-                    base_x_offset,
-                )
-            elif header_type == "Vertical_SMD":
-                pin_length_horizontal = all_params[model]["pin_length_horizontal"]
-                base_z_offset = all_params[model]["base_z_offset"]
-                if rows == 1:
-                    pin_1_start = all_params[model]["pin_1_start"]
-                else:
-                    pin_1_start = None
-                pins = make_Vertical_SMD_pins(
-                    num_pins,
-                    pitch,
-                    rows,
-                    pin_length_above_base,
-                    pin_length_horizontal,
-                    base_height,
-                    base_width,
-                    pin_width,
-                    pin_end_chamfer,
-                    base_z_offset,
-                    pin_1_start,
-                )
-                base = make_Vertical_SMD_base(
-                    num_pins,
-                    pitch,
-                    base_width,
-                    base_height,
-                    base_chamfer,
-                    base_z_offset,
-                    base_extra_length,
-                    base_wall_height,
-                    base_wall_internal_width,
-                    base_wall_internal_extra_length,
-                    notch_position,
-                    notch_x_size,
-                    notch_y_size,
-                    notch_height,
-                )
-
-            else:
-                print("Model {} is not recognized.".format(model))
-                continue
-
-            # Create the file name based on the rows and pins
-            if num_pins < 10:
-                num_pins_str = "0" + str(num_pins)
-            else:
-                num_pins_str = str(num_pins)
-            file_name = model.replace("yy", num_pins_str)
-
-            parts: list[cq.Workplane] = [base, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
-
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
-            )
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(pin_set)

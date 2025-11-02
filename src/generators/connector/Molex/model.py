@@ -54,9 +54,12 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
+import logging
+
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_models.conn_molex_502250 import generate_part as generate_part_502250
 from .cq_models.conn_molex_kk_5273 import generate_part as generate_part_kk_5273
@@ -71,108 +74,83 @@ from .cq_models.conn_molex_SlimStack_54722 import generate_part as generate_part
 from .cq_models.conn_molex_SlimStack_55560 import generate_part as generate_part_55560
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("molex")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    if spec.spec["model_name"] == "502250":
+        generate_part = generate_part_502250
+    elif spec.spec["model_name"] == "5273":
+        generate_part = generate_part_kk_5273
+    elif spec.spec["model_name"] == "6410":
+        generate_part = generate_part_kk_6410
+    elif spec.spec["model_name"] == "41791":
+        generate_part = generate_part_kk_41791
+    elif spec.spec["model_name"] == "41792":
+        generate_part = generate_part_kk_41792
+    elif spec.spec["model_name"] == "53261":
+        generate_part = generate_part_53261
+    elif spec.spec["model_name"] == "53398":
+        generate_part = generate_part_53398
+    elif spec.spec["model_name"] == "90325":
+        generate_part = generate_part_90325
+    elif spec.spec["model_name"] == "90814":
+        generate_part = generate_part_90814
+    elif spec.spec["model_name"] == "54722":
+        generate_part = generate_part_54722
+    elif spec.spec["model_name"] == "55560":
+        generate_part = generate_part_55560
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        logging.error(
+            "Could not find a match for model name {}.".format(spec.spec["model_name"])
+        )
+        return 0
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    # Generate a variant for each pin count
+    for pin_count in spec.spec["pin_range"]:
+        # Make the parts of the model
+        (pins, body, latch) = generate_part(spec.spec, pin_count)
 
-        if all_params[model]["model_name"] == "502250":
-            generate_part = generate_part_502250
-        elif all_params[model]["model_name"] == "5273":
-            generate_part = generate_part_kk_5273
-        elif all_params[model]["model_name"] == "6410":
-            generate_part = generate_part_kk_6410
-        elif all_params[model]["model_name"] == "41791":
-            generate_part = generate_part_kk_41791
-        elif all_params[model]["model_name"] == "41792":
-            generate_part = generate_part_kk_41792
-        elif all_params[model]["model_name"] == "53261":
-            generate_part = generate_part_53261
-        elif all_params[model]["model_name"] == "53398":
-            generate_part = generate_part_53398
-        elif all_params[model]["model_name"] == "90325":
-            generate_part = generate_part_90325
-        elif all_params[model]["model_name"] == "90814":
-            generate_part = generate_part_90814
-        elif all_params[model]["model_name"] == "54722":
-            generate_part = generate_part_54722
-        elif all_params[model]["model_name"] == "55560":
-            generate_part = generate_part_55560
-        else:
-            print(
-                "Could not find a match for model name {}.".format(
-                    all_params[model]["model_name"]
-                )
-            )
-            continue
+        # Assemble the filename
+        padded_pin_count = "0" + str(pin_count) if pin_count < 10 else str(pin_count)
+        file_name = spec.spec["fp_name_format_string"].format(
+            man=spec.spec["manufacturer"],
+            padpincount="00" + padded_pin_count,
+            halfpadpincount=(
+                "0" + str(int(pin_count / 2))
+                if (pin_count / 2) < 10
+                else str(int(pin_count / 2))
+            ),
+            pincount=padded_pin_count,
+            num_rows=spec.spec["number_of_rows"],
+            pitch=(
+                str(spec.spec["pitch"]) + "0"
+                if spec.spec["model_name"].startswith("KK_396")
+                else str(spec.spec["pitch"])
+            ),
+            orientation=spec.spec["orientation"],
+        )
 
-        # Generate a variant for each pin count
-        for pin_count in all_params[model]["pin_range"]:
-            # Make the parts of the model
-            (pins, body, latch) = generate_part(all_params[model], pin_count)
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            spec.spec["body_color_key"],
+            spec.spec["pin_color_key"],
+        ]
+        if latch != None and not isinstance(latch.val(), cq.Vector):
+            parts.append(latch)
+            color_names.append(spec.spec["latch_color_key"])
 
-            # Assemble the filename
-            padded_pin_count = (
-                "0" + str(pin_count) if pin_count < 10 else str(pin_count)
-            )
-            file_name = all_params[model]["fp_name_format_string"].format(
-                man=all_params[model]["manufacturer"],
-                padpincount="00" + padded_pin_count,
-                halfpadpincount=(
-                    "0" + str(int(pin_count / 2))
-                    if (pin_count / 2) < 10
-                    else str(int(pin_count / 2))
-                ),
-                pincount=padded_pin_count,
-                num_rows=all_params[model]["number_of_rows"],
-                pitch=(
-                    str(all_params[model]["pitch"]) + "0"
-                    if all_params[model]["model_name"].startswith("KK_396")
-                    else str(all_params[model]["pitch"])
-                ),
-                orientation=all_params[model]["orientation"],
-            )
-
-            parts: list[cq.Workplane] = [body, pins]
-            color_names: list[str] = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
-            if latch != None and not isinstance(latch.val(), cq.Vector):
-                parts.append(latch)
-                color_names.append(all_params[model]["latch_color_key"])
-
-            export_tools.export(
-                root_output_dir=output_dir_prefix,
-                lib_name=all_params[model]["destination_dir"],
-                model_name=file_name,
-                parts=parts,
-                color_names=color_names,
-                export_as_vrml=enable_vrml,
-            )
+        export_tools.export(
+            generator_name=generator_name,
+            lib_name=spec.spec["destination_dir"],
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+        )
+    return len(spec.spec["pin_range"])

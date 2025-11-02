@@ -58,7 +58,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cq_parameters_Resonator_AT310 import *
 from .cq_parameters_Resonator_C26_LF import *
@@ -68,89 +69,68 @@ from .cq_parameters_Resonator_SMD_muRata_CSTx import *
 from .cq_parameters_Resonator_smd_type_2 import *
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
-
-    all_params = parameters.load_parameters("Crystal")
-
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
+    # Make the parts of the model
+    if spec.id.startswith("AT310"):
+        cqm = cq_parameters_Resonator_AT310()
+    elif spec.id.startswith("C26-LF"):
+        cqm = cq_parameters_Resonator_C26_LF()
+    elif spec.id.startswith("C38-LF"):
+        cqm = cq_parameters_Resonator_C38_LF()
+    elif spec.id.startswith("SMD"):
+        cqm = cq_parameters_Resonator_peterman_smd()
+    elif spec.id.startswith("Murata"):
+        cqm = cq_parameters_Resonator_SMD_muRata_CSTx()
+    elif spec.id.startswith("MicroCrystal"):
+        cqm = cq_parameters_Resonator_smd_type_2()
     else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
+        print("Model type {} not recognized.".format(spec.id))
 
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
+    body_top = cqm.make_top(spec.spec)
+    body = cqm.make_case(spec.spec)
+    # The Murata code tries to mutate the body model which does not work anymore, so we have to work around it
+    if spec.id.startswith("Murata"):
+        pins, body = cqm.make_pins(body, spec.spec)
+    else:
+        pins = cqm.make_pins(body, spec.spec)
 
-        # Make the parts of the model
-        if model.startswith("AT310"):
-            cqm = cq_parameters_Resonator_AT310()
-        elif model.startswith("C26-LF"):
-            cqm = cq_parameters_Resonator_C26_LF()
-        elif model.startswith("C38-LF"):
-            cqm = cq_parameters_Resonator_C38_LF()
-        elif model.startswith("SMD"):
-            cqm = cq_parameters_Resonator_peterman_smd()
-        elif model.startswith("Murata"):
-            cqm = cq_parameters_Resonator_SMD_muRata_CSTx()
-        elif model.startswith("MicroCrystal"):
-            cqm = cq_parameters_Resonator_smd_type_2()
-        else:
-            print("Model type {} not recognized.".format(model))
+    body_top = body_top.rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )  # .translate((spec.spec['F'] / 2.0, 0, 0))
+    body = body.rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )  # .translate((spec.spec['F'] / 2.0, 0, 0))
+    pins = pins.rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )  # .translate((spec.spec['F'] / 2.0, 0, 0))
 
-        body_top = cqm.make_top(all_params[model])
-        body = cqm.make_case(all_params[model])
-        # The Murata code tries to mutate the body model which does not work anymore, so we have to work around it
-        if model.startswith("Murata"):
-            pins, body = cqm.make_pins(body, all_params[model])
-        else:
-            pins = cqm.make_pins(body, all_params[model])
+    parts: list[cq.Workplane] = [body_top, body, pins]
+    color_names: list[str] = [
+        spec.spec["body_top_color_key"],
+        spec.spec["body_color_key"],
+        spec.spec["pin_color_key"],
+    ]
+    # Handle the case of the SMD models that have a bottom as well as the other parts
+    if spec.id.startswith("SMD") or spec.id.startswith("MicroCrystal"):
+        bottom = cqm.make_bottom(body, spec.spec)
+        bottom = bottom.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+        parts.append(bottom)
+        color_names.append(spec.spec["bottom_color_key"])
 
-        body_top = body_top.rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )  # .translate((all_params[model]['F'] / 2.0, 0, 0))
-        body = body.rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )  # .translate((all_params[model]['F'] / 2.0, 0, 0))
-        pins = pins.rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )  # .translate((all_params[model]['F'] / 2.0, 0, 0))
-
-        parts: list[cq.Workplane] = [body_top, body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_top_color_key"],
-            all_params[model]["body_color_key"],
-            all_params[model]["pin_color_key"],
-        ]
-        # Handle the case of the SMD models that have a bottom as well as the other parts
-        if model.startswith("SMD") or model.startswith("MicroCrystal"):
-            bottom = cqm.make_bottom(body, all_params[model])
-            bottom = bottom.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-            parts.append(bottom)
-            color_names.append(all_params[model]["bottom_color_key"])
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["file_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["file_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

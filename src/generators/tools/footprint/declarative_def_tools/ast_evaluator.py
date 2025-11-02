@@ -1,19 +1,17 @@
-"""
-KicadModTree is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2024 by Armin Schoisswohl (@armin.sch), <armin.schoisswohl@myotis.at>
+# (C) The KiCad Librarian Team
 
-KicadModTree is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-Copyright (c) 2024 by Armin Schoisswohl (@armin.sch), <armin.schoisswohl@myotis.at>
-"""
 
 import re
 import warnings
@@ -21,7 +19,7 @@ import warnings
 from typing import Any, Iterable, Optional, TypedDict, Set, SupportsFloat
 from asteval import Interpreter, make_symbol_table
 
-from scripts.tools.declarative_def_tools.utils import DotDict
+from generators.tools.footprint.declarative_def_tools.utils import DotDict
 
 
 class ASTresult:
@@ -55,7 +53,7 @@ class ASTevaluator(object):
     code inside the YAML expressions to be dynamically evaluated at run-time.
 
     Examples:
-        >>> from scripts.tools.declarative_def_tools.ast_evaluator import ASTevaluator
+        >>> from generators.tools.footprint.declarative_def_tools.ast_evaluator import ASTevaluator
         >>> ast = ASTevaluator()
         >>> dct = {"value": "$(sqrt(2))", "text": "$('%.2f' % value)"}
         >>> processed = ast.eval(dct)
@@ -398,7 +396,8 @@ class ASTevaluator(object):
 
             if (sym_name in self._eval_errors):
                 del self._eval_errors[sym_name]
-
+        except KeyboardInterrupt:
+            raise
         except Exception as e:
             self._eval_errors[sym_name] = (element, e)
             return ASTresult(element, final=False)
@@ -423,6 +422,8 @@ class ASTevaluator(object):
         # parse the given string into a structure for evaluation
         try:
             parsed = __parse_and_split_expr__(expr)
+        except KeyboardInterrupt:
+            raise
         except Exception as e:
             raise SyntaxError(f"Could not parse '{sym_name}' expression '{expr}'")
 
@@ -503,6 +504,8 @@ class ASTevaluator(object):
 
         try:
             DotDict.assign_in(self._interpreter.symtable, full_name, value, create=create, assign=overwrite)
+        except KeyboardInterrupt:
+            raise
         except (NameError, KeyError) as e:
             err_msg = f"failed to set symbol '{full_name}' in the interpreter's symbol table"
             self.warn(err_msg, Warning)
@@ -593,6 +596,8 @@ class ASTevaluator(object):
         else:
             try:
                 self._interpreter.eval(sym_name, raise_errors=True, show_errors=False)
+            except KeyboardInterrupt:
+                raise
             except Exception as e:
                 return False
         return True

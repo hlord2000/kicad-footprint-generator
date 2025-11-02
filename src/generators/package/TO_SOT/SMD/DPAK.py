@@ -1,13 +1,26 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 import math
 import yaml
 from typing import Optional
 
 from KicadModTree import *  # NOQA
-from KicadModTree.util.corner_handling import RoundRadiusHandler
 from kilibs.geom import Direction
-from scripts.tools.drawing_tools import SilkArrowSize
-from scripts.tools.drawing_tools_silk import draw_silk_triangle_for_pad
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools import SilkArrowSize
+from generators.tools.footprint.drawing_tools_silk import draw_silk_triangle_for_pad
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 class Dimensions(object):
@@ -151,7 +164,7 @@ class DPAK(object):
         :param tab_linked: Whether the tab is linked to the centre pin, or has its own number
         """
 
-        self.global_config = GC.DefaultGlobalConfig()
+        self.global_config = GC.GLOBAL_CONFIG
 
         self.base = base
         self.variant = variant
@@ -468,7 +481,6 @@ class DPAK(object):
             + self.dim.name
             + self.global_config.model_3d_suffix
         )
-        print(model_filename)
         self.m.append(
             Model(
                 filename=model_filename,
@@ -504,7 +516,7 @@ class DPAK(object):
             )
         )
 
-    def build_footprint(self, verbose=False):
+    def build_footprint(self, generator_name, verbose=False):
         self.add_properties()
         self.add_labels()
 
@@ -523,14 +535,9 @@ class DPAK(object):
         # add 3D model
         self.add_3D_model()
 
-        # print render tree
-        if verbose:
-            print(self.m.getRenderTree())
-
         # write file
         lib_name = self.base["libname"]
-        lib = KicadPrettyLibrary(lib_name, None)
-        lib.save(self.m)
+        write_footprint(self.m, lib_name, generator_name)
 
 
 class DPAKSeries:
@@ -540,11 +547,7 @@ class DPAKSeries:
         self.config = None
 
     def load_config(self, config_file):
-        try:
-            devices = yaml.safe_load_all(open(config_file))
-        except FileNotFoundError as fnfe:
-            print(fnfe)
-            return
+        devices = yaml.safe_load_all(open(config_file))
         config = None
         for dev in devices:
             if dev["base"]["series"] == self.SERIES:
@@ -552,20 +555,22 @@ class DPAKSeries:
                 break
         return config
 
-    def build_series(self, verbose=False):
-        print("Building {p:s}".format(p=self.config["base"]["description"]))
+    def build_series(self, generator_name: str, verbose: bool) -> int:
         base = self.config["base"]
+        num_fps_generated = 0
         for variant in self.config["variants"]:
 
             if "uncut" in variant["centre_pin"]:
                 dpak = DPAK(base, variant, cut_pin=False, tab_linked=False)
-                dpak.build_footprint(verbose=verbose)
-
+                dpak.build_footprint(generator_name, verbose=verbose)
                 dpak = DPAK(base, variant, cut_pin=False, tab_linked=True)
-                dpak.build_footprint(verbose=verbose)
+                dpak.build_footprint(generator_name, verbose=verbose)
+                num_fps_generated += 2
             if "cut" in variant["centre_pin"]:
                 dpak = DPAK(base, variant, cut_pin=True, tab_linked=False)
-                dpak.build_footprint(verbose=verbose)
+                dpak.build_footprint(generator_name, verbose=verbose)
+                num_fps_generated += 1
+        return num_fps_generated
 
 
 class TO252(DPAKSeries):

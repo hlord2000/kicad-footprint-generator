@@ -29,7 +29,7 @@ import math
 
 import cadquery as cq
 
-from _tools.utils import (
+from generators.tools.model.utils import (
     V2,
     as_list,
     get_back_side,

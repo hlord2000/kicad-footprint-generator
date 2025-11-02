@@ -1,13 +1,30 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 from typing import Any, Literal, cast
 
-from kilibs.ipc_tools import ipc_rules  # type: ignore
-from kilibs.util.toleranced_size import TolerancedSize  # type: ignore
-from scripts.tools.declarative_def_tools import (  # type: ignore
+from kilibs.config import ipc_rules
+from kilibs.util.toleranced_size import TolerancedSize
+from generators.tools.footprint.declarative_def_tools import (
     common_metadata,
     fp_additional_drawing,
     pad_overrides,
     rule_area_properties,
 )
+from generators.tools.spec.spec_registry import register_spec
+
+from ..package_spec import PackageSpec
+from ..config import PACKAGE_CONFIG
 
 
 class TopSlugConfiguration:
@@ -51,7 +68,8 @@ class TopSlugConfiguration:
         return s
 
 
-class GullwingConfiguration:
+@register_spec
+class GullwingSpec(PackageSpec):
     """
     A type that represents the configuration of a gullwing footprint
     (probably from a YAML config block).
@@ -62,24 +80,21 @@ class GullwingConfiguration:
 
     def __init__(
         self,
-        spec: dict[str, Any],
-        header: dict[str, Any],
-        pkg_id: str,
-        config: dict[str, Any],
+        id: str = "",
+        spec: dict[str, Any] = {},
+        header: dict[str, Any] = {},
+        file_name: str = "",
     ) -> None:
-        # Instance attributes:
-        self._spec: dict[str, Any]
-        """The dictionary containing the specification of the device."""
-        self._header: dict[str, Any]
-        """The dictionary containing the file header."""
-        self._config: dict[str, Any]
-        """The dictionary containing the generator configuration."""
-        self.pkg_id: str
-        """The package name as given by the dictionary key."""
+        """Create an instance of `GullwingSpec`.
 
+        Args:
+            id: The name/identifier of the spec. This is the name of the key of the spec
+                (in the YAML file).
+            spec: The dictionary containing the specification of the component.
+            header: The dictionary containing the header (`FileHeader` in YAML files).
+            file_name: The name of the YAML file that holds this spec definition.
+        """
         # Instance attributes for generator independent data:
-        self.metadata: common_metadata.CommonMetadata
-        """The common meta data."""
         self.top_slug: TopSlugConfiguration | None
         """The optional top slug configuration."""
         self.additional_drawings: list[fp_additional_drawing.FPAdditionalDrawing]
@@ -181,15 +196,12 @@ class GullwingConfiguration:
         self.lib_name: str
         """Name of the library."""
 
-        self._spec = spec
+        super().__init__(id, spec, header, file_name)
+
         if header:
-            self._header = header
             self.has_fp_data = True
         else:
-            self._header = {}
             self.has_fp_data = False
-        self._config = config
-        self.pkg_id = pkg_id
 
         self._extract_generator_independent_data()
         self._extract_general_data()
@@ -200,31 +212,31 @@ class GullwingConfiguration:
         self._compose_lib_name()
 
     def _extract_generator_independent_data(self) -> None:
-        self.metadata = common_metadata.CommonMetadata(self._spec)
-        if "top_slug" in self._spec:
-            self.top_slug = TopSlugConfiguration(self._spec["top_slug"])
+        self.metadata = common_metadata.CommonMetadata(self.spec)
+        if "top_slug" in self.spec:
+            self.top_slug = TopSlugConfiguration(self.spec["top_slug"])
         else:
             self.top_slug = None
         self.additional_drawings = (
-            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self._spec)
-        )  # type: ignore
-        self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(
-            self._spec
-        )  # type: ignore
+            fp_additional_drawing.FPAdditionalDrawing.from_standard_yaml(self.spec)  # type: ignore
+        )
+        self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(  # pyright: ignore
+            self.spec
+        )
         self.pad_overrides = pad_overrides.PadOverrides(
-            self._spec.get(pad_overrides.PAD_OVERRIDES_KEY, [])
+            self.spec.get(pad_overrides.PAD_OVERRIDES_KEY, [])
         )
 
     def _extract_general_data(self) -> None:
-        self.device_type = self._spec.get(
-            "device_type", self._header.get("device_type", "") if self._header else ""
+        self.device_type = self.spec.get(
+            "device_type", self.header.get("device_type", "") if self.header else ""
         )
-        self.lead_type = self._spec.get("lead_type", "gullwing")
+        self.lead_type = self.spec.get("lead_type", "gullwing")
         # only gullwing and flat are supported by this generator
         if self.lead_type not in ["gullwing", "flat_lead"]:
             raise ValueError(f"Unsupported lead type: {self.lead_type}")
 
-        self.force_small_pitch_ipc_definition = self._spec.get(
+        self.force_small_pitch_ipc_definition = self.spec.get(
             "force_small_pitch_ipc_definition", False
         )
         if self.force_small_pitch_ipc_definition and self.lead_type != "gullwing":
@@ -232,11 +244,11 @@ class GullwingConfiguration:
                 f"force_small_pitch_ipc_definition is not supported for lead type: {self.lead_type}"
             )
         self.ipc_density = ipc_rules.IpcDensity.from_str(
-            self._spec.get("ipc_density", "nominal")
+            self.spec.get("ipc_density", "nominal")
         )
 
     def _extract_dimensions(self) -> None:
-        spec = self._spec
+        spec = self.spec
 
         self.body_size_x = TolerancedSize.fromYaml(spec, base_name="body_size_x")
         self.body_size_y = TolerancedSize.fromYaml(spec, base_name="body_size_y")
@@ -287,84 +299,80 @@ class GullwingConfiguration:
             )
 
     def _extract_pinning(self) -> None:
-        self.pitch = self._spec["pitch"]
+        self.pitch = self.spec["pitch"]
         if self.pitch <= 0:
             raise ValueError(f"Pitch must be positive, got {self.pitch}")
-        self.num_pins_x = self._spec["num_pins_x"]
-        self.num_pins_y = self._spec["num_pins_y"]
+        self.num_pins_x = self.spec["num_pins_x"]
+        self.num_pins_y = self.spec["num_pins_y"]
 
-        if "deleted_pins" in self._spec:
-            if type(self._spec["deleted_pins"]) is int:
-                self._spec["deleted_pins"] = [self._spec["deleted_pins"]]
-            self.deleted_pins = self._spec["deleted_pins"]
+        if "deleted_pins" in self.spec:
+            if type(self.spec["deleted_pins"]) is int:
+                self.spec["deleted_pins"] = [self.spec["deleted_pins"]]
+            self.deleted_pins = self.spec["deleted_pins"]
         else:
             self.deleted_pins = []
-        if "hidden_pins" in self._spec:
-            if type(self._spec["hidden_pins"]) is int:
-                self._spec["hidden_pins"] = [self._spec["hidden_pins"]]
-            self.hidden_pins = self._spec["hidden_pins"]
+        if "hidden_pins" in self.spec:
+            if type(self.spec["hidden_pins"]) is int:
+                self.spec["hidden_pins"] = [self.spec["hidden_pins"]]
+            self.hidden_pins = self.spec["hidden_pins"]
         else:
             self.hidden_pins = []
-        if "deleted_pins" in self._spec and "hidden_pins" in self._spec:
+        if "deleted_pins" in self.spec and "hidden_pins" in self.spec:
             raise ValueError("A footprint may not have deleted pins and hidden pins.")
 
         self.pincount_full = self.num_pins_x * 2 + self.num_pins_y * 2
         self.pincount_real = (
             self.pincount_full - len(self.hidden_pins) - len(self.deleted_pins)
         )
-        if "pin_count" in self._spec:
+        if "pin_count" in self.spec:
             # If the pin count is explicitly given, we use that and don't adjust for hidden/deleted pins
-            self.pincount_full = cast(int, self._spec["pin_count"])
+            self.pincount_full = cast(int, self.spec["pin_count"])
 
     def _extract_3d_data(self) -> None:
         self.has_3d_data = True
-        self.marker = self._spec.get("marker", "circle")
+        self.marker = self.spec.get("marker", "circle")
 
         # Lead parameters
         self.lead_top_flat_part_length = cast(
-            float | None, self._spec.get("lead_top_flat_part_length")
+            float | None, self.spec.get("lead_top_flat_part_length")
         )
-        if "lead_height" in self._spec:
-            self.lead_height = TolerancedSize.fromYaml(
-                self._spec, "lead_height"
-            ).nominal
+        if "lead_height" in self.spec:
+            self.lead_height = TolerancedSize.fromYaml(self.spec, "lead_height").nominal
         else:
             self.lead_height = 0.0
             self.has_3d_data = False
-        if "lead_radius_top" in self._spec:
+        if "lead_radius_top" in self.spec:
             self.lead_radius_top = TolerancedSize.fromYaml(
-                self._spec, "lead_radius_top"
+                self.spec, "lead_radius_top"
             ).nominal
         else:
             self.lead_radius_top = 0.75 * self.lead_height
-        if "lead_radius_bottom" in self._spec:
+        if "lead_radius_bottom" in self.spec:
             self.lead_radius_bottom = TolerancedSize.fromYaml(
-                self._spec, "lead_radius_bottom"
+                self.spec, "lead_radius_bottom"
             ).nominal
         else:
             self.lead_radius_bottom = 0.75 * self.lead_height
-        self.lead_angle = cast(float | None, self._spec.get("lead_angle"))
+        self.lead_angle = cast(float | None, self.spec.get("lead_angle"))
 
         # Body parameters (except from height)
-        self.body_fillet = cast(float, self._spec.get("body_fillet", 0.0))
+        self.body_fillet = cast(float, self.spec.get("body_fillet", 0.0))
         self.body_size_top_delta = max(
-            cast(float, self._spec.get("body_size_top_delta", 0.1)), 0.001
+            cast(float, self.spec.get("body_size_top_delta", 0.1)), 0.001
         )
-        self.corners_chamfer = cast(float, self._spec.get("corners_chamfer", 0.25))
-        self.body_angle = cast(float, self._spec.get("body_angle", 10.0))
+        self.corners_chamfer = cast(float, self.spec.get("corners_chamfer", 0.25))
+        self.body_angle = cast(float, self.spec.get("body_angle", 10.0))
 
         # Body height parameters
-        if "body_pcb_gap" in self._spec and "body_height" in self._spec:
+        if "body_pcb_gap" in self.spec and "body_height" in self.spec:
             self.body_pcb_gap = TolerancedSize.fromYaml(
-                self._spec, "body_pcb_gap"
+                self.spec, "body_pcb_gap"
             ).maximum
-            self.body_height = TolerancedSize.fromYaml(
-                self._spec, "body_height"
-            ).maximum
+            self.body_height = TolerancedSize.fromYaml(self.spec, "body_height").maximum
             self.overall_height = self.body_pcb_gap + self.body_height
-            if "overall_height" in self._spec:
+            if "overall_height" in self.spec:
                 overall_height_explicit = TolerancedSize.fromYaml(
-                    self._spec, "overall_height"
+                    self.spec, "overall_height"
                 ).maximum
                 if abs(self.overall_height - overall_height_explicit) > 0.01:
                     raise KeyError(
@@ -374,20 +382,18 @@ class GullwingConfiguration:
                         f"body_height: {self.body_height}, "
                         f"overall_height: {overall_height_explicit}"
                     )
-        elif "body_pcb_gap" in self._spec and "overall_height" in self._spec:
+        elif "body_pcb_gap" in self.spec and "overall_height" in self.spec:
             self.body_pcb_gap = TolerancedSize.fromYaml(
-                self._spec, "body_pcb_gap"
+                self.spec, "body_pcb_gap"
             ).maximum
             self.overall_height = TolerancedSize.fromYaml(
-                self._spec, "overall_height"
+                self.spec, "overall_height"
             ).maximum
             self.body_height = self.overall_height - self.body_pcb_gap
-        elif "body_height" in self._spec and "overall_height" in self._spec:
-            self.body_height = TolerancedSize.fromYaml(
-                self._spec, "body_height"
-            ).maximum
+        elif "body_height" in self.spec and "overall_height" in self.spec:
+            self.body_height = TolerancedSize.fromYaml(self.spec, "body_height").maximum
             self.overall_height = TolerancedSize.fromYaml(
-                self._spec, "overall_height"
+                self.spec, "overall_height"
             ).maximum
             self.body_pcb_gap = self.overall_height - self.body_height
         else:
@@ -397,7 +403,7 @@ class GullwingConfiguration:
             self.has_3d_data = False
 
     def _compose_device_names(self) -> None:
-        spec = self._spec
+        spec = self.spec
 
         size_x = self.body_size_x.nominal
         size_y = self.body_size_y.nominal
@@ -419,18 +425,18 @@ class GullwingConfiguration:
         ep_size_x = self.ep_size_x.nominal
         ep_size_y = self.ep_size_y.nominal
         if self.has_ep:
-            name_format = self._config[
+            name_format = PACKAGE_CONFIG[
                 "fp_name_EP_format_string_no_trailing_zero_pincount_text"
             ]
             if "EP_size_x_overwrite" in spec:
                 ep_size_x = cast(float, spec["EP_size_x_overwrite"])
                 ep_size_y = cast(float, spec["EP_size_y_overwrite"])
-            if "EP_mask_x" in self._spec:
-                name_format = self._config[
+            if "EP_mask_x" in self.spec:
+                name_format = PACKAGE_CONFIG[
                     "fp_name_EP_custom_mask_format_string_no_trailing_zero_pincount_text"
                 ]
         else:
-            name_format = self._config[
+            name_format = PACKAGE_CONFIG[
                 "fp_name_format_string_no_trailing_zero_pincount_text"
             ]
 
@@ -484,7 +490,7 @@ class GullwingConfiguration:
                 mask_size_y=self.ep_mask_y.nominal,
                 suffix=suffix,
                 suffix2="",
-                vias=self._spec.get("thermal_via_suffix", "_ThermalVias"),
+                vias=self.spec.get("thermal_via_suffix", "_ThermalVias"),
             )
             .replace("__", "_")
             .lstrip("_")
@@ -517,16 +523,16 @@ class GullwingConfiguration:
                 .lstrip("_")
             )
         else:
-            self.model_name = self.pkg_id
+            self.model_name = self.id
 
     def _compose_lib_name(self) -> None:
-        if "override_lib_name" in self._spec:
-            self.lib_name = self._spec["override_lib_name"]
-        elif self._header and "override_lib_name" in self._header:
-            self.lib_name = self._header["override_lib_name"]
+        if "override_lib_name" in self.spec:
+            self.lib_name = self.spec["override_lib_name"]
+        elif self.header and "override_lib_name" in self.header:
+            self.lib_name = self.header["override_lib_name"]
         else:
-            self.lib_name = self._config["lib_name_format_string"].format(
-                category=self._header["library_Suffix"]
+            self.lib_name = PACKAGE_CONFIG["lib_name_format_string"].format(
+                category=self.header["library_Suffix"]
             )
 
     @property
@@ -537,7 +543,7 @@ class GullwingConfiguration:
         This is only temporary, and can be piecewise replaced by
         type-safe declarative definitions, but that requires deep changes
         """
-        return self._spec
+        return self.spec
 
     @property
     def has_top_slug(self) -> bool:

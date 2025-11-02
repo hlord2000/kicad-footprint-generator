@@ -1,35 +1,29 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
-
-
-import argparse
-import yaml
+from typing import Any
 from math import  ceil, floor
-
 from kilibs.geom import BoundingBox, Direction
 from KicadModTree import *
-from scripts.tools.drawing_tools import (
+from generators.tools.footprint.drawing_tools import (
     round_to_grid,
     SilkArrowSize,
 )
-from scripts.tools.drawing_tools_silk import draw_silk_triangle_clear_of_fab_hline_and_pad
-from scripts.tools.drawing_tools_fab import draw_chamfer_rect_fab, draw_pin1_chevron_on_hline
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.drawing_tools_silk import draw_silk_triangle_clear_of_fab_hline_and_pad
+from generators.tools.footprint.drawing_tools_fab import draw_chamfer_rect_fab, draw_pin1_chevron_on_hline
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 lib_by_conn_category = True
@@ -53,12 +47,11 @@ housing_width_4pin = 6.0    # [mm]
 pins_width_4pin = 3.0       # [mm]
 pin1_marker_l = 0.566       # [mm]
 
-def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configuration):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, pincount, configuration):
     prefix = "" if (pincount < 10) else f"{pincount // 10:d}-"
     partnumber = f"{prefix:s}{series:s}-{pincount % 10}"
 
     footprint_name = f"TE_{partnumber:s}_2Rows-{pincount:02g}Pins-P1.0mm_Vertical"
-    print(' - ' + footprint_name)
 
     # initialise footprint
     kicad_mod = Footprint(footprint_name, FootprintType.SMD)
@@ -69,8 +62,6 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
     even_pad_inner_edge_y = -housing_y_offset + pad_inset_even
     row_offset_even = even_pad_inner_edge_y - pad_height_even / 2
     row_offset_odd = even_pad_inner_edge_y + d_between_rows + pad_height_odd / 2
-
-    print(row_offset_even, row_offset_odd)
 
     # create pads
     if bool(pincount % 2):
@@ -199,23 +190,10 @@ def generate_one_footprint(global_config: GC.GlobalConfig, pincount, configurati
         model3d_path_suffix=model3d_path_suffix)
     kicad_mod.append(Model(filename=model_name))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
-
-    global_config = GC.GlobalConfig.load_from_file(args.global_config)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
     for pincount in pincounts:
-        generate_one_footprint(global_config, pincount, configuration)
+        generate_one_footprint(generator_name, global_config, pincount, configuration)
+    return len(pincounts)

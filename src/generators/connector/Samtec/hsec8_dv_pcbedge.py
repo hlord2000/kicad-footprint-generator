@@ -1,28 +1,30 @@
-#!/usr/bin/env python3
-
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
 #
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# This file is heavily inspired from the MECF card edge generator by @poeschlr
+# (C) Original author: Armin Schoisswohl @armin.sch
+# (C) The KiCad Librarian Team
+
 # PCB card edge footprint generator for Samtec's HSEC8 0.8mm pitch edge card connector family.
 #
 # Sources:
 #   https://suddendocs.samtec.com/prints/hsec8-1xxx-xx-xx-dv-x-xx-x-xx-mkt.pdf
 #   https://suddendocs.samtec.com/prints/hsec8-1xxx-xx-xx-dv-x-xx-footprint.pdf
-#
 
-#
-# Author: Armin Schoisswohl @armin.sch
-#
-# This file is heavily inspired from the MECF card edge generator by @poeschlr
-#
-
-import sys
-
-import argparse
-import yaml
-
-from KicadModTree import Footprint, FootprintType, Line, Text, Arc, Pad, RectLine, KicadPrettyLibrary
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from typing import Any
+from KicadModTree import Footprint, FootprintType, Line, Text, Arc, Pad, RectLine
+from generators.tools.footprint.drawing_tools import round_to_grid
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
 
 
 lib_name_category = 'Samtec_HSEC8'
@@ -89,7 +91,7 @@ pad_size = [0.55,2.80]
 pinrange = sorted(V.keys())
 
 
-def generate_one_footprint(global_config: GC.GlobalConfig, positions: int, variant: str, configuration):
+def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, positions: int, variant: str, configuration):
     CrtYd_offset = configuration['courtyard_offset']['default']
     option = '-BL' if (variant == 'lock') else ''
     fp_name = 'Samtec_HSEC8-1%02d-X-X-DV%s_2x%02d_P0.8mm' % (positions, option, positions)
@@ -97,7 +99,6 @@ def generate_one_footprint(global_config: GC.GlobalConfig, positions: int, varia
         fp_name += "_Wing"
     fp_name += "_Edge"
 
-    print("%s" % fp_name)
     kicad_mod = Footprint(fp_name, FootprintType.UNSPECIFIED)
 
     kicad_mod.excludeFromBOM = True
@@ -216,8 +217,7 @@ def generate_one_footprint(global_config: GC.GlobalConfig, positions: int, varia
     lib_name = configuration['lib_name_specific_function_format_string'].format(category=lib_name_category)
 
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
 def print_table(table_num: int = None):
@@ -250,30 +250,10 @@ def print_table(table_num: int = None):
     print("")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    parser.add_argument('--show-tables', action='store_true', help='print the tables of parameters taken from the datasheets and exit.')
-    args = parser.parse_args()
-
-    if (args.show_tables):
-        print_table(13)
-        sys.exit(0)
-
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-
+def generate_all(generator_name: str, global_config: GC.GlobalConfig, configuration: dict[str, Any]) -> int:
+    num_fps_generated = 0
     for variant in ['', 'wing', 'lock']:
         for positions in pinrange:
-            generate_one_footprint(global_config, positions, variant, configuration)
+            generate_one_footprint(generator_name, global_config, positions, variant, configuration)
+            num_fps_generated += 1
+    return num_fps_generated

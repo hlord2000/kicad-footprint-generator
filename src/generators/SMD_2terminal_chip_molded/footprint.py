@@ -1,23 +1,40 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
 
+import copy
 import yaml
+import os
 
-from kilibs.ipc_tools import ipc_rules
+from pathlib import Path
+
+from kilibs.config import ipc_rules
 from kilibs.util.toleranced_size import TolerancedSize
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
-from scripts.tools.drawing_tools import (
+from generators.tools.footprint.drawing_tools import (
     nearestSilkPointOnOrthogonalLineSmallClerance,
     round_to_grid_up,
 )
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.ipc_pad_size_calculators import ipc_body_edge_inside
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from kilibs.config import global_config as GC
+from generators.tools.footprint.ipc_pad_size_calculators import ipc_body_edge_inside
+from generators.tools.footprint.save_footprint import write_footprint
 
-
-size_definition_path = "size_definitions/"
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_spec_file_names
+from generators.tools.cli_args import CLI_ARGS
+from kilibs.config.global_config import GLOBAL_CONFIG
 
 
 def merge_dicts(*dict_args):
@@ -43,10 +60,7 @@ class TwoTerminalSMD:
         self.global_config = global_config
         self.configuration = configuration
         with open(command_file, "r") as command_stream:
-            try:
-                self.footprint_group_definitions = yaml.safe_load(command_stream)
-            except yaml.YAMLError as exc:
-                print(exc)
+            self.footprint_group_definitions = yaml.safe_load(command_stream)
 
         self.ipc_definitions = ipc_defs
 
@@ -149,34 +163,26 @@ class TwoTerminalSMD:
 
         return dimensions
 
-    def generateFootprints(self):
+    def generateFootprints(self, generator_name, size_definition_path) -> int:
+        num_fps_generated = 0
+        
         for group_name in self.footprint_group_definitions:
-            # print(device_group)
             footprint_group_data = self.footprint_group_definitions[group_name]
 
             device_size_docs = footprint_group_data["size_definitions"]
             package_size_defintions = {}
+            
             for device_size_doc in device_size_docs:
-                with open(size_definition_path + device_size_doc, "r") as size_stream:
-                    try:
-                        package_size_defintions.update(yaml.safe_load(size_stream))
-                    except yaml.YAMLError as exc:
-                        print(exc)
+                with open(size_definition_path / device_size_doc, "r") as size_stream:
+                    package_size_defintions.update(yaml.safe_load(size_stream))
 
             for size_name in package_size_defintions:
-                print(group_name + ": " + size_name)
                 device_size_data = package_size_defintions[size_name]
-                try:
-                    self.generateFootprint(device_size_data, footprint_group_data)
-                except Exception as exc:
-                    print(
-                        "Failed to generate {size_name} (group: {group_name}):".format(
-                            size_name=size_name, group_name=group_name
-                        )
-                    )
-                    raise (exc)
+                self.generateFootprint(device_size_data, footprint_group_data, generator_name)
+                num_fps_generated += 1
+        return num_fps_generated
 
-    def generateFootprint(self, device_size_data, footprint_group_data):
+    def generateFootprint(self, device_size_data, footprint_group_data, generator_name):
         device_dimensions = TwoTerminalSMD.deviceDimensions(device_size_data)
 
         if "ipc_reference" in device_size_data:
@@ -200,8 +206,6 @@ class TwoTerminalSMD:
         pad_details, paste_details = self.calcPadDetails(
             device_dimensions, ipc_offsets, ipc_round_base, footprint_group_data
         )
-        # print(calc_pad_details())
-        # print("generate {name}.kicad_mod".format(name=footprint))
 
         suffix = footprint_group_data.get("suffix", "").format(
             pad_x=pad_details["size"][0], pad_y=pad_details["size"][1]
@@ -209,10 +213,10 @@ class TwoTerminalSMD:
         prefix = footprint_group_data["prefix"]
 
         model3d_path_prefix = self.configuration.get(
-            "3d_model_prefix", global_config.model_3d_prefix
+            "3d_model_prefix", self.global_config.model_3d_prefix
         )
         model3d_path_suffix = self.configuration.get(
-            "3d_model_suffix", global_config.model_3d_suffix
+            "3d_model_suffix", self.global_config.model_3d_suffix
         )
         suffix_3d = (
             suffix
@@ -367,12 +371,12 @@ class TwoTerminalSMD:
             silk_x_left = (
                 -abs(pad_details["at"][0])
                 - pad_details["size"][0] / 2
-                - global_config.silk_pad_offset
+                - self.global_config.silk_pad_offset
             )
 
             silk_y_bottom = max(
-                global_config.silk_pad_offset + pad_details["size"][1] / 2,
-                outline_size[1] / 2 + global_config.silk_fab_offset,
+                self.global_config.silk_pad_offset + pad_details["size"][1] / 2,
+                outline_size[1] / 2 + self.global_config.silk_fab_offset,
             )
 
             if polarity_marker_thick_line:
@@ -381,26 +385,26 @@ class TwoTerminalSMD:
                         start=[-outline_size[0] / 2, outline_size[1] / 2],
                         end=[outline_size[0] / 2, -outline_size[1] / 2],
                         layer="F.Fab",
-                        width=global_config.fab_line_width,
+                        width=self.global_config.fab_line_width,
                     )
                 )
-                x = -outline_size[0] / 2 + global_config.fab_line_width
+                x = -outline_size[0] / 2 + self.global_config.fab_line_width
                 kicad_mod.append(
                     Line(
                         start=[x, outline_size[1] / 2],
                         end=[x, -outline_size[1] / 2],
                         layer="F.Fab",
-                        width=global_config.fab_line_width,
+                        width=self.global_config.fab_line_width,
                     )
                 )
-                x += global_config.fab_line_width
-                if x < -global_config.fab_line_width / 2:
+                x += self.global_config.fab_line_width
+                if x < -self.global_config.fab_line_width / 2:
                     kicad_mod.append(
                         Line(
                             start=[x, outline_size[1] / 2],
                             end=[x, -outline_size[1] / 2],
                             layer="F.Fab",
-                            width=global_config.fab_line_width,
+                            width=self.global_config.fab_line_width,
                         )
                     )
 
@@ -431,7 +435,7 @@ class TwoTerminalSMD:
                     PolygonLine(
                         shape=poly_fab,
                         layer="F.Fab",
-                        width=global_config.fab_line_width,
+                        width=self.global_config.fab_line_width,
                     )
                 )
 
@@ -445,7 +449,7 @@ class TwoTerminalSMD:
                     PolygonLine(
                         shape=poly_silk,
                         layer="F.SilkS",
-                        width=global_config.silk_line_width,
+                        width=self.global_config.silk_line_width,
                     )
                 )
         else:
@@ -454,12 +458,12 @@ class TwoTerminalSMD:
                     start=[-outline_size[0] / 2, outline_size[1] / 2],
                     end=[outline_size[0] / 2, -outline_size[1] / 2],
                     layer="F.Fab",
-                    width=global_config.fab_line_width,
+                    width=self.global_config.fab_line_width,
                 )
             )
 
-            silk_outline_y = outline_size[1] / 2 + global_config.silk_fab_offset
-            default_clearance = global_config.silk_pad_clearance
+            silk_outline_y = outline_size[1] / 2 + self.global_config.silk_fab_offset
+            default_clearance = self.global_config.silk_pad_clearance
             silk_point_top_right = nearestSilkPointOnOrthogonalLineSmallClerance(
                 pad_size=pad_details["size"],
                 pad_position=pad_details["at"],
@@ -467,15 +471,15 @@ class TwoTerminalSMD:
                 fixed_point=Vector2D(0, silk_outline_y),
                 moving_point=Vector2D(outline_size[0] / 2, silk_outline_y),
                 silk_pad_offset_default=(
-                    global_config.silk_line_width / 2 + default_clearance
+                    self.global_config.silk_line_width / 2 + default_clearance
                 ),
                 silk_pad_offset_reduced=(
-                    global_config.silk_line_width / 2
+                    self.global_config.silk_line_width / 2
                     + self.configuration.get(
                         "silk_clearance_small_parts", default_clearance
                     )
                 ),
-                min_length=configuration.get("silk_line_length_min", 0) / 2,
+                min_length=self.configuration.get("silk_line_length_min", 0) / 2,
             )
 
             if silk_point_top_right:
@@ -484,7 +488,7 @@ class TwoTerminalSMD:
                         start=[-silk_point_top_right.x, -silk_point_top_right.y],
                         end=[silk_point_top_right.x, -silk_point_top_right.y],
                         layer="F.SilkS",
-                        width=global_config.silk_line_width,
+                        width=self.global_config.silk_line_width,
                     )
                 )
                 kicad_mod.append(
@@ -492,7 +496,7 @@ class TwoTerminalSMD:
                         start=[-silk_point_top_right.x, silk_point_top_right.y],
                         end=silk_point_top_right,
                         layer="F.SilkS",
-                        width=global_config.silk_line_width,
+                        width=self.global_config.silk_line_width,
                     )
                 )
 
@@ -502,14 +506,14 @@ class TwoTerminalSMD:
             abs(pad_details["at"][0])
             + pad_details["size"][0] / 2
             + ipc_offsets.courtyard,
-            global_config.courtyard_grid,
+            self.global_config.courtyard_grid,
             1e-7,
         )
         # Half height of the courtyard
         CrtYd_rect[1] = round_to_grid_up(
             max(pad_details["size"][1], outline_size[1]) / 2
             + ipc_offsets.courtyard,
-            global_config.courtyard_grid,
+            self.global_config.courtyard_grid,
             1e-7,
         )
         kicad_mod.append(
@@ -517,7 +521,7 @@ class TwoTerminalSMD:
                 start=[-CrtYd_rect[0], CrtYd_rect[1]],
                 end=[CrtYd_rect[0], -CrtYd_rect[1]],
                 layer="F.CrtYd",
-                width=global_config.courtyard_line_width,
+                width=self.global_config.courtyard_line_width,
             )
         )
 
@@ -525,7 +529,7 @@ class TwoTerminalSMD:
 
         addTextFields(
             kicad_mod=kicad_mod,
-            configuration=configuration,
+            configuration=self.configuration,
             body_edges={
                 "left": -outline_size[0] / 2,
                 "right": outline_size[0] / 2,
@@ -538,82 +542,34 @@ class TwoTerminalSMD:
         )
 
         kicad_mod.append(Model(filename=model_name))
-
-        lib = KicadPrettyLibrary(footprint_group_data["fp_lib_name"], None)
-        lib.save(kicad_mod)
+        write_footprint(kicad_mod, footprint_group_data["fp_lib_name"], generator_name)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="use config .yaml files to create footprints."
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    series_config = copy.deepcopy(GLOBAL_CONFIG.raw_data)
+
+    series_config_path = os.path.expandvars(str(CLI_ARGS.smd_2_terminal_config))
+    with open(series_config_path, "r") as config_stream:
+        series_config.update(yaml.safe_load(config_stream))
+
+    ipc_defs = ipc_rules.IpcRules.from_file(CLI_ARGS.smd_2_terminal_ipc_rules)
+
+    ipc_density = CLI_ARGS.ipc_density
+    postfix = "_" + ipc_density.upper()[0] if ipc_density.upper()[0] != "N" else ""
+    series_config["ipc_density"] = [ipc_density, postfix]
+
+    part_definitions_path = Path(__file__).parent / "part_definitions.yaml"
+    size_definitions_path = Path(get_spec_file_names(generator_name)[0]).parent
+    two_terminal_smd = TwoTerminalSMD(
+        GLOBAL_CONFIG, ipc_defs, part_definitions_path, series_config
     )
-    parser.add_argument(
-        "files",
-        metavar="file",
-        type=str,
-        nargs="+",
-        help="list of files holding information about what devices should be created.",
-    )
-    parser.add_argument(
-        "--global_config",
-        type=str,
-        nargs="?",
-        help="the config file defining how the footprint will look like. (KLC)",
-        default="../tools/global_config_files/config_KLCv3.0.yaml",
-    )
-    parser.add_argument(
-        "--series_config",
-        type=str,
-        nargs="?",
-        help="the config file defining series parameters.",
-        default="package_config_KLCv3.0.yaml",
-    )
-    parser.add_argument(
-        "--ipc_definition",
-        type=str,
-        nargs="?",
-        help="the ipc definition file",
-        default="ipc7351B_2terminal",
-    )
-    parser.add_argument(
-        "--ipc_density", type=str, nargs="?", help="IPC density level (L,N,M)"
-    )
-    args = parser.parse_args()
-
-    # if the user requests an IPC density, put that and footprint suffix in a list
-    # nominal density with no suffix if no argument is provided
-    if args.ipc_density is None:
-        ipc_density = ["nominal", ""]
-    elif args.ipc_density.upper() == "L":
-        ipc_density = ["least", "_L"]
-    elif args.ipc_density.upper() == "N":
-        ipc_density = ["nominal", "_N"]
-    elif args.ipc_density.upper() == "M":
-        ipc_density = ["most", "_M"]
-    else:
-        raise ValueError("If IPC density is specified, it must be 'L', 'N', or 'M.'")
-        sys.exit()
-
-    with open(args.global_config, "r") as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, "r") as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-    args = parser.parse_args()
-
-    ipc_defs = ipc_rules.IpcRules.from_file(args.ipc_definition)
-
-    configuration["ipc_density"] = ipc_density
-
-    for filepath in args.files:
-        two_terminal_smd = TwoTerminalSMD(
-            global_config, ipc_defs, filepath, configuration
-        )
-        two_terminal_smd.generateFootprints()
+    return two_terminal_smd.generateFootprints(generator_name, size_definitions_path)

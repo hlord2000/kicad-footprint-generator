@@ -56,66 +56,46 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .cp_radial_tht import make_radial_th
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Make the parts of the model
+    body, base, mark, pins, top = make_radial_th(spec.spec)
+    body = body.translate((spec.spec["F"] / 2.0, 0, 0))
+    base = base.translate((spec.spec["F"] / 2.0, 0, 0))
+    mark = mark.translate((spec.spec["F"] / 2.0, 0, 0))
+    pins = pins.translate((-spec.spec["F"] / 2.0, 0, 0)).rotate(
+        (0, 0, 0), (0, 0, 1), 180
+    )
+    top = top.translate((spec.spec["F"] / 2.0, 0, 0))
 
-    all_params = parameters.load_parameters("CP_Radial_THT")
+    parts: list[cq.Workplane] = [body, base, mark, pins, top]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["base_color_key"],
+        spec.spec["mark_color_key"],
+        spec.spec["pin_color_key"],
+        spec.spec["top_color_key"],
+    ]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Make the parts of the model
-        body, base, mark, pins, top = make_radial_th(all_params[model])
-        body = body.translate((all_params[model]["F"] / 2.0, 0, 0))
-        base = base.translate((all_params[model]["F"] / 2.0, 0, 0))
-        mark = mark.translate((all_params[model]["F"] / 2.0, 0, 0))
-        pins = pins.translate((-all_params[model]["F"] / 2.0, 0, 0)).rotate(
-            (0, 0, 0), (0, 0, 1), 180
-        )
-        top = top.translate((all_params[model]["F"] / 2.0, 0, 0))
-
-        parts: list[cq.Workplane] = [body, base, mark, pins, top]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["base_color_key"],
-            all_params[model]["mark_color_key"],
-            all_params[model]["pin_color_key"],
-            all_params[model]["top_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["modelName"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["modelName"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

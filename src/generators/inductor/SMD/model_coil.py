@@ -31,9 +31,7 @@ import cadquery as cq
 
 import numpy as np
 
-from kilibs.declarative_defs.packages.smd_inductor_properties import (
-    HorizontalAirCoreParameters,
-)
+from .smd_inductor_properties import HorizontalAirCoreParameters
 
 
 class DSectionFoot:

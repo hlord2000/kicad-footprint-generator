@@ -1,15 +1,26 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
-import argparse
-import os
 from copy import deepcopy
-from typing import List, Union
+from typing import Union
 
 from kilibs.geom import Vector2D
-from scripts.tools.declarative_def_tools import common_metadata
-from scripts.tools.footprint_generator import FootprintGenerator
-from scripts.tools.footprint_scripts_DIP import makeDIP
-from scripts.tools.global_config_files.global_config import GlobalConfig
+from kilibs.config.global_config import GLOBAL_CONFIG
+from generators.tools.cli_args import CLI_ARGS
+from generators.tools.footprint.declarative_def_tools import common_metadata
+from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.footprint.footprint_scripts_DIP import makeDIP
 
 
 class DIPConfiguration:
@@ -54,19 +65,24 @@ class DIPConfiguration:
         return None if outset is None else Vector2D(outset)
 
 
-def adjust_config_for_longpads(config: DIPConfiguration, longpad_size_delta: Vector2D) -> None:
+def adjust_config_for_longpads(config: DIPConfiguration) -> None:
     """
     Amend a DIP configuration to make the pads longer
 
     Args:
         base_spec (dict): footprint spec of the "base" footprint
-        longpad_size_delta (Vector2D): how much bigger longpads are than base pads
     """
+    # "standard" value for larger pads -> 1.6mm to 2.4mm
+    # Eventually would be good to make this a parameter of a 'policy'
+    # that drives the footprint generation (along with, say, IPA densities)
+    # on top of the base spec values
+    longpad_size_delta = Vector2D(0.8, 0)
+
     config.pad_size += longpad_size_delta
     config.metadata.additional_tags.append('LongPads')
 
 
-def adjust_config_for_socket(config: DIPConfiguration, socket_size_outset: Vector2D) -> None:
+def adjust_config_for_socket(config: DIPConfiguration) -> None:
     """
     Amend a DIP configuration to add space for a socket
 
@@ -74,112 +90,101 @@ def adjust_config_for_socket(config: DIPConfiguration, socket_size_outset: Vecto
         base_spec (dict): footprint spec of the "base" footprint
         socket_size_outset (Vector2D): how much bigger the socket is than the base footprint
     """
+    # Again, would be good to make this a parameter of a 'policy'
+    socket_size_outset = Vector2D(2.54, 2.54)
+
     config.socket_size_outset = socket_size_outset
     config.metadata.additional_tags.append('Socket')
 
-class DIPGenerator(FootprintGenerator):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
 
-        # "standard" value for larger pads -> 1.6mm to 2.4mm
-        # Eventually would be good to make this a parameter of a 'policy'
-        # that drives the footprint generation (along with, say, IPA densities)
-        # on top of the base spec values
-        self.longpad_size_delta = Vector2D(0.8, 0)
+def make_from_config(generator_name: str, config: DIPConfiguration):
+    """
+    Construct a footprint from a DIPConfiguration object
+    """
 
-        # Again, would be good to make this a parameter of a 'policy'
-        self.socket_size_outset = Vector2D(2.54, 2.54)
+    # Munge the geometry into what makeDIP wants
 
-    def make_from_config(self, config: DIPConfiguration):
-        """
-        Construct a footprint from a DIPConfiguration object
-        """
+    pin_row_length = (config.pins / 2 - 1) * config.pitch_y
+    overlen_total = config.body_size.y - pin_row_length
 
-        # Munge the geometry into what makeDIP wants
+    if config.socket_size_outset is None:
+        socket_width = 0
+        socket_height = 0
+    else:
+        socket_width = config.pitch_x + config.socket_size_outset.x
+        socket_height = (config.pins / 2 - 1) * config.pitch_y + config.socket_size_outset.y
 
-        pin_row_length = (config.pins / 2 - 1) * config.pitch_y
-        overlen_total = config.body_size.y - pin_row_length
+    args = {
+        'pins': config.pins,
+        'rm': config.pitch_y,
+        'pinrow_distance_in': config.pitch_x,  # not actuall in inches!
+        'package_width': config.body_size.x,
+        'overlen_top': overlen_total / 2,
+        'overlen_bottom': overlen_total / 2,
+        'ddrill': config.drill,
+        'pad': config.pad_size,
+        'smd_pads': False,
+        'socket_width': socket_width,
+        'socket_height': socket_height,
+        'socket_pinrow_distance_offset': 0,
+        'datasheet': config.metadata.datasheet,
+        'tags_additional': config.metadata.additional_tags,
+        'DIPName': config.package_type,
+        'DIPTags': ' '.join(config.package_tags),
+        'global_config': GLOBAL_CONFIG,
+    }
 
-        if config.socket_size_outset is None:
-            socket_width = 0
-            socket_height = 0
-        else:
-            socket_width = config.pitch_x + config.socket_size_outset.x
-            socket_height = (config.pins / 2 - 1) * config.pitch_y + config.socket_size_outset.y
+    desc = [config.metadata.description]
 
-        args = {
-            'pins': config.pins,
-            'rm': config.pitch_y,
-            'pinrow_distance_in': config.pitch_x,  # not actuall in inches!
-            'package_width': config.body_size.x,
-            'overlen_top': overlen_total / 2,
-            'overlen_bottom': overlen_total / 2,
-            'ddrill': config.drill,
-            'pad': config.pad_size,
-            'smd_pads': False,
-            'socket_width': socket_width,
-            'socket_height': socket_height,
-            'socket_pinrow_distance_offset': 0,
-            'datasheet': config.metadata.datasheet,
-            'tags_additional': config.metadata.additional_tags,
-            'DIPName': config.package_type,
-            'DIPTags': ' '.join(config.package_tags),
-            'global_config': self.global_config,
-        }
+    if config.standard:
+        desc.append(config.standard)
 
-        desc = [config.metadata.description]
+    args['DIPDescription'] = ', '.join(desc)
 
-        if config.standard:
-            desc.append(config.standard)
+    makeDIP(generator_name,**args, outdir=CLI_ARGS.output_dir_footprints)
 
-        args['DIPDescription'] = ', '.join(desc)
+def make_all_variants_from_device_params(generator_name: str, device_params: dict):
 
-        makeDIP(**args, outdir=self.output_path)
+    dip_config = DIPConfiguration(device_params)
 
-    def make_all_variants_from_device_params(self, device_params: dict):
+    def longpad_mutator(config: DIPConfiguration):
+        adjust_config_for_longpads(config)
 
-        dip_config = DIPConfiguration(device_params)
+    def socket_mutator(config: DIPConfiguration):
+        adjust_config_for_socket(config)
 
-        def longpad_mutator(config: DIPConfiguration):
-            adjust_config_for_longpads(config, self.longpad_size_delta)
+    # lists of config-mutators to apply in order
+    variants = [
+        [],
+        [longpad_mutator],
+        [socket_mutator],
+        [longpad_mutator, socket_mutator],
+    ]
 
-        def socket_mutator(config: DIPConfiguration):
-            adjust_config_for_socket(config, self.socket_size_outset)
+    for variant in variants:
+        # Create a fresh copy of the base config for each variant
+        variant_config = deepcopy(dip_config)
 
-        # lists of config-mutators to apply in order
-        variants = [
-            [],
-            [longpad_mutator],
-            [socket_mutator],
-            [longpad_mutator, socket_mutator],
-        ]
+        # Then mutate it according to the variant
+        for mutator in variant:
+            mutator(variant_config)
 
-        for variant in variants:
-            # Create a fresh copy of the base config for each variant
-            variant_config = deepcopy(dip_config)
+        make_from_config(generator_name, variant_config)
+    return len(variants)
 
-            # Then mutate it according to the variant
-            for mutator in variant:
-                mutator(variant_config)
 
-            self.make_from_config(variant_config)
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
 
-    def generateFootprint(self, device_params: dict, pkg_id: str, header_info: dict = None):
-        # Ignore "virtual" inherited-only definitions
-        if pkg_id.startswith('defaults'):
-            return
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
 
-        self.make_all_variants_from_device_params(device_params)
-
-if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser(description='Use .yaml files to create DIP footprints.')
-    parser.add_argument('files', metavar='file', type=str, nargs='*',
-                        help='list of files holding information about what devices should be created.')
-    args = FootprintGenerator.add_standard_arguments(parser)
-
-    FootprintGenerator.run_on_files(
-        DIPGenerator,
-        args,
-        file_autofind_dir='size_definitions',
-    )
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
+    for _, _, ids_specs in get_headers_ids_specs(generator_name):
+        for _, spec_dict in ids_specs:
+            num_fps_generated += make_all_variants_from_device_params(generator_name, spec_dict)
+    return num_fps_generated

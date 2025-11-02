@@ -1,11 +1,31 @@
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
+
 from math import sqrt
 
+from generators.tools.footprint.drawing_tools import applyKeepouts
+from generators.tools.footprint.drawing_tools_silk import (
+    SilkArrowSize,
+    getStandardSilkArrowSize,
+)
+from generators.tools.footprint.nodes import pin1_arrow
 from KicadModTree import (
     ExposedPad,
     PadArray,
     shape_to_node,
 )
 from KicadModTree.nodes.specialized.PadArray import find_lowest_numbered_pad
+from kilibs.config import global_config as GC
 from kilibs.geom import (
     BoundingBox,
     Direction,
@@ -14,13 +34,6 @@ from kilibs.geom import (
     Vector2D,
 )
 from kilibs.geom.operations import rounding, subtract
-from scripts.tools.drawing_tools import (
-    SilkArrowSize,
-    applyKeepouts,
-    getStandardSilkArrowSize,
-)
-from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.nodes import pin1_arrow
 
 from .footprint_layout import CourtyardStyle, FabStyle, FootprintLayout
 

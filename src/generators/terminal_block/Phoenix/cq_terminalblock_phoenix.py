@@ -1,6 +1,6 @@
 import cadquery as cq
 
-from _tools.parameters import load_aux_parameters
+from generators.tools.model.parameters import load_aux_parameters
 
 screw_clearance = 0.10
 screw_t = 0.70

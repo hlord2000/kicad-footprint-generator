@@ -1,8 +1,8 @@
-from scripts.tools.declarative_def_tools.utils import DotDict
+from generators.tools.footprint.declarative_def_tools.utils import DotDict
 
 
 def test_as_list():
-    from scripts.tools.declarative_def_tools.utils import as_list
+    from generators.tools.footprint.declarative_def_tools.utils import as_list
 
     assert ['foo'] == as_list('foo')
     assert ['foo'] == as_list(['foo'])

@@ -1,9 +1,32 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *
-from scripts.tools.footprint_scripts_terminal_blocks import *
+from ..footprint_scripts_terminal_blocks import *
 
-if __name__ == "__main__":
+from generators.tools.spec.base_spec import BaseSpec
+
+
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
 
     script_generated_note = "generated with kicad-footprint-generator TerminalBlock_Degson"
     classname = "TerminalBlock_Degson"
@@ -30,6 +53,7 @@ if __name__ == "__main__":
             "TerminalBlock_Degson_{0}_1x{1:02}_P{2:3.2f}mm_45Degree".format(name, p, rm)
         )
         makeTerminalBlock45Degree(
+            generator_name,
             footprint_name=footprint_name,
             pins=p,
             rm=rm,
@@ -52,3 +76,4 @@ if __name__ == "__main__":
             webpage=webpage,
             script_generated_note=script_generated_note,
         )
+    return len(pins)

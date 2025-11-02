@@ -1,7 +1,7 @@
-from scripts.tools.declarative_def_tools import rule_area_properties as RAP
-from scripts.tools.declarative_def_tools import shape_properties as SP
-
 import yaml
+
+from generators.tools.footprint.declarative_def_tools import rule_area_properties as RAP
+from generators.tools.footprint.declarative_def_tools import shape_properties as SP
 
 
 def test_basic():

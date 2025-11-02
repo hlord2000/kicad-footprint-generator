@@ -4,12 +4,13 @@ import os
 import re
 
 from KicadModTree import *
-from scripts.tools.global_config_files import global_config as GC
+from kilibs.config import global_config as GC
+from generators.tools.footprint.save_footprint import write_footprint
 
 lib_name = "Package_DFN_QFN"
 global_config = GC.DefaultGlobalConfig()
 
-def qfn(args):
+def qfn(generator_name: str, args):
     footprint_name = args["name"]
     desc = args["description"]
 
@@ -262,8 +263,8 @@ def qfn(args):
                                      shape=Pad.SHAPE_CIRCLE, at=[x, y], size=p1,
                                      layers=["*.Cu"], drill=d))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
+    return 1
 
 
 if __name__ == '__main__':

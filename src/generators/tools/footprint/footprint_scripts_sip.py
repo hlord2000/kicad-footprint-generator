@@ -1,15 +1,28 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import math
 
 from KicadModTree import *  # NOQA
-from scripts.tools.drawing_tools import *
-from scripts.tools.footprint_global_properties import *
-from scripts.tools.global_config_files import global_config as GC
-global_config = GC.DefaultGlobalConfig()
+from generators.tools.footprint.drawing_tools import *
+from generators.tools.footprint.footprint_global_properties import *
+from generators.tools.footprint.save_footprint import write_footprint
+from kilibs.config import global_config as GC
+
+global_config = GC.GLOBAL_CONFIG
 
 
-def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
+def makeSIPVertical(generator_name, pins, rm, ddrill, pad, package_size, left_offset, top_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
     padx=pad[0]
     pady=pad[1]
 
@@ -32,9 +45,6 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
     if (pady/2>t_fab+h_fab):
         t_crt = t_fab  - crt_offset
         h_crt=h_fab+(pady/2-math.fabs(t_fab))+2*crt_offset
-
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -95,11 +105,10 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
                            at=[0, 0, 0], scale=[1,1,1], rotate=[0, 0, 0]))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bottom_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
+def makeSIPHorizontal(generator_name, pins, rm, ddrill, pad, package_size, left_offset, pin_bottom_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
     padx=pad[0]
     pady=pad[1]
 
@@ -121,8 +130,6 @@ def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bott
     # Pin 1 maker
     l_pin1 = l_slk + left_offset - padx / 2 - global_config.silk_pad_offset
     h_pin1 = pin_bottom_offset + pady / 2 - lw_slk
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -181,11 +188,10 @@ def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bott
                            at=[0, 0, 0], scale=[1,1,1], rotate=[0, 0, 0]))
 
     # write file
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)
 
 
-def makeResistorSIP(pins, footprint_name, description):
+def makeResistorSIP(generator_name, pins, footprint_name, description):
     rm = 2.54
     h = 2.5
     leftw = 1.29
@@ -207,8 +213,6 @@ def makeResistorSIP(pins, footprint_name, description):
     t_crt = min(t_slk, -pady / 2) - crt_offset
 
     lib_name = "Resistor_THT"
-
-    print(footprint_name)
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name, FootprintType.THT)
@@ -244,5 +248,4 @@ def makeResistorSIP(pins, footprint_name, description):
     kicad_mod.append(Model(filename=global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix,
                            at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(kicad_mod)
+    write_footprint(kicad_mod, lib_name, generator_name)

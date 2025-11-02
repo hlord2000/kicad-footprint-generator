@@ -2,39 +2,42 @@ import math as math
 
 import cadquery as cq
 
-from _tools import export_tools
+from generators.tools.model import export_tools
+from generators.tools.cli_args import CLI_ARGS
 
-from kilibs.declarative_defs.packages.terminal_block_barrier_properties import (
-    TerminalBlockBarrierProperties,
-)
+from .spec import TerminalBlockBarrierProperties
 
 
-def generate_model(
-    cfg: TerminalBlockBarrierProperties, output_dir_prefix: str, enable_vrml: bool
-):
+def create_models(spec: TerminalBlockBarrierProperties, generator_name: str) -> int:
+    """Create the model corresponding to the spec.
 
+    Args:
+        spec: the grid array specification.
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of models generated.
+    """
     # Collect the array of pin numbers so that we can handle the one config that has a custom set in a string
-    for n_pins in cfg.n_pin_variants:
+    for n_pins in spec.n_pin_variants:
         # Create the file name based on the rows and pins
-        file_name = cfg.getFootprintName(n_pins)
-        print(f"        - {file_name}")
-
-        body, pins, cover = generate_parts(cfg, n_pins)
+        file_name = spec.getFootprintName(n_pins)
+        body, pins, cover = generate_parts(spec, n_pins)
 
         parts: list[cq.Workplane] = [body, pins]
-        color_names: list[str] = [cfg.body_color_key, cfg.pins_color_key]
+        color_names: list[str] = [spec.body_color_key, spec.pins_color_key]
         if cover:
             parts.append(cover)
-            color_names.append(cfg.cover_color_key)
+            color_names.append(spec.cover_color_key)
 
         export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=cfg.lib_name,
+            generator_name=generator_name,
+            lib_name=spec.lib_name,
             model_name=file_name,
             parts=parts,
             color_names=color_names,
-            export_as_vrml=enable_vrml,
         )
+    return len(spec.n_pin_variants)
 
 
 def generate_parts(cfg: TerminalBlockBarrierProperties, n_pins: int):

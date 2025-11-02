@@ -29,6 +29,7 @@ dependencies = [
 dev = [
     "pytest",
     "pycodestyle",
+    "types-PyYAML",
     "black",
     "isort",
     "flake8",
@@ -63,11 +64,14 @@ include = [
 ]
 
 [tool.setuptools.package-data]
-"generators.tools.footprint" = [
-    "global_config/*.yaml",
+"kilibs.config" = [
+    "global_configs/*.yaml",
+    "ipc_configs/*.yaml",
 ]
-"kilibs.ipc_tools" = [
-    "data/*.yaml",
+"generators" = [
+    "**/*.yaml",
+    ".sorted_fp_gen_list",
+    ".sorted_mod_gen_list",
 ]
 
 [tool.isort]
@@ -79,20 +83,22 @@ known_common = ['cadquery', 'yaml', 'OCP']
 # Configure MyPy static type checker
 [tool.mypy]
 strict = true
+follow_imports = "skip"
 packages = [
+    "generators.package.grid_array",
+    "generators.package.gullwing",
+    "generators.tools.footprint.nodes",
     "kilibs",
     "KicadModTree",
-    "generators.package.gullwing",
-    "generators.package.grid_array",
-    "scripts.tools.nodes",
 ]
 mypy_path = ["src", "."]
 exclude = [
     "src/kilibs/declarative_defs",
-    "KicadModTree/nodes/specialized/RectLine.py",
-    "KicadModTree/nodes/specialized/PolygonLine.py",
-    "KicadModTree/nodes/specialized/ChamferedNativePad.py",
-    "KicadModTree/nodes/specialized/ChamferedRect.py",
+    "src/generators",
+    "KicadModTree/nodes/specialized/RectLine\\.py",
+    "KicadModTree/nodes/specialized/PolygonLine\\.py",
+    "KicadModTree/nodes/specialized/ChamferedNativePad\\.py",
+    "KicadModTree/nodes/specialized/ChamferedRect\\.py",
     "KicadModTree/examples",
     "KicadModTree/tests",
 ]

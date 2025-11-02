@@ -41,7 +41,7 @@ from math import radians, sin, tan
 
 import cadquery as cq
 
-from _tools.cq_helpers import union_all
+from generators.tools.model.cq_helpers import union_all
 
 # import FreeCAD
 

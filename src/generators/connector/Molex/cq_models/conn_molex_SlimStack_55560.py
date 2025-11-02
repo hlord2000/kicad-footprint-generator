@@ -84,7 +84,7 @@ from collections import namedtuple
 
 import cadquery as cq
 
-from _tools.ribbon import Ribbon
+from generators.tools.model.ribbon import Ribbon
 
 # import FreeCAD
 

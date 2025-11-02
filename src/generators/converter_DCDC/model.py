@@ -57,74 +57,50 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .converter_dcdc import *
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Make the parts of the model
+    case = make_case(spec.spec)
+    case_top = make_case_top(spec.spec)
+    pins = make_pins(spec.spec)
+    # Translation and rotation of the parts, if needed
+    translation = spec.spec["translation"] if "translation" in spec.spec else (0, 0, 0)
+    case = case.translate(translation).rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )
+    case_top = case_top.translate(translation).rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )
+    pins = pins.translate(translation).rotate(
+        (0, 0, 0), (0, 0, 1), spec.spec["rotation"]
+    )
 
-    all_params = parameters.load_parameters("Converter_DCDC")
+    parts: list[cq.Workplane] = [case, case_top, pins]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["body_top_color_key"],
+        spec.spec["pin_color_key"],
+    ]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Make the parts of the model
-        case = make_case(all_params[model])
-        case_top = make_case_top(all_params[model])
-        pins = make_pins(all_params[model])
-        # Translation and rotation of the parts, if needed
-        translation = (
-            all_params[model]["translation"]
-            if "translation" in all_params[model]
-            else (0, 0, 0)
-        )
-        case = case.translate(translation).rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )
-        case_top = case_top.translate(translation).rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )
-        pins = pins.translate(translation).rotate(
-            (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
-        )
-
-        parts: list[cq.Workplane] = [case, case_top, pins]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["body_top_color_key"],
-            all_params[model]["pin_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

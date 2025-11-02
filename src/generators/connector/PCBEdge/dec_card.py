@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #SPDX-License-Identifier: GPL-3.0-or-later
 #Copyright (c) 2024, Lothar Felten <lothar.felten@gmail.com>
 """
@@ -14,15 +13,13 @@ Early boards have no side prefix as both sides carry the same signal.
 Supported finger types: single, double, quad
 Supported height types: short, long
 """
-import os
-import argparse
-import yaml
 import math
 
 from KicadModTree import *
-from scripts.tools.drawing_tools import round_to_grid
-from scripts.tools.footprint_text_fields import addTextFields
-from scripts.tools.global_config_files import global_config as GC
+from generators.tools.footprint.footprint_text_fields import addTextFields
+from ..config import CONNECTOR_CONFIG
+from generators.tools.footprint.save_footprint import write_footprint
+
 
 lib_name = "Connector_PCBEdge"
 description  = "DEC card edge connectors"
@@ -68,7 +65,7 @@ handleHoleDiameter = mil(128)
 layers_top = ['F.Cu', 'F.Mask']
 layers_bottom = ['B.Cu', 'B.Mask']
 
-def generate_footprint(heightType, widthType, configuration):
+def generate_footprint(heightType, widthType, configuration, generator_name: str) -> None:
     height = pcbHeights.get(heightType)
     width = pcbWidths.get(widthType)
     footprint_name = "DEC_" + str(widthType) + "_" + str(heightType)
@@ -159,30 +156,21 @@ def generate_footprint(heightType, widthType, configuration):
     addTextFields(kicad_mod=f, configuration=configuration, body_edges=body_edge,
     courtyard=courtyard, fp_name=footprint_name, text_y_inside_position='center', allow_rotation=True)
 
-    lib = KicadPrettyLibrary(lib_name, None)
-    lib.save(f)
+    write_footprint(f, lib_name, generator_name)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use config .yaml files to create footprints.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
-    args = parser.parse_args()
 
-    with open(args.global_config, 'r') as config_stream:
-        try:
-            configuration = yaml.safe_load(config_stream)
-            global_config = GC.GlobalConfig(configuration)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    with open(args.series_config, 'r') as config_stream:
-        try:
-            configuration.update(yaml.safe_load(config_stream))
-        except yaml.YAMLError as exc:
-            print(exc)
-    generate_footprint('short','single',configuration)
-    generate_footprint('short','double',configuration)
-    generate_footprint('short','quad',configuration)
-    generate_footprint('long','single',configuration)
-    generate_footprint('long','double',configuration)
-    generate_footprint('long','quad',configuration)
+def generate_all(generator_name: str) -> int:
+    num_fps_generated = 0
+    generate_footprint('short','single',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint('short','double',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint('short','quad',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint('long','single',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint('long','double',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    generate_footprint('long','quad',CONNECTOR_CONFIG, generator_name)
+    num_fps_generated += 1
+    return num_fps_generated

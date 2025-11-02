@@ -56,71 +56,51 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 from .switch_smd import make_case, make_pigs, make_pins_smd
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Make the parts of the model
+    body = make_case(spec.spec)
+    pigs = make_pigs(spec.spec)
 
-    all_params = parameters.load_parameters("Switch_SMD")
+    CASE_THT_TYPE = "tht"
+    CASE_SMD_TYPE = "smd"
+    if spec.spec["type"] == CASE_THT_TYPE:
+        pins = make_pins_tht(spec.spec)
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
+    if spec.spec["type"] == CASE_SMD_TYPE:
+        pins = make_pins_smd(spec.spec)
 
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
+    # Put the parts in the correct orientation
+    body = body.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    pins = pins.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
+    pigs = pigs.rotate((0, 0, 0), (0, 0, 1), spec.spec["rotation"])
 
-        model_to_build = all_params.keys()[0]
+    parts: list[cq.Workplane] = [body, pins, pigs]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["pin_color_key"],
+        spec.spec["pig_color_key"],
+    ]
 
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Make the parts of the model
-        body = make_case(all_params[model])
-        pigs = make_pigs(all_params[model])
-
-        CASE_THT_TYPE = "tht"
-        CASE_SMD_TYPE = "smd"
-        if all_params[model]["type"] == CASE_THT_TYPE:
-            pins = make_pins_tht(all_params[model])
-
-        if all_params[model]["type"] == CASE_SMD_TYPE:
-            pins = make_pins_smd(all_params[model])
-
-        # Put the parts in the correct orientation
-        body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-        pigs = pigs.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
-
-        parts: list[cq.Workplane] = [body, pins, pigs]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["pin_color_key"],
-            all_params[model]["pig_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name=all_params[model]["destination_dir"],
-            model_name=all_params[model]["model_name"],
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name=spec.spec["destination_dir"],
+        model_name=spec.spec["model_name"],
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

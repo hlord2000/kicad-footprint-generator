@@ -58,7 +58,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 
 def MakeBase(pins, highDetail=True):
@@ -252,68 +253,47 @@ def MakeAnglePinRow(n, Z, H, L, highDetail=False):
     return pin
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    # Set high detail mode to always be on
+    highDetail = True
 
-    all_params = parameters.load_parameters("Box_Headers")
+    # Get the number of pins from the parameters
+    n = spec.spec["pins"]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        # Set high detail mode to always be on
-        highDetail = True
-
-        # Get the number of pins from the parameters
-        n = all_params[model]["pins"]
-
-        # Generate the model of the part
-        body = MakeBase(n, True)
-        if all_params[model]["is_angled"]:
-            pins = MakeAnglePinRow(n, -3, 5.94, 12.38, highDetail)
-            pins = pins.union(
-                MakeAnglePinRow(n, -3, 3.40, 9.84, highDetail).translate((2.54, 0, 0))
-            )
-
-            # Rotate the base into the angled position
-            body = body.rotate((0, 0, 0), (0, 1, 0), 90).translate((4.13, 0, 5.94))
-        else:
-            pins = MakePinRow(n, -3.0, 8.0)
-            pins = pins.union(MakePinRow(n, -3.0, 8.0).translate((2.54, 0, 0)))
-
-        parts: list[cq.Workplane] = [body, pins]
-        color_names: list[str] = [
-            all_params[model]["body_color_key"],
-            all_params[model]["pins_color_key"],
-        ]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name="Connector_IDC",
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
+    # Generate the model of the part
+    body = MakeBase(n, True)
+    if spec.spec["is_angled"]:
+        pins = MakeAnglePinRow(n, -3, 5.94, 12.38, highDetail)
+        pins = pins.union(
+            MakeAnglePinRow(n, -3, 3.40, 9.84, highDetail).translate((2.54, 0, 0))
         )
+
+        # Rotate the base into the angled position
+        body = body.rotate((0, 0, 0), (0, 1, 0), 90).translate((4.13, 0, 5.94))
+    else:
+        pins = MakePinRow(n, -3.0, 8.0)
+        pins = pins.union(MakePinRow(n, -3.0, 8.0).translate((2.54, 0, 0)))
+
+    parts: list[cq.Workplane] = [body, pins]
+    color_names: list[str] = [
+        spec.spec["body_color_key"],
+        spec.spec["pins_color_key"],
+    ]
+
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name="Connector_IDC",
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

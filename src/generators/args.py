@@ -144,8 +144,8 @@ def add_argparse_arguments(parser: ArgumentParser) -> None:
         type=str,
         nargs="?",
         help="The config file defining how the footprint will look like (KLC). Default:"
-        " 'config_KLCv3.0.yaml'.",
-        default="${KILIBS}/config/global_configs/config_KLCv3.0.yaml",
+        " 'config_KLCv3.0'.",
+        default="config_KLCv3.0",
     )
     parser_fp_group.add_argument(
         "--ipc-rules",

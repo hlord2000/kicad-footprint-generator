@@ -1,7 +1,7 @@
 from collections import namedtuple
 
-import exportVRML.shaderColors as shaderColors
-from _tools import add_license
+import generators.tools.model.exportVRML.shaderColors as shaderColors
+from generators.tools.model import add_license
 
 # crease_angle=0.5 is a good compromise
 crease_angle_default = 0.5

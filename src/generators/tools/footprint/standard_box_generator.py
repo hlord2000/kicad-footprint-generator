@@ -1,16 +1,30 @@
-#!/usr/bin/env python3
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 import sys
 
 from collections.abc import Generator
 from typing import Any
 
-from KicadModTree import Footprint, FootprintType, KicadPrettyLibrary, ModArgparser, Pad, Model, Node, Text
+from KicadModTree import Footprint, FootprintType, ModArgparser, Pad, Model, Node, Text
 from kilibs.geom import Direction, Vector2D
-from scripts.tools.drawing_tools_silk import SilkArrowSize
-from scripts.tools.global_config_files import global_config
-from scripts.tools.declarative_def_tools import common_metadata
-from scripts.tools.nodes.layouts.n_pad_box_layout import NPadBoxLayout, SilkStyle
+from generators.tools.footprint.drawing_tools_silk import SilkArrowSize
+from kilibs.config import global_config
+from generators.tools.footprint.declarative_def_tools import common_metadata
+from generators.tools.footprint.save_footprint import write_footprint
+
+from generators.tools.footprint.nodes.layouts.n_pad_box_layout import NPadBoxLayout
+from generators.tools.footprint.nodes.layouts.footprint_layout import SilkStyle
 
 
 def make_pad_from_data(
@@ -117,7 +131,7 @@ def arrow_nesw_from_str(s: str | None) -> Direction | None:
     raise ValueError(f"Invalid arrow direction: {s}. Expected one of: NORTH, SOUTH, EAST, WEST.")
 
 
-def converter(args: dict[str, Any]) -> None:
+def converter(generator_name: str, args: dict[str, Any]) -> int:
 
     metadata = common_metadata.CommonMetadata(args)
     footprint_name = args["name"]
@@ -135,7 +149,7 @@ def converter(args: dict[str, Any]) -> None:
     arrow_points = arrow_nesw_from_str(args["arrow_points"])
 
     # Until this can be passed in properly, use the default global config
-    global_cfg = global_config.DefaultGlobalConfig()
+    global_cfg = global_config.GLOBAL_CONFIG
 
     # This a very naive way of calculating the total tolerance referenced to the
     # origin, but it's a start
@@ -172,7 +186,7 @@ def converter(args: dict[str, Any]) -> None:
     if metadata.datasheet:
         descr.append(metadata.datasheet)
 
-    descr.append(global_cfg.get_generated_by_description("StandardBox_generator.py"))
+    descr.append(global_cfg.get_generated_by_description("StandardBox_generator.py"))  # For zero-diff. Replace with generator_name later.
 
     f.description = ", ".join(descr)
 
@@ -217,11 +231,11 @@ def converter(args: dict[str, Any]) -> None:
 
     f += Model(filename=model_filename)
 
-    lib = KicadPrettyLibrary(metadata.library_name, None)
-    lib.save(f)
+    write_footprint(f, metadata.library_name, generator_name)
+    return 1
 
 
-def main(args: list[str] | None = None):
+def main(generator_name: str, args: list[str] | None = None) -> int:
     ipc_default_courtyard_clearance = 0.25
 
     # parse arguments using optparse or argparse or what have you
@@ -248,7 +262,7 @@ def main(args: list[str] | None = None):
     parser.add_parameter("arrow_points", type=str, required=False)
 
     # now run our script which handles the whole part of parsing the files
-    parser.run(args)
+    return parser.run(generator_name, args)
 
 if __name__ == '__main__':
     import sys

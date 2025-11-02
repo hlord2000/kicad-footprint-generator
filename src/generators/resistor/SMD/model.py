@@ -56,7 +56,8 @@ ___ver___ = "2.0.0"
 
 import cadquery as cq
 
-from _tools import export_tools, parameters
+from generators.tools.model import export_tools
+from generators.tools.spec.legacy_model_spec import LegacyModelSpec
 
 dest_dir_prefix = "Resistor_SMD.3dshapes"
 
@@ -67,16 +68,16 @@ Generates the CadQuery model that will be exported.
 
 def make_chip(model, all_params):
     # dimensions for chip capacitors
-    length = all_params[model]["length"]  # package length
-    width = all_params[model]["width"]  # package width
-    height = all_params[model]["height"]  # package height
+    length = all_params["length"]  # package length
+    width = all_params["width"]  # package width
+    height = all_params["height"]  # package height
 
-    pin_band = all_params[model]["pin_band"]  # pin band
-    pin_thickness = all_params[model]["pin_thickness"]  # pin thickness
+    pin_band = all_params["pin_band"]  # pin band
+    pin_thickness = all_params["pin_thickness"]  # pin thickness
     if pin_thickness == "auto":
         pin_thickness = height / 10.0
 
-    edge_fillet = all_params[model]["edge_fillet"]  # fillet of edges
+    edge_fillet = all_params["edge_fillet"]  # fillet of edges
     if edge_fillet == "auto":
         edge_fillet = pin_thickness
 
@@ -118,48 +119,26 @@ def make_chip(model, all_params):
     return (case, top, pins)
 
 
-def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
+def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
+    """Create the 3D models.
+
+    Args:
+        spec: The spec of the part(s) to generate.
+        generator_name: The name of the generator.
+
+    Returns:
+        The number of models generated.
     """
-    Main entry point into this generator.
-    """
-    models = []
+    body, top, pins = make_chip(spec.id, spec.spec)
 
-    all_params = parameters.load_parameters("Resistor_SMD")
+    parts: list[cq.Workplane] = [body, pins, top]
+    color_names = ["white body", "metal grey pins", "resistor black body"]
 
-    if all_params == None:
-        print("ERROR: Model parameters must be provided.")
-        return
-
-    # Handle the case where no model has been passed
-    if model_to_build is None:
-        print("No variant name is given! building: {0}".format(model_to_build))
-
-        model_to_build = all_params.keys()[0]
-
-    # Handle being able to generate all models or just one
-    if model_to_build == "all":
-        models = all_params
-    else:
-        models = {model_to_build: all_params[model_to_build]}
-
-    # Step through the selected models
-    for model in models:
-
-        # Safety check to make sure the selected model is valid
-        if not model in all_params.keys():
-            print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
-            continue
-
-        body, top, pins = make_chip(model, all_params)
-
-        parts: list[cq.Workplane] = [body, pins, top]
-        color_names = ["white body", "metal grey pins", "resistor black body"]
-
-        export_tools.export(
-            root_output_dir=output_dir_prefix,
-            lib_name="Resistor_SMD",
-            model_name=model,
-            parts=parts,
-            color_names=color_names,
-            export_as_vrml=enable_vrml,
-        )
+    export_tools.export(
+        generator_name=generator_name,
+        lib_name="Resistor_SMD",
+        model_name=spec.id,
+        parts=parts,
+        color_names=color_names,
+    )
+    return 1

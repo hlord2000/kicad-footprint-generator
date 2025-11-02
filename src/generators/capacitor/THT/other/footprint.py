@@ -1,11 +1,34 @@
-#!/usr/bin/env python
+# generators is free software: you can redistribute it and/or modify it under the terms
+# of the GNU General Public License as published by the Free Software Foundation, either
+# version 3 of the License, or (at your option) any later version.
+#
+# generators is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# generators. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
-from scripts.tools.drawing_tools import *
-from scripts.tools.footprint_scripts_resistorlike import *
+from generators.tools.footprint.drawing_tools import *
+from generators.tools.footprint.footprint_scripts_resistorlike import *
+
+from generators.tools.spec.base_spec import BaseSpec
 
 
-if __name__ == '__main__':
+def create_footprints(spec: BaseSpec, generator_name: str) -> int:
+    """Create the footprint(s) corresponding to the spec.
+
+    Args:
+        spec: The specification (not used by this generator).
+        generator_name: The name of this generator.
+
+    Returns:
+        The number of footprints generated.
+    """
+    num_fps_generated = 0
     R_POW = 0
     specialtags=["Capacitor"]
 
@@ -155,11 +178,12 @@ if __name__ == '__main__':
         add_description = c[6]
         name_additions = c[5]
 
-        makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=specialtags, classname="C", lib_name="Capacitor_THT", height3d=h3d)
 
+    num_fps_generated += len(caps)
 
     ###########################################################
     # rectangular capacitors with 2 RMs
@@ -181,12 +205,12 @@ if __name__ == '__main__':
         ddrill = c[4]
         add_description = c[6]
         name_additions = c[5]
-        makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, rm2=rm2, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=specialtags, classname="C", lib_name="Capacitor_THT", height3d=10)
 
-
+    num_fps_generated += len(caps)
 
     ###########################################################
     # disc capacitors
@@ -247,12 +271,12 @@ if __name__ == '__main__':
         ddrill = c[3]
         add_description = c[5]
         name_additions = c[4]
-        makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="C", lib_name="Capacitor_THT")
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=specialtags, classname="C", lib_name="Capacitor_THT")
 
-
+    num_fps_generated += len(caps)
 
 
 
@@ -269,17 +293,20 @@ if __name__ == '__main__':
     d2=0
     seriesname = "Axial"; w = 3.8; d = 2.6; ddrill = 0.8; R_POW = 0; add_description = "http://www.vishay.com/docs/45231/arseries.pdf"; name_additions = []
     for rm in [7.5, 10, 12.5, 15]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+        num_fps_generated += 1
 
     seriesname = "Axial"; w = 5.1; d = 3.1; ddrill = 0.8; R_POW = 0; add_description = "http://www.vishay.com/docs/45231/arseries.pdf"; name_additions = []
     for rm in [7.5, 10, 12.5, 15]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+        num_fps_generated += 1
+
     for w in [12,17,19,22]:
         if w == 12:
             rms = [15, 20]
@@ -296,40 +323,43 @@ if __name__ == '__main__':
         for d in ds:
             for rm in rms:
                 seriesname = "Axial"; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
-                makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+                makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                             type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                             specialfpname="", add_description=add_description, name_additions=name_additions,
                                             specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+                num_fps_generated += 1
+
     seriesname = "Axial"; w = 12; d = 6.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+        num_fps_generated += 1
+
     seriesname = "Axial"; w = 12; d = 7.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+        num_fps_generated += 1
+
     seriesname = "Axial"; w = 12; d = 8.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
+        num_fps_generated += 1
+
     seriesname = "Axial"; w = 12; d = 9.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=name_additions, classname="C", lib_name="Capacitor_THT")
-
-
-
-
-
-
+        num_fps_generated += 1
 
 
 
@@ -368,10 +398,11 @@ if __name__ == '__main__':
         ddrill = c[2]
         add_description = c[4]
         name_additions = c[3]
-        makeResistorRadial(seriesname=seriesname, rm=rm, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="CP", lib_name="Capacitor_THT", deco=deco)
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=specialtags, classname="CP", lib_name="Capacitor_THT", deco=deco)
+    num_fps_generated += len(caps)
 
     ###########################################################
     # radial electrolytic capacitors
@@ -429,11 +460,13 @@ if __name__ == '__main__':
         add_description = c[7];
         name_additions = c[5]
         special_tags = specialtags + c[6]
-        makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco,
-                           height3d=h3d)
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco,
+                        height3d=h3d)
+
+    num_fps_generated += len(caps)
 
     ###########################################################
     # radial nonpolar electrolytic capacitors
@@ -480,11 +513,13 @@ if __name__ == '__main__':
         add_description = c[7]
         name_additions = c[5]
         special_tags = specialtags + c[6]
-        makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="C", lib_name="Capacitor_THT", deco=deco,
-                           height3d=h3d)
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=special_tags, classname="C", lib_name="Capacitor_THT", deco=deco,
+                        height3d=h3d)
+
+    num_fps_generated += len(caps)
 
 
     ###########################################################
@@ -519,12 +554,13 @@ if __name__ == '__main__':
         name_additions = c[5]
         special_tags = specialtags + c[6]
         ap=[c[3]]
-        makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco,
-                           height3d=h3d, additionalPins=ap)
+        makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco,
+                        height3d=h3d, additionalPins=ap)
 
+    num_fps_generated += len(caps)
 
 
     ###########################################################
@@ -601,7 +637,10 @@ if __name__ == '__main__':
         add_description = c[6]
         name_additions = c[4]
         special_tags = specialtags + c[5]
-        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=l, d=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
-                           specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco)
+        makeResistorAxialHorizontal(generator_name=generator_name, seriesname=seriesname, rm=rm, rmdisp=rm, w=l, d=d, ddrill=ddrill, R_POW=R_POW,
+                        type=type, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                        specialfpname="", add_description=add_description, name_additions=name_additions,
+                        specialtags=special_tags, classname="CP", lib_name="Capacitor_THT", deco=deco)
+
+    num_fps_generated += len(caps)
+    return num_fps_generated
