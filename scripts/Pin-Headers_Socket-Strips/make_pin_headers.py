@@ -22,7 +22,7 @@ if __name__ == "__main__":
     pins_drill = 1
     pad = [1.7, 1.7]
     body_width_1row = 2.54
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 2.54
     body_offset_ra = 1.5
@@ -40,8 +40,8 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad, 
-                [], lib_name, class_name, class_description,
+                body_overlength, pins_drill, pad, 
+				[], lib_name, class_name, class_description,
             )
             makePinHeadAngled(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_width_ra, body_offset_ra, 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1], 
                     pin_length[row_count-1], pin_width, row_count * body_width_1row,
-                    overlength, overlength, dual_pad_smd, True,
+                    body_overlength, dual_pad_smd, True,
                     [], lib_name, class_name, class_description,
                 )
             elif num_pos != 1:
@@ -60,14 +60,14 @@ if __name__ == "__main__":
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width,
                     row_count * body_width_1row,
-                    overlength, overlength, single_pad_smd, True, 
+                    body_overlength, single_pad_smd, True,
                     [], lib_name, class_name, class_description,
                 )
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width,
                     row_count * body_width_1row,
-                    overlength, overlength, single_pad_smd, False, 
+                    body_overlength, single_pad_smd, False,
                     [], lib_name, class_name, class_description,
                 )
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     pins_drill = 0.8
     pad = [1.35, 1.35]
     body_width_1row = 2.0
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 1.5
     body_offset_ra = 3 - 1.5
@@ -93,8 +93,8 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad, 
-                [], lib_name, class_name, class_description,
+                body_overlength, pins_drill, pad, 
+				[], lib_name, class_name, class_description,
             )
             makePinHeadAngled(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_width_ra, body_offset_ra,
@@ -105,20 +105,20 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
 				    pin_length[row_count-1], pin_width, row_count * body_width_1row,
-                    overlength, overlength, dual_pad_smd, True,
+				    body_overlength, dual_pad_smd, True,
 				    [], lib_name, class_name, class_description,
                 )
             elif num_pos != 1:
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, row_count * body_width_1row,
-				    overlength, overlength, single_pad_smd, True,
+                    body_overlength, single_pad_smd, True,
                     [], lib_name, class_name, class_description,
                 )
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, row_count * body_width_1row,
-				    overlength, overlength, single_pad_smd, False,
+                    body_overlength, single_pad_smd, False,
                     [], lib_name, class_name, class_description,
                 )
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     pad = [1.0, 1.0]
     body_width = [2.1, 3.41]
     body_width_1row = 1.27
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 1.0
     body_offset_ra = 0.5
@@ -150,7 +150,7 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_width[row_count-1],
-                overlength, overlength, pins_drill, pad, 
+                body_overlength, pins_drill, pad, 
                 [], lib_name, class_name, class_description,
             )
             makePinHeadAngled(global_config,
@@ -162,20 +162,20 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
 				    pin_length[row_count-1], pin_width, body_width[row_count-1],
-                    overlength, overlength, dual_pad_smd, True,
+                    body_overlength, dual_pad_smd, True,
 				    [], lib_name, class_name, class_description,
                 )
             elif num_pos != 1:
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, body_width[row_count-1],
-				    overlength, overlength, single_pad_smd, True,
+				    body_overlength, single_pad_smd, True,
                     [], lib_name, class_name, class_description,
                 )
                 makePinHeadStraightSMD(global_config,
 				    num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, body_width[row_count-1],
-				    overlength, overlength, single_pad_smd, False,
+				    body_overlength, single_pad_smd, False,
                     [], lib_name, class_name, class_description,
                 )
 
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     pad = [0.85, 0.85]
     body_width = [1.27, 2.3]
     body_width_1row = 1.00
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = [1.0, 1.2]
     body_offset_ra = [0.25, 0.9]
@@ -207,7 +207,7 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_width[row_count-1],
-                overlength, overlength , pins_drill, pad,
+                body_overlength, pins_drill, pad,
                 [], lib_name, class_name, class_description,
             )
             makePinHeadAngled(global_config,
@@ -219,20 +219,20 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, body_width[row_count-1],
-                    overlength, overlength, dual_pad_smd, True,
+                    body_overlength, dual_pad_smd, True,
 					[], lib_name, class_name, class_description,
                 )
             elif num_pos != 1:
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, body_width[row_count-1],
-                    overlength, overlength, single_pad_smd, True,
+                    body_overlength, single_pad_smd, True,
                     [], lib_name, class_name, class_description,
                 )
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset[row_count-1],
                     pin_length[row_count-1], pin_width, body_width[row_count-1],
-                    overlength, overlength, single_pad_smd, False,
+                    body_overlength, single_pad_smd, False,
                     [], lib_name, class_name, class_description,
                 )
 
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     pins_drill = 1.75
     pad = [2.8, 2.8]
     body_width_1row = 6.35
-    overlength = 2.54
+    body_overlength = 0
     # (right) angled:
     body_width_ra = [6.35]
     body_offset_ra = [1.5]
@@ -267,13 +267,13 @@ if __name__ == "__main__":
 
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad, 
+                body_overlength, pins_drill, pad, 
                 [], lib_name, class_name, "Samtec HPM power header series 11.94mm post length",
                 name_format=format_01,
             )
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad, 
+                body_overlength, pins_drill, pad, 
                 [], lib_name, class_name, "Samtec HPM power header series 3.81mm post length",
                 name_format=format_05,
             )

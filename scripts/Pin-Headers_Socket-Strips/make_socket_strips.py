@@ -17,7 +17,7 @@ if __name__ == "__main__":
     pad = [1.7, 1.7]
     body_width_1row = 2.54
     body_offset_1row = 0
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 8.51
     body_offset_ra = 1.52
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         for num_pos in range(1,41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad, 
+                body_overlength, pins_drill, pad, 
                 [], lib_name, class_name, class_description, isSocket=True,
                 # offset3d=[-(row_count - 1) * pin_pitch / 2 / 25.4, -(num_pos - 1) * pin_pitch / 2 / 25.4, 0], 
                 # scale3d=[1, 1, 1],
@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                     pin_length, pin_width, row_count * body_width_1row,
-                    overlength, overlength, pad_smd, False,
+                    body_overlength, pad_smd, False,
                     [], lib_name, class_name, class_description, isSocket=True
                 )
             # new configs to match the files currently in footprints repo.
@@ -60,13 +60,13 @@ if __name__ == "__main__":
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, True,
+                        body_overlength, pad_smd, True,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     pins_drill = 0.8
     pad = [1.35, 1.35]
     body_width_1row = 2.0
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 6.35
     body_offset_ra = 1.27
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, row_count * body_width_1row,
-                overlength, overlength, pins_drill, pad,
+                body_overlength, pins_drill, pad,
                 [], lib_name, class_name, class_description, isSocket=True,
                 # offset3d=[0,0, 0], 
                 # scale3d=[1, 1, 1],
@@ -108,7 +108,7 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                 )
             # new configs to match the files currently in footprints repo.
@@ -117,13 +117,13 @@ if __name__ == "__main__":
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, True,
+                        body_overlength, pad_smd, True,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     pad = [1, 1]
     body_widths = [2.54, 3.05]
     body_width_1row = 1.27
-    overlength = pin_pitch / 2
+    body_overlength = 0
     # (right) angled:
     body_width_ra = 1
     body_offset_ra = 3.81 - 1
@@ -147,7 +147,7 @@ if __name__ == "__main__":
         for num_pos in range(1, 41):
             makePinHeadStraight(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_widths[row_count-1],
-                overlength, overlength , pins_drill, pad,
+                body_overlength , pins_drill, pad,
                 [], lib_name, class_name, class_description, isSocket=True,
                 # offset3d=[0, 0, 0], 
                 # scale3d=[1, 1, 1],
@@ -157,7 +157,7 @@ if __name__ == "__main__":
                 makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                 )
             # new configs to match the files currently in footprints repo.
@@ -166,13 +166,13 @@ if __name__ == "__main__":
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, True,
+                        body_overlength, pad_smd, True,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
 
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     pins_drill = 0.5
     pad = [0.85, 0.85]
     body_widths = [1.5, 2.5]
-    overlength = 0.75 + 0.5
+    body_overlength = 0.75
     # (right) angled:
     # body_width_ra = 1
     # body_offset_ra = 3.81-1
@@ -206,7 +206,7 @@ if __name__ == "__main__":
             if row_count == 1:
                 makePinHeadStraight(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, body_widths[row_count-1],
-                    overlength, overlength , pins_drill, pad,
+                    body_overlength , pins_drill, pad,
                     [], lib_name, class_name, class_description, isSocket=True,
                     # offset3d=[0, 0, 0], 
                     # scale3d=[1, 1, 1],
@@ -216,19 +216,19 @@ if __name__ == "__main__":
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
             elif num_pos != 1:
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, False,
+                        body_overlength, pad_smd, False,
                         [], lib_name, class_name, class_description, isSocket=True
                     )
                     makePinHeadStraightSMD(global_config,
                         num_pos, row_count, pin_pitch, pin_pitch, pad_offset,
                         pin_length, pin_width, row_count * body_width_1row,
-                        overlength, overlength, pad_smd, True,
+                        body_overlength, pad_smd, True,
                         [], lib_name, class_name, class_description, isSocket=True
                     )

@@ -45,8 +45,7 @@ def makePinHeadStraight(
     pin_pitch: float,
     row_pitch: float,
     body_width: float,
-    overlen_top: float,
-    overlen_bot: float,
+    body_overlength: float,
     pins_drill: float,
     pad: Vec2DCompatible,
     tags_additional: list[str] = [],
@@ -56,8 +55,9 @@ def makePinHeadStraight(
     isSocket: bool = False,
     name_format: str | None = None,
 ):
-
     gc = global_config
+    overlen_top = pin_pitch/2 + body_overlength
+    overlen_bot = pin_pitch/2 + body_overlength
 
     pad = Vector2D(pad)
 
@@ -340,8 +340,7 @@ def makeIdcHeader(
     pin_pitch: float,
     row_pitch: float,
     body_width: float,
-    overlen_top: float,
-    overlen_bot: float,
+    body_overlength: float,
     body_offset: float,
     pins_drill: float,
     pad: Vec2DCompatible,
@@ -364,12 +363,11 @@ def makeIdcHeader(
     class_description: str,
 ):
     # If pins_drill is zero, then create a SMD footprint:
-    #     SMT pads are created.
-    #     pin_pitch is row pitch
-    #     row_pitch is pad pitch for columns
-
     gc = global_config
+    overlen_top = pin_pitch/2 + body_overlength
+    overlen_bot = pin_pitch/2 + body_overlength
     pad = Vector2D(pad)
+
     mhole_pad = Vector2D(mhole_pad)
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
@@ -1195,8 +1193,7 @@ def makePinHeadStraightSMD(
     posx_pin_length: float,
     pin_width: float,
     body_width: float,
-    overlen_top: float,
-    overlen_bot: float,
+    body_overlength: float,
     pad: Vec2DCompatible,
     start_left: bool = True,
     tags_additional: list[str] = [],
@@ -1206,6 +1203,9 @@ def makePinHeadStraightSMD(
     isSocket: bool = False,
 ):
     gc = global_config
+    overlen_top = pin_pitch/2 + body_overlength
+    overlen_bot = pin_pitch/2 + body_overlength
+
     pad = Vector2D(pad)
     crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 

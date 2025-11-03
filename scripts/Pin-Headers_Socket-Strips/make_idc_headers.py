@@ -29,7 +29,7 @@ if __name__ == "__main__":
     orientation = "Vertical"
     latching = True
     body_width = 8.8
-    body_overlen = 10.97
+    body_overlength = 9.70
     body_offset = 0
     mating_overlen = 3.92
     wall_thickness = 1.2
@@ -48,7 +48,7 @@ if __name__ == "__main__":
             #for mhole_drill, mhole_pad, mhole_overlength in zip([0], [[0,0]], [0]):
                 makeIdcHeader(global_config,
                     num_pos, row_count, pin_pitch, pin_pitch, body_width,
-                    body_overlen, body_overlen, body_offset,
+                    body_overlength, body_offset,
                     pins_drill, pad,
                     mating_overlen, wall_thickness, notch_width,
                     orientation, latching, latch_len, latch_width,
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     orientation = "Horizontal"
     latching = True
     body_width = 1.24 + 15.53  # # existing KiCad footprint is 1.27+15.88
-    body_overlen = 10.97
+    body_overlength = 9.70
     body_offset = -1.24  # existing KiCad footprint is -1.27
     latch_len = 0
     mhole_drill = 2.69  # not sure why this needs to be here when it's above...
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         ):
             makeIdcHeader(global_config,
                 num_pos, row_count, pin_pitch, pin_pitch, body_width,
-                body_overlen, body_overlen, body_offset,
+                body_overlength, body_offset,
                 pins_drill, pad,
                 mating_overlen, wall_thickness, notch_width,
                 orientation, latching, latch_len, latch_width,
@@ -92,16 +92,15 @@ if __name__ == "__main__":
 
     orientation = "Vertical"
     latching = False
-    has_latch = False
     body_width = 8.9
-    body_overlen = 5.1
+    body_overlength = 3.83
     body_offset = 0
     mating_overlen = 3.91
 
     for num_pos in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 20, 22, 25, 30, 32]:
         makeIdcHeader(global_config,
             num_pos, row_count, pin_pitch, pin_pitch, body_width,
-            body_overlen, body_overlen, body_offset,
+            body_overlength, body_offset,
             pins_drill, pad,
             mating_overlen, wall_thickness, notch_width,
             orientation, latching, 0, 0,
@@ -118,12 +117,12 @@ if __name__ == "__main__":
 
     body_offset = 4.38 # distance from pin 1 row to the closest edge of the plastic body
     orientation = "Horizontal"
-    body_overlen = 5.1
+    body_overlength = 3.83
 
     for num_pos in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 20, 22, 25, 30, 32]:
         makeIdcHeader(global_config,
             num_pos, row_count, pin_pitch, pin_pitch, body_width,
-            body_overlen, body_overlen, body_offset,
+            body_overlength, body_offset,
             pins_drill, pad,
             mating_overlen, wall_thickness, notch_width,
             orientation, latching, 0, 0,
@@ -140,9 +139,8 @@ if __name__ == "__main__":
 
     orientation = "Vertical"
     latching = False
-    has_latch = False
     body_width = 8.95
-    body_overlen = 3.81 + 1.27
+    body_overlength = 3.81
     body_offset = 0
     mating_overlen = 2.72
     wall_thickness = 1.2
@@ -158,7 +156,7 @@ if __name__ == "__main__":
     for num_pos in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 20, 22, 25, 30]:
         makeIdcHeader(global_config,
             num_pos, row_count, pin_pitch, 7.60, body_width,
-            body_overlen, body_overlen, body_offset,
+            body_overlength, body_offset,
             pins_drill, pad,
             mating_overlen, wall_thickness, notch_width,
             orientation, latching, 0, 0,
