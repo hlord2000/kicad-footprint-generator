@@ -311,6 +311,30 @@ def _add_kept_out(
     return nodes
 
 
+# can be used together with applyKeepouts or other list of GeomLine
+# does not do the tiny line pruning of _add_kept_out
+def addLinesToLayer(kicad_mod: Footprint, layer, lines: list[GeomLine], width, roun):
+    for line in lines:
+        kicad_mod.append(
+            Line(
+                start=[
+                    round_to_grid_nearest(line.start.x, roun),
+                    round_to_grid_nearest(line.start.y, roun),
+                ],
+                end=[
+                    round_to_grid_nearest(line.end.x, roun),
+                    round_to_grid_nearest(line.end.y, roun),
+                ],
+                layer=layer,
+                width=width,
+            )
+        )
+
+
+def addLinesToSilk(kicak_mod: Footprint, lines: list[GeomLine], width, roun):
+    addLinesToLayer(kicak_mod, "F.SilkS", lines, width, roun)
+
+
 def makeLineWithKeepout(line: GeomLine, layer, width, keepouts=[], roun=0.001):
     """
     Split an arbitrary line so it does not interfere with keepout areas
@@ -679,12 +703,39 @@ def bevelRectTL(model, x, size, layer, width, bevel_size=1):
     model.append(
         PolygonLine(
             shape=[
+                # clockwise from top left (after bevel) to bevel diagonal.
                 [x[0] + bevel_size, x[1]],
                 [x[0] + size[0], x[1]],
                 [x[0] + size[0], x[1] + size[1]],
                 [x[0], x[1] + size[1]],
                 [x[0], x[1] + bevel_size],
                 [x[0] + bevel_size, x[1]],
+            ],
+            layer=layer,
+            width=width,
+        )
+    )
+
+
+#   +------+
+#   |       \
+#   |        \
+#   |        |
+#   |        |
+#   |        |
+#   |        |
+#   +--------+
+def bevelRectTR(model, x, size, layer, width, bevel_size=1):
+    model.append(
+        PolygonLine(
+            shape=[
+                # clockwise from top left to bottom left and top left again.
+                [x[0], x[1]],
+                [x[0] + size[0] - bevel_size, x[1]],
+                [x[0] + size[0], x[1] + bevel_size],
+                [x[0] + size[0], x[1] + size[1]],
+                [x[0], x[1] + size[1]],
+                [x[0], x[1]],
             ],
             layer=layer,
             width=width,

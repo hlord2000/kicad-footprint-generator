@@ -40,6 +40,7 @@ fp_format_check() {
         "tests"
         "scripts/tests/test_utils"
         "scripts/tools/drawing_tools.py"
+        "scripts/tools/misc_tools.py"
         "scripts/tools/nodes/layouts"
         "scripts/generator.py"
         "scripts/Connector_Dsub"
