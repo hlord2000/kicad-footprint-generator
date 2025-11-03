@@ -1,10 +1,8 @@
 import math as math
-import os
 
 import cadquery as cq
 
-from _tools import cq_color_correct, export_tools, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools
 
 from kilibs.declarative_defs.packages.terminal_block_barrier_properties import (
     TerminalBlockBarrierProperties,
@@ -12,19 +10,8 @@ from kilibs.declarative_defs.packages.terminal_block_barrier_properties import (
 
 
 def generate_model(
-    cfg: TerminalBlockBarrierProperties, output_dir: str, enable_vrml: bool
+    cfg: TerminalBlockBarrierProperties, output_dir_prefix: str, enable_vrml: bool
 ):
-
-    # Load the appropriate colors
-    col = shaderColors.named_colors[cfg.body_color_key]
-    r, g, b = col.getDiffuseFloat()
-    body_color = cq_color_correct.Color(r, g, b)
-    col = shaderColors.named_colors[cfg.pins_color_key]
-    r, g, b = col.getDiffuseFloat()
-    pins_color = cq_color_correct.Color(r, g, b)
-    col = shaderColors.named_colors[cfg.cover_color_key]
-    r, g, b = col.getDiffuseFloat()
-    cover_color = cq_color_correct.Color(r, g, b)
 
     # Collect the array of pin numbers so that we can handle the one config that has a custom set in a string
     for n_pins in cfg.n_pin_variants:
@@ -34,48 +21,19 @@ def generate_model(
 
         body, pins, cover = generate_parts(cfg, n_pins)
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
-        component.name = file_name
-        component.add(body, color=body_color)
-        component.add(pins, color=pins_color)
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [cfg.body_color_key, cfg.pins_color_key]
         if cover:
-            component.add(cover, color=cover_color)
+            parts.append(cover)
+            color_names.append(cfg.cover_color_key)
 
-        # Export the assembly to STEP
-        component.save(
-            os.path.join(output_dir, file_name + ".step"),
-            cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
-            write_pcurves=False,
-        )
-
-        # Check for a proper union
-        export_tools.check_step_export_union(component, output_dir, file_name)
-
-        # Do STEP post-processing
-        export_tools.postprocess_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            parts = [body, pins]
-            colors = [cfg.body_color_key, cfg.pins_color_key]
-            if cover:
-                parts.append(cover)
-                colors.append(cfg.cover_color_key)
-            export_VRML(os.path.join(output_dir, file_name + ".wrl"), parts, colors)
-
-        # Update the license
-        from _tools import add_license
-
-        add_license.addLicenseToStep(
-            output_dir,
-            file_name + ".step",
-            add_license.LIST_int_license,
-            add_license.STR_int_licAuthor,
-            add_license.STR_int_licEmail,
-            add_license.STR_int_licOrgSys,
-            add_license.STR_int_licPreProc,
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=cfg.lib_name,
+            model_name=file_name,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
 
 

@@ -3,7 +3,9 @@ import sys
 
 import cadquery as cq
 
-from _tools.stepreduce import stepreduce
+from _tools import cq_color_correct, shaderColors  # type: ignore
+from _tools.stepreduce import stepreduce  # type: ignore
+from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 skip_list = []
 
@@ -15,50 +17,82 @@ def make_only_one_part_per_process() -> None:
     _exit_process_after_first_part = True
 
 
-def export_step(
-    component: cq.Assembly, output_dir: str, model: str, fused: bool = True
+def export(
+    root_output_dir: str,
+    lib_name: str,
+    model_name: str,
+    parts: list[cq.Workplane],
+    color_names: list[str],
+    export_as_vrml: bool = False,
+    fused: bool = True,
 ) -> None:
-    # Setting this to True might help in faster development cycle as the step files generate more quickly
-    QUICK_STEP_GENERATE = False
+    """Save the model as STEP and optionally also as a VRML file.
 
-    # Create the output directory if it does not exist
+    Args:
+        root_output_dir: The root output directory.
+        lib_name: The library name where the model(s) shall be stored.
+        model_name: The name of the model(s).
+        parts: The list of parts (e.g. pins, body, pin marker) that shall be added
+            to the assembly.
+        color_names: The names of the colors of each part.
+        export_as_vrml: Whether to also save a VRML file.
+        fused: Whether to fuse the model or not (faster without fusing).
+    """
+    if not parts or not color_names:
+        return  # Nothing to export
+
+    # Create the output directory if it does not exist:
+    if lib_name.endswith(".3dshapes"):
+        output_dir = os.path.join(root_output_dir, lib_name)
+    else:
+        output_dir = os.path.join(root_output_dir, lib_name + ".3dshapes")
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    if not fused or QUICK_STEP_GENERATE:
-        mode = cq.exporters.assembly.ExportModes.DEFAULT
+    if fused:
+        mode = cq.exporters.assembly.ExportModes.FUSED  # pyright: ignore
     else:
-        mode = cq.exporters.assembly.ExportModes.FUSED
+        mode = cq.exporters.assembly.ExportModes.DEFAULT  # pyright: ignore
 
-    if not hasattr(component, "export"):
+    # Load the required colors:
+    colors: list[cq_color_correct.Color] = []
+    for color_name in color_names:
+        rgb = shaderColors.named_colors[color_name].getDiffuseFloat()
+        color = cq_color_correct.Color(rgb[0], rgb[1], rgb[2])
+        colors.append(color)
+
+    # Create an assembly in which all parts are wrapped:
+    assembly = cq.Assembly(name=model_name)
+
+    # Add the parts to the assembly:
+    for i, part in enumerate(parts):
+        assembly.add(part, color=colors[i])  # pyright: ignore
+
+    if not hasattr(assembly, "export"):
         # for backward compatibility with CadQuery < 2.5.0
-        component.export = component.save
+        assembly.export = assembly.save
 
     # Export the assembly to STEP
-    component.export(
-        os.path.join(output_dir, model + ".step"),
+    assembly.export(  # pyright: ignore
+        os.path.join(output_dir, model_name + ".step"),
         cq.exporters.ExportTypes.STEP,
-        mode=mode,
+        mode=mode,  # pyright: ignore
         write_pcurves=False,
     )
 
-    # Don't improve the step files any further in the quick mode
-    if QUICK_STEP_GENERATE:
-        return
-
-    # Check for a proper union
+    # Check for a proper union:
     if fused:
-        check_step_export_union(component, output_dir, model)
+        check_step_export_union(assembly, output_dir, model_name)
 
-    # Do STEP post-processing
-    postprocess_step(component, output_dir, model)
+    # Do STEP post-processing:
+    postprocess_step(assembly, output_dir, model_name)
 
     # Update the license
     from _tools import add_license  # type: ignore
 
     add_license.addLicenseToStep(  # type: ignore
         output_dir,
-        model + ".step",
+        model_name + ".step",
         add_license.LIST_int_license,
         add_license.STR_int_licAuthor,
         add_license.STR_int_licEmail,
@@ -68,6 +102,13 @@ def export_step(
 
     if _exit_process_after_first_part:
         sys.exit(0)
+
+    if export_as_vrml:
+        export_VRML(
+            os.path.join(output_dir, model_name + ".wrl"),
+            parts,
+            color_names,
+        )
 
 
 def check_step_export_union(
@@ -88,10 +129,10 @@ def check_step_export_union(
 
     # Try multiple fuzzy tolerance values to try to fix
     while union.solids().size() != 1:
-        component.save(
+        component.export(  # pyright: ignore
             cur_path,
             cq.exporters.ExportTypes.STEP,
-            mode=cq.exporters.assembly.ExportModes.FUSED,
+            mode=cq.exporters.assembly.ExportModes.FUSED,  # pyright: ignore
             assembly_name=model,
             write_pcurves=False,
             fuzzy_tol=tol,

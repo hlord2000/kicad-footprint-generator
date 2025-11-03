@@ -67,7 +67,7 @@ from typing import Any
 import cadquery as cq
 import yaml
 
-from _tools import cq_color_correct, export_tools, shaderColors  # type:ignore
+from _tools import export_tools
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.declarative_defs.packages.grid_array_configuration import (  # type: ignore
@@ -75,8 +75,6 @@ from kilibs.declarative_defs.packages.grid_array_configuration import (  # type:
     load_config,
 )
 from kilibs.util import dict_tools  # type: ignore
-
-dest_dir_prefix = "Package_BGA.3dshapes"
 
 
 def make_plg(
@@ -283,54 +281,22 @@ def make_models(
                         if config.has_3d_data:
                             configs.append(config)
 
-    if output_dir_prefix == None:
-        print("ERROR: An output directory must be provided.")
-        return
-    else:
-        # Construct the final output directory
-        output_dir = os.path.join(output_dir_prefix, dest_dir_prefix)
-
-    # Load the colors
-    rgb_body_b = shaderColors.named_colors["dark green body"].getDiffuseFloat()
-    rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
-    rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
-    rgb_mark = shaderColors.named_colors["light brown label"].getDiffuseFloat()
-
-    rgb_body_b = cq_color_correct.Color(rgb_body_b[0], rgb_body_b[1], rgb_body_b[2])
-    body_color = cq_color_correct.Color(rgb_body[0], rgb_body[1], rgb_body[2])
-    pin_color = cq_color_correct.Color(rbg_pin[0], rbg_pin[1], rbg_pin[2])
-    mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
-
     # Step through the selected models
     for bga_config in configs:
         # Generate the current model
         case_bot, case, pins, pinmark = make_case(bga_config)
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=bga_config.name)
-        if case_bot != None:
-            component.add(case_bot, color=rgb_body_b)  # type: ignore
-        component.add(case, color=body_color)  # type: ignore
-        component.add(pins, color=pin_color)  # type: ignore
-        component.add(pinmark, color=mark_color)  # type: ignore
+        parts: list[cq.Workplane] = [case, pins, pinmark]
+        color_names: list[str] = ["black body", "metal grey pins", "light brown label"]
+        if case_bot is not None:
+            parts.append(case_bot)
+            color_names.append("dark green body")
 
-        part_output_dir = output_dir
-        part_output_dir = os.path.join(
-            output_dir_prefix, bga_config.lib_name + ".3dshapes"
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=bga_config.lib_name,
+            model_name=bga_config.name,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
-
-        # Export the assembly to STEP
-        export_tools.export_step(component, part_output_dir, bga_config.name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            parts = [case, pins, pinmark]
-            colors = ["black body", "metal grey pins", "light brown label"]
-            if case_bot != None:
-                parts.append(case_bot)
-                colors.append("dark green body")
-            export_VRML(
-                os.path.join(part_output_dir, bga_config.name + ".wrl"),
-                parts,
-                colors,
-            )

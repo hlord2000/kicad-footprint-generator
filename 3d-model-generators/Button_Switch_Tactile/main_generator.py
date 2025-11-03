@@ -35,12 +35,9 @@
 # Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 
 def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
@@ -69,39 +66,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        shell_color = shaderColors.named_colors[
-            all_params[model]["shell_color_key"]
-        ].getDiffuseFloat()
-        actuator_color = shaderColors.named_colors[
-            all_params[model]["actuator_color_key"]
-        ].getDiffuseFloat()
-        if all_params[model].get("actuator_base_color_key"):
-            actuator_base_color = shaderColors.named_colors[
-                all_params[model]["actuator_base_color_key"]
-            ].getDiffuseFloat()
-        else:
-            actuator_base_color = None
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
 
         # Generate the current model
         if all_params[model]["model_class"] == "tactile":
@@ -138,32 +107,22 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                     all_params[model]["translation"]
                 )
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=model)
-        component.add(body, color=cq_color_correct.Color(*body_color))
-        component.add(shell, color=cq_color_correct.Color(*shell_color))
-        component.add(pins, color=cq_color_correct.Color(*pins_color))
-        component.add(actuator, color=cq_color_correct.Color(*actuator_color))
+        parts: list[cq.Workplane] = [body, shell, pins, actuator]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["shell_color_key"],
+            all_params[model]["pins_color_key"],
+            all_params[model]["actuator_color_key"],
+        ]
         if actuator_base:
-            component.add(
-                actuator_base, color=cq_color_correct.Color(*actuator_base_color)
-            )
+            parts.append(actuator_base)
+            color_names.append(all_params[model]["actuator_base_color_key"])
 
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            meshes = [body, shell, pins, actuator]
-            colors = [
-                all_params[model]["body_color_key"],
-                all_params[model]["shell_color_key"],
-                all_params[model]["pins_color_key"],
-                all_params[model]["actuator_color_key"],
-            ]
-
-            if actuator_base:
-                meshes.append(actuator_base)
-                colors.append(all_params[model]["actuator_base_color_key"])
-
-            export_VRML(os.path.join(output_dir, model + ".wrl"), meshes, colors)
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

@@ -62,19 +62,10 @@ __Comment__ = (
 ___ver___ = "1.3.4 18/06/2020"
 
 import math
-import os
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
-
-body_color_key = "black body"  # Body color
-body_color = shaderColors.named_colors[body_color_key].getDiffuseFloat()
-pins_color_key = "metal grey pins"  # Pin color
-pins_color = shaderColors.named_colors[pins_color_key].getDiffuseFloat()
-
-dest_dir_prefix = "TerminalBlock_Altech.3dshapes"
+from _tools import export_tools, parameters
 
 
 def make_case_AK300(model, params, pinnumber):
@@ -292,13 +283,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
     else:
         models = {model_to_build: all_params[model_to_build]}
 
-    if output_dir_prefix == None:
-        print("ERROR: An output directory must be provided.")
-        return
-    else:
-        # Construct the final output directory
-        output_dir = os.path.join(output_dir_prefix, dest_dir_prefix)
-
     # Step through the selected models
     for model in models:
 
@@ -310,24 +294,14 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         body = make_case_AK300(model, all_params, all_params[model]["pin_number"])
         pins = make_pins_AK300(model, all_params, all_params[model]["pin_number"])
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=model)
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
+        parts: list[cq.Workplane] = [body, pins]
+        color_names = ["black body", "metal grey pins"]
 
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, model + ".wrl"),
-                [body, pins],
-                ["black body", "metal grey pins"],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name="TerminalBlock_Altech",
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

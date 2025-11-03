@@ -54,8 +54,6 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "1.0.0"
 
-import os
-
 from _tools import parameters
 
 from kilibs.declarative_defs.packages.terminal_block_barrier_properties import (
@@ -85,17 +83,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
         cfg = TerminalBlockBarrierProperties(all_params[model_id], model_id)
 
-        # Construct the final output directory
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            output_dir = os.path.join(output_dir_prefix, cfg.lib_name + ".3dshapes")
-
-        # Create the output directory if it does not exist
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-
         # Safety check to make sure the selected model is valid
         if not model_id in all_params.keys():
             print(f"Parameters for {model_id} doesn't exist in 'all_params', skipping.")
@@ -103,4 +90,4 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
         print(f"       {model_id}:")
 
-        generate_model(cfg, output_dir, enable_vrml)
+        generate_model(cfg, output_dir_prefix, enable_vrml)

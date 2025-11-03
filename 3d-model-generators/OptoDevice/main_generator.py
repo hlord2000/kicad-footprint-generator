@@ -33,12 +33,9 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 from .vishay_cny70 import make_Vishay_CNY70
 from .vishay_tcrt5000 import make_Vishay_TCRT5000
@@ -69,36 +66,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         models = {model_to_build: all_params[model_to_build]}
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        em_color = shaderColors.named_colors[
-            all_params[model]["emitter_color_key"]
-        ].getDiffuseFloat()
-        dt_color = shaderColors.named_colors[
-            all_params[model]["detector_color_key"]
-        ].getDiffuseFloat()
-        text_color = shaderColors.named_colors[
-            all_params[model]["text_color_key"]
-        ].getDiffuseFloat()
-        pin_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
 
         modelName = all_params[model]["model_name"]
         # Make the parts of the model
@@ -113,47 +85,20 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         text = text.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
         pin = pin.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
+        parts: list[cq.Workplane] = [body, em, dt, text, pin]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["emitter_color_key"],
+            all_params[model]["detector_color_key"],
+            all_params[model]["text_color_key"],
+            all_params[model]["pin_color_key"],
+        ]
 
-        # Add the parts to the assembly
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=all_params[model]["model_name"],
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
-        component.add(
-            em,
-            color=cq_color_correct.Color(em_color[0], em_color[1], em_color[2]),
-        )
-        component.add(
-            dt,
-            color=cq_color_correct.Color(dt_color[0], dt_color[1], dt_color[2]),
-        )
-        component.add(
-            text,
-            color=cq_color_correct.Color(text_color[0], text_color[1], text_color[2]),
-        )
-        component.add(
-            pin, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
-        )
-
-        # Assemble the filename
-        file_name = all_params[model]["model_name"]
-
-        # Export the assembly to STEP
-        component.name = file_name
-        export_tools.export_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, file_name + ".wrl"),
-                [body, em, dt, text, pin],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["emitter_color_key"],
-                    all_params[model]["detector_color_key"],
-                    all_params[model]["text_color_key"],
-                    all_params[model]["pin_color_key"],
-                ],
-            )

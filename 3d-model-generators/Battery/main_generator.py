@@ -59,12 +59,9 @@ __Comment__ = "make battery 3D models exported to STEP and VRML"
 
 ___ver___ = "2.0.0"
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 # import .battery_casebutton
 from .battery_casebutton import *
@@ -90,8 +87,6 @@ from .cq_Keystone_2993 import *
 # import .cq_Seiko_MSXXXX
 from .cq_Seiko_MSXXXX import *
 
-dest_dir_prefix = "Battery.3dshapes"
-
 
 def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
     """
@@ -116,13 +111,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         models = all_params
     else:
         models = {model_to_build: all_params[model_to_build]}
-
-    if output_dir_prefix == None:
-        print("ERROR: An output directory must be provided.")
-        return
-    else:
-        # Construct the final output directory
-        output_dir = os.path.join(output_dir_prefix, dest_dir_prefix)
 
     # Step through the selected models
     for model in models:
@@ -157,48 +145,20 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             case = make_case_Cylinder1(all_params[model])
             pins = make_pins(all_params[model])
 
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
+        parts: list[cq.Workplane] = []
+        color_names: list[str] = []
+        if case is not None:
+            parts.append(case)
+            color_names.append(all_params[model]["body_color_key"])
+        if pins is not None:
+            parts.append(pins)
+            color_names.append(all_params[model]["pins_color_key"])
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=model)
-        if case:
-            component.add(
-                case,
-                color=cq_color_correct.Color(
-                    body_color[0], body_color[1], body_color[2]
-                ),
-            )
-        if pins:
-            component.add(
-                pins,
-                color=cq_color_correct.Color(
-                    pins_color[0], pins_color[1], pins_color[2]
-                ),
-            )
-
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            if case is not None:
-                export_VRML(
-                    os.path.join(output_dir, model + ".wrl"),
-                    [case, pins],
-                    [
-                        all_params[model]["body_color_key"],
-                        all_params[model]["pins_color_key"],
-                    ],
-                )
-            else:
-                export_VRML(
-                    os.path.join(output_dir, model + ".wrl"),
-                    [pins],
-                    [all_params[model]["pins_color_key"]],
-                )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name="Battery",
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

@@ -27,12 +27,9 @@
 # Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 
 def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
@@ -60,14 +57,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         models = {model_to_build: all_params[model_to_build]}
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
@@ -88,23 +77,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         pins = cqm.make_pins(all_params[model])
         labels = cqm.make_labels(all_params[model])
 
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        dial_color = shaderColors.named_colors[
-            all_params[model]["dial_color_key"]
-        ].getDiffuseFloat()
-        shell_color = shaderColors.named_colors[
-            all_params[model]["shell_color_key"]
-        ].getDiffuseFloat()
-        pin_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
-        labels_color = shaderColors.named_colors[
-            all_params[model]["labels_color_key"]
-        ].getDiffuseFloat()
-
         if all_params[model].get("rotation"):
             body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
             pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
@@ -119,27 +91,20 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             shell = shell.translate(all_params[model]["translation"])
             labels = labels.translate(all_params[model]["translation"])
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly(name=model)
-        component.add(body, color=cq_color_correct.Color(*body_color))
-        component.add(dial, color=cq_color_correct.Color(*dial_color))
-        component.add(shell, color=cq_color_correct.Color(*shell_color))
-        component.add(pins, color=cq_color_correct.Color(*pin_color))
-        component.add(labels, color=cq_color_correct.Color(*labels_color))
+        parts: list[cq.Workplane] = [body, dial, shell, pins, labels]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["dial_color_key"],
+            all_params[model]["shell_color_key"],
+            all_params[model]["pin_color_key"],
+            all_params[model]["labels_color_key"],
+        ]
 
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, model + ".wrl"),
-                [body, dial, shell, pins, labels],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["dial_color_key"],
-                    all_params[model]["shell_color_key"],
-                    all_params[model]["pin_color_key"],
-                    all_params[model]["labels_color_key"],
-                ],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

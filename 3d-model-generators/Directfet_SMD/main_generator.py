@@ -58,8 +58,7 @@ import os
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 from .directfet_smd import make_chip
 
@@ -103,14 +102,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
 
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        die_color = shaderColors.named_colors[
-            all_params[model]["die_color_key"]
-        ].getDiffuseFloat()
-
         # Make the parts of the model
         (body, die) = make_chip(all_params[model])
 
@@ -124,32 +115,17 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
         )  # .translate ((mvX,-mvY,0))
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
+        parts: list[cq.Workplane] = [body, die]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["die_color_key"],
+        ]
 
-        # Add the parts to the assembly
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=all_params[model]["model_name"],
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
-        component.add(
-            die, color=cq_color_correct.Color(die_color[0], die_color[1], die_color[2])
-        )
-
-        # Assemble the filename
-        file_name = all_params[model]["model_name"]
-
-        # Export the assembly to STEP
-        component.name = file_name
-        export_tools.export_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, file_name + ".wrl"),
-                [body, die],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["die_color_key"],
-                ],
-            )

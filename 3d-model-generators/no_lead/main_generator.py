@@ -55,16 +55,13 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 ___ver___ = "2.0.0"
 
 import glob
-import multiprocessing
-import multiprocessing.pool
 import os
-import sys
 from pathlib import Path
 
 import cadquery as cq
 import yaml
 
-from _tools import cq_color_correct, export_tools, shaderColors  # type: ignore
+from _tools import export_tools  # type: ignore
 from exportVRML.export_part_to_VRML import export_VRML  # type: ignore
 
 from kilibs.declarative_defs.packages.no_lead_configuration import (  # type: ignore
@@ -131,48 +128,24 @@ def make_single_no_lead_model(
     enable_vrml: bool,
 ) -> None:
     print(nlc.model_name, flush=True)
-    lib_name = nlc.lib_name + ".3dshapes"
-    output_dir = os.path.join(output_dir_prefix, lib_name)
-    # Load the appropriate colors
-    rgb_body = shaderColors.named_colors["black body"].getDiffuseFloat()
-    rbg_pin = shaderColors.named_colors["metal grey pins"].getDiffuseFloat()
-    rgb_mark = shaderColors.named_colors["light brown label"].getDiffuseFloat()
-
-    body_color = cq_color_correct.Color(rgb_body[0], rgb_body[1], rgb_body[2])
-    pin_color = cq_color_correct.Color(rbg_pin[0], rbg_pin[1], rbg_pin[2])
-    mark_color = cq_color_correct.Color(rgb_mark[0], rgb_mark[1], rgb_mark[2])
 
     # Make the parts of the model
     (body, pins, epad, mark) = make_qfn(nlc)
 
-    # Used to wrap all the parts into an assembly
-    component = cq.Assembly()
-
-    # Add the parts to the assembly
-    component.add(body, color=body_color)  # type: ignore
-    component.add(pins, color=pin_color)  # type: ignore
-    if mark:
-        component.add(mark, color=mark_color)  # type: ignore
+    parts: list[cq.Workplane] = [body, pins]
+    color_names: list[str] = ["black body", "metal grey pins"]
     if epad:
-        component.add(epad, color=pin_color)  # type: ignore
+        parts.append(epad)
+        color_names.append("metal grey pins")
+    if mark:
+        parts.append(mark)
+        color_names.append("light brown label")
 
-    component.name = nlc.model_name
-
-    # Export the assembly to STEP
-    export_tools.export_step(component, output_dir, nlc.model_name)
-
-    # Export the assembly to VRML
-    if enable_vrml:
-        components = [body, pins]
-        colors = ["black body", "metal grey pins"]
-        if epad:
-            components.append(epad)
-            colors.append("metal grey pins")
-        if mark:
-            components.append(mark)
-            colors.append("light brown label")
-        export_VRML(
-            os.path.join(output_dir, nlc.model_name + ".wrl"),
-            components,
-            colors,
-        )
+    export_tools.export(
+        root_output_dir=output_dir_prefix,
+        lib_name=nlc.lib_name,
+        model_name=nlc.model_name,
+        parts=parts,
+        color_names=color_names,
+        export_as_vrml=enable_vrml,
+    )

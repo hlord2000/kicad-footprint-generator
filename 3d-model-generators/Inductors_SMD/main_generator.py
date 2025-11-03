@@ -62,8 +62,7 @@ from typing import Any
 import cadquery as cq
 import yaml
 
-from _tools import cq_color_correct, export_tools, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools
 
 from kilibs.declarative_defs.packages.smd_inductor_properties import (
     CuboidParameters,
@@ -156,7 +155,7 @@ def make_models(
             # For each series block in the yaml file, we process the CSV
             for series_block in data_loaded:
                 print(f"  Processing series: {series_block["series"]}")
-                generator.generate_series(series_block, csv_dir)
+                generator.generate_series(series_block, csv_dir, enable_vrml)
 
 
 class SmdInductorGenerator:
@@ -166,7 +165,9 @@ class SmdInductorGenerator:
     def __init__(self, output_prefix: Path):
         self.output_prefix = output_prefix
 
-    def generate_series(self, series_block: dict[str, Any], csv_dir: Path):
+    def generate_series(
+        self, series_block: dict[str, Any], csv_dir: Path, enable_vrml: bool
+    ):
         series_data = InductorSeriesProperties(series_block, csv_dir)
 
         if "3d" not in series_block:
@@ -180,13 +181,14 @@ class SmdInductorGenerator:
             model_props = Inductor3DProperties(series_block["3d"])
             print("  Part number:", part_data.part_number)
 
-            self._generate_model(series_data, model_props, part_data)
+            self._generate_model(series_data, model_props, part_data, enable_vrml)
 
     def _generate_model(
         self,
         series_data: InductorSeriesProperties,
         series_3d_props: Inductor3DProperties,
         part_data: SmdInductorProperties,
+        enable_vrml: bool,
     ):
 
         model_builder: InductorModelBuilder
@@ -203,73 +205,27 @@ class SmdInductorGenerator:
 
         model_parts = model_builder.build()
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
-
-        if model_parts.case is not None:
-            stepBodyColor = shaderColors.named_colors[
-                series_3d_props.body_color
-            ].getDiffuseFloat()
-
-            component.add(
-                model_parts.case,
-                color=cq_color_correct.Color(
-                    stepBodyColor[0], stepBodyColor[1], stepBodyColor[2]
-                ),
-            )
-
-        if model_parts.coil is not None:
-            stepCoilColor = shaderColors.named_colors[
-                series_3d_props.coil_color
-            ].getDiffuseFloat()
-            component.add(
-                model_parts.coil,
-                color=cq_color_correct.Color(
-                    stepCoilColor[0], stepCoilColor[1], stepCoilColor[2]
-                ),
-            )
-
-        if model_parts.pins is not None:
-
-            stepPinColor = shaderColors.named_colors[
-                series_3d_props.pad_color
-            ].getDiffuseFloat()
-
-            component.add(
-                model_parts.pins,
-                color=cq_color_correct.Color(
-                    stepPinColor[0], stepPinColor[1], stepPinColor[2]
-                ),
-            )
-
-        # Assemble the filename
-        file_name = f"L_{series_data.manufacturer}_{part_data.part_number}"
-
-        output_dir = os.path.join(
-            self.output_prefix, (series_data.library_name + ".3dshapes")
-        )
-
-        # Export the assembly to STEP
-        component.name = file_name
-        export_tools.export_step(component, output_dir, file_name)
-
         # Export the assembly to VRML
         # Dec 2022- do not use CadQuery VRML export, it scales/uses inches.
-        PartList = []
-        ColorList = []
+        parts: list[cq.Workplane] = []
+        color_names: list[str] = []
         if model_parts.case is not None:
-            PartList.append(model_parts.case)
-            ColorList.append(series_3d_props.body_color)
-        if model_parts.coil:
-            PartList.append(model_parts.coil)
-            ColorList.append(series_3d_props.coil_color)
+            parts.append(model_parts.case)
+            color_names.append(series_3d_props.body_color)
+        if model_parts.coil is not None:
+            parts.append(model_parts.coil)
+            color_names.append(series_3d_props.coil_color)
         if model_parts.pins is not None:
-            PartList.append(model_parts.pins)
-            ColorList.append(series_3d_props.pad_color)
-        export_VRML(
-            os.path.join(output_dir, file_name + ".wrl"),
-            PartList,
-            ColorList,
+            parts.append(model_parts.pins)
+            color_names.append(series_3d_props.pad_color)
+
+        export_tools.export(
+            root_output_dir=self.output_prefix,
+            lib_name=series_data.library_name,
+            model_name=f"L_{series_data.manufacturer}_{part_data.part_number}",
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
 
 

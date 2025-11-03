@@ -56,13 +56,9 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
-import os
-from math import radians, tan
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import cq_color_correct, export_tools, parameters, shaderColors
 
 from .cq_socket_strips import angled_socket_strip, smd_socket_strip, socket_strip
 
@@ -93,31 +89,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
-
-        # Create a model for each set of rows
-        # for row_num in range(all_params[model]["num_pin_rows_min"], all_params[model]["num_pin_rows_max"] + 1):
-        #     all_params[model]["num_pin_rows"] = row_num
 
         # Create a model for each number of pins
         for pin_num in range(
@@ -218,20 +194,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                 (-translation[0], translation[1], translation[2])
             ).rotate((0, 0, 0), (0, 0, 1), all_params[model]["rotation"])
 
-            # Add the parts to the assembly
-            component.add(
-                body,
-                color=cq_color_correct.Color(
-                    body_color[0], body_color[1], body_color[2]
-                ),
-            )
-            component.add(
-                pins,
-                color=cq_color_correct.Color(
-                    pins_color[0], pins_color[1], pins_color[2]
-                ),
-            )
-
             # Make sure the pin name is zero padded
             if pin_num < 10:
                 pin_num_str = "0" + str(pin_num)
@@ -243,17 +205,17 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
                 all_params[model]["num_pin_rows"], pin_num_str
             )
 
-            # Export the assembly to STEP
-            component.name = file_name
-            export_tools.export_step(component, output_dir, file_name)
+            parts: list[cq.Workplane] = [body, pins]
+            color_names: list[str] = [
+                all_params[model]["body_color_key"],
+                all_params[model]["pins_color_key"],
+            ]
 
-            # Export the assembly to VRML
-            if enable_vrml:
-                export_VRML(
-                    os.path.join(output_dir, file_name + ".wrl"),
-                    [body, pins],
-                    [
-                        all_params[model]["body_color_key"],
-                        all_params[model]["pins_color_key"],
-                    ],
-                )
+            export_tools.export(
+                root_output_dir=output_dir_prefix,
+                lib_name=all_params[model]["destination_dir"],
+                model_name=file_name,
+                parts=parts,
+                color_names=color_names,
+                export_as_vrml=enable_vrml,
+            )

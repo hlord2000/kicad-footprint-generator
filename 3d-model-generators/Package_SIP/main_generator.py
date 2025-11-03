@@ -54,12 +54,9 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 from .cq_eSIP import cq_eSIP
 from .cq_Sanyo_STK4xx import cq_Sanyo_STK4xx
@@ -91,33 +88,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         models = {model_to_build: all_params[model_to_build]}
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_top_color = shaderColors.named_colors[
-            all_params[model]["body_top_color_key"]
-        ].getDiffuseFloat()
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pin_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
-        nth_pin_color = shaderColors.named_colors[
-            all_params[model]["npth_pin_color_key"]
-        ].getDiffuseFloat()
 
         if model == "PowerIntegrations_eSIP-7C":
             cqm = cq_eSIP()
@@ -213,51 +188,25 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
         )
 
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["pin_color_key"],
+        ]
+        # Make sure we do not have a dummy top
+        if not isinstance(body_top.val(), cq.Vector):
+            parts.append(body_top)
+            color_names.append(all_params[model]["body_top_color_key"])
+        # Make sure we do not have dummy nth pins
+        if not isinstance(npth_pins.val(), cq.Vector):
+            parts.append(npth_pins)
+            color_names.append(all_params[model]["npth_pin_color_key"])
 
-        # Add the parts to the assembly
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=all_params[model]["model_name"],
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
         )
-        component.add(
-            body_top,
-            color=cq_color_correct.Color(
-                body_top_color[0], body_top_color[1], body_top_color[2]
-            ),
-        )
-        component.add(
-            pins, color=cq_color_correct.Color(pin_color[0], pin_color[1], pin_color[2])
-        )
-        component.add(
-            npth_pins,
-            color=cq_color_correct.Color(
-                nth_pin_color[0], nth_pin_color[1], nth_pin_color[2]
-            ),
-        )
-
-        # Assemble the filename
-        file_name = all_params[model]["model_name"]
-
-        # Export the assembly to STEP
-        component.name = file_name
-        export_tools.export_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            parts = [body, pins]
-            colors = [
-                all_params[model]["body_color_key"],
-                all_params[model]["pin_color_key"],
-            ]
-            # Make sure we do not have a dummy top
-            if not isinstance(body_top.val(), cq.Vector):
-                parts.append(body_top)
-                colors.append(all_params[model]["body_top_color_key"])
-            # Make sure we do not have dummy nth pins
-            if not isinstance(npth_pins.val(), cq.Vector):
-                parts.append(npth_pins)
-                colors.append(all_params[model]["npth_pin_color_key"])
-            # Dp the export
-            export_VRML(os.path.join(output_dir, file_name + ".wrl"), parts, colors)

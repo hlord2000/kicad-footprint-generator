@@ -54,13 +54,10 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 
 ___ver___ = "2.0.0"
 
-import os
-from math import radians, tan
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 from .converter_dcdc import *
 
@@ -90,39 +87,16 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         models = {model_to_build: all_params[model_to_build]}
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
 
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        body_top_color = shaderColors.named_colors[
-            all_params[model]["body_top_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pin_color_key"]
-        ].getDiffuseFloat()
-
         # Make the parts of the model
         case = make_case(all_params[model])
         case_top = make_case_top(all_params[model])
         pins = make_pins(all_params[model])
-
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly()
-
         # Translation and rotation of the parts, if needed
         translation = (
             all_params[model]["translation"]
@@ -139,37 +113,18 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             (0, 0, 0), (0, 0, 1), all_params[model]["rotation"]
         )
 
-        # Add the parts to the assembly
-        component.add(
-            case,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            case_top,
-            color=cq_color_correct.Color(
-                body_top_color[0], body_top_color[1], body_top_color[2]
-            ),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
+        parts: list[cq.Workplane] = [case, case_top, pins]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["body_top_color_key"],
+            all_params[model]["pin_color_key"],
+        ]
 
-        # Assemble the filename
-        file_name = all_params[model]["model_name"]
-
-        # Export the assembly to STEP
-        component.name = file_name
-        export_tools.export_step(component, output_dir, file_name)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, file_name + ".wrl"),
-                [case, case_top, pins],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["body_top_color_key"],
-                    all_params[model]["pin_color_key"],
-                ],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=all_params[model]["model_name"],
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

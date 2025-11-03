@@ -56,14 +56,9 @@ __Comment__ = "make pin header 3D models exported to STEP and VRML"
 
 ___ver___ = "2.0.0"
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
-
-dest_dir_prefix = "Connector_IDC.3dshapes"
+from _tools import export_tools, parameters
 
 
 def MakeBase(pins, highDetail=True):
@@ -281,27 +276,12 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
     else:
         models = {model_to_build: all_params[model_to_build]}
 
-    if output_dir_prefix == None:
-        print("ERROR: An output directory must be provided.")
-        return
-    else:
-        # Construct the final output directory
-        output_dir = os.path.join(output_dir_prefix, dest_dir_prefix)
-
     # Step through the selected models
     for model in models:
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
 
         # Set high detail mode to always be on
         highDetail = True
@@ -323,27 +303,17 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             pins = MakePinRow(n, -3.0, 8.0)
             pins = pins.union(MakePinRow(n, -3.0, 8.0).translate((2.54, 0, 0)))
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly(name=model)
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
+        parts: list[cq.Workplane] = [body, pins]
+        color_names: list[str] = [
+            all_params[model]["body_color_key"],
+            all_params[model]["pins_color_key"],
+        ]
 
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, model + ".wrl"),
-                [body, pins],
-                [
-                    all_params[model]["body_color_key"],
-                    all_params[model]["pins_color_key"],
-                ],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name="Connector_IDC",
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

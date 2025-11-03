@@ -55,13 +55,10 @@ __Comment__ = """Makes varistor 3D models exported to STEP and VRML."""
 
 ___ver___ = "2.0.0"
 
-import os
-from math import radians, tan
 
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
+from _tools import export_tools, parameters
 
 from . import cq_murata, cq_sprague_goodman, cq_voltronics
 
@@ -92,30 +89,11 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
 
     # Step through the selected models
     for model in models:
-        if output_dir_prefix == None:
-            print("ERROR: An output directory must be provided.")
-            return
-        else:
-            # Construct the final output directory
-            output_dir = os.path.join(
-                output_dir_prefix, all_params[model]["destination_dir"]
-            )
 
         # Safety check to make sure the selected model is valid
         if not model in all_params.keys():
             print("Parameters for %s doesn't exist in 'all_params', skipping." % model)
             continue
-
-        # Load the appropriate colors
-        body_top_color = shaderColors.named_colors[
-            all_params[model]["body_top_color_key"]
-        ].getDiffuseFloat()
-        body_color = shaderColors.named_colors[
-            all_params[model]["body_color_key"]
-        ].getDiffuseFloat()
-        pins_color = shaderColors.named_colors[
-            all_params[model]["pins_color_key"]
-        ].getDiffuseFloat()
 
         # Generate the current model
         if all_params[model]["model_class"] == "murata":
@@ -127,9 +105,6 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
         else:
             print("ERROR: No match found for the model_class")
             continue
-
-        # Used to wrap all the parts into an assembly
-        component = cq.Assembly(name=model)
 
         # The CP Axial capacitors are a special case
         if all_params[model]["model_class"] == "murata":
@@ -193,50 +168,23 @@ def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
             print("ERROR: No match for model_class")
             continue
 
-        # Rotate all parts to the correct orientation
-        # body_top = body_top.rotate((0, 0, 0), (0, 0, 1), all_params[model]['rotation'])
-        # body = body.rotate((0, 0, 0), (0, 0, 1), all_params[model]['rotation'])
-        # pins = pins.rotate((0, 0, 0), (0, 0, 1), all_params[model]['rotation'])
-
-        # Add the parts to the assembly
-        component.add(
-            body_top,
-            color=cq_color_correct.Color(
-                body_top_color[0], body_top_color[1], body_top_color[2]
-            ),
-        )
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
+        parts: list[cq.Workplane] = [body_top, body, pins]
+        color_names: list[str] = [
+            all_params[model]["body_top_color_key"],
+            all_params[model]["body_color_key"],
+            all_params[model]["pins_color_key"],
+        ]
 
         # Handle nth pins
         if all_params[model]["model_class"] == "sprague_goodman":
-            nth_pins_color = shaderColors.named_colors[
-                all_params[model]["pins_color_key"]
-            ].getDiffuseFloat()
-            component.add(
-                npth_pins,
-                color=cq_color_correct.Color(
-                    nth_pins_color[0], nth_pins_color[1], nth_pins_color[2]
-                ),
-            )
+            parts.append(npth_pins)
+            color_names.append(all_params[model]["pins_color_key"])
 
-        # Export the assembly to STEP
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, model + ".wrl"),
-                [body_top, body, pins],
-                [
-                    all_params[model]["body_top_color_key"],
-                    all_params[model]["body_color_key"],
-                    all_params[model]["pins_color_key"],
-                ],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name=all_params[model]["destination_dir"],
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )

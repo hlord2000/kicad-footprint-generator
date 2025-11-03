@@ -54,19 +54,9 @@ __Comment__ = "Make chip Resistors 3D models exported to STEP and VRML"
 
 ___ver___ = "2.0.0"
 
-import os
-
 import cadquery as cq
 
-from _tools import cq_color_correct, cq_globals, export_tools, parameters, shaderColors
-from exportVRML.export_part_to_VRML import export_VRML
-
-body_color_key = "white body"
-body_color = shaderColors.named_colors[body_color_key].getDiffuseFloat()
-pins_color_key = "metal grey pins"
-pins_color = shaderColors.named_colors[pins_color_key].getDiffuseFloat()
-top_color_key = "resistor black body"
-top_color = shaderColors.named_colors[top_color_key].getDiffuseFloat()
+from _tools import export_tools, parameters
 
 dest_dir_prefix = "Resistor_SMD.3dshapes"
 
@@ -128,7 +118,7 @@ def make_chip(model, all_params):
     return (case, top, pins)
 
 
-def make_models(model_to_build=None, output_dir=None, enable_vrml=True):
+def make_models(model_to_build=None, output_dir_prefix=None, enable_vrml=True):
     """
     Main entry point into this generator.
     """
@@ -152,13 +142,6 @@ def make_models(model_to_build=None, output_dir=None, enable_vrml=True):
     else:
         models = {model_to_build: all_params[model_to_build]}
 
-    if output_dir == None:
-        print("ERROR: An output directory must be provided.")
-        return
-    else:
-        # Construct the final output directory
-        output_dir = os.path.join(output_dir, dest_dir_prefix)
-
     # Step through the selected models
     for model in models:
 
@@ -169,28 +152,14 @@ def make_models(model_to_build=None, output_dir=None, enable_vrml=True):
 
         body, top, pins = make_chip(model, all_params)
 
-        # Wrap the component parts in an assembly so that we can attach colors
-        component = cq.Assembly()
-        component.add(
-            body,
-            color=cq_color_correct.Color(body_color[0], body_color[1], body_color[2]),
-        )
-        component.add(
-            pins,
-            color=cq_color_correct.Color(pins_color[0], pins_color[1], pins_color[2]),
-        )
-        component.add(
-            top, color=cq_color_correct.Color(top_color[0], top_color[1], top_color[2])
-        )
+        parts: list[cq.Workplane] = [body, pins, top]
+        color_names = ["white body", "metal grey pins", "resistor black body"]
 
-        # Export the assembly to STEP
-        component.name = model
-        export_tools.export_step(component, output_dir, model)
-
-        # Export the assembly to VRML
-        if enable_vrml:
-            export_VRML(
-                os.path.join(output_dir, model + ".wrl"),
-                [body, pins, top],
-                ["white body", "metal grey pins", "resistor black body"],
-            )
+        export_tools.export(
+            root_output_dir=output_dir_prefix,
+            lib_name="Resistor_SMD",
+            model_name=model,
+            parts=parts,
+            color_names=color_names,
+            export_as_vrml=enable_vrml,
+        )
