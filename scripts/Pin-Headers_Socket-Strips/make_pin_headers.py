@@ -67,9 +67,6 @@ if __name__ == "__main__":
 		help="list of files holding information about what devices should be created.",
 	)
 	args = FootprintGenerator.add_standard_arguments(parser)
-	if args.output_dir == None:
-		args.output_dir = Path.cwd() # working directory: usually root of repository
-	logging.info("Generating in dir {}".format(args.output_dir.resolve(),))
 
 	# Do not use the autofind feature of FootprintGenerator.run_on_files() so we can have multiple generators+yaml combos
 	if not args.files:
