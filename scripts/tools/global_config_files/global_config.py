@@ -1,16 +1,20 @@
-import yaml
+from __future__ import annotations
+
 from enum import Enum, auto
 from importlib import resources
-
 from pathlib import Path
+from typing import Any
 
+import yaml
+
+from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHandler
 from kilibs.geom import Vector2D
-from KicadModTree.util.corner_handling import RoundRadiusHandler, ChamferSizeHandler
 
 
 class IpcRotation(Enum):
     A = "A"
     B = "B"
+
 
 class PadName(Enum):
     MECHANICAL = "mechanical"
@@ -21,6 +25,7 @@ class FieldPosition(Enum):
     INSIDE = "inside"
     OUTSIDE_TOP = "outside_top"
     OUTSIDE_BOTTOM = "outside_bottom"
+
 
 class LayerTextProperties:
     """
@@ -35,7 +40,7 @@ class LayerTextProperties:
         size_nom: float,
         size_max: float,
         size_min: float,
-        thickness_ratio: float, # usually 0.15
+        thickness_ratio: float,  # usually 0.15
         width_ratio: float,  # usually 1.0 for "square" text
     ):
         self.size_nom = size_nom
@@ -51,6 +56,7 @@ class LayerTextProperties:
         thickness = round(self.thickness_ratio * size, 2)
 
         return Vector2D(self.width_ratio * size, size), thickness
+
 
 class FieldProperties:
 
@@ -108,18 +114,18 @@ class GlobalConfig:
     # Includes leading '.'
     model_3d_suffix: str
 
-    _layer_functions: dict
+    _layer_functions: dict[str, str]
 
-    _pad_names: dict
+    _pad_names: dict[str, str]
 
-    _layer_text_properties: dict
+    _layer_text_properties: dict[str, LayerTextProperties]
 
     reference_fields: list[FieldProperties]
     value_fields: list[FieldProperties]
 
     handsoldering_suffix: str
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict[str, Any]):
         """
         Initialise from some dictonary of data (likely a
         config_KLC YAML or similar)
@@ -156,10 +162,10 @@ class GlobalConfig:
 
         # Map the string keys into the typed enum
         self._cy_offs = {
-            self.CourtyardType.DEFAULT: float(data["courtyard_offset"]['default']),
-            self.CourtyardType.CONNECTOR: float(data["courtyard_offset"]['connector']),
-            self.CourtyardType.BGA: float(data["courtyard_offset"]['bga']),
-            self.CourtyardType.CRYSTAL: float(data["courtyard_offset"]['crystal']),
+            self.CourtyardType.DEFAULT: float(data["courtyard_offset"]["default"]),
+            self.CourtyardType.CONNECTOR: float(data["courtyard_offset"]["connector"]),
+            self.CourtyardType.BGA: float(data["courtyard_offset"]["bga"]),
+            self.CourtyardType.CRYSTAL: float(data["courtyard_offset"]["crystal"]),
         }
 
         self._layer_functions = data["layer_functions"]
@@ -174,7 +180,7 @@ class GlobalConfig:
         self.reference_fields = [FieldProperties(**field) for field in data["references"]]  # fmt: skip
         self.value_fields = [FieldProperties(**field) for field in data["values"]]
 
-        self._rotation_suffix_pattern = data["rotation_suffix_pattern"]
+        self._rotation_suffix_pattern: str = data["rotation_suffix_pattern"]
 
         self.handsoldering_suffix = data["handsoldering_suffix"]
 
@@ -198,7 +204,7 @@ class GlobalConfig:
         """
         return RoundRadiusHandler(
             radius_ratio=self._ep_round_rect_default_radius,
-            maximum_radius=self._ep_round_rect_max_radius
+            maximum_radius=self._ep_round_rect_max_radius,
         )
 
     @property
@@ -208,7 +214,7 @@ class GlobalConfig:
         """
         return RoundRadiusHandler(
             radius_ratio=self._paste_round_rect_default_radius,
-            maximum_radius=self._paste_round_rect_max_radius
+            maximum_radius=self._paste_round_rect_max_radius,
         )
 
     def get_fab_bevel_size(self, overall_size: float) -> float:
@@ -216,7 +222,9 @@ class GlobalConfig:
         Get the bevel size for the fab layer, based on the overall size
         of the part.
         """
-        return min(self.fab_bevel_size_absolute, overall_size * self.fab_bevel_size_relative)
+        return min(
+            self.fab_bevel_size_absolute, overall_size * self.fab_bevel_size_relative
+        )
 
     @property
     def fab_bevel(self) -> ChamferSizeHandler:
@@ -229,7 +237,7 @@ class GlobalConfig:
         )
 
     @property
-    def silk_pad_offset(self):
+    def silk_pad_offset(self) -> float:
         """
         Get the center offset for silk line centerline from the pad edge.
 
@@ -248,7 +256,7 @@ class GlobalConfig:
         return self.silk_pad_clearance + self.silk_line_width / 2
 
     @property
-    def silk_fab_clearance(self):
+    def silk_fab_clearance(self) -> float:
         """
         Get the clearance between the silk and fab layers.
 
@@ -257,7 +265,7 @@ class GlobalConfig:
 
         return self.silk_fab_offset - (self.silk_line_width + self.fab_line_width) / 2
 
-    def get_layer_for_function(self, layer_or_function: str) -> float:
+    def get_layer_for_function(self, layer_or_function: str) -> str:
         """
         Get the layer function for the given function name.
 
@@ -300,7 +308,9 @@ class GlobalConfig:
         elif layer in ["F.SilkS", "B.SilkS"]:
             layer_key = "silk"
         else:
-            raise ValueError(f"Unknown layer {layer} for layer properties (did you mean a Fab or Silk layer?)")
+            raise ValueError(
+                f"Unknown layer {layer} for layer properties (did you mean a Fab or Silk layer?)"
+            )
 
         return self._layer_text_properties[layer_key]
 
@@ -314,22 +324,20 @@ class GlobalConfig:
             s += f" {generator_name}"
         return s
 
-    def get_rotation_suffix(self, rotation_level=IpcRotation):
+    def get_rotation_suffix(self, rotation_level: IpcRotation) -> str:
         """
         Get the name suffix for the given IPC rotation leve
         """
-        return self._rotation_suffix_pattern.format(
-            rotation=rotation_level.value
-        )
+        return self._rotation_suffix_pattern.format(rotation=rotation_level.value)
 
     @classmethod
-    def load_from_file(self, path: Path):
+    def load_from_file(cls, path: str | Path) -> GlobalConfig:
         """
         Simple helper to open a global config from some data file
         """
-        with open(path, 'r') as config_stream:
+        with open(path, "r") as config_stream:
             data = yaml.safe_load(config_stream)
-            return GlobalConfig(data)
+            return cls(data)
 
 
 def DefaultGlobalConfig() -> GlobalConfig:
