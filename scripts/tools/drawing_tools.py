@@ -470,7 +470,7 @@ def addEllipseWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun
 
 
 def makeNodesWithKeepout(
-    geom_items: Sequence[GeomLine | GeomArc | GeomCircle | GeomRectangle | GeomPolygon],
+    geom_items: Sequence[GeomShape],
     layer: str,
     width: float,
     keepouts: list[GeomShapeClosed],
@@ -516,15 +516,7 @@ def makeNodesWithKeepout(
 
     decomposed = []
     for item in geom_items:
-        if isinstance(item, GeomRectangle):
-            decomposed += item.get_atomic_shapes()
-        elif isinstance(item, GeomPolygon):
-            for i, pt in enumerate(item.points[:-1]):
-                decomposed.append(GeomLine(start=pt, end=item.points[i + 1]))
-            if item.close:
-                decomposed.append(GeomLine(start=item.points[-1], end=item.points[0]))
-        else:
-            decomposed.append(item)
+        decomposed.extend(item.get_atomic_shapes())
 
     kept_out_prims = []
     for item in decomposed:

@@ -32,7 +32,7 @@ from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
-from kilibs.geom.shapes.geom_shape import GeomShape
+from kilibs.geom.shapes.geom_shape import GeomShape, GeomShapeClosed
 from kilibs.geom.tools import is_polygon_clockwise, round_to_grid_increasing_area
 from kilibs.geom.vector import Vector2D
 from scripts.tools.global_config_files.global_config import GlobalConfig
@@ -70,7 +70,7 @@ class CourtyardBuilder:
         global_config: GlobalConfig,
         offset_fab: float,
         offset_pads: float | None = None,
-        outline: Node | GeomRectangle | BoundingBox | GeomPolygon | None = None,
+        outline: Node | GeomShapeClosed | BoundingBox | None = None,
     ) -> CourtyardBuilder:
         """
         Derives a courtyard with minimal area from the pads and primitives on the
@@ -199,7 +199,7 @@ class CourtyardBuilder:
             elif isinstance(node, GeomLine):
                 self.add_line(node, offset_fab)
         else:
-            if isinstance(node, Pad | ExposedPad):
+            if isinstance(node, Pad | ExposedPad | ReferencedPad):
                 self.add_pad(node, offset_pads)
             elif isinstance(node, PadArray):
                 self.add_pad_array(node, offset_pads)
