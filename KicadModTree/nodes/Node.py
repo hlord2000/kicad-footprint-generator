@@ -20,7 +20,7 @@ from __future__ import annotations
 import copy
 import uuid
 from abc import ABC
-from collections.abc import Iterator, Sequence
+from collections.abc import Iterable, Iterator, Sequence
 from enum import Enum
 from hashlib import sha1
 from traceback import print_stack
@@ -402,6 +402,9 @@ class Node(ABC):
 
         Args:
             node: The node to add.
+
+        Raises:
+            MultipleParentsError: In case the added node already has a parent assigned.
         """
         if node._parent:
             raise MultipleParentsError("muliple parents are not allowed!")
@@ -414,24 +417,28 @@ class Node(ABC):
         ):
             node.set_timestamp_seed_from_node(self)
 
-    def extend(self, nodes: Sequence[Node]) -> None:
-        """Add a list of nodes as child nodes."""
-        new_nodes: list[Node] = []
+    def extend(self, nodes: Iterable[Node]) -> None:
+        """Append all nodes from an iterable as child nodes to the current node.
 
+        Args:
+            nodes: An iterable (like a list or generator) yielding 'Node' instances
+                that will be added to this node's list of children.
+
+        Raises:
+            MultipleParentsError: If one or more of the provided nodes already have a
+                parent assigned. Note that any nodes successfully added prior to the
+                node causing the error will remain in this node's children list (no
+                rollback is performed).
+        """
         for node in nodes:
-            if node._parent or node in new_nodes:
+            if node._parent or node in self._children:
                 raise MultipleParentsError("muliple parents are not allowed!")
-            new_nodes.append(node)
-
-        # when all went smooth by now, we can set the parent nodes to ourself
-        for node in new_nodes:
             node._parent = self
             if (node.get_timestamp_class().get_timestamp_seed() is None) and (
                 self.get_timestamp_class().get_timestamp_seed() is not None
             ):
                 node.set_timestamp_seed_from_node(self)
-
-        self._children.extend(new_nodes)
+            self._children.append(node)
 
     def __add__(self, nodes: Node | Sequence[Node]) -> Self:
         """Convenience function to allow simple append/extend to a Node."""
@@ -608,6 +615,10 @@ class Node(ABC):
 
         Args:
             rendered_nodes: A set containing the nodes.
+
+        Raises:
+            RecursionDetectedError: If this node is in the set of rendered nodes
+                provided as argument to this method.
         """
 
         if self in rendered_nodes:
@@ -631,6 +642,10 @@ class Node(ABC):
 
         Args:
             rendered_nodes: A set containing the nodes.
+
+        Raises:
+            RecursionDetectedError: If this node is in the set of rendered nodes
+                provided as argument to this method.
         """
 
         if self in rendered_nodes:

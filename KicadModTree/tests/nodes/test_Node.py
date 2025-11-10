@@ -176,9 +176,9 @@ def testExtend():
     assert childNode1.get_parent() == node
     assert childNode2.get_parent() == node
     assert childNode3.get_parent() == node
-    assert childNode4.get_parent() is None
-    assert childNode5.get_parent() is None
-    assert len(node.get_child_nodes()) == 3
+    assert childNode4.get_parent() == node
+    assert childNode5.get_parent() == node
+    assert len(node.get_child_nodes()) == 5
 
 
 def testRemove():
