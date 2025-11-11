@@ -1,6 +1,6 @@
 import enum
 
-from KicadModTree import CornerSelection, Pad
+from KicadModTree import Container, CornerSelection, Node, Pad
 from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
 from scripts.tools import drawing_tools_silk
 from scripts.tools.drawing_tools import getKeepoutsForPads
@@ -158,7 +158,7 @@ class CrossBodyPadLayout(FootprintLayoutNode):
     def _get_silk_keepouts(self) -> list[GeomShapeClosed]:
         return self._keepouts
 
-    def _get_child_nodes(self, parent):
+    def _get_child_nodes(self, parent: Container[Node]) -> None:
 
         pad_opts = {
             "type": Pad.TYPE_SMT,

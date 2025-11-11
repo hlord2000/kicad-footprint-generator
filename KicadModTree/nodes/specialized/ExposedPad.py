@@ -20,22 +20,20 @@ from __future__ import division
 
 from copy import copy
 from math import sqrt
-from typing import cast
 
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
-from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.specialized.ChamferedPadGrid import (
     ChamferedPadGrid,
     ChamferSelPadGrid,
 )
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
+from kilibs.geom import BoundingBox, GeomRectangle, GeomShapeClosed, Vector2D
 from kilibs.util.param_util import toIntArray
 
 
-class ExposedPad(Node):
+class ExposedPad(Container[Pad | ReferencedPad]):
     """An exposed pad."""
 
     VIA_TENTED = "all"
@@ -175,11 +173,8 @@ class ExposedPad(Node):
         """The number of rings outside of the vias in x- and y-direction."""
         self.paste_layout: list[int]
         """The number of pads in x- and y-direction."""
-        self._pads: list[Pad | ReferencedPad]
-        """The pads (and vias) the exposed pad is composed of."""
 
-        Node.__init__(self)
-        self._pads = []
+        super().__init__()
         self.at = at
         self.size_round_base = size_round_base
         self.grid_round_base = grid_round_base if grid_round_base is not None else 0.01
@@ -436,7 +431,7 @@ class ExposedPad(Node):
             else:
                 self.paste_layout = toIntArray(paste_layout)
 
-    def _create_paste_ignore_via(self) -> list[ChamferedPad]:
+    def _create_paste_ignore_via(self) -> None:
         """Create the paste while ignoring the vias."""
         nx = self.paste_layout[0]
         ny = self.paste_layout[1]
@@ -455,26 +450,28 @@ class ExposedPad(Node):
             self.grid_round_base
         )
 
-        return ChamferedPadGrid(
-            number="",
-            type=Pad.TYPE_SMT,
-            center=self.at,
-            size=paste_size,
-            layers=["F.Paste"],
-            chamfer_size=0,
-            chamfer_selection=0,
-            pincount=self.paste_layout,
-            grid=paste_grid,
-            round_radius_handler=self.paste_round_radius_handler,
-        ).get_pads()
+        self._children.extend(
+            ChamferedPadGrid(
+                number="",
+                type=Pad.TYPE_SMT,
+                center=self.at,
+                size=paste_size,
+                layers=["F.Paste"],
+                chamfer_size=0,
+                chamfer_selection=0,
+                pincount=self.paste_layout,
+                grid=paste_grid,
+                round_radius_handler=self.paste_round_radius_handler,
+            ).get_pads()
+        )
 
-    @staticmethod
     def _create_paste_grids(
+        self,
         original: ChamferedPadGrid,
         grid: Vector2D,
         count: list[int],
         center: float | Vector2D,
-    ) -> list[ChamferedPad]:
+    ) -> None:
         """Helper function for creating grids of ChamferedPadGrid sections.
 
         Args:
@@ -484,7 +481,6 @@ class ExposedPad(Node):
                 If only one number is given, both directions use the same count.
             center: Center of the resulting grid of grids.
         """
-        pads: list[ChamferedPad] = []
         top_left = Vector2D(center) - Vector2D(grid) * (Vector2D(count) - 1) / 2
         for idx_x in range(count[0]):
             x = top_left.x + idx_x * grid.x
@@ -492,10 +488,9 @@ class ExposedPad(Node):
                 y = top_left.y + idx_y * grid.y
                 pad = copy(original)
                 pad.center = Vector2D(x, y)
-                pads.extend(pad.get_pads())
-        return pads
+                self._children.extend(pad.get_pads())
 
-    def _create_paste_avoid_vias_inside(self) -> list[ChamferedPad]:
+    def _create_paste_avoid_vias_inside(self) -> None:
         """Create the paste pads while avoiding the vias inside."""
         self.inner_grid = self.via_grid / Vector2D(self.paste_between_vias)
 
@@ -530,13 +525,12 @@ class ExposedPad(Node):
         )
 
         count = [self.vias_in_mask[0] - 1, self.vias_in_mask[1] - 1]
-        return ExposedPad._create_paste_grids(
+        self._create_paste_grids(
             original=pad, grid=self.via_grid, count=count, center=self.at
         )
 
-    def _create_paste_outside_x(self) -> list[ChamferedPad]:
+    def _create_paste_outside_x(self) -> None:
         """Create the paste pads on the left and right side."""
-        pads: list[ChamferedPad] = []
         corner = ChamferSelPadGrid(
             {ChamferSelPadGrid.TOP_RIGHT: 1, ChamferSelPadGrid.BOTTOM_RIGHT: 1}
         )
@@ -562,13 +556,11 @@ class ExposedPad(Node):
             clearance=self.via_clarance,
         )
 
-        pads.extend(
-            ExposedPad._create_paste_grids(
-                original=pad_side,
-                grid=self.via_grid,
-                count=[1, self.via_layout[1] - 1],
-                center=Vector2D(x, self.at.y),
-            )
+        self._create_paste_grids(
+            original=pad_side,
+            grid=self.via_grid,
+            count=[1, self.via_layout[1] - 1],
+            center=Vector2D(x, self.at.y),
         )
 
         corner = ChamferSelPadGrid(
@@ -577,19 +569,15 @@ class ExposedPad(Node):
         pad_side.chamfer_selection = corner
 
         x = 2 * self.at.x - x
-        pads.extend(
-            ExposedPad._create_paste_grids(
-                original=pad_side,
-                grid=self.via_grid,
-                count=[1, self.via_layout[1] - 1],
-                center=Vector2D(x, self.at.y),
-            )
+        self._create_paste_grids(
+            original=pad_side,
+            grid=self.via_grid,
+            count=[1, self.via_layout[1] - 1],
+            center=Vector2D(x, self.at.y),
         )
-        return pads
 
-    def _create_paste_outside_y(self) -> list[ChamferedPad]:
+    def _create_paste_outside_y(self) -> None:
         """Create the paste on the top and bottom side."""
-        pads: list[ChamferedPad] = []
         corner = ChamferSelPadGrid(
             {ChamferSelPadGrid.BOTTOM_LEFT: 1, ChamferSelPadGrid.BOTTOM_RIGHT: 1}
         )
@@ -616,13 +604,11 @@ class ExposedPad(Node):
             clearance=self.via_clarance,
         )
 
-        pads.extend(
-            ExposedPad._create_paste_grids(
-                original=pad_side,
-                grid=self.via_grid,
-                count=[self.via_layout[0] - 1, 1],
-                center=Vector2D.from_floats(self.at.x, y),
-            )
+        self._create_paste_grids(
+            original=pad_side,
+            grid=self.via_grid,
+            count=[self.via_layout[0] - 1, 1],
+            center=Vector2D.from_floats(self.at.x, y),
         )
 
         corner = ChamferSelPadGrid(
@@ -631,19 +617,15 @@ class ExposedPad(Node):
         pad_side.chamfer_selection = corner
 
         y = 2 * self.at.y - y
-        pads.extend(
-            ExposedPad._create_paste_grids(
-                original=pad_side,
-                grid=self.via_grid,
-                count=[self.via_layout[0] - 1, 1],
-                center=Vector2D.from_floats(self.at.x, y),
-            )
+        self._create_paste_grids(
+            original=pad_side,
+            grid=self.via_grid,
+            count=[self.via_layout[0] - 1, 1],
+            center=Vector2D.from_floats(self.at.x, y),
         )
-        return pads
 
-    def _create_paste_outside_corners(self) -> list[ChamferedPad]:
+    def _create_paste_outside_corners(self) -> None:
         """Create the corner paste pads."""
-        pads: list[ChamferedPad] = []
         left = self.top_left_via.x - self.ring_size.x / 2
         top = self.top_left_via.y - self.ring_size.y / 2
         corner: list[list[dict[str, str | bool | int]]] = [
@@ -675,11 +657,9 @@ class ExposedPad(Node):
                 y = top if idx_y == 0 else 2 * self.at.y - top
                 pad_side.center = Vector2D(x, y)
                 pad_side.chamfer_selection = ChamferSelPadGrid(corner[idx_x][idx_y])
-                pads.extend(copy(pad_side).get_pads())
+                self._children.extend(copy(pad_side).get_pads())
 
-        return pads
-
-    def _create_paste_avoid_vias_outside(self) -> list[ChamferedPad]:
+    def _create_paste_avoid_vias_outside(self) -> None:
         """Create the paste pads while avoiding the outer vias."""
         self.ring_size = (
             self.paste_area_size - (Vector2D(self.vias_in_mask) - 1) * self.via_grid
@@ -692,21 +672,17 @@ class ExposedPad(Node):
         )
         self.outer_size = self.outer_paste_grid * self.paste_reduction
 
-        pads: list[ChamferedPad] = []
         if self.paste_rings_outside[0] and self.inner_count.y > 0:
-            pads.extend(self._create_paste_outside_x())
+            self._create_paste_outside_x()
 
         if self.paste_rings_outside[1] and self.inner_count.x:
-            pads.extend(self._create_paste_outside_y())
+            self._create_paste_outside_y()
 
         if all(self.paste_rings_outside):
-            pads.extend(self._create_paste_outside_corners())
+            self._create_paste_outside_corners()
 
-        return pads
-
-    def _create_paste(self) -> list[Pad | ReferencedPad]:
+    def _create_paste(self) -> None:
         """Create the paste pads."""
-        pads: list[Pad | ReferencedPad] = []
         if self.has_vias:
             self.top_left_via = (
                 -(Vector2D(self.vias_in_mask) - 1) * self.via_grid / 2 + self.at
@@ -717,21 +693,19 @@ class ExposedPad(Node):
             )
 
             if all(self.vias_in_mask) and all(self.paste_between_vias):
-                pads += self._create_paste_avoid_vias_inside()
+                self._create_paste_avoid_vias_inside()
             if any(self.paste_rings_outside):
-                pads += self._create_paste_avoid_vias_outside()
+                self._create_paste_avoid_vias_outside()
         else:
-            pads += self._create_paste_ignore_via()
-        return pads
+            self._create_paste_ignore_via()
 
-    def _create_top_pad(self) -> list[Pad | ReferencedPad]:
+    def _create_top_pad(self) -> None:
         """Create the top pad(s)."""
-        pads: list[Pad | ReferencedPad] = []
         if self.size == self.mask_size:
             layers_top = ["F.Cu", "F.Mask"]
         else:
             layers_top = ["F.Cu"]
-            pads.append(
+            self.append(
                 Pad(
                     number="",
                     at=self.at,
@@ -743,7 +717,7 @@ class ExposedPad(Node):
                 )
             )
 
-        pads.append(
+        self.append(
             Pad(
                 number=self.number,
                 at=self.at,
@@ -756,9 +730,8 @@ class ExposedPad(Node):
                 zone_connection=Pad.ZoneConnection.SOLID,
             )
         )
-        return pads
 
-    def _create_vias(self) -> list[Pad | ReferencedPad]:
+    def _create_vias(self) -> None:
         """Create the thermal vias."""
         via_layers = ["*.Cu"]
         if (
@@ -772,7 +745,6 @@ class ExposedPad(Node):
         ):
             via_layers.append("B.Mask")
 
-        pads: list[Pad | ReferencedPad] = []
         cy = -((self.via_layout[1] - 1) * self.via_grid.y) / 2 + self.at.y
 
         for row in range(self.via_layout[1]):
@@ -780,7 +752,7 @@ class ExposedPad(Node):
             if self.remove_corner_vias and (row == 0 or row == self.via_layout[1] - 1):
                 vias_in_row = vias_in_row - 2
             if vias_in_row > 0:
-                pads.extend(
+                self._children.extend(
                     PadArray(
                         center=[self.at.x, cy],
                         initial=self.number,
@@ -793,12 +765,12 @@ class ExposedPad(Node):
                         fab_property=Pad.FabProperty.HEATSINK,
                         drill=self.via_drill,
                         layers=via_layers,
-                    ).get_pads()
+                    )._children
                 )
             cy += self.via_grid.y
 
         if self.add_bottom_pad and self.bottom_pad_layers:
-            pads.append(
+            self.append(
                 Pad(
                     number=self.number,
                     at=self.at,
@@ -812,16 +784,24 @@ class ExposedPad(Node):
                 )
             )
 
-        return pads
-
     def _create_pads(self) -> None:
         """Return the nodes to serialize."""
         if self.has_vias:
             self.round_radius_handler.limit_max_radius(self.via_size / 2)
-        self._pads = self._create_top_pad()
+        self._create_top_pad()
         if self.has_vias:
-            self._pads += self._create_vias()
-        self._pads += self._create_paste()
+            self._create_vias()
+        self._create_paste()
+
+    def bbox(self) -> BoundingBox:
+        """Get the bounding box of the pad array."""
+        bbox = BoundingBox()
+        if not self._children:
+            self._create_pads()
+        for child in self._children:
+            child_bbox = child.bbox()
+            bbox.include_bbox(child_bbox)
+        return bbox
 
     def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
         """Return the geometric rectangle that encloses all pads in the exposed pad.
@@ -836,19 +816,15 @@ class ExposedPad(Node):
 
     def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
-        if not self._pads:
+        if not self._children:
             self._create_pads()
-        return self._pads
+        return self._children
 
     def get_child_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the direct child nodes."""
-        if not self._pads:
+        if not self._children:
             self._create_pads()
-        return self._pads
-
-    def get_pads(self) -> list[Pad | ReferencedPad]:
-        """Return the list of pads."""
-        return self._pads
+        return self._children
 
     def get_round_radius(self) -> float:
         """Return the round radius."""

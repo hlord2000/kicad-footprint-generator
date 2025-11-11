@@ -19,7 +19,7 @@ from collections.abc import Callable, Generator, Iterable
 from typing import NamedTuple, cast
 
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
-from KicadModTree.nodes.Node import Node
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.util.corner_handling import RoundRadiusHandler
 from kilibs.geom import (
@@ -42,7 +42,7 @@ class _ApplyOverrideResult(NamedTuple):
     """The size of the pad."""
 
 
-class PadArray(Node):
+class PadArray(Container[Pad | ReferencedPad]):
     """Add a row (1D array) of pads.
 
     Simplifies the handling of pads which are rendered in a specific form.
@@ -146,10 +146,8 @@ class PadArray(Node):
         """List of pins to exclude."""
         self.hidden_pins: Iterable[int]
         """List of pins that are hidden."""
-        self._pads: list[Pad | ReferencedPad]
-        """The pads of the array."""
 
-        Node.__init__(self)
+        super().__init__()
         self.increment = increment
         self._init_pincount(pincount, hidden_pins, deleted_pins)
         self._init_initial_number(initial)
@@ -158,7 +156,6 @@ class PadArray(Node):
 
         # Create pads:
         self.size = Vector2D(size)
-        self._pads = []
         end_pad_size = None
         if end_pads_size_reduction:
             size_reduction = end_pads_size_reduction
@@ -229,7 +226,7 @@ class PadArray(Node):
                     elif i == len(pad_numbers) - 1 and chamfer_corner_selection_last:
                         chamfer_corner_selection = chamfer_corner_selection_last
                     if chamfer_corner_selection and round_radius_handler:
-                        self._pads.append(
+                        self.append(
                             ChamferedPad(
                                 number=pad_params_with_override.number,
                                 at=pad_params_with_override.position,
@@ -257,7 +254,7 @@ class PadArray(Node):
                         number=pad_params_with_override.number,
                         at=pad_params_with_override.position,
                     )
-                    self._pads.append(referenced_pad)
+                    self.append(referenced_pad)
                 else:
                     reference_pad = Pad(
                         number=pad_params_with_override.number,
@@ -270,12 +267,8 @@ class PadArray(Node):
                         fab_property=fab_property,
                         drill=drill,
                     )
-                    self._pads.append(reference_pad)
+                    self.append(reference_pad)
 
-        for pad in self._pads:
-            pad._parent = self
-
-    # How many pads in the array
     def _init_pincount(
         self, pincount: int, hidden_pins: Iterable[int], deleted_pins: Iterable[int]
     ) -> None:
@@ -458,15 +451,11 @@ class PadArray(Node):
 
     def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
-        return self._pads
+        return self._children
 
     def get_child_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the direct child nodes."""
-        return self._pads
-
-    def get_pads(self) -> list[Pad | ReferencedPad]:
-        """Return the list of pads in the array."""
-        return self._pads
+        return self._children
 
     def get_pad_with_name(self, number: str | int) -> Pad | ReferencedPad | None:
         """Return the pad with the given name.
@@ -477,7 +466,7 @@ class PadArray(Node):
         Returns:
             The pad with the given name, or `None` if no pad with such a name could be
             found."""
-        for pad in self._pads:
+        for pad in self._children:
             if pad.number == number:
                 return pad
         return None
@@ -491,9 +480,9 @@ class PadArray(Node):
         Returns:
             The inflated contour of the pad array.
         """
-        if not self._pads:
+        if not self._children:
             return None
-        bbox = self._pads[0].bbox().include_bbox(self._pads[-1].bbox())
+        bbox = self._children[0].bbox().include_bbox(self._children[-1].bbox())
         return GeomRectangle(
             start=bbox.top_left - inflation, end=bbox.bottom_right + inflation
         )
@@ -511,7 +500,7 @@ class PadArray(Node):
             The inflated contours of the pads in the array.
         """
         # If no pad is deleted or hidden return a list with a single item:
-        if self.pincount == len(self._pads):
+        if self.pincount == len(self._children):
             geom_shape = self.as_geom_shape(inflation)
             if geom_shape is None:
                 return []
@@ -520,7 +509,7 @@ class PadArray(Node):
         # Otherwise return a list of the individual pad contours:
         else:
             shapes: list[GeomShapeClosed] = []
-            for pad in self._pads:
+            for pad in self._children:
                 shapes.append(pad.as_geom_shape(inflation))
             return shapes
 
@@ -543,9 +532,9 @@ def get_pad_radius_from_arrays(pad_arrays: list[PadArray]) -> float:
         radius is returned.
     """
     pad_radius = 0.0
-    for pa in pad_arrays:
+    for pad_array in pad_arrays:
         if pad_radius == 0.0:
-            pads = pa.get_pads()
+            pads = pad_array.children
             if len(pads):
                 pad_radius = pads[0].get_round_radius()
     return pad_radius
@@ -566,7 +555,7 @@ def find_lowest_numbered_pad(
     pad_number = None
 
     for idx_array, pad_array in enumerate(pad_arrays):
-        for idx_pad, pad in enumerate(pad_array.get_pads()):
+        for idx_pad, pad in enumerate(pad_array):
             try:
                 int_num = int(pad.number)
             except ValueError:

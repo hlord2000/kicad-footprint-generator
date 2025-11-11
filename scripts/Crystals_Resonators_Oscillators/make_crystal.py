@@ -1395,7 +1395,7 @@ class CrystalResonatorOscillatorGenerator(FootprintGenerator):
         kicad_modg += pad_array
 
         keepouts = DT.getKeepoutsForPads(
-            list(pad_array.get_pads()), self.global_config.silk_pad_offset
+            pad_array.children, self.global_config.silk_pad_offset
         )
         fab_stadium = Stadium(
             shape=body_bounds, layer="F.Fab", width=self.global_config.fab_line_width

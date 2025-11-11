@@ -72,8 +72,8 @@ class RectLine(PolygonLine):
         #     angle=angle)
         # self.size += 2* offset
         if shape is not None:
-            self.start = shape.top_left
-            self.end = shape.bottom_right
+            self.start = shape.start
+            self.end = shape.end
         else:
             self.start = Vector2D(start)
             self.end = Vector2D(end)

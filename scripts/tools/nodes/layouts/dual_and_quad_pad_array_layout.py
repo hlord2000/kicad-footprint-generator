@@ -1,6 +1,7 @@
 from math import sqrt
 
 from KicadModTree import (
+    Container,
     CornerSelection,
     ExposedPad,
     Node,
@@ -184,7 +185,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         return bb
 
     def _create_arrow(
-        self, parent: Node
+        self, parent: Container[Node]
     ) -> pin1_arrow.Pin1SilkscreenArrow | pin1_arrow.Pin1SilkScreenArrow45Deg:
         silk_line_width = self.global_config.silk_line_width
         silk_pad_offset = self.global_config.silk_pad_clearance + silk_line_width / 2
@@ -194,7 +195,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
 
         # Find the pin with the lowest pad number (pin1):
         idx_array, idx_pad = find_lowest_numbered_pad(self.pad_arrays)
-        pads = self.pad_arrays[idx_array].get_pads()
+        pads = self.pad_arrays[idx_array].children
         pad1 = pads[idx_pad]
         pad1_bbox = pad1.bbox()
 
@@ -506,7 +507,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
                 line_width_mm=silk_line_width,
             )
 
-    def _create_silk(self, parent: Node) -> None:
+    def _create_silk(self, parent: Container[Node]) -> None:
         silk_line_width = self.global_config.silk_line_width
         silk_pad_offset = self.global_config.silk_pad_clearance + silk_line_width / 2
         silk_fab_offset = self.global_config.silk_fab_offset
@@ -552,7 +553,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         )
         parent.extend(silk)
 
-    def _get_child_nodes(self, parent: Node) -> None:
+    def _get_child_nodes(self, parent: Container[Node]) -> None:
         parent.extend(self.pad_arrays)
         if self.exposed_pad is not None:
             parent.append(self.exposed_pad)

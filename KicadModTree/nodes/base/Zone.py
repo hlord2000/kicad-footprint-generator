@@ -19,7 +19,13 @@ from __future__ import annotations
 from typing import Literal
 
 from KicadModTree.nodes.Node import Node
-from kilibs.geom import BoundingBox, GeomPolygon, GeomRectangle, Vec2DCompatible
+from kilibs.geom import (
+    BoundingBox,
+    GeomPolygon,
+    GeomRectangle,
+    Vec2DCompatible,
+    Vector2D,
+)
 
 
 class PadConnection(Node):
@@ -382,3 +388,32 @@ class Zone(Node):
             self.fill = fill
         else:
             self.fill = ZoneFill(fill=ZoneFill.FILL_NONE)
+
+    def translate(self, vector: Vector2D) -> Zone:
+        """Move the zone.
+
+        Args:
+            vector: The distance in mm in the x- and y-direction.
+
+        Returns:
+            The translated zone.
+        """
+        self.nodes.translate(vector)
+        return self
+
+    def rotate(
+        self,
+        angle: float,
+        origin: Vector2D = Vector2D.zero(),
+    ) -> Zone:
+        """Rotate the zone around a given point.
+
+        Args:
+            angle: Rotation angle in degrees.
+            origin: Coordinates (in mm) of the point around which to rotate.
+
+        Returns:
+            The rotated zone.
+        """
+        self.nodes.rotate(angle, origin)
+        return self

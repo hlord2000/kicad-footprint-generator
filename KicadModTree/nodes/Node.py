@@ -20,27 +20,18 @@ from __future__ import annotations
 import copy
 import uuid
 from abc import ABC
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Sequence
 from enum import Enum
 from hashlib import sha1
 from traceback import print_stack
-from typing import Any, Protocol, Self, runtime_checkable
+from typing import TYPE_CHECKING, Any, Protocol, Self, runtime_checkable
 
 from _hashlib import HASH
 
 from kilibs.geom import BoundingBox, Vector2D, Vector3D
 
-
-class MultipleParentsError(RuntimeError):
-    def __init__(self, message: str) -> None:
-        # Call the base class constructor with the parameters it needs
-        super(MultipleParentsError, self).__init__(message)
-
-
-class RecursionDetectedError(RuntimeError):
-    def __init__(self, message: str) -> None:
-        # Call the base class constructor with the parameters it needs
-        super(RecursionDetectedError, self).__init__(message)
+if TYPE_CHECKING:
+    from .Container import Container
 
 
 @runtime_checkable
@@ -295,15 +286,12 @@ class Node(ABC):
         """Create a node."""
 
         # Instance attributes:
-        self._parent: Node | None
+        self._parent: Container[Node] | None
         """The parent node."""
-        self._children: list[Node]
-        """"The child nodes."""
         self._tstamp: TStamp
         """The timestamp."""
 
         self._parent = None
-        self._children = []
         self._tstamp = TStamp(parent=self)
 
     def has_valid_timestamp(self) -> bool:
@@ -389,109 +377,6 @@ class Node(ABC):
         """Return this object's SHA1 hash as an integer."""
         return int.from_bytes(self._deterministic_hash().digest(), byteorder="little")
 
-    def __iter__(self) -> Iterator[Node]:
-        """Return an iterator to iterate through all child nodes of this object."""
-        return iter(self._children)
-
-    def __len__(self) -> int:
-        """Return the number of children this node has."""
-        return len(self._children)
-
-    def append(self, node: Node) -> None:
-        """Add a node as child node.
-
-        Args:
-            node: The node to add.
-
-        Raises:
-            MultipleParentsError: In case the added node already has a parent assigned.
-        """
-        if node._parent:
-            raise MultipleParentsError("muliple parents are not allowed!")
-
-        self._children.append(node)
-
-        node._parent = self
-        if (node.get_timestamp_class().get_timestamp_seed() is None) and (
-            self.get_timestamp_class().get_timestamp_seed() is not None
-        ):
-            node.set_timestamp_seed_from_node(self)
-
-    def extend(self, nodes: Iterable[Node]) -> None:
-        """Append all nodes from an iterable as child nodes to the current node.
-
-        Args:
-            nodes: An iterable (like a list or generator) yielding 'Node' instances
-                that will be added to this node's list of children.
-
-        Raises:
-            MultipleParentsError: If one or more of the provided nodes already have a
-                parent assigned. Note that any nodes successfully added prior to the
-                node causing the error will remain in this node's children list (no
-                rollback is performed).
-        """
-        for node in nodes:
-            if node._parent or node in self._children:
-                raise MultipleParentsError("muliple parents are not allowed!")
-            node._parent = self
-            if (node.get_timestamp_class().get_timestamp_seed() is None) and (
-                self.get_timestamp_class().get_timestamp_seed() is not None
-            ):
-                node.set_timestamp_seed_from_node(self)
-            self._children.append(node)
-
-    def __add__(self, nodes: Node | Sequence[Node]) -> Self:
-        """Convenience function to allow simple append/extend to a Node."""
-        if isinstance(nodes, Node):
-            self.append(nodes)
-        else:
-            self.extend(nodes)
-
-        return self
-
-    @staticmethod
-    def _remove_node(*, parent: Node, node: Node) -> None:
-        """Remove a child from the list of child nodes of a given parent node.
-
-        Args:
-            parent: The parent node.
-            node: The node to remove.
-        """
-        child_nodes = parent._children
-        while node in child_nodes:
-            child_nodes.remove(node)
-            node._parent = None
-
-    def remove(self, node: Node, traverse: bool = False) -> None:
-        """Remove a node from this node's list of child nodes.
-
-        Args:
-            node: The node to remove.
-            traverse: If `True` then the children are recursively searched for a match
-                within their children.
-        """
-        if not traverse:
-            Node._remove_node(parent=self, node=node)
-        else:
-            if node == self:
-                if node._parent is not None:
-                    Node._remove_node(parent=node._parent, node=node)
-            else:
-                for child in self.get_child_nodes():
-                    child.remove(node, traverse=traverse)
-
-    def insert(self, node: Node) -> None:
-        """Move all child nodes from this node into the given node and append the given
-        node to this node.
-
-        Args:
-            node: The node that becomes the new parent node of this node's children.
-        """
-        for child in copy.copy(self._children):
-            self.remove(child)
-            node.append(child)
-        self.append(node)
-
     def copy(self) -> Self:
         """Create a copy of itself."""
         copied_node = copy.copy(self)
@@ -570,10 +455,6 @@ class Node(ABC):
         """
         return [self]
 
-    def get_child_nodes(self) -> Sequence[Node]:
-        """Return the direct child nodes."""
-        return self._children
-
     def get_parent(self) -> Node | None:
         """Return the parent node of this node."""
         return self._parent
@@ -597,78 +478,17 @@ class Node(ABC):
             >>> translation_node = Translation(-10, 0)
             >>> line = Line(start=(0, 0), end=(1, 1))
             >>> translation.append(line)
-            >>> line.bbox()
-            >>> bbox.min, bbox.max
+            >>> bbox = line.bbox()
+            >>> print(bbox.min, bbox.max)
                 Vector2D(0, 0), Vector2D(1, 1)
             >>> line.translate(Vector2D(10, 0))
-            >>> line.bbox()
-            >>> bbox.min, bbox.max
+            >>> bbox = line.bbox()
+            >>> print(bbox.min, bbox.max)
                 Vector2D(10, 0), Vector2D(11, 1)
         """
-        bbox = BoundingBox()
-        for child in self.get_child_nodes():
-            child_bbox = child.bbox()
-            bbox.include_bbox(child_bbox)
-        return bbox
+        return BoundingBox()
 
     def __repr__(self) -> str:
         """The string representation of the Node."""
         class_name = self.__class__.__name__
         return f"{class_name}(parent={self._parent})"
-
-    def _get_render_tree_symbol(self) -> str:
-        """Symbol which is displayed when generating a render tree."""
-        return "+" if self._parent is None else "*"
-
-    def get_render_tree(self, rendered_nodes: set[Node] = set()) -> str:
-        """Return the render tree of this node including only the real children.
-
-        Args:
-            rendered_nodes: A set containing the nodes.
-
-        Raises:
-            RecursionDetectedError: If this node is in the set of rendered nodes
-                provided as argument to this method.
-        """
-
-        if self in rendered_nodes:
-            raise RecursionDetectedError("recursive definition of render tree!")
-
-        rendered_nodes.add(self)
-
-        tree_str = f"{self._get_render_tree_symbol()} {self.__repr__()}"
-
-        for child in self.get_child_nodes():
-            tree_str += "\n  "
-            tree_str += "  ".join(
-                child.get_render_tree(rendered_nodes).splitlines(True)
-            )
-
-        return tree_str
-
-    def get_complete_render_tree(self, rendered_nodes: set[Node] = set()) -> str:
-        """Return the render tree of this node including the real and the virtual
-        children.
-
-        Args:
-            rendered_nodes: A set containing the nodes.
-
-        Raises:
-            RecursionDetectedError: If this node is in the set of rendered nodes
-                provided as argument to this method.
-        """
-
-        if self in rendered_nodes:
-            raise RecursionDetectedError("recursive definition of render tree!")
-
-        rendered_nodes.add(self)
-
-        tree_str = f"{self._get_render_tree_symbol()} {self.__repr__()}"
-
-        for child in self.get_child_nodes():
-            tree_str += "\n  "
-            tree_str += "  ".join(
-                child.get_complete_render_tree(rendered_nodes).splitlines(True)
-            )
-
-        return tree_str

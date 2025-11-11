@@ -17,7 +17,7 @@
 
 from __future__ import annotations, division
 
-from collections.abc import Iterator, Generator
+from collections.abc import Generator, Iterator
 
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Node import Node

@@ -1,7 +1,7 @@
 import enum
 from typing import Any, Callable, Generator, Iterator, TypeAlias
 
-from KicadModTree import CornerSelection, Node, Pad
+from KicadModTree import Container, CornerSelection, Node, Pad
 from KicadModTree.util import courtyard_builder
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from kilibs.geom import (
@@ -158,7 +158,7 @@ class NPadBoxLayout(FootprintLayoutNode):
 
         return CornerSelection(None)
 
-    def _get_child_nodes(self, parent: Node) -> None:
+    def _get_child_nodes(self, parent: Container[Node]) -> None:
 
         pad_nodes: list[Pad] = []
 

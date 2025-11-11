@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from operator import itemgetter
 
 import pyclipper  # type: ignore
@@ -22,6 +23,7 @@ from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
@@ -66,7 +68,7 @@ class CourtyardBuilder:
     @classmethod
     def from_node(
         cls,
-        node: Node,
+        node: Iterable[Node],
         global_config: GlobalConfig,
         offset_fab: float,
         offset_pads: float | None = None,
@@ -96,7 +98,8 @@ class CourtyardBuilder:
         else:
             cb.add_element(outline, offset_fab, offset_pads, True)
             use_fab_layer = False
-        for n in node.get_child_nodes():
+        nodes = node.raw_children if isinstance(node, Container) else node
+        for n in nodes:
             cb.add_element(n, offset_fab, offset_pads, use_fab_layer)
         cb._build()
         return cb
@@ -309,7 +312,7 @@ class CourtyardBuilder:
         """
         Add a PadArray to the list of courtyard points.
         """
-        children = padarray.get_pads()
+        children = padarray.children
         if not children:
             return
         bbox_first = children[0].bbox()

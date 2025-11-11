@@ -14,11 +14,14 @@
 
 """Class definition for the rotation node."""
 
+from collections.abc import Sequence
+
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from kilibs.geom import BoundingBox, Vector2D
 
 
-class Rotation(Node):
+class Rotation(Container[Node]):
     """A rotation that is applied to every child node."""
 
     def __init__(self, angle: float = 0.0, origin: Vector2D = Vector2D.zero()) -> None:
@@ -36,21 +39,24 @@ class Rotation(Node):
         self.origin: Vector2D
         """The coordinates of the point (in mm) around which the child nodes are rotated."""
 
-        Node.__init__(self)
+        super().__init__()
         self.angle = angle
         self.origin = origin
 
-    def get_flattened_nodes(self) -> list[Node]:
+    @property
+    def children(self) -> Sequence[Node]:
         """Return a list of the rotated copies of all child nodes from the node tree.
 
         Returns:
-            The list of a rotated copy of all child nodes.
+            The list of all child nodes if the rotation angle is zero, otherwise a
+            rotated copy of all child nodes.
         """
-        transformed_nodes: list[Node] = []
-        for child in self._children:
-            nodes = child.get_flattened_nodes()
-            for n in nodes:
-                transformed_nodes.append(n.rotated(self.angle, self.origin))
+        if abs(self.angle % 360) <= 1e-10:
+            return self._children
+        else:
+            transformed_nodes: list[Node] = []
+            for child in self._children:
+                transformed_nodes.append(child.rotated(self.angle, self.origin))
         return transformed_nodes
 
     def bbox(self) -> BoundingBox:

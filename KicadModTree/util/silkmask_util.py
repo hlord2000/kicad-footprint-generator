@@ -19,12 +19,13 @@ from KicadModTree.nodes.base.Circle import Circle
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.base.Rectangle import Rectangle
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 
 
 def _collect_nodes_as_geometric_shapes(
-    node: Node,
+    node: Container[Node],
     layer: str | list[str],
     select_drill: bool = False,
     silk_pad_clearance: float = 0.0,
@@ -85,7 +86,7 @@ def _collect_nodes_as_geometric_shapes(
                 )
         elif isinstance(c, Arc | Line | Circle) and c.layer in layers:
             shapes.append(c)
-        else:
+        elif isinstance(c, Container):
             shapes += _collect_nodes_as_geometric_shapes(
                 node=c,
                 layer=layer,
@@ -119,7 +120,7 @@ def _clean_silk_by_mask(
 
 
 def clean_silk_over_mask(
-    footprint: Node,
+    footprint: Container[Node],
     *,
     side: str,
     silk_pad_clearance: float,

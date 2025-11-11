@@ -1,6 +1,6 @@
 import enum
 
-from KicadModTree import CornerSelection, Node, Pad
+from KicadModTree import Container, CornerSelection, Node, Pad
 from KicadModTree.util import courtyard_builder
 from kilibs.geom import GeomLine, GeomRectangle, Vector2D
 from scripts.tools import drawing_tools as DT
@@ -138,7 +138,7 @@ class ThtAxialLayout(FootprintLayoutNode):
         # or the pin 1 marking is done some other way)
         return CornerSelection({})
 
-    def _get_child_nodes(self, parent: Node):
+    def _get_child_nodes(self, parent: Container[Node]):
 
         pads = []
 

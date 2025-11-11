@@ -24,6 +24,7 @@ from KicadModTree.nodes.base.Arc import Arc
 from KicadModTree.nodes.base.Circle import Circle
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from kilibs.geom import GeomArc, GeomLine, Vec2DCompatible, Vector2D
@@ -97,6 +98,35 @@ class _RingPadPrimitive(Node):
                 ],
             )
         ]
+
+    def translate(self, vector: Vector2D) -> _RingPadPrimitive:
+        """Move the ring pad primitive.
+
+        Args:
+            vector: The distance in mm in the x- and y-direction.
+
+        Returns:
+            The translated ring pad primitive.
+        """
+        self.at += vector
+        return self
+
+    def rotate(
+        self,
+        angle: float,
+        origin: Vector2D = Vector2D.zero(),
+    ) -> _RingPadPrimitive:
+        """Rotate the ring pad primitive around a given point.
+
+        Args:
+            angle: Rotation angle in degrees.
+            origin: Coordinates (in mm) of the point around which to rotate.
+
+        Returns:
+            The rotated ring pad primitive.
+        """
+        self.at.rotate(angle, origin)
+        return self
 
 
 class _ArcPadPrimitive(Node):
@@ -311,7 +341,7 @@ class _ArcPadPrimitive(Node):
         )
 
 
-class RingPad(Node):
+class RingPad(Container[Pad | _ArcPadPrimitive | _RingPadPrimitive]):
     """A ring pad."""
 
     solder_mask_margin: float
@@ -394,7 +424,7 @@ class RingPad(Node):
             solder_mask_margin: Solder mask margin of the pad.
             minimum_overlap: Minimum arc overlap.
         """
-        Node.__init__(self)
+        super().__init__()
         self.solder_mask_margin = solder_mask_margin
         self.minimum_overlap = minimum_overlap
         self.at = Vector2D(at)
@@ -471,7 +501,6 @@ class RingPad(Node):
                 raise ValueError("paste_to_paste_clearance must be > 0")
 
     def _generate_pads(self) -> None:
-        self.pads = []
         if self.num_paste_zones > 1:
             layers = ["F.Cu", "F.Mask"]
             self._generate_paste_pads()
@@ -481,7 +510,7 @@ class RingPad(Node):
         if not self.is_circle:
             self._generate_copper_pads()
         else:
-            self.pads.append(
+            self.append(
                 Pad(
                     number=self.number,
                     type=Pad.TYPE_SMT,
@@ -522,13 +551,13 @@ class RingPad(Node):
 
         pad.set_limiting_lines(start_line=start_line, end_line=end_line)
 
-        self.pads.append(pad)
+        self.append(pad)
         for i in range(1, self.num_paste_zones):
-            self.pads.append(pad.copy().rotate(i * ref_angle, origin=self.at))
+            self.append(pad.copy().rotate(i * ref_angle, origin=self.at))
 
     def _generate_mask_pads(self) -> None:
         w = self.width + 2 * self.solder_mask_margin
-        self.pads.append(
+        self.append(
             _RingPadPrimitive(
                 number="", at=self.at, width=w, layers=["F.Mask"], radius=self.radius
             )
@@ -541,7 +570,7 @@ class RingPad(Node):
             if self.solder_paste_margin == 0:
                 layers.append("F.Paste")
             else:
-                self.pads.append(
+                self.append(
                     _RingPadPrimitive(
                         number="",
                         at=self.at,
@@ -556,7 +585,7 @@ class RingPad(Node):
             layers.append("F.Mask")
         else:
             self._generate_mask_pads()
-        self.pads.append(
+        self.append(
             _RingPadPrimitive(
                 number=self.number,
                 at=self.at,
@@ -572,7 +601,7 @@ class RingPad(Node):
         origin = Vector2D.from_floats(0.0, 0.0)
         for _ in range(1, self.num_anchor):
             pos.rotate(a, origin=origin)
-            self.pads.append(
+            self.append(
                 Pad(
                     number=self.number,
                     type=Pad.TYPE_SMT,
@@ -586,6 +615,6 @@ class RingPad(Node):
     def get_flattened_nodes(self) -> list[Node]:
         """Return the nodes to serialize."""
         nodes: list[Node] = []
-        for child in self.pads:
+        for child in self._children:
             nodes.extend(child.get_flattened_nodes())
         return nodes

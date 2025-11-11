@@ -14,12 +14,15 @@
 
 """Class definition for the translation node."""
 
+from collections.abc import Sequence
+
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.vector import Vector2D
 
 
-class Translation(Node):
+class Translation(Container[Node]):
     """A translation that is applied to every child node."""
 
     def __init__(self, x: float | Vector2D, y: float = 0.0) -> None:
@@ -34,27 +37,42 @@ class Translation(Node):
         self.offset: Vector2D
         """The direction and distance in mm of the translation."""
 
-        Node.__init__(self)
+        super().__init__()
         if isinstance(x, Vector2D):
             self.offset = x
         else:
             self.offset = Vector2D.from_floats(x, y)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    @property
+    def children(self) -> Sequence[Node]:
         """Return a list of the translated copies of all child nodes from the node tree.
 
         Returns:
-            The list of a translated copy of all child nodes.
+            The list of all child nodes if the translation offset is zero, otherwise
+            a translated copy of all child nodes.
         """
-        transformed_nodes: list[Node] = []
-        for child in self._children:
-            nodes = child.get_flattened_nodes()
-            for n in nodes:
-                transformed_nodes.append(n.translated(vector=self.offset))
-        return transformed_nodes
+        if self.offset.is_nullvec():
+            return self._children
+        else:
+            transformed_nodes: list[Node] = []
+            for child in self._children:
+                transformed_nodes.append(child.translated(vector=self.offset))
+            return transformed_nodes
 
     def bbox(self) -> BoundingBox:
-        """Return the translated bounding box of every child node."""
+        """Return the bounding box of all the child nodes translated by 'offset'.
+        This is in its own context, so it is independent of the parent nodes'
+        transformations, but does incldue any transformation it applies itself.
+
+        Example:
+            >>> translation = Translation(-10, 0)
+            >>> line = Line(start=(0, 0), end=(1, 1))
+            >>> translation.append(line)
+            >>> print(line.bbox())
+                Vector2D(0, 0), Vector2D(1, 1)
+            >>> print(translation.bbox())
+                Vector2D(-10, 0), Vector2D(-9, 1)
+        """
         bbox = BoundingBox()
         for child in self._children:
             child_bbox = child.bbox()

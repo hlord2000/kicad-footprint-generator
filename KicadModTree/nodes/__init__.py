@@ -16,8 +16,7 @@
 """Node classes."""
 
 # Node must be on top to prevent cyclic imports:
-from .Node import MultipleParentsError, Node, RecursionDetectedError  # isort: skip
-
+from .Node import Node  # isort: skip
 from .base import (
     Arc,
     Circle,
@@ -38,6 +37,7 @@ from .base import (
     Zone,
     ZoneFill,
 )
+from .Container import Container, MultipleParentsError, RecursionDetectedError
 from .Footprint import Footprint, FootprintType
 from .NodeShape import NodeShape
 from .specialized import (
@@ -81,6 +81,7 @@ __all__ = [
     "ZoneFill",
     "Footprint",
     "FootprintType",
+    "Container",
     "MultipleParentsError",
     "Node",
     "RecursionDetectedError",

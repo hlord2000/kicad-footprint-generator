@@ -1,6 +1,6 @@
 import abc
 
-from KicadModTree import CornerSelection, Node, Translation
+from KicadModTree import Container, CornerSelection, Node, Translation
 from KicadModTree.nodes.specialized.ChamferedRect import ChamferRect
 from KicadModTree.util import courtyard_builder
 from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
@@ -128,7 +128,7 @@ class FootprintLayoutNode(Node, abc.ABC):
         return CornerSelection({CornerSelection.TOP_LEFT: True})
 
     @abc.abstractmethod
-    def _get_child_nodes(self, parent: Node) -> None:
+    def _get_child_nodes(self, parent: Container[Node]) -> None:
         """
         Add the child nodes to the parent node. This is where inheritors
         add their own pads, lines, text, etc. to the footprint.
@@ -190,7 +190,9 @@ class FootprintLayoutNode(Node, abc.ABC):
         """
         return GC.GlobalConfig.CourtyardType.DEFAULT
 
-    def _get_courtyard(self, node: Node) -> courtyard_builder.CourtyardBuilder:
+    def _get_courtyard(
+        self, node: Container[Node]
+    ) -> courtyard_builder.CourtyardBuilder:
         """Calculate (if not done so before) the courtyard based on the body shape
         and the pads that have been added until this point to the layout and return the
         courtyard builder.

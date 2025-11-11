@@ -21,6 +21,7 @@ from enum import Enum
 
 from KicadModTree.nodes.base.EmbeddedFonts import EmbeddedFonts
 from KicadModTree.nodes.base.Pad import Pad
+from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 
 
@@ -35,7 +36,7 @@ class FootprintType(Enum):
     """THT footprint."""
 
 
-class Footprint(Node):
+class Footprint(Container[Node]):
     """The root node."""
 
     _COMMA_FIXER_RE = re.compile(r",(\s*,)+")
@@ -90,7 +91,7 @@ class Footprint(Node):
         self.dnp: bool
         """If `True` the component is not populated."""
 
-        Node.__init__(self)
+        super().__init__()
         self.name = name
         self._description = None
         self._tags = []
@@ -117,25 +118,6 @@ class Footprint(Node):
         # All footprints from v9 have an embedded_fonts node even if it's not enabled.
         self._embedded_fonts = EmbeddedFonts()
         self.append(self._embedded_fonts)
-
-    def get_flattened_nodes(self) -> list[Node]:
-        """Get the ultimate descendant nodes.
-
-        This method recursively traverses the node hierarchy, returning only the final
-        descendant nodes (the nodes that have no further children, like the leaves of a
-        tree).
-
-        Nodes that are children of a transformation node (such as :py:class:`Rotation`
-        or :py:class:`Translation`) are copied and have the transformation applied
-        before being returned.
-
-        Returns:
-            All ultimate descendant nodes.
-        """
-        nodes: list[Node] = []
-        for child in self.get_child_nodes():
-            nodes.extend(child.get_flattened_nodes())
-        return nodes
 
     @property
     def description(self) -> str | None:
