@@ -135,7 +135,6 @@ class PolygonLine(NodeShape, Container[Line], GeomPolygon):
                 width=self.width,
                 style=self.style,
             )
-            new_node._parent = self
             nodes.append(new_node)
         if self.close:
             new_node = Line(
@@ -145,7 +144,6 @@ class PolygonLine(NodeShape, Container[Line], GeomPolygon):
                 width=self.width,
                 style=self.style,
             )
-            new_node._parent = self
             nodes.append(new_node)
         self._children = nodes
 

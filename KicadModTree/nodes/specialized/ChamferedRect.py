@@ -79,11 +79,9 @@ class ChamferRect(Node):
             poly = Polygon(
                 shape=pts, layer=self.layer, width=self.width, fill=self.fill
             )
-            poly._parent = self
             return [poly]
         else:
             rect = Rectangle(
                 start=tl, end=br, layer=self.layer, width=self.width, fill=self.fill
             )
-            rect._parent = self
             return [rect]

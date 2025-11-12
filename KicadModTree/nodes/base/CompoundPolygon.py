@@ -121,6 +121,5 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
                     arc = Arc(
                         shape=geom, layer=self.layer, width=self.width, style=self.style
                     )
-                    arc._parent = self._parent
                     self._fp_poly_elements.append(arc)
         return self._fp_poly_elements

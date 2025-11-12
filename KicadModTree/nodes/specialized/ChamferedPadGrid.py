@@ -370,14 +370,6 @@ class ChamferedPadGrid(Node):
         """Return the nodes to serialize."""
         return self._generate_pads()
 
-    def get_child_nodes(self) -> list[ChamferedPad]:
-        """Return the direct child nodes."""
-        return self._generate_pads()
-
-    def get_pads(self) -> list[ChamferedPad]:
-        """Return the list of pads in the array."""
-        return self._generate_pads()
-
     def __copy__(self) -> ChamferedPadGrid:
         newone = ChamferedPadGrid.__new__(ChamferedPadGrid)
         newone.__dict__.update(self.__dict__)

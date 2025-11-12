@@ -34,7 +34,6 @@ def test_translation():
     translation = Translation(42, 43)
 
     translation += line
-    line._parent = translation
 
     t_bbox = translation.bbox()
     assert t_bbox.left == 42

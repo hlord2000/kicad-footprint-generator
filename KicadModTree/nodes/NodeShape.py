@@ -86,7 +86,6 @@ class NodeShape(Node, GeomShape):
                 width=self.width,
                 style=self.style,
             )
-        copy._parent = self._parent
         return copy
 
     def copy_with(

@@ -462,7 +462,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 pincount=self.paste_layout,
                 grid=paste_grid,
                 round_radius_handler=self.paste_round_radius_handler,
-            ).get_pads()
+            ).get_flattened_nodes()
         )
 
     def _create_paste_grids(
@@ -488,7 +488,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 y = top_left.y + idx_y * grid.y
                 pad = copy(original)
                 pad.center = Vector2D(x, y)
-                self._children.extend(pad.get_pads())
+                self._children.extend(pad.get_flattened_nodes())
 
     def _create_paste_avoid_vias_inside(self) -> None:
         """Create the paste pads while avoiding the vias inside."""
@@ -657,7 +657,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 y = top if idx_y == 0 else 2 * self.at.y - top
                 pad_side.center = Vector2D(x, y)
                 pad_side.chamfer_selection = ChamferSelPadGrid(corner[idx_x][idx_y])
-                self._children.extend(copy(pad_side).get_pads())
+                self._children.extend(copy(pad_side).get_flattened_nodes())
 
     def _create_paste_avoid_vias_outside(self) -> None:
         """Create the paste pads while avoiding the outer vias."""
@@ -816,12 +816,6 @@ class ExposedPad(Container[Pad | ReferencedPad]):
 
     def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
-        if not self._children:
-            self._create_pads()
-        return self._children
-
-    def get_child_nodes(self) -> list[Pad | ReferencedPad]:
-        """Return the direct child nodes."""
         if not self._children:
             self._create_pads()
         return self._children
