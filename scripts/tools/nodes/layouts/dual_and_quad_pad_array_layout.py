@@ -5,8 +5,8 @@ from KicadModTree import (
     CornerSelection,
     ExposedPad,
     Node,
-    NodeShape,
     PadArray,
+    shape_to_node,
 )
 from KicadModTree.nodes.specialized.PadArray import find_lowest_numbered_pad
 from kilibs.geom import (
@@ -548,10 +548,10 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         if self.exposed_pad is not None:
             keepouts.append(self.exposed_pad.as_geom_shape(inflation=silk_pad_offset))
         g_silk_kept = applyKeepouts(items=g_silk_kept, keepouts=keepouts)
-        silk = NodeShape.to_nodes(
-            shapes=g_silk_kept, layer="F.SilkS", width=silk_line_width
-        )
-        parent.extend(silk)
+        for shape in g_silk_kept:
+            parent.append(
+                shape_to_node(shape=shape, layer="F.SilkS", width=silk_line_width)
+            )
 
     def _get_child_nodes(self, parent: Container[Node]) -> None:
         parent.extend(self.pad_arrays)

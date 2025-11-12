@@ -28,6 +28,7 @@ class Arc(NodeShape, GeomArc):
         layer: str = "F.SilkS",
         width: float | None = None,
         style: LineStyle = LineStyle.SOLID,
+        fill: bool = False,
         shape: Arc | GeomArc | None = None,
         center: Vec2DCompatible | None = None,
         start: Vec2DCompatible | None = None,
@@ -43,6 +44,8 @@ class Arc(NodeShape, GeomArc):
             width: Line width in mm. If `None`, then the standard width for the given
                 layer will be used when the serializing the node.
             style: Line style.
+            fill: Unused parameter - needed to provide a homogeneous initializer
+                interface.
             shape: Arc from which to derive the parameters.
             center: Coordinates (in mm) of the center of the arc.
             start: Coordinates (in mm) of the start point of the arc.
@@ -53,7 +56,7 @@ class Arc(NodeShape, GeomArc):
                 point to specify if the longer of the 2 possible resulting arcs or the
                 shorter one shall be constructed.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style)
+        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomArc.__init__(
             self,
             shape=shape,

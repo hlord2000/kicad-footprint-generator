@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomCross, Vec2DCompatible
 
 if TYPE_CHECKING:
@@ -38,6 +39,7 @@ class Cross(NodeShape, GeomCross):
         layer: str = "F.SilkS",
         width: float | None = None,
         style: LineStyle = LineStyle.SOLID,
+        fill: bool = False,
         shape: Cross | GeomCross | None = None,
         center: Vec2DCompatible | None = None,
         size: Vec2DCompatible | float | None = None,
@@ -50,6 +52,8 @@ class Cross(NodeShape, GeomCross):
             width: Line width in mm. If `None`, then the standard width for the given
                 layer will be used when the serializing the node.
             style: Line style.
+            fill: Unused parameter - needed to provide a homogeneous initializer
+                interface.
             shape: Shape from which to derive the parameters of the cross.
             center: Coordinates (in mm) of the center point of the cross.
             size: Size in mm of the cross. If a vector is given, the two lines of the
@@ -62,7 +66,7 @@ class Cross(NodeShape, GeomCross):
             >>> cross1 = Cross(center=(0, 0), size=1)
             >>> cross2 = Cross(shape=cross1)
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style)
+        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomCross.__init__(
             self,
             shape=shape,
@@ -73,4 +77,14 @@ class Cross(NodeShape, GeomCross):
 
     def get_flattened_nodes(self) -> list[Line]:
         """Return the nodes to serialize."""
-        return self.to_child_nodes(list(self.get_shapes()))
+        nodes: list[Line] = []
+        for shape in self.get_shapes():
+            node = shape_to_node(
+                shape=shape,
+                layer=self.layer,
+                width=self.width,
+                style=self.style,
+                fill=self.fill,
+            )
+            nodes.append(node)
+        return nodes

@@ -152,7 +152,7 @@ class Container(Node, Generic[NodeType]):
     def get_flattened_nodes(self) -> Sequence[Node]:
         """Get the ultimate descendant nodes.
 
-        This method recursively traverses the node hierarchy, yielding only the final
+        This method recursively traverses the node hierarchy, returning only the final
         descendant nodes (the nodes that have no further children, like the leaves of a
         tree).
 

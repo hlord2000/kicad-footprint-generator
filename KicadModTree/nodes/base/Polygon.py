@@ -16,11 +16,11 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import BoundingBox, GeomPolygon, GeomRectangle, Vec2DCompatible
 
 if TYPE_CHECKING:
@@ -78,6 +78,14 @@ class Polygon(NodeShape, GeomPolygon):
         if self.close:
             return [self]
         else:
-            return cast(
-                list[Polygon | Line], self.to_child_nodes(self.get_atomic_shapes())
-            )
+            nodes: list[Polygon | Line] = []
+            for shape in self.get_atomic_shapes():
+                node = shape_to_node(
+                    shape=shape,
+                    layer=self.layer,
+                    width=self.width,
+                    style=self.style,
+                    fill=self.fill,
+                )
+                nodes.append(node)
+            return nodes

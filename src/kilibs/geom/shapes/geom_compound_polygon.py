@@ -38,7 +38,6 @@ class GeomCompoundPolygon(GeomShapeClosed):
             | Iterable[Vec2DCompatible]
             | Iterable[GeomPolygon | GeomLine | GeomArc]
         ),
-        serialize_as_fp_poly: bool = True,
         close: bool = True,
     ) -> None:
         """Create a geometric compound polygon.
@@ -46,18 +45,10 @@ class GeomCompoundPolygon(GeomShapeClosed):
         Args:
             shape: compound polygon, list of points, polygons, lines or arcs  from which
                 to derive the compound polygon.
-            serialize_as_fp_poly: If True, will serialize the compound polygon as
-                fp_poly, leading to line-segment-appromimations of contained arcs in the
-                FP editor (the file format already supports arcs, but the editor does
-                not) if False, will explode the polygon into free primitives, yielding
-                true arcs in the FP editor but no single primitive.
             close: `True` if the compound polygon shall be closed, `False` otherwise.
         """
 
         # Instance attributes:
-        self.serialize_as_fp_poly: bool = False
-        """If `True`, the compound polygon is serialized as polygon with line
-        approximations for the arcs."""
         self.close: bool
         """Whether to close the compound polygon or not."""
         self._segments: list[GeomArc | GeomLine]
@@ -68,7 +59,6 @@ class GeomCompoundPolygon(GeomShapeClosed):
         """Internal variable storing the coordinates of the last point added."""
 
         if isinstance(shape, GeomCompoundPolygon):
-            self.serialize_as_fp_poly = shape.serialize_as_fp_poly
             self.close = shape.close
             if shape._segments:
                 self._segments = [p.copy() for p in shape._segments]
@@ -80,7 +70,6 @@ class GeomCompoundPolygon(GeomShapeClosed):
                 self._bbox = None
             self._end = shape._end
         elif isinstance(shape, GeomShape):
-            self.serialize_as_fp_poly = serialize_as_fp_poly
             self.close = isinstance(shape, GeomShapeClosed) and close
             atoms = shape.get_atomic_shapes()
             segments: list[GeomLine | GeomArc] = []
@@ -99,7 +88,6 @@ class GeomCompoundPolygon(GeomShapeClosed):
             self._bbox = None
             self._end = self._segments[-1].end
         else:
-            self.serialize_as_fp_poly = serialize_as_fp_poly
             self.close = close
             self._segments = []
             self._bbox = None

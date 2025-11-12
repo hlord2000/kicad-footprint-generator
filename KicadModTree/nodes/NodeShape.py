@@ -15,28 +15,17 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import Any, Self
 
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import (
     MIN_SEGMENT_LENGTH,
     TOL_MM,
     BoundingBox,
-    GeomArc,
-    GeomCircle,
-    GeomCompoundPolygon,
-    GeomCross,
-    GeomCruciform,
-    GeomLine,
-    GeomPolygon,
-    GeomRectangle,
-    GeomRoundRectangle,
     GeomShape,
     GeomShapeClosed,
-    GeomStadium,
-    GeomTrapezoid,
     Vector2D,
 )
 
@@ -84,7 +73,7 @@ class NodeShape(Node, GeomShape):
         """Creates a copy of itself."""
         if isinstance(self, GeomShapeClosed):
             copy = self.__class__(
-                shape=self,  # pyright: ignore
+                shape=self,
                 layer=self.layer,
                 width=self.width,
                 style=self.style,
@@ -92,7 +81,7 @@ class NodeShape(Node, GeomShape):
             )
         else:
             copy = self.__class__(
-                shape=self,  # type: ignore
+                shape=self,
                 layer=self.layer,
                 width=self.width,
                 style=self.style,
@@ -131,7 +120,7 @@ class NodeShape(Node, GeomShape):
             params.update({"fill": (fill if fill else self.fill)})
         if offset:
             params.update({"offset": offset})
-        return self.__class__(shape=shape, **params)  # type: ignore
+        return self.__class__(shape=shape, **params)
 
     def translate(self, vector: Vector2D) -> Self:
         """Move the node.
@@ -184,13 +173,17 @@ class NodeShape(Node, GeomShape):
             min_segment_length=min_segment_length,
             tol=tol,
         )
-        return NodeShape.to_nodes(
-            shapes=shapes,
-            layer=shape_to_cut.layer,
-            width=shape_to_cut.width,
-            style=shape_to_cut.style,
-            parent=shape_to_cut._parent,
-        )
+        nodes: list[NodeShape] = []
+        for shape in shapes:
+            node = shape_to_node(
+                shape=shape,
+                layer=shape_to_cut.layer,
+                width=shape_to_cut.width,
+                style=shape_to_cut.style,
+                fill=shape_to_cut.fill,
+            )
+            nodes.append(node)
+        return nodes
 
     def keepout(
         self,
@@ -222,163 +215,22 @@ class NodeShape(Node, GeomShape):
                 min_segment_length=min_segment_length,
                 tol=tol,
             )
-            return NodeShape.to_nodes(
-                shapes=shapes,
-                layer=shape_to_keep_out.layer,
-                width=shape_to_keep_out.width,
-                style=shape_to_keep_out.style,
-                parent=None,
-            )
+            nodes: list[NodeShape] = []
+            for shape in shapes:
+                if isinstance(shape, NodeShape):
+                    return [shape]
+                else:
+                    node = shape_to_node(
+                        shape=shape,
+                        layer=shape_to_keep_out.layer,
+                        width=shape_to_keep_out.width,
+                        style=shape_to_keep_out.style,
+                        fill=shape_to_keep_out.fill,
+                    )
+                    nodes.append(node)
+            return nodes
         else:
             return [shape_to_keep_out]
-
-    def to_child_node(self, shape: GeomShape) -> NodeShape:
-        """Converts a geometric shape to its corresponding node class and sets the
-        properties `layer`, `width` and `style` equal to the ones of this `NodeShape`
-        and `_parent` to this `NodeShape`."""
-        node = NodeShape.to_node(
-            shape=shape,
-            layer=self.layer,
-            width=self.width,
-            style=self.style,
-            fill=self.fill,
-            parent=self._parent,
-        )
-        node._parent = self
-        return node
-
-    def to_child_nodes(self, shapes: Iterable[GeomShape]) -> list[NodeShape]:
-        """Converts a list of geometric shapes  to its corresponding node class and sets
-        the properties `layer`, `width` and `style` equal to the ones of this
-        `NodeShape` and `_parent` to this `NodeShape`."""
-        nodes = NodeShape.to_nodes(
-            shapes=shapes,
-            layer=self.layer,
-            width=self.width,
-            style=self.style,
-            fill=self.fill,
-            parent=self._parent,
-        )
-        return nodes
-
-    @classmethod
-    def to_node(
-        cls,
-        shape: GeomShape,
-        layer: str = "F.SilkS",
-        width: float | None = None,
-        style: LineStyle = LineStyle.SOLID,
-        fill: bool = False,
-        parent: Node | None = None,
-    ) -> NodeShape:
-        """Converts a geometric shape to its corresponding node class and sets the
-        properties `layer`, `width`, `style` and `parent` to the values given as
-        argument.
-
-        Args:
-            shape: The geometric shape to convert to a `NodeShape`.
-            layer: The layer.
-            width: Line width in mm. If `None`, then the standard width for the given
-                layer will be used when the serializing the node.
-            style: Line style.
-            fill: Whether the shape is filled.
-            parent: The parent of the newly created node.
-        """
-        from KicadModTree.nodes.base import (
-            Arc,
-            Circle,
-            CompoundPolygon,
-            Line,
-            Polygon,
-            Rectangle,
-        )
-        from KicadModTree.nodes.specialized.Cross import Cross
-        from KicadModTree.nodes.specialized.Cruciform import Cruciform
-        from KicadModTree.nodes.specialized.RoundRectangle import RoundRectangle
-        from KicadModTree.nodes.specialized.Stadium import Stadium
-        from KicadModTree.nodes.specialized.Trapezoid import Trapezoid
-
-        # Checking order is ranked by probability of a "hit". First the atomic shapes,
-        # then the basic shapes (native to KiCad), then the other shapes:
-        node: NodeShape
-        if isinstance(shape, GeomLine):
-            node = Line(layer=layer, width=width, style=style, shape=shape)
-        elif isinstance(shape, GeomArc):
-            node = Arc(layer=layer, width=width, style=style, shape=shape)
-        elif isinstance(shape, GeomCircle):
-            node = Circle(layer=layer, width=width, style=style, fill=fill, shape=shape)
-        # Now the basic shapes:
-        elif isinstance(shape, GeomRectangle):
-            node = Rectangle(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        elif isinstance(shape, GeomPolygon):
-            node = Polygon(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        elif isinstance(shape, GeomCompoundPolygon):
-            node = CompoundPolygon(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        # Now the special shapes:
-        elif isinstance(shape, GeomCross):
-            node = Cross(layer=layer, width=width, style=style, shape=shape)
-        elif isinstance(shape, GeomCruciform):
-            node = Cruciform(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        elif isinstance(shape, GeomRoundRectangle):
-            node = RoundRectangle(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        elif isinstance(shape, GeomStadium):
-            node = Stadium(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        elif isinstance(shape, GeomTrapezoid):
-            node = Trapezoid(
-                layer=layer, width=width, style=style, fill=fill, shape=shape
-            )
-        else:
-            raise TypeError("Type not implemented.")
-        node._parent = parent
-        return node
-
-    @classmethod
-    def to_nodes(
-        cls,
-        shapes: Iterable[GeomShape],
-        layer: str = "F.SilkS",
-        width: float | None = None,
-        style: LineStyle = LineStyle.SOLID,
-        fill: bool = False,
-        parent: Node | None = None,
-    ) -> list[NodeShape]:
-        """Converts a list of geometric shape to a list of their corresponding node
-        class and sets the properties `layer`, `width`, `style` and `parent` to the
-        values given as argument.
-
-        Args:
-            shapes: The list of geometric shape to convert to a list of `NodeShape`.
-            layer: The layer.
-            width: Line width in mm. If `None`, then the standard width for the given
-                layer will be used when the serializing the nodes.
-            style: Line style.
-            parent: The parent of the newly created nodes.
-            fill: Whether the shape is filled.
-        """
-        child_nodes: list[NodeShape] = []
-        for shape in shapes:
-            child_node = NodeShape.to_node(
-                shape=shape,
-                layer=layer,
-                width=width,
-                style=style,
-                fill=fill,
-                parent=parent,
-            )
-            child_nodes.append(child_node)
-        return child_nodes
 
     def bbox(self) -> BoundingBox:
         """Get the bounding box of the node."""

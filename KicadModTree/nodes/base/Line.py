@@ -28,6 +28,7 @@ class Line(NodeShape, GeomLine):
         layer: str = "F.SilkS",
         width: float | None = None,
         style: LineStyle = LineStyle.SOLID,
+        fill: bool = False,
         shape: Line | GeomLine | None = None,
         start: Vec2DCompatible | None = None,
         end: Vec2DCompatible | None = None,
@@ -39,9 +40,11 @@ class Line(NodeShape, GeomLine):
             width: Line width in mm. If `None`, then the standard width for the given
                 layer will be used when the serializing the node.
             style: Line style.
+            fill: Unused parameter - needed to provide a homogeneous initializer
+                interface.
             shape: Shape from which to derive the parameters of the line.
             start: Coordinates (in mm) of the start point of the line.
             end: Coordinates (in mm) of the end point of the line.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style)
+        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomLine.__init__(self, shape=shape, start=start, end=end)

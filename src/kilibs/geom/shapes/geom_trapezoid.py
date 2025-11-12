@@ -22,7 +22,7 @@ from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
 from kilibs.geom.shapes.geom_round_rectangle import GeomRoundRectangle
-from kilibs.geom.shapes.geom_shape import GeomShape, GeomShapeClosed
+from kilibs.geom.shapes.geom_shape import GeomShapeClosed
 from kilibs.geom.tolerances import TOL_MM
 from kilibs.geom.vector import Vec2DCompatible, Vector2D
 
@@ -76,7 +76,9 @@ class GeomTrapezoid(GeomShapeClosed):
         """The angle of the sides in degrees."""
         self.rotation_angle: float
         """The rotation angle of the shape."""
-        self._shapes: list[GeomShape]
+        self._shapes: list[
+            GeomRectangle | GeomPolygon | GeomRoundRectangle | GeomArc | GeomLine
+        ]
         """The list of the shapes the trapezoid is composed of."""
 
         if shape is not None:
@@ -105,7 +107,9 @@ class GeomTrapezoid(GeomShapeClosed):
             )
         self._shapes = []
 
-    def get_shapes(self) -> list[GeomShape]:
+    def get_shapes(
+        self,
+    ) -> list[GeomRectangle | GeomPolygon | GeomRoundRectangle | GeomArc | GeomLine]:
         """Return a list containing the atomic shapes that this shape is composed of in
         clockwise order."""
         if self._shapes:

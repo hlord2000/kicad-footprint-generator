@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomRoundRectangle, Vec2DCompatible
 
 if TYPE_CHECKING:
@@ -91,5 +92,12 @@ class RoundRectangle(NodeShape, GeomRoundRectangle):
         """Return the nodes to serialize."""
         nodes: list[Line | Arc | Rectangle] = []
         for shape in self.get_shapes():
-            nodes.append(self.to_child_node(shape))
+            node = shape_to_node(
+                shape=shape,
+                layer=self.layer,
+                width=self.width,
+                style=self.style,
+                fill=self.fill,
+            )
+            nodes.append(node)
         return nodes

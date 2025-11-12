@@ -33,6 +33,7 @@ from KicadModTree.nodes.base.Zone import Hatch, Keepouts, PadConnection, Zone, Z
 from KicadModTree.nodes.Node import TStamp
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom.tolerances import TOL_MM
 from kilibs.geom.vector import Vector2D
 
@@ -989,14 +990,25 @@ class Serializer:
         """
         from KicadModTree.nodes.base import Arc, Circle, Line, Polygon
 
-        SUPPORTED_TYPES = ["Arc", "Circle", "Rectangle", "Line", "Pad", "Polygon", "Text"]
+        SUPPORTED_TYPES = [
+            "Arc",
+            "Circle",
+            "Rectangle",
+            "Line",
+            "Pad",
+            "Polygon",
+            "Text",
+        ]
 
         all_primitives: list[NodeShape] = []
         for p in pad.primitives:
             if p.__class__.__name__ in SUPPORTED_TYPES:
                 all_primitives.append(p)
             else:
-                all_primitives.extend(p.to_child_nodes(p.get_atomic_shapes()))
+                for shape in p.get_atomic_shapes():
+                    all_primitives.append(
+                        shape_to_node(shape, p.layer, p.width, p.style)
+                    )
 
         grouped_nodes: dict[str, list[NodeShape]] = {}
 

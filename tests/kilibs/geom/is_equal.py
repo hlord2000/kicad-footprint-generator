@@ -403,13 +403,10 @@ def is_equal_geom_rectangles(
 
 def is_equal_geom_compound_polygon(
     compound_polygon: GeomCompoundPolygon,
-    serialize_as_fp_poly: bool,
     close: bool,
     segments: list[GeomArc | GeomLine],
     rel: float = TOL_MM,
 ) -> bool:
-    if compound_polygon.serialize_as_fp_poly != serialize_as_fp_poly:
-        return False
     if compound_polygon.close != close:
         return False
     if len(segments) != len(compound_polygon.get_atomic_shapes()):
@@ -425,7 +422,6 @@ def is_equal_geom_compound_polygons(
 ) -> bool:
     return is_equal_geom_compound_polygon(
         compound_polygon=a,
-        serialize_as_fp_poly=b.serialize_as_fp_poly,
         close=b.close,
         segments=b.get_atomic_shapes(),
         rel=rel,

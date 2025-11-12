@@ -15,12 +15,13 @@
 
 from __future__ import annotations
 
-from collections.abc import Generator, Iterable
+from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.base.Arc import Arc
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import (
     GeomArc,
     GeomCompoundPolygon,
@@ -80,12 +81,15 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
         # Instance attributes:
         self._fp_poly_elements: list[Vector2D | Arc]
         """List of arcs and points that define the compound polygon."""
+        serialize_as_fp_poly = serialize_as_fp_poly
+        """Whether to serialize this compound polygon as single Kicad native object or
+        in individual arcs and lines.
+        """
 
         self._fp_poly_elements = []
+        self.serialize_as_fp_poly = serialize_as_fp_poly
         NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
-        GeomCompoundPolygon.__init__(
-            self, shape=shape, serialize_as_fp_poly=serialize_as_fp_poly, close=close
-        )
+        GeomCompoundPolygon.__init__(self, shape=shape, close=close)
         if offset:
             self.inflate(amount=offset)
 
@@ -94,7 +98,17 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
         if self.serialize_as_fp_poly and self.close:
             return [self]
         else:
-            return self.to_child_nodes(list(self.get_atomic_shapes()))
+            nodes: list[Line | Arc | CompoundPolygon] = []
+            for atomic_shape in self.get_atomic_shapes():
+                node = shape_to_node(
+                    shape=atomic_shape,
+                    layer=self.layer,
+                    width=self.width,
+                    style=self.style,
+                    fill=self.fill,
+                )
+                nodes.append(node)
+            return nodes
 
     def get_fp_poly_elements(self) -> list[Vector2D | Arc]:
         """Return arcs and dots that define the compound polygon."""

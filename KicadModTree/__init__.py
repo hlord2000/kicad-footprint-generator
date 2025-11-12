@@ -66,6 +66,7 @@ from KicadModTree.util import (
     CornerSelection,
     LineStyle,
     RoundRadiusHandler,
+    shape_to_node,
 )
 from kilibs.geom.vector import Vector2D  # TODO remove this import.
 
@@ -113,6 +114,7 @@ __all__ = [
     "Rotation",
     "RoundRadiusHandler",
     "RoundRectangle",
+    "shape_to_node",
     "Stadium",
     "Text",
     "Translation",

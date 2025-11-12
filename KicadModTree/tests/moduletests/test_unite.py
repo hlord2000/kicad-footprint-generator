@@ -13,15 +13,13 @@
 
 from collections.abc import Sequence
 from math import sqrt
-from typing import cast
 
-from KicadModTree import Footprint, FootprintType, NodeShape
+from KicadModTree import Footprint, FootprintType, shape_to_node
 from KicadModTree.tests.test_utils.fp_file_test import SerialisationTest
 from kilibs.geom import (
     GeomCircle,
     GeomPolygon,
     GeomRectangle,
-    GeomShape,
     GeomShapeClosed,
     Vector2D,
 )
@@ -52,8 +50,9 @@ def merge_and_add_to_footprint(
         shape2 = center_shape(shape2).translated(
             Vector2D(x[i] + dist_x2[i], y + bbox.size.y / 2)
         )
-        result = cast(list[GeomShape], shape1.unite(shape2))
-        fp.extend(NodeShape.to_nodes(result))
+        results = shape1.unite(shape2)
+        for result in results:
+            fp.append(shape_to_node(result))  # type: ignore
     return bbox.size.y + 1
 
 

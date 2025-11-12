@@ -13,7 +13,7 @@
 
 from math import sqrt
 
-from KicadModTree import Footprint, FootprintType, NodeShape
+from KicadModTree import Footprint, FootprintType, shape_to_node
 from KicadModTree.tests.test_utils.fp_file_test import SerialisationTest
 from kilibs.geom import (
     GeomArc,
@@ -86,7 +86,7 @@ def gen_footprint() -> Footprint:
         x_translate = -5 * (len(shapes) - 1)
         for i in range(0, len(shapes)):
             translated_shape = shapes[i].translated(Vector2D(x_translate, y=y_translate))
-            kicad_mod.append(NodeShape.to_node(translated_shape, layer="F.Fab"))
+            kicad_mod.append(shape_to_node(translated_shape, layer="F.Fab"))  # type: ignore
             try:
                 inflated_shape = translated_shape.inflated(
                     amount=inflate_amount[j],
@@ -96,9 +96,9 @@ def gen_footprint() -> Footprint:
                     if (
                         inflate_amount[j] >= -0.5
                     ):  # Polygons that are deflated too much are rubbish. Don't plot them.
-                        kicad_mod.append(NodeShape.to_node(inflated_shape))
+                        kicad_mod.append(shape_to_node(inflated_shape))
                 else:
-                    kicad_mod.append(NodeShape.to_node(inflated_shape))
+                    kicad_mod.append(shape_to_node(inflated_shape))
             except ValueError:
                 pass
             x_translate += 10

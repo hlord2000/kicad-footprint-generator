@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomTrapezoid, Vec2DCompatible
 
 if TYPE_CHECKING:
@@ -95,5 +96,12 @@ class Trapezoid(NodeShape, GeomTrapezoid):
         """Return the nodes to serialize."""
         nodes: list[Rectangle | Polygon | RoundRectangle | Arc | Line] = []
         for shape in self.get_shapes():
-            nodes.append(self.to_child_node(shape))
+            node = shape_to_node(
+                shape=shape,
+                layer=self.layer,
+                width=self.width,
+                style=self.style,
+                fill=self.fill,
+            )
+            nodes.append(node)
         return nodes
