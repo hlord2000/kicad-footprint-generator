@@ -7,6 +7,7 @@ from copy import deepcopy
 
 from KicadModTree import *  # NOQA
 from kilibs.geom import GeomLine, GeomCircle
+from kilibs.geom.operations import split
 from scripts.tools.drawing_tools import round_to_grid_up
 from scripts.tools.footprint_text_fields import addTextFields
 from scripts.tools.global_config_files import global_config as GC
@@ -166,9 +167,9 @@ def make_fp(global_config: GC.GlobalConfig, wire_def, fp_type, pincount, configu
 
     silk_x = wire_def['outer_diameter']/2 + configuration['silk_fab_offset']
 
-    silk_helper_line = GeomCircle(
-        center=(0,0), radius=(npth_drill/2 + silk_pad_off)
-    ).cut(GeomLine(start=(silk_x, 0), end=(silk_x, npth_offset)))[1]
+    splitting_circle = GeomCircle(center=(0,0), radius=(npth_drill/2 + silk_pad_off))
+    silk_helper_line = GeomLine(start=(silk_x, 0), end=(silk_x, npth_offset))
+    silk_helper_line = split(shape_to_split=silk_helper_line, splitting_shape=splitting_circle)[1]
 
     silk_y_rel_npth = silk_helper_line.start['x']
 

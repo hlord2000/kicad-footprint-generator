@@ -11,43 +11,42 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Cut function."""
+"""Divide function."""
 
 from kilibs.geom import GeomShape
-from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
-from kilibs.geom.tools.intersect import intersect
+
+from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
+from .intersection_points import intersect_handler
 
 
-def cut(
-    cutting_shape: GeomShape,
-    shape_to_cut: GeomShape,
+def split(
+    shape_to_split: GeomShape,
+    splitting_shape: GeomShape,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
 ) -> list[GeomShape]:
-    """Cut `shape_to_cut` with `cutting_shape`.
+    """Split `shape_to_split` with `splitting_shape`.
 
     Args:
-        cutting_shape: The shape that cuts.
-        shape_to_cut: The shape that is to be cut.
+        splitting_shape: The shape that splits.
+        shape_to_split: The shape that is to be split.
         strict_intersection: If `True`, then intersection points resulting from
             shapes that are tangent to another or from segments that have their
             beginning or their ending on the outline of the other shape are omitted
             from the results. If `False` then those points are included.
         min_segment_length: The minimum length of a segment. If a segment resulting
-            from the cut operation is shorter than `min_segment_length`, it is
+            from the split operation is shorter than `min_segment_length`, it is
             omitted from the results.
         tol: Tolerance used to dertemine if the two points are equal.
     Returns:
-        A list containing the shapes that are created by the cut, or containing the
-        uncut shape if there are no intersection points between the `cutting_shape`
-        and the `shape_to_cut`.
-        If the shape has been cut, the resulting line and arc segments are returned
+        A list containing the fragments of the split shape.
+        If the shape has been split, the resulting line and arc segments are returned
         sorted by their proximity to the starting point of the segment.
     """
     # For the cut() operation we only need shape 1 to be cut:
-    handle = intersect(
-        shape1=shape_to_cut,
-        shape2=cutting_shape,
+    handle = intersect_handler(
+        shape1=shape_to_split,
+        shape2=splitting_shape,
         strict_intersection=True,
         cut_also_shape_2=False,
         min_segment_length=min_segment_length,
@@ -56,4 +55,4 @@ def cut(
     if handle.intersections:
         return list(handle.atoms[0])
     else:
-        return [shape_to_cut]
+        return [shape_to_split]

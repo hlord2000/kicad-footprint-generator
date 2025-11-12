@@ -48,3 +48,7 @@ class Line(NodeShape, GeomLine):
         """
         NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomLine.__init__(self, shape=shape, start=start, end=end)
+
+    def as_geom_shape(self) -> GeomLine:
+        """Convert this shape node into its base geometric shape (GeomLine)."""
+        return GeomLine(shape=self)

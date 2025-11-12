@@ -169,7 +169,7 @@ class GeomPolygon(GeomShapeClosed):
         Returns:
             The polygon after the inflation/deflation.
         """
-        import kilibs.geom.tools.intersect_atomic_shapes as intersect_atomic_shapes
+        import kilibs.geom.operations.intersection_points_atomic_shapes as intersect_atomic_shapes
 
         def remove_segment(index: int) -> None:
             del segments[index]
@@ -232,7 +232,7 @@ class GeomPolygon(GeomShapeClosed):
                     # through all the lists with the same index value. The exact value of
                     # the point does not matter, hence we just add the first point:
                     points.insert(i, points[0])
-            pt = intersect_atomic_shapes.intersect_lines(
+            pt = intersect_atomic_shapes.get_intersection_points_of_lines(
                 line1=segments[i - 1],
                 line2=segments[i],
                 infinite_line=True,
@@ -261,7 +261,7 @@ class GeomPolygon(GeomShapeClosed):
         if amount < 0:
             if not self.is_clockwise():
                 raise ValueError(f"Inflation by {amount} results in an invalid shape.")
-            import kilibs.geom.tools.segment_util as segment_util
+            import kilibs.geom.operations.segment_util as segment_util
 
             segment_util.remove_zero_length_segments(segments=segments)
         # If the we have segments left after this, we return either a
@@ -331,7 +331,7 @@ class GeomPolygon(GeomShapeClosed):
         Returns:
             The polygon after the simplification.
         """
-        import kilibs.geom.tools.segment_util as segment_util
+        import kilibs.geom.operations.segment_util as segment_util
 
         segment_util.remove_zero_length_segments(
             segments=self._segments, min_segment_length=min_segment_length
@@ -357,7 +357,7 @@ class GeomPolygon(GeomShapeClosed):
             outwards: True if the polygon points shall be rounded outwards, i.e.
                 away from the polygon center, thus potentially increasing the area.
         """
-        import kilibs.geom.tools.rounding as rounding
+        import kilibs.geom.operations.rounding as rounding
 
         if outwards is False:
             for i, pt in enumerate(self.points):
@@ -431,8 +431,8 @@ class GeomPolygon(GeomShapeClosed):
             `True` if the point is considered to be inside the polygon, `False`
             otherwise.
         """
-        from kilibs.geom.tools.intersect_atomic_shapes import (
-            intersect_upwards_ray_with_line,
+        from kilibs.geom.operations.intersection_points_atomic_shapes import (
+            get_intersection_points_of_upwards_ray_with_line,
         )
 
         segments = self.segments
@@ -476,7 +476,9 @@ class GeomPolygon(GeomShapeClosed):
         num_intersections = 0
         n = len(segments)
         for i, segment in enumerate(segments):
-            ip = intersect_upwards_ray_with_line(ray_start=point, line=segment, tol=tol)
+            ip = get_intersection_points_of_upwards_ray_with_line(
+                ray_start=point, line=segment, tol=tol
+            )
             if ip:
                 if ip[0].is_equal(segment.end, tol=tol):
                     if segment.start.x < point.x - tol:

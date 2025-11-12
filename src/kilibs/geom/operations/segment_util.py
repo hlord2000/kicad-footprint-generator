@@ -117,7 +117,9 @@ def keep_only_outer_outline(
     Returns:
         `True` if the outline is valid, `False` otherwise.
     """
-    from kilibs.geom.tools.intersect_atomic_shapes import intersect_atomic_shapes
+    from .intersection_points_atomic_shapes import (
+        get_intersection_points_of_atomic_shapes,
+    )
 
     if len(segments) < 2:
         return False
@@ -142,7 +144,7 @@ def keep_only_outer_outline(
                 strict_intersection = True
             else:
                 strict_intersection = False
-            pt = intersect_atomic_shapes(
+            pt = get_intersection_points_of_atomic_shapes(
                 segments[i],
                 segments[j],
                 exclude_tangents=False,
@@ -256,5 +258,20 @@ def is_segment_flipped_or_zero(
         if not tol_d:
             return True
         if abs(seg.angle) <= tol_d:
+            return True
+    return False
+
+
+def has_arcs(segments: list[GeomLine | GeomArc]) -> bool:
+    """Check if a list contains arc segments.
+
+    Args:
+        segments: The list containing the segments to analyze.
+
+    Return:
+        `True` if the list contains an arc segment, `False` otherwise.
+    """
+    for segment in segments:
+        if isinstance(segment, GeomArc):
             return True
     return False

@@ -89,3 +89,7 @@ class Rectangle(NodeShape, GeomRectangle):
             ]
         else:
             return [self]
+
+    def as_geom_shape(self) -> GeomRectangle:
+        """Convert this shape node into its base geometric shape (GeomRectangle)."""
+        return GeomRectangle(shape=self)

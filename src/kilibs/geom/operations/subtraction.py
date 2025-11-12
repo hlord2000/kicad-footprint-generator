@@ -13,6 +13,7 @@
 
 """Keepout function."""
 
+from collections.abc import Iterable
 
 from kilibs.geom import (
     GeomArc,
@@ -20,46 +21,97 @@ from kilibs.geom import (
     GeomLine,
     GeomRectangle,
     GeomShape,
+    GeomShapeAny,
     GeomShapeClosed,
 )
-from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
-from kilibs.geom.tools.intersect import intersect
 
-_keepout_bypass_use = True
-"""Stores whether the keepout bypass shall be used or not."""
+from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
+from .intersection_points import intersect_handler
 
-_keepout_bypass_hits = 0
+_subtract_bypass_use = True
+"""Stores whether the subtract bypass shall be used or not."""
+
+_subtract_bypass_hits = 0
 """Stores how many times the bypass successfully reduced the computational effort."""
 
-_keepout_bypass_misses = 0
+_subtract_bypass_misses = 0
 """Stores how many times the bypass failed to reduce the computational effort."""
 
 
-def keepout(
-    keepout: GeomShapeClosed,
-    shape_to_keep_out: GeomShape,
+def subtract_many(
+    subject_shape: GeomShapeAny,
+    clip_shapes: Iterable[GeomShapeClosed],
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShape]:
-    r"""Apply a keepout in shape of `keepout` to `shape_to_keep_out`.
+) -> list[GeomShapeAny]:
+    r"""Subtract one or several shapes from the subject shape.
 
     Args:
-        keepout: The shape that is used as a keepout.
-        shape_to_keep_out: The shape to keep out.
+        subject_shape: The shape to clipped by the operation.
+        clip_shapes: The shapes that are used to clip the subject shape.
         min_segment_length: The minimum length of a segment. If a segment resulting
-            from the cut operation is shorter than `min_segment_length`, it is
+            from the subtract operation is shorter than `min_segment_length`, it is
             omitted from the results.
         tol: Tolerance used to dertemine if the two points are equal.
 
     Returns:
-        If `shape_to_keep_out` is fully outside of `keepout`, then a list containing
-        `shape_to_keep_out` is returned. If `shape_to_keep_out` is fully inside of
-        `keepout`, then an empty list is returned. Otherwise, `shape_to_keep_out` is
-        decomposed to its atomic shapes and a list containing the parts of the
-        atomic shapes that are not inside the keepout is returned.
+        If the subject shape is fully outside of the clip shapes, then the subject shape
+        is returned. If the subject shape is fully inside of the clip shapes, then
+        nothing is returned.
+        Otherwise, the subject shape is decomposed to its atomic shapes and a list
+        containing the parts of the atomic shapes that are not inside of the clip shapes
+        is returned.
 
     Example:
-        When `keepout()` is called from a rectangle on these three lines:
+        When the subject shape is a line and the clip shapes are 2 rectangles :
+
+    .. aafig::
+            +----+      +----+
+            |    |      |    |
+        ----+----+------+----+-----
+            |    |      |    |
+            +----+      +----+
+
+    The result would be:
+
+    .. aafig::
+        ----      ------      -----
+    """
+    shapes = [subject_shape]
+    for ko in clip_shapes:
+        kept_out_shapes: list[GeomShapeAny] = []
+        for shape in shapes:
+            kept_out_shapes.extend(subtract(shape, ko, min_segment_length, tol))
+        shapes = kept_out_shapes
+    return shapes
+
+
+def subtract(
+    subject_shape: GeomShapeAny,
+    clip_shape: GeomShapeClosed,
+    min_segment_length: float = MIN_SEGMENT_LENGTH,
+    tol: float = TOL_MM,
+) -> list[GeomShapeAny]:
+    r"""Subtract one shape from another one.
+
+    Args:
+        subject_shape: The shape to clipped by the operation.
+        clip_shape: The shape that is used to clip the other shape (subject shape).
+        min_segment_length: The minimum length of a segment. If a segment resulting
+            from the subtract operation is shorter than `min_segment_length`, it is
+            omitted from the results.
+        tol: Tolerance used to dertemine if the two points are equal.
+
+    Returns:
+        If `subject_shape` is fully outside of `clip_shape`, then a list containing
+        `subject_shape` is returned. If `subject_shape` is fully inside of `clip_shape`,
+        then an empty list is returned. Otherwise, `subject_shape` is decomposed to its
+        atomic shapes and a list containing the parts of the atomic shapes that are not
+        inside of `clip_shape` is returned.
+
+    Example:
+        When `subtract()` is called on 3 different lines with a clip shape in the form
+        of a rectangle:
 
     .. aafig::
         +--------------+
@@ -77,17 +129,17 @@ def keepout(
         |              |   -----(C)
         +--------------+
     """
-    # For the keepout() operation we only need shape 1 to be cut:
+    # For the subtract() operation we only need shape 1 to be cut:
 
-    # Check if there are obvious bypasses to accelerate the keepout operation:
-    global _keepout_bypass_use
-    if _keepout_bypass_use:
-        ret = _keepout_bypasses(shape_to_keep_out, keepout, tol)
+    # Check if there are obvious bypasses to accelerate the subtract operation:
+    global _subtract_bypass_use
+    if _subtract_bypass_use:
+        ret = _subtract_bypasses(subject_shape, clip_shape, tol)
         if ret is not None:
-            return ret
-    handle = intersect(
-        shape1=shape_to_keep_out,
-        shape2=keepout,
+            return ret  # type: ignore
+    handle = intersect_handler(
+        shape1=subject_shape,
+        shape2=clip_shape,
         strict_intersection=True,
         cut_also_shape_2=False,
         min_segment_length=min_segment_length,
@@ -102,26 +154,26 @@ def keepout(
         for i, inside in enumerate(handle.atoms_inside_other_shape[0]):
             if not inside:
                 handle.kept_out_shapes.append(handle.atoms[0][i])
-    return handle.kept_out_shapes
+    return handle.kept_out_shapes  # type: ignore
 
 
-def _keepout_bypasses(
+def _subtract_bypasses(
     shape_to_keep_out: GeomShape,
-    keepout: GeomShape,
+    subtract: GeomShape,
     tol: float = TOL_MM,
 ) -> list[GeomShape] | None:
-    """Simple checks that accelerate the keepout testing.
+    """Simple checks that accelerate the subtraction testing.
 
     Returns:
-        `None` if the accelerated tests could not determine whether the keepout
+        `None` if the accelerated tests could not determine whether the suctraction
         impacts the other shape or not, or, if an accelerated test was successful,
         then the shape that's kept out is returned.
     """
-    global _keepout_bypass_hits
-    global _keepout_bypass_misses
-    global _keepout_bypass_use
-    if isinstance(keepout, GeomRectangle):
-        bb_rect = keepout.bbox()
+    global _subtract_bypass_hits
+    global _subtract_bypass_misses
+    global _subtract_bypass_use
+    if isinstance(subtract, GeomRectangle):
+        bb_rect = subtract.bbox()
         if bb_rect.min is None or bb_rect.max is None:
             return [shape_to_keep_out]
         if isinstance(shape_to_keep_out, GeomLine):
@@ -143,7 +195,7 @@ def _keepout_bypasses(
                 or bb_rect.min.y + tol >= bottom
                 or bb_rect.max.y - tol <= top
             ):
-                _keepout_bypass_hits += 1
+                _subtract_bypass_hits += 1
                 return [shape_to_keep_out]
         elif isinstance(shape_to_keep_out, GeomArc | GeomCircle):
             radius = shape_to_keep_out.radius
@@ -153,13 +205,13 @@ def _keepout_bypasses(
                 or bb_rect.min.y + tol >= shape_to_keep_out.center.y + radius
                 or bb_rect.max.y - tol <= shape_to_keep_out.center.y - radius
             ):
-                _keepout_bypass_hits += 1
+                _subtract_bypass_hits += 1
                 return [shape_to_keep_out]
-    _keepout_bypass_misses += 1
+    _subtract_bypass_misses += 1
     # Turn off the bypass if we see that for this generator it is not useful:
     if (
-        _keepout_bypass_misses > 20
-        and _keepout_bypass_hits / _keepout_bypass_misses < 2
+        _subtract_bypass_misses > 20
+        and _subtract_bypass_hits / _subtract_bypass_misses < 2
     ):
-        _keepout_bypass_use = False
+        _subtract_bypass_use = False
     return None

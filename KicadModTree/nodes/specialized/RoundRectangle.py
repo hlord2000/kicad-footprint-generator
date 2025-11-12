@@ -101,3 +101,7 @@ class RoundRectangle(NodeShape, GeomRoundRectangle):
             )
             nodes.append(node)
         return nodes
+
+    def as_geom_shape(self) -> GeomRoundRectangle:
+        """Convert this shape node into its base geometric shape (GeomRoundRectangle)."""
+        return GeomRoundRectangle(shape=self)

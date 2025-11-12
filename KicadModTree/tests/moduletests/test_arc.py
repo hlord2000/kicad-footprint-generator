@@ -5,6 +5,7 @@ import pytest
 from KicadModTree import *
 from KicadModTree.tests.test_utils.fp_file_test import SerialisationTest
 from kilibs.geom import GeomArc, GeomCircle, Vector2D
+from kilibs.geom.operations.intersection_points import get_intersection_points
 from tests.kilibs.geom.is_equal import is_equal_val, is_equal_vectors
 
 
@@ -242,7 +243,7 @@ def testCircleCircleIntersection():
     # check intersection of two circles with identical radii
     c1 = GeomCircle(center=[0, 0], radius=math.sqrt(2))
     c2 = GeomCircle(center=[2, 0], radius=math.sqrt(2))
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(1, y)).is_nullvec(tol=1e-7) for y in [1, -1])
@@ -250,7 +251,7 @@ def testCircleCircleIntersection():
     # check intersection of two circles with different radii
     c1 = GeomCircle(center=[0, 0], radius=2)
     c2 = GeomCircle(center=[2 * math.sqrt(3/4), 0], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(2 * math.sqrt(3/4), y)).is_nullvec(tol=1e-7) for y in [1, -1])
@@ -258,25 +259,25 @@ def testCircleCircleIntersection():
     # check intersection of two circles with different radii, too far apart
     c1 = GeomCircle(center=[0, 0], radius=2)
     c2 = GeomCircle(center=[4, 0], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # check intersection of two circles with different radii, contained in each other
     c1 = GeomCircle(center=[0, 0], radius=2)
     c2 = GeomCircle(center=[0.5, 0], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # check intersection point of circles touching outside
     c1 = GeomCircle(center=[0, 0], radius=1)
     c2 = GeomCircle(center=[2, 0], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # check intersection point of circles touching inside
     c1 = GeomCircle(center=[0, 0], radius=2)
     c2 = GeomCircle(center=[1, 0], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # check intersection point of circles touching inside
@@ -287,29 +288,29 @@ def testCircleCircleIntersection():
     # and this case caused a domain error
     c1 = GeomCircle(center=[0.25, 0], radius=1.11)
     c2 = GeomCircle(center=[0, 0], radius=1.36)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # vary position on x and y axis
     c1 = GeomCircle(center=[0, 0], radius=math.sqrt(2))
     c2 = GeomCircle(center=[0, 2], radius=math.sqrt(2))
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(x, 1)).is_nullvec(tol=1e-7) for x in [1, -1])
     c2 = GeomCircle(center=[-2, 0], radius=math.sqrt(2))
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(-1, y)).is_nullvec(tol=1e-7) for y in [1, -1])
     c2 = GeomCircle(center=[0, -2], radius=math.sqrt(2))
-    for p in c1.intersect(c2):
+    for p in get_intersection_points(c1, c2):
         assert any((p - Vector2D(x, -1)).is_nullvec(tol=1e-7) for x in [1, -1])
 
     # circle 2 on the first median
     c1 = GeomCircle(center=[0, 0], radius=1)
     c2 = GeomCircle(center=[1, 1], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(x, y)).is_nullvec(tol=1e-7) for x, y in [(1, 0), (0, 1)])
@@ -317,7 +318,7 @@ def testCircleCircleIntersection():
     # circle 2 on the fourth median
     c1 = GeomCircle(center=[0, 0], radius=1)
     c2 = GeomCircle(center=[1, -1], radius=1)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 2
     for p in ip:
         assert any((p - Vector2D(x, y)).is_nullvec(tol=1e-7) for x, y in [(1, 0), (0, -1)])
@@ -328,7 +329,7 @@ def testCircleCircleIntersection():
         offset = Vector2D(math.sin(math.radians(angle)), math.cos(math.radians(angle)))
         c1 = GeomCircle(center=center, radius=math.sqrt(2))
         c2 = GeomCircle(center=center + 2 * offset, radius=math.sqrt(2))
-        ip = c1.intersect(c2)
+        ip = get_intersection_points(c1, c2)
         assert len(ip) == 2
         for p in ip:
             assert any(
@@ -339,14 +340,14 @@ def testCircleCircleIntersection():
     center = Vector2D(3, -2)
     c1 = GeomCircle(center=center, radius=0)
     c2 = GeomCircle(center=center, radius=0)
-    ip = c1.intersect(c2)
+    ip = get_intersection_points(c1, c2)
     assert len(ip) == 0
 
     # two identical circles with the same center
     center = Vector2D(3, -2)
     c1 = GeomCircle(center=center, radius=1)
     c2 = GeomCircle(center=center, radius=1)
-    assert c1.intersect(c2) == []
+    assert get_intersection_points(c1, c2) == []
 
 
 class TestArcSerialisation(SerialisationTest):

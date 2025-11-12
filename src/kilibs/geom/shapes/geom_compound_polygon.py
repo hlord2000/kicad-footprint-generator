@@ -202,8 +202,8 @@ class GeomCompoundPolygon(GeomShapeClosed):
         Returns:
             The compound polygon after the inflation/deflation.
         """
-        import kilibs.geom.tools.intersect_atomic_shapes as intersect_atomic_shapes
-        import kilibs.geom.tools.segment_util as segment_util
+        import kilibs.geom.operations.intersection_points_atomic_shapes as intersect_atomic_shapes
+        import kilibs.geom.operations.segment_util as segment_util
 
         def remove_segment(index: int) -> None:
             del segments[index]
@@ -334,7 +334,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
             # are intersecting. This happens in concave polygons.
             # In that case we don't add the arc to the list of segments and shorten the
             # intersecting segments, so that they meet instead of intersecting.
-            ip = intersect_atomic_shapes.intersect_atomic_shapes(
+            ip = intersect_atomic_shapes.get_intersection_points_of_atomic_shapes(
                 shape1=s1,
                 shape2=s2,
                 exclude_segment_ends_shape1=False,
@@ -437,7 +437,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         Returns:
             The compound polygon after the simplification.
         """
-        import kilibs.geom.tools.segment_util as segment_util
+        import kilibs.geom.operations.segment_util as segment_util
 
         segment_util.remove_zero_length_segments(
             segments=self._segments, min_segment_length=min_segment_length
@@ -493,9 +493,9 @@ class GeomCompoundPolygon(GeomShapeClosed):
             `True` if the point is considered to be inside the compound polygon, `False`
             otherwise.
         """
-        from kilibs.geom.tools.intersect_atomic_shapes import (
-            intersect_upwards_ray_with_arc,
-            intersect_upwards_ray_with_line,
+        from kilibs.geom.operations.intersection_points_atomic_shapes import (
+            get_intersection_points_of_upwards_ray_with_arc,
+            get_intersection_points_of_upwards_ray_with_line,
         )
 
         segments = self._segments
@@ -556,7 +556,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         n = len(segments)
         for i, segment in enumerate(segments):
             if isinstance(segment, GeomLine):
-                ips = intersect_upwards_ray_with_line(
+                ips = get_intersection_points_of_upwards_ray_with_line(
                     ray_start=point, line=segment, tol=tol
                 )
                 for ip in ips:
@@ -572,7 +572,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
                     else:
                         num_intersections += 1
             else:  # isinstance(segment, GeomArc):
-                ips = intersect_upwards_ray_with_arc(
+                ips = get_intersection_points_of_upwards_ray_with_arc(
                     ray_start=point, arc=segment, tol=tol
                 )
                 for ip in ips:

@@ -105,3 +105,7 @@ class Trapezoid(NodeShape, GeomTrapezoid):
             )
             nodes.append(node)
         return nodes
+
+    def as_geom_shape(self) -> GeomTrapezoid:
+        """Convert this shape node into its base geometric shape (GeomTrapezoid)."""
+        return GeomTrapezoid(shape=self)

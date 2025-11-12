@@ -23,7 +23,7 @@ from kilibs.geom import (
     GeomShapeClosed,
     Vector2D,
 )
-from kilibs.geom.operations import unite
+from kilibs.geom.operations import intersect
 
 
 def center_shape(shape: GeomShapeClosed) -> GeomShapeClosed:
@@ -33,7 +33,7 @@ def center_shape(shape: GeomShapeClosed) -> GeomShapeClosed:
     return shape.translated(Vector2D(x_center, y=y_center))
 
 
-def merge_and_add_to_footprint(
+def intersect_and_add_to_footprint(
     shape1: GeomShapeClosed, shape2: GeomShapeClosed, fp: Footprint, y: float
 ) -> float:
     bbox1 = shape1.bbox()
@@ -51,9 +51,11 @@ def merge_and_add_to_footprint(
         shape2 = center_shape(shape2).translated(
             Vector2D(x[i] + dist_x2[i], y + bbox.size.y / 2)
         )
-        results = unite(shape1, shape2)
+        results = intersect(shape1, shape2)
         for result in results:
             fp.append(shape_to_node(result))  # type: ignore
+        fp.append(shape_to_node(shape1, "F.Fab"))  # type: ignore
+        fp.append(shape_to_node(shape2, "F.Fab"))  # type: ignore
     return bbox.size.y + 1
 
 
@@ -76,15 +78,15 @@ def gen_footprint() -> Footprint:
     y_dist = 0
     for i in range(0, len(shapes)):
         for j in range(0, len(shapes)):
-            y_dist += merge_and_add_to_footprint(
+            y_dist += intersect_and_add_to_footprint(
                 shapes[i], shapes[j], kicad_mod, y=y_dist
             )
     return kicad_mod
 
 
-class TestUnite(SerialisationTest):
+class TestIntersect(SerialisationTest):
 
-    def test_unite(self) -> None:
+    def test_intersect(self) -> None:
 
         kicad_mod = gen_footprint()
-        self.assert_serialises_as(kicad_mod, "test_unite.kicad_mod")
+        self.assert_serialises_as(kicad_mod, "test_intersect.kicad_mod")

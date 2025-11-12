@@ -29,12 +29,49 @@ from kilibs.geom import (
     GeomShapeOpen,
     Vector2D,
 )
-from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
-from kilibs.geom.tools.geom_operation_handle import GeomOperationHandle
-from kilibs.geom.tools.intersect_atomic_shapes import intersect_atomic_shapes
+
+from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
+from .geom_operation_handle import GeomOperationHandle
+from .intersection_points_atomic_shapes import get_intersection_points_of_atomic_shapes
 
 
-def intersect(
+def get_intersection_points(
+    shape1: GeomShape,
+    shape2: GeomShape,
+    strict_intersection: bool = True,
+    min_segment_length: float = MIN_SEGMENT_LENGTH,
+    tol: float = TOL_MM,
+) -> list[Vector2D]:
+    """Intersect `shape1` with `shape2`.
+
+    Args:
+        shape1: One of the shapes to intersect.
+        shape2: The other shape to intersect.
+        strict_intersection: If `True`, then intersection points resulting from
+            shapes that are tangent to another or from segments that have their
+            beginning or their ending on the outline of the other shape are omitted
+            from the results. If `False` then those points are included.
+        min_segment_length: The minimum length of a segment. If a segment resulting
+            from the cut operation is shorter than `min_segment_length`, it is
+            omitted from the results.
+        tol: Tolerance used to dertemine if the two points are equal.
+
+    Returns:
+        The `GeomOperationHandle` structure which contains information about the
+        intersections.
+    """
+    handle = intersect_handler(
+        shape1=shape1,
+        shape2=shape2,
+        strict_intersection=strict_intersection,
+        cut_also_shape_2=True,
+        min_segment_length=min_segment_length,
+        tol=tol,
+    )
+    return handle.intersections
+
+
+def intersect_handler(
     shape1: GeomShape,
     shape2: GeomShape,
     strict_intersection: bool = True,
@@ -82,7 +119,7 @@ def intersect(
     # segments:
     for i, shape1 in enumerate(handle.atoms[0]):
         for j, shape2 in enumerate(handle.atoms[1]):
-            intersections = intersect_atomic_shapes(
+            intersections = get_intersection_points_of_atomic_shapes(
                 shape1=shape1,
                 shape2=shape2,
                 exclude_tangents=handle.exclude_tangents,

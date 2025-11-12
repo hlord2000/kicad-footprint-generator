@@ -25,6 +25,7 @@ from kilibs.geom import (
     GeomShape,
     Vector2D,
 )
+from kilibs.geom.operations.intersection_points import get_intersection_points
 from tests.kilibs.geom.geom_test_shapes import (
     TEST_SHAPE_ARC,
     TEST_SHAPE_CIRCLE,
@@ -51,8 +52,11 @@ def test_intersect_shape_fully_inside(
     inflate_amount = (shape.bbox().size / 2).norm()
     for other_shape in TEST_SHAPES_CLOSED:
         inflated_shape = other_shape.inflated(amount=inflate_amount, tol=rel)
-        intersections = inflated_shape.intersect(
-            other=shape, strict_intersection=strict_intersection, tol=rel
+        intersections = get_intersection_points(
+            shape1=inflated_shape,
+            shape2=shape,
+            strict_intersection=strict_intersection,
+            tol=rel,
         )
         assert len(intersections) == 0
 
@@ -66,8 +70,11 @@ def test_intersect_shape_fully_outside(
     for other_shape in TEST_SHAPES:
         translate_amount = bbox.left - other_shape.bbox().right - 1
         translated_shape = other_shape.translated(Vector2D(translate_amount, 0))
-        intersections = translated_shape.intersect(
-            other=shape, strict_intersection=strict_intersection, tol=rel
+        intersections = get_intersection_points(
+            shape1=translated_shape,
+            shape2=shape,
+            strict_intersection=strict_intersection,
+            tol=rel,
         )
         assert len(intersections) == 0
 
@@ -102,8 +109,11 @@ def test_intersect_shape_touching_outline_in_two_points(
             GeomPolygon(shape=GeomRectangle(center=point, size=[2 * rel, 2 * rel])),
         ]
     for other_shape in other_shapes:
-        intersections = other_shape.intersect(
-            other=shape, strict_intersection=strict_intersection, tol=rel
+        intersections = get_intersection_points(
+            shape1=other_shape,
+            shape2=shape,
+            strict_intersection=strict_intersection,
+            tol=rel,
         )
         if strict_intersection:
             assert len(intersections) == 0
@@ -119,86 +129,112 @@ def test_intersect_shape_touching_outline_on_all_sides(
     # intersections:
     top = shape.bbox().top + rel / 2
     line_horizontal_tangent = GeomLine(start=(100, top), end=(+100, top))
-    intersections = shape.intersect(other=line_horizontal_tangent, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=line_horizontal_tangent, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent horizontal line along the bottom of the shape creates no
     # intersections:
     bottom = shape.bbox().bottom - rel / 2
     line_horizontal_tangent = GeomLine(start=(100, bottom), end=(+100, bottom))
-    intersections = shape.intersect(other=line_horizontal_tangent, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=line_horizontal_tangent, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent vertical line along the left of the shape creates no
     # intersections:
     left = shape.bbox().left + rel / 2
     line_vertical_tangent = GeomLine(start=(left, -100), end=(left, +100))
-    intersections = shape.intersect(other=line_vertical_tangent, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=line_vertical_tangent, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent vertical line along the right of the shape creates no
     # intersections:
     right = shape.bbox().right - rel / 2
     line_vertical_tangent = GeomLine(start=(right, -100), end=(right, +100))
-    intersections = shape.intersect(other=line_vertical_tangent, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=line_vertical_tangent, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent circle on the top has no intersection:
     top = shape.bbox().top
     circle_tangent_top = GeomCircle(center=(0, top - 1), radius=1 + rel / 2)
-    intersections = shape.intersect(other=circle_tangent_top, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=circle_tangent_top, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent circle on the bottom has no intersection:
     bottom = shape.bbox().bottom
     circle_tangent_bottom = GeomCircle(center=(0, bottom + 1), radius=1 + rel / 2)
-    intersections = shape.intersect(other=circle_tangent_bottom, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=circle_tangent_bottom, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent circle on the left has no intersection:
     left = shape.bbox().left
     circle_tangent_left = GeomCircle(center=(left - 1, 0), radius=1 + rel / 2)
-    intersections = shape.intersect(other=circle_tangent_left, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=circle_tangent_left, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent circle on the right has no intersection:
     right = shape.bbox().right
     circle_tangent_right = GeomCircle(center=(right + 1, 0), radius=1 + rel / 2)
-    intersections = shape.intersect(other=circle_tangent_right, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=circle_tangent_right, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent half-circle (arc with 180° angle) on the top has no
     # intersection:
     top = shape.bbox().top
     arc_tangent_top = GeomArc(center=(0, top - 1), start=(1 + rel / 2, top - 1), angle=180)  # fmt: skip
-    intersections = shape.intersect(other=arc_tangent_top, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=arc_tangent_top, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent half-circle (arc with 180° angle) on the bottom has no
     # intersection:
     bottom = shape.bbox().bottom
     arc_tangent_bottom = GeomArc(center=(0, bottom + 1), start=(1 + rel / 2, bottom + 1), angle=-180)  # fmt: skip
-    intersections = shape.intersect(other=arc_tangent_bottom, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=arc_tangent_bottom, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent half-circle (arc with 180° angle) on the left has no
     # intersection:
     left = shape.bbox().left
     arc_tangent_left = GeomArc(center=(left - 1, 0), start=(left - 1, 1 + rel / 2), angle=-180)  # fmt: skip
-    intersections = shape.intersect(other=arc_tangent_left, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=arc_tangent_left, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent half-circle (arc with 180° angle) on the right has no
     # intersection:
     right = shape.bbox().right
     arc_tangent_right = GeomArc(center=(right + 1, 0), start=(right + 1, 1 + rel / 2), angle=180)  # fmt: skip
-    intersections = shape.intersect(other=arc_tangent_right, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=arc_tangent_right, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent rectangle on the top has no intersection:
     top = shape.bbox().top
     rectangle_tangent_top = GeomRectangle(center=(0, top - 1 + rel / 2), size=(1, 1))
-    intersections = shape.intersect(other=rectangle_tangent_top, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=rectangle_tangent_top, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent rectangle on the bottom has no intersection:
@@ -206,13 +242,17 @@ def test_intersect_shape_touching_outline_on_all_sides(
     rectangle_tangent_bottom = GeomRectangle(
         center=(0, bottom + 1 - rel / 2), size=(1, 1)
     )
-    intersections = shape.intersect(other=rectangle_tangent_bottom, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=rectangle_tangent_bottom, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent rectangle on the left has no intersection:
     left = shape.bbox().left
     rectangle_tangent_left = GeomRectangle(center=(left - 1 + rel / 2, 0), size=(1, 1))
-    intersections = shape.intersect(other=rectangle_tangent_left, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=rectangle_tangent_left, tol=rel
+    )
     assert len(intersections) == 0
 
     # Test that a tangent rectangle on the right has no intersection:
@@ -220,7 +260,9 @@ def test_intersect_shape_touching_outline_on_all_sides(
     rectangle_tangent_right = GeomRectangle(
         center=(right + 1 - rel / 2, 0), size=(1, 1)
     )
-    intersections = shape.intersect(other=rectangle_tangent_right, tol=rel)
+    intersections = get_intersection_points(
+        shape1=shape, shape2=rectangle_tangent_right, tol=rel
+    )
     assert len(intersections) == 0
 
 
@@ -244,7 +286,7 @@ def test_intersect_shape_touching_outline_on_all_sides(
 def test_intersect_with_line(shape: GeomShape, expected_intersections: list[tuple[float, float]], rel: float = TOL_MM) -> None:
     # Test that a vertical line along the y-axis creates the correct intersections:
     line_vertical = GeomLine(start=(0, -100), end=(0, +100))
-    intersections = shape.intersect(other=line_vertical, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=line_vertical, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)
 
 
@@ -270,7 +312,7 @@ def test_intersect_with_circle(shape: GeomShape, expected_intersections: list[tu
     # shape's bounding box and intersects the origin) intesects as expected:
     left = shape.bbox().left
     circle_left = GeomCircle(center=(left, 0), radius=left)
-    intersections = shape.intersect(other=circle_left, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=circle_left, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)
 
 
@@ -296,7 +338,7 @@ def test_intersect_with_arc(shape: GeomShape, expected_intersections: list[tuple
     # shape's bounding box and intersects the origin) intesects as expected:
     left = shape.bbox().left
     arc_left = GeomArc(center=(left, 0), start=(0, 0), angle=180)
-    intersections = shape.intersect(other=arc_left, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=arc_left, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)
 
 
@@ -322,7 +364,7 @@ def test_intersect_with_rectangle(shape: GeomShape, expected_intersections: list
     # shape's bounding box and intersects the origin) intesects as expected:
     left = shape.bbox().left
     rectangle_left = GeomRectangle(center=(left, 0), size=(2 * left, 2 * left))
-    intersections = shape.intersect(other=rectangle_left, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=rectangle_left, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)
 
 
@@ -351,7 +393,7 @@ def test_intersect_with_rotated_rectangle(
 ) -> None:
     # Test that a centered unit rectangle rotated by 45° intesects as expected:
     rectangle_45 = GeomRectangle(center=(0, 0), size=(2, 2), angle=45)
-    intersections = shape.intersect(other=rectangle_45, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=rectangle_45, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)
 
 
@@ -385,5 +427,5 @@ def test_intersect_with_conave_polygon(
     for pt in pts:
         pts2.append([sqrt(2) * pt[0], sqrt(2) * pt[1]])
     poly = GeomPolygon(shape=pts2)
-    intersections = shape.intersect(other=poly, tol=rel)
+    intersections = get_intersection_points(shape1=shape, shape2=poly, tol=rel)
     assert are_equal(intersections, expected_intersections, rel=rel)

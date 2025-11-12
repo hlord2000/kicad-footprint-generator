@@ -15,14 +15,12 @@
 
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import Any, Self
 
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util import LineStyle
-from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import (
-    MIN_SEGMENT_LENGTH,
-    TOL_MM,
     BoundingBox,
     GeomShape,
     GeomShapeClosed,
@@ -121,6 +119,11 @@ class NodeShape(Node, GeomShape):
             params.update({"offset": offset})
         return self.__class__(shape=shape, **params)
 
+    @abstractmethod
+    def as_geom_shape(self) -> GeomShape:
+        """Convert this shape node into its base geometric shape (GeomShape)."""
+        pass
+
     def translate(self, vector: Vector2D) -> Self:
         """Move the node.
 
@@ -147,89 +150,6 @@ class NodeShape(Node, GeomShape):
             The rotated node.
         """
         return super(Node, self).rotate(angle=angle, origin=origin)
-
-    def cut(  # type: ignore
-        self,
-        shape_to_cut: NodeShape,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[NodeShape]:
-        """Cut the node with another node.
-
-        Args:
-            shape_to_cut: Node whose shape is cut with the shape of this node.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the `cut` operation is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Return:
-            Return a list of nodes that result from the cut operation.
-        """
-        shapes = GeomShape.cut(
-            self,
-            shape_to_cut=shape_to_cut,
-            min_segment_length=min_segment_length,
-            tol=tol,
-        )
-        nodes: list[NodeShape] = []
-        for shape in shapes:
-            node = shape_to_node(
-                shape=shape,
-                layer=shape_to_cut.layer,
-                width=shape_to_cut.width,
-                style=shape_to_cut.style,
-                fill=shape_to_cut.fill,
-            )
-            nodes.append(node)
-        return nodes
-
-    def keepout(
-        self,
-        shape_to_keep_out: NodeShape,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[NodeShape]:
-        """Treat this node as if it was a keepout and apply it to the node given as
-        argument.
-
-        Args:
-            shape_to_keep_out: The node that is to be kept out of the keepout.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the keepout operation is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Returns:
-            If `shape_to_keep_out` is fully outside of this closed shape, then a list
-            containing `shape_to_keep_out` is returned. If `shape_to_keep_out` is fully
-            inside of this closed shape, then an empty list is returned. Otherwise,
-            `shape_to_keep_out` is decomposed to its atomic nodes and a list containing
-            the parts of the atomic nodes that are not inside the keepout is returned.
-        """
-        if isinstance(self, GeomShapeClosed):
-            shapes = GeomShapeClosed.subtract(
-                self,
-                shape_to_keep_out=shape_to_keep_out,
-                min_segment_length=min_segment_length,
-                tol=tol,
-            )
-            nodes: list[NodeShape] = []
-            for shape in shapes:
-                if isinstance(shape, NodeShape):
-                    return [shape]
-                else:
-                    node = shape_to_node(
-                        shape=shape,
-                        layer=shape_to_keep_out.layer,
-                        width=shape_to_keep_out.width,
-                        style=shape_to_keep_out.style,
-                        fill=shape_to_keep_out.fill,
-                    )
-                    nodes.append(node)
-            return nodes
-        else:
-            return [shape_to_keep_out]
 
     def bbox(self) -> BoundingBox:
         """Get the bounding box of the node."""

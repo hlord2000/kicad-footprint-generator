@@ -13,7 +13,7 @@
 
 """Geometric tools."""
 
-from .geom_operation_handle import GeomOperationHandle
+from .intersection import intersect
 from .rounding import (
     is_polygon_clockwise,
     round_polygon_to_grid,
@@ -25,9 +25,11 @@ from .rounding import (
     round_to_grid_nearest,
     round_to_grid_up,
 )
+from .splitting import split
+from .subtraction import subtract, subtract_many
+from .union import unite
 
 __all__ = [
-    "GeomOperationHandle",
     "is_polygon_clockwise",
     "round_polygon_to_grid",
     "round_to_grid",
@@ -37,4 +39,9 @@ __all__ = [
     "round_to_grid_increasing_area",
     "round_to_grid_nearest",
     "round_to_grid_up",
+    "split",
+    "intersect",
+    "subtract",
+    "subtract_many",
+    "unite",
 ]

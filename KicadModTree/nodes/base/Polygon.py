@@ -89,3 +89,7 @@ class Polygon(NodeShape, GeomPolygon):
                 )
                 nodes.append(node)
             return nodes
+
+    def as_geom_shape(self) -> GeomPolygon:
+        """Convert this shape node into its base geometric shape (GeomPolygon)."""
+        return GeomPolygon(shape=self)

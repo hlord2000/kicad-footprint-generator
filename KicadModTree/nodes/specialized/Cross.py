@@ -88,3 +88,7 @@ class Cross(NodeShape, GeomCross):
             )
             nodes.append(node)
         return nodes
+
+    def as_geom_shape(self) -> GeomCross:
+        """Convert this shape node into its base geometric shape (GeomCross)."""
+        return GeomCross(shape=self)

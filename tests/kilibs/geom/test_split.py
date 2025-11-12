@@ -23,6 +23,7 @@ from kilibs.geom import (
     GeomRectangle,
     GeomShape,
 )
+from kilibs.geom.operations import split
 from kilibs.geom.tolerances import TOL_MM
 from tests.kilibs.geom.geom_test_shapes import (
     TEST_SHAPE_ARC,
@@ -89,7 +90,7 @@ def test_line_cuts(
 ) -> None:
     # Cutting with a vertical line along the y-axis:
     cutting_line = GeomLine(start=(0, -100), end=(0, +100))
-    cuts = cutting_line.cut(shape_to_cut=shape, tol=rel)
+    cuts = split(shape_to_split=shape, splitting_shape=cutting_line, tol=rel)
     check_segments(cuts, expected_number_of_shapes, shape)
 
 
@@ -118,7 +119,7 @@ def test_arc_cuts(
     # the shape's bounding box and intersects the origin:
     left = shape.bbox().left
     cutting_arc = GeomArc(center=(left, 0), start=(0, 0), angle=180)
-    cuts = cutting_arc.cut(shape_to_cut=shape, tol=rel)
+    cuts = split(shape_to_split=shape, splitting_shape=cutting_arc, tol=rel)
     check_segments(cuts, expected_number_of_shapes, shape)
 
 
@@ -145,7 +146,7 @@ def test_circle_cuts(
 ) -> None:
     # Cutting with a centered circle of radius of (1+sqrt(2))/2:
     cutting_circle = GeomCircle(center=(0, 0), radius=(1 + sqrt(2)) / 2)
-    cuts = cutting_circle.cut(shape_to_cut=shape, tol=rel)
+    cuts = split(shape_to_split=shape, splitting_shape=cutting_circle, tol=rel)
     check_segments(cuts, expected_number_of_shapes, shape)
 
 
@@ -172,7 +173,7 @@ def test_rotated_rectangle_cuts(
 ) -> None:
     # Cutting with a unit rectangle rotated by 45 degrees:
     cutting_rect = GeomRectangle(start=[-1, -1], end=[1, 1], angle=45)
-    cuts = cutting_rect.cut(shape_to_cut=shape, tol=rel)
+    cuts = split(shape_to_split=shape, splitting_shape=cutting_rect, tol=rel)
     check_segments(cuts, expected_number_of_shapes, shape)
 
 
@@ -212,6 +213,6 @@ def test_concave_polygon_cuts(
     for pt in pts:
         pts2.append([sqrt(2) * pt[0], sqrt(2) * pt[1]])
     cutting_poly = GeomPolygon(shape=pts2)
-    cuts = cutting_poly.cut(shape_to_cut=shape, tol=rel)
+    cuts = split(shape_to_split=shape, splitting_shape=cutting_poly, tol=rel)
     print(len(cuts))
     check_segments(cuts, expected_number_of_shapes, shape)

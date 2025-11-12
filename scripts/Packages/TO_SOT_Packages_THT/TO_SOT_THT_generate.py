@@ -23,7 +23,7 @@ from KicadModTree import (
 )
 from KicadModTree.util.courtyard_builder import CourtyardBuilder
 from kilibs.geom import GeomRectangle
-from kilibs.geom.tools.rounding import round_to_grid_e
+from kilibs.geom.operations import round_to_grid_e
 from scripts.tools.declarative_def_tools import common_metadata
 from scripts.tools.drawing_tools import (
     addCircleLF,

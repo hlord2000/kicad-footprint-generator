@@ -91,3 +91,7 @@ class Stadium(NodeShape, GeomStadium):
             )
             nodes.append(node)
         return nodes
+
+    def as_geom_shape(self) -> GeomStadium:
+        """Convert this shape node into its base geometric shape (GeomStadium)."""
+        return GeomStadium(shape=self)

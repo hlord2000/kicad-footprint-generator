@@ -16,7 +16,7 @@ from kilibs.geom import (
     GeomShapeClosed,
     Vector2D,
 )
-from kilibs.geom.tools import rounding
+from kilibs.geom.operations import rounding, subtract
 from scripts.tools.drawing_tools import applyKeepouts
 from scripts.tools.drawing_tools_silk import SilkArrowSize, getStandardSilkArrowSize
 from scripts.tools.global_config_files import global_config as GC
@@ -540,7 +540,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         size = (2 * silk_right_x, 2 * silk_bottom_y)
         g_silk = GeomRectangle(center=(0, 0), size=size)
         # The silk outline might need to be trimmed around the arrow:
-        g_silk_kept = arrow.as_polygon(inflation=silk_line_width * 2).subtract(g_silk)
+        g_silk_kept = subtract(g_silk, arrow.as_polygon(inflation=silk_line_width * 2))
         # Trim the silk outline around the pads:
         keepouts: list[GeomShapeClosed] = []
         for pad_array in self.pad_arrays:

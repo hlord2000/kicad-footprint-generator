@@ -20,7 +20,7 @@ from kilibs.geom.shapes.geom_shape import GeomShapeClosed
 from kilibs.geom.tolerances import TOL_MM, tol_deg
 from kilibs.geom.vector import Vec2DCompatible, Vector2D
 
-# import kilibs.geom.tools.rounding  # imported inside the code
+# import kilibs.geom.operations.rounding  # imported inside the code
 
 
 class GeomRectangle(GeomShapeClosed):
@@ -253,7 +253,7 @@ class GeomRectangle(GeomShapeClosed):
             outwards: True if the rectangle points shall be rounded outwards, i.e.
                 away from the crectangle center, thus potentially increasing the area.
         """
-        import kilibs.geom.tools.rounding as rounding
+        import kilibs.geom.operations.rounding as rounding
 
         pts = self.points
         if not outwards:

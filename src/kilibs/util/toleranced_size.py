@@ -4,7 +4,7 @@ import math
 import re
 from typing import Any
 
-from kilibs.geom.tools.rounding import round_to_grid_nearest
+from kilibs.geom.operations import round_to_grid_nearest
 
 
 class TolerancedSize:

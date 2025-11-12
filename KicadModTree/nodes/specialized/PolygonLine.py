@@ -125,6 +125,10 @@ class PolygonLine(NodeShape, Container[Line], GeomPolygon):
         self._update_children()
         return self
 
+    def as_geom_shape(self) -> GeomPolygon:
+        """Convert this shape node into its base geometric shape (GeomStadium)."""
+        return GeomPolygon(shape=self)
+
     def _update_children(self):
         nodes: list[Line] = []
         for line_start, line_end in zip(self.points, self.points[1:]):

@@ -67,3 +67,7 @@ class Arc(NodeShape, GeomArc):
             angle=angle,
             long_way=long_way,
         )
+
+    def as_geom_shape(self) -> GeomArc:
+        """Convert this shape node into its base geometric shape (GeomArc)."""
+        return GeomArc(shape=self)

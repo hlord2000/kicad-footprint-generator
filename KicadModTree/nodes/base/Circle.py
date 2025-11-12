@@ -54,3 +54,7 @@ class Circle(NodeShape, GeomCircle):
         GeomCircle.__init__(self, shape=shape, center=center, radius=radius)
         if offset:
             self.inflate(amount=offset)
+
+    def as_geom_shape(self) -> GeomCircle:
+        """Convert this shape node into its base geometric shape (GeomCircle)."""
+        return GeomCircle(shape=self)

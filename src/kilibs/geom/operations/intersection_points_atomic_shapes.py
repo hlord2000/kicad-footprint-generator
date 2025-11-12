@@ -11,7 +11,7 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Basic intersection functions for atomic shapes."""
+"""Functions to obtain the intersection points between atomic shapes."""
 
 import math
 
@@ -23,7 +23,7 @@ from kilibs.geom.tolerances import TOL_MM
 from kilibs.geom.vector import Vector2D
 
 
-def intersect_atomic_shapes(
+def get_intersection_points_of_atomic_shapes(
     shape1: GeomShapeAtomic,
     shape2: GeomShapeAtomic,
     exclude_tangents: bool = False,
@@ -51,7 +51,7 @@ def intersect_atomic_shapes(
         List of intersection points.
     """
     if isinstance(shape1, GeomLine):
-        return intersect_line_with_atomic_shape(
+        return get_intersection_points_of_line_with_atomic_shape(
             line=shape1,
             shape=shape2,
             exclude_tangents=exclude_tangents,
@@ -61,7 +61,7 @@ def intersect_atomic_shapes(
             tol=tol,
         )
     elif isinstance(shape1, GeomArc):
-        return intersect_arc_with_atomic_shape(
+        return get_intersection_points_of_arc_with_atomic_shape(
             arc=shape1,
             shape=shape2,
             exclude_tangents=exclude_tangents,
@@ -71,7 +71,7 @@ def intersect_atomic_shapes(
             tol=tol,
         )
     else:  # isinstance(shape1, GeomCircle):
-        return intersect_circle_with_atomic_shape(
+        return get_intersection_points_of_circle_with_atomic_shape(
             circle=shape1,
             shape=shape2,
             exclude_tangents=exclude_tangents,
@@ -81,7 +81,7 @@ def intersect_atomic_shapes(
         )
 
 
-def intersect_arc_with_atomic_shape(
+def get_intersection_points_of_arc_with_atomic_shape(
     arc: GeomArc,
     shape: GeomShapeAtomic,
     exclude_tangents: bool = False,
@@ -109,7 +109,7 @@ def intersect_arc_with_atomic_shape(
         List of intersection points.
     """
     if isinstance(shape, GeomLine):
-        return intersect_arc_with_line(
+        return get_intersection_points_of_arc_with_line(
             arc=arc,
             line=shape,
             exclude_tangents=exclude_tangents,
@@ -119,7 +119,7 @@ def intersect_arc_with_atomic_shape(
             tol=tol,
         )
     elif isinstance(shape, GeomArc):
-        return intersect_arcs(
+        return get_intersection_points_of_arcs(
             arc1=arc,
             arc2=shape,
             exclude_tangents=exclude_tangents,
@@ -129,7 +129,7 @@ def intersect_arc_with_atomic_shape(
             tol=tol,
         )
     else:  # isinstance(shape, GeomCircle):
-        return intersect_arc_with_circle(
+        return get_intersection_points_of_arc_with_circle(
             arc=arc,
             circle=shape,
             exclude_tangents=exclude_tangents,
@@ -139,7 +139,7 @@ def intersect_arc_with_atomic_shape(
         )
 
 
-def intersect_circle_with_atomic_shape(
+def get_intersection_points_of_circle_with_atomic_shape(
     circle: GeomCircle,
     shape: GeomShapeAtomic,
     exclude_tangents: bool = False,
@@ -164,7 +164,7 @@ def intersect_circle_with_atomic_shape(
         List of intersection points.
     """
     if isinstance(shape, GeomLine):
-        return intersect_circle_with_line(
+        return get_intersection_points_of_circle_with_line(
             circle=circle,
             line=shape,
             exclude_tangents=exclude_tangents,
@@ -173,7 +173,7 @@ def intersect_circle_with_atomic_shape(
             tol=tol,
         )
     elif isinstance(shape, GeomArc):
-        return intersect_arc_with_circle(
+        return get_intersection_points_of_arc_with_circle(
             arc=shape,
             circle=circle,
             exclude_tangents=exclude_tangents,
@@ -182,7 +182,7 @@ def intersect_circle_with_atomic_shape(
             tol=tol,
         )
     else:  # isinstance(shape, GeomCircle):
-        return intersect_circles(
+        return get_intersection_points_of_circles(
             circle1=circle,
             circle2=shape,
             exclude_tangents=exclude_tangents,
@@ -190,7 +190,7 @@ def intersect_circle_with_atomic_shape(
         )
 
 
-def intersect_line_with_atomic_shape(
+def get_intersection_points_of_line_with_atomic_shape(
     line: GeomLine,
     shape: GeomShapeAtomic,
     exclude_tangents: bool = False,
@@ -218,7 +218,7 @@ def intersect_line_with_atomic_shape(
         List of intersection points.
     """
     if isinstance(shape, GeomLine):
-        return intersect_lines(
+        return get_intersection_points_of_lines(
             line1=line,
             line2=shape,
             exclude_segment_ends_line1=exclude_segment_ends_line,
@@ -227,7 +227,7 @@ def intersect_line_with_atomic_shape(
             tol=tol,
         )
     elif isinstance(shape, GeomArc):
-        return intersect_arc_with_line(
+        return get_intersection_points_of_arc_with_line(
             arc=shape,
             line=line,
             exclude_tangents=exclude_tangents,
@@ -237,7 +237,7 @@ def intersect_line_with_atomic_shape(
             tol=tol,
         )
     else:  # isinstance(shape, GeomCircle):
-        return intersect_circle_with_line(
+        return get_intersection_points_of_circle_with_line(
             circle=shape,
             line=line,
             exclude_tangents=exclude_tangents,
@@ -247,7 +247,7 @@ def intersect_line_with_atomic_shape(
         )
 
 
-def intersect_arcs(
+def get_intersection_points_of_arcs(
     arc1: GeomArc,
     arc2: GeomArc,
     exclude_tangents: bool = False,
@@ -273,7 +273,7 @@ def intersect_arcs(
         List of intersection points.
     """
     arc1_circle = GeomCircle(center=arc1.center, radius=arc1.radius)
-    pts = intersect_arc_with_circle(
+    pts = get_intersection_points_of_arc_with_circle(
         arc=arc2,
         circle=arc1_circle,
         exclude_tangents=exclude_tangents,
@@ -294,7 +294,7 @@ def intersect_arcs(
     return pts
 
 
-def intersect_arc_with_circle(
+def get_intersection_points_of_arc_with_circle(
     arc: GeomArc,
     circle: GeomCircle,
     exclude_tangents: bool = False,
@@ -317,7 +317,7 @@ def intersect_arc_with_circle(
         List of intersection points.
     """
     arc_circle = GeomCircle(center=arc.center, radius=arc.radius)
-    pts = intersect_circles(
+    pts = get_intersection_points_of_circles(
         circle1=circle,
         circle2=arc_circle,
         exclude_tangents=exclude_tangents,
@@ -335,7 +335,7 @@ def intersect_arc_with_circle(
     return pts
 
 
-def intersect_arc_with_line(
+def get_intersection_points_of_arc_with_line(
     arc: GeomArc,
     line: GeomLine,
     exclude_tangents: bool = False,
@@ -363,7 +363,7 @@ def intersect_arc_with_line(
         List of intersection points.
     """
     arc_circle = GeomCircle(arc)
-    pts = intersect_circle_with_line(
+    pts = get_intersection_points_of_circle_with_line(
         circle=arc_circle,
         line=line,
         exclude_tangents=exclude_tangents,
@@ -382,7 +382,7 @@ def intersect_arc_with_line(
     return pts
 
 
-def intersect_circles(
+def get_intersection_points_of_circles(
     circle1: GeomCircle,
     circle2: GeomCircle,
     exclude_tangents: bool = False,
@@ -445,7 +445,7 @@ def intersect_circles(
         return pts
 
 
-def intersect_circle_with_line(
+def get_intersection_points_of_circle_with_line(
     circle: GeomCircle,
     line: GeomLine,
     exclude_segment_ends: bool = False,
@@ -531,7 +531,7 @@ def intersect_circle_with_line(
     return pts
 
 
-def intersect_lines(
+def get_intersection_points_of_lines(
     line1: GeomLine,
     line2: GeomLine,
     exclude_segment_ends_line1: bool = False,
@@ -591,7 +591,7 @@ def intersect_lines(
     return []
 
 
-def intersect_upwards_ray_with_line(
+def get_intersection_points_of_upwards_ray_with_line(
     ray_start: Vector2D,
     line: GeomLine,
     tol: float = TOL_MM,
@@ -632,7 +632,7 @@ def intersect_upwards_ray_with_line(
     return []
 
 
-def intersect_upwards_ray_with_circle(
+def get_intersection_points_of_upwards_ray_with_circle(
     ray_start: Vector2D,
     circle: GeomCircle,
     exclude_tangents: bool = False,
@@ -676,7 +676,7 @@ def intersect_upwards_ray_with_circle(
     return ips
 
 
-def intersect_upwards_ray_with_arc(
+def get_intersection_points_of_upwards_ray_with_arc(
     ray_start: Vector2D,
     arc: GeomArc,
     exclude_tangents: bool = False,
@@ -695,7 +695,7 @@ def intersect_upwards_ray_with_arc(
         List of intersection points.
     """
     circle = GeomCircle(shape=arc)
-    ips = intersect_upwards_ray_with_circle(
+    ips = get_intersection_points_of_upwards_ray_with_circle(
         ray_start=ray_start, circle=circle, exclude_tangents=exclude_tangents, tol=tol
     )
     intersections: list[Vector2D] = []

@@ -110,3 +110,7 @@ class Cruciform(NodeShape, GeomCruciform):
             )
             nodes.append(node)
         return nodes
+
+    def as_geom_shape(self) -> GeomCruciform:
+        """Convert this shape node into its base geometric shape (GeomCruciform)."""
+        return GeomCruciform(shape=self)

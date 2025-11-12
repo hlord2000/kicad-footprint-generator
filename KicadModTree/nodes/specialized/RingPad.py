@@ -27,7 +27,9 @@ from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomArc, GeomLine, Vec2DCompatible, Vector2D
+from kilibs.geom.operations import split
 
 
 class _RingPadPrimitive(Node):
@@ -307,11 +309,12 @@ class _ArcPadPrimitive(Node):
         if line is None:
             return arcs
         result: list[Arc] = []
-        fp_line = Line(shape=line)
         for current_arc in arcs:
             try:
-                cut_arcs = cast(list[Arc], fp_line.cut(current_arc))
-                result.append(cut_arcs[index_to_keep])
+                cut_arcs = split(current_arc, line)
+                result.append(
+                    shape_to_node(cut_arcs[index_to_keep], width=current_arc.width)  # type: ignore
+                )
             except IndexError:
                 raise ValueError(
                     "Cutting the arc primitive with one of its endlines "

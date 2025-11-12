@@ -23,9 +23,11 @@ from kilibs.geom import (
     GeomShapeClosed,
     Vector2D,
 )
-from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
-from kilibs.geom.tools.geom_operation_handle import GeomOperationHandle
-from kilibs.geom.tools.intersect import intersect
+
+from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
+from .geom_operation_handle import GeomOperationHandle
+from .intersection_points import intersect_handler
+from .segment_util import has_arcs
 
 
 def unite(
@@ -77,7 +79,7 @@ def unite(
                  \-----------/
     """
     # For the unite() operation we need both shapes to be cut up:
-    handle = intersect(
+    handle = intersect_handler(
         shape1=shape1,
         shape2=shape2,
         strict_intersection=False,
@@ -180,7 +182,7 @@ def _unite_segments_from_both_shapes(
             break
     segments = _merge_colinear_segments(segments)
     shape: GeomCompoundPolygon | GeomPolygon
-    if _list_contains_arc_segments(segments):
+    if has_arcs(segments):
         shape = GeomCompoundPolygon(shape=segments)
     else:
         shape = GeomPolygon(shape=cast(list[GeomLine], segments))
@@ -192,21 +194,6 @@ def _unite_segments_from_both_shapes(
         # will start off from a different point:
         return _unite_segments_from_both_shapes(handle, shape1, shape2)
     return [shape]
-
-
-def _list_contains_arc_segments(segments: list[GeomLine | GeomArc]) -> bool:
-    """Check if a list contains arc segments.
-
-    Args:
-        segments: The list containing the segments to analyze.
-
-    Return:
-        `True` if the list contains an arc segment, `False` otherwise.
-    """
-    for segment in segments:
-        if isinstance(segment, GeomArc):
-            return True
-    return False
 
 
 def _remove_doubles(

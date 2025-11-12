@@ -14,6 +14,7 @@
 
 import sys
 
+from collections.abc import Iterable
 from KicadModTree.nodes.base.Arc import Arc
 from KicadModTree.nodes.base.Circle import Circle
 from KicadModTree.nodes.base.Line import Line
@@ -22,6 +23,8 @@ from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.util import shape_to_node
+from kilibs.geom.operations import subtract_many
 
 
 def _collect_nodes_as_geometric_shapes(
@@ -97,7 +100,7 @@ def _collect_nodes_as_geometric_shapes(
 
 
 def _clean_silk_by_mask(
-    silk_shapes: list[NodeShape], mask_shapes: list[NodeShape]
+    silk_shapes: Iterable[NodeShape], mask_shapes: Iterable[NodeShape]
 ) -> list[NodeShape]:
     """Applies the mask as a keepout to the silk screen shapes.
 
@@ -111,12 +114,19 @@ def _clean_silk_by_mask(
         The cut silk shapes as a list of geometric primitives; this list can be appended
             to the module.
     """
-    for mask in mask_shapes:
-        kept_out_silk: list[NodeShape] = []
-        for silk in silk_shapes:
-            kept_out_silk += mask.keepout(silk)
-        silk_shapes = kept_out_silk
-    return silk_shapes
+    nodes: list[NodeShape] = []
+    for silk_shape in silk_shapes:
+        shapes = subtract_many(silk_shape.as_geom_shape(), mask_shapes)  # type: ignore
+        for shape in shapes:
+            node = shape_to_node(
+                shape=shape,
+                layer=silk_shape.layer,
+                width=silk_shape.width,
+                style=silk_shape.style,
+                fill=silk_shape.fill
+            )
+            nodes.append(node)
+    return nodes
 
 
 def clean_silk_over_mask(

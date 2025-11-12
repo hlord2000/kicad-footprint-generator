@@ -28,12 +28,13 @@ from kilibs.geom import (
     GeomShapeClosed,
     Vector2D,
 )
-from kilibs.geom.tools import (
+from kilibs.geom.operations import (
     round_to_grid,
     round_to_grid_down,
     round_to_grid_e,
     round_to_grid_nearest,
     round_to_grid_up,
+    subtract_many,
 )
 from scripts.tools.footprint_global_properties import *
 from scripts.tools.nodes import pin1_arrow
@@ -163,22 +164,9 @@ def applyKeepouts(
     if len(keepouts) == 0:
         return items
 
-    # Apply all the keepouts to a single line
-    def applyKeepoutsToOneItem(item, kos: list[GeomShapeClosed]):
-        items = [item]
-        for ko in kos:
-            # Items left after applying this keepout
-            new_items = []
-            for i in items:
-                new_items += ko.subtract(i)
-            # Once one Keepout has been applied, we need to apply the next one(s)
-            # to the new items
-            items = new_items
-        return items
-
     new_parts = []
     for item in items:
-        this_part_kept_out = applyKeepoutsToOneItem(item, keepouts)
+        this_part_kept_out = subtract_many(item, keepouts)
         new_parts += this_part_kept_out
     return new_parts
 

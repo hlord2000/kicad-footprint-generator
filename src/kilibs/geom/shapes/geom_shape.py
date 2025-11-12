@@ -20,7 +20,7 @@ from collections.abc import Sequence
 from typing import TYPE_CHECKING, Self
 
 from kilibs.geom.bounding_box import BoundingBox
-from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
+from kilibs.geom.tolerances import TOL_MM
 from kilibs.geom.vector import Vector2D
 
 # Using TYPE_CHECKING to only import these for type checking, but not at runtime:
@@ -135,70 +135,6 @@ class GeomShape(ABC):
         """
         return self.copy().rotate(angle=angle, origin=origin)
 
-    def intersect(
-        self,
-        other: GeomShape,
-        strict_intersection: bool = True,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[Vector2D]:
-        """Intersects this shape with another.
-
-        Args:
-            other: Shape to intersect with.
-            strict_intersection: If `True`, then intersection points resulting from
-                shapes that are tangent to another or from segments that have their
-                beginning or their ending on the outline of the other shape are omitted
-                from the results. If `False` then those points are included.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the `cut` operation (that is performed as an intermediate step for
-                the `intersect` operation) is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Returns:
-            List of intersection points.
-        """
-        from kilibs.geom.tools.intersect import intersect
-
-        handle = intersect(
-            shape1=self,
-            shape2=other,
-            strict_intersection=strict_intersection,
-            min_segment_length=min_segment_length,
-            tol=tol,
-        )
-        return handle.intersections
-
-    def cut(
-        self,
-        shape_to_cut: GeomShape,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[GeomShape]:
-        """Cuts this shape with another shape.
-
-        Args:
-            shape_to_cut: Shape that is cut by this shape.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the `cut` operation is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Returns:
-            A list containing the shapes that are created by the cut, or containing the
-            uncut shape if there are no intersection points between the `shape_to_cut`
-            and this shape.
-        """
-        from kilibs.geom.tools.cut import cut
-
-        return cut(
-            cutting_shape=self,
-            shape_to_cut=shape_to_cut,
-            min_segment_length=min_segment_length,
-            tol=tol,
-        )
-
     def bbox(self) -> BoundingBox:
         """Return the bounding box."""
         # Note: basic shapes must redefine this function.
@@ -269,65 +205,6 @@ class GeomShapeClosed(GeomShape):
             The copy of the shape after the inflation/deflation.
         """
         return self.copy().inflate(amount=amount, tol=tol)
-
-    def subtract(
-        self,
-        shape_to_keep_out: GeomShape,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[GeomShape]:
-        """Treat this shape as if it was a keepout and apply it to the shape given as
-        argument.
-
-        Args:
-            shape_to_keep_out: The shape that is to be kept out of the keepout.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the keepout operation is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Returns:
-            If `shape_to_keep_out` is fully outside of this closed shape, then a list
-            containing `shape_to_keep_out` is returned. If `shape_to_keep_out` is fully
-            inside of this closed shape, then an empty list is returned. Otherwise,
-            `shape_to_keep_out` is decomposed to its atomic shapes and a list containing
-            the parts of the atomic shapes that are not inside the keepout is returned.
-        """
-        from kilibs.geom.tools.keepout import keepout
-
-        return keepout(
-            keepout=self,
-            shape_to_keep_out=shape_to_keep_out,
-            min_segment_length=min_segment_length,
-            tol=tol,
-        )
-
-    def unite(
-        self,
-        shape: GeomShapeClosed,
-        min_segment_length: float = MIN_SEGMENT_LENGTH,
-        tol: float = TOL_MM,
-    ) -> list[GeomShapeClosed]:
-        """Unite this shape with another.
-
-        Args:
-            shape: The shape to unite with this shape.
-            min_segment_length: The minimum length of a segment. If a segment resulting
-                from the unite operation is shorter than `min_segment_length`, it is
-                omitted from the results.
-            tol: The tolerance in mm that is used to determine if two points are equal.
-
-        Returns:
-            A list containing the outline of the united shape.
-        """
-        from kilibs.geom.tools.unite import unite
-
-        return unite(
-            shape1=self,
-            shape2=shape,
-            min_segment_length=min_segment_length,
-            tol=tol,
-        )
 
     @abstractmethod
     def inflate(self, amount: float, tol: float = TOL_MM) -> Self:

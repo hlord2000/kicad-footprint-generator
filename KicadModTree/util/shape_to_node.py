@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, overload, cast
+from typing import TYPE_CHECKING, overload
 
 if TYPE_CHECKING:
     from KicadModTree import (
@@ -206,6 +206,6 @@ def shape_to_node(
     if not map_geomshape_node:
         _init_map_geomshape_node()
     node_class = map_geomshape_node[type(shape)]
-    return node_class(  # mypy: ignore
+    return node_class(  # type: ignore
         shape=shape, layer=layer, width=width, style=style, fill=fill  # pyright: ignore
     )

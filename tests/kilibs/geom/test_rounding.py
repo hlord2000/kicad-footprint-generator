@@ -13,7 +13,7 @@
 
 import pytest
 
-from kilibs.geom.tools import rounding as R
+from kilibs.geom.operations import rounding as R
 
 
 @pytest.mark.parametrize(

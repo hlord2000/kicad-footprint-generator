@@ -123,3 +123,7 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
                     )
                     self._fp_poly_elements.append(arc)
         return self._fp_poly_elements
+
+    def as_geom_shape(self) -> GeomCompoundPolygon:
+        """Convert this shape node into its base geometric shape (GeomCompoundPolygon)."""
+        return GeomCompoundPolygon(shape=self)
