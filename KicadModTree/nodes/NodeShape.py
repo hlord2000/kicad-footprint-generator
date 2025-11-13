@@ -23,7 +23,6 @@ from KicadModTree.util import LineStyle
 from kilibs.geom import (
     BoundingBox,
     GeomShape,
-    GeomShapeClosed,
     Vector2D,
 )
 
@@ -69,29 +68,20 @@ class NodeShape(Node, GeomShape):
 
     def copy(self) -> Self:
         """Creates a copy of itself."""
-        if isinstance(self, GeomShapeClosed):
-            copy = self.__class__(
-                shape=self,
-                layer=self.layer,
-                width=self.width,
-                style=self.style,
-                fill=self.fill,
-            )
-        else:
-            copy = self.__class__(
-                shape=self,
-                layer=self.layer,
-                width=self.width,
-                style=self.style,
-            )
-        return copy
+        return self.__class__(
+            shape=self,
+            layer=self.layer,
+            width=self.width,
+            style=self.style,
+            fill=self.fill,
+        )
 
     def copy_with(
         self,
         shape: Self | None = None,
         layer: str | None = None,
         width: float | None = None,
-        style: object | None = None,
+        style: LineStyle | None = None,
         fill: bool | None = None,
         offset: float | None = None,
     ) -> Self:
@@ -107,17 +97,19 @@ class NodeShape(Node, GeomShape):
         """
         params: dict[str, Any] = {}
         shape = shape if shape else self
-        if layer or hasattr(self, "layer"):
-            params.update({"layer": (layer if layer else self.layer)})
-        if width or hasattr(self, "width"):
-            params.update({"width": (width if width else self.width)})
-        if style or hasattr(self, "style"):
-            params.update({"style": (style if style else self.style)})
-        if fill or hasattr(self, "fill"):
-            params.update({"fill": (fill if fill else self.fill)})
+        layer = layer if layer else self.layer
+        width = width if width else self.width
+        style = style if style else self.style
+        fill = fill if fill else self.fill
         if offset:
             params.update({"offset": offset})
-        return self.__class__(shape=shape, **params)
+        return self.__class__(
+            shape=shape,
+            layer=layer,
+            width=width,
+            style=style,
+            fill=fill,
+            **params)
 
     @abstractmethod
     def as_geom_shape(self) -> GeomShape:
