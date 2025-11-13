@@ -15,6 +15,8 @@
 
 from __future__ import annotations
 
+from typing import Self
+
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
@@ -146,7 +148,7 @@ class GeomCruciform(GeomShapeClosed):
                 self._shape.rotate(angle=self.angle)
         return [self._shape]
 
-    def translate(self, vector: Vector2D) -> GeomCruciform:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the cruciform.
 
         Args:
@@ -163,7 +165,7 @@ class GeomCruciform(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomCruciform:
+    ) -> Self:
         """Rotate the cruciform around a given point.
 
         Args:
@@ -178,7 +180,7 @@ class GeomCruciform(GeomShapeClosed):
             self._shape = None
         return self
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomCruciform:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Increase or decrease the radius of the cruciform by 'amount'.
 
         Args:

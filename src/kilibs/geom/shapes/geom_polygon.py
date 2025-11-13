@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import warnings
 from collections.abc import Callable, Iterable
-from typing import TypeAlias
+from typing import Self, TypeAlias
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_line import GeomLine
@@ -110,7 +110,7 @@ class GeomPolygon(GeomShapeClosed):
         """Return a list with itself in it since a line is a basic shape."""
         return [self]
 
-    def translate(self, vector: Vector2D) -> GeomPolygon:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the polygon.
 
         Args:
@@ -128,7 +128,7 @@ class GeomPolygon(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomPolygon:
+    ) -> Self:
         """Rotate the cross around a given point.
 
         Args:
@@ -147,7 +147,7 @@ class GeomPolygon(GeomShapeClosed):
         self,
         amount: float,
         tol: float = TOL_MM,
-    ) -> GeomPolygon:
+    ) -> Self:
         """Inflate or deflate the polygon by 'amount'.
 
         Args:
@@ -284,7 +284,7 @@ class GeomPolygon(GeomShapeClosed):
         self,
         amount: float,
         tol: float = TOL_MM,
-    ) -> GeomPolygon:
+    ) -> Self:
         """Create a copy and inflate or deflate it by 'amount'.
 
         Args:
@@ -315,7 +315,7 @@ class GeomPolygon(GeomShapeClosed):
 
     def simplify(
         self, min_segment_length: float = MIN_SEGMENT_LENGTH, tol: float = TOL_MM
-    ) -> GeomPolygon:
+    ) -> Self:
         """Simplify the outline by removing segments that are inside the outer outline,
         by removing segments that are too short (shorter than `min_segment_length`) and
         by unifying colinear lines as well as arcs that lie on the same circle.
@@ -349,7 +349,7 @@ class GeomPolygon(GeomShapeClosed):
             self.points.append(self._segments[-1].end)
         return self
 
-    def round_to_grid(self, grid: float, outwards: bool = True) -> GeomPolygon:
+    def round_to_grid(self, grid: float, outwards: bool = True) -> Self:
         """Round the polygon to the given grid.
 
         Args:

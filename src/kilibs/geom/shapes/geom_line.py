@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from math import atan2, degrees, hypot
+from typing import Self, cast
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_shape import GeomShapeOpen
@@ -70,12 +71,12 @@ class GeomLine(GeomShapeOpen):
         line.end = Vector2D.from_floats(end.x, end.y)
         return line
 
-    def copy(self) -> GeomLine:
+    def copy(self) -> Self:
         """Create a deep copy of itself."""
         line = GeomLine.__new__(GeomLine)
         line.start = self.start.copy()
         line.end = self.end.copy()
-        return line
+        return cast(Self, line)
 
     def get_atomic_shapes(self) -> list[GeomLine]:
         """Return a list with itself in it since a line is an atomic shape."""
@@ -85,7 +86,7 @@ class GeomLine(GeomShapeOpen):
         """Return a list with itself in it since a line is a basic shape."""
         return [self]
 
-    def translate(self, vector: Vector2D) -> GeomLine:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the line.
 
         Args:
@@ -102,7 +103,7 @@ class GeomLine(GeomShapeOpen):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomLine:
+    ) -> Self:
         """Rotate the line around a given point.
 
         Args:

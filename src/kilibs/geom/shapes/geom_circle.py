@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import math
+from typing import Self
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_arc import GeomArc
@@ -64,7 +65,7 @@ class GeomCircle(GeomShapeClosed):
         """Return a list with itself in it since a line is a basic shape."""
         return [self]
 
-    def translate(self, vector: Vector2D) -> GeomCircle:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the circle.
 
         Args:
@@ -80,7 +81,7 @@ class GeomCircle(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomCircle:
+    ) -> Self:
         """Rotate the circle around a given point.
 
         Args:
@@ -94,7 +95,7 @@ class GeomCircle(GeomShapeClosed):
             self.center.rotate(angle=angle, origin=origin)
         return self
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomCircle:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Inflate (or deflate) the circle by 'amount'.
 
         Args:

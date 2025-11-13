@@ -15,6 +15,8 @@
 
 from __future__ import annotations
 
+from typing import Self
+
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_shape import GeomShapeOpen
 from kilibs.geom.vector import Vec2DCompatible, Vector2D
@@ -83,7 +85,7 @@ class GeomCross(GeomShapeOpen):
         ]
         return self._shapes
 
-    def translate(self, vector: Vector2D) -> GeomCross:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the cross.
 
         Args:
@@ -100,7 +102,7 @@ class GeomCross(GeomShapeOpen):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomCross:
+    ) -> Self:
         """Rotate the cross around a given point.
 
         Args:

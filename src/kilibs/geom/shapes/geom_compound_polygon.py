@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterable
+from typing import Self
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_arc import GeomArc
@@ -143,7 +144,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
             del points_and_arcs[-1]
         return points_and_arcs
 
-    def translate(self, vector: Vector2D) -> GeomCompoundPolygon:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the compound polygon.
 
         Args:
@@ -161,7 +162,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomCompoundPolygon:
+    ) -> Self:
         """Rotate the compound polygon around a given point.
 
         Args:
@@ -180,7 +181,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         self,
         amount: float,
         tol: float = TOL_MM,
-    ) -> GeomCompoundPolygon:
+    ) -> Self:
         """Inflate or deflate the compound polygon by 'amount'.
 
         Args:
@@ -392,7 +393,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         self,
         amount: float,
         tol: float = TOL_MM,
-    ) -> GeomCompoundPolygon:
+    ) -> Self:
         """Create a copy and inflate or deflate it by 'amount'.
 
         Args:
@@ -421,7 +422,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
 
     def simplify(
         self, min_segment_length: float = MIN_SEGMENT_LENGTH, tol: float = TOL_MM
-    ) -> GeomCompoundPolygon:
+    ) -> Self:
         """Simplify the outline by removing segments that are inside the outer outline,
         by removing segments that are too short (shorter than `min_segment_length`) and
         by unifying colinear lines as well as arcs that lie on the same circle.
@@ -603,7 +604,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
                 self._bbox.include_bbox(point_or_arc.bbox())
         return self._bbox
 
-    def round_to_grid(self, grid: float, outwards: bool = True) -> GeomCompoundPolygon:
+    def round_to_grid(self, grid: float, outwards: bool = True) -> Self:
         """Round the compound polygon to the given grid.
 
         Args:

@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from math import atan2, copysign, degrees, hypot, pi, radians
+from typing import Self, cast
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_shape import GeomShapeOpen
@@ -97,14 +98,14 @@ class GeomArc(GeomShapeOpen):
         elif start is not None and mid is not None and end is not None:
             self._init_from_3_point_arc(start, mid, end)
 
-    def copy(self) -> GeomArc:
+    def copy(self) -> Self:
         """Create a deep copy of itself."""
         arc = GeomArc.__new__(GeomArc)
         arc.center = self.center.copy()
         arc._start = self._start.copy()
         arc._angle = self._angle
         arc._end = None if self._end is None else self._end.copy()
-        return arc
+        return cast(Self, arc)
 
     def get_atomic_shapes(self) -> list[GeomArc]:
         """Return a list with itself in it since an arc is an atomic shape."""
@@ -114,7 +115,7 @@ class GeomArc(GeomShapeOpen):
         """Return a list with itself in it since an arc is a basic shape."""
         return [self]
 
-    def translate(self, vector: Vector2D) -> GeomArc:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the arc.
 
         Args:
@@ -133,7 +134,7 @@ class GeomArc(GeomShapeOpen):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomArc:
+    ) -> Self:
         """Rotate the arc around a given point.
 
         Args:

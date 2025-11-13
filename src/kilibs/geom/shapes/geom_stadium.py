@@ -15,6 +15,8 @@
 
 from __future__ import annotations
 
+from typing import Self
+
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_arc import GeomArc
 from kilibs.geom.shapes.geom_line import GeomLine
@@ -100,7 +102,7 @@ class GeomStadium(GeomShapeClosed):
         ]
         return self._shapes
 
-    def translate(self, vector: Vector2D) -> GeomStadium:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the stadium.
 
         Args:
@@ -118,7 +120,7 @@ class GeomStadium(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomStadium:
+    ) -> Self:
         """Rotate the stadium around a given point.
 
         Args:
@@ -134,7 +136,7 @@ class GeomStadium(GeomShapeClosed):
             self._shapes = []
         return self
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomStadium:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Inflate or deflate the stadium by 'amount'.
 
         Args:

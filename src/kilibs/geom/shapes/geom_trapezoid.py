@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import math
+from typing import Self
 
 from kilibs.geom.shapes.geom_arc import GeomArc
 from kilibs.geom.shapes.geom_line import GeomLine
@@ -191,7 +192,7 @@ class GeomTrapezoid(GeomShapeClosed):
                 shape.rotate(angle=self.rotation_angle, origin=self.center)
         return self._shapes
 
-    def translate(self, vector: Vector2D) -> GeomTrapezoid:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the trapezoid.
 
         Args:
@@ -208,7 +209,7 @@ class GeomTrapezoid(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomTrapezoid:
+    ) -> Self:
         """Rotate the trapezoid around a given point.
 
         Args:
@@ -263,7 +264,7 @@ class GeomTrapezoid(GeomShapeClosed):
         # to `False`.
         return poly.is_point_inside_self(point=point, strictly_inside=False, tol=tol)
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomTrapezoid:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Inflate or deflate the trapezoid by 'amount'.
 
         Args:

@@ -14,6 +14,8 @@
 """Class definition for a geometric rectangle."""
 from __future__ import annotations
 
+from typing import Self
+
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_shape import GeomShapeClosed
@@ -104,7 +106,7 @@ class GeomRectangle(GeomShapeClosed):
         """Return a list with itself in it."""
         return [self]
 
-    def translate(self, vector: Vector2D) -> GeomRectangle:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the rectangle.
 
         Args:
@@ -122,7 +124,7 @@ class GeomRectangle(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomRectangle:
+    ) -> Self:
         """Rotate the rectangle around a given point.
 
         Args:
@@ -139,7 +141,7 @@ class GeomRectangle(GeomShapeClosed):
             self._bbox = None
         return self
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomRectangle:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Inflate (or deflate) the rectangle by 'amount'.
 
         Args:
@@ -245,7 +247,7 @@ class GeomRectangle(GeomShapeClosed):
             self._bbox = self._get_bbox()
         return self._bbox
 
-    def round_to_grid(self, grid: float, outwards: bool = True) -> GeomRectangle:
+    def round_to_grid(self, grid: float, outwards: bool = True) -> Self:
         """Round the rectangle to the given grid.
 
         Args:

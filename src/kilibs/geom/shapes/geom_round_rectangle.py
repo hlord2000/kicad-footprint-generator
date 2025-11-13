@@ -15,6 +15,8 @@
 
 from __future__ import annotations
 
+from typing import Self
+
 from kilibs.geom.shapes.geom_arc import GeomArc
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
@@ -121,7 +123,7 @@ class GeomRoundRectangle(GeomShapeClosed):
                     child.rotate(angle=self.angle, origin=self.center)
         return self._shapes
 
-    def translate(self, vector: Vector2D) -> GeomRoundRectangle:
+    def translate(self, vector: Vector2D) -> Self:
         """Move the round rectangle.
 
         Args:
@@ -138,7 +140,7 @@ class GeomRoundRectangle(GeomShapeClosed):
         self,
         angle: float,
         origin: Vector2D = Vector2D.zero(),
-    ) -> GeomRoundRectangle:
+    ) -> Self:
         """Rotate the round rectangle around a given point.
 
         Args:
@@ -153,7 +155,7 @@ class GeomRoundRectangle(GeomShapeClosed):
             self._shapes = []
         return self
 
-    def inflate(self, amount: float, tol: float = TOL_MM) -> GeomRoundRectangle:
+    def inflate(self, amount: float, tol: float = TOL_MM) -> Self:
         """Inflate or deflate the round rectangle by 'amount'.
 
         Args:
