@@ -11,7 +11,9 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Geometric shapes."""
+"""Definition of any shape type."""
+from __future__ import annotations
+
 from .geom_arc import GeomArc
 from .geom_circle import GeomCircle
 from .geom_compound_polygon import GeomCompoundPolygon
@@ -21,29 +23,20 @@ from .geom_line import GeomLine
 from .geom_polygon import GeomPolygon
 from .geom_rectangle import GeomRectangle
 from .geom_round_rectangle import GeomRoundRectangle
-from .geom_shape import GeomShape, GeomShapeClosed, GeomShapeOpen
-from .geom_shape_any import GeomShapeAny
-from .geom_shape_atomic import GeomShapeAtomic
-from .geom_shape_native import GeomShapeNative
 from .geom_stadium import GeomStadium
 from .geom_trapezoid import GeomTrapezoid
 
-__all__ = [
-    "GeomArc",
-    "GeomCircle",
-    "GeomCompoundPolygon",
-    "GeomCross",
-    "GeomCruciform",
-    "GeomLine",
-    "GeomPolygon",
-    "GeomRectangle",
-    "GeomRoundRectangle",
-    "GeomShape",
-    "GeomShapeClosed",
-    "GeomShapeOpen",
-    "GeomShapeAny",
-    "GeomShapeAtomic",
-    "GeomShapeNative",
-    "GeomStadium",
-    "GeomTrapezoid",
-]
+GeomShapeAny = (
+    GeomArc
+    | GeomCircle
+    | GeomCompoundPolygon
+    | GeomCross
+    | GeomCruciform
+    | GeomLine
+    | GeomPolygon
+    | GeomRectangle
+    | GeomRoundRectangle
+    | GeomStadium
+    | GeomTrapezoid
+)
+"""The union with all the geometric shapes."""
