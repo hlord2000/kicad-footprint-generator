@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable
 from typing import TypeAlias
 
 from kilibs.geom.bounding_box import BoundingBox
@@ -36,8 +36,8 @@ class GeomPolygon(GeomShapeClosed):
             GeomPolygon
             | GeomRectangle
             | BoundingBox
-            | Sequence[Vec2DCompatible]
-            | Sequence[GeomLine]
+            | Iterable[Vec2DCompatible]
+            | Iterable[GeomLine]
         ),
         x_mirror: float | None = None,
         y_mirror: float | None = None,

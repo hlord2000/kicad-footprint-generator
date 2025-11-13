@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Iterable
 
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_arc import GeomArc
@@ -35,8 +35,8 @@ class GeomCompoundPolygon(GeomShapeClosed):
         self,
         shape: (
             GeomShape
-            | Sequence[Vec2DCompatible]
-            | Sequence[GeomPolygon | GeomLine | GeomArc]
+            | Iterable[Vec2DCompatible]
+            | Iterable[GeomPolygon | GeomLine | GeomArc]
         ),
         serialize_as_fp_poly: bool = True,
         close: bool = True,
@@ -113,14 +113,15 @@ class GeomCompoundPolygon(GeomShapeClosed):
             ):
                 self._append_geometry(self._segments[0].start)
 
-    def get_atomic_shapes(self) -> list[GeomArc | GeomLine]:
-        """Return the four lines of the compound polygon."""
+    def get_atomic_shapes(self) -> list[GeomLine | GeomArc]:
+        """Return the line and arc segments that form the compound polygon in clockwise
+        order."""
         # Create a new list of segments instead of returning the original list, so that
         # nobody can change the original list externally:
         return self._segments
 
     def get_native_shapes(self) -> list[GeomCompoundPolygon]:
-        """Return a list with itself in it."""
+        """Return a list with itself in it since a compound polygon is a native shape."""
         return [self]
 
     def get_points_and_arcs(self) -> list[Vector2D | GeomArc]:
@@ -669,7 +670,7 @@ class GeomCompoundPolygon(GeomShapeClosed):
         Args:
             geom: The shape or point to append.
         """
-        if isinstance(geom, Vector2D | Sequence | dict):
+        if isinstance(geom, Vector2D | Iterable | dict):
             geom = Vector2D(geom)
             if not self._is_point_equal_to_last_added(geom):
                 if self._end:
