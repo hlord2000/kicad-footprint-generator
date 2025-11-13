@@ -17,7 +17,7 @@
 
 from __future__ import annotations, division
 
-from collections.abc import Generator, Iterator
+from collections.abc import Generator, Sequence
 
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Node import Node
@@ -181,7 +181,7 @@ class ChamferedPadGrid(Node):
 
     def __init__(
         self,
-        pincount: int | Iterator[int],
+        pincount: int | Sequence[int],
         size: Vector2D,
         grid: float | Vector2D,
         round_radius_handler: RoundRadiusHandler,
