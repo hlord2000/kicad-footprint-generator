@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from collections.abc import Sequence
+from collections.abc import Iterable
 from typing import Self
 
 from KicadModTree.nodes.base.Line import Line
@@ -44,7 +44,7 @@ class PolygonLine(NodeShape, GeomPolygon):
     def __init__(
         self,
         shape: (
-            Self | GeomPolygon | GeomRectangle | BoundingBox | Sequence[Vec2DCompatible]
+            Self | GeomPolygon | GeomRectangle | BoundingBox | Iterable[Vec2DCompatible]
         ),
         layer: str = "F.SilkS",
         width: float | None = None,
@@ -81,26 +81,18 @@ class PolygonLine(NodeShape, GeomPolygon):
         if self.width is not None:
             self.width = float(self.width)
         self.style = style
-        self._virtual_children = None
         if offset:
             self.inflate(amount=offset)
+        self._update_children()
 
     def get_flattened_nodes(self) -> list[Node]:
         """Return the nodes to serialize."""
-        if self._virtual_children is None:
-            self._update_virtual_children()
-        return self._virtual_children
-
-    def get_child_nodes(self) -> list[Node]:
-        """Return the direct child nodes."""
-        if self._virtual_children is None:
-            self._update_virtual_children()
-        return self._virtual_children
+        return self._children
 
     def lineItems(self):
-        if self._virtual_children is None:
-            self._update_virtual_children()
-        return iter(self._virtual_children)
+        if not self._children:
+            self._update_children()
+        return iter(self._children)
 
     def pointItems(self):
         return iter(self.points)
@@ -113,16 +105,26 @@ class PolygonLine(NodeShape, GeomPolygon):
 
     def rotate(self, *args, **kwargs):
         super().rotate(*args, **kwargs)
-        self._virtual_children = None
+        self._update_children()
         return self
 
     def translate(self, *args, **kwargs):
         super().translate(*args, **kwargs)
-        self._virtual_children = None
+        self._update_children()
         return self
 
-    def _update_virtual_children(self):
-        nodes = []
+    def inflate(self, *args, **kwargs):
+        super().inflate(*args, **kwargs)
+        self._update_children()
+        return self
+
+    def simplify(self, *args, **kwargs):
+        super().simplify(*args, **kwargs)
+        self._update_children()
+        return self
+
+    def _update_children(self):
+        nodes: list[Line] = []
         for line_start, line_end in zip(self.points, self.points[1:]):
             new_node = Line(
                 start=line_start,
@@ -143,7 +145,7 @@ class PolygonLine(NodeShape, GeomPolygon):
             )
             new_node._parent = self
             nodes.append(new_node)
-        self._virtual_children = nodes
+        self._children = nodes
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)

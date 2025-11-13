@@ -1,3 +1,6 @@
+from collections.abc import Iterable
+from typing import Any
+
 from kilibs.geom import GeomLine, Vector2D
 from kilibs.geom.tolerances import TOL_MM
 
@@ -109,7 +112,7 @@ def assert_contains_lines(
     assert_contains_only(to_check, expected, cmp)
 
 
-def assert_contains_n_of_type(to_check: list, n: int, type_: type) -> list:
+def assert_contains_n_of_type(to_check: Iterable[Any], n: int, type_: type) -> list:
     """
     Predicate to check if a list contains exactly n elements of a given type.
 

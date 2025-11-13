@@ -156,6 +156,7 @@ class FootprintLayoutNode(Node, abc.ABC):
         return Vector2D(0, 0)
 
     def get_flattened_nodes(self) -> list[Node]:
+        """Return the nodes to serialize."""
         # This cache is important, because the output sorting functions and so on
         # call get_flattened_nodes() multiple times, and we don't want to regenerate
         # everything (including keepout maths) every time.

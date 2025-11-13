@@ -15,12 +15,14 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import BoundingBox, GeomRectangle, Vec2DCompatible
+
+if TYPE_CHECKING:
+    from .Polygon import Polygon
 
 
 class Rectangle(NodeShape, GeomRectangle):
@@ -71,20 +73,19 @@ class Rectangle(NodeShape, GeomRectangle):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Rectangle | Polygon]:
         """Return the nodes to serialize."""
         if self.angle:
             from .Polygon import Polygon
 
-            return cast(
-                list[Node],
+            return [
                 Polygon(
                     shape=self,
                     layer=self.layer,
                     width=self.width,
                     style=self.style,
                     fill=self.fill,
-                ),
-            )
+                )
+            ]
         else:
             return [self]

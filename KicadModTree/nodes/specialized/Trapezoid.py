@@ -15,12 +15,14 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomTrapezoid, Vec2DCompatible
+
+if TYPE_CHECKING:
+    from KicadModTree import Arc, Line, Polygon, Rectangle, RoundRectangle
 
 
 class Trapezoid(NodeShape, GeomTrapezoid):
@@ -87,6 +89,11 @@ class Trapezoid(NodeShape, GeomTrapezoid):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(
+        self,
+    ) -> list[Rectangle | Polygon | RoundRectangle | Arc | Line]:
         """Return the nodes to serialize."""
-        return cast(list[Node], self.to_child_nodes(list(self.get_shapes())))
+        nodes: list[Rectangle | Polygon | RoundRectangle | Arc | Line] = []
+        for shape in self.get_shapes():
+            nodes.append(self.to_child_node(shape))
+        return nodes

@@ -391,11 +391,11 @@ class Node(ABC):
 
     def __iter__(self) -> Iterator[Node]:
         """Return an iterator to iterate through all child nodes of this object."""
-        return iter(self.get_child_nodes())
+        return iter(self._children)
 
     def __len__(self) -> int:
         """Return the number of children this node has."""
-        return len(self.get_child_nodes())
+        return len(self._children)
 
     def append(self, node: Node) -> None:
         """Add a node as child node.
@@ -457,7 +457,7 @@ class Node(ABC):
             parent: The parent node.
             node: The node to remove.
         """
-        child_nodes = parent.get_child_nodes()
+        child_nodes = parent._children
         while node in child_nodes:
             child_nodes.remove(node)
             node._parent = None
@@ -474,7 +474,7 @@ class Node(ABC):
             Node._remove_node(parent=self, node=node)
         else:
             if node == self:
-                if node._parent:
+                if node._parent is not None:
                     Node._remove_node(parent=node._parent, node=node)
             else:
                 for child in self.get_child_nodes():
@@ -554,13 +554,23 @@ class Node(ABC):
         """
         return self.copy().rotate(angle=angle, origin=origin)
 
-    def get_flattened_nodes(self) -> list[Node]:
-        """Return a flattened list of all the child nodes. The child nodes that are
-        child of a transform node (Rotation or Translation) are copied and transformed
-        before being added to the list."""
+    def get_flattened_nodes(self) -> Sequence[Node]:
+        """Get the ultimate descendant nodes.
+
+        This method recursively traverses the node hierarchy, returning only the final
+        descendant nodes (the nodes that have no further children, like the leaves of a
+        tree).
+
+        Nodes that are children of a transformation node (such as :py:class:`Rotation`
+        or :py:class:`Translation`) are copied and have the transformation applied
+        before being returned.
+
+        Returns:
+            All ultimate descendant nodes.
+        """
         return [self]
 
-    def get_child_nodes(self) -> list[Node]:
+    def get_child_nodes(self) -> Sequence[Node]:
         """Return the direct child nodes."""
         return self._children
 

@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterable
 from typing import Any, Self
 
 from KicadModTree.nodes.Node import Node
@@ -50,6 +50,7 @@ class NodeShape(Node, GeomShape):
         width: float | None = None,
         style: LineStyle = LineStyle.SOLID,
         fill: bool = False,
+        shape: Self | GeomShape | None = None,
     ) -> None:
         """Create a `NodeShape`.
 
@@ -60,6 +61,7 @@ class NodeShape(Node, GeomShape):
             style: Line style.
             fill: `True` if the rectangle is filled, `False` if only the outline is
                 visible. `False` for open shapes.
+            shape: Optional shape to copy for the creation of this shape node.
         """
 
         # Instance attributes:
@@ -245,7 +247,7 @@ class NodeShape(Node, GeomShape):
         node._parent = self
         return node
 
-    def to_child_nodes(self, shapes: Sequence[GeomShape]) -> list[NodeShape]:
+    def to_child_nodes(self, shapes: Iterable[GeomShape]) -> list[NodeShape]:
         """Converts a list of geometric shapes  to its corresponding node class and sets
         the properties `layer`, `width` and `style` equal to the ones of this
         `NodeShape` and `_parent` to this `NodeShape`."""
@@ -345,7 +347,7 @@ class NodeShape(Node, GeomShape):
     @classmethod
     def to_nodes(
         cls,
-        shapes: Sequence[GeomShape],
+        shapes: Iterable[GeomShape],
         layer: str = "F.SilkS",
         width: float | None = None,
         style: LineStyle = LineStyle.SOLID,

@@ -15,12 +15,15 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomRectangle, GeomStadium, Vec2DCompatible
+
+if TYPE_CHECKING:
+    from KicadModTree.nodes.base.Arc import Arc
+    from KicadModTree.nodes.base.Line import Line
 
 
 class Stadium(NodeShape, GeomStadium):
@@ -74,6 +77,9 @@ class Stadium(NodeShape, GeomStadium):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Line | Arc]:
         """Return the nodes to serialize."""
-        return cast(list[Node], self.to_child_nodes(list(self.get_shapes())))
+        nodes: list[Line | Arc] = []
+        for shape in self.get_shapes():
+            nodes.append(self.to_child_node(shape))
+        return nodes

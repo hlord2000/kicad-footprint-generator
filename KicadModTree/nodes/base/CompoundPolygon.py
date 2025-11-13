@@ -15,11 +15,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import cast
+from collections.abc import Generator, Iterable
+from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.base.Arc import Arc
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import (
@@ -32,6 +31,9 @@ from kilibs.geom import (
     Vector2D,
 )
 
+if TYPE_CHECKING:
+    from KicadModTree.nodes.base.Line import Line
+
 
 class CompoundPolygon(NodeShape, GeomCompoundPolygon):
     """A compound polygon."""
@@ -41,8 +43,8 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
         shape: (
             CompoundPolygon
             | GeomShape
-            | Sequence[Vec2DCompatible]
-            | Sequence[GeomPolygon | GeomLine | GeomArc]
+            | Iterable[Vec2DCompatible]
+            | Iterable[GeomPolygon | GeomLine | GeomArc]
         ),
         layer: str = "F.SilkS",
         width: float | None = None,
@@ -87,12 +89,12 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Line | Arc | CompoundPolygon]:
         """Return the nodes to serialize."""
         if self.serialize_as_fp_poly and self.close:
-            return cast(list[Node], [self])
+            return [self]
         else:
-            return cast(list[Node], self.to_child_nodes(list(self.get_atomic_shapes())))
+            return self.to_child_nodes(list(self.get_atomic_shapes()))
 
     def get_fp_poly_elements(self) -> list[Vector2D | Arc]:
         """Return arcs and dots that define the compound polygon."""

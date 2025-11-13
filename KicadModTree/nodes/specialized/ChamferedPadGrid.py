@@ -17,8 +17,7 @@
 
 from __future__ import annotations, division
 
-from collections.abc import Sequence
-from typing import Generator, cast
+from collections.abc import Iterator, Generator
 
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Node import Node
@@ -182,7 +181,7 @@ class ChamferedPadGrid(Node):
 
     def __init__(
         self,
-        pincount: int | Sequence[int],
+        pincount: int | Iterator[int],
         size: Vector2D,
         grid: float | Vector2D,
         round_radius_handler: RoundRadiusHandler,
@@ -367,13 +366,13 @@ class ChamferedPadGrid(Node):
                 )
         return pads
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[ChamferedPad]:
         """Return the nodes to serialize."""
-        return cast(list[Node], self._generate_pads())
+        return self._generate_pads()
 
-    def get_child_nodes(self) -> list[Node]:
+    def get_child_nodes(self) -> list[ChamferedPad]:
         """Return the direct child nodes."""
-        return cast(list[Node], self._generate_pads())
+        return self._generate_pads()
 
     def get_pads(self) -> list[ChamferedPad]:
         """Return the list of pads in the array."""

@@ -1,7 +1,6 @@
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.corner_handling import ChamferSizeHandler
 from KicadModTree.util.corner_selection import CornerSelection
 from kilibs.geom.vector import Vector2D
@@ -33,10 +32,8 @@ class ChamferRect(Node):
         self.fill = fill
         self.at = at
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Rectangle | Polygon]:
         """Return the nodes to serialize."""
-
-        children: list[Node] = []
 
         pts: list[Vector2D] = []
 
@@ -79,17 +76,14 @@ class ChamferRect(Node):
 
             # For a Polygon (not PolygonLine), the last point is automatically connected
             # to the first
-            children.append(
-                Polygon(shape=pts, layer=self.layer, width=self.width, fill=self.fill)
+            poly = Polygon(
+                shape=pts, layer=self.layer, width=self.width, fill=self.fill
             )
+            poly._parent = self
+            return [poly]
         else:
-            children.append(
-                Rectangle(
-                    start=tl, end=br, layer=self.layer, width=self.width, fill=self.fill
-                )
+            rect = Rectangle(
+                start=tl, end=br, layer=self.layer, width=self.width, fill=self.fill
             )
-
-        for c in children:
-            c._parent = self
-
-        return children
+            rect._parent = self
+            return [rect]

@@ -78,28 +78,25 @@ class _RingPadPrimitive(Node):
             number=self.number,
         )
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Pad]:
         """Return the nodes to serialize."""
-        return cast(
-            list[Node],
-            [
-                Pad(
-                    number=self.number,
-                    type=Pad.TYPE_SMT,
-                    shape=Pad.SHAPE_CUSTOM,
-                    at=(self.at + Vector2D(self.radius, 0)),
-                    size=self.width,
-                    layers=self.layers,
-                    primitives=[
-                        Circle(
-                            center=(-self.radius, 0),
-                            radius=self.radius,
-                            width=self.width,
-                        )
-                    ],
-                )
-            ],
-        )
+        return [
+            Pad(
+                number=self.number,
+                type=Pad.TYPE_SMT,
+                shape=Pad.SHAPE_CUSTOM,
+                at=(self.at + Vector2D(self.radius, 0)),
+                size=self.width,
+                layers=self.layers,
+                primitives=[
+                    Circle(
+                        center=(-self.radius, 0),
+                        radius=self.radius,
+                        width=self.width,
+                    )
+                ],
+            )
+        ]
 
 
 class _ArcPadPrimitive(Node):

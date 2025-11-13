@@ -15,7 +15,7 @@
 
 """Class definition for a (1D) pad array."""
 
-from collections.abc import Callable, Generator, Sequence
+from collections.abc import Callable, Generator, Iterable
 from typing import NamedTuple, cast
 
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
@@ -103,8 +103,8 @@ class PadArray(Node):
         drill: float | Vec2DCompatible | None = None,
         tht_pad1_shape: str = Pad.SHAPE_ROUNDRECT,
         fab_property: Pad.FabProperty | None = None,
-        hidden_pins: Sequence[int] = [],
-        deleted_pins: Sequence[int] = [],
+        hidden_pins: Iterable[int] = [],
+        deleted_pins: Iterable[int] = [],
         increment: (
             int
             | Callable[[int | str | None], int | str | None]
@@ -119,8 +119,8 @@ class PadArray(Node):
         # radius_ratio: float = 0.25,
         # maximum_radius: float = 0.25,
         chamfer_size: float = 0.0,
-        chamfer_corner_selection_first: Sequence[bool] | None = None,
-        chamfer_corner_selection_last: Sequence[bool] | None = None,
+        chamfer_corner_selection_first: Iterable[bool] | None = None,
+        chamfer_corner_selection_last: Iterable[bool] | None = None,
         pad_overrides: PadOverrides | None = None,
         end_pads_size_reduction: dict[str, float] | None = None,
     ) -> None:
@@ -144,7 +144,7 @@ class PadArray(Node):
         """Pad number increment."""
         self.exclude_pin_list: list[int]
         """List of pins to exclude."""
-        self.hidden_pins: Sequence[int]
+        self.hidden_pins: Iterable[int]
         """List of pins that are hidden."""
         self._pads: list[Pad | ReferencedPad]
         """The pads of the array."""
@@ -277,7 +277,7 @@ class PadArray(Node):
 
     # How many pads in the array
     def _init_pincount(
-        self, pincount: int, hidden_pins: Sequence[int], deleted_pins: Sequence[int]
+        self, pincount: int, hidden_pins: Iterable[int], deleted_pins: Iterable[int]
     ) -> None:
         """Initialize the pin count.
 
@@ -456,13 +456,13 @@ class PadArray(Node):
 
         return _ApplyOverrideResult(pad_number, pad_position, pad_size)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
-        return cast(list[Node], self._pads)
+        return self._pads
 
-    def get_child_nodes(self) -> list[Node]:
+    def get_child_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the direct child nodes."""
-        return cast(list[Node], self._pads)
+        return self._pads
 
     def get_pads(self) -> list[Pad | ReferencedPad]:
         """Return the list of pads in the array."""

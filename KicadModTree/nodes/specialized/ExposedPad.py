@@ -834,17 +834,17 @@ class ExposedPad(Node):
         """
         return GeomRectangle(center=self.at, size=self.size + 2 * inflation)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
         if not self._pads:
             self._create_pads()
-        return cast(list[Node], self._pads)
+        return self._pads
 
-    def get_child_nodes(self) -> list[Node]:
+    def get_child_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the direct child nodes."""
         if not self._pads:
             self._create_pads()
-        return cast(list[Node], self._pads)
+        return self._pads
 
     def get_pads(self) -> list[Pad | ReferencedPad]:
         """Return the list of pads."""

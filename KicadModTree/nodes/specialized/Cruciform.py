@@ -15,12 +15,15 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomCruciform, Vec2DCompatible
+
+if TYPE_CHECKING:
+    from KicadModTree.nodes.base.Polygon import Polygon
+    from KicadModTree.nodes.base.Rectangle import Rectangle
 
 
 class Cruciform(NodeShape, GeomCruciform):
@@ -93,6 +96,6 @@ class Cruciform(NodeShape, GeomCruciform):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Polygon | Rectangle]:
         """Return the nodes to serialize."""
-        return cast(list[Node], self.to_child_nodes(list(self.get_shapes())))
+        return self.to_child_nodes(list(self.get_shapes()))

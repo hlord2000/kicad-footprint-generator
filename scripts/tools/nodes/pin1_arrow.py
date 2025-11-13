@@ -1,5 +1,4 @@
 import abc
-from typing import Union
 
 from KicadModTree import Node, Polygon
 from kilibs.geom import Direction, GeomPolygon, Vector2D, BoundingBox
@@ -40,7 +39,7 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
     def __init__(
         self,
         apex_position: Vector2D,
-        angle: Union[float, Direction],
+        angle: float | Direction,
         size: float,
         length: float,
         layer: str,
@@ -109,7 +108,7 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
     """
 
     def __init__(
-        self, apex_position: Vector2D, angle: Union[float, Direction],
+        self, apex_position: Vector2D, angle: float | Direction,
         size: float, layer: str, line_width_mm: float
     ):
         super().__init__()

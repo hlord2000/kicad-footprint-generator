@@ -60,7 +60,12 @@ from KicadModTree.nodes import (
     Zone,
     ZoneFill,
 )
-from KicadModTree.util import ChamferSizeHandler, LineStyle, RoundRadiusHandler, CornerSelection
+from KicadModTree.util import (
+    ChamferSizeHandler,
+    CornerSelection,
+    LineStyle,
+    RoundRadiusHandler,
+)
 from kilibs.geom.vector import Vector2D  # TODO remove this import.
 
 __all__ = [

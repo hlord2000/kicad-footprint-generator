@@ -17,7 +17,7 @@
 
 from __future__ import annotations, division
 
-from collections.abc import Sequence
+from collections.abc import Iterable
 from math import sqrt
 from typing import Any
 
@@ -38,7 +38,7 @@ class ChamferedPad(Pad):
         size: float | Vector2D,
         at: Vector2D,
         corner_selection: (
-            CornerSelection | Sequence[bool] | dict[str, str | bool | int] | int
+            CornerSelection | Iterable[bool] | dict[str, str | bool | int] | int
         ),
         round_radius_handler: RoundRadiusHandler,
         type: str,

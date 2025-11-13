@@ -119,9 +119,19 @@ class Footprint(Node):
         self.append(self._embedded_fonts)
 
     def get_flattened_nodes(self) -> list[Node]:
-        """Return a flattened list of all the child nodes. The child nodes that are
-        child of a transform node (Rotation or Translation) are copied and transformed
-        before being added to the list."""
+        """Get the ultimate descendant nodes.
+
+        This method recursively traverses the node hierarchy, returning only the final
+        descendant nodes (the nodes that have no further children, like the leaves of a
+        tree).
+
+        Nodes that are children of a transformation node (such as :py:class:`Rotation`
+        or :py:class:`Translation`) are copied and have the transformation applied
+        before being returned.
+
+        Returns:
+            All ultimate descendant nodes.
+        """
         nodes: list[Node] = []
         for child in self.get_child_nodes():
             nodes.extend(child.get_flattened_nodes())

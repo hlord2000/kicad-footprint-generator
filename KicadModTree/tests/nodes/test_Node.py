@@ -24,20 +24,6 @@ class HelperTestChildNode(Node):
         Node.__init__(self)
 
 
-class HelperNodeWithVirtualChildren(Node):
-    def __init__(self, *, normal_children: list[Node], virtual_children: list[Node] = []):
-        Node.__init__(self)
-        for c in normal_children:
-            self.append(c)
-        self._virtual_children: list[Node] = []
-        for c in virtual_children:
-            self._virtual_children.append(c)
-            c._parent = self
-
-    def get_child_nodes(self) -> list[Node]:
-        return self._children + self._virtual_children
-
-
 def testInit():
     node = Node()
     assert node.get_parent() is None
@@ -303,11 +289,9 @@ def testRemoveTraversed():
 
 
 def testIter():
-    node = HelperNodeWithVirtualChildren(
-        normal_children=[Node() for _ in range(3)],
-        virtual_children=[Node() for _ in range(5)],
-    )
-    assert len(node) == 8
+    node = Node()
+    node.extend([Node() for _ in range(3)])
+    assert len(node) == 3
 
     count = 0
     for _ in node.get_child_nodes():

@@ -15,8 +15,6 @@
 
 from __future__ import annotations
 
-from typing import cast
-
 from KicadModTree.nodes.Node import Node
 from kilibs.geom import Vec3DCompatible, Vector3D
 
@@ -58,10 +56,6 @@ class Model(Node):
         self.at = Vector3D(at)
         self.scale = Vector3D(scale)
         self.rotation = Vector3D(rotate)
-
-    def get_flattened_nodes(self) -> list[Node]:
-        """Return the nodes to serialize."""
-        return cast(list[Node], [self])
 
     def __repr__(self) -> str:
         return (

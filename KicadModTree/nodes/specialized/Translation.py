@@ -46,12 +46,11 @@ class Translation(Node):
         Returns:
             The list of a translated copy of all child nodes.
         """
-        raw_nodes: list[Node] = []
         transformed_nodes: list[Node] = []
         for child in self._children:
-            raw_nodes.extend(child.get_flattened_nodes())
-        for n in raw_nodes:
-            transformed_nodes.append(n.translated(vector=self.offset))
+            nodes = child.get_flattened_nodes()
+            for n in nodes:
+                transformed_nodes.append(n.translated(vector=self.offset))
         return transformed_nodes
 
     def bbox(self) -> BoundingBox:

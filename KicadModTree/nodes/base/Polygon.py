@@ -15,12 +15,16 @@
 
 from __future__ import annotations
 
-from typing import cast
+from collections.abc import Iterable
+from typing import TYPE_CHECKING, cast
 
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import BoundingBox, GeomPolygon, GeomRectangle, Vec2DCompatible
+
+if TYPE_CHECKING:
+    from KicadModTree.nodes.base.Line import Line
 
 
 class Polygon(NodeShape, GeomPolygon):
@@ -29,7 +33,11 @@ class Polygon(NodeShape, GeomPolygon):
     def __init__(
         self,
         shape: (
-            Polygon | GeomPolygon | list[Vec2DCompatible] | GeomRectangle | BoundingBox
+            Polygon
+            | GeomPolygon
+            | Iterable[Vec2DCompatible]
+            | GeomRectangle
+            | BoundingBox
         ),
         layer: str = "F.SilkS",
         width: float | None = None,
@@ -65,9 +73,11 @@ class Polygon(NodeShape, GeomPolygon):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Node]:
+    def get_flattened_nodes(self) -> list[Polygon | Line]:
         """Return the nodes to serialize."""
         if self.close:
-            return cast(list[Node], [self])
+            return [self]
         else:
-            return cast(list[Node], self.to_child_nodes(self.get_atomic_shapes()))
+            return cast(
+                list[Polygon | Line], self.to_child_nodes(self.get_atomic_shapes())
+            )

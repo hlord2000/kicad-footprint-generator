@@ -15,8 +15,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Generator, Self
+from collections.abc import Generator, Iterable
+from typing import Self, cast
 
 
 class CornerSelection:
@@ -33,9 +33,7 @@ class CornerSelection:
 
     def __init__(
         self,
-        corner_selection: (
-            CornerSelection | Sequence[bool] | dict[str, str | bool | int] | int | None
-        ),
+        corner_selection: (Iterable[bool] | dict[str, str | bool | int] | int | None),
     ) -> None:
         """Create a corner selection.
 
@@ -76,8 +74,9 @@ class CornerSelection:
                     f"Invalid value {corner_selection} for corner_selection."
                 )
         elif isinstance(corner_selection, dict):
-            for key in corner_selection:
-                self[key] = bool(corner_selection[key])
+            corner_selection = cast(dict[str, str | bool | int], corner_selection)
+            for key, value in corner_selection.items():
+                self[key] = bool(value)
         else:
             for i, value in enumerate(corner_selection):
                 self[i] = bool(value)
@@ -139,24 +138,24 @@ class CornerSelection:
         self.bottom_left = top_left_old
         return self
 
-    def __or__(self, other: Self | Sequence[bool]) -> Self:
+    def __or__(self, other: Self | Iterable[bool]) -> Self:
         """Apply bitwise logic or operation."""
         return self.__class__([s or o for s, o in zip(self, other)])
 
-    def __ior__(self, other: Self | Sequence[bool]) -> Self:
+    def __ior__(self, other: Self | Iterable[bool]) -> Self:
         """Apply bitwise logic or operation inplace."""
-        for i in range(len(self)):
-            self[i] |= other[i]
+        for i, value in enumerate(other):
+            self[i] |= value
         return self
 
-    def __and__(self, other: Self | Sequence[bool]) -> Self:
+    def __and__(self, other: Self | Iterable[bool]) -> Self:
         """Apply bitwise logic and operation."""
         return self.__class__([s and o for s, o in zip(self, other)])
 
-    def __iand__(self, other: Self | Sequence[bool]) -> Self:
+    def __iand__(self, other: Self | Iterable[bool]) -> Self:
         """Apply bitwise logic and operation inplace."""
-        for i in range(len(self)):
-            self[i] &= other[i]
+        for i, value in enumerate(other):
+            self[i] &= value
         return self
 
     def __len__(self) -> int:

@@ -17,8 +17,9 @@
 from __future__ import annotations
 
 import abc
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.nodes.base.Arc import Arc
@@ -124,11 +125,9 @@ class KicadFileHandler(FileHandler):
         transformations need to be applied, it creates a copy of the nodes and applies
         then the transforms on them.
         """
-        nodes = self.kicad_mod.get_flattened_nodes()
-
         property_nodes: list[Property] = []
         other_nodes: list[Node] = []
-        for node in nodes:
+        for node in self.kicad_mod.get_flattened_nodes():
             if isinstance(node, Property):
                 property_nodes.append(node)
             else:
