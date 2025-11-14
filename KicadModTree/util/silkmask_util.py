@@ -21,7 +21,7 @@ from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util import shape_to_node
 from kilibs.geom import GeomCircle, GeomRectangle, GeomShapes
 from kilibs.geom.operations import subtract_many
@@ -31,7 +31,7 @@ def _extract_shapes_on_layers(
     container: Container[Node],
     layers: list[str],
     transform_children: bool = False,
-) -> list[NodeShape]:
+) -> list[Shape]:
     """Extract all the shape nodes on the given layer from the container node
     recursively.
 
@@ -44,7 +44,7 @@ def _extract_shapes_on_layers(
     Returns:
         The list of collected nodes (those are removed from the container node(s)).
     """
-    shapes: list[NodeShape] = []
+    shapes: list[Shape] = []
     if transform_children:
         children = container.children
     else:
@@ -132,7 +132,7 @@ def _collect_nodes_as_geometric_shapes(
                 )
         # TODO: Use the line below and delete the one two lines below. This is currently
         # commented as it would lead to a non-zero diff.
-        # elif isinstance(c, NodeShape) and c.layer in layers:
+        # elif isinstance(c, Shape) and c.layer in layers:
         elif isinstance(c, Arc | Line | Circle) and c.layer in layers:
             shapes.append(c.as_geom_shape())
         elif isinstance(c, Container):

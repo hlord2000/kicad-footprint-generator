@@ -19,12 +19,12 @@ from typing import Self
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import BoundingBox, GeomPolygon, GeomRectangle, Vec2DCompatible
 
 
-class PolygonLine(NodeShape, Container[Line], GeomPolygon):
+class PolygonLine(Shape, Container[Line], GeomPolygon):
     """Add a Polygon Line to the render tree.
 
     A "polygon line" is a "polyline" - a chain of line segments.
@@ -68,7 +68,7 @@ class PolygonLine(NodeShape, Container[Line], GeomPolygon):
             x_mirror: Mirror x direction around offset axis.
             y_mirror: Mirror y direction around offset axis.
         """
-        NodeShape.__init__(self)
+        Shape.__init__(self)
         Container.__init__(self)  # pyright: ignore
         close = True
         if isinstance(shape, list | tuple):

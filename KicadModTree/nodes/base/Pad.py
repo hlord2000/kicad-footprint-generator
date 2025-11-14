@@ -25,7 +25,7 @@ from collections.abc import Sequence
 from typing import Any
 
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHandler
 from kilibs.geom import (
     BoundingBox,
@@ -324,7 +324,7 @@ class Pad(Node):
         chamfer_size: float | None = None,
         chamfer_exact: float | None = None,
         chamfer_size_handler: ChamferSizeHandler | None = None,
-        primitives: Sequence[NodeShape] | None = None,
+        primitives: Sequence[Shape] | None = None,
         x_mirror: float | None = None,
         y_mirror: float | None = None,
         **kwargs: dict[str, Any],  # TODO: delete this line
@@ -442,7 +442,7 @@ class Pad(Node):
         """Chamfer size handler."""
         self.chamfer_ratio: float | None
         """Chamfer ratio."""
-        self.primitives: list[NodeShape]
+        self.primitives: list[Shape]
         """List of primitives defining the pad shape."""
         self.mirror: list[float | None]
         """Location of the optional mirror."""

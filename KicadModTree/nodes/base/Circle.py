@@ -16,12 +16,12 @@
 from __future__ import annotations
 
 from KicadModTree.nodes.base.Arc import Arc
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomArc, GeomCircle, Vec2DCompatible
 
 
-class Circle(NodeShape, GeomCircle):
+class Circle(Shape, GeomCircle):
     """A circle."""
 
     def __init__(
@@ -50,7 +50,7 @@ class Circle(NodeShape, GeomCircle):
             center: Coordinates (in mm) of the center of the circle.
             radius: Radius of the circle in mm.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomCircle.__init__(self, shape=shape, center=center, radius=radius)
         if offset:
             self.inflate(amount=offset)

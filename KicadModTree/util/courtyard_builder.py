@@ -25,7 +25,7 @@ from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.nodes.specialized.PolygonLine import PolygonLine
@@ -54,7 +54,7 @@ class CourtyardBuilder:
         """List of the source polygons."""
         self.crt_pts: list[list[float]]
         """The courtyard polygon."""
-        self._node: NodeShape | None
+        self._node: Shape | None
         """The courtyard node."""
         self._bbox: BoundingBox | None
         """The bounding box of the courtyard."""
@@ -120,14 +120,14 @@ class CourtyardBuilder:
             return self._bbox
 
     @property
-    def node(self) -> NodeShape:
+    def node(self) -> Shape:
         """The courtyard node."""
         if self._node is None:
             return self._build()
         else:
             return self._node
 
-    def _build(self) -> NodeShape:
+    def _build(self) -> Shape:
         """Calculate and return the courtyard node and return it."""
         if len(self.src_pts) == 0:
             raise RuntimeError("Insufficient shapes to build a courtyard from.")
@@ -186,7 +186,7 @@ class CourtyardBuilder:
         """
         if offset_pads is None:
             offset_pads = offset_fab
-        if isinstance(node, NodeShape):
+        if isinstance(node, Shape):
             if node.layer == "F.Fab" and use_fab_layer:
                 if isinstance(node, Rectangle | RectLine):
                     self.add_rect(node, offset_fab)

@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomCross, Vec2DCompatible
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Line import Line
 
 
-class Cross(NodeShape, GeomCross):
+class Cross(Shape, GeomCross):
     """A cross.
 
     Crosses are drawn with a lot, and using text is fiddly because the KiCad font does
@@ -66,7 +66,7 @@ class Cross(NodeShape, GeomCross):
             >>> cross1 = Cross(center=(0, 0), size=1)
             >>> cross2 = Cross(shape=cross1)
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomCross.__init__(
             self,
             shape=shape,

@@ -26,7 +26,7 @@ from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomArc, GeomLine, Vec2DCompatible, Vector2D
 from kilibs.geom.operations import split
@@ -338,7 +338,7 @@ class _ArcPadPrimitive(Node):
                     at=at,
                     size=self.width / 2,
                     layers=self.layers,
-                    primitives=cast(list[NodeShape], primitives),
+                    primitives=cast(list[Shape], primitives),
                 )
             ],
         )

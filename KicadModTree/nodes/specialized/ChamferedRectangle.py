@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.corner_handling import ChamferSizeHandler
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
@@ -14,7 +14,7 @@ from kilibs.geom import (
 )
 
 
-class ChamferedRectangle(NodeShape, GeomChamferedRectangle):
+class ChamferedRectangle(Shape, GeomChamferedRectangle):
     """A rectangle with some chamfered corners."""
 
     def __init__(
@@ -49,7 +49,7 @@ class ChamferedRectangle(NodeShape, GeomChamferedRectangle):
             chamfer: The chamfer size handler.
             corners: The corners to chamfer.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         if size is not None and chamfer is not None:
             size = Vector2D(size)
             chamfer_size = chamfer.get_chamfer_size(min(size.x, size.y))

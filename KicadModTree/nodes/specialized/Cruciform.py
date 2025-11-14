@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomCruciform, Vec2DCompatible
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Rectangle import Rectangle
 
 
-class Cruciform(NodeShape, GeomCruciform):
+class Cruciform(Shape, GeomCruciform):
     """A cruciform."""
 
     def __init__(
@@ -83,7 +83,7 @@ class Cruciform(NodeShape, GeomCruciform):
             center: Coordinates of the center point of the cruciform in mm.
             angle: Rotation angle of the cruciform in degrees.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomCruciform.__init__(
             self,
             shape=shape,

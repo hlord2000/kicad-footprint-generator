@@ -28,7 +28,7 @@ from kilibs.geom import (
 )
 
 
-class NodeShape(Node, GeomShape):
+class Shape(Node, GeomShape):
     """A node class for shapes."""
 
     def __init__(
@@ -39,7 +39,7 @@ class NodeShape(Node, GeomShape):
         fill: bool = False,
         shape: Self | GeomShape | None = None,
     ) -> None:
-        """Create a `NodeShape`.
+        """Create a `Shape`.
 
         Args:
             layer: Layer.
@@ -145,7 +145,7 @@ class NodeShape(Node, GeomShape):
         return super(Node, self).bbox()
 
     def __repr__(self) -> str:
-        """The string representation of the NodeShape."""
+        """The string representation of the Shape."""
         class_name = self.__class__.__name__
         # Start looking for a __repr__ method in the classes that appear after
         # Node in the MRO of the current instance (this will be the class that
@@ -161,5 +161,5 @@ class NodeShape(Node, GeomShape):
         return repr
 
     def __str__(self) -> str:
-        """The string representation of the NodeShape."""
+        """The string representation of the Shape."""
         return self.__repr__()

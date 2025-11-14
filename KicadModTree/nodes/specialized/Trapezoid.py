@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomTrapezoid, Vec2DCompatible
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from KicadModTree import Arc, Line, Polygon, Rectangle, RoundRectangle
 
 
-class Trapezoid(NodeShape, GeomTrapezoid):
+class Trapezoid(Shape, GeomTrapezoid):
     """A trapezoid."""
 
     def __init__(
@@ -76,7 +76,7 @@ class Trapezoid(NodeShape, GeomTrapezoid):
             side_angle: Angle as depicted in the figure above in degrees.
             rotation_angle: Rotation angle of the trapezoid in degrees.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomTrapezoid.__init__(
             self,
             shape=shape,

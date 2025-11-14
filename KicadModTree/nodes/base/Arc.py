@@ -15,12 +15,12 @@
 
 from __future__ import annotations
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomArc, Vec2DCompatible
 
 
-class Arc(NodeShape, GeomArc):
+class Arc(Shape, GeomArc):
     """An arc."""
 
     def __init__(
@@ -56,7 +56,7 @@ class Arc(NodeShape, GeomArc):
                 point to specify if the longer of the 2 possible resulting arcs or the
                 shorter one shall be constructed.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomArc.__init__(
             self,
             shape=shape,

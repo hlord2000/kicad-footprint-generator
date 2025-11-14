@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import BoundingBox, GeomRectangle, Vec2DCompatible
 
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from .Polygon import Polygon
 
 
-class Rectangle(NodeShape, GeomRectangle):
+class Rectangle(Shape, GeomRectangle):
     """A rectangle."""
 
     def __init__(
@@ -60,7 +60,7 @@ class Rectangle(NodeShape, GeomRectangle):
             stop: Coordinates (in mm) of the bottom right corner of the rectangle.
             angle: Rotation angle of the rectangle in degrees.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomRectangle.__init__(
             self,
             shape=shape,

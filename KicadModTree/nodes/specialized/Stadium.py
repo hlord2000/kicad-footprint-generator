@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomRectangle, GeomStadium, Vec2DCompatible
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Line import Line
 
 
-class Stadium(NodeShape, GeomStadium):
+class Stadium(Shape, GeomStadium):
     """A stadium."""
 
     def __init__(
@@ -71,7 +71,7 @@ class Stadium(NodeShape, GeomStadium):
             >>> stadium2 = Stadium(shape=stadium1)
             >>> stadium3 = Stadium(shape=GeomRectangle(center=(0, 0), size=(4, 2)))
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomStadium.__init__(
             self, shape=shape, center_1=center_1, center_2=center_2, radius=radius
         )

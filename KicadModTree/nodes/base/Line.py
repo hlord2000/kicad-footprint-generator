@@ -15,12 +15,12 @@
 
 from __future__ import annotations
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from kilibs.geom import GeomLine, Vec2DCompatible
 
 
-class Line(NodeShape, GeomLine):
+class Line(Shape, GeomLine):
     """A line."""
 
     def __init__(
@@ -46,7 +46,7 @@ class Line(NodeShape, GeomLine):
             start: Coordinates (in mm) of the start point of the line.
             end: Coordinates (in mm) of the end point of the line.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomLine.__init__(self, shape=shape, start=start, end=end)
 
     def as_geom_shape(self) -> GeomLine:

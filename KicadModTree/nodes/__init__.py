@@ -39,7 +39,7 @@ from .base import (
 )
 from .Container import Container, MultipleParentsError, RecursionDetectedError
 from .Footprint import Footprint, FootprintType
-from .NodeShape import NodeShape
+from .Shape import Shape
 from .specialized import (
     ChamferedNativePad,
     ChamferedPad,
@@ -85,7 +85,7 @@ __all__ = [
     "MultipleParentsError",
     "Node",
     "RecursionDetectedError",
-    "NodeShape",
+    "Shape",
     "ChamferedNativePad",
     "ChamferedPad",
     "ChamferedPadGrid",

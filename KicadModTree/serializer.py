@@ -31,7 +31,7 @@ from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.base.Text import Property, Text
 from KicadModTree.nodes.base.Zone import Hatch, Keepouts, PadConnection, Zone, ZoneFill
 from KicadModTree.nodes.Node import TStamp
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom.tolerances import TOL_MM
@@ -536,7 +536,7 @@ class Serializer:
         """
         self.content.append(f"{self.indent}({designator} {'yes' if b else 'no'})\n")
 
-    def _add_stroke(self, node: NodeShape) -> None:
+    def _add_stroke(self, node: Shape) -> None:
         """Serialize a stroke.
 
         Args:
@@ -564,7 +564,7 @@ class Serializer:
         ser.end_block()
         return ser.to_string()
 
-    def _add_layer(self, node: NodeShape) -> None:
+    def _add_layer(self, node: Shape) -> None:
         """Serialize the layer of a node.
 
         Args:
@@ -572,7 +572,7 @@ class Serializer:
         """
         self.add_string("layer", node.layer)
 
-    def _add_fill(self, node: NodeShape) -> None:
+    def _add_fill(self, node: Shape) -> None:
         """Serialize the fill type of a node.
 
         Args:
@@ -1000,7 +1000,7 @@ class Serializer:
             "Text",
         ]
 
-        all_primitives: list[NodeShape] = []
+        all_primitives: list[Shape] = []
         for p in pad.primitives:
             if p.__class__.__name__ in SUPPORTED_TYPES:
                 all_primitives.append(p)
@@ -1010,7 +1010,7 @@ class Serializer:
                         shape_to_node(shape, p.layer, p.width, p.style)
                     )
 
-        grouped_nodes: dict[str, list[NodeShape]] = {}
+        grouped_nodes: dict[str, list[Shape]] = {}
 
         for single_node in all_primitives:
             node_type = single_node.__class__.__name__

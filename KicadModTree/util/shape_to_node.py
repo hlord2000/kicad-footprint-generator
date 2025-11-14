@@ -11,7 +11,7 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Functions for converting `GeomShape` instances to `NodeShape` instances."""
+"""Functions for converting `GeomShape` instances to `Shape` instances."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ if TYPE_CHECKING:
         Stadium,
         Trapezoid,
         ChamferedRectangle,
-        NodeShape,
+        Shape,
     )
 
 from KicadModTree.util import LineStyle
@@ -52,7 +52,7 @@ from kilibs.geom import (
 )
 
 map_geomshape_node = {}
-"""Mapping between all the GeomShape types and their corresponding NodeShape types."""
+"""Mapping between all the GeomShape types and their corresponding Shape types."""
 
 
 def _init_map_geomshape_node() -> None:
@@ -214,7 +214,7 @@ def shape_to_node(
     width: float | None = None,
     style: LineStyle = LineStyle.SOLID,
     fill: bool = False,
-) -> NodeShape:
+) -> Shape:
     if not map_geomshape_node:
         _init_map_geomshape_node()
     node_class = map_geomshape_node[type(shape)]

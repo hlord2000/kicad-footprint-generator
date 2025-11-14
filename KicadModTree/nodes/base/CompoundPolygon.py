@@ -19,7 +19,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 from KicadModTree.nodes.base.Arc import Arc
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import (
@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Line import Line
 
 
-class CompoundPolygon(NodeShape, GeomCompoundPolygon):
+class CompoundPolygon(Shape, GeomCompoundPolygon):
     """A compound polygon."""
 
     def __init__(
@@ -88,7 +88,7 @@ class CompoundPolygon(NodeShape, GeomCompoundPolygon):
 
         self._fp_poly_elements = []
         self.serialize_as_fp_poly = serialize_as_fp_poly
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomCompoundPolygon.__init__(self, shape=shape, close=close)
         if offset:
             self.inflate(amount=offset)

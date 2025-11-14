@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import GeomRoundRectangle, Vec2DCompatible
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Rectangle import Rectangle
 
 
-class RoundRectangle(NodeShape, GeomRoundRectangle):
+class RoundRectangle(Shape, GeomRoundRectangle):
     """A round rectangle."""
 
     def __init__(
@@ -75,7 +75,7 @@ class RoundRectangle(NodeShape, GeomRoundRectangle):
             start: Coordinates of the first corner of the (round) rectangle in mm.
             angle: Rotation angle of the round rectangle in degrees.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomRoundRectangle.__init__(
             self,
             shape=shape,

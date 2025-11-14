@@ -18,7 +18,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
-from KicadModTree.nodes.NodeShape import NodeShape
+from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.line_style import LineStyle
 from KicadModTree.util.shape_to_node import shape_to_node
 from kilibs.geom import BoundingBox, GeomPolygon, GeomRectangle, Vec2DCompatible
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from KicadModTree.nodes.base.Line import Line
 
 
-class Polygon(NodeShape, GeomPolygon):
+class Polygon(Shape, GeomPolygon):
     """A polygon."""
 
     def __init__(
@@ -66,7 +66,7 @@ class Polygon(NodeShape, GeomPolygon):
             close: If `True` the polygon will form a closed shape. If `False` there
                 won't be any connecting line between the last and the first point.
         """
-        NodeShape.__init__(self, layer=layer, width=width, style=style, fill=fill)
+        Shape.__init__(self, layer=layer, width=width, style=style, fill=fill)
         GeomPolygon.__init__(
             self, shape=shape, x_mirror=x_mirror, y_mirror=y_mirror, close=close
         )
