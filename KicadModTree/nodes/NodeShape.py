@@ -23,6 +23,7 @@ from KicadModTree.util import LineStyle
 from kilibs.geom import (
     BoundingBox,
     GeomShape,
+    GeomShapes,
     Vector2D,
 )
 
@@ -104,12 +105,8 @@ class NodeShape(Node, GeomShape):
         if offset:
             params.update({"offset": offset})
         return self.__class__(
-            shape=shape,
-            layer=layer,
-            width=width,
-            style=style,
-            fill=fill,
-            **params)
+            shape=shape, layer=layer, width=width, style=style, fill=fill, **params
+        )
 
     @abstractmethod
     def as_geom_shape(self) -> GeomShape:

@@ -11,7 +11,7 @@
 #
 # (C) The KiCad Librarian Team
 
-"""Definition of any shape type."""
+"""Definition of aliases for the geometric shapes."""
 from __future__ import annotations
 
 from .geom_arc import GeomArc
@@ -26,17 +26,28 @@ from .geom_round_rectangle import GeomRoundRectangle
 from .geom_stadium import GeomStadium
 from .geom_trapezoid import GeomTrapezoid
 
-GeomShapeAny = (
-    GeomArc
+GeomShapesAtomic = GeomArc | GeomCircle | GeomLine
+"""A union with all the atomic geometric shapes."""
+
+GeomShapesNative = (
+    GeomArc | GeomCircle | GeomLine | GeomRectangle | GeomPolygon | GeomCompoundPolygon
+)
+"""A union with all the geometric shapes that are native to KiCad."""
+
+GeomShapesClosed = (
+    GeomCompoundPolygon
     | GeomCircle
-    | GeomCompoundPolygon
-    | GeomCross
     | GeomCruciform
-    | GeomLine
     | GeomPolygon
     | GeomRectangle
     | GeomRoundRectangle
     | GeomStadium
     | GeomTrapezoid
 )
+"""A union with all the closed geometric shapes."""
+
+GeomShapesOpen = GeomArc | GeomLine | GeomCross
+"""A union with all the open geometric shapes."""
+
+GeomShapes = GeomShapesOpen | GeomShapesClosed
 """The union with all the geometric shapes."""

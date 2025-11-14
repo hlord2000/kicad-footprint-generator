@@ -20,9 +20,9 @@ from dataclasses import dataclass
 from kilibs.geom import (
     GeomArc,
     GeomLine,
-    GeomShape,
-    GeomShapeAtomic,
     GeomShapeOpen,
+    GeomShapes,
+    GeomShapesAtomic,
     Vector2D,
 )
 from kilibs.geom.tolerances import MIN_SEGMENT_LENGTH, TOL_MM
@@ -41,10 +41,10 @@ class GeomOperationHandle:
     identical."""
     intersections: list[Vector2D]
     """List of intersection points."""
-    shape: list[GeomShape]
+    shape: list[GeomShapes]
     """List containing the two shapes on which the geometric operations are
     performed."""
-    atoms: list[list[GeomShapeAtomic]]
+    atoms: list[list[GeomShapesAtomic]]
     """[For each shape] [a list containing the atomic shapes that the shape is composed
     of]."""
     segs: list[list[GeomArc | GeomLine]]
@@ -66,7 +66,7 @@ class GeomOperationHandle:
     number_cuts_performed: list[int]
     """For each shape, the number of cuts performed on its segments during the geometric
     operation."""
-    kept_out_shapes: list[GeomShape]
+    kept_out_shapes: list[GeomShapes]
     """Used by `keepout()`. It's a list containing the geometric shapes that are kept
     out."""
     strict_intersection: bool
@@ -81,8 +81,8 @@ class GeomOperationHandle:
 
     def __init__(
         self,
-        shape1: GeomShape,
-        shape2: GeomShape,
+        shape1: GeomShapes,
+        shape2: GeomShapes,
         strict_intersection: bool = True,
         min_segment_length: float = MIN_SEGMENT_LENGTH,
         tol: float = TOL_MM,

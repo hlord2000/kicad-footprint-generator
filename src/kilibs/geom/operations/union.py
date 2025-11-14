@@ -20,7 +20,7 @@ from kilibs.geom import (
     GeomCompoundPolygon,
     GeomLine,
     GeomPolygon,
-    GeomShapeClosed,
+    GeomShapesClosed,
     Vector2D,
 )
 
@@ -31,11 +31,11 @@ from .segment_util import has_arcs
 
 
 def unite(
-    shape1: GeomShapeClosed,
-    shape2: GeomShapeClosed,
+    shape1: GeomShapesClosed,
+    shape2: GeomShapesClosed,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShapeClosed]:
+) -> list[GeomShapesClosed]:
     r"""Unite two shapes.
 
     Args:
@@ -105,9 +105,9 @@ def unite(
 
 def _unite_segments_from_both_shapes(
     handle: GeomOperationHandle,
-    shape1: GeomShapeClosed,
-    shape2: GeomShapeClosed,
-) -> list[GeomShapeClosed]:
+    shape1: GeomShapesClosed,
+    shape2: GeomShapesClosed,
+) -> list[GeomShapesClosed]:
     """Unite the segments of both shapes.
 
     Args:

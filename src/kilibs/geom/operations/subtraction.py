@@ -20,9 +20,7 @@ from kilibs.geom import (
     GeomCircle,
     GeomLine,
     GeomRectangle,
-    GeomShape,
-    GeomShapeAny,
-    GeomShapeClosed,
+    GeomShapes,
 )
 
 from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
@@ -39,11 +37,11 @@ _subtract_bypass_misses = 0
 
 
 def subtract_many(
-    subject_shape: GeomShapeAny,
-    clip_shapes: Iterable[GeomShapeClosed],
+    subject_shape: GeomShapes,
+    clip_shapes: Iterable[GeomShapes],
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShapeAny]:
+) -> list[GeomShapes]:
     r"""Subtract one or several shapes from the subject shape.
 
     Args:
@@ -79,7 +77,7 @@ def subtract_many(
     """
     shapes = [subject_shape]
     for ko in clip_shapes:
-        kept_out_shapes: list[GeomShapeAny] = []
+        kept_out_shapes: list[GeomShapes] = []
         for shape in shapes:
             kept_out_shapes.extend(subtract(shape, ko, min_segment_length, tol))
         shapes = kept_out_shapes
@@ -87,11 +85,11 @@ def subtract_many(
 
 
 def subtract(
-    subject_shape: GeomShapeAny,
-    clip_shape: GeomShapeClosed,
+    subject_shape: GeomShapes,
+    clip_shape: GeomShapes,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShapeAny]:
+) -> list[GeomShapes]:
     r"""Subtract one shape from another one.
 
     Args:
@@ -136,7 +134,7 @@ def subtract(
     if _subtract_bypass_use:
         ret = _subtract_bypasses(subject_shape, clip_shape, tol)
         if ret is not None:
-            return ret  # type: ignore
+            return ret
     handle = intersect_handler(
         shape1=subject_shape,
         shape2=clip_shape,
@@ -154,14 +152,14 @@ def subtract(
         for i, inside in enumerate(handle.atoms_inside_other_shape[0]):
             if not inside:
                 handle.kept_out_shapes.append(handle.atoms[0][i])
-    return handle.kept_out_shapes  # type: ignore
+    return handle.kept_out_shapes
 
 
 def _subtract_bypasses(
-    shape_to_keep_out: GeomShape,
-    subtract: GeomShape,
+    shape_to_keep_out: GeomShapes,
+    subtract: GeomShapes,
     tol: float = TOL_MM,
-) -> list[GeomShape] | None:
+) -> list[GeomShapes] | None:
     """Simple checks that accelerate the subtraction testing.
 
     Returns:

@@ -25,8 +25,7 @@ from kilibs.geom.vector import Vector2D
 
 # Using TYPE_CHECKING to only import these for type checking, but not at runtime:
 if TYPE_CHECKING:
-    from .geom_shape_atomic import GeomShapeAtomic
-    from .geom_shape_native import GeomShapeNative
+    from .geom_shape_alias import GeomShapesAtomic, GeomShapesNative
 
 
 class GeomShape(ABC):
@@ -47,25 +46,25 @@ class GeomShape(ABC):
         """Create a copy of itself."""
         return self.__class__(shape=self)
 
-    def get_atomic_shapes(self) -> Sequence[GeomShapeAtomic]:
+    def get_atomic_shapes(self) -> Sequence[GeomShapesAtomic]:
         """Decompose this shape to its atomic shapes (of type `GeomArc`, `GeomCircle`
         and `GeomLine`) and return them in a list.
         """
         # Note: atomic shapes must redefine this function by returning a list containing
         # `self`.
-        atomic_shapes: list[GeomShapeAtomic] = []
+        atomic_shapes: list[GeomShapesAtomic] = []
         for basic_shape in self.get_shapes():
             atomic_shapes += basic_shape.get_atomic_shapes()
         return atomic_shapes
 
-    def get_native_shapes(self) -> Sequence[GeomShapeNative]:
+    def get_native_shapes(self) -> Sequence[GeomShapesNative]:
         """Decompose this shape to its basic shapes (all atomic shapes plus
         `GeomRectangle`, `GeomPolygon` and `GeomCompoundPolygon`) and return them in a
         list.
         """
         # Note: basic shapes must redefine this function by returning a list containing
         # `self`.
-        native_shapes: list[GeomShapeNative] = []
+        native_shapes: list[GeomShapesNative] = []
         for native_shape in self.get_shapes():
             native_shapes += native_shape.get_native_shapes()
         return native_shapes

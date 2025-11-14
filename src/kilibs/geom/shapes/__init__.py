@@ -22,9 +22,13 @@ from .geom_polygon import GeomPolygon
 from .geom_rectangle import GeomRectangle
 from .geom_round_rectangle import GeomRoundRectangle
 from .geom_shape import GeomShape, GeomShapeClosed, GeomShapeOpen
-from .geom_shape_any import GeomShapeAny
-from .geom_shape_atomic import GeomShapeAtomic
-from .geom_shape_native import GeomShapeNative
+from .geom_shape_alias import (
+    GeomShapes,
+    GeomShapesAtomic,
+    GeomShapesClosed,
+    GeomShapesNative,
+    GeomShapesOpen,
+)
 from .geom_stadium import GeomStadium
 from .geom_trapezoid import GeomTrapezoid
 
@@ -41,9 +45,11 @@ __all__ = [
     "GeomShape",
     "GeomShapeClosed",
     "GeomShapeOpen",
-    "GeomShapeAny",
-    "GeomShapeAtomic",
-    "GeomShapeNative",
+    "GeomShapes",
+    "GeomShapesAtomic",
+    "GeomShapesClosed",
+    "GeomShapesNative",
+    "GeomShapesOpen",
     "GeomStadium",
     "GeomTrapezoid",
 ]

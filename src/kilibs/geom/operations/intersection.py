@@ -22,8 +22,8 @@ from kilibs.geom import (
     GeomCompoundPolygon,
     GeomLine,
     GeomPolygon,
-    GeomShapeAtomic,
-    GeomShapeClosed,
+    GeomShapesAtomic,
+    GeomShapesClosed,
 )
 
 from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
@@ -32,11 +32,11 @@ from .segment_util import has_arcs
 
 
 def intersect(
-    shape1: GeomShapeClosed,
-    shape2: GeomShapeClosed,
+    shape1: GeomShapesClosed,
+    shape2: GeomShapesClosed,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShapeClosed]:
+) -> list[GeomShapesClosed]:
     r"""Intersect two shapes.
 
     Args:
@@ -83,12 +83,12 @@ def intersect(
         min_segment_length=min_segment_length,
         tol=tol,
     )
-    cohesive_shapes: list[GeomShapeClosed] = []
+    cohesive_shapes: list[GeomShapesClosed] = []
 
     # We keep only the atoms that are inside the other shape as well as all segments of
     # both shapes that perfectly overlap (they are not counted as "inside the other
     # shape"):
-    atoms_inside: list[GeomShapeAtomic] = []
+    atoms_inside: list[GeomShapesAtomic] = []
     for i, atom in enumerate(handle.atoms[0]):
         if handle.atoms_inside_other_shape[0][i]:
             atoms_inside.append(atom)

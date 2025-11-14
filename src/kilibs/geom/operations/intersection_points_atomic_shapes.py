@@ -18,14 +18,14 @@ import math
 from kilibs.geom.shapes.geom_arc import GeomArc
 from kilibs.geom.shapes.geom_circle import GeomCircle
 from kilibs.geom.shapes.geom_line import GeomLine
-from kilibs.geom.shapes.geom_shape_atomic import GeomShapeAtomic
+from kilibs.geom.shapes.geom_shape_alias import GeomShapesAtomic
 from kilibs.geom.tolerances import TOL_MM
 from kilibs.geom.vector import Vector2D
 
 
 def get_intersection_points_of_atomic_shapes(
-    shape1: GeomShapeAtomic,
-    shape2: GeomShapeAtomic,
+    shape1: GeomShapesAtomic,
+    shape2: GeomShapesAtomic,
     exclude_tangents: bool = False,
     exclude_segment_ends_shape1: bool = False,
     exclude_segment_ends_shape2: bool = False,
@@ -83,7 +83,7 @@ def get_intersection_points_of_atomic_shapes(
 
 def get_intersection_points_of_arc_with_atomic_shape(
     arc: GeomArc,
-    shape: GeomShapeAtomic,
+    shape: GeomShapesAtomic,
     exclude_tangents: bool = False,
     exclude_segment_ends_arc: bool = False,
     exclude_segment_ends_shape: bool = False,
@@ -141,7 +141,7 @@ def get_intersection_points_of_arc_with_atomic_shape(
 
 def get_intersection_points_of_circle_with_atomic_shape(
     circle: GeomCircle,
-    shape: GeomShapeAtomic,
+    shape: GeomShapesAtomic,
     exclude_tangents: bool = False,
     exclude_segment_ends_shape: bool = False,
     infinite_line: bool = False,
@@ -192,7 +192,7 @@ def get_intersection_points_of_circle_with_atomic_shape(
 
 def get_intersection_points_of_line_with_atomic_shape(
     line: GeomLine,
-    shape: GeomShapeAtomic,
+    shape: GeomShapesAtomic,
     exclude_tangents: bool = False,
     exclude_segment_ends_line: bool = False,
     exclude_segment_ends_shape: bool = False,

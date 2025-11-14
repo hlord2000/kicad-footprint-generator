@@ -24,9 +24,9 @@ from kilibs.geom import (
     GeomCompoundPolygon,
     GeomLine,
     GeomPolygon,
-    GeomShape,
     GeomShapeClosed,
     GeomShapeOpen,
+    GeomShapes,
     Vector2D,
 )
 
@@ -36,8 +36,8 @@ from .intersection_points_atomic_shapes import get_intersection_points_of_atomic
 
 
 def get_intersection_points(
-    shape1: GeomShape,
-    shape2: GeomShape,
+    shape1: GeomShapes,
+    shape2: GeomShapes,
     strict_intersection: bool = True,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
@@ -72,8 +72,8 @@ def get_intersection_points(
 
 
 def intersect_handler(
-    shape1: GeomShape,
-    shape2: GeomShape,
+    shape1: GeomShapes,
+    shape2: GeomShapes,
     strict_intersection: bool = True,
     cut_also_shape_2: bool = True,
     min_segment_length: float = MIN_SEGMENT_LENGTH,

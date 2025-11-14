@@ -44,7 +44,7 @@ from kilibs.geom import (
     GeomPolygon,
     GeomRectangle,
     GeomRoundRectangle,
-    GeomShape,
+    GeomShapes,
     GeomStadium,
     GeomTrapezoid,
 )
@@ -61,7 +61,6 @@ def _init_map_geomshape_node() -> None:
         Cross,
         Cruciform,
         Line,
-        NodeShape,
         Polygon,
         Rectangle,
         RoundRectangle,
@@ -82,7 +81,6 @@ def _init_map_geomshape_node() -> None:
         GeomRoundRectangle: RoundRectangle,
         GeomStadium: Stadium,
         GeomTrapezoid: Trapezoid,
-        GeomShape: NodeShape,
     }
 
 
@@ -197,7 +195,7 @@ def shape_to_node(
 
 
 def shape_to_node(
-    shape: GeomShape,
+    shape: GeomShapes,
     layer: str = "F.SilkS",
     width: float | None = None,
     style: LineStyle = LineStyle.SOLID,

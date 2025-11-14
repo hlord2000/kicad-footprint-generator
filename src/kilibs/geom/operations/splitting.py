@@ -13,18 +13,18 @@
 
 """Divide function."""
 
-from kilibs.geom import GeomShape
+from kilibs.geom import GeomShapes
 
 from ..tolerances import MIN_SEGMENT_LENGTH, TOL_MM
 from .intersection_points import intersect_handler
 
 
 def split(
-    shape_to_split: GeomShape,
-    splitting_shape: GeomShape,
+    shape_to_split: GeomShapes,
+    splitting_shape: GeomShapes,
     min_segment_length: float = MIN_SEGMENT_LENGTH,
     tol: float = TOL_MM,
-) -> list[GeomShape]:
+) -> list[GeomShapes]:
     """Split `shape_to_split` with `splitting_shape`.
 
     Args:
