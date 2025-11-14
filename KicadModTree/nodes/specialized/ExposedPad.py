@@ -206,6 +206,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
             via_paste_clarance=via_paste_clarance,
             paste_layout=paste_layout,
         )
+        self._create_pads()
 
     def _set_via_layout(self, layout: list[int]) -> bool:
         """Set the via layout and return whether there are vias.
@@ -816,8 +817,6 @@ class ExposedPad(Container[Pad | ReferencedPad]):
 
     def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
         """Return the nodes to serialize."""
-        if not self._children:
-            self._create_pads()
         return self._children
 
     def get_round_radius(self) -> float:
