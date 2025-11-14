@@ -75,8 +75,9 @@ class Cross(Shape, GeomCross):
             angle=angle,
         )
 
-    def get_flattened_nodes(self) -> list[Line]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Line]:
+        """Return the leaf nodes to serialize."""
         nodes: list[Line] = []
         for shape in self.get_shapes():
             node = shape_to_node(

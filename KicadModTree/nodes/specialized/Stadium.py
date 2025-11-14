@@ -78,8 +78,9 @@ class Stadium(Shape, GeomStadium):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Line | Arc]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Line | Arc]:
+        """Return the leaf nodes to serialize."""
         nodes: list[Line | Arc] = []
         for shape in self.get_shapes():
             node = shape_to_node(

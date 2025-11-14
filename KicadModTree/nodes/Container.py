@@ -149,7 +149,8 @@ class Container(Node, Generic[NodeType]):
         """
         return self._children
 
-    def get_flattened_nodes(self) -> Sequence[Node]:
+    @property
+    def leaves(self) -> Sequence[Node]:
         """Get the ultimate descendant nodes.
 
         This method recursively traverses the node hierarchy, returning only the final
@@ -166,7 +167,7 @@ class Container(Node, Generic[NodeType]):
         """
         nodes: list[Node] = []
         for child in self.children:
-            nodes += child.get_flattened_nodes()
+            nodes += child.leaves
         return nodes
 
     def translate(self, vector: Vector2D) -> Self:

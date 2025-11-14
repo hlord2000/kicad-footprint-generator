@@ -27,7 +27,7 @@ def test_Rect(start, end, layer, width):
     # Flatten the object and check the output
     #
     # Rectangle is a base object, so it should flatten to itself
-    nodes = r.get_flattened_nodes()
+    nodes = r.leaves
 
     lines = CA.assert_contains_n_of_type(nodes, 4, Line)
 

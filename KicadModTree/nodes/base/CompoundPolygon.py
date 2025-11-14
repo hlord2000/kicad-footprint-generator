@@ -93,8 +93,9 @@ class CompoundPolygon(Shape, GeomCompoundPolygon):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Line | Arc | CompoundPolygon]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Line | Arc | CompoundPolygon]:
+        """Return the leaf nodes to serialize."""
         if self.serialize_as_fp_poly and self.close:
             return [self]
         else:

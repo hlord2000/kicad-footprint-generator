@@ -97,7 +97,8 @@ class Cruciform(Shape, GeomCruciform):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Polygon | Rectangle]:
+    @property
+    def leaves(self) -> list[Polygon | Rectangle]:
         """Yield the nodes to serialize."""
         nodes: list[Polygon | Rectangle] = []
         for shape in self.get_shapes():

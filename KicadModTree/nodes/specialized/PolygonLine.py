@@ -87,7 +87,8 @@ class PolygonLine(Shape, Container[Line], GeomPolygon):
             self.inflate(amount=offset)
         self._update_children()
 
-    def get_flattened_nodes(self) -> list[Node]:
+    @property
+    def leaves(self) -> list[Node]:
         """Return the nodes to serialize."""
         return self._children
 

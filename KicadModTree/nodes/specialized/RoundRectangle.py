@@ -88,8 +88,9 @@ class RoundRectangle(Shape, GeomRoundRectangle):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Line | Arc | Rectangle]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Line | Arc | Rectangle]:
+        """Return the leaf nodes to serialize."""
         nodes: list[Line | Arc | Rectangle] = []
         for shape in self.get_shapes():
             node = shape_to_node(

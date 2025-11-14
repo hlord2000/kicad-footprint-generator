@@ -124,7 +124,7 @@ class KicadFileHandler(FileHandler):
         """
         property_nodes: list[Property] = []
         other_nodes: list[Node] = []
-        for node in self.kicad_mod.get_flattened_nodes():
+        for node in self.kicad_mod.leaves:
             if isinstance(node, Property):
                 property_nodes.append(node)
             else:

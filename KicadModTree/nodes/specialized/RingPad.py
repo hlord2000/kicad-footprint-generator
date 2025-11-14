@@ -81,8 +81,9 @@ class _RingPadPrimitive(Node):
             number=self.number,
         )
 
-    def get_flattened_nodes(self) -> list[Pad]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Pad]:
+        """Return the leaf nodes to serialize."""
         return [
             Pad(
                 number=self.number,
@@ -322,8 +323,9 @@ class _ArcPadPrimitive(Node):
                 )
         return result
 
-    def get_flattened_nodes(self) -> list[Node]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Node]:
+        """Return the leaf nodes to serialize."""
         at = self.reference_arc.mid
         primitives = self._get_arc_primitives()
         for p in primitives:
@@ -615,9 +617,10 @@ class RingPad(Container[Pad | _ArcPadPrimitive | _RingPadPrimitive]):
                 )
             )
 
-    def get_flattened_nodes(self) -> list[Node]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Node]:
+        """Return the leaf nodes to serialize."""
         nodes: list[Node] = []
         for child in self._children:
-            nodes.extend(child.get_flattened_nodes())
+            nodes.extend(child.leaves)
         return nodes

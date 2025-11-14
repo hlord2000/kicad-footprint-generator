@@ -73,8 +73,9 @@ class Rectangle(Shape, GeomRectangle):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(self) -> list[Rectangle | Polygon]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Rectangle | Polygon]:
+        """Return the leaf nodes to serialize."""
         if self.angle:
             from .Polygon import Polygon
 

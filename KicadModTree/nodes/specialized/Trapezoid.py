@@ -90,10 +90,9 @@ class Trapezoid(Shape, GeomTrapezoid):
         if offset:
             self.inflate(amount=offset)
 
-    def get_flattened_nodes(
-        self,
-    ) -> list[Rectangle | Polygon | RoundRectangle | Arc | Line]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Rectangle | Polygon | RoundRectangle | Arc | Line]:
+        """Return the leaf nodes to serialize."""
         nodes: list[Rectangle | Polygon | RoundRectangle | Arc | Line] = []
         for shape in self.get_shapes():
             node = shape_to_node(

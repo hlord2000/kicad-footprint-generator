@@ -449,12 +449,9 @@ class PadArray(Container[Pad | ReferencedPad]):
 
         return _ApplyOverrideResult(pad_number, pad_position, pad_size)
 
-    def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
-        """Return the nodes to serialize."""
-        return self._children
-
-    def get_child_nodes(self) -> list[Pad | ReferencedPad]:
-        """Return the direct child nodes."""
+    @property
+    def leaves(self) -> list[Pad | ReferencedPad]:
+        """Return the leaf nodes to serialize."""
         return self._children
 
     def get_pad_with_name(self, number: str | int) -> Pad | ReferencedPad | None:

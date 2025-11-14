@@ -454,7 +454,21 @@ class Node(ABC):
         """Return the parent node of this node."""
         return self._parent
 
-    def get_flattened_nodes(self) -> Sequence[Node]:
+    @property  # Read-only via getter-only and returning 'Sequence' instead of 'list'
+    def children(self) -> Sequence[Node]:
+        """Return the child nodes of this node.
+
+        Nodes that are children of a transformation node (such as :py:class:`Rotation`
+        or :py:class:`Translation`) are copied and have the transformation applied
+        before being returned.
+
+        Returns:
+            All ultimate descendant nodes.
+        """
+        return self.leaves
+
+    @property  # Read-only via getter-only and returning 'Sequence' instead of 'list'
+    def leaves(self) -> Sequence[Node]:
         """Get the ultimate descendant nodes.
 
         This method recursively traverses the node hierarchy, returning only the final

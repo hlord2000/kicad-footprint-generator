@@ -463,7 +463,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 pincount=self.paste_layout,
                 grid=paste_grid,
                 round_radius_handler=self.paste_round_radius_handler,
-            ).get_flattened_nodes()
+            ).leaves
         )
 
     def _create_paste_grids(
@@ -489,7 +489,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 y = top_left.y + idx_y * grid.y
                 pad = copy(original)
                 pad.center = Vector2D(x, y)
-                self._children.extend(pad.get_flattened_nodes())
+                self._children.extend(pad.leaves)
 
     def _create_paste_avoid_vias_inside(self) -> None:
         """Create the paste pads while avoiding the vias inside."""
@@ -658,7 +658,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
                 y = top if idx_y == 0 else 2 * self.at.y - top
                 pad_side.center = Vector2D(x, y)
                 pad_side.chamfer_selection = ChamferSelPadGrid(corner[idx_x][idx_y])
-                self._children.extend(copy(pad_side).get_flattened_nodes())
+                self._children.extend(copy(pad_side).leaves)
 
     def _create_paste_avoid_vias_outside(self) -> None:
         """Create the paste pads while avoiding the outer vias."""
@@ -786,7 +786,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
             )
 
     def _create_pads(self) -> None:
-        """Return the nodes to serialize."""
+        """Return the leaf nodes to serialize."""
         if self.has_vias:
             self.round_radius_handler.limit_max_radius(self.via_size / 2)
         self._create_top_pad()
@@ -815,8 +815,9 @@ class ExposedPad(Container[Pad | ReferencedPad]):
         """
         return GeomRectangle(center=self.at, size=self.size + 2 * inflation)
 
-    def get_flattened_nodes(self) -> list[Pad | ReferencedPad]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Pad | ReferencedPad]:
+        """Return the leaf nodes to serialize."""
         return self._children
 
     def get_round_radius(self) -> float:

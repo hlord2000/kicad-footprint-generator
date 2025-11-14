@@ -155,16 +155,17 @@ class FootprintLayoutNode(Node, abc.ABC):
         """
         return Vector2D(0, 0)
 
-    def get_flattened_nodes(self) -> list[Node]:
-        """Return the nodes to serialize."""
+    @property
+    def leaves(self) -> list[Node]:
+        """Return the leaf nodes to serialize."""
         # This cache is important, because the output sorting functions and so on
-        # call get_flattened_nodes() multiple times, and we don't want to regenerate
+        # call leaves multiple times, and we don't want to regenerate
         # everything (including keepout maths) every time.
         if self._cached_child_nodes is None:
             self._cached_child_nodes = self._generate_child_nodes()
         nodes: list[Node] = []
         for node in self._cached_child_nodes:
-            nodes += node.get_flattened_nodes()
+            nodes += node.leaves
         return nodes
 
     def _get_fab_ref_y_pos(self) -> float | str:
