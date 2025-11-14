@@ -208,7 +208,7 @@ class Footprint(Container[Node]):
         from KicadModTree.util.silkmask_util import clean_silk_over_mask
 
         clean_silk_over_mask(
-            footprint=self,
+            container=self,
             side=side,
             silk_pad_clearance=silk_pad_clearance,
             silk_line_width=silk_line_width,

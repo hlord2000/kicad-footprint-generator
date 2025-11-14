@@ -13,66 +13,107 @@
 # (C) The KiCad Librarian Team
 
 import sys
+from typing import cast
 
-from collections.abc import Iterable
 from KicadModTree.nodes.base.Arc import Arc
 from KicadModTree.nodes.base.Circle import Circle
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Pad import Pad
-from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util import shape_to_node
+from kilibs.geom import GeomCircle, GeomRectangle, GeomShapes
 from kilibs.geom.operations import subtract_many
 
 
+def _extract_shapes_on_layers(
+    container: Container[Node],
+    layers: list[str],
+    transform_children: bool = False,
+) -> list[NodeShape]:
+    """Extract all the shape nodes on the given layer from the container node
+    recursively.
+
+    Args:
+        container: The root node.
+        layers: The selected layers.
+        transform_children: If `True`, then nodes inside `Translation` or `Rotation`
+            containers will be returned with the transformation applied.
+
+    Returns:
+        The list of collected nodes (those are removed from the container node(s)).
+    """
+    shapes: list[NodeShape] = []
+    if transform_children:
+        children = container.children
+    else:
+        children = container.raw_children
+    for child in children:
+        # TODO: Use the line below and delete the one two lines below. This is currently
+        # commented as it would lead to a non-zero diff.
+        # if isinstance(child, NodeShape) and child.layer == layer:
+        if isinstance(child, Arc | Line | Circle) and child.layer in layers:
+            shapes.append(child)
+        elif isinstance(child, Container):
+            shapes += _extract_shapes_on_layers(
+                cast(Container[Node], child), layers, True
+            )
+    for shape in shapes:
+        container.remove(shape)
+    return shapes
+
+
 def _collect_nodes_as_geometric_shapes(
-    node: Container[Node],
-    layer: str | list[str],
+    container: Container[Node],
+    layers: list[str],
     select_drill: bool = False,
     silk_pad_clearance: float = 0.0,
-) -> list[NodeShape]:
+    transform_children: bool = False,
+) -> list[GeomShapes]:
     """Collect all geometric nodes and pads from a specific layer as geometric nodes
     (Arc, Line, Circle, Rectangle, etc.).
 
     Args:
-        node: The root node of the tree to be converted.
-        layer: The layer(s) to be selected.
+        container: The root node.
+        layer: The selected layers.
         select_drill: Defines if also drill holes should be selected (to catch NPTHs).
         silk_pad_clearance: Additional clearance between silk and pad to be added to pad
             shapes.
+        transform_children: If `True`, then nodes inside `Translation` or `Rotation`
+            containers will be returned with the transformation applied.
 
     Returns:
         The list of collected nodes.
 
     Notes:
+        - The shape nodes inside `Translation` or `Rotation` containers will be returned
+            with the transformation applied.
         - Pads are converted into rectangles or circles (other shapes are not yet
             supported).
         - Drills are (optionally) included as circles (other shapes not yet supported).
         - `silk_pad_clearance` is an additional offset around pads and holes.
     """
-    if isinstance(layer, list):
-        layers = layer
+    shapes: list[GeomShapes] = []
+    if transform_children:
+        children = container.children
     else:
-        layers = [layer]
-    for layer in layers[:]:
-        if layer.startswith("F.") or layer.startswith("B."):
-            layers.append("*.%s" % layer.split(".", maxsplit=1)[-1])
-    shapes: list[NodeShape] = []
-    for c in node:
+        children = container.raw_children
+    for c in children:
         if isinstance(c, Pad):
             if any(_ in c.layers for _ in layers):
                 if c.shape in (Pad.SHAPE_RECT, Pad.SHAPE_ROUNDRECT, Pad.SHAPE_OVAL):
                     shapes.append(
-                        Rectangle(
+                        GeomRectangle(
                             start=c.at - 0.5 * c.size - silk_pad_clearance,
                             end=c.at + 0.5 * c.size + silk_pad_clearance,
                         ).rotate(angle=-c.rotation, origin=c.at)
                     )
                 elif c.shape == Pad.SHAPE_CIRCLE:
                     shapes.append(
-                        Circle(center=c.at, radius=c.size[0] / 2 + silk_pad_clearance)
+                        GeomCircle(
+                            center=c.at, radius=c.size[0] / 2 + silk_pad_clearance
+                        )
                     )
                 else:
                     sys.stderr.write(
@@ -85,36 +126,57 @@ def _collect_nodes_as_geometric_shapes(
                         "cleaning silk over non-circular drills is not implemented\n"
                     )
                 shapes.append(
-                    Circle(center=c.at, radius=c.drill[0] * 0.5 + silk_pad_clearance)
+                    GeomCircle(
+                        center=c.at, radius=c.drill[0] * 0.5 + silk_pad_clearance
+                    )
                 )
+        # TODO: Use the line below and delete the one two lines below. This is currently
+        # commented as it would lead to a non-zero diff.
+        # elif isinstance(c, NodeShape) and c.layer in layers:
         elif isinstance(c, Arc | Line | Circle) and c.layer in layers:
-            shapes.append(c)
+            shapes.append(c.as_geom_shape())
         elif isinstance(c, Container):
             shapes += _collect_nodes_as_geometric_shapes(
-                node=c,
-                layer=layer,
+                container=cast(Container[Node], c),
+                layers=layers,
                 select_drill=select_drill,
                 silk_pad_clearance=silk_pad_clearance,
+                transform_children=True,
             )
     return shapes
 
 
-def _clean_silk_by_mask(
-    silk_shapes: Iterable[NodeShape], mask_shapes: Iterable[NodeShape]
-) -> list[NodeShape]:
-    """Applies the mask as a keepout to the silk screen shapes.
+def clean_silk_over_mask(
+    container: Container[Node],
+    *,
+    side: str,
+    silk_pad_clearance: float,
+    silk_line_width: float,
+    ignore_paste: bool = False,
+) -> None:
+    """Clean the silkscreen contours by removing overlap with pads and holes.
+
+    This is not perfect, but mostly does a very good job.
 
     Args:
-        silk_shapes: The list of silk shapes (collected by
-            `_collectNodesAsGeometricShapes()`).
-        mask_shapes: The list of mask shapes (collected by
-            `_collectNodesAsGeometricShapes()`).
-
-    Returns:
-        The cut silk shapes as a list of geometric primitives; this list can be appended
-            to the module.
+        container: The container node (typically the footprint) to clean up.
+        side: `'F'` for front or `'B'` for back side of the footprint.
+        silk_pad_clearance: The clearance between silk and pad.
+        ignore_paste: If set to `True`, then paste is ignored in calculating the
+            silk/mask overlap.
     """
-    nodes: list[NodeShape] = []
+    silk_shapes = _extract_shapes_on_layers(container, [f"{side}.SilkS", "*.SilkS"])
+    mask_layers = [f"{side}.Mask", "*.Mask"]
+    if not ignore_paste:
+        mask_layers += [f"{side}.Paste", "*.Paste"]
+
+    mask_shapes = _collect_nodes_as_geometric_shapes(
+        container,
+        layers=mask_layers,
+        select_drill=True,
+        silk_pad_clearance=silk_pad_clearance + 0.5 * silk_line_width,
+    )
+
     for silk_shape in silk_shapes:
         shapes = subtract_many(silk_shape.as_geom_shape(), mask_shapes)  # type: ignore
         for shape in shapes:
@@ -123,44 +185,6 @@ def _clean_silk_by_mask(
                 layer=silk_shape.layer,
                 width=silk_shape.width,
                 style=silk_shape.style,
-                fill=silk_shape.fill
+                fill=silk_shape.fill,
             )
-            nodes.append(node)
-    return nodes
-
-
-def clean_silk_over_mask(
-    footprint: Container[Node],
-    *,
-    side: str,
-    silk_pad_clearance: float,
-    silk_line_width: float,
-    ignore_paste: bool = False,
-) -> Node:
-    """Clean the silkscreen contours by removing overlap with pads and holes.
-
-    This is not perfect, but mostly does a very good job.
-
-    Args:
-        footprint: The KicadModTree footprint to clean up.
-        side: `'F'` for front or `'B'` for back side of the footprint.
-        silk_pad_clearance: The clearance between silk and pad.
-        ignore_paste: If set to `True`, then paste is ignored in calculating the
-            silk/mask overlap.
-    """
-    silk_shapes = _collect_nodes_as_geometric_shapes(footprint, layer=f"{side:s}.SilkS")
-    mask_layers = [f"{side:s}.Mask"]
-    if not ignore_paste:
-        mask_layers.append(f"{side:s}.Paste")
-    mask_shapes = _collect_nodes_as_geometric_shapes(
-        footprint,
-        layer=mask_layers,
-        select_drill=True,
-        silk_pad_clearance=silk_pad_clearance + 0.5 * silk_line_width,
-    )
-    tidy_silk = _clean_silk_by_mask(silk_shapes, mask_shapes)
-    for node in silk_shapes:
-        footprint.remove(node, traverse=True)
-    for node in tidy_silk:
-        footprint.append(node)
-    return footprint
+            container.append(node)
