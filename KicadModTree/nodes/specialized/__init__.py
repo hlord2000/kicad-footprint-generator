@@ -16,7 +16,7 @@
 from .ChamferedNativePad import ChamferedNativePad
 from .ChamferedPad import ChamferedPad
 from .ChamferedPadGrid import ChamferedPadGrid, ChamferSelPadGrid
-from .ChamferedRect import ChamferRect
+from .ChamferedRectangle import ChamferedRectangle
 from .Cross import Cross
 from .Cruciform import Cruciform
 from .ExposedPad import ExposedPad
@@ -34,7 +34,7 @@ __all__ = [
     "ChamferedNativePad",
     "ChamferedPad",
     "ChamferedPadGrid",
-    "ChamferRect",
+    "ChamferedRectangle",
     "ChamferSelPadGrid",
     "Cross",
     "Cruciform",

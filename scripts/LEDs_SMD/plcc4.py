@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 from KicadModTree import *
-from KicadModTree.nodes.specialized.ChamferedRect import (
-    ChamferRect,
+from KicadModTree.nodes.specialized.ChamferedRectangle import (
+    ChamferedRectangle,
     ChamferSizeHandler,
     CornerSelection,
 )
@@ -150,8 +150,8 @@ def plcc4(args):
     f.append(Circle(center=[xCenter, yCenter], radius=r, layer="F.Fab", width=wFab))
 
     f.append(
-        ChamferRect(
-            at=Vector2D(xCenter, yCenter),
+        ChamferedRectangle(
+            center=Vector2D(xCenter, yCenter),
             size=Vector2D(xSilkWidth, ySilkHeight),
             chamfer=ChamferSizeHandler(chamfer_exact=0.3),
             corners=CornerSelection({CornerSelection.TOP_LEFT: True}),

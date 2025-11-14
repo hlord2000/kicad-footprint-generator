@@ -27,9 +27,9 @@ from typing import Any
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.NodeShape import NodeShape
 from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHandler
-from KicadModTree.util.corner_selection import CornerSelection
 from kilibs.geom import (
     BoundingBox,
+    CornerSelection,
     GeomRectangle,
     GeomShapeClosed,
     Vec2DCompatible,

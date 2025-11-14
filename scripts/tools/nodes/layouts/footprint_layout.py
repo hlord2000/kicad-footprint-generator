@@ -1,9 +1,9 @@
 import abc
 
-from KicadModTree import Container, CornerSelection, Node, Translation
-from KicadModTree.nodes.specialized.ChamferedRect import ChamferRect
+from KicadModTree import Container, Node, Translation
+from KicadModTree.nodes.specialized.ChamferedRectangle import ChamferedRectangle
 from KicadModTree.util import courtyard_builder
-from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
+from kilibs.geom import CornerSelection, GeomRectangle, GeomShapeClosed, Vector2D
 from scripts.tools import drawing_tools as DT
 from scripts.tools import footprint_text_fields
 from scripts.tools.global_config_files import global_config as GC
@@ -236,8 +236,8 @@ class FootprintLayoutNode(Node, abc.ABC):
 
         if self.automatic_body_rect:
             # whatever the body shape is, we are asked to draw a chamfered rectangle
-            translation += ChamferRect(
-                at=body_bbox.center,
+            translation += ChamferedRectangle(
+                center=body_bbox.center,
                 size=body_bbox.size,
                 chamfer=self.global_config.fab_bevel,
                 corners=self._get_fab_bevel_corner(),

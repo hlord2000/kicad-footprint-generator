@@ -30,12 +30,14 @@ if TYPE_CHECKING:
         RoundRectangle,
         Stadium,
         Trapezoid,
+        ChamferedRectangle,
         NodeShape,
     )
 
 from KicadModTree.util import LineStyle
 from kilibs.geom import (
     GeomArc,
+    GeomChamferedRectangle,
     GeomCircle,
     GeomCompoundPolygon,
     GeomCross,
@@ -56,6 +58,7 @@ map_geomshape_node = {}
 def _init_map_geomshape_node() -> None:
     from KicadModTree import (
         Arc,
+        ChamferedRectangle,
         Circle,
         CompoundPolygon,
         Cross,
@@ -81,6 +84,7 @@ def _init_map_geomshape_node() -> None:
         GeomRoundRectangle: RoundRectangle,
         GeomStadium: Stadium,
         GeomTrapezoid: Trapezoid,
+        GeomChamferedRectangle: ChamferedRectangle,
     }
 
 
@@ -192,6 +196,16 @@ def shape_to_node(
     style: LineStyle = LineStyle.SOLID,
     fill: bool = False,
 ) -> Trapezoid: ...
+
+
+@overload
+def shape_to_node(
+    shape: GeomChamferedRectangle,
+    layer: str = "F.SilkS",
+    width: float | None = None,
+    style: LineStyle = LineStyle.SOLID,
+    fill: bool = False,
+) -> ChamferedRectangle: ...
 
 
 def shape_to_node(

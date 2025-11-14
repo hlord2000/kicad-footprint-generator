@@ -16,13 +16,11 @@
 """Utility classes and methods."""
 
 from .corner_handling import ChamferSizeHandler, RoundRadiusHandler
-from .corner_selection import CornerSelection
 from .line_style import LineStyle
 from .shape_to_node import shape_to_node
 
 __all__ = [
     "ChamferSizeHandler",
-    "CornerSelection",
     "LineStyle",
     "RoundRadiusHandler",
     "shape_to_node",

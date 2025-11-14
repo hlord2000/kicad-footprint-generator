@@ -1,8 +1,8 @@
 import enum
 
-from KicadModTree import Container, CornerSelection, Node, Pad
+from KicadModTree import Container, Node, Pad
 from KicadModTree.util import courtyard_builder
-from kilibs.geom import GeomLine, GeomRectangle, Vector2D
+from kilibs.geom import CornerSelection, GeomLine, GeomRectangle, Vector2D
 from scripts.tools import drawing_tools as DT
 from scripts.tools.drawing_tools_silk import SilkArrowSize, draw_silk_triangle_for_pad
 from scripts.tools.global_config_files import global_config as GC

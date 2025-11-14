@@ -5,6 +5,7 @@ import yaml
 from math import floor, ceil
 
 from KicadModTree import *
+from kilibs.geom import CornerSelection
 from scripts.tools.drawing_tools import round_to_grid
 from scripts.tools.footprint_text_fields import addTextFields
 from scripts.tools.global_config_files import global_config as GC

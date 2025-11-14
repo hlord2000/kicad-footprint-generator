@@ -1,5 +1,5 @@
 
-from KicadModTree.util.corner_selection import CornerSelection
+from kilibs.geom import CornerSelection
 
 
 def test_corner_selection():

@@ -33,7 +33,7 @@ class CornerSelection:
 
     def __init__(
         self,
-        corner_selection: (Iterable[bool] | dict[str, str | bool | int] | int | None),
+        corner_selection: Iterable[bool] | dict[str, str | bool | int] | int | None,
     ) -> None:
         """Create a corner selection.
 

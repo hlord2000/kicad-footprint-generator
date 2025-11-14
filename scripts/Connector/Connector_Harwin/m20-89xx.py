@@ -3,9 +3,9 @@
 import argparse
 import yaml
 
-from kilibs.geom import Direction
+from kilibs.geom import Direction, CornerSelection
 from KicadModTree import *
-from KicadModTree import ChamferRect
+from KicadModTree import ChamferedRectangle
 from scripts.tools.footprint_text_fields import addTextFields
 from scripts.tools.global_config_files import global_config as GC
 from scripts.tools.drawing_tools_silk import draw_silk_triangle_for_pad, SilkArrowSize
@@ -127,8 +127,8 @@ def gen_footprint(global_config: GC.GlobalConfig, pinnum, manpart, configuration
     body_c = Vector2D(-6.775 + padsize[0] / 2 + (3.8 + 6.3) / 2, 0)
     body_size = Vector2D(6.3 - 3.8, pitch * (pinnum - 1) + 2.54)
 
-    body_rect = ChamferRect(
-        at=body_c,
+    body_rect = ChamferedRectangle(
+        center=body_c,
         size=body_size,
         layer="F.Fab",
         width=global_config.fab_line_width,

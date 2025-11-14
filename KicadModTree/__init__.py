@@ -22,7 +22,7 @@ from KicadModTree.nodes import (
     ChamferedNativePad,
     ChamferedPad,
     ChamferedPadGrid,
-    ChamferRect,
+    ChamferedRectangle,
     ChamferSelPadGrid,
     Circle,
     CompoundPolygon,
@@ -63,7 +63,6 @@ from KicadModTree.nodes import (
 )
 from KicadModTree.util import (
     ChamferSizeHandler,
-    CornerSelection,
     LineStyle,
     RoundRadiusHandler,
     shape_to_node,
@@ -72,7 +71,7 @@ from kilibs.geom.vector import Vector2D  # TODO remove this import.
 
 __all__ = [
     "Arc",
-    "ChamferRect",
+    "ChamferedRectangle",
     "ChamferSelPadGrid",
     "ChamferedNativePad",
     "ChamferedPad",
@@ -81,7 +80,6 @@ __all__ = [
     "Circle",
     "CompoundPolygon",
     "Container",
-    "CornerSelection",
     "Cross",
     "Cruciform",
     "EmbeddedFonts",

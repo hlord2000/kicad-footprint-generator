@@ -3,10 +3,10 @@
 import math
 import argparse
 
-from kilibs.geom import GeomRectangle
+from kilibs.geom import CornerSelection, GeomRectangle
 from kilibs.util.param_util import toVectorUseCopyIfNumber
 from KicadModTree import *  # NOQA
-from KicadModTree import Stadium, ChamferRect, CornerSelection, ReferencedPad
+from KicadModTree import Stadium, ChamferedRectangle, ReferencedPad
 from scripts.tools.drawing_tools import *
 from scripts.tools import drawing_tools as DT
 from scripts.tools import (
@@ -316,8 +316,8 @@ class CrystalResonatorOscillatorGenerator(FootprintGenerator):
                 kicad_modg, [l_fab, t_fab], [w_fab, h_fab], "F.Fab", lw_fab, dip_size
             )
         elif style == "rect1bevel":
-            kicad_modg += ChamferRect(
-                at=offset,
+            kicad_modg += ChamferedRectangle(
+                center=offset,
                 size=Vector2D(w_fab, h_fab),
                 layer="F.Fab",
                 width=lw_fab,
@@ -325,8 +325,8 @@ class CrystalResonatorOscillatorGenerator(FootprintGenerator):
                 chamfer=self.global_config.fab_bevel,
             )
         else:
-            kicad_modg += ChamferRect(
-                at=offset,
+            kicad_modg += ChamferedRectangle(
+                center=offset,
                 size=Vector2D(w_fab, h_fab),
                 layer="F.Fab",
                 width=lw_fab,

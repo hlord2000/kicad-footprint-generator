@@ -1,7 +1,7 @@
 import enum
 
-from KicadModTree import Container, CornerSelection, Node, Pad
-from kilibs.geom import GeomRectangle, GeomShapeClosed, Vector2D
+from KicadModTree import Container, Node, Pad
+from kilibs.geom import CornerSelection, GeomRectangle, GeomShapeClosed, Vector2D
 from scripts.tools import drawing_tools_silk
 from scripts.tools.drawing_tools import getKeepoutsForPads
 from scripts.tools.global_config_files import global_config as GC

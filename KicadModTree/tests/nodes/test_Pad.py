@@ -1,8 +1,7 @@
 from KicadModTree import Footprint, FootprintType, RoundRadiusHandler
 from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.tests.test_utils.fp_file_test import SerialisationTest
-from KicadModTree.util.corner_selection import CornerSelection
-from kilibs.geom import Vector2D
+from kilibs.geom import CornerSelection, Vector2D
 
 # Basic pad test arguments
 DEFAULT_FCU_KWARGS = {

@@ -20,9 +20,11 @@
 from __future__ import annotations
 
 from .bounding_box import BoundingBox
+from .corner_selection import CornerSelection
 from .direction import Direction
 from .shapes import (
     GeomArc,
+    GeomChamferedRectangle,
     GeomCircle,
     GeomCompoundPolygon,
     GeomCross,
@@ -47,8 +49,10 @@ from .vector import Vec2DCompatible, Vec3DCompatible, Vector2D, Vector3D
 
 __all__ = [
     "BoundingBox",
+    "CornerSelection",
     "Direction",
     "GeomArc",
+    "GeomChamferedRectangle",
     "GeomCircle",
     "GeomCompoundPolygon",
     "GeomCross",

@@ -23,8 +23,7 @@ from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from KicadModTree.util.corner_selection import CornerSelection
-from kilibs.geom import Vector2D
+from kilibs.geom import CornerSelection, Vector2D
 from kilibs.util.param_util import toIntArray
 
 

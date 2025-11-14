@@ -1,8 +1,8 @@
 import pytest
 
 from KicadModTree import Polygon, Vector2D
-from KicadModTree.nodes.specialized.ChamferedRect import (
-    ChamferRect,
+from KicadModTree.nodes.specialized.ChamferedRectangle import (
+    ChamferedRectangle,
     ChamferSizeHandler,
     CornerSelection,
 )
@@ -26,14 +26,14 @@ from KicadModTree.tests.test_utils import custom_assertions as CA
         ),
     ],
 )  # fmt: skip
-def test_ChamferRect(size, layer, width, chamfer, corners, fill, exp_points):
+def test_ChamferedRectangle(size, layer, width, chamfer, corners, fill, exp_points):
 
     size = Vector2D(size)
 
     chamfer_handler = ChamferSizeHandler(chamfer_exact=chamfer)
 
-    r = ChamferRect(
-        at=Vector2D(0, 0),
+    r = ChamferedRectangle(
+        center=Vector2D.zero(),
         size=size,
         layer=layer,
         width=width,

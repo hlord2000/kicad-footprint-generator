@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from .geom_arc import GeomArc
+from .geom_chamfered_rectangle import GeomChamferedRectangle
 from .geom_circle import GeomCircle
 from .geom_compound_polygon import GeomCompoundPolygon
 from .geom_cross import GeomCross
@@ -35,7 +36,8 @@ GeomShapesNative = (
 """A union with all the geometric shapes that are native to KiCad."""
 
 GeomShapesClosed = (
-    GeomCompoundPolygon
+    GeomChamferedRectangle
+    | GeomCompoundPolygon
     | GeomCircle
     | GeomCruciform
     | GeomPolygon

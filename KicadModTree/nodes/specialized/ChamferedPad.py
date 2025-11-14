@@ -25,8 +25,7 @@ from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from KicadModTree.util.corner_selection import CornerSelection
-from kilibs.geom import Vec2DCompatible, Vector2D
+from kilibs.geom import CornerSelection, Vec2DCompatible, Vector2D
 from kilibs.geom.tolerances import TOL_MM
 
 

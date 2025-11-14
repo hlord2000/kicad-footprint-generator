@@ -1,11 +1,12 @@
 import enum
 from typing import Any, Callable, Generator, Iterator, TypeAlias
 
-from KicadModTree import Container, CornerSelection, Node, Pad
+from KicadModTree import Container, Node, Pad
 from KicadModTree.util import courtyard_builder
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from kilibs.geom import (
     BoundingBox,
+    CornerSelection,
     Direction,
     GeomPolygon,
     GeomRectangle,

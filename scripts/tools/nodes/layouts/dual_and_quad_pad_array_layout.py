@@ -2,7 +2,6 @@ from math import sqrt
 
 from KicadModTree import (
     Container,
-    CornerSelection,
     ExposedPad,
     Node,
     PadArray,
@@ -11,6 +10,7 @@ from KicadModTree import (
 from KicadModTree.nodes.specialized.PadArray import find_lowest_numbered_pad
 from kilibs.geom import (
     BoundingBox,
+    CornerSelection,
     Direction,
     GeomRectangle,
     GeomShapeClosed,
