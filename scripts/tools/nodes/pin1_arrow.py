@@ -1,40 +1,44 @@
-import abc
-
-from KicadModTree import Node, Polygon
+from KicadModTree import Polygon
 from kilibs.geom import Direction, GeomPolygon, Vector2D, BoundingBox
+import copy
+from typing import Self
 
-
-class SilkscreenArrow(Node, abc.ABC):
+class SilkscreenArrow(Polygon):
     """
     Generic silkscreen arrow base class
     """
 
-    def __init__(self):
-        super().__init__()
-        self._gpoly: GeomPolygon
-        self._poly: Polygon
+    def __init__(
+        self,
+        shape: GeomPolygon,
+        layer: str = "F.SilkS",
+        width: float | None = None,
+        fill: bool = True,
+    ) -> None:
+        super().__init__(
+            shape=shape,
+            layer=layer,
+            width=width,
+            fill=fill,
+        )
 
     def bbox(self) -> BoundingBox:
-        width = self._poly.width/2 if self._poly.width is not None else 0.0
-        return self._gpoly.bbox().inflate(width)
+        width = self.width/2 if self.width is not None else 0.0
+        return self.bbox().inflate(width)
 
-    @abc.abstractmethod
     def as_polygon(self, inflation: float = 0) -> GeomPolygon:
         """
         Get this arrow's bounding polygon, possibly with inflation.
 
         This is useful for clearing a space for the arrow in other silk features.
         """
-        pass
+        return GeomPolygon(shape=self).inflated(inflation)
+    
+    def copy(self) -> Self:
+        return copy.copy(self)
+
 
 class Pin1SilkscreenArrow(SilkscreenArrow):
-
-    pos: Vector2D
-    angle: float
-    size: float
-    length: float
-    layer: str
-    line_width_mm: float
 
     def __init__(
         self,
@@ -62,8 +66,6 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
         :param layer: layer of the arrow
         :param line_width_mm: line width of the arrow (can be 0)
         """
-        super().__init__()
-
         pos = Vector2D(apex_position)
 
         if isinstance(angle, Direction):
@@ -76,21 +78,14 @@ class Pin1SilkscreenArrow(SilkscreenArrow):
             pos
         ]
 
-        self._gpoly = GeomPolygon(shape=arrow_pts)
+        gpoly = GeomPolygon(shape=arrow_pts)
 
         # Rotate the arrow backwards (so it points in the right direction)
-        self._gpoly.rotate(angle=-angle, origin=pos)
+        gpoly.rotate(angle=-angle, origin=pos)
 
-        self._poly = Polygon(
-            shape=self._gpoly, layer=layer, width=line_width_mm, fill=True
+        super().__init__(
+            shape=gpoly, layer=layer, width=line_width_mm, fill=True
         )
-
-    def as_polygon(self, inflation: float = 0.0) -> GeomPolygon:
-        return self._gpoly.inflated(inflation)
-
-    def get_flattened_nodes(self) -> list[Polygon]:
-        """Return the nodes to serialize."""
-        return [self._poly]
 
 
 class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
@@ -110,8 +105,7 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
     def __init__(
         self, apex_position: Vector2D, angle: float | Direction,
         size: float, layer: str, line_width_mm: float
-    ):
-        super().__init__()
+    ) -> None:
 
         arrow_pts = [
             apex_position,
@@ -120,7 +114,7 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
             apex_position,
         ]
 
-        self._gpoly = GeomPolygon(shape=arrow_pts)
+        gpoly = GeomPolygon(shape=arrow_pts)
 
         if isinstance(angle, Direction):
             angle = angle.value
@@ -129,15 +123,8 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
         angle = angle - Direction.SOUTHEAST.value
 
         if angle != 0:
-            self._gpoly.rotate(-angle, origin=apex_position)
+            gpoly.rotate(-angle, origin=apex_position)
 
-        self._poly = Polygon(
-            shape=self._gpoly, layer=layer, width=line_width_mm, fill=True
+        super().__init__(
+            shape=gpoly, layer=layer, width=line_width_mm, fill=True
         )
-
-    def as_polygon(self, inflation: float = 0.0) -> GeomPolygon:
-        return self._gpoly.inflated(inflation)
-
-    def get_flattened_nodes(self) -> list[Polygon]:
-        """Return the nodes to serialize."""
-        return [self._poly]

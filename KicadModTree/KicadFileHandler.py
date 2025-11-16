@@ -36,7 +36,6 @@ from KicadModTree.nodes.base.Text import Property, Text
 from KicadModTree.nodes.base.Zone import Zone
 from KicadModTree.nodes.Footprint import Footprint, FootprintType
 from KicadModTree.nodes.Node import Node
-from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.serializer import Serializer, SerializerPriority
 
 # This is the version of the .kicad_mod format that this serialiser produces
@@ -66,7 +65,6 @@ class KicadFileHandler(FileHandler):
         CompoundPolygon: SerializerPriority.get_sort_key_compound_polygon,
         Zone: SerializerPriority.get_sort_key_zone,
         Pad: SerializerPriority.get_sort_key_pad,
-        ChamferedPad: SerializerPriority.get_sort_key_pad,
         ReferencedPad: SerializerPriority.get_sort_key_referenced_pad,
         EmbeddedFonts: SerializerPriority.get_sort_key_embedded_fonts,
         Model: SerializerPriority.get_sort_key_model,
@@ -83,7 +81,6 @@ class KicadFileHandler(FileHandler):
         CompoundPolygon: Serializer.add_compound_polygon,
         Zone: Serializer.add_zone,
         Pad: Serializer.add_pad,
-        ChamferedPad: Serializer.add_pad,
         ReferencedPad: Serializer.add_referenced_pad,
         EmbeddedFonts: Serializer.add_embedded_fonts,
         Model: Serializer.add_model,
@@ -134,7 +131,9 @@ class KicadFileHandler(FileHandler):
                 other_nodes.append(node)
 
         # Reorder the nodes to the KiCad native order:
-        other_nodes.sort(key=lambda item: self._NODE_SORT_KEY_MAP[type(item)](item))
+        other_nodes.sort(
+            key=lambda item: KicadFileHandler._get_sort_key_func(type(item))(item)
+        )
         self.property_nodes = property_nodes
         self.nodes = other_nodes
 
@@ -190,9 +189,37 @@ class KicadFileHandler(FileHandler):
             self.serializer.add_symbols("attr", attributes)
         # Serialize the ordered nodes:
         for node in self.nodes:
-            self._NODE_SERIALIZER_MAP[type(node)](self.serializer, node)
+            KicadFileHandler._get_serializer_func(type(node))(self.serializer, node)
         self.serializer.end_block()
         return self.serializer.to_string()
+
+    @staticmethod
+    def _get_sort_key_func(node_type: type[Node]) -> Callable[[Any], list[Any]]:
+        """
+        Retrieves the sort key function for the given node type.
+
+        If the specific type is missing, it recursively searches the type's direct
+        parent classes (its MRO) until a match is found in the map.
+        """
+        try:
+            return KicadFileHandler._NODE_SORT_KEY_MAP[node_type]
+        except KeyError:
+            return KicadFileHandler._get_sort_key_func(node_type.__bases__[0])
+
+    @staticmethod
+    def _get_serializer_func(
+        node_type: type[Node],
+    ) -> Callable[[Serializer, Any], None]:
+        """
+        Retrieves the serializer function for the given node type.
+
+        If the specific type is missing, it recursively searches the type's direct
+        parent classes (its MRO) until a match is found in the map.
+        """
+        try:
+            return KicadFileHandler._NODE_SERIALIZER_MAP[node_type]
+        except KeyError:
+            return KicadFileHandler._get_serializer_func(node_type.__bases__[0])
 
 
 class KicadModLibrary(abc.ABC):
