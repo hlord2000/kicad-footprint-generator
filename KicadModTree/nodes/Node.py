@@ -439,6 +439,21 @@ class Node(ABC):
         """
         return self.copy().rotate(angle=angle, origin=origin)
 
+    @property  # Read-only via getter-only.
+    def root(self) -> Node:
+        """Return the root node of this node."""
+
+        # TODO: recursion detection
+        if not self._parent:
+            return self
+        else:
+            return self._parent.root
+
+    @property  # Read-only via getter-only.
+    def parent(self) -> Container[Node] | None:
+        """Return the parent node of this node."""
+        return self._parent
+
     def get_flattened_nodes(self) -> Sequence[Node]:
         """Get the ultimate descendant nodes.
 
@@ -454,19 +469,6 @@ class Node(ABC):
             All ultimate descendant nodes.
         """
         return [self]
-
-    def get_parent(self) -> Node | None:
-        """Return the parent node of this node."""
-        return self._parent
-
-    def get_root_node(self) -> Node:
-        """Return the root node of this node."""
-
-        # TODO: recursion detection
-        if not self._parent:
-            return self
-        else:
-            return self._parent.get_root_node()
 
     def bbox(self) -> BoundingBox:
         """

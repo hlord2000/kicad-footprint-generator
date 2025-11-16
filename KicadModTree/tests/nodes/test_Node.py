@@ -26,8 +26,8 @@ class HelperTestChildNode(Node):
 
 def testInit():
     node = Container[Node]()
-    assert node.get_parent() is None
-    assert node.get_root_node() is node
+    assert node.parent is None
+    assert node.root is node
     assert len(node.children) == 0
 
 
@@ -38,41 +38,41 @@ def testAppend():
     childNode1 = Node()
     node.append(childNode1)
     assert childNode1 in node.children
-    assert childNode1.get_parent() == node
+    assert childNode1.parent == node
     assert len(node.children) == 1
 
     childNode2 = Node()
     node.append(childNode2)
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     with pytest.raises(MultipleParentsError):
         node.append(childNode1)
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     childNode3 = HelperTestChildNode()
@@ -80,9 +80,9 @@ def testAppend():
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
 
@@ -95,8 +95,8 @@ def testExtend():
     node.extend([childNode1, childNode2])
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     childNode3 = Node()
@@ -104,42 +104,42 @@ def testExtend():
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     node.extend([])
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     with pytest.raises(MultipleParentsError):
@@ -147,9 +147,9 @@ def testExtend():
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
     assert len(node.children) == 3
 
     childNode4 = Node()
@@ -159,11 +159,11 @@ def testExtend():
     assert childNode1 in node.children
     assert childNode2 in node.children
     assert childNode3 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
-    assert childNode3.get_parent() == node
-    assert childNode4.get_parent() == node
-    assert childNode5.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
+    assert childNode3.parent == node
+    assert childNode4.parent == node
+    assert childNode5.parent == node
     assert len(node.children) == 5
 
 
@@ -176,40 +176,40 @@ def testRemove():
     node.extend([childNode1, childNode2])
     assert childNode1 in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == node
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == node
+    assert childNode2.parent == node
     assert len(node.children) == 2
 
     node.remove(childNode1)
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() is None
-    assert childNode2.get_parent() == node
+    assert childNode1.parent is None
+    assert childNode2.parent == node
     assert len(node.children) == 1
 
     node.remove(childNode1)
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() is None
-    assert childNode2.get_parent() == node
+    assert childNode1.parent is None
+    assert childNode2.parent == node
     assert len(node.children) == 1
 
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() is None
-    assert childNode2.get_parent() == node
+    assert childNode1.parent is None
+    assert childNode2.parent == node
     assert len(node.children) == 1
 
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() is None
-    assert childNode2.get_parent() == node
+    assert childNode1.parent is None
+    assert childNode2.parent == node
     assert len(node.children) == 1
 
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() is None
-    assert childNode2.get_parent() == node
+    assert childNode1.parent is None
+    assert childNode2.parent == node
     assert len(node.children) == 1
 
 
@@ -220,7 +220,7 @@ def testInsert():
     childNode1 = Container[Node]()
     node.insert(childNode1)
     assert childNode1 in node.children
-    assert childNode1.get_parent() == node
+    assert childNode1.parent == node
     assert len(node.children) == 1
 
     childNode2 = Container[Node]()
@@ -228,8 +228,8 @@ def testInsert():
     assert childNode1 in childNode2.children
     assert childNode1 not in node.children
     assert childNode2 in node.children
-    assert childNode1.get_parent() == childNode2
-    assert childNode2.get_parent() == node
+    assert childNode1.parent == childNode2
+    assert childNode2.parent == node
     assert len(node.children) == 1
     assert len(childNode1.children) == 0
     assert len(childNode2.children) == 1
@@ -270,21 +270,21 @@ def testRemoveTraversed():
     parent.remove(gen1a1)
     assert len(parent.children) == 2
     assert len(gen1a.children) == 2
-    assert gen1a1._parent is not None
+    assert gen1a1.parent is not None
     assert len(gen1b.children) == 0
 
     # remove gen1a1 from parent (traversing through the hierarchy))
     parent.remove(gen1a1, traverse=True)
     assert len(parent.children) == 2
     assert len(gen1a.children) == 1
-    assert gen1a1._parent is None
+    assert gen1a1.parent is None
     assert len(gen1b.children) == 0
 
     # remove gen1a from parent
     parent.remove(gen1a)
     assert len(parent.children) == 1
     assert len(gen1a.children) == 1
-    assert gen1a._parent is None
+    assert gen1a.parent is None
     assert len(gen1b.children) == 0
 
 
