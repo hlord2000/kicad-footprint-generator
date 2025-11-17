@@ -26,7 +26,9 @@ class TestASTevaluator:
 
     def test_unallowed(self):
         import tempfile
-        filename = tempfile.mktemp()
+        import pathlib
+
+        filename = pathlib.Path(tempfile.mktemp()).as_posix()
 
         r_stmt = f"$(1 if open('{filename}') else 0)"
         w_stmt = f"$(1 if open('{filename}', 'w') else 0)"
@@ -47,6 +49,7 @@ class TestASTevaluator:
         if (not os.access(filename, os.R_OK)):
             pytest.raises(Exception, weak_ast.eval, r_stmt, suppress_warnings=True)
         pytest.raises(Exception, ast.eval, r_stmt, suppress_warnings=True)
+        os.chmod(filename, 0o600)
         os.remove(filename)
 
         pytest.raises(Exception, weak_ast.eval, r_stmt, suppress_warnings=True)
