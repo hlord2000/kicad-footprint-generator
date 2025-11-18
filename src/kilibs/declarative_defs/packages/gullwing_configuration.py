@@ -5,6 +5,7 @@ from kilibs.util.toleranced_size import TolerancedSize  # type: ignore
 from scripts.tools.declarative_def_tools import (  # type: ignore
     common_metadata,
     fp_additional_drawing,
+    pad_overrides,
     rule_area_properties,
 )
 
@@ -83,6 +84,8 @@ class GullwingConfiguration:
         """The optional top slug configuration."""
         self.additional_drawings: list[fp_additional_drawing.FPAdditionalDrawing]
         """The list containing additional drawings."""
+        self.pad_overrides: pad_overrides.PadOverrides
+        """Definitions to overwrite properties of some pads"""
         self.rule_areas: list[rule_area_properties.RuleAreaProperties] = []
         """The rule areas (zones)."""
 
@@ -208,6 +211,9 @@ class GullwingConfiguration:
         self.rule_areas = rule_area_properties.RuleAreaProperties.from_standard_yaml(
             self._spec
         )  # type: ignore
+        self.pad_overrides = pad_overrides.PadOverrides(
+            self._spec.get(pad_overrides.PAD_OVERRIDES_KEY, [])
+        )
 
     def _extract_general_data(self) -> None:
         self.device_type = self._spec.get(

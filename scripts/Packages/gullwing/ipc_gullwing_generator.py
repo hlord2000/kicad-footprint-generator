@@ -276,7 +276,10 @@ class GullwingGenerator(FootprintGenerator):
         kicad_mod.tags += gwc.metadata.additional_tags
 
         pad_arrays = create_dual_or_quad_pad_border(
-            self.global_config, pad_details, device_params
+            self.global_config,
+            pad_details,
+            device_params,
+            pad_overrides=gwc.pad_overrides,
         )
         pad_radius = get_pad_radius_from_arrays(pad_arrays)
 
