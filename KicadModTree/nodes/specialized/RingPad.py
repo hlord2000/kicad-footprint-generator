@@ -28,7 +28,7 @@ from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.shape_to_node import shape_to_node
-from kilibs.geom import GeomArc, GeomLine, Vec2DCompatible, Vector2D
+from kilibs.geom import GeomArc, GeomCircle, GeomLine, Vec2DCompatible, Vector2D
 from kilibs.geom.operations import split
 
 
@@ -624,3 +624,16 @@ class RingPad(Container[Pad | _ArcPadPrimitive | _RingPadPrimitive]):
         for child in self._children:
             nodes.extend(child.leaves)
         return nodes
+
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomCircle:
+        """Return the geometric rectangle that encloses all pads in the pad array.
+
+        Args:
+            inflation: Amount in mm that the returned shape is inflated.
+
+        Returns:
+            The inflated contour of the pad array.
+        """
+        return GeomCircle(
+            center=self.at, radius=self.radius + self.width / 2 + inflation
+        )

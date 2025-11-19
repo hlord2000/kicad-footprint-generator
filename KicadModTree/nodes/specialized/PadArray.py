@@ -24,7 +24,7 @@ from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.util.corner_handling import RoundRadiusHandler
 from kilibs.geom import (
     GeomRectangle,
-    GeomShapeClosed,
+    GeomShapesClosed,
     Vec2DCompatible,
     Vector2D,
 )
@@ -468,7 +468,7 @@ class PadArray(Container[Pad | ReferencedPad]):
                 return pad
         return None
 
-    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed | None:
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomRectangle | None:
         """Return the geometric rectangle that encloses all pads in the pad array.
 
         Args:
@@ -484,7 +484,7 @@ class PadArray(Container[Pad | ReferencedPad]):
             start=bbox.top_left - inflation, end=bbox.bottom_right + inflation
         )
 
-    def as_geom_shapes(self, inflation: float = 0.0) -> list[GeomShapeClosed]:
+    def as_geom_shapes(self, inflation: float = 0.0) -> list[GeomShapesClosed]:
         """Return a list of geometric rectangles that enclose all pads of the pad array.
         If there are no deleted or hidden pins this correponds to a list containing the
         bounding box of the pad array. If there are gaps in the pad array (caused by
@@ -505,7 +505,7 @@ class PadArray(Container[Pad | ReferencedPad]):
                 return [geom_shape]
         # Otherwise return a list of the individual pad contours:
         else:
-            shapes: list[GeomShapeClosed] = []
+            shapes: list[GeomShapesClosed] = []
             for pad in self._children:
                 shapes.append(pad.as_geom_shape(inflation))
             return shapes

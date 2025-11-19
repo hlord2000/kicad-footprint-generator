@@ -29,7 +29,7 @@ from KicadModTree.nodes.specialized.ChamferedPadGrid import (
 )
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.util.corner_handling import RoundRadiusHandler
-from kilibs.geom import BoundingBox, GeomRectangle, GeomShapeClosed, Vector2D
+from kilibs.geom import BoundingBox, GeomRectangle, Vector2D
 from kilibs.util.param_util import toIntArray
 
 
@@ -804,7 +804,7 @@ class ExposedPad(Container[Pad | ReferencedPad]):
             bbox.include_bbox(child_bbox)
         return bbox
 
-    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomRectangle:
         """Return the geometric rectangle that encloses all pads in the exposed pad.
 
         Args:

@@ -31,7 +31,7 @@ from kilibs.geom import (
     BoundingBox,
     CornerSelection,
     GeomRectangle,
-    GeomShapeClosed,
+    GeomShapesClosed,
     Vec2DCompatible,
     Vector2D,
 )
@@ -152,7 +152,7 @@ class ReferencedPad(Node):
         ref_pad = self.reference_pad
         return ref_pad.get_top_left_corner_midpoint() - ref_pad.at + self.at
 
-    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapesClosed:
         """Return the a closed geometric shape of the contour of the pad. As of now all
         shapes are simplified to their bounding box.
 
@@ -659,7 +659,7 @@ class Pad(Node):
         else:
             return self.bbox().top_left
 
-    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapeClosed:
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapesClosed:
         """Return the a closed geometric shape of the contour of the pad. As of now all
         shapes are simplified to their bounding box.
 
