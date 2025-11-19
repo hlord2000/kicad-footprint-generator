@@ -2,7 +2,7 @@
 
 import enum
 import math
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from typing import List, Tuple, Union
 
 from KicadModTree import (
@@ -15,6 +15,7 @@ from KicadModTree import (
     PolygonLine,
     Rectangle,
     RectLine,
+    Shape,
 )
 from kilibs.geom import (
     BoundingBox,
@@ -26,6 +27,8 @@ from kilibs.geom import (
     GeomRectangle,
     GeomShape,
     GeomShapeClosed,
+    GeomShapes,
+    GeomShapesClosed,
     Vector2D,
 )
 from kilibs.geom.operations import (
@@ -96,8 +99,8 @@ def addKeepoutRound(x, y, w, h):
 
 
 def getKeepoutsForPads(
-    pads: Pad | list[Pad], clearance: float
-) -> list[GeomShapeClosed]:
+    pads: Pad | Iterable[Pad], clearance: float
+) -> list[GeomShapesClosed]:
     """
     Return suitable keepouts for the given pads.
 
@@ -110,8 +113,8 @@ def getKeepoutsForPads(
     :return: list of Keepout objects
     """
 
-    kos = []
-    pads = pads if isinstance(pads, list) else [pads]
+    kos: list[GeomShapesClosed] = []
+    pads = pads if isinstance(pads, Iterable) else [pads]
 
     def get_shape_center(pad: Pad) -> Vector2D:
 
@@ -158,13 +161,10 @@ def getKeepoutsForPads(
 
 # internal method for keepout-processing
 def applyKeepouts(
-    items: list[GeomShape],
-    keepouts: list[GeomShapeClosed],
-) -> list[GeomShape]:
-    if len(keepouts) == 0:
-        return items
-
-    new_parts = []
+    items: Iterable[GeomShapes],
+    keepouts: Iterable[GeomShapesClosed],
+) -> list[GeomShapes]:
+    new_parts: list[GeomShapes] = []
     for item in items:
         this_part_kept_out = subtract_many(item, keepouts)
         new_parts += this_part_kept_out
@@ -217,7 +217,7 @@ def renderKeepouts(
 
 def _add_kept_out(
     items: List[Union[GeomArc, GeomCircle, GeomLine]], layer, width, roun
-) -> List[Node]:
+) -> List[Shape]:
     """
     Internal method to add the kept out items to the kicad_mod
     """
@@ -458,13 +458,13 @@ def addEllipseWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun
 
 
 def makeNodesWithKeepout(
-    geom_items: Sequence[GeomShape],
+    geom_items: Sequence[GeomShapes],
     layer: str,
     width: float,
-    keepouts: list[GeomShapeClosed],
+    keepouts: list[GeomShapesClosed],
     roun=0.001,
     transform: Vector2D = Vector2D(0, 0),
-) -> list[Node]:
+) -> list[Shape]:
     """
     Turn a list of geometric items into a list of nodes, keeping the keepouts in mind.
 
