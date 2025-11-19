@@ -25,7 +25,7 @@ from kilibs.geom.vector import Vector2D
 class Translation(Container[Node]):
     """A translation that is applied to every child node."""
 
-    def __init__(self, x: float | Vector2D, y: float = 0.0) -> None:
+    def __init__(self, x: float | Vector2D = 0.0, y: float = 0.0) -> None:
         """Create a translation node.
 
         Args:
