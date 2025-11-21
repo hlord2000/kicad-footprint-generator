@@ -36,6 +36,7 @@ class _TextBase(Node):
         thickness: float = 0.15,
         justify: str | None = None,
         hide: bool = False,
+        unlocked: bool = False,
     ) -> None:
         """Initialize a text base node.
 
@@ -49,6 +50,7 @@ class _TextBase(Node):
             thickness: Thickness of the text.
             justify: Justification of the text (default: 'center').
             hide: `True` if the text shall be hidden.
+            unlocked: `True` to disable keeping the text upright.
 
         Example:
             >>> from KicadModTree import *
@@ -76,6 +78,8 @@ class _TextBase(Node):
         """Justification of the text (default: 'center')."""
         self.hide: bool
         """`True` if the text shall be hidden."""
+        self.unlocked: bool
+        """`True` to disable keeping the text upright."""
 
         Node.__init__(self)
         self.text = text
@@ -87,6 +91,7 @@ class _TextBase(Node):
         self.thickness = thickness
         self.justify = justify
         self.hide = hide
+        self.unlocked = unlocked
 
     def rotate(
         self,
@@ -163,6 +168,7 @@ class Text(_TextBase):
         thickness: float = 0.15,
         justify: str | None = None,
         hide: bool = False,
+        unlocked: bool = False,
     ) -> None:
         """Initialize a text node.
 
@@ -176,6 +182,7 @@ class Text(_TextBase):
             thickness: Thickness of the text.
             justify: Justification of the text (default: 'center').
             hide: `True` if the text shall be hidden.
+            unlocked: `True` to disable keeping the text upright.
         """
         super().__init__(
             text=text,
@@ -187,6 +194,7 @@ class Text(_TextBase):
             thickness=thickness,
             justify=justify,
             hide=hide,
+            unlocked=unlocked,
         )
         # Other gr_text/fp_text-specific members here
         # locked (as in can't be selected status) could go here, except
@@ -230,6 +238,7 @@ class Property(_TextBase):
         thickness: float = 0.15,
         justify: str | None = None,
         hide: bool = False,
+        unlocked: bool = False,
     ) -> None:
         """Initialize a property node.
 
@@ -243,6 +252,7 @@ class Property(_TextBase):
             thickness: Thickness of the text.
             justify: Justification of the text (default: 'center').
             hide: `True` if the text shall be hidden.
+            unlocked: `True` to disable keeping the text upright.
         """
 
         # Instance attributes:
@@ -259,6 +269,7 @@ class Property(_TextBase):
             thickness=thickness,
             justify=justify,
             hide=hide,
+            unlocked=unlocked,
         )
         # fields have canonical names
         self._name = name

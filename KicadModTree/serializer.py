@@ -588,6 +588,8 @@ class Serializer:
         # KiCad 8 always writes the 0 rotation
         rotation = 0.0 if not text_base.rotation else text_base.rotation
         self.add_3_floats("at", text_base.at.x, text_base.at.y, rotation)
+        if text_base.unlocked:
+            self.add_bool("unlocked", True)
         self.add_string("layer", text_base.layer)
         if text_base.hide:
             self.add_bool("hide", True)
