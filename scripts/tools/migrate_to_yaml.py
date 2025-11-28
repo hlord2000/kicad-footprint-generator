@@ -41,7 +41,22 @@ def print_params_as_yaml(key_arg=None, file_obj=sys.stdout):
             if key_arg is None:
                 key_value = ret
             else: # key_arg is in the parameters
-                key_value = params.pop(key_arg)
+                # Some generators needs the key arg to be part of the params
+                # So we leave it in there.
+                key_value = params.get(key_arg)
+
+            # If the caller provided a name_additions parameter, append them
+            # underscore-separated to the key_value. Accept either a list/tuple
+            # or single string values.
+            na = params.get('name_additions')
+            if na:
+                if isinstance(na, (list, tuple)):
+                    additions = [str(x) for x in na if x is not None and x != '']
+                else:
+                    additions = [str(na)]
+                if additions:
+                    key_value = f"{key_value}_{'_'.join(additions)}"
+            
             # Add the function name to the parameters
             params['func'] = func.__name__
             yaml_dict = {key_value: params}

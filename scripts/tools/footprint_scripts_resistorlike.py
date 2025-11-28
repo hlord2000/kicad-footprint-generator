@@ -734,8 +734,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
 
     for t in specialtags:
-        description = description + ", " + t
-        tags = tags + " " + t
+        description = f"{description}, {t}"
+        tags = f"{tags} {t}"
     if (specialfpname != ""):
         footprint_name = specialfpname
 
