@@ -51,8 +51,8 @@ def test_circle_rad():
     }
     kp = SP.CircleProperties(spec)
 
-    assert kp.exprs.center.x.value == 'a'
-    assert kp.exprs.center.y.value == 'b'
+    assert kp.exprs.center.x.value == "a"
+    assert kp.exprs.center.y.value == "b"
     assert kp.exprs.rad_diam.value == 1
     assert kp.exprs.is_diam is False
 

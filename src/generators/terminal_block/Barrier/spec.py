@@ -1,9 +1,9 @@
 from typing import Any
 
-from kilibs.geom import Vector2D, Vector3D
 from generators.tools.footprint.declarative_def_tools import common_metadata
 from generators.tools.spec.base_spec import BaseSpec
 from generators.tools.spec.spec_registry import register_spec
+from kilibs.geom import Vector2D, Vector3D
 
 
 @register_spec

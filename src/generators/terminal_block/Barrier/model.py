@@ -2,8 +2,8 @@ import math as math
 
 import cadquery as cq
 
-from generators.tools.model import export_tools
 from generators.tools.cli_args import CLI_ARGS
+from generators.tools.model import export_tools
 
 from .spec import TerminalBlockBarrierProperties
 

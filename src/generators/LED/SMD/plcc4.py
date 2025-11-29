@@ -11,6 +11,7 @@
 #
 # (C) The KiCad Librarian Team
 
+from generators.tools.footprint.save_footprint import write_footprint
 from KicadModTree import *
 from KicadModTree.nodes.specialized.ChamferedRectangle import (
     ChamferedRectangle,
@@ -18,7 +19,6 @@ from KicadModTree.nodes.specialized.ChamferedRectangle import (
     CornerSelection,
 )
 from kilibs.config import global_config as GC
-from generators.tools.footprint.save_footprint import write_footprint
 
 
 def plcc4(generator_name: str, args):

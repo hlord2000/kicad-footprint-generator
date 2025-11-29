@@ -20,9 +20,9 @@ shapes:
 
     kp = RAP.RuleAreaProperties(spec_yaml)
 
-    assert kp.name == 'test'
+    assert kp.name == "test"
 
-    assert kp.layers == ['F.Cu']
+    assert kp.layers == ["F.Cu"]
 
     assert kp.keepouts.vias == RAP.KeepoutProperties.ALLOW
     assert kp.keepouts.tracks == RAP.KeepoutProperties.DENY
@@ -50,6 +50,6 @@ shapes:
 
     kp = RAP.RuleAreaProperties(spec_yaml)
 
-    assert kp.name == 'test'
+    assert kp.name == "test"
 
-    assert kp.layers == ['F.Cu', 'B.Cu']
+    assert kp.layers == ["F.Cu", "B.Cu"]

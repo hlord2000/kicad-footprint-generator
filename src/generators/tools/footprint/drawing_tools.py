@@ -16,6 +16,8 @@ import math
 from collections.abc import Iterable, Sequence
 from typing import List, Tuple, Union
 
+from generators.tools.footprint.footprint_global_properties import *
+from generators.tools.footprint.nodes import pin1_arrow
 from KicadModTree import (
     Arc,
     Circle,
@@ -50,8 +52,6 @@ from kilibs.geom.operations import (
     round_to_grid_up,
     subtract_many,
 )
-from generators.tools.footprint.footprint_global_properties import *
-from generators.tools.footprint.nodes import pin1_arrow
 
 
 # round for grid g

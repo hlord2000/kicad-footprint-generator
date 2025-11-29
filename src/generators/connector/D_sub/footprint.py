@@ -12,8 +12,8 @@
 # (C) The KiCad Librarian Team
 
 import generators.connector.D_sub.footprint_scripts_dsub as DSubScripts
-from generators.tools.spec.base_spec import BaseSpec
 from generators.tools.footprint.save_footprint import write_footprint
+from generators.tools.spec.base_spec import BaseSpec
 from kilibs.config.global_config import GLOBAL_CONFIG
 
 lib_name = "Connector_Dsub"

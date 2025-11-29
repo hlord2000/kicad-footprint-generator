@@ -40,7 +40,7 @@ class TestASTevaluator:
         ast = self.ast
         weak_ast = ASTevaluator(restricted=False)
 
-        open(filename, 'w')
+        open(filename, "w")
         assert 1 == weak_ast.eval(r_stmt)
         pytest.raises(Exception, ast.eval, r_stmt, suppress_warnings=True)
         pytest.raises(Exception, weak_ast.eval, w_stmt, suppress_warnings=True)
@@ -49,7 +49,7 @@ class TestASTevaluator:
         pytest.raises(Exception, ast.eval, a_stmt, suppress_warnings=True)
         # make sure opening a file without read permissions fails
         os.chmod(filename, 0)
-        if (not os.access(filename, os.R_OK)):
+        if not os.access(filename, os.R_OK):
             pytest.raises(Exception, weak_ast.eval, r_stmt, suppress_warnings=True)
         pytest.raises(Exception, ast.eval, r_stmt, suppress_warnings=True)
         os.chmod(filename, 0o600)
@@ -64,6 +64,7 @@ class TestASTevaluator:
 
     def test_eval_str(self):
         from math import cos, radians, sin
+
         ast = self.ast
         assert (
             ast.eval(
@@ -92,9 +93,9 @@ class TestASTevaluator:
     def __check_dict(self, expected_dct: DotDict, dct: dict, *, location) -> int:
         num_checked = 0
         for key, value in dct.items():
-            if (isinstance(value, dict)):
+            if isinstance(value, dict):
                 num_checked += self.__check_dict(expected_dct, value, location=location)
-            elif (expct := expected_dct[key]):
+            elif expct := expected_dct[key]:
                 num_checked += 1
                 msg = f"{location}: YAML line {expct.line}: {key}: {expct.expr}"
                 assert expct.value == value, msg
@@ -103,16 +104,24 @@ class TestASTevaluator:
 
     def __compare_dict_to_yaml(self, dct: DotDict, yaml: str, *, overrides: dict = {}):
         expected_dct = DotDict()
-        regex = re.compile(r"\s*(?P<key>\w+)\s*:\s*(?P<expr>.*?)\s*(#\s*(?P<expct>.+?))?\s*$")
+        regex = re.compile(
+            r"\s*(?P<key>\w+)\s*:\s*(?P<expr>.*?)\s*(#\s*(?P<expct>.+?))?\s*$"
+        )
         num_checks = 0
         for num, txt in enumerate(yaml.splitlines()):
-            if (match := regex.match(txt)):
+            if match := regex.match(txt):
                 key = match.group("key")
                 expr = match.group("expr")
                 expct = match.group("expct")
-                expct = overrides[key] if (key in overrides) else eval(expct) if (expct) else None
-                if (expct):
-                    expected_dct[key] = DotDict({"expr": expr, "value": expct, "line": num + 1})
+                expct = (
+                    overrides[key]
+                    if (key in overrides)
+                    else eval(expct) if (expct) else None
+                )
+                if expct:
+                    expected_dct[key] = DotDict(
+                        {"expr": expr, "value": expct, "line": num + 1}
+                    )
                     num_checks += 1
                 else:
                     expected_dct[key] = None
@@ -148,6 +157,7 @@ class TestASTevaluator:
                 v20_float:   $(pi)                      # float(3.141592653589793)
             """
         import yaml
+
         spec = yaml.safe_load(yaml_spec)
 
         self.ast.clear_stats()
@@ -188,35 +198,59 @@ class TestASTevaluator:
         self.__compare_dict_to_yaml(params7, yaml_spec)
 
         self.ast.reset()
-        params8 = self.ast.eval(spec["defaults"], allow_self_ref=True, allow_nested=True)
+        params8 = self.ast.eval(
+            spec["defaults"], allow_self_ref=True, allow_nested=True
+        )
         stats8 = self.ast.cache_stats
         self.__compare_dict_to_yaml(params8, yaml_spec, overrides={"v10_forwref": 2.0})
 
     def test_ast_evaluator_skip(self):
         self.ast.reset()
-        dct = DotDict({"a": "$(pi)", "aa": "$(pi)", "aaa": "$(pi)", "d": {"a": "$(pi)", "aa": "$(pi)", "aaa": "$(pi)"}})
-        expected = DotDict({"a": math.pi, "aa": math.pi, "aaa": math.pi, "d": {"a": math.pi, "aa": math.pi, "aaa": math.pi}})
+        dct = DotDict(
+            {
+                "a": "$(pi)",
+                "aa": "$(pi)",
+                "aaa": "$(pi)",
+                "d": {"a": "$(pi)", "aa": "$(pi)", "aaa": "$(pi)"},
+            }
+        )
+        expected = DotDict(
+            {
+                "a": math.pi,
+                "aa": math.pi,
+                "aaa": math.pi,
+                "d": {"a": math.pi, "aa": math.pi, "aaa": math.pi},
+            }
+        )
 
         result = self.ast.eval(dct, allow_self_ref=True)
         assert expected == result
 
-        result = self.ast.eval(dct, allow_self_ref=True, skip=["a"], suppress_warnings=True)
+        result = self.ast.eval(
+            dct, allow_self_ref=True, skip=["a"], suppress_warnings=True
+        )
         expct = expected.copy()
         expct.a = dct.a
         assert expct == result
 
-        result = self.ast.eval(dct, allow_self_ref=True, skip=["d.a"], suppress_warnings=True)
+        result = self.ast.eval(
+            dct, allow_self_ref=True, skip=["d.a"], suppress_warnings=True
+        )
         expct = expected.copy()
         expct.d.a = dct.d.a
         assert expct == result
 
-        result = self.ast.eval(dct, allow_self_ref=True, skip=[r"^(.+\.)?a$"], suppress_warnings=True)
+        result = self.ast.eval(
+            dct, allow_self_ref=True, skip=[r"^(.+\.)?a$"], suppress_warnings=True
+        )
         expct = expected.copy()
         expct.a = dct.a
         expct.d.a = dct.d.a
         assert expct == result
 
-        result = self.ast.eval(dct, allow_self_ref=True, skip=["d"], suppress_warnings=True)
+        result = self.ast.eval(
+            dct, allow_self_ref=True, skip=["d"], suppress_warnings=True
+        )
         expct = expected.copy()
         expct.d = dct.d.copy()
         assert expct == result
@@ -228,13 +262,29 @@ class TestASTevaluator:
             "c0": "$(1 - 1)",
             "d1": "$(c0 + 1)",
         }
-        expct = { "a3": 3, "b2": 2, "c0": 0, "d1": 1, }
+        expct = {
+            "a3": 3,
+            "b2": 2,
+            "c0": 0,
+            "d1": 1,
+        }
         result = self.ast.eval(dct, allow_self_ref=True, try_resolve=True)
         assert expct == result
 
         expct = dct.copy()
-        expct.update({"c0": 0, "d1": 1, })
-        result = self.ast.eval(dct, allow_self_ref=True, try_resolve=False, raise_errors=False, suppress_warnings=True)
+        expct.update(
+            {
+                "c0": 0,
+                "d1": 1,
+            }
+        )
+        result = self.ast.eval(
+            dct,
+            allow_self_ref=True,
+            try_resolve=False,
+            raise_errors=False,
+            suppress_warnings=True,
+        )
         assert expct == result
 
     def test_eval(self):
@@ -244,7 +294,7 @@ class TestASTevaluator:
         assert 2 == self.ast.eval("$(1+1)")
         # tests which just return the argument
         assert self.ast.eval(None) is None
-        assert 2.2 == self.ast.eval(1.2+1)
+        assert 2.2 == self.ast.eval(1.2 + 1)
         # tests containing containers
         assert [1, "1+1", 3] == self.ast.eval([1, "1+1", "$(1+2)"])
         assert (1, "1+1", 3) == self.ast.eval((1, "1+1", "$(1+2)"))
@@ -271,7 +321,9 @@ class TestASTevaluator:
         expected[1][1][1][0] = 4
         assert expected == self.ast.eval(input, max_depth=4)
         # test that recursion depth can be controlled in containers
-        input = DotDict(a="$(1)", b=DotDict(a="$(2)", b=DotDict(a="$(3)", b=DotDict(a="$(4)"))))
+        input = DotDict(
+            a="$(1)", b=DotDict(a="$(2)", b=DotDict(a="$(3)", b=DotDict(a="$(4)")))
+        )
         expected = DotDict(input)
         assert expected == self.ast.eval(input, max_depth=0, suppress_warnings=True)
         expected.a = 1
@@ -285,11 +337,11 @@ class TestASTevaluator:
         pass
 
     def test_expr_evaluator(self):
-        evaluate_expr = ASTexprEvaluator(symbols={ "a": 1, "b": 2 })
+        evaluate_expr = ASTexprEvaluator(symbols={"a": 1, "b": 2})
 
         assert 1 == evaluate_expr("a")
         assert 2 == evaluate_expr("b")
-        assert 'a' == evaluate_expr("'a'")
+        assert "a" == evaluate_expr("'a'")
         assert 1 == evaluate_expr(1)
         assert math.sqrt(2) == evaluate_expr("sqrt(2)")
         assert 1 == evaluate_expr("1 if (sqrt(2) < 2) else 2")

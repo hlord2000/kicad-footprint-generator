@@ -4,8 +4,8 @@ from generators.tools.footprint.declarative_def_tools.utils import DotDict
 def test_as_list():
     from generators.tools.footprint.declarative_def_tools.utils import as_list
 
-    assert ['foo'] == as_list('foo')
-    assert ['foo'] == as_list(['foo'])
+    assert ["foo"] == as_list("foo")
+    assert ["foo"] == as_list(["foo"])
     assert [42] == as_list(42)
     assert [] == as_list([])
     assert [42] == as_list([42])
@@ -13,22 +13,25 @@ def test_as_list():
     assert [42] == as_list({42})
     assert [None] == as_list(None)
 
+
 def test_dotdict():
-    original = dict({
-        "a0": 1,
-        "b0": [1, 2],
-        "c0": 3,
-        "d0": {
-            "a1": 11,
-            "b1": [11, 12],
-            "c1": 13,
-            "d1": {
-                "a2": 21,
-                "b2": [21, 22],
-                "c2": 23,
-            }
+    original = dict(
+        {
+            "a0": 1,
+            "b0": [1, 2],
+            "c0": 3,
+            "d0": {
+                "a1": 11,
+                "b1": [11, 12],
+                "c1": 13,
+                "d1": {
+                    "a2": 21,
+                    "b2": [21, 22],
+                    "c2": 23,
+                },
+            },
         }
-    })
+    )
     dotdict = DotDict(original)
     dotdict_sybling = dotdict
     dict_copy = DotDict(original.copy())
@@ -56,6 +59,7 @@ def test_dotdict():
     assert dotdict == dotdict_sybling
     assert original == dict_copy
     assert original == dotdict_copy
+
 
 def test_dotdict_assign():
     dotdict = DotDict()

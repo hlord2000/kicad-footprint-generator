@@ -13,8 +13,8 @@
 
 from collections.abc import Sequence
 
+from kilibs.config import global_config as GC
 from kilibs.geom import GeomShapesClosed, Vector2D
-from scripts.tools.global_config_files import global_config as GC
 
 from .footprint_layout import CourtyardStyle, FabStyle, FootprintLayout, Pads, SilkStyle
 
