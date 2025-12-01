@@ -902,6 +902,26 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
     EP_num_paste_pads: [2, 2]
     EP_paste_coverage: 0.7
 
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.71x3.7mm:
+  inherit: SOIC-8_3.9x4.9mm_P1.27mm
+  size_source: 'https://www.aosmd.com/res/datasheets/AOZ1284PI.pdf'
+  device_type: 'SOIC' # temporary
+  EP_size_x:
+    nominal: 2.71
+    tolerance: 0
+  EP_size_y:
+    nominal: 3.7 # only maximum given but that is not supported by the script
+    tolerance: 0
+  EP_num_paste_pads: [2, 2]
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    grid: [1.4, 1.0]
+    paste_avoid_via: False
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    EP_paste_coverage: 0.7
+
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.62x3.51mm:
   size_source: 'https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP2303A/document_id/494#page=14'
   device_type: 'SOIC' # temporary
