@@ -210,4 +210,22 @@ Vertical_L24.0mm_W16.3mm_Px10.16mm_Py20.32mm_Murata_5200:
   w: 24
   w2: 8.0
 
-
+PRODTech_1065:
+  <<: *base
+  add_description: https://www.lcsc.com/datasheet/C5158821.pdf
+  ddrill: 1.0
+  h: 7.5
+  # These two are just for graphics, but possibly relevant for 3D
+  # So we make them match the toroid dims
+  innerh: 7.5
+  innerw: 13
+  name_additions:
+    - PRODTech
+    - 'PDMCAT1065'
+  rm: 6
+  rm2: 5
+  specialtags:
+    - PRODTech
+    - 'PDMCAT1065'
+  w: 13
+  w2: 1.5
