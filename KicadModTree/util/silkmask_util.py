@@ -22,6 +22,8 @@ from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.Shape import Shape
+from KicadModTree.nodes.specialized.Translation import Translation
+from KicadModTree.nodes.specialized.Rotation import Rotation
 from KicadModTree.util import shape_to_node
 from kilibs.geom import GeomCircle, GeomRectangle, GeomShapes
 from kilibs.geom.operations import subtract_many
@@ -30,7 +32,6 @@ from kilibs.geom.operations import subtract_many
 def _extract_shapes_on_layers(
     container: Container[Node],
     layers: list[str],
-    transform_children: bool = False,
 ) -> list[Shape]:
     """Extract all the shape nodes on the given layer from the container node
     recursively.
@@ -38,17 +39,15 @@ def _extract_shapes_on_layers(
     Args:
         container: The root node.
         layers: The selected layers.
-        transform_children: If `True`, then nodes inside `Translation` or `Rotation`
-            containers will be returned with the transformation applied.
 
     Returns:
         The list of collected nodes (those are removed from the container node(s)).
     """
     shapes: list[Shape] = []
-    if transform_children:
-        children = container.children
+    if isinstance(container, Translation | Rotation):
+        children = container.transformed_children()
     else:
-        children = container.raw_children
+        children = container.children
     for child in children:
         # TODO: Use the line below and delete the one two lines below. This is currently
         # commented as it would lead to a non-zero diff.
@@ -56,9 +55,7 @@ def _extract_shapes_on_layers(
         if isinstance(child, Arc | Line | Circle) and child.layer in layers:
             shapes.append(child)
         elif isinstance(child, Container):
-            shapes += _extract_shapes_on_layers(
-                cast(Container[Node], child), layers, True
-            )
+            shapes += _extract_shapes_on_layers(cast(Container[Node], child), layers)
     for shape in shapes:
         container.remove(shape)
     return shapes
@@ -69,7 +66,6 @@ def _collect_nodes_as_geometric_shapes(
     layers: list[str],
     select_drill: bool = False,
     silk_pad_clearance: float = 0.0,
-    transform_children: bool = False,
 ) -> list[GeomShapes]:
     """Collect all geometric nodes and pads from a specific layer as geometric nodes
     (Arc, Line, Circle, Rectangle, etc.).
@@ -80,8 +76,6 @@ def _collect_nodes_as_geometric_shapes(
         select_drill: Defines if also drill holes should be selected (to catch NPTHs).
         silk_pad_clearance: Additional clearance between silk and pad to be added to pad
             shapes.
-        transform_children: If `True`, then nodes inside `Translation` or `Rotation`
-            containers will be returned with the transformation applied.
 
     Returns:
         The list of collected nodes.
@@ -95,10 +89,10 @@ def _collect_nodes_as_geometric_shapes(
         - `silk_pad_clearance` is an additional offset around pads and holes.
     """
     shapes: list[GeomShapes] = []
-    if transform_children:
-        children = container.children
+    if isinstance(container, Translation | Rotation):
+        children = container.transformed_children()
     else:
-        children = container.raw_children
+        children = container.children
     for c in children:
         if isinstance(c, Pad):
             if any(_ in c.layers for _ in layers):
@@ -141,7 +135,6 @@ def _collect_nodes_as_geometric_shapes(
                 layers=layers,
                 select_drill=select_drill,
                 silk_pad_clearance=silk_pad_clearance,
-                transform_children=True,
             )
     return shapes
 

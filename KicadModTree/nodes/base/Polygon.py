@@ -73,8 +73,7 @@ class Polygon(Shape, GeomPolygon):
         if offset:
             self.inflate(amount=offset)
 
-    @property
-    def leaves(self) -> list[Polygon | Line]:
+    def flatten(self) -> list[Polygon | Line]:
         """Return the leaf nodes to serialize."""
         if self.close:
             return [self]

@@ -133,41 +133,33 @@ class Container(Node, Generic[NodeType]):
 
     @property  # read-only via getter-only and read-only return type `Sequence`
     def children(self) -> Sequence[NodeType]:
-        """Return all the children of this node.
+        """Return the immediate child nodes held by this container.
 
         Note:
-            Nodes that are children of a transformation node (such as
-            :py:class:`Rotation` or :py:class:`Translation`) are copied and have the
-            transformation applied before being returned.
+            This returns the raw child objects. No transformations (such as)
+            :py:class:`Rotation` or :py:class:`Translation`) are applied at this stage.
+            To get transformed children, use :meth:`flatten` or
+            :meth:`transformed_children`.
         """
         return self._children
 
-    @property  # read-only via getter-only and read-only return type `Sequence`
-    def raw_children(self) -> Sequence[NodeType]:
-        """Return all the raw children of this node (i.e. without being copied or
-        transformed).
-        """
-        return self._children
+    def flatten(self) -> Sequence[Node]:
+        """Recursively retrieve a flat sequence of resolved, transform-applied
+        primitives.
 
-    @property
-    def leaves(self) -> Sequence[Node]:
-        """Get the ultimate descendant nodes.
-
-        This method recursively traverses the node hierarchy, returning only the final
-        descendant nodes (the nodes that have no further children, like the leaves of a
-        tree).
-
-        Note:
-            Nodes that are children of a transformation node (such as
-            :py:class:`Rotation` or :py:class:`Translation`) are copied and have the
-            transformation applied before being returned.
+        This method traverses the node hierarchy to:
+        1. Collect all leaf nodes (or self, if atomic).
+        2. Decompose composite nodes into their primitive components.
+        3. Apply any active transformations (e.g., :py:class:`Translation`) to the
+            geometry.
 
         Returns:
-            All ultimate descendant nodes.
-        """
+            A flat list of atomic nodes ready for serialization.
+            Note: Transformed nodes are returned as new instances (copies)."""
+
         nodes: list[Node] = []
-        for child in self.children:
-            nodes += child.leaves
+        for child in self._children:
+            nodes += child.flatten()
         return nodes
 
     def translate(self, vector: Vector2D) -> Self:
@@ -179,7 +171,7 @@ class Container(Node, Generic[NodeType]):
         Returns:
             Itself after translating all the child nodes (in place).
         """
-        for child in self.children:
+        for child in self._children:
             child.translate(vector)
         return self
 
@@ -221,7 +213,7 @@ class Container(Node, Generic[NodeType]):
             :py:class:`Rotation` or :py:class:`Translation`) are copied and have the
             transformation applied before being returned.
         """
-        return iter(self.children)
+        return iter(self._children)
 
     def __len__(self) -> int:
         """Return the number of children this node has."""

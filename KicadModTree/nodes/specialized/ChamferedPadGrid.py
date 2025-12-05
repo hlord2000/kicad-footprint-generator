@@ -365,8 +365,7 @@ class ChamferedPadGrid(Node):
                 )
         return pads
 
-    @property
-    def leaves(self) -> list[ChamferedPad]:
+    def flatten(self) -> list[ChamferedPad]:
         """Return the leaf nodes to serialize."""
         return self._generate_pads()
 

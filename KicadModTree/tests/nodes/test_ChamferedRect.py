@@ -51,7 +51,7 @@ def test_ChamferedRectangle(size, layer, width, chamfer, corners, fill, exp_poin
     # Flatten the object and check the output
     #
     # ChamferedRect is a base object, so it should flatten to itself
-    serialised = r.leaves
+    serialised = r.flatten()
 
     # Pull out the Polygon object
     polygons = CA.assert_contains_n_of_type(serialised, 1, Polygon)

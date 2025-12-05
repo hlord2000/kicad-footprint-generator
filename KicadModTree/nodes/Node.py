@@ -454,34 +454,19 @@ class Node(ABC):
         """Return the parent node of this node."""
         return self._parent
 
-    @property  # Read-only via getter-only and returning 'Sequence' instead of 'list'
-    def children(self) -> Sequence[Node]:
-        """Return the child nodes of this node.
+    def flatten(self) -> Sequence[Node]:
+        """Recursively retrieve a flat sequence of resolved, transform-applied
+        primitives.
 
-        Nodes that are children of a transformation node (such as :py:class:`Rotation`
-        or :py:class:`Translation`) are copied and have the transformation applied
-        before being returned.
-
-        Returns:
-            All ultimate descendant nodes.
-        """
-        return self.leaves
-
-    @property  # Read-only via getter-only and returning 'Sequence' instead of 'list'
-    def leaves(self) -> Sequence[Node]:
-        """Get the ultimate descendant nodes.
-
-        This method recursively traverses the node hierarchy, returning only the final
-        descendant nodes (the nodes that have no further children, like the leaves of a
-        tree).
-
-        Nodes that are children of a transformation node (such as :py:class:`Rotation`
-        or :py:class:`Translation`) are copied and have the transformation applied
-        before being returned.
+        This method traverses the node hierarchy to:
+        1. Collect all leaf nodes (or self, if atomic).
+        2. Decompose composite nodes into their primitive components.
+        3. Apply any active transformations (e.g., :py:class:`Translation`) to the
+            geometry.
 
         Returns:
-            All ultimate descendant nodes.
-        """
+            A flat list of atomic nodes ready for serialization.
+            Note: Transformed nodes are returned as new instances (copies)."""
         return [self]
 
     def bbox(self) -> BoundingBox:

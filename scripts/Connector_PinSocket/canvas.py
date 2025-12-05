@@ -679,7 +679,7 @@ class Keepout():
         return self
 
     def addPads(self):
-        nodes = self.layer.footprint.raw_children
+        nodes = self.layer.footprint.children
         offset = self.offset
         for node in nodes:
             if isinstance(node, Pad):
@@ -690,7 +690,7 @@ class Keepout():
 
     def getPadBB(self, number):
         # TODO: use node.calculateBoundingBox when implemented, this is a simple version that does not honor any rotation
-        nodes = self.layer.footprint.raw_children
+        nodes = self.layer.footprint.children
         offset = self.offset * 2.0
         bb = None
         for node in nodes:

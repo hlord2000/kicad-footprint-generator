@@ -98,7 +98,7 @@ class CourtyardBuilder:
         else:
             cb.add_element(outline, offset_fab, offset_pads, True)
             use_fab_layer = False
-        nodes = node.raw_children if isinstance(node, Container) else node
+        nodes = node.children if isinstance(node, Container) else node
         for n in nodes:
             cb.add_element(n, offset_fab, offset_pads, use_fab_layer)
         cb._build()

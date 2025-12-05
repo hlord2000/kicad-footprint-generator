@@ -81,8 +81,7 @@ class _RingPadPrimitive(Node):
             number=self.number,
         )
 
-    @property
-    def leaves(self) -> list[Pad]:
+    def flatten(self) -> list[Pad]:
         """Return the leaf nodes to serialize."""
         return [
             Pad(
@@ -323,8 +322,7 @@ class _ArcPadPrimitive(Node):
                 )
         return result
 
-    @property
-    def leaves(self) -> list[Node]:
+    def flatten(self) -> list[Node]:
         """Return the leaf nodes to serialize."""
         at = self.reference_arc.mid
         primitives = self._get_arc_primitives()
@@ -617,12 +615,11 @@ class RingPad(Container[Pad | _ArcPadPrimitive | _RingPadPrimitive]):
                 )
             )
 
-    @property
-    def leaves(self) -> list[Node]:
+    def flatten(self) -> list[Node]:
         """Return the leaf nodes to serialize."""
         nodes: list[Node] = []
         for child in self._children:
-            nodes.extend(child.leaves)
+            nodes.extend(child.flatten())
         return nodes
 
     def as_geom_shape(self, inflation: float = 0.0) -> GeomCircle:

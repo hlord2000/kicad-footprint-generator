@@ -59,6 +59,38 @@ class Rotation(Container[Node]):
                 transformed_nodes.append(child.rotated(self.angle, self.origin))
         return transformed_nodes
 
+    def transformed_children(self) -> Sequence[Node]:
+        """Return the immediate children with this node's rotation applied.
+
+        Returns:
+            The list of all child nodes if the rotation is zero, otherwise a rotated
+            copy of all child nodes.
+        """
+        if abs(self.angle % 360) <= 1e-10:
+            return self._children
+        else:
+            nodes: list[Node] = []
+            for child in self._children:
+                nodes.append(child.rotated(self.angle, self.origin))
+            return nodes
+
+    def flatten(self) -> Sequence[Node]:
+        """Recursively retrieve primitives and apply their transformations to them.
+
+        Returns:
+            The list of all child nodes if the rotation is zero, otherwise a rotated
+            copy of all flattened child nodes.
+        """
+        nodes: list[Node] = []
+        if self.angle == 0.0:
+            for child in self._children:
+                nodes += child.flatten()
+        else:
+            for child in self._children:
+                for flat_child in child.flatten():
+                    nodes.append(flat_child.rotated(self.angle, self.origin))
+        return nodes
+
     def bbox(self) -> BoundingBox:
         """Return the rotated bounding box of every child node."""
         bbox = BoundingBox()

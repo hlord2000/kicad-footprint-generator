@@ -43,9 +43,8 @@ class Translation(Container[Node]):
         else:
             self.offset = Vector2D.from_floats(x, y)
 
-    @property
-    def children(self) -> Sequence[Node]:
-        """Return a list of the translated copies of all child nodes from the node tree.
+    def transformed_children(self) -> Sequence[Node]:
+        """Return the immediate children with this node's translation applied.
 
         Returns:
             The list of all child nodes if the translation offset is zero, otherwise
@@ -54,10 +53,27 @@ class Translation(Container[Node]):
         if self.offset.is_nullvec():
             return self._children
         else:
-            transformed_nodes: list[Node] = []
+            nodes: list[Node] = []
             for child in self._children:
-                transformed_nodes.append(child.translated(vector=self.offset))
-            return transformed_nodes
+                nodes.append(child.translated(vector=self.offset))
+            return nodes
+
+    def flatten(self) -> Sequence[Node]:
+        """Recursively retrieve primitives and apply their transformations to them.
+
+        Returns:
+            The list of all child nodes if the translation offset is zero, otherwise
+            a translated copy of all flattened child nodes.
+        """
+        nodes: list[Node] = []
+        if self.offset.is_nullvec():
+            for child in self._children:
+                nodes += child.flatten()
+        else:
+            for child in self._children:
+                for flat_child in child.flatten():
+                    nodes.append(flat_child.translated(vector=self.offset))
+        return nodes
 
     def bbox(self) -> BoundingBox:
         """Return the bounding box of all the child nodes translated by 'offset'.

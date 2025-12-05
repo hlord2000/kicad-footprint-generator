@@ -67,8 +67,7 @@ class ChamferedRectangle(Shape, GeomChamferedRectangle):
         if offset:
             self.inflate(amount=offset)
 
-    @property
-    def leaves(self) -> list[Rectangle | Polygon]:
+    def flatten(self) -> list[Rectangle | Polygon]:
         """Return the leaf nodes to serialize."""
         shape = self.get_shapes()[0]
         node = shape_to_node(
