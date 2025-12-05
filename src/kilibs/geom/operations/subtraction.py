@@ -52,7 +52,7 @@ def subtract_many(
             omitted from the results.
         tol: Tolerance used to dertemine if the two points are equal.
 
-    Returns:
+    Returns:determine
         If the subject shape is fully outside of the clip shapes, then the subject shape
         is returned. If the subject shape is fully inside of the clip shapes, then
         nothing is returned.
@@ -100,7 +100,7 @@ def subtract(
             omitted from the results.
         tol: Tolerance used to dertemine if the two points are equal.
 
-    Returns:
+    Returns:determine
         If `subject_shape` is fully outside of `clip_shape`, then a list containing
         `subject_shape` is returned. If `subject_shape` is fully inside of `clip_shape`,
         then an empty list is returned. Otherwise, `subject_shape` is decomposed to its

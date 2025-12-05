@@ -54,7 +54,7 @@ def get_intersection_points(
         min_segment_length: The minimum length of a segment. If a segment resulting
             from the cut operation is shorter than `min_segment_length`, it is
             omitted from the results.
-        tol: Tolerance used to dertemine if the two points are equal.
+        tol: Tolerance used to determine if the two points are equal.
 
     Returns:
         The `GeomOperationHandle` structure which contains information about the
@@ -102,7 +102,7 @@ def intersect_handler(
         min_segment_length: The minimum length of a segment. If a segment resulting
             from the cut operation is shorter than `min_segment_length`, it is
             omitted from the results.
-        tol: Tolerance used to dertemine if the two points are equal.
+        tol: Tolerance used to determine if the two points are equal.
 
     Returns:
         The `GeomOperationHandle` structure which contains information about the

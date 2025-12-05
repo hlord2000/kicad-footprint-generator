@@ -29,7 +29,7 @@ def are_lines_parallel(
     Args:
         line1: The first line.
         line2: The other line.
-        tol: Tolerance in mm used to dertemine if two segments are parallel.
+        tol: Tolerance in mm used to determine if two segments are parallel.
 
     Returns:
         `True` if the lines are parallel, `False` otherwise.
@@ -59,7 +59,7 @@ def are_arcs_on_same_circle(
     Args:
         arc1: The first arc.
         arc2: The other arc.
-        tol: Tolerance in mm used to dertemine if two arcs share the same center
+        tol: Tolerance in mm used to determine if two arcs share the same center
             and have the same radius.
 
     Returns:

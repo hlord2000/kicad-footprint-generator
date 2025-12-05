@@ -45,7 +45,7 @@ def get_intersection_points_of_atomic_shapes(
             the ends of the `shape2` shall be removed from the results.
         infinite_line: `True` if the lines shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -103,7 +103,7 @@ def get_intersection_points_of_arc_with_atomic_shape(
             the ends of the `shape` shall be removed from the results.
         infinite_line: `True` if the lines shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -158,7 +158,7 @@ def get_intersection_points_of_circle_with_atomic_shape(
             the ends of the `shape` shall be removed from the results.
         infinite_line: `True` if the lines shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -212,7 +212,7 @@ def get_intersection_points_of_line_with_atomic_shape(
             the ends of the `shape` shall be removed from the results.
         infinite_line: `True` if the lines shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -267,7 +267,7 @@ def get_intersection_points_of_arcs(
             the ends of the `arc1` shall be ignored.
         exclude_segment_ends_arc2: `True` if intersections coinciding with one of
             the ends of the `arc2` shall be ignored.
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -311,7 +311,7 @@ def get_intersection_points_of_arc_with_circle(
             removed from the results.
         exclude_segment_ends: `True` if intersections coinciding with one of
             the ends of the `arc` shall be ignored.
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -357,7 +357,7 @@ def get_intersection_points_of_arc_with_line(
             the ends of the `line` shall be ignored.
         infinite_line: `True` if the line shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -395,7 +395,7 @@ def get_intersection_points_of_circles(
         circle2: The other arc to intersect with.
         exclude_tangents: If `True` tangent points (single intersections) are
             removed from the results.
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -464,7 +464,7 @@ def get_intersection_points_of_circle_with_line(
             removed from the results.
         infinite_line: `True` if the line shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two points are identical.
+        tol: Tolerance in mm used to determine if two points are identical.
 
     Returns:
         List of intersection points.
@@ -550,7 +550,7 @@ def get_intersection_points_of_lines(
             the ends of `line2` shall be ignored.
         infinite_line: `True` if the lines shall be considered to be infinitely
             long (the intersection points can lie outside of the segments).
-        tol: Tolerance in mm used to dertemine if two segments are parallel.
+        tol: Tolerance in mm used to determine if two segments are parallel.
 
     Returns:
         List of intersection points.
@@ -602,7 +602,7 @@ def get_intersection_points_of_upwards_ray_with_line(
     Args:
         ray_start: The start point of the ray.
         line: The line segment to intersect with.
-        tol: Tolerance in mm used to dertemine if two segments are parallel.
+        tol: Tolerance in mm used to determine if two segments are parallel.
 
     Returns:
         List of intersection points.
@@ -645,7 +645,7 @@ def get_intersection_points_of_upwards_ray_with_circle(
         ray_start: The start point of the ray.
         circle: The circle to intersect with.
         exclude_tangents: Whether to exclucde tangent points form the solution.
-        tol: Tolerance in mm used to dertemine if two segments are parallel.
+        tol: Tolerance in mm used to determine if two segments are parallel.
 
     Returns:
         List of intersection points.
@@ -689,7 +689,7 @@ def get_intersection_points_of_upwards_ray_with_arc(
         ray_start: The start point of the ray.
         arc: The arc segment to intersect with.
         exclude_tangents: Whether to exclucde tangent points form the solution.
-        tol: Tolerance in mm used to dertemine if two segments are parallel.
+        tol: Tolerance in mm used to determine if two segments are parallel.
 
     Returns:
         List of intersection points.

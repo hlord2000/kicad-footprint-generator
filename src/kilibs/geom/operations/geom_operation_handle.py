@@ -103,7 +103,7 @@ class GeomOperationHandle:
             min_segment_length: The minimum length of a segment. If a segment resulting
                 from the cut operation is shorter than `min_segment_length`, it is
                 omitted from the results.
-            tol: Tolerance used to dertemine if the two points are equal.
+            tol: Tolerance used to determine if the two points are equal.
         """
         self.min_segment_length = min_segment_length
         self.tol = tol

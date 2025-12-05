@@ -45,7 +45,7 @@ def intersect(
         min_segment_length: The minimum length of a segment. If a segment resulting
             from the `intersect()` operation is shorter than `min_segment_length`, it is
             omitted from the resulting shape.
-        tol: Tolerance used to dertemine if the two points are equal.
+        tol: Tolerance used to determine if the two points are equal.
 
     Returns:
         A list containing a polygon or compound polygon (if there are arcs in the

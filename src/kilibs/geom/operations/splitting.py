@@ -37,7 +37,7 @@ def split(
         min_segment_length: The minimum length of a segment. If a segment resulting
             from the split operation is shorter than `min_segment_length`, it is
             omitted from the results.
-        tol: Tolerance used to dertemine if the two points are equal.
+        tol: Tolerance used to determine if the two points are equal.
     Returns:
         A list containing the fragments of the split shape.
         If the shape has been split, the resulting line and arc segments are returned
