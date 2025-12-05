@@ -375,6 +375,7 @@ class NoLeadGenerator(FootprintGenerator):
             pad_arrays=pad_arrays,
             exposed_pad=exposed_pad,
             body_size=Vector2D.from_floats(size_x, size_y),
+            footprint_name=kicad_mod.name
         )
         kicad_mod += layout
 

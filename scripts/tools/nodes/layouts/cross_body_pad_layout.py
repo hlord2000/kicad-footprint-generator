@@ -1,16 +1,15 @@
-import enum
+from itertools import accumulate
 
-from KicadModTree import Container, Node, Pad
-from kilibs.geom import CornerSelection, GeomRectangle, GeomShapeClosed, Vector2D
-from scripts.tools import drawing_tools_silk
-from scripts.tools.drawing_tools import getKeepoutsForPads
+from KicadModTree import Pad
+from kilibs.geom import Direction, GeomRectangle, Vector2D
+from scripts.tools import drawing_tools, drawing_tools_silk
 from scripts.tools.global_config_files import global_config as GC
 from scripts.tools.nodes import pin1_arrow
 
-from .footprint_layout import FootprintLayoutNode
+from .footprint_layout import CourtyardStyle, FabStyle, FootprintLayout, SilkStyle
 
 
-class CrossBodyPadLayout(FootprintLayoutNode):
+class CrossBodyPadLayout(FootprintLayout[GeomRectangle, Pad]):
     """
     A layout node that represents a rectangular device with a number of pads
     that cross the body vertically:
@@ -31,204 +30,126 @@ class CrossBodyPadLayout(FootprintLayoutNode):
     appropriate (if the device has 2/3-pad variants, it's a good sign).
     """
 
-    class SilkStyle(enum.Enum):
-        """Supported silk styles for this layout"""
-
-        NONE = 0
-        BODY_RECT = 1
-
     courtyard_body_offset: float | GC.GlobalConfig.CourtyardType
 
     def __init__(
         self,
         global_config: GC.GlobalConfig,
         pad_size: Vector2D | list[Vector2D],
-        pad_pitch: float | list[float],
+        pitch: float | list[float],
         pad_count: int,
         body_size: Vector2D,
+        footprint_name: str,
         pads_body_offset: Vector2D = Vector2D(0, 0),
-        silk_style: SilkStyle = SilkStyle.BODY_RECT,
+        silk_style: SilkStyle = SilkStyle.TIGHT,
         has_pin1_arrow: bool = False,
-    ):
+    ) -> None:
         """
         Args:
-            global_config: The global config object
-            pad_size: The size of the pads
-            pad_pitch: The pitch of the pads in x/y
-            body_size: The size of the body
-            pads_body_offset: The offset of the pads centre
-                         relative to the centre of the body.
-            courtyard_body_offset: The offset of the body courtyard, if different.
-            polarized: Draw a polarized silk marker (currently, a U shape)
+            global_config: The global config object.
+            pad_size: The size of the pads.
+            pitch: The pitch of the pads in x/y.
+            pad_count: The number of pads.
+            body_size: The size of the body.
+            footprint_name: The name of the footprint. Used for the automatic label
+                placement.
+            pads_body_offset: The offset of the pads centre relative to the centre of
+                the body.
+            silk_style: The style of the silk outline.
+            has_pin1_arrow: Draw a polarized silk marker (currently, a U shape).
         """
-        super().__init__(global_config=global_config)
+        self._pad_size = pad_size.copy()
+        self._pad_count = pad_count
+        self._silk_style = silk_style
+        self._has_pin1_arrow = has_pin1_arrow
+        self._pad_count = pad_count
+        self._pitch = pitch
+        self._pads_body_offset = pads_body_offset
+        self._silk_keepouts: list[GeomRectangle] = []
 
-        # Opt into nice things
-        self.automatic_courtyard = True
-        self.automatic_label_placement = True
-        self.automatic_body_rect = True
-        self.automatic_silk_rect = silk_style == self.SilkStyle.BODY_RECT
-
-        self.body_size = body_size.copy()
-        self.courtyard_offset = global_config.get_courtyard_offset(
-            GC.GlobalConfig.CourtyardType.DEFAULT
+        body_shape = GeomRectangle(center=Vector2D.zero(), size=body_size)
+        super().__init__(
+            global_config=global_config,
+            body_shape=body_shape,
+            pads=self._get_pads(global_config),
         )
 
-        self._pad_size = pad_size
-        self.pad_count = pad_count
-        self.pad_body_offset = pads_body_offset.copy()
+        if silk_style is not SilkStyle.NONE and has_pin1_arrow:
+            self._add_silk_arrow(body_shape)
+        fab_style = FabStyle.CHAMFER_RECT if has_pin1_arrow else FabStyle.BODY_SHAPE
+        self._add_automatic_fab_outline(fab_style)
+        self._add_automatic_silk_outline(silk_style)
+        self._add_automatic_courtyard(CourtyardStyle.TIGHT)
+        self._add_automatic_labels(footprint_name)
 
-        self.pad_positions = self._compute_pad_positions(pad_pitch)
+    def _get_pads(self, global_config: GC.GlobalConfig) -> list[Pad]:
+        """Create all the pads of this component."""
 
-        self.courtyard_body_offset = GC.GlobalConfig.CourtyardType.DEFAULT
-
-        self.silk_style = silk_style
-        self.has_pin1_arrow = has_pin1_arrow
-
-    def _get_pad_size(self, n: int) -> Vector2D:
-        if isinstance(self._pad_size, list):
-            assert (
-                len(self._pad_size) == self.pad_count
-            ), "pad_size must be a list of the same length as pad_count"
-            return self._pad_size[n]
-        else:
-            return self._pad_size
-
-    def _get_fab_bevel_corner(self):
-        if self.has_pin1_arrow:
-            # The default
-            return super()._get_fab_bevel_corner()
-
-        return CornerSelection(None)
-
-    def _get_courtyard_offset_body(self):
-        return self.courtyard_body_offset
-
-    def _compute_pad_positions(self, pad_pitch: float | list[float]):
-
-        pad_pos_x = []
-
-        if isinstance(pad_pitch, list):
-            assert (
-                len(pad_pitch) == self.pad_count - 1
-            ), "pad_pitch must be a list of the same length as pad_count - 1"
-
-            for i in range(self.pad_count):
-                if i == 0:
-                    pad_pos_x.append(0)
-                else:
-                    pad_pos_x.append(pad_pos_x[i - 1] + pad_pitch[i - 1])
-        else:
-            for i in range(self.pad_count):
-                pad_pos_x.append(i * pad_pitch)
-
-        array_len = pad_pos_x[-1] - pad_pos_x[0]
-
-        return [
-            Vector2D(
-                pos_x + self.pad_body_offset.x - array_len / 2, self.pad_body_offset.y
-            )
-            for pos_x in pad_pos_x
-        ]
-
-    def get_body_shape(self) -> GeomRectangle:
-        # The body is always at 0, 0, even if the pads are offset
-        return GeomRectangle(center=Vector2D(0, 0), size=self.body_size)
-
-    def _get_pad_bounds(self) -> GeomRectangle:
-        max_pad_t, max_pad_b = 0, 0
-
-        # This already includes the pad-body offset
-        for i, pad_pos in enumerate(self.pad_positions):
-            pad_size = self._get_pad_size(i)
-            pad_t = pad_pos.y - pad_size.y / 2
-            pad_b = pad_pos.y + pad_size.y / 2
-
-            max_pad_b = max(max_pad_b, pad_b)
-            max_pad_t = min(max_pad_t, pad_t)
-
-        pad0_l = self.pad_positions[0].x - self._get_pad_size(0).x / 2
-        padn_r = self.pad_positions[-1].x + self._get_pad_size(-1).x / 2
-
-        return GeomRectangle(
-            start=Vector2D(pad0_l, max_pad_t),
-            end=Vector2D(padn_r, max_pad_b),
-        )
-
-    def _get_silk_keepouts(self) -> list[GeomShapeClosed]:
-        return self._keepouts
-
-    def _get_child_nodes(self, parent: Container[Node]) -> None:
-
-        pad_opts = {
-            "type": Pad.TYPE_SMT,
-            "shape": Pad.SHAPE_ROUNDRECT,
-            "layers": Pad.LAYERS_SMT,
-            "round_radius_handler": self.global_config.roundrect_radius_handler,
-        }
-
-        # Because we allow for different pad sizes, we just do it directly
-        pad_nodes: list[Pad] = []
-
-        for i, pad_pos in enumerate(self.pad_positions):
-
-            pad_size = self._get_pad_size(i)
-            pad_nodes.append(
-                Pad(
-                    at=pad_pos,
-                    number=i + 1,
-                    size=pad_size,
-                    **pad_opts,
-                )
-            )
-
-        # Add keepouts for the pads
-        self._keepouts = getKeepoutsForPads(
-            pad_nodes, self.global_config.silk_pad_offset
-        )
-
-        parent += pad_nodes
-
-        if self.silk_style == self.SilkStyle.BODY_RECT and self.has_pin1_arrow:
-
-            # If the left pad extends past the body, we'll use an end-on eastward arrow
-            # Otherwise, we'll nestle it in the corner of the body and pad.
-
-            body_rect = self.get_body_shape()
-
-            left_edge_pad_defined: bool = (
-                pad_nodes[0].at.x - pad_nodes[0].size.x / 2
-            ) < (body_rect.left + 2 * self.global_config.silk_fab_offset)
-
-            if left_edge_pad_defined:
-                triangle = drawing_tools_silk.draw_silk_triangle_for_pad(
-                    pad_nodes[0],
-                    arrow_direction=pin1_arrow.Direction.EAST,
-                    arrow_size=drawing_tools_silk.SilkArrowSize.MEDIUM,
-                    pad_silk_offset=self.global_config.silk_pad_offset,
-                    stroke_width=self.global_config.silk_line_width,
-                )
-                parent.append(triangle)
+        def _get_pad_size(n: int) -> Vector2D:
+            if isinstance(self._pad_size, list):
+                assert (
+                    len(self._pad_size) == self._pad_count
+                ), "pad_size must be a list of the same length as pad_count"
+                return self._pad_size[n]
             else:
-                triangle = (
-                    drawing_tools_silk.draw_silk_triangle45_clear_of_fab_hline_and_pad(
-                        global_config=self.global_config,
-                        pad=pad_nodes[0],
-                        arrow_direction=pin1_arrow.Direction.NORTHEAST,
-                        line_y=body_rect.bottom,
-                        line_clearance_y=self.global_config.silk_fab_offset,
-                        arrow_size=drawing_tools_silk.SilkArrowSize.MEDIUM,
-                    )
+                return self._pad_size
+
+        def _get_pad_positions() -> list[Vector2D]:
+            if isinstance(self._pitch, list):
+                assert (
+                    len(self._pitch) == self._pad_count - 1
+                ), "pad_pitch must be a list of the same length as pad_count - 1"
+                pad_pos_x: list[float] = list(accumulate([0.0] + self._pitch))
+            else:
+                pad_pos_x = [i * self._pitch for i in range(self._pad_count)]
+            center_shift_x = self._pads_body_offset.x - pad_pos_x[-1] / 2
+            y = self._pads_body_offset.y
+            return [Vector2D.from_floats(x + center_shift_x, y) for x in pad_pos_x]
+
+        pads: list[Pad] = []
+        for i, pad_pos in enumerate(_get_pad_positions()):
+            pad_size = _get_pad_size(i)
+            pad = Pad(
+                at=pad_pos,
+                number=i + 1,
+                size=pad_size,
+                type=Pad.TYPE_SMT,
+                shape=Pad.SHAPE_ROUNDRECT,
+                layers=Pad.LAYERS_SMT,
+                round_radius_handler=global_config.roundrect_radius_handler,
+            )
+            pads.append(pad)
+        return pads
+
+    def _add_silk_arrow(self, body_rect: GeomRectangle) -> None:
+        # If the left pad extends past the body, we'll use an end-on eastward arrow
+        # Otherwise, we'll nestle it in the corner of the body and pad.
+        pad = self.pads[0]
+        left_edge_pad_defined = (pad.at.x - pad.size.x / 2) < (
+            body_rect.left + 2 * self.global_config.silk_fab_offset
+        )
+
+        if left_edge_pad_defined:
+            triangle = drawing_tools_silk.draw_silk_triangle_for_pad(
+                pad,
+                arrow_direction=Direction.EAST,
+                arrow_size=drawing_tools.SilkArrowSize.MEDIUM,
+                pad_silk_offset=self.global_config.silk_pad_offset,
+                stroke_width=self.global_config.silk_line_width,
+            )
+            self.append(triangle)
+        else:
+            triangle = (
+                drawing_tools_silk.draw_silk_triangle45_clear_of_fab_hline_and_pad(
+                    global_config=self.global_config,
+                    pad=pad,
+                    arrow_direction=Direction.NORTHEAST,
+                    line_y=body_rect.bottom,
+                    line_clearance_y=self.global_config.silk_fab_offset,
+                    arrow_size=drawing_tools.SilkArrowSize.MEDIUM,
                 )
-
-                tri_bbox = triangle.bbox()
-                tri_bbox.inflate(self.global_config.silk_line_width * 2.5)
-
-                self._keepouts.append(
-                    GeomRectangle(
-                        center=tri_bbox.center,
-                        size=tri_bbox.size,
-                    )
-                )
-
-                parent.append(triangle)
+            )
+            keepout = triangle.bbox()
+            keepout.inflate(self.global_config.silk_line_width * 2.5)
+            self.additional_silk_keepouts.append(GeomRectangle(shape=keepout))
+            self.append(triangle)

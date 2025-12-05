@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
 import sys
-from typing import Any, Generator
+
+from collections.abc import Generator
+from typing import Any
 
 from KicadModTree import Footprint, FootprintType, KicadPrettyLibrary, ModArgparser, Pad, Model, Node, Text
 from kilibs.geom import Direction, Vector2D
 from scripts.tools.drawing_tools_silk import SilkArrowSize
 from scripts.tools.global_config_files import global_config
 from scripts.tools.declarative_def_tools import common_metadata
-
-from scripts.tools.nodes.layouts.n_pad_box_layout import NPadBoxLayout
+from scripts.tools.nodes.layouts.n_pad_box_layout import NPadBoxLayout, SilkStyle
 
 
 def make_pad_from_data(
@@ -186,31 +187,29 @@ def converter(args: dict[str, Any]) -> None:
 
     offset = size / 2 + Vector2D(at.x, -at.y)
 
+    min_body_size = size.min_val
+
+    # Basic heuristic to determine the silk arrow size based on the body size
+    if min_body_size < 4:
+        silk_arrow_size = SilkArrowSize.MEDIUM
+    elif min_body_size < 10:
+        silk_arrow_size = SilkArrowSize.LARGE
+    else:
+        silk_arrow_size = SilkArrowSize.HUGE
+
     layout = NPadBoxLayout(
         global_config=global_cfg,
         body_size=size,
         body_offset=offset,
         pad_factory=pad_factory,
-        silk_style=NPadBoxLayout.SilkStyle.BODY_RECT,
+        silk_style=SilkStyle.TIGHT,
         is_polarized=automatic_pin1_mark,
+        footprint_name=f.name,
+        body_to_courtyard_clearance=courtyard_clearance,
+        additional_silk_clearance=fab_to_silk_clearance,
+        silk_arrow_direction_if_inside=arrow_points,
+        silk_arrow_size=silk_arrow_size,
     )
-
-    layout.silk_clearance = NPadBoxLayout.SilkClearance.TIGHT_TO_BODY
-    layout.fab_to_silk_clearance = fab_to_silk_clearance
-    layout.body_to_courtyard_clearance = courtyard_clearance
-
-    # Set the pin 1 arrow direction override (None -> no override)
-    layout.silk_arrow_direction_if_inside = arrow_points
-
-    min_body_size = size.min_val
-
-    # Basic heuristic to determine the silk arrow size based on the body size
-    if min_body_size < 4:
-        layout.silk_arrow_size = SilkArrowSize.MEDIUM
-    elif min_body_size < 10:
-        layout.silk_arrow_size = SilkArrowSize.LARGE
-    else:
-        layout.silk_arrow_size = SilkArrowSize.HUGE
 
     f += layout
 

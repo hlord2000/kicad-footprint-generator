@@ -158,6 +158,34 @@ class BoundingBox:
         else:
             raise RuntimeError("Cannot access empty bounding box.")
 
+    def inflate_anisotropic(self, amount: Vector2D | float) -> BoundingBox:
+        """Expand the bounding box by possibly diferent amounts in x- and y-direction.
+
+        Args:
+            amount: Amount by which to inflate the bounding box.
+
+        Raises:
+            RuntimeError: If the bounding box is not initialized.
+
+        Returns:
+            The bounding box after inflation.
+        """
+        if self.min is not None and self.max is not None:
+            if isinstance(amount, float | int):
+                self.min.x -= amount
+                self.min.y -= amount
+                self.max.x += amount
+                self.max.y += amount
+            else:
+                self.min.x -= amount.x
+                self.min.y -= amount.y
+                self.max.x += amount.x
+                self.max.y += amount.y
+
+        else:
+            raise RuntimeError("Cannot access empty bounding box.")
+        return self
+
     def contains_point(self, point: Vector2D) -> bool:
         """Test if a point is inside the bounding box."""
         # A null bbox won't contain any point

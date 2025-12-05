@@ -1,31 +1,31 @@
 from math import sqrt
 
 from KicadModTree import (
-    Container,
     ExposedPad,
-    Node,
     PadArray,
     shape_to_node,
 )
 from KicadModTree.nodes.specialized.PadArray import find_lowest_numbered_pad
 from kilibs.geom import (
     BoundingBox,
-    CornerSelection,
     Direction,
     GeomRectangle,
-    GeomShapeClosed,
+    GeomShapesClosed,
     Vector2D,
 )
 from kilibs.geom.operations import rounding, subtract
-from scripts.tools.drawing_tools import applyKeepouts
-from scripts.tools.drawing_tools_silk import SilkArrowSize, getStandardSilkArrowSize
+from scripts.tools.drawing_tools import (
+    SilkArrowSize,
+    applyKeepouts,
+    getStandardSilkArrowSize,
+)
 from scripts.tools.global_config_files import global_config as GC
 from scripts.tools.nodes import pin1_arrow
 
-from .footprint_layout import FootprintLayoutNode
+from .footprint_layout import CourtyardStyle, FabStyle, FootprintLayout
 
 
-class DualAndQuadPadArrayLayout(FootprintLayoutNode):
+class DualAndQuadPadArrayLayout(FootprintLayout[GeomRectangle, PadArray | ExposedPad]):
     """This layout is typically used by gullwing and nolead packages:
 
     Dual pad array:
@@ -88,7 +88,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         pad_arrays: list[PadArray],
         exposed_pad: ExposedPad | None,
         body_size: Vector2D,
-        fab_bevel: CornerSelection = CornerSelection({CornerSelection.TOP_LEFT: True}),
+        footprint_name: str,
     ) -> None:
         """
         Create a two-pad SMD layout.
@@ -98,12 +98,12 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
             courtyard_offset_body: The clearance between the courtyard and the component
                 body.
             courtyard_offset_pads: The clearance between the courtyard and the pads.
-            pad_arrays: The pads
+            pad_arrays: The pads.
+            exposed_pad: The optional exposed pad.
             body_size: The nominal size of the body, in mm.
-            fab_bevel: The corner in which the bevel is on the fab layer.
+            footprint_name: The name of the footprint.
         """
-
-        super().__init__(global_config=global_config)
+        # TODO: Once GlobalConfig is a singleton this won't be necessary anymore:
         DualAndQuadPadArrayLayout._init_class_attributes(global_config.silk_line_width)
 
         # Instance attributes:
@@ -113,35 +113,27 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         """Optional exposed pad."""
         self.body_size: Vector2D
         """The nominal size of the rectangular body, in mm."""
-        self.fab_bevel: CornerSelection
-        """Corner selection for the bevel on the fab layer."""
         self.courtyard_offset_body: float
         """Offset between the courtyard and the component body."""
         self.courtyard_offset_pads: float
         """Offset between the courtyard and the pads."""
 
-        # Opt into nice things
-        self.automatic_courtyard = True
-        self.automatic_label_placement = True
-        self.automatic_body_rect = True
-        self.automatic_silk_rect = False
-
         self.pad_arrays = pad_arrays
         self.exposed_pad = exposed_pad
         self.body_size = body_size
-        self.fab_bevel = fab_bevel
         self.courtyard_offset_body = courtyard_offset_body
         self.courtyard_offset_pads = courtyard_offset_pads
 
-    def get_body_shape(self) -> GeomShapeClosed:
-        """Get the body shape of the footprint."""
-        return GeomRectangle(
-            center=Vector2D.zero(),
-            size=self.body_size,
+        super().__init__(
+            global_config=global_config,
+            pads=pad_arrays + [exposed_pad] if exposed_pad is not None else pad_arrays,
+            body_shape=GeomRectangle(center=Vector2D.zero(), size=self.body_size),
         )
 
-    def _get_fab_bevel_corner(self) -> CornerSelection:
-        return self.fab_bevel
+        self._add_automatic_fab_outline(FabStyle.CHAMFER_RECT)
+        self._add_automatic_courtyard(CourtyardStyle.TIGHT)
+        self._add_automatic_labels(footprint_name)
+        self._create_silk()
 
     def _get_courtyard_offset_pads(self) -> float | GC.GlobalConfig.CourtyardType:
         """Return the courtyard offset for the pads."""
@@ -185,7 +177,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         return bb
 
     def _create_arrow(
-        self, parent: Container[Node]
+        self,
     ) -> pin1_arrow.Pin1SilkscreenArrow | pin1_arrow.Pin1SilkScreenArrow45Deg:
         silk_line_width = self.global_config.silk_line_width
         silk_pad_offset = self.global_config.silk_pad_clearance + silk_line_width / 2
@@ -207,7 +199,8 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
             pad1_neighbours_bboxes.append(pads[idx_pad + 1].bbox())
 
         # Get the distance between pad1 and the courtyard outline:
-        crt_bbox = self._get_courtyard(parent).bbox
+        assert self.courtyard, "Create the courtyard first."
+        crt_bbox = self.courtyard.bbox()
         clearance = (
             silk_pad_offset - 1.5 * silk_line_width
         )  # Allow arrow to stand out by 1.5*slw
@@ -507,7 +500,7 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
                 line_width_mm=silk_line_width,
             )
 
-    def _create_silk(self, parent: Container[Node]) -> None:
+    def _create_silk(self) -> None:
         silk_line_width = self.global_config.silk_line_width
         silk_pad_offset = self.global_config.silk_pad_clearance + silk_line_width / 2
         silk_fab_offset = self.global_config.silk_fab_offset
@@ -515,8 +508,8 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         body_x_half = self.body_size.x / 2
         body_y_half = self.body_size.y / 2
 
-        arrow = self._create_arrow(parent)
-        parent.append(arrow)
+        arrow = self._create_arrow()
+        self.append(arrow)
 
         # Draw the component outline on the silk screen:
         #
@@ -542,22 +535,16 @@ class DualAndQuadPadArrayLayout(FootprintLayoutNode):
         # The silk outline might need to be trimmed around the arrow:
         g_silk_kept = subtract(g_silk, arrow.as_polygon(inflation=silk_line_width * 2))
         # Trim the silk outline around the pads:
-        keepouts: list[GeomShapeClosed] = []
+        keepouts: list[GeomShapesClosed] = []
         for pad_array in self.pad_arrays:
             keepouts.extend(pad_array.as_geom_shapes(inflation=silk_pad_offset))
         if self.exposed_pad is not None:
             keepouts.append(self.exposed_pad.as_geom_shape(inflation=silk_pad_offset))
         g_silk_kept = applyKeepouts(items=g_silk_kept, keepouts=keepouts)
         for shape in g_silk_kept:
-            parent.append(
+            self.append(
                 shape_to_node(shape=shape, layer="F.SilkS", width=silk_line_width)
             )
-
-    def _get_child_nodes(self, parent: Container[Node]) -> None:
-        parent.extend(self.pad_arrays)
-        if self.exposed_pad is not None:
-            parent.append(self.exposed_pad)
-        self._create_silk(parent=parent)
 
     @classmethod
     def _init_class_attributes(cls, silk_line_width: float) -> None:

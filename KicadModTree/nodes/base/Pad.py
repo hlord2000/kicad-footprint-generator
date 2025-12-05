@@ -30,6 +30,7 @@ from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHan
 from kilibs.geom import (
     BoundingBox,
     CornerSelection,
+    GeomCircle,
     GeomRectangle,
     GeomShapesClosed,
     Vec2DCompatible,
@@ -659,7 +660,7 @@ class Pad(Node):
         else:
             return self.bbox().top_left
 
-    def as_geom_shape(self, inflation: float = 0.0) -> GeomShapesClosed:
+    def as_geom_shape(self, inflation: float = 0.0) -> GeomRectangle | GeomCircle:
         """Return the a closed geometric shape of the contour of the pad. As of now all
         shapes are simplified to their bounding box.
 
@@ -669,7 +670,21 @@ class Pad(Node):
         Returns:
             The inflated contour of the pad.
         """
-        return GeomRectangle(shape=self.bbox()).inflate(inflation)
+        if self.shape in (Pad.SHAPE_RECT, Pad.SHAPE_ROUNDRECT, Pad.SHAPE_OVAL):
+            return GeomRectangle(
+                center=self.at, size=self.size + 2 * inflation, angle=self.rotation
+            )
+        elif self.shape is Pad.SHAPE_CIRCLE:
+            return GeomCircle(center=self.at, radius=self.size.x / 2 + inflation)
+        else:
+            bounding_box = BoundingBox()
+            for primitive in self.primitives:
+                primitive_bbox = primitive.bbox()
+                if primitive.width is not None:
+                    primitive_bbox.inflate(primitive.width / 2.0)
+                primitive_bbox.translate(self.at)
+                bounding_box.include_bbox(primitive_bbox)
+            return GeomRectangle(shape=bounding_box).inflate(inflation)
 
     @property
     def fab_property(self) -> FabProperty | None:

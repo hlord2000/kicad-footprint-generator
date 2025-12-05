@@ -17,6 +17,7 @@ import logging
 import os
 from pathlib import Path
 from typing import Any
+
 import yaml
 
 from KicadModTree import Footprint, FootprintType, Line
@@ -30,6 +31,7 @@ from scripts.tools.drawing_tools_silk import SilkArrowSize
 from scripts.tools.footprint_generator import FootprintGenerator
 from scripts.tools.nodes.layouts.n_pad_box_layout import (
     NPadBoxLayout,
+    SilkStyle,
     make_layout_for_smd_two_pad_dimensions,
 )
 
@@ -95,23 +97,22 @@ class InductorGenerator(FootprintGenerator):
         # For now, all supported inductors are two-pad SMD inductors,
         # but this is where we would dispatch to different layouts
         if isinstance(part_data.body, TwoPadInductorParameters):
+
+            if xy_body_size.min_val < 2:
+                silk_arrow_size = SilkArrowSize.SMALL
+            else:
+                silk_arrow_size = SilkArrowSize.MEDIUM
+
             layout = make_layout_for_smd_two_pad_dimensions(
                 global_config=self.global_config,
                 pad_dims=part_data.body.landing_dims,
                 body_size=xy_body_size,
-                silk_style=NPadBoxLayout.SilkStyle.BODY_RECT,
+                silk_style=SilkStyle.RECTANGLE_KEEP_TOP_BOTTOM,
                 is_polarized=series_data.has_orientation,
+                footprint_name=kicad_mod.name,
+                silk_arrow_direction_if_inside=Direction.SOUTH,
+                silk_arrow_size=silk_arrow_size,
             )
-            layout.silk_clearance = NPadBoxLayout.SilkClearance.KEEP_TOP_BOTTOM
-
-            if xy_body_size.min_val < 2:
-                layout.silk_arrow_size = SilkArrowSize.SMALL
-            else:
-                layout.silk_arrow_size = SilkArrowSize.MEDIUM
-
-            # We never want the arrow to point in from the left even if the pad
-            # is entirely inside the body.
-            layout.silk_arrow_direction_if_inside = Direction.SOUTH
 
             kicad_mod += layout
 

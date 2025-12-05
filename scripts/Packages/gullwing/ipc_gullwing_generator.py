@@ -403,6 +403,7 @@ class GullwingGenerator(FootprintGenerator):
             body_size=Vector2D.from_floats(
                 gwc.body_size_x.nominal, gwc.body_size_y.nominal
             ),
+            footprint_name=kicad_mod.name,
         )
         kicad_mod += layout
 

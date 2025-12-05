@@ -79,21 +79,16 @@ known_common = ['cadquery', 'yaml', 'OCP']
 # Configure MyPy static type checker
 [tool.mypy]
 strict = true
-packages = ["kilibs", "KicadModTree"]
-mypy_path = ["src"]
+packages = ["kilibs", "KicadModTree", "scripts.tools.nodes"]
+mypy_path = ["src", "."]
 exclude = [
-    "3d-model-generators",
-    "data",
-    "docs",
-    "gitalbci",
-    "scripts",
     "src/kilibs/declarative_defs",
     "KicadModTree/nodes/specialized/RectLine.py",
     "KicadModTree/nodes/specialized/PolygonLine.py",
     "KicadModTree/nodes/specialized/ChamferedNativePad.py",
     "KicadModTree/nodes/specialized/ChamferedRect.py",
     "KicadModTree/examples",
-    "tests",
+    "KicadModTree/tests",
 ]
 
 [tool.pydocstringformatter]

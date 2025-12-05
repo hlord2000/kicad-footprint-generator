@@ -1,38 +1,22 @@
-import enum
-from typing import Any, Callable, Generator, Iterator, TypeAlias
+from collections.abc import Callable, Generator, Iterator
+from typing import Any, TypeAlias
 
-from KicadModTree import Container, Node, Pad
+from KicadModTree import Pad
 from KicadModTree.util import courtyard_builder
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from kilibs.geom import (
-    BoundingBox,
-    CornerSelection,
     Direction,
-    GeomPolygon,
     GeomRectangle,
-    GeomShapeClosed,
     Vector2D,
 )
-from scripts.tools import drawing_tools_silk
-from scripts.tools.drawing_tools import getKeepoutsForPads, makeNodesWithKeepout
+from scripts.tools.drawing_tools import SilkArrowSize
+from scripts.tools.drawing_tools_silk import auto_silk_triangle_for_pad_and_box
 from scripts.tools.global_config_files import global_config as GC
-from scripts.tools.nodes import pin1_arrow
 
-from .footprint_layout import FootprintLayoutNode
-
-
-def rect_inflate_anisotropic(rect: GeomRectangle, amount: Vector2D) -> GeomRectangle:
-    """Inflate a rectangle by an amount that can be different in x and y."""
-    return GeomRectangle(
-        center=rect.center,
-        size=Vector2D(
-            rect.size.x + amount.x * 2,
-            rect.size.y + amount.y * 2,
-        ),
-    )
+from .footprint_layout import FabStyle, FootprintLayout, SilkStyle
 
 
-class NPadBoxLayout(FootprintLayoutNode):
+class NPadBoxLayout(FootprintLayout[GeomRectangle, Pad]):
     """
     This is one of the most common and general layout idioms - some pads, and a body:
 
@@ -56,52 +40,6 @@ class NPadBoxLayout(FootprintLayoutNode):
     PadFactoryType: TypeAlias = Callable[[], Iterator[Pad]]
     """A pad factory is a callable that returns an iterator of pads."""
 
-    class SilkStyle(enum.Enum):
-        """Supported silk styles for this layout."""
-
-        NONE = 0
-        BODY_RECT = 1
-        # PARALLEL_LINES = 2
-        # U_SHAPE = 3
-
-    class SilkClearance(enum.Enum):
-        TIGHT_TO_BODY = 0
-        """Silk is tight to the body, even if the pads cause it to be trimmed."""
-        KEEP_TOP_BOTTOM = 1
-        """Silk is tight to the body, but the top and bottom edges are outset if needed
-        to ensure they're not trimmed by the pads."""
-        FULL_RECT = 2
-        """Silk is a full rectangle around the body, with no trimming by the pads."""
-
-    body_size: Vector2D
-    """The nominal size of the rectangular body, in mm."""
-
-    silk_clearance: SilkClearance = SilkClearance.TIGHT_TO_BODY
-    """Set the silk clearance style for this layout."""
-
-    fab_to_silk_clearance: Vector2D = Vector2D.zero()
-    """Extra clearance to add to the silk rectangle around the body, in mm, used when
-    drawing the silk rectangle around the body."""
-
-    silk_arrow_size: drawing_tools_silk.SilkArrowSize | None = (
-        drawing_tools_silk.SilkArrowSize.MEDIUM
-    )
-
-    silk_arrow_direction_if_inside: Direction | None = None
-    """
-    If the pin1 pad is completely inside the body, define a direction for the arrow.
-    If not given, the arrow is placed pointing in from the nearest side
-    """
-
-    """The size of the silk arrow to draw around the body, if the footprint is polarized.
-    If None, no arrow is drawn."""
-
-    body_to_courtyard_clearance: Vector2D | float | GC.GlobalConfig.CourtyardType = (
-        GC.GlobalConfig.CourtyardType.DEFAULT
-    )
-    """Clearance to add to the courtyard rectangle around the body. This can be different in
-    x and y directions."""
-
     def __init__(
         self,
         global_config: GC.GlobalConfig,
@@ -110,145 +48,79 @@ class NPadBoxLayout(FootprintLayoutNode):
         body_offset: Vector2D,
         silk_style: SilkStyle,
         is_polarized: bool,
-    ):
+        footprint_name: str,
+        body_to_courtyard_clearance: (
+            Vector2D | float | GC.GlobalConfig.CourtyardType
+        ) = GC.GlobalConfig.CourtyardType.DEFAULT,
+        additional_silk_clearance: Vector2D | float = 0.0,
+        silk_arrow_direction_if_inside: Direction | None = None,
+        silk_arrow_size: SilkArrowSize | None = SilkArrowSize.MEDIUM,
+    ) -> None:
         """
         Create a two-pad SMD layout.
 
         Args:
-            global_config: The global config object
-
+            global_config: The global config object.
+            pad_factory: A pad factory.
             body_size: The nominal size of the body, in mm.
+            body_offset: The offset (center position) of the body rectangle.
             silk_style: The style of the silk rectangle to draw around the body.
-            is_polarized: Whether the footprint is polarised
+            is_polarized: Whether the footprint is polarised.
+            footprint_name: The footprint name (used for automatic label placement).
+            body_to_courtyard_clearance: Clearance to add to the courtyard rectangle
+                around the body. This can be different in x and y directions.
+            fab_to_silk_extra_clearance: Additional clearance between the body and the
+                silk.
+            silk_arrow_direction_if_inside: The size of the silk arrow to draw around
+                the body, if the footprint is polarized. If `None`, no arrow is drawn.
         """
-
-        super().__init__(global_config=global_config)
-
-        # Opt into nice things
-
-        # We don't do automatic courtyard for this layout, as it can have a custom
-        # courtyard size in x and y for handling weird tolerance stackups.
-        self.automatic_courtyard = False
-        self.automatic_label_placement = True
-        self.automatic_body_rect = True
-        self.automatic_silk_rect = False
-
-        self.pad_factory = pad_factory
         self.courtyard_body_offset = GC.GlobalConfig.CourtyardType.DEFAULT
-        self.body_size = body_size
-        self.body_offset = body_offset
+        self.body_size = body_size.copy()
+        self.body_offset = body_offset.copy()
         self.silk_style = silk_style
         self.is_polarized = is_polarized
+        self.body_to_courtyard_clearance = body_to_courtyard_clearance
+        self.additional_silk_clearance = Vector2D(additional_silk_clearance)
+        self.silk_arrow_direction_if_inside = silk_arrow_direction_if_inside
+        self.silk_arrow_size = silk_arrow_size
 
-        self.fab_to_silk_clearance = Vector2D.zero()
-
-    def get_body_shape(self) -> GeomShapeClosed:
-        """Get the body shape of the footprint."""
-        return GeomRectangle(
-            center=self.body_offset,
-            size=self.body_size,
+        super().__init__(
+            global_config=global_config,
+            body_shape=GeomRectangle(center=body_offset, size=body_size),
+            pads=list(pad_factory()),
         )
 
-    def _get_courtyard_unrounded(self):
-        return self._courtyard_rect
+        fab_style = FabStyle.CHAMFER_RECT if is_polarized else FabStyle.BODY_SHAPE
+        self._add_courtyard()
+        self._add_silk_arrow(silk_style)
+        self._add_automatic_fab_outline(fab_style)
+        self._add_automatic_silk_outline(silk_style)
+        self._add_automatic_labels(footprint_name)
 
-    def _get_fab_bevel_corner(self) -> CornerSelection:
-        if self.is_polarized:
-            # The default
-            return super()._get_fab_bevel_corner()
+    def _get_silk_clearance(self) -> float | Vector2D:
+        """
+        Get the additional silk clearance. The amount can be different in x and y.
+        """
+        return self.additional_silk_clearance
 
-        return CornerSelection(None)
-
-    def _get_child_nodes(self, parent: Container[Node]) -> None:
-
-        pad_nodes: list[Pad] = []
-
-        pad_bbox = BoundingBox()
-
-        for pad in self.pad_factory():
-            pad_bbox.include_bbox(pad.bbox())
-            pad_nodes.append(pad)
-
-        parent += pad_nodes
-
-        # Add keepouts for the pads
-        keepouts = getKeepoutsForPads(pad_nodes, self.global_config.silk_pad_offset)
-
-        # Work out the silk graphics extents to stay clear of the pads and body as needed
-        body_rect = GeomRectangle(center=self.body_offset, size=self.body_size)
-        silk_rect = body_rect.copy()
-
-        # If we have a fab to silk clearance, then use that
-        if self.fab_to_silk_clearance.is_nullvec():
-            # No extra clearance, use the global config value
-            silk_rect.inflate(self.global_config.silk_fab_offset)
-        else:
-            silk_rect = rect_inflate_anisotropic(
-                silk_rect,
-                self.fab_to_silk_clearance + self.global_config.silk_fab_offset,
-            )
-
-        # If needed, extend the silk rectangle to ensure it does not clip the pads
-        # in one or both direction.
-
-        silk_rect_top = silk_rect.top
-        silk_rect_bottom = silk_rect.bottom
-        silk_rect_left = silk_rect.left
-        silk_rect_right = silk_rect.right
-
-        pad_bbox.inflate(self.global_config.silk_pad_offset)
-
-        if self.silk_clearance == self.SilkClearance.TIGHT_TO_BODY:
-            # Nothing to do
-            pass
-        elif self.silk_clearance == self.SilkClearance.KEEP_TOP_BOTTOM:
-            # Extend the silk rectangle to ensure it does not clip the pads at the top and bottom
-            silk_rect_top = min(pad_bbox.top, silk_rect_top)
-            silk_rect_bottom = max(pad_bbox.bottom, silk_rect_bottom)
-        elif self.silk_clearance == self.SilkClearance.FULL_RECT:
-            # Extend the silk rectangle to ensure it does not clip the pads at all
-            silk_rect_left = min(pad_bbox.left, silk_rect_left)
-            silk_rect_right = max(pad_bbox.right, silk_rect_right)
-            silk_rect_top = min(pad_bbox.top, silk_rect_top)
-            silk_rect_bottom = max(pad_bbox.bottom, silk_rect_bottom)
-
-        silk_rect = GeomRectangle(
-            start=Vector2D(silk_rect_left, silk_rect_top),
-            end=Vector2D(silk_rect_right, silk_rect_bottom),
-        )
-
+    def _add_silk_arrow(self, silk_style: SilkStyle) -> None:
         # Add the silk arrow - fow now we defer to the auto arrow
         # method, but if we have U-shaped silk, we will need to skip.
         if self.is_polarized and self.silk_arrow_size is not None:
-            arrow = drawing_tools_silk.auto_silk_triangle_for_pad_and_box(
+            silk_rect = self._get_uncut_silk_shape(silk_style)
+            arrow = auto_silk_triangle_for_pad_and_box(
                 self.global_config,
-                pad_nodes[0],
+                self.pads[0],
                 silk_rect,
                 self.silk_arrow_size,
                 direction_if_inside=self.silk_arrow_direction_if_inside,
             )
-
             arrow_poly = arrow.as_polygon(self.global_config.silk_line_width * 2)
-            keepouts.append(arrow_poly)
+            self.additional_silk_keepouts.append(arrow_poly)
+            self.append(arrow)
 
-            parent += arrow
-
-        # Add the body silk graphics
-
-        silk_primitives: list[GeomRectangle | GeomPolygon] = []
-        if self.silk_style == self.SilkStyle.NONE:
-            # No silk
-            pass
-        elif self.silk_style == self.SilkStyle.BODY_RECT:
-            silk_primitives.append(silk_rect)
-
-        parent += makeNodesWithKeepout(
-            silk_primitives,
-            keepouts=keepouts,
-            layer="F.SilkS",
-            width=self.global_config.silk_line_width,
-        )
-
+    def _add_courtyard(self) -> None:
+        courtyard_rect = self.body_shape.copy()
         # Resolve the courtyard offsets
         if isinstance(self.body_to_courtyard_clearance, GC.GlobalConfig.CourtyardType):
             courtyard_body_offset = self.global_config.get_courtyard_offset(
@@ -257,40 +129,34 @@ class NPadBoxLayout(FootprintLayoutNode):
         elif isinstance(self.body_to_courtyard_clearance, Vector2D):
             # we'll use the min of the two for the auto courtyard
             courtyard_body_offset = self.body_to_courtyard_clearance.min_val
+            # If we have an uneven x/y courtyard offset:
+            if not self.body_to_courtyard_clearance.x_y_equal:
+                courtyard_rect.size += 2 * (
+                    self.body_to_courtyard_clearance - courtyard_body_offset
+                )
         else:
             courtyard_body_offset = self.body_to_courtyard_clearance
 
         # This does the usual courtyard building and handles the pads
         crt_builder = courtyard_builder.CourtyardBuilder.from_node(
-            node=parent,
+            node=self.pads,
             global_config=self.global_config,
             offset_fab=courtyard_body_offset,
-            outline=body_rect,
+            outline=courtyard_rect,
         )
-
-        # If we have an uneven x/y courtyard offset, add a rectangle, which we
-        # know is greater than or equal to the auto courtyard in each axis
-        if (
-            isinstance(self.body_to_courtyard_clearance, Vector2D)
-            and not self.body_to_courtyard_clearance.x_y_equal
-        ):
-            self._courtyard_rect = rect_inflate_anisotropic(
-                body_rect,
-                self.body_to_courtyard_clearance,
-            )
-            crt_builder.add_rectangle(self._courtyard_rect, 0)
-        else:
-            self._courtyard_rect = body_rect.copy().inflate(courtyard_body_offset)
-
-        parent += crt_builder.node
+        self.courtyard = crt_builder.node
+        self.append(self.courtyard)
 
 
 def make_layout_for_smd_two_pad_dimensions(
     global_config: GC.GlobalConfig,
     pad_dims: TwoPadDimensions,
     body_size: Vector2D,
-    silk_style: NPadBoxLayout.SilkStyle,
+    silk_style: SilkStyle,
     is_polarized: bool,
+    footprint_name: str,
+    silk_arrow_direction_if_inside: Direction | None = None,
+    silk_arrow_size: SilkArrowSize | None = SilkArrowSize.MEDIUM,
 ) -> NPadBoxLayout:
     """
     Create a NPadBoxLayout from the given two-pad dimensions, assuming the
@@ -300,12 +166,17 @@ def make_layout_for_smd_two_pad_dimensions(
     and so on may all want to use this layout.
 
     Args:
-        global_config: The global config object
-        pad_dims: The dimensions of the pads, including spacing and size. This is intepreted
-            with the 'inline' direction being in x and the 'crosswise' direction being in y.
+        global_config: The global config object.
+        pad_dims: The dimensions of the pads, including spacing and size. This is
+            intepreted with the 'inline' direction being in x and the 'crosswise'
+            direction being in y.
         body_size: The nominal size of the body, in mm.
         silk_style: The style of the silk rectangle to draw around the body.
-        is_polarized: Whether the footprint is polarised
+        is_polarized: Whether the footprint is polarised.
+        footprint_name: The name of the footprint.
+        fab_to_silk_extra_clearance: Additional clearance between the body and the silk.
+        silk_arrow_direction_if_inside: The size of the silk arrow to draw around the
+            body, if the footprint is polarized. If `None`, no arrow is drawn.
 
     Returns:
         The layout Node.
@@ -346,4 +217,7 @@ def make_layout_for_smd_two_pad_dimensions(
         body_offset=Vector2D.zero(),
         silk_style=silk_style,
         is_polarized=is_polarized,
+        footprint_name=footprint_name,
+        silk_arrow_direction_if_inside=silk_arrow_direction_if_inside,
+        silk_arrow_size=silk_arrow_size,
     )

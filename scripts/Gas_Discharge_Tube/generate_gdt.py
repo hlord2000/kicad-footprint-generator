@@ -288,12 +288,10 @@ class GDTGenerator(FootprintGenerator):
             layout = CrossBodyPadLayout(
                 global_config=self.global_config,
                 pad_size=pad_sizes,
-                pad_pitch=pad_pitch,
+                pitch=pad_pitch,
                 pad_count=fp_config.body_properties.num_pads,
                 body_size=layout_props.body_size,
-                pads_body_offset=Vector2D(0, 0),
-                silk_style=CrossBodyPadLayout.SilkStyle.BODY_RECT,
-                has_pin1_arrow=False,
+                footprint_name=kicad_mod.name,
             )
 
             kicad_mod += layout
@@ -314,12 +312,13 @@ class GDTGenerator(FootprintGenerator):
                 global_config=self.global_config,
                 pad_prototype=pad_proto,
                 num_pads=fp_config.body_properties.num_pads,
-                pad_pitch=layout_props.body_properties.lead_spacing.nominal,
+                pitch=layout_props.body_properties.lead_spacing.nominal,
                 body_size=layout_props.body_size,
-                polarization_style=ThtAxialLayout.PolarizationStyle.NONE,
+                has_pin1_arrow=False,
                 total_length=layout_props.body_properties.total_length.nominal,
                 lead_diameter=layout_props.body_properties.lead_diameter.nominal,
                 shrink_fit_lead_courtyard=False,
+                footprint_name=kicad_mod.name,
             )
             kicad_mod += layout
         else:

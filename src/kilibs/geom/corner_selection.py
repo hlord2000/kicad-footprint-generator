@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Generator, Iterable
+from collections.abc import Generator, Iterable, Mapping
 from typing import Self, cast
 
 
@@ -33,7 +33,7 @@ class CornerSelection:
 
     def __init__(
         self,
-        corner_selection: Iterable[bool] | dict[str, str | bool | int] | int | None,
+        corner_selection: Iterable[bool] | Mapping[str, str | bool | int] | int | None,
     ) -> None:
         """Create a corner selection.
 
@@ -73,8 +73,8 @@ class CornerSelection:
                 raise ValueError(
                     f"Invalid value {corner_selection} for corner_selection."
                 )
-        elif isinstance(corner_selection, dict):
-            corner_selection = cast(dict[str, str | bool | int], corner_selection)
+        elif isinstance(corner_selection, Mapping):
+            corner_selection = cast(Mapping[str, str | bool | int], corner_selection)
             for key, value in corner_selection.items():
                 self[key] = bool(value)
         else:
