@@ -635,6 +635,47 @@ DFN-8-1EP_3x3mm_P0.5mm_EP1.65x2.38mm:
     paste_via_clearance: 0.1
     paste_avoid_via: False
 
+
+DFN-8-1EP_3x3mm_P0.5mm_EP1.6x2.56mm:
+  size_source: 'https://e.chipanalog.com/Public/Uploads/uploadfile/files/20250106/CS485xxdatasheetVersion1.03en20240429.pdf'
+  device_type: 'DFN'
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.65
+  lead_width:
+    minimum: 0.30
+    nominal: 0.35
+    maximum: 0.40
+  lead_len:
+    minimum: 0.35
+    nominal: 0.40
+    maximum: 0.45
+  EP_size_x:
+    minimum: 1.55
+    nominal: 1.60
+    maximum: 1.65
+  EP_size_y:
+    minimum: 2.51
+    nominal: 2.56
+    maximum: 2.61
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    EP_num_paste_pads: [2, 2]
+    paste_via_clearance: 0.1
+    paste_avoid_via: False
+
+  additional_tags:
+    - Chipanalog-DFN8-D
+
 DFN-8-1EP_3x3mm_P0.5mm_EP1.7x2.4mm:
   size_source: 'https://stcmicro.com/datasheet/STC8G-en.pdf#page=81'
   compatible_mpns:
