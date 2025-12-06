@@ -51,7 +51,7 @@ def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, para
     body_top_left = [params['fab']['left'], params['fab']['top']]
     body_bottom_right = [params['fab']['left']+params['pitch']['x']*part_params['pins']+params['fab']['right'], params['fab']['bottom']]
     # -> GeomRectangle
-    kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
     # -> Marker of pin 1
     kicad_mod.append(Line(start=[-0.95, params['fab']['top']],
         end=[0, params['fab']['top'] + 1.5], layer='F.Fab', width=configuration['fab_line_width']))
@@ -100,7 +100,7 @@ def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, para
     # -> Lines on top of the connector
     if params['orientation'] == 'Vertical':
         for x in range(0, part_params['pins']):
-            kicad_mod.append(RectLine(start=[params['fab']['left'] + 0.75 + params['pitch']['x'] * x, params['pitch']['y'] - 1.25 - (params['pitch']['x'] - 1.5) / 2 - 2.0],
+            kicad_mod.append(Rectangle(start=[params['fab']['left'] + 0.75 + params['pitch']['x'] * x, params['pitch']['y'] - 1.25 - (params['pitch']['x'] - 1.5) / 2 - 2.0],
                 end=[params['fab']['left'] + 0.75 + params['pitch']['x'] * x + params['pitch']['x'] - 1.5, params['pitch']['y'] - 1.25 - (params['pitch']['x'] - 1.5) / 2 - 0.5], layer='F.SilkS', width=configuration['silk_line_width']))
             kicad_mod.append(Arc(center=[params['fab']['left'] + params['pitch']['x']/2 + params['pitch']['x'] * x, params['pitch']['y'] - 1.0],
                 mid=[params['fab']['left'] + params['pitch']['x']/2 + params['pitch']['x'] * x, params['pitch']['y'] - 1.0 - (params['pitch']['x'] - 1.5) / 2],
@@ -126,7 +126,7 @@ def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, para
     # Add courtyard layer
     courtyard_top_left = [body_top_left[0] - configuration['courtyard_offset']['connector'], body_top_left[1] - configuration['courtyard_offset']['connector']]
     courtyard_bottom_right = [body_bottom_right[0] + configuration['courtyard_offset']['connector'], body_bottom_right[1] + configuration['courtyard_offset']['connector']]
-    kicad_mod.append(RectLine(start=courtyard_top_left, end=courtyard_bottom_right, layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(Rectangle(start=courtyard_top_left, end=courtyard_bottom_right, layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     # Add texts
     body_edge={'left': body_top_left[0], 'right': body_bottom_right[0], 'top': body_top_left[1], 'bottom': body_bottom_right[1]}

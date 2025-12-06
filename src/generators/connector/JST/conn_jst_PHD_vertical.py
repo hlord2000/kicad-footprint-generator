@@ -68,7 +68,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     t_long = 0.4 #long side (A/B dimension)
 
     #draw simple outline on F.Fab layer
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
 
     ########################### CrtYd #################################
     cx1 = round_to_grid(x1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
@@ -77,12 +77,12 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     #draw silk polarity lines
-    kicad_mod.append(RectLine(start=[x1+t_short,y1+t_long],end=[x2-t_short,y2-t_long],layer='F.SilkS',width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=[x1+t_short,y1+t_long],end=[x2-t_short,y2-t_long],layer='F.SilkS',width=configuration['silk_line_width']))
 
     #offset off
     off = configuration['silk_fab_offset']
@@ -109,7 +109,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     y2 += off
 
     #draw silk outline
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],width=configuration['silk_line_width'],layer='F.SilkS'))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],width=configuration['silk_line_width'],layer='F.SilkS'))
 
     #add p1 marker
     px = x1 - 0.2

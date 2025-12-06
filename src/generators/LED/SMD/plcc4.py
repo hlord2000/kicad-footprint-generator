@@ -133,7 +133,7 @@ def plcc4(generator_name: str, args):
     )
 
     f.append(
-        RectLine(
+        Rectangle(
             start=[xLeftCrtYd, yTopCrtYd],
             end=[xRightCrtYd, yBottomCrtYd],
             layer="F.CrtYd",
@@ -150,7 +150,7 @@ def plcc4(generator_name: str, args):
         )
     )
     f.append(
-        RectLine(
+        Rectangle(
             start=[xFabLeft, yFabTop],
             end=[xFabRight, yFabBottom],
             layer="F.Fab",

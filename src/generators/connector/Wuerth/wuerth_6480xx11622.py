@@ -71,7 +71,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         entry=configuration['entry_direction'][orientation]))
 
     ########################## Fab Outline ###############################
-    kicad_mod.append(RectLine(start=[x_min,y_min], end=[x_max,y_max],
+    kicad_mod.append(Rectangle(start=[x_min,y_min], end=[x_max,y_max],
         layer='F.Fab', width=configuration['fab_line_width']))
     if fab_pin1_marker_type == 1:
         kicad_mod.append(PolygonLine(shape=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))
@@ -84,7 +84,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(PolygonLine(shape=poly_pin1_marker_type2, layer='F.Fab', width=configuration['fab_line_width']))
 
     # create Silkscreen
-    kicad_mod.append(RectLine(start=[silk_x_min,silk_y_min], end=[silk_x_max,silk_y_max],
+    kicad_mod.append(Rectangle(start=[silk_x_min,silk_y_min], end=[silk_x_max,silk_y_max],
         layer='F.SilkS', width=configuration['silk_line_width']))
 
 

@@ -26,7 +26,7 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -506,7 +506,7 @@ def makePinHeadStraight(
     """
     if row_count == 1:
         kicad_modg.append(
-            RectLine(start=[l_slk, 0.5 * pin_pitch], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=gc.silk_line_width))
+            Rectangle(start=[l_slk, 0.5 * pin_pitch], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=gc.silk_line_width))
     else:
         if isSocket and row_count>1:
             kicad_modg.append(PolygonLine(
@@ -539,7 +539,7 @@ def makePinHeadStraight(
     ).round_to_grid(outwards=True, grid=gc.courtyard_grid)
 
     kicad_modg.append(
-        RectLine(
+        Rectangle(
             start=crt_rect.top_left,
             end=crt_rect.bottom_right,
             layer="F.CrtYd",
@@ -880,7 +880,7 @@ def makeIdcHeader(
         ]
         kicad_mod.append(PolygonLine(shape=crt_polygon, layer='F.CrtYd', width=gc.courtyard_line_width))
     else:
-        kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
+        kicad_mod.append(Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
                     roundCrt(t_crt + h_crt)], layer='F.CrtYd', width=gc.courtyard_line_width))
 
     # create pads (first the left row then the right row)
@@ -1077,7 +1077,7 @@ def makePinHeadAngled(
         bodyend_min_x_round = 0
     # if body is starting outside the pads
     if l_slkb-gc.silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (row_count-1)*row_pitch:
-        kicad_modg.append(RectLine(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_modg.append(Rectangle(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], layer='F.SilkS', width=gc.silk_line_width))
     else:
         if l_slkb < body_min_x_square + (row_count-1)*row_pitch and t_slkb-gc.silk_fab_offset > -(body_min_y_square + (row_count-1)*row_pitch):
             if row_count == 1:
@@ -1190,7 +1190,7 @@ def makePinHeadAngled(
     kicad_modg.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 
@@ -1337,9 +1337,9 @@ def makeSocketStripAngled(
     y1 = t_fabb
     yp = t_fabp
     for r in range(1, pos_count + 1):
-        kicad_modg.append(RectLine(start=[l_fabb, y1], end=[l_fabb + w_fabb, y1 + pin_pitch], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Rectangle(start=[l_fabb, y1], end=[l_fabb + w_fabb, y1 + pin_pitch], layer='F.Fab', width=gc.fab_line_width))
         kicad_modg.append(
-            RectLine(start=[0, yp], end=[l_fabb , yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
+            Rectangle(start=[0, yp], end=[l_fabb , yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
         y1 = y1 + pin_pitch
         yp = yp + pin_pitch
 
@@ -1349,14 +1349,14 @@ def makeSocketStripAngled(
     for r in range(1, pos_count + 1):
         if pos_count == 1 and r == 1:
             kicad_modg.append(
-                RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + 2 * gc.silk_fab_offset], layer='F.SilkS',
+                Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + 2 * gc.silk_fab_offset], layer='F.SilkS',
                          width=gc.silk_line_width))
         if (r == 1 or r == pos_count):
-            kicad_modg.append(RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + gc.silk_fab_offset], layer='F.SilkS',
+            kicad_modg.append(Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + gc.silk_fab_offset], layer='F.SilkS',
                                        width=gc.silk_line_width))
             y1 = y1 + gc.silk_fab_offset
         else:
-            kicad_modg.append(RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_modg.append(Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
 
         kicad_modg.append(Line(start=[-1*((row_count - 1) * row_pitch + pad.x / 2 + gc.silk_fab_offset+gc.silk_line_width), yp], end=[l_slkb, yp], layer='F.SilkS',width=gc.silk_line_width))
         kicad_modg.append(Line(start=[-1*((row_count - 1) * row_pitch + pad.x / 2 + gc.silk_fab_offset+gc.silk_line_width), yp + pin_width + 2 * gc.silk_fab_offset],end=[l_slkb, yp + pin_width + 2 * gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
@@ -1380,7 +1380,7 @@ def makeSocketStripAngled(
     kicad_modg.append(PolygonLine(shape=[[0, -pin_pitch / 2], [pin_pitch / 2, -pin_pitch / 2], [pin_pitch / 2, 0]], layer='F.SilkS', width=gc.silk_line_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 
@@ -1619,7 +1619,7 @@ def makePinHeadStraightSMD(
                 kicad_modg.append(Line(start=[l_slk, c*pin_pitch+slk_offset_pad],end=[l_slk, (c+1)*pin_pitch-slk_offset_pad],layer='F.SilkS', width=gc.silk_line_width))
                 kicad_modg.append(Line(start=[l_slk+w_slk, c*pin_pitch+slk_offset_pad],end=[l_slk+w_slk, (c+1)*pin_pitch-slk_offset_pad],layer='F.SilkS', width=gc.silk_line_width))
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 

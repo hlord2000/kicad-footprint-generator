@@ -87,7 +87,7 @@ def generate_one_footprint(
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw outline on F.Fab layer
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2], layer='F.Fab', width=configuration['fab_line_width']))
 
     #draw rectangle on F.Fab for latch
     x3 = -0.75
@@ -105,7 +105,7 @@ def generate_one_footprint(
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

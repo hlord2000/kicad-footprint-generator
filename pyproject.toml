@@ -95,7 +95,6 @@ mypy_path = ["src", "."]
 exclude = [
     "src/kilibs/declarative_defs",
     "src/generators",
-    "KicadModTree/nodes/specialized/RectLine\\.py",
     "KicadModTree/nodes/specialized/PolygonLine\\.py",
     "KicadModTree/nodes/specialized/ChamferedNativePad\\.py",
     "KicadModTree/nodes/specialized/ChamferedRect\\.py",

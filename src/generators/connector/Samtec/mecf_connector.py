@@ -189,9 +189,9 @@ def generate_one_footprint(generator_name: str, pol, n, configuration):
     cy2 = bot
 
     # create courtyard (exact + 0.25)
-    kicad_mod.append(RectLine(start=[left, top], end=[right , bot],
+    kicad_mod.append(Rectangle(start=[left, top], end=[right , bot],
             layer='F.CrtYd', width=configuration['courtyard_line_width']))
-    kicad_mod.append(RectLine(start=[left, top], end=[right , bot],
+    kicad_mod.append(Rectangle(start=[left, top], end=[right , bot],
             layer='B.CrtYd', width=configuration['courtyard_line_width']))
 
     top = body_edge['top']

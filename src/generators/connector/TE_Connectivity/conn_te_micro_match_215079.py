@@ -202,7 +202,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     assert(abs(cx2 - body_edge['right']) >= court_offs)
     assert(abs(cy1 - body_edge['top']) >= court_offs)
     assert(abs(cy2 - body_edge['bottom']) >= court_offs)
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=(cx1, cy1), end=(cx2, cy2),
         layer='F.CrtYd', width=configuration['courtyard_line_width']
     ))

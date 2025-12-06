@@ -168,7 +168,7 @@ def generate_all(generator_name: str, global_config: GC.GlobalConfig) -> int:
                             start = [(pin_cnt - 1) * pad_span + fab_outline_x, fab_outline_y - fab_arc_r], angle = 90, layer = 'F.Fab'))
 
         # CREATE COURTYARD
-        kicad_mod.append(RectLine(start = [-fab_outline_x - courtyard_outline, -fab_outline_y - courtyard_outline],
+        kicad_mod.append(Rectangle(start = [-fab_outline_x - courtyard_outline, -fab_outline_y - courtyard_outline],
                                 end = [(pin_cnt - 1) * pad_span + fab_outline_x + courtyard_outline, fab_outline_y + courtyard_outline],
                                 layer = 'F.CrtYd'))
         # add 3D model

@@ -105,7 +105,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     body_edge={'left':x1, 'right':x2, 'top':y4, 'bottom':y5}
 
     #draw shroud outline on F.Fab layer
-    kicad_mod.append(RectLine(start=[x3,y3],end=[x4,y5], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x3,y3],end=[x4,y5], layer='F.Fab', width=configuration['fab_line_width']))
     kicad_mod.append(PolygonLine(shape=[{ 'x': x4 - 0.2, 'y':y3 }, { 'x': x4 - 0.2, 'y':y1 }, { 'x':x2, 'y':y1 }, { 'x':x2, 'y':y4 }, { 'x':x4, 'y':y4 }], layer='F.Fab', width=configuration['fab_line_width']))
     kicad_mod.append(PolygonLine(shape=[{ 'x':x3, 'y':y4 }, { 'x':x1, 'y':y4 }, { 'x':x1, 'y':y1 }, { 'x': x3 + 0.2, 'y':y1 }, { 'x': x3 + 0.2, 'y':y3 }], layer='F.Fab', width=configuration['fab_line_width']))
 
@@ -116,7 +116,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y6+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

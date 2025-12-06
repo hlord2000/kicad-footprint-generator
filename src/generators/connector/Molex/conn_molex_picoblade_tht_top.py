@@ -109,11 +109,11 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         **optional_pad_params))
 
     # outline on Fab
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],
         layer='F.Fab', width=configuration['fab_line_width']))
 
     # outline on SilkScreen
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],offset=off,
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],offset=off,
         layer='F.SilkS', width=configuration['silk_line_width']))
 
     inline = [
@@ -156,7 +156,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

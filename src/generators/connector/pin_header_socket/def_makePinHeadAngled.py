@@ -12,7 +12,7 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -155,7 +155,7 @@ def makePinHeadAngled(cfg: FPconfiguration, generator_name: str):
         bodyend_min_x_round = 0
     # if body is starting outside the pads
     if l_slkb-gc.silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (row_count-1)*row_pitch:
-        kicad_modg.append(RectLine(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_modg.append(Rectangle(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], layer='F.SilkS', width=gc.silk_line_width))
     else:
         if l_slkb < body_min_x_square + (row_count-1)*row_pitch and t_slkb-gc.silk_fab_offset > -(body_min_y_square + (row_count-1)*row_pitch):
             if row_count == 1:
@@ -268,7 +268,7 @@ def makePinHeadAngled(cfg: FPconfiguration, generator_name: str):
     kicad_modg.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 

@@ -36,7 +36,7 @@ from KicadModTree import (
     Translation,
     PolygonLine,
     Circle,
-    RectLine,
+    Rectangle,
     Model,
 )
 from kilibs.util import dict_tools
@@ -698,7 +698,7 @@ def generate_one_footprint(
     cy_offset = global_config.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
     courtyard = calculate_courtyard(bbox, offsets= cy_offset, global_config=global_config)
     # append CourtYard rectangle
-    kicad_mod.append(RectLine(**courtyard, layer='F.CrtYd', width=global_config.courtyard_line_width))
+    kicad_mod.append(Rectangle(**courtyard, layer='F.CrtYd', width=global_config.courtyard_line_width))
 
     ## clean silk
     if fp_config.clean_silk:

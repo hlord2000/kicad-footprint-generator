@@ -145,16 +145,16 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.append(Pad(at=[x_loc,y_loc_b],size=r_loc,drill=r_loc,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH))
 
     #add outline to F.Fab
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=configuration['fab_line_width']))
 
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],offset=off, width=configuration['silk_line_width'], layer="F.SilkS"))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],offset=off, width=configuration['silk_line_width'], layer="F.SilkS"))
 
     #draw the pins
     for i in range(pins):
         y = i * pitch
         x = (params['number_of_rows'] - 1) * pitch_row + pad_size[0]/2 + pad_silk_off
         w = 0.15
-        kicad_mod.append(RectLine(start=[x1-off,y+w],end=[x,y-w], width=configuration['silk_line_width'], layer="F.SilkS"))
+        kicad_mod.append(Rectangle(start=[x1-off,y+w],end=[x,y-w], width=configuration['silk_line_width'], layer="F.SilkS"))
 
     #pin-1 marker
     y = - pad_size[1]/2- pad_silk_off
@@ -177,7 +177,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

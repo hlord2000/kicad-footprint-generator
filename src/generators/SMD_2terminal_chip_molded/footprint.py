@@ -381,7 +381,7 @@ class TwoTerminalSMD:
 
             if polarity_marker_thick_line:
                 kicad_mod.append(
-                    RectLine(
+                    Rectangle(
                         start=[-outline_size[0] / 2, outline_size[1] / 2],
                         end=[outline_size[0] / 2, -outline_size[1] / 2],
                         layer="F.Fab",
@@ -454,7 +454,7 @@ class TwoTerminalSMD:
                 )
         else:
             kicad_mod.append(
-                RectLine(
+                Rectangle(
                     start=[-outline_size[0] / 2, outline_size[1] / 2],
                     end=[outline_size[0] / 2, -outline_size[1] / 2],
                     layer="F.Fab",
@@ -517,7 +517,7 @@ class TwoTerminalSMD:
             1e-7,
         )
         kicad_mod.append(
-            RectLine(
+            Rectangle(
                 start=[-CrtYd_rect[0], CrtYd_rect[1]],
                 end=[CrtYd_rect[0], -CrtYd_rect[1]],
                 layer="F.CrtYd",

@@ -87,7 +87,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
 
     if params.angled:
-        #kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
+        #kicad_mod.append(Rectangle(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
         silkGab = params.pin_Sx/2.0+seriesParams.silk_pad_clearance
         kicad_mod.append(Line(start=silk_top_left, end=[silk_top_left[0], silk_bottom_right[1]], layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=[silk_top_left[0], silk_bottom_right[1]], end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
@@ -102,7 +102,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
                             end=[(p+1)*params.pin_pitch-silkGab, silk_top_left[1]], layer='F.SilkS', width=configuration['silk_line_width']))
 
         if configuration['with_fab_layer']:
-            kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
+            kicad_mod.append(Rectangle(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
 
         left = silk_top_left[0] + (seriesParams.flange_length if params.flanged else 0)
         right = silk_bottom_right[0] - (seriesParams.flange_length if params.flanged else 0)
@@ -119,9 +119,9 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
                 kicad_mod.append(Line(start=[right, body_top_left[1]], end=[right, body_bottom_right[1]], layer='F.Fab', width=configuration['fab_line_width']))
     else:
         if not params.flanged:
-            kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
+            kicad_mod.append(Rectangle(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
             if configuration['with_fab_layer']:
-                kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
+                kicad_mod.append(Rectangle(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
         else:
             flange_cutout = calc_dim.width-calc_dim.flange_width
             outline_poly=[
@@ -189,7 +189,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     else:
         crtyd_top_left=v_offset(body_top_left, configuration['courtyard_offset']['connector'])
     crtyd_bottom_right=v_offset(body_bottom_right, configuration['courtyard_offset']['connector'])
-    kicad_mod.append(RectLine(start=round_to_grid(crtyd_top_left, configuration['courtyard_grid']), end=round_to_grid(crtyd_bottom_right, configuration['courtyard_grid']), layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(Rectangle(start=round_to_grid(crtyd_top_left, configuration['courtyard_grid']), end=round_to_grid(crtyd_bottom_right, configuration['courtyard_grid']), layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     if params.mount_hole and configuration['courtyard_for_mountscrews']:
         kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['courtyard_offset']['connector'], layer='B.CrtYd', width=configuration['courtyard_line_width']))

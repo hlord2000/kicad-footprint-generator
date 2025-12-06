@@ -159,7 +159,7 @@ class CapacitorTrimmer:
         return m
 
     def _draw_courtyard(self, m ,dim):
-        m.append(RectLine(start=[-dim.courtyard_offset_x_mm, -dim.courtyard_offset_y_mm],
+        m.append(Rectangle(start=[-dim.courtyard_offset_x_mm, -dim.courtyard_offset_y_mm],
                                   end=[dim.courtyard_offset_x_mm, dim.courtyard_offset_y_mm], layer='F.CrtYd',
                                   width=dim.courtyard_line_width_mm))
         return m

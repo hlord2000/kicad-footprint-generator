@@ -118,7 +118,7 @@ for pincount in pins:
     x2 = x1 + A
 
     #courtyard
-    fp.append(RectLine(start=[x1,yt],end=[x2,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
+    fp.append(Rectangle(start=[x1,yt],end=[x2,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
 
     #mounting hole
     if pincount > 1:
@@ -222,7 +222,7 @@ for pincount in pins:
     y2 = ym + mh / 2
     x1 = xm + mw / 2
 
-    fp.append(RectLine(start=[-x1,y1],end=[x1,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
+    fp.append(Rectangle(start=[-x1,y1],end=[x1,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
 
     """
 

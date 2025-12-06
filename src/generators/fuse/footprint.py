@@ -126,7 +126,7 @@ def ptc_fuse_tht(generator_name: str, args):
                 layer="F.Fab", size=s, thickness=t))
 
     # Fab outline
-    f.append(RectLine(start=[xLeft, yTop],
+    f.append(Rectangle(start=[xLeft, yTop],
                     end=[xRight, yBottom],
                     layer="F.Fab", width=wFab))
 
@@ -136,7 +136,7 @@ def ptc_fuse_tht(generator_name: str, args):
                     "F.SilkS", wSilkS, keepouts)
 
     # Courtyard
-    f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
+    f.append(Rectangle(start=[xLeftCrtYd, yTopCrtYd],
                     end=[xRightCrtYd, yBottomCrtYd],
                     layer="F.CrtYd", width=wCrtYd))
 

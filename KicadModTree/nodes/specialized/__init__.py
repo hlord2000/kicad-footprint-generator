@@ -22,7 +22,6 @@ from .Cruciform import Cruciform
 from .ExposedPad import ExposedPad
 from .PadArray import PadArray
 from .PolygonLine import PolygonLine
-from .RectLine import RectLine
 from .RingPad import RingPad
 from .Rotation import Rotation
 from .RoundRectangle import RoundRectangle
@@ -41,7 +40,6 @@ __all__ = [
     "ExposedPad",
     "PadArray",
     "PolygonLine",
-    "RectLine",
     "RingPad",
     "Rotation",
     "RoundRectangle",

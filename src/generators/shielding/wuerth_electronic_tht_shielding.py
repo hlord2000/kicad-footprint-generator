@@ -35,12 +35,12 @@ def create_shielding(name, outer_size, size,
     kicad_mod.append(Property(name=Property.VALUE, text=name, at=[0, courtjard_size + 1], layer='F.Fab'))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtjard_size, -courtjard_size],
+    kicad_mod.append(Rectangle(start=[-courtjard_size, -courtjard_size],
                               end=[courtjard_size, courtjard_size],
                               layer='F.CrtYd'))
 
     # create Fabriaction Layer
-    kicad_mod.append(RectLine(start=[-size / 2., -size / 2.],
+    kicad_mod.append(Rectangle(start=[-size / 2., -size / 2.],
                               end=[size / 2., size / 2.],
                               layer='F.Fab'))
 

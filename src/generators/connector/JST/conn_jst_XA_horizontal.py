@@ -179,7 +179,7 @@ def generate_one_footprint(
         dimple_h = 1.8
         dimple_y = y_max - 4.9  # middle of the dimple
         kicad_mod.append(
-            RectLine(
+            Rectangle(
                 start=[(A - dimple_w) / 2, dimple_y + dimple_h / 2],
                 end=[(A + dimple_w) / 2, dimple_y - dimple_h / 2],
                 layer="F.SilkS",

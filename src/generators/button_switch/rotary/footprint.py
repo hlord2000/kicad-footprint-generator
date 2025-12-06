@@ -192,7 +192,7 @@ def make_rotary_coded_switch(generator_name: str, args: dict[str, Any]) -> int:
                             width=wSilkS))
 
     # Courtyard
-    f.append(RectLine(start=[boundLeft - crtYd, yTop - crtYd],
+    f.append(Rectangle(start=[boundLeft - crtYd, yTop - crtYd],
                     end=[boundRight + crtYd, yBottom + crtYd],
                     layer="F.CrtYd",
                     width=wCrtYd))

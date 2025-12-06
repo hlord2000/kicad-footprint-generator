@@ -93,7 +93,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
                                  layer='F.Fab', width=configuration['fab_line_width']))
 
     #draw rectangle on F.Fab for shroud walls
-    kicad_mod.append(RectLine(start=[x5,y4],end=[x6,y5],layer='F.Fab',width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x5,y4],end=[x6,y5],layer='F.Fab',width=configuration['fab_line_width']))
 
 	#draw pin1 mark on F.Fab
     kicad_mod.append(PolygonLine(shape=[{ 'x':x1, 'y':-1 }, { 'x':(x1 + 1), 'y':0 }], layer='F.Fab', width=configuration['fab_line_width']))
@@ -106,7 +106,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

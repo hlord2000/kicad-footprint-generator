@@ -144,7 +144,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
             #draw rectangle on F.Fab layer
 
-            # kicad_mod.append(RectLine(
+            # kicad_mod.append(Rectangle(
             #     start=[pad_center_x - pad_l/2, pad_center_y - pad_size[1]/2],
             #     end=[pad_center_x + pad_l/2, pad_center_y + pad_size[1]/2],
             #     layer='F.Fab', width=configuration['fab_line_width']))
@@ -170,13 +170,13 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.append(Pad(at=[ret_dx, P+ret_dy], type=Pad.TYPE_THT,
         shape=Pad.SHAPE_CIRCLE, size=ret_size, drill=ret_drill, layers=Pad.LAYERS_THT))
 
-    kicad_mod.append(RectLine(start=[-pad_size[0]/2, -pad_size[1]/2],
+    kicad_mod.append(Rectangle(start=[-pad_size[0]/2, -pad_size[1]/2],
         end=[offset_second_pad + pad_size[0]/2,pad_size[1]/2],offset=pad_silk_off,
         width=configuration['silk_line_width'], layer='B.SilkS'))
 
     ############################ Outline ##############################
-    #kicad_mod.append(RectLine(start=[xl1, yt1], end=[xr1, yb1], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(RectLine(start=[xl1, yt2], end=[xr1, yb2], layer='F.Fab', width=configuration['fab_line_width']))
+    #kicad_mod.append(Rectangle(start=[xl1, yt1], end=[xr1, yb1], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[xl1, yt2], end=[xr1, yb2], layer='F.Fab', width=configuration['fab_line_width']))
     kicad_mod.append(Line(start=[xl1, yt1], end=[xr1, yt1], layer='F.Fab', width=configuration['fab_line_width']))
     kicad_mod.append(Line(start=[xl1, yb1], end=[xr1, yb1], layer='F.Fab', width=configuration['fab_line_width']))
 
@@ -205,14 +205,14 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     for i in range(pins):
         yt = i * pitch - 1.6 / 2
         yb = i * pitch + 1.6 / 2
-        # kicad_mod.append(RectLine(start=[xr1, yt], end=[xr2, yb], layer='F.Fab', width=configuration['fab_line_width']))
+        # kicad_mod.append(Rectangle(start=[xr1, yt], end=[xr2, yb], layer='F.Fab', width=configuration['fab_line_width']))
         kicad_mod.append(PolygonLine(shape=[
                 {'x': xr1, 'y': yt},
                 {'x': xr2, 'y': yt},
                 {'x': xr2, 'y': yb},
                 {'x': xr1, 'y': yb},
             ], layer='F.Fab', width=configuration['fab_line_width']))
-        # kicad_mod.append(RectLine(start=[xr1+off, yt-off], end=[xr2+off, yb+off], layer='F.SilkS', width=configuration['silk_line_width']))
+        # kicad_mod.append(Rectangle(start=[xr1+off, yt-off], end=[xr2+off, yb+off], layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(PolygonLine(shape=[
                 {'x': xr1+off, 'y': yt-off},
                 {'x': xr2+off, 'y': yt-off},
@@ -227,12 +227,12 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     yt4 = P / 2 - tab_l / 2 # left
     yb4 = P / 2 + tab_l / 2 # right
     if pins % 2:
-        kicad_mod.append(RectLine(start=[xl1, yt4], end=[xl3, yb4], layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Rectangle(start=[xl1, yt4], end=[xl3, yb4], layer='F.Fab', width=configuration['fab_line_width']))
     else:
         yt3 = (pins // 2 - 1) * pitch
         yb3 = (pins // 2) * pitch
-        kicad_mod.append(RectLine(start=[xl1, yt3], end=[xl2, yb3], layer='F.Fab', width=configuration['fab_line_width']))
-        kicad_mod.append(RectLine(start=[xl2, yt4], end=[xl3, yb4], layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Rectangle(start=[xl1, yt3], end=[xl2, yb3], layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Rectangle(start=[xl2, yt4], end=[xl3, yb4], layer='F.Fab', width=configuration['fab_line_width']))
     tab = [
         {'x': xl2-off, 'y': yt4-off},
         {'x': xl3-off, 'y': yt4-off},
@@ -282,7 +282,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

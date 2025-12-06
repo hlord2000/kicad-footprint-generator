@@ -215,7 +215,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
             layer='F.SilkS', width=configuration['silk_line_width']))
 
     #draw the outline of the shape
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
 
     #draw the outline of the tab
     kicad_mod.append(PolygonLine(shape=[
@@ -230,7 +230,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     S = 3.3
 
     def square_slot(x,y):
-        kicad_mod.append(RectLine(start=[x-S/2,y-S/2], end=[x+S/2,y+S/2],
+        kicad_mod.append(Rectangle(start=[x-S/2,y-S/2], end=[x+S/2,y+S/2],
             layer='F.Fab', width=configuration['fab_line_width']))
 
     def notch_slot(x,y):
@@ -322,7 +322,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(PolygonLine(shape=poly_crtyd,
                                      layer='F.CrtYd', width=configuration['courtyard_line_width']))
     else:
-        kicad_mod.append(RectLine(
+        kicad_mod.append(Rectangle(
             start=[cx1, cy1], end=[cx2, cy2],
             layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

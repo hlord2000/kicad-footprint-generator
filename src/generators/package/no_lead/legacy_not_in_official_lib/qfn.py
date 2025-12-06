@@ -133,7 +133,7 @@ def qfn(generator_name: str, args):
                          layer="F.Fab", width=wFab))
 
     # Courtyard
-    f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
+    f.append(Rectangle(start=[xLeftCrtYd, yTopCrtYd],
                       end=[xRightCrtYd, yBottomCrtYd],
                       layer="F.CrtYd", width=wCrtYd))
 

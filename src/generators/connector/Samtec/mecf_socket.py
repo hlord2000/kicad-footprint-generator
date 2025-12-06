@@ -205,7 +205,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cy2 = bot
 
     # create courtyard (exact + 0.25)
-    kicad_mod.append(RectLine(start=[round(left,2), round(top,2)],
+    kicad_mod.append(Rectangle(start=[round(left,2), round(top,2)],
                           end=[round(right,2), round(bot,2)],
                           layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

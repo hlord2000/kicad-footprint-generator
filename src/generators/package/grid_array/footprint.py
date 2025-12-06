@@ -20,7 +20,7 @@ from KicadModTree import (
     Pad,
     PolygonLine,
     Property,
-    RectLine,
+    Rectangle,
     ReferencedPad,
     RoundRadiusHandler,
     Text,
@@ -233,7 +233,7 @@ def _create_footprint_variant(config: GridArraySpec, generator_name: str) -> Non
 
     # Courtyard
     f.append(
-        RectLine(
+        Rectangle(
             start=[xLeftCrtYd, yTopCrtYd],
             end=[xRightCrtYd, yBottomCrtYd],
             layer="F.CrtYd",

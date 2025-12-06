@@ -157,7 +157,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
             #draw rectangle on F.Fab layer
 
-            # kicad_mod.append(RectLine(
+            # kicad_mod.append(Rectangle(
             #     start=[pad_center_x - pad_l/2, pad_center_y - pad_size[1]/2],
             #     end=[pad_center_x + pad_l/2, pad_center_y + pad_size[1]/2],
             #     layer='F.Fab', width=configuration['fab_line_width']))
@@ -184,13 +184,13 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(Pad(at=[P+ret_dx, ret_dy], type=Pad.TYPE_THT,
             shape=Pad.SHAPE_CIRCLE, size=ret_size, drill=ret_drill, layers=Pad.LAYERS_THT))
 
-    kicad_mod.append(RectLine(start=[-pad_size[0]/2, -offset_second_pad-pad_size[1]/2],
+    kicad_mod.append(Rectangle(start=[-pad_size[0]/2, -offset_second_pad-pad_size[1]/2],
         end=[pad_size[0]/2,pad_size[1]/2],offset=pad_silk_off,
         width=configuration['silk_line_width'], layer='B.SilkS'))
 
     ############################ Outline ##############################
-    #kicad_mod.append(RectLine(start=[xl1, yt1], end=[xr1, yb1], layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(RectLine(
+    #kicad_mod.append(Rectangle(start=[xl1, yt1], end=[xr1, yb1], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(
         start=[body_edge['left'], body_edge['top']],
         end=[body_edge['right'], body_edge['bottom']],
         layer='F.Fab', width=configuration['fab_line_width']))
@@ -205,7 +205,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
                                  layer='F.Fab', width=configuration['fab_line_width']))
 
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[body_edge['left'], body_edge['top']],
         end=[body_edge['right'], body_edge['bottom']],
         offset = off,
@@ -250,7 +250,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

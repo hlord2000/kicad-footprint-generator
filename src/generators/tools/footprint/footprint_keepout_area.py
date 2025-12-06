@@ -40,7 +40,7 @@ def addRectangularKeepout(kicad_mod, center, size, text='KEEPOUT', config=KEEPOU
     }
     keepout_edges['right'] = keepout_edges['left'] + size[0]
     keepout_edges['bottom'] = keepout_edges['top'] + size[1]
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[keepout_edges['left'], keepout_edges['top']],
         end=[keepout_edges['right'], keepout_edges['bottom']],
         layer=config['graphical_layer'], width=config['line_width']))

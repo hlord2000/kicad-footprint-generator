@@ -88,7 +88,7 @@ def generate_one_footprint(
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #add outline to F.Fab
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start={'x': x1, 'y': y1},
         end={'x': x2, 'y': y2},
         layer='F.Fab', width=configuration['fab_line_width']
@@ -104,7 +104,7 @@ def generate_one_footprint(
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
@@ -141,7 +141,7 @@ def generate_one_footprint(
 
     silk_pad_offset = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     if y2 > (pad_size[1]/2 + silk_pad_offset):
-        kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2},
+        kicad_mod.append(Rectangle(start={'x':x1,'y':y1}, end={'x':x2,'y':y2},
             width=configuration['silk_line_width'], layer="F.SilkS"))
     else:
         num_odd_pins = ceil(pincount/2)
@@ -180,14 +180,14 @@ def generate_one_footprint(
     q = 0.4 #inner rect offset
 
     #outer rect
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start={'x': xa,'y': y1},
         end={'x': xb,'y': y3},
         width=configuration['silk_line_width'], layer="F.SilkS"
         ))
 
     #inner rect
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start={'x': xa+q,'y': y1+q},
         end={'x': xb-q,'y': y3-q},
         width=configuration['silk_line_width'], layer="F.SilkS"
@@ -250,7 +250,7 @@ def generate_one_footprint(
     #     Y1 = y3 + d
     #     Y2 = -pad_size[1]/2 - d
     #
-    #     kicad_mod.append(RectLine(start={'x':x-w, 'y': Y1},
+    #     kicad_mod.append(Rectangle(start={'x':x-w, 'y': Y1},
     #     end={'x':x+w, 'y': Y2},
     #     width=configuration['fab_line_width'], layer='F.Fab'))
 

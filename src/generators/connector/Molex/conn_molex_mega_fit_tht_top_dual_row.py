@@ -279,7 +279,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
                 x = i * pitch
                 y = j * row
                 s = 0.4 * pitch
-                kicad_mod.append(RectLine(start=[x-s,y-s],end=[x+s,y+s], layer='F.Fab', width=configuration['fab_line_width']))
+                kicad_mod.append(Rectangle(start=[x-s,y-s],end=[x+s,y+s], layer='F.Fab', width=configuration['fab_line_width']))
 
     #pin-1 marker
     p1m_off = 0.3 + off
@@ -319,7 +319,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(PolygonLine(shape=poly_crtyd,
                                      layer='F.CrtYd', width=configuration['courtyard_line_width']))
     else:
-        kicad_mod.append(RectLine(
+        kicad_mod.append(Rectangle(
             start=[cx1, cy1], end=[cx2, cy2],
             layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

@@ -111,7 +111,7 @@ def generate_all(generator_name: str, global_config: GC.GlobalConfig, configurat
     f.append(Text(text='${REFERENCE}', at=[xCenter, yCenter],
                 layer="F.Fab", size=sFabRef, thickness=t1))
 
-    f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
+    f.append(Rectangle(start=[xLeftCrtYd, yTopCrtYd],
                     end=[xRightCrtYd, yBottomCrtYd],
                     layer="F.CrtYd", width=wCrtYd))
 

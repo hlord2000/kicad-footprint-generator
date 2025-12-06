@@ -83,7 +83,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         layers=Pad.LAYERS_SMT))
 
     # create fab outline and pin 1 marker
-    kicad_mod.append(RectLine(start=[-h_body_length, -h_body_width], end=[h_body_length, h_body_width], layer='F.Fab', width=fab_width))
+    kicad_mod.append(Rectangle(start=[-h_body_length, -h_body_width], end=[h_body_length, h_body_width], layer='F.Fab', width=fab_width))
     body_edge={
         'left':-h_body_length,
         'top':-h_body_width
@@ -101,7 +101,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.append(PolygonLine(shape=right_outline, layer='F.SilkS', width=silk_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
+    kicad_mod.append(Rectangle(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
     ######################### Text Fields ###############################
 

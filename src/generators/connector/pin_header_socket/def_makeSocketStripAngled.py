@@ -9,7 +9,7 @@ from KicadModTree import (
     Pad,
     PolygonLine,
     Property,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -102,9 +102,9 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     y1 = t_fabb
     yp = t_fabp
     for r in range(1, pos_count + 1):
-        kicad_modg.append(RectLine(start=[l_fabb, y1], end=[l_fabb + w_fabb, y1 + pin_pitch], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Rectangle(start=[l_fabb, y1], end=[l_fabb + w_fabb, y1 + pin_pitch], layer='F.Fab', width=gc.fab_line_width))
         kicad_modg.append(
-            RectLine(start=[0, yp], end=[l_fabb , yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
+            Rectangle(start=[0, yp], end=[l_fabb , yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
         y1 = y1 + pin_pitch
         yp = yp + pin_pitch
 
@@ -114,14 +114,14 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     for r in range(1, pos_count + 1):
         if pos_count == 1 and r == 1:
             kicad_modg.append(
-                RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + 2 * gc.silk_fab_offset], layer='F.SilkS',
+                Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + 2 * gc.silk_fab_offset], layer='F.SilkS',
                          width=gc.silk_line_width))
         if (r == 1 or r == pos_count):
-            kicad_modg.append(RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + gc.silk_fab_offset], layer='F.SilkS',
+            kicad_modg.append(Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch + gc.silk_fab_offset], layer='F.SilkS',
                                        width=gc.silk_line_width))
             y1 = y1 + gc.silk_fab_offset
         else:
-            kicad_modg.append(RectLine(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_modg.append(Rectangle(start=[l_slkb, y1], end=[l_slkp, y1 + pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
 
         kicad_modg.append(Line(start=[-1*((row_count - 1) * row_pitch + pad.x / 2 + gc.silk_fab_offset+gc.silk_line_width), yp], end=[l_slkb, yp], layer='F.SilkS',width=gc.silk_line_width))
         kicad_modg.append(Line(start=[-1*((row_count - 1) * row_pitch + pad.x / 2 + gc.silk_fab_offset+gc.silk_line_width), yp + pin_width + 2 * gc.silk_fab_offset],end=[l_slkb, yp + pin_width + 2 * gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
@@ -145,7 +145,7 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     kicad_modg.append(PolygonLine(shape=[[0, -pin_pitch / 2], [pin_pitch / 2, -pin_pitch / 2], [pin_pitch / 2, 0]], layer='F.SilkS', width=gc.silk_line_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 

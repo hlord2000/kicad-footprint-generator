@@ -256,7 +256,7 @@ def generate_one_footprint(
 
     ########################## Fab Outline ###############################
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[x_min, y_min],
             end=[x_max, y_max],
             layer="F.Fab",
@@ -292,7 +292,7 @@ def generate_one_footprint(
     )
 
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[cx1, cy1],
             end=[cx2, cy2],
             layer="F.CrtYd",

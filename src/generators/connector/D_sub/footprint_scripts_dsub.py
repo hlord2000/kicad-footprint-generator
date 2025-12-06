@@ -486,7 +486,7 @@ def makeDSubStraight(
 
     # create courtyard
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
             end=[
                 roundCrt(l_crt + offset[0] + w_crt),
@@ -669,7 +669,7 @@ def makeDSubEdge(
             x1, y1, pad[0] + 8 * slk_offset, pad[1] + 8 * slk_offset
         )
         kicad_mod.append(
-            RectLine(
+            Rectangle(
                 start=[x1 - soldercup_diameter / 2, ypcb_edge - soldercup_length],
                 end=[x1 + soldercup_diameter / 2, ypcb_edge],
                 layer="F.Fab",
@@ -707,7 +707,7 @@ def makeDSubEdge(
             x1, y1, pad[0] + 8 * slk_offset, pad[1] + 8 * slk_offset
         )
         kicad_mod.append(
-            RectLine(
+            Rectangle(
                 start=[x1 - soldercup_diameter / 2, ypcb_edge - soldercup_length],
                 end=[x1 + soldercup_diameter / 2, ypcb_edge],
                 layer="B.Fab",
@@ -724,7 +724,7 @@ def makeDSubEdge(
     smaller_backcup_width = backcan_width - 2 * smaller_backcan_offset
     # fabrication_layer
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[-smaller_backcup_width / 2, ypcb_edge],
             end=[smaller_backcup_width / 2, ypcb_edge + smaller_backcan_height],
             layer="F.Fab",
@@ -732,7 +732,7 @@ def makeDSubEdge(
         )
     )
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[-backcan_width / 2, ypcb_edge + smaller_backcan_height],
             end=[
                 backcan_width / 2,
@@ -743,7 +743,7 @@ def makeDSubEdge(
         )
     )
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[
                 -shield_width / 2,
                 ypcb_edge + smaller_backcan_height + backcan_height,
@@ -757,7 +757,7 @@ def makeDSubEdge(
         )
     )
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[
                 -connwidth / 2,
                 ypcb_edge + smaller_backcan_height + backcan_height + shieldthickness,
@@ -1493,7 +1493,7 @@ def makeDSubAngled(
     # outline
     if not hasNoBackBox:
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[-backbox_width / 2, ypcb_edge - backbox_height],
                 end=[backbox_width / 2, ypcb_edge],
                 layer="F.Fab",
@@ -1502,7 +1502,7 @@ def makeDSubAngled(
         )
     else:
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[-backcan_width / 2, ypcb_edge - backcan_height],
                 end=[backcan_width / 2, ypcb_edge],
                 layer="F.Fab",
@@ -1510,7 +1510,7 @@ def makeDSubAngled(
             )
         )
     kicad_modg.append(
-        RectLine(
+        Rectangle(
             start=[-shield_width / 2, ypcb_edge],
             end=[shield_width / 2, ypcb_edge + shield_thickness],
             layer="F.Fab",
@@ -1518,7 +1518,7 @@ def makeDSubAngled(
         )
     )
     kicad_modg.append(
-        RectLine(
+        Rectangle(
             start=[-can_width / 2, ypcb_edge + shield_thickness],
             end=[can_width / 2, ypcb_edge + shield_thickness + can_height],
             layer="F.Fab",
@@ -1527,7 +1527,7 @@ def makeDSubAngled(
     )
     if nut_length > 0 and nut_diameter > 0:
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[
                     -mountingdistance / 2 - nut_diameter / 2,
                     ypcb_edge + shield_thickness,
@@ -1541,7 +1541,7 @@ def makeDSubAngled(
             )
         )
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[
                     mountingdistance / 2 - nut_diameter / 2,
                     ypcb_edge + shield_thickness,
@@ -1700,7 +1700,7 @@ def makeDSubAngled(
     # create courtyard
     if not hasNoBackBox:
         kicad_mod.append(
-            RectLine(
+            Rectangle(
                 start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
                 end=[
                     roundCrt(l_crt + offset[0] + w_crt),

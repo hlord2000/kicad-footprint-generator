@@ -95,7 +95,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     bounding_box = body_edge.copy()
 
     #draw the connector outline on the F.Fab layer
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start={'x': x1,'y': y1}, end={'x': x2,'y': y2},
         layer='F.Fab', width=configuration['fab_line_width']))
 
@@ -204,7 +204,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

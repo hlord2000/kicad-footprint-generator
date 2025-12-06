@@ -232,7 +232,7 @@ def make_fp(generator_name:str, global_config: GC.GlobalConfig, wire_def, fp_typ
         crtyd_bottom_main = npth_offset*fp_type['relief_count'] + npth_drill/2 + crtyd_off
 
     layer = 'F.CrtYd'
-    prototype.append(RectLine(
+    prototype.append(Rectangle(
             start=Vector2D(-crtyd_x, crtyd_top).round_to(configuration['courtyard_grid']),
             end=Vector2D(crtyd_x, crtyd_bottom).round_to(configuration['courtyard_grid']),
             layer=layer, width=configuration['courtyard_line_width']
@@ -245,7 +245,7 @@ def make_fp(generator_name:str, global_config: GC.GlobalConfig, wire_def, fp_typ
         crtyd_top = (i)*npth_offset - (npth_drill/2 + crtyd_off)
         crtyd_bottom = (i)*npth_offset + npth_drill/2 + crtyd_off
 
-        prototype.append(RectLine(
+        prototype.append(Rectangle(
                 start=Vector2D(-crtyd_x, crtyd_top).round_to(configuration['courtyard_grid']),
                 end=Vector2D(crtyd_x, crtyd_bottom).round_to(configuration['courtyard_grid']),
                 layer=layer, width=configuration['courtyard_line_width']
@@ -258,7 +258,7 @@ def make_fp(generator_name:str, global_config: GC.GlobalConfig, wire_def, fp_typ
             crtyd_top = (i+1)*npth_offset - (npth_drill/2 + crtyd_off)
             crtyd_bottom = (i+2)*npth_offset + npth_drill/2 + crtyd_off
 
-            prototype.append(RectLine(
+            prototype.append(Rectangle(
                     start=Vector2D(-crtyd_x, crtyd_top).round_to(configuration['courtyard_grid']),
                     end=Vector2D(crtyd_x, crtyd_bottom).round_to(configuration['courtyard_grid']),
                     layer=layer, width=configuration['courtyard_line_width']

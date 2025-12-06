@@ -47,7 +47,7 @@ kicad_mod.append(Property(name=Property.VALUE, footprint_name, {'x':end_pos_x/2.
 # create Silkscreen
 
 # outline
-kicad_mod.addRectLine({'x':start_pos_x-3.87-1.2, 'y':3.2}, {'x':end_pos_x+3.87+1.2, 'y':-pad_spacing-3.2}, 'F.SilkS', 0.15)
+kicad_mod.addRectangle({'x':start_pos_x-3.87-1.2, 'y':3.2}, {'x':end_pos_x+3.87+1.2, 'y':-pad_spacing-3.2}, 'F.SilkS', 0.15)
 
 # slot(s)
 if pincount < 60:
@@ -104,7 +104,7 @@ kicad_mod.addPolygonLine([{'x':start_pos_x-2.2, 'y':0.6}
                           ,{'x':start_pos_x-1.6, 'y':0}
                           ,{'x':start_pos_x-2.2, 'y':0.6}], 'F.SilkS', 0.15)
 
-kicad_mod.addRectLine({'x':round_to_grid(start_pos_x-3.87-1.2-0.5,0.05), 'y':3.2+0.5}, {'x':round_to_grid(end_pos_x+3.87+1.2+0.5,0.05), 'y':round_to_grid(-pad_spacing-3.2-0.5,0.05)}, 'F.CrtYd', 0.05)
+kicad_mod.addRectangle({'x':round_to_grid(start_pos_x-3.87-1.2-0.5,0.05), 'y':3.2+0.5}, {'x':round_to_grid(end_pos_x+3.87+1.2+0.5,0.05), 'y':round_to_grid(-pad_spacing-3.2-0.5,0.05)}, 'F.CrtYd', 0.05)
 
 # create pads
 pad_diameter = 1

@@ -48,19 +48,19 @@ def create_footprint(name, **kwargs):
         kicad_mod.append(Circle(center=[0, 0], radius=courtjard_x/2., layer='F.CrtYd'))
     elif hole_x > hole_y:
         courtjard_length_x = courtjard_x - courtjard_y
-        kicad_mod.append(RectLine(start=[courtjard_length_x / 2, courtjard_y / 2], end=[-courtjard_length_x / 2, courtjard_y / 2],
+        kicad_mod.append(Rectangle(start=[courtjard_length_x / 2, courtjard_y / 2], end=[-courtjard_length_x / 2, courtjard_y / 2],
                                   layer='F.CrtYd'))
-        kicad_mod.append(RectLine(start=[courtjard_length_x / 2, -courtjard_y / 2], end=[-courtjard_length_x / 2, -courtjard_y / 2],
+        kicad_mod.append(Rectangle(start=[courtjard_length_x / 2, -courtjard_y / 2], end=[-courtjard_length_x / 2, -courtjard_y / 2],
                      layer='F.CrtYd'))
         kicad_mod.append(Arc(center=[courtjard_length_x/2 , 0], start=[courtjard_length_x / 2, -courtjard_y / 2], angle=180, layer='F.CrtYd'))
         kicad_mod.append(Arc(center=[-courtjard_length_x / 2, 0], start=[-courtjard_length_x / 2, courtjard_y / 2], angle=180, layer='F.CrtYd'))
     else: # hole_x < hole_y
         courtjard_length_y = courtjard_y - courtjard_x
         kicad_mod.append(
-            RectLine(start=[courtjard_x / 2, courtjard_length_y / 2], end=[courtjard_x / 2, -courtjard_length_y / 2],
+            Rectangle(start=[courtjard_x / 2, courtjard_length_y / 2], end=[courtjard_x / 2, -courtjard_length_y / 2],
                      layer='F.CrtYd'))
         kicad_mod.append(
-            RectLine(start=[-courtjard_x / 2, courtjard_length_y / 2], end=[-courtjard_x / 2, -courtjard_length_y / 2],
+            Rectangle(start=[-courtjard_x / 2, courtjard_length_y / 2], end=[-courtjard_x / 2, -courtjard_length_y / 2],
                      layer='F.CrtYd'))
         kicad_mod.append(
             Arc(center=[0, courtjard_length_y / 2], start=[courtjard_x / 2, courtjard_length_y / 2], angle=180,

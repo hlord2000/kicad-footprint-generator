@@ -82,7 +82,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         entry=configuration['entry_direction'][orientation]))
 
     # create Silkscreen
-    kicad_mod.append(RectLine(start=[silk_x_min,silk_y_min], end=[silk_x_max,silk_y_max],
+    kicad_mod.append(Rectangle(start=[silk_x_min,silk_y_min], end=[silk_x_max,silk_y_max],
         layer='F.SilkS', width=configuration['silk_line_width']))
 
 
@@ -120,7 +120,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         # kicad_mod.append(PolygonLine(shape=poly_silk_inner_outline, layer='F.SilkS', width=configuration['silk_line_width']))
 
         #use box for zh inner outline instead.
-        kicad_mod.append(RectLine(start=[silk_inner_x_min,silk_inner_y_min], end=[silk_inner_x_max,silk_inner_y_max],
+        kicad_mod.append(Rectangle(start=[silk_inner_x_min,silk_inner_y_min], end=[silk_inner_x_max,silk_inner_y_max],
         layer='F.SilkS', width=configuration['silk_line_width']))
 
         # side gaps
@@ -169,7 +169,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(PolygonLine(shape=poly_pin1_marker_type2, layer='F.Fab', width=configuration['fab_line_width']))
 
     ########################## Fab Outline ###############################
-    kicad_mod.append(RectLine(start=[x_min,y_min], end=[x_max,y_max],
+    kicad_mod.append(Rectangle(start=[x_min,y_min], end=[x_max,y_max],
         layer='F.Fab', width=configuration['fab_line_width']))
     ############################# CrtYd ##################################
     part_x_min = x_min
@@ -183,7 +183,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(part_x_max+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(part_y_max+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

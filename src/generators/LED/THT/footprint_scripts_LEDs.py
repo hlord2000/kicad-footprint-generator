@@ -212,12 +212,12 @@ def makeLEDRadial(
         kicad_modg.append(Circle(center=[0, 0], radius=d_fab / 2, layer='F.Fab', width=lw_fab))
     elif led_type == "box":
         kicad_modg.append(
-            RectLine(start=[l_fab, t_fab], end=[l_fab + w_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
+            Rectangle(start=[l_fab, t_fab], end=[l_fab + w_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
         if d2_fab > 0:
             kicad_modg.append(Circle(center=[0, 0], radius=d2_fab / 2, layer='F.Fab', width=lw_fab))
         if win > 0:
             kicad_modg.append(
-                RectLine(start=[-win / 2, t_fab], end=[win / 2, t_fab + h_fab], layer='F.Fab', width=lw_fab))
+                Rectangle(start=[-win / 2, t_fab], end=[win / 2, t_fab + h_fab], layer='F.Fab', width=lw_fab))
     elif led_type == "oval":
         r = w / 2
         ystart = 0
@@ -316,7 +316,7 @@ def makeLEDRadial(
         addVLineWithKeepout(kicad_modg, xmark, -ymark, ymark, 'F.SilkS', lw_slk, keepouts)
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
                               end=[roundCrt(l_crt + w_crt + offset[0]), roundCrt(t_crt + h_crt + offset[1])],
                               layer='F.CrtYd', width=lw_crt))
 
@@ -498,20 +498,20 @@ def makeLEDHorizontal(
         kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[-dled / 2,offsetled+wled-dled/2], layer='F.Fab', width=lw_fab))
         kicad_modg.append(Line(start=[dled / 2, offsetled], end=[dled / 2, offsetled + wled - dled / 2], layer='F.Fab', width=lw_fab))
         kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[dled / 2,offsetled], layer='F.Fab',width=lw_fab))
-        kicad_modg.append(RectLine(start=[ dledout/2,offsetled], end=[dled / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
+        kicad_modg.append(Rectangle(start=[ dledout/2,offsetled], end=[dled / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
     elif led_type == "box":
         if wledback<=0:
             kicad_modg.append(
-                RectLine(start=[-dledout / 2, offsetled], end=[dledout / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
+                Rectangle(start=[-dledout / 2, offsetled], end=[dledout / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
         else:
-            kicad_modg.append(RectLine(start=[-dledout / 2,offsetled], end=[dledout / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
+            kicad_modg.append(Rectangle(start=[-dledout / 2,offsetled], end=[dledout / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
         if dled != dledout:
             kicad_modg.append(
-                RectLine(start=[-dled / 2, offsetled+wledback], end=[dled / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
+                Rectangle(start=[-dled / 2, offsetled+wledback], end=[dled / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
 
     for p in padpos:
         kicad_modg.append(
-            RectLine(start=[p[1],p[2]], end=[p[1],offsetled], layer='F.Fab', width=lw_fab))
+            Rectangle(start=[p[1],p[2]], end=[p[1],offsetled], layer='F.Fab', width=lw_fab))
 
     # build keepeout for SilkScreen
     keepouts = []
@@ -529,31 +529,31 @@ def makeLEDHorizontal(
         kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[-dled / 2-slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
         kicad_modg.append(Line(start=[dled / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
         kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
-        kicad_modg.append(RectLine(start=[dledout / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wledback+slk_offset],  layer='F.SilkS',width=lw_slk))
+        kicad_modg.append(Rectangle(start=[dledout / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wledback+slk_offset],  layer='F.SilkS',width=lw_slk))
     elif led_type == "box":
         if wledback<=0:
-            kicad_modg.append(RectLine(start=[-dledout / 2-slk_offset, offsetled-slk_offset], end=[dledout / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
+            kicad_modg.append(Rectangle(start=[-dledout / 2-slk_offset, offsetled-slk_offset], end=[dledout / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
             kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk, offsetled - slk_offset],end=[-dledout / 2+lw_slk -slk_offset, offsetled + wled + slk_offset], layer='F.SilkS',width=lw_slk))
             kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk*2, offsetled - slk_offset],end=[-dledout / 2+lw_slk*2 -slk_offset, offsetled + wled + slk_offset], layer='F.SilkS',width=lw_slk))
         else:
-            kicad_modg.append(RectLine(start=[-dledout / 2-slk_offset,offsetled-slk_offset], end=[dledout / 2+slk_offset,offsetled+wledback+slk_offset], layer='F.SilkS',width=lw_slk))
+            kicad_modg.append(Rectangle(start=[-dledout / 2-slk_offset,offsetled-slk_offset], end=[dledout / 2+slk_offset,offsetled+wledback+slk_offset], layer='F.SilkS',width=lw_slk))
             kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk, offsetled - slk_offset],end=[-dledout / 2 + lw_slk - slk_offset, offsetled + wledback + slk_offset],layer='F.SilkS', width=lw_slk))
             kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk*2, offsetled - slk_offset],end=[-dledout / 2 + lw_slk*2 - slk_offset, offsetled + wledback + slk_offset],layer='F.SilkS', width=lw_slk))
         if dled != dledout:
             kicad_modg.append(
-                RectLine(start=[-dled / 2-slk_offset, offsetled+wledback+slk_offset], end=[dled / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
+                Rectangle(start=[-dled / 2-slk_offset, offsetled+wledback+slk_offset], end=[dled / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
 
 
 
 
     for p in padpos:
         if pady/2+slk_offset+lw_slk<offsetled-slk_offset:
-            kicad_modg.append(RectLine(start=[p[1], pady/2+slk_offset+lw_slk], end=[p[1], offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
+            kicad_modg.append(Rectangle(start=[p[1], pady/2+slk_offset+lw_slk], end=[p[1], offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
 
 
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
                               end=[roundCrt(l_crt + w_crt + offset[0]), roundCrt(t_crt + h_crt + offset[1])],
                               layer='F.CrtYd', width=lw_crt))
 

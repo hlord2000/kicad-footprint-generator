@@ -20,7 +20,7 @@ from KicadModTree import (
     Pad,
     Circle,
     PolygonLine,
-    RectLine,
+    Rectangle,
     Line,
     ModArgparser,
 )
@@ -183,7 +183,7 @@ def slide_pot(generator_name: str, args):
                              layer="F.SilkS", width=wSilkS))
 
     # CrtYd
-    f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
+    f.append(Rectangle(start=[xLeftCrtYd, yTopCrtYd],
                       end=[xRightCrtYd, yBottomCrtYd],
                       layer="F.CrtYd",
                       width=wCrtYd))

@@ -168,7 +168,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH))
 
     #add outline to F.Fab
-    #kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+    #kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
 
     #and to the silkscreen
     #and draw the tab
@@ -206,7 +206,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         layer='F.CrtYd', width=configuration['courtyard_line_width'], y_mirror=B/2))
 
     # draw the tab
-    kicad_mod.append(RectLine(start=[x1+2*off, B/2-TL/2],end=[x1-TW, B/2+TL/2],
+    kicad_mod.append(Rectangle(start=[x1+2*off, B/2-TL/2],end=[x1-TW, B/2+TL/2],
         offset=-0.5, width=configuration['fab_line_width'], layer='F.Fab'))
 
     #draw the pins!
@@ -216,7 +216,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     #         y = i * pitch
     #         x = j * pitch
     #
-    #         kicad_mod.append(RectLine(start=[x-o,y-o],end=[x+o,y+o], layer='F.Fab', width=configuration['fab_line_width']))
+    #         kicad_mod.append(Rectangle(start=[x-o,y-o],end=[x+o,y+o], layer='F.Fab', width=configuration['fab_line_width']))
 
     #pin-1 marker
     p1m_off = configuration['silk_fab_offset'] + 0.3

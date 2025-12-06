@@ -97,7 +97,7 @@ def makeSIPVertical(generator_name, pins, rm, ddrill, pad, package_size, left_of
 
     # create courtyard
     kicad_mod.append(
-        RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
+        Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='F.CrtYd', width=lw_crt))
 
     # add model
@@ -180,7 +180,7 @@ def makeSIPHorizontal(generator_name, pins, rm, ddrill, pad, package_size, left_
 
     # create courtyard
     kicad_mod.append(
-        RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
+        Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='F.CrtYd', width=lw_crt))
 
     # add model
@@ -224,17 +224,17 @@ def makeResistorSIP(generator_name, pins, footprint_name, description):
     kicad_mod.append(Property(name=Property.VALUE, text=footprint_name, at=[pins / 2 * rm, h_slk / 2 + txt_offset], layer='F.Fab'))
 
     # create FAB-layer
-    kicad_mod.append(RectLine(start=[left, top], end=[left + w, top + h], layer='F.Fab', width=lw_fab))
+    kicad_mod.append(Rectangle(start=[left, top], end=[left + w, top + h], layer='F.Fab', width=lw_fab))
     kicad_mod.append(Text(text='${REFERENCE}', at=[(pins) / 2 * rm, top + h / 2], layer='F.Fab'))
     kicad_mod.append(Line(start=[0.5 * rm, top], end=[0.5 * rm, top + h], layer='F.Fab', width=lw_fab))
 
     # create SILKSCREEN-layer
-    kicad_mod.append(RectLine(start=[l_slk, t_slk], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS'))
+    kicad_mod.append(Rectangle(start=[l_slk, t_slk], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS'))
     kicad_mod.append(Line(start=[0.5 * rm, t_slk], end=[0.5 * rm, t_slk + h_slk], layer='F.SilkS'))
 
     # create courtyard
     kicad_mod.append(
-        RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
+        Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='F.CrtYd', width=lw_crt))
 
     # create pads

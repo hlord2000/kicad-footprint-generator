@@ -206,7 +206,7 @@ def generate_one_footprint(
 
 
     #draw the outline of the shape
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],
         layer='F.Fab',width=configuration['fab_line_width']))
 
     dy = peg_to_nearest_pin + body_edge['top'] - off
@@ -455,7 +455,7 @@ def generate_one_footprint(
     cx2 = round_to_grid(bounding_box['right'] + CrtYd_offset, CrtYd_grid)
     cy2 = round_to_grid(bounding_box['bottom'] + CrtYd_offset, CrtYd_grid)
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

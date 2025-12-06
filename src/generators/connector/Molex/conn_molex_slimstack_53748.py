@@ -135,7 +135,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.append(PolygonLine(shape=bottom_outline, layer='F.SilkS', width=silk_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
+    kicad_mod.append(Rectangle(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
     ######################### Text Fields ###############################
 

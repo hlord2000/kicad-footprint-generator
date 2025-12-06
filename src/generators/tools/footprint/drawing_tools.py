@@ -27,7 +27,6 @@ from KicadModTree import (
     Pad,
     PolygonLine,
     Rectangle,
-    RectLine,
     Shape,
 )
 from kilibs.geom import (
@@ -594,7 +593,7 @@ def addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0
 # split a rectangle
 def addRectWith(kicad_mod, x, y, w, h, layer, width, roun=0.001):
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[round_to_grid(x, roun), round_to_grid(y, roun)],
             end=[round_to_grid(x + w, roun), round_to_grid(y + h, roun)],
             layer=layer,

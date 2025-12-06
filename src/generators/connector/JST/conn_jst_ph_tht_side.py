@@ -100,9 +100,9 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         kicad_mod.append(Line(start=[silk_x_min, silk_y_main_min], end=[tmp_x1, silk_y_main_min], layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=[silk_x_max, silk_y_main_min], end=[tmp_x2, silk_y_main_min], layer='F.SilkS', width=configuration['silk_line_width']))
 
-        kicad_mod.append(RectLine(start=[-1.3, 2.5], end=[-0.3, 4.1],
+        kicad_mod.append(Rectangle(start=[-1.3, 2.5], end=[-0.3, 4.1],
             layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(RectLine(start=[(pincount-1)*pitch+1.3, 2.5], end=[(pincount-1)*pitch+0.3, 4.1],
+        kicad_mod.append(Rectangle(start=[(pincount-1)*pitch+1.3, 2.5], end=[(pincount-1)*pitch+0.3, 4.1],
             layer='F.SilkS', width=configuration['silk_line_width']))
 
         kicad_mod.append(Line(start=[-0.3, 4.1], end=[-0.3, silk_y_max],
@@ -122,7 +122,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(part_x_max+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(part_y_max+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

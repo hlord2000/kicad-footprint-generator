@@ -22,7 +22,7 @@ def gen_footprint():
             for y in [-1, 1]:
                 kicad_mod.append(Circle(center=[x, y], radius=0.375, layer=layer, width=width))
         # add a polygon line
-        kicad_mod.append(RectLine(start=[-5.2, -2.2], end=[5.2, 2.2], layer=layer, width=width))
+        kicad_mod.append(Rectangle(start=[-5.2, -2.2], end=[5.2, 2.2], layer=layer, width=width))
     # add some SMT pads
     round_radius_handler = RoundRadiusHandler(radius_ratio=0.25)
     for x in range(-3, 4):

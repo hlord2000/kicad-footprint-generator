@@ -785,7 +785,7 @@ def generate_all(generator_name: str, global_config: GC.GlobalConfig) -> int:
                 x2 = (A + (PadSize / 2) + 0.25)
             if (y2 < (B + (PadSize / 2) + 0.25)):
                 y2 = (B + (PadSize / 2) + 0.25)
-            fp.append(RectLine(start=[round(x1, 2), round(y1, 2)],end=[round(x2, 2), round(y2, 2)],layer='F.CrtYd',width=0.05))
+            fp.append(Rectangle(start=[round(x1, 2), round(y1, 2)],end=[round(x2, 2), round(y2, 2)],layer='F.CrtYd',width=0.05))
 
             RefX1 = 0.0
             RefY1 = 0 - (((W - B) / 2) + 2)

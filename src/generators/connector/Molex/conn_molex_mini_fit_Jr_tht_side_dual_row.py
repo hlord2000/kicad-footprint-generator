@@ -148,7 +148,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     #draw the 'peg' version
     #http://www.molex.com/pdm_docs/sd/026013127_sd.pdf
     #draw the outline of the shape
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],
         layer='F.Fab', width=configuration['fab_line_width']))
 
     if peg:
@@ -271,7 +271,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cy2 = round_to_grid(bounding_box['bottom'] + CrtYd_offset, CrtYd_grid)
 
     if peg:
-        kicad_mod.append(RectLine(
+        kicad_mod.append(Rectangle(
             start=[cx1, cy1], end=[cx2, cy2],
             layer='F.CrtYd', width=configuration['courtyard_line_width']))
     else:

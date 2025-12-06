@@ -73,7 +73,7 @@ def generate_footprint(generator_name: str, global_config: GC.GlobalConfig, para
     else:
         body_top_left = [(-params['width']+params['pitch'])/2+params['holes']['offset'], -params['top']]
         body_bottom_right = [(-params['width']+params['pitch'])/2+params['width']+params['holes']['offset'], params['top']+params['pitch']*(part_params['pins']//2-1)]
-    kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
 
     # Add silkscreen layer
     silk_top_left = [body_top_left[0] - configuration['silk_fab_offset'], body_top_left[1] - configuration['silk_fab_offset']]

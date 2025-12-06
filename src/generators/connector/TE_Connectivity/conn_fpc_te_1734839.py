@@ -160,7 +160,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig,
         layer='Dwgs.User', width=configuration['fab_line_width']))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, courtyard_y1], end=[courtyard_x, courtyard_y2],
+    kicad_mod.append(Rectangle(start=[-courtyard_x, courtyard_y1], end=[courtyard_x, courtyard_y2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
     # kicad_mod.append(Property(name=Property.REFERENCE, text='REF**', size=[1,1], at=[0, courtyard_y1 - label_y_offset], layer='F.SilkS'))
     # kicad_mod.append(Text(text='${REFERENCE}', size=[1,1], at=[0, tab_y], layer='F.Fab'))

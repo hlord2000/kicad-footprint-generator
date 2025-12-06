@@ -117,13 +117,13 @@ def make_module(generator_name: str, global_config: GC.GlobalConfig, pins_per_ro
             **optional_pad_params))
 
     ############################ Outline ##############################
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[body_edge['left'], body_edge['top']],
         end=[body_edge['right'], body_edge['bottom']],
         layer="F.Fab", width=configuration['fab_line_width']
     ))
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[body_edge['left'], body_edge['top']],
         end=[body_edge['right'], body_edge['bottom']],
         layer="F.SilkS", width=configuration['silk_line_width'],
@@ -206,7 +206,7 @@ def make_module(generator_name: str, global_config: GC.GlobalConfig, pins_per_ro
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

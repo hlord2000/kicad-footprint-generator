@@ -127,7 +127,7 @@ def generate_all(global_config: GC.GlobalConfig, generator_name: str) -> int:
     )
 
     f.append(
-        RectLine(
+        Rectangle(
             start=[xLeftCrtYd, yTopCrtYd],
             end=[xRightCrtYd, yBottomCrtYd],
             layer="F.CrtYd",

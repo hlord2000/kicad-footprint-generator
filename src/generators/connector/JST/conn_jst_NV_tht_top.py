@@ -62,7 +62,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw the main outline on F.Fab layer
-    kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2}, layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start={'x':x1,'y':y1}, end={'x':x2,'y':y2}, layer='F.Fab', width=configuration['fab_line_width']))
 
     #draw horizontal line for latch
     kicad_mod.append(PolygonLine(shape=[{ 'x':x1, 'y':(y1 + 1.7) }, { 'x':x2, 'y':(y1 + 1.7) }], layer='F.Fab', width=0.1))
@@ -78,7 +78,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
@@ -88,7 +88,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     y1 -= off
     x2 += off
     y2 += off
-    kicad_mod.append(RectLine(start=[x1,y1], end=[x2,y2], layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1], end=[x2,y2], layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add pin1 mark on silk
     px = x1 - 0.2

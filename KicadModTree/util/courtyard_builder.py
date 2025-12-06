@@ -29,7 +29,6 @@ from KicadModTree.nodes.Shape import Shape
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.nodes.specialized.PolygonLine import PolygonLine
-from KicadModTree.nodes.specialized.RectLine import RectLine
 from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
@@ -188,7 +187,7 @@ class CourtyardBuilder:
             offset_pads = offset_fab
         if isinstance(node, Shape):
             if node.layer == "F.Fab" and use_fab_layer:
-                if isinstance(node, Rectangle | RectLine):
+                if isinstance(node, Rectangle):
                     self.add_rect(node, offset_fab)
                 elif isinstance(node, Polygon | PolygonLine):
                     self.add_polygon(node, offset_fab)
@@ -223,20 +222,14 @@ class CourtyardBuilder:
         )
         self._node = None  # invalidate previous node calculations
 
-    def add_rect(self, rect: Rectangle | RectLine, offset: float) -> None:
+    def add_rect(self, rect: Rectangle, offset: float) -> None:
         """
-        Add a Rectangle or RectLine to the list of courtyard points.
+        Add a Rectangle to the list of courtyard points.
         """
-        if isinstance(rect, Rectangle):
-            left = rect.left - offset
-            right = rect.right + offset
-            top = rect.top - offset
-            bottom = rect.bottom + offset
-        else:
-            left = min(rect.start.x, rect.end.x) - offset  # pyright: ignore
-            right = max(rect.start.x, rect.end.x) + offset  # pyright: ignore
-            top = min(rect.start.y, rect.end.y) - offset  # pyright: ignore
-            bottom = max(rect.start.y, rect.end.y) + offset  # pyright: ignore
+        left = rect.left - offset
+        right = rect.right + offset
+        top = rect.top - offset
+        bottom = rect.bottom + offset
         self.src_pts.append(
             [[right, top], [right, bottom], [left, bottom], [left, top]]
         )

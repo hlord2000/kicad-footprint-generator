@@ -113,11 +113,11 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     # create "fitting nail" (npth mounting) holes
     #kicad_mod.append(Pad(at=[-nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=Pad.LAYERS_THT))
     #kicad_mod.append(Pad(at=[nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=Pad.LAYERS_THT))
-    kicad_mod.append(RectLine(start=[-nail_x - 0.35 / 2.0, -0.22], end=[-nail_x + 0.35 / 2.0, 0.22], layer='Edge.Cuts', width=fab_width))
-    kicad_mod.append(RectLine(start=[nail_x - 0.35 / 2.0, -0.22], end=[nail_x + 0.35 / 2.0, 0.22], layer='Edge.Cuts', width=fab_width))
+    kicad_mod.append(Rectangle(start=[-nail_x - 0.35 / 2.0, -0.22], end=[-nail_x + 0.35 / 2.0, 0.22], layer='Edge.Cuts', width=fab_width))
+    kicad_mod.append(Rectangle(start=[nail_x - 0.35 / 2.0, -0.22], end=[nail_x + 0.35 / 2.0, 0.22], layer='Edge.Cuts', width=fab_width))
 
     # create fab outline and pin 1 marker
-    kicad_mod.append(RectLine(start=[-half_body_length, -half_body_width], end=[half_body_length, half_body_width], layer='F.Fab', width=fab_width))
+    kicad_mod.append(Rectangle(start=[-half_body_length, -half_body_width], end=[half_body_length, half_body_width], layer='F.Fab', width=fab_width))
     body_edge={
         'left':-half_body_length,
         'top':-half_body_width
@@ -135,7 +135,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.append(PolygonLine(shape=right_outline, layer='F.SilkS', width=silk_width))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
+    kicad_mod.append(Rectangle(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
     ######################### Text Fields ###############################
 

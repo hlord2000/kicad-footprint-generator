@@ -109,7 +109,7 @@ def generate_footprint(widthType, heightType, notchType, configuration, generato
     #    angle=180.0, layer="F.Cu", width=holeCopperWidth))
         
     # courtyard
-    f.append(RectLine(start=[-((widthType+courtyardBorder)/2), 0-courtyardBorder],
+    f.append(Rectangle(start=[-((widthType+courtyardBorder)/2), 0-courtyardBorder],
         end=[((widthType+courtyardBorder)/2), conHeight+courtyardBorder],
         layer="F.CrtYd"))
     f.append(PolygonLine(shape=[[-(courtyardRadius), -(heightType-conHeight)],

@@ -245,7 +245,7 @@ def generate_all(generator_name: str, global_config: GC.GlobalConfig, spec_file_
 
             # Draw Courtyard
             kicad_modt.append(
-                RectLine(
+                Rectangle(
                     start=[-c, courtyard_y_up],
                     end=[+c, courtyard_y_down],
                     layer="F.CrtYd",
@@ -255,7 +255,7 @@ def generate_all(generator_name: str, global_config: GC.GlobalConfig, spec_file_
 
             # Draw Fabrication layer
             kicad_modt.append(
-                RectLine(
+                Rectangle(
                     start=[-a / 2, fab_up],
                     end=[+a / 2, fab_down],
                     layer="F.Fab",

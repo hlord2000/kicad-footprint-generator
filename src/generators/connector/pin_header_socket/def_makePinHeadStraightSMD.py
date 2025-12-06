@@ -12,7 +12,7 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -200,7 +200,7 @@ def makePinHeadStraightSMD(cfg: FPconfiguration, generator_name: str):
                 kicad_modg.append(Line(start=[l_slk, c*pin_pitch+slk_offset_pad],end=[l_slk, (c+1)*pin_pitch-slk_offset_pad],layer='F.SilkS', width=gc.silk_line_width))
                 kicad_modg.append(Line(start=[l_slk+w_slk, c*pin_pitch+slk_offset_pad],end=[l_slk+w_slk, (c+1)*pin_pitch-slk_offset_pad],layer='F.SilkS', width=gc.silk_line_width))
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
                               end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 

@@ -24,42 +24,6 @@
 	)
 	(attr smd)
 	(fp_line
-		(start -5.2 -2.2)
-		(end -5.2 -1.214096)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -5.2 -1.15884)
-		(end -5.2 1.15884)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -5.2 1.214096)
-		(end -5.2 2.2)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -5.2 2.2)
-		(end -4.84116 2.2)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
 		(start -5 -2)
 		(end -4.913954 -2)
 		(stroke
@@ -98,24 +62,6 @@
 	(fp_line
 		(start -4.936915 1.063085)
 		(end -5 1)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -4.84116 -2.2)
-		(end -5.2 -2.2)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -4.785904 2.2)
-		(end 5.2 2.2)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -167,67 +113,14 @@
 		)
 		(layer "F.SilkS")
 	)
-	(fp_line
-		(start 5.2 -2.2)
-		(end -4.785904 -2.2)
+	(fp_rect
+		(start -5.2 -2.2)
+		(end 5.2 2.2)
 		(stroke
 			(width 0.12)
 			(type solid)
 		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 -2.155941)
-		(end 5.2 -2.2)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 -1.455941)
-		(end 5.2 -1.544059)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 -0.31)
-		(end 5.2 -0.844059)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 0.844059)
-		(end 5.2 0.31)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 1.544059)
-		(end 5.2 1.455941)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start 5.2 2.2)
-		(end 5.2 2.155941)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
+		(fill no)
 		(layer "F.SilkS")
 	)
 	(fp_arc
@@ -611,24 +504,6 @@
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start -5.2 -2.2)
-		(end -5.2 2.2)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-	)
-	(fp_line
-		(start -5.2 2.2)
-		(end 5.2 2.2)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-	)
-	(fp_line
 		(start -5 -2)
 		(end 4.5 -2)
 		(stroke
@@ -673,22 +548,14 @@
 		)
 		(layer "F.Fab")
 	)
-	(fp_line
-		(start 5.2 -2.2)
-		(end -5.2 -2.2)
+	(fp_rect
+		(start -5.2 -2.2)
+		(end 5.2 2.2)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(layer "F.Fab")
-	)
-	(fp_line
-		(start 5.2 2.2)
-		(end 5.2 -2.2)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
+		(fill no)
 		(layer "F.Fab")
 	)
 	(fp_arc

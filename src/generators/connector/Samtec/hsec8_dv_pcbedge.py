@@ -20,7 +20,7 @@
 #   https://suddendocs.samtec.com/prints/hsec8-1xxx-xx-xx-dv-x-xx-footprint.pdf
 
 from typing import Any
-from KicadModTree import Footprint, FootprintType, Line, Text, Arc, Pad, RectLine
+from KicadModTree import Footprint, FootprintType, Line, Text, Arc, Pad, Rectangle
 from generators.tools.footprint.drawing_tools import round_to_grid
 from generators.tools.footprint.footprint_text_fields import addTextFields
 from generators.tools.footprint.save_footprint import write_footprint
@@ -149,7 +149,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
     # create courtyards
     for layer in ['F.CrtYd', 'B.CrtYd']:
-        kicad_mod.append(RectLine(start=[left, top], end=[right, bot], layer=layer, width=configuration['courtyard_line_width']))
+        kicad_mod.append(Rectangle(start=[left, top], end=[right, bot], layer=layer, width=configuration['courtyard_line_width']))
 
     top = body_edge['top']
     bot = body_edge['bottom']

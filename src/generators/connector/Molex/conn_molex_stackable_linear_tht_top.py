@@ -204,7 +204,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     if variant_params[variant]['mount_pins']:
        pass
     else:
-        kicad_mod.append(RectLine(
+        kicad_mod.append(Rectangle(
             start = [cx1, cy1], end = [cx2, cy2],
             layer = 'F.CrtYd', width = configuration['courtyard_line_width']))
 

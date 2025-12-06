@@ -1,4 +1,4 @@
-from KicadModTree import Circle, Line, RectLine, Translation
+from KicadModTree import Circle, Line, Rectangle, Translation
 from kilibs.geom import Vector2D
 
 
@@ -13,7 +13,7 @@ def test_bounding_box():
     assert bbox.right == max(p1.x, p2.x)
     assert bbox.bottom == max(p1.y, p2.y)
 
-    rect = RectLine(start=(p1.x, p2.y), end=(p2.x, p1.y), layer=None)
+    rect = Rectangle(start=(p1.x, p2.y), end=(p2.x, p1.y), layer=None)
     bbox = rect.bbox()
     assert bbox.left == min(p1.x, p2.x)
     assert bbox.top == min(p1.y, p2.y)

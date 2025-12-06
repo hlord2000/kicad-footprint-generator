@@ -40,7 +40,7 @@ def smd_chip(generator_name: str, args):
     kicad_mod.append(Line(start=[silk_x, -silk_y], end=[-silk_x, -silk_y], layer='F.SilkS'))
 
     # create fabrication layer
-    kicad_mod.append(RectLine(start=[args['part_x'] / 2., args['part_y'] / 2.],
+    kicad_mod.append(Rectangle(start=[args['part_x'] / 2., args['part_y'] / 2.],
                               end=[-args['part_x'] / 2., -args['part_y'] / 2.],
                               layer='F.Fab'))
 
@@ -48,7 +48,7 @@ def smd_chip(generator_name: str, args):
     courtyard_x = args['courtyard'] + max([args['pad_spacing'] / 2. + args['pad_x'], args['part_x'] / 2.])
     courtyard_y = args['courtyard'] + max([args['pad_y'] / 2., args['part_y'] / 2.])
 
-    kicad_mod.append(RectLine(start=[courtyard_x, courtyard_y],
+    kicad_mod.append(Rectangle(start=[courtyard_x, courtyard_y],
                               end=[-courtyard_x, -courtyard_y],
                               layer='F.CrtYd'))
 

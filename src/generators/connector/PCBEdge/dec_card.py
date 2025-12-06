@@ -141,7 +141,7 @@ def generate_footprint(heightType, widthType, configuration, generator_name: str
         layer="Edge.Cuts", width=cutWidth))
 
     #courtyard
-    f.append(RectLine(start=[0, 0],
+    f.append(Rectangle(start=[0, 0],
         end=[math.floor(width*100)/100, math.floor(-notchDeepHeight*100)/100],
         layer="F.CrtYd"))
 

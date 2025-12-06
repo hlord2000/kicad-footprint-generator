@@ -24,7 +24,7 @@ from KicadModTree import (
     Node,
     Pad,
     Property,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -534,7 +534,7 @@ def makeTerminalBlockStd(
                 p - 1
             ) * rm + secondHoleOffset[0] < l_fab + w_fab:
                 kicad_modg.append(
-                    RectLine(
+                    Rectangle(
                         start=[
                             (p - 1) * rm
                             + secondHoleOffset[0]
@@ -565,7 +565,7 @@ def makeTerminalBlockStd(
                 p - 1
             ) * rm + thirdHoleOffset[0] < l_fab + w_fab:
                 kicad_modg.append(
-                    RectLine(
+                    Rectangle(
                         start=[
                             (p - 1) * rm
                             + thirdHoleOffset[0]
@@ -596,7 +596,7 @@ def makeTerminalBlockStd(
                 p - 1
             ) * rm + fourthHoleOffset[0] < l_fab + w_fab:
                 kicad_modg.append(
-                    RectLine(
+                    Rectangle(
                         start=[
                             (p - 1) * rm
                             + fourthHoleOffset[0]
@@ -628,7 +628,7 @@ def makeTerminalBlockStd(
     if nibbleSize is not None:
         assert nibblePos is not None
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[l_fab + nibblePos[0], t_fab + nibblePos[1]],
                 end=[
                     l_fab + nibblePos[0] + nibbleSize[0],
@@ -651,7 +651,7 @@ def makeTerminalBlockStd(
 
     # create courtyard
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[DT.roundCrt(l_crt + offset[0]), DT.roundCrt(t_crt + offset[1])],
             end=[
                 DT.roundCrt(l_crt + offset[0] + w_crt),
@@ -1101,7 +1101,7 @@ def makeTerminalBlockVertical(
             p - 1
         ) * rm + secondHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + secondHoleOffset[0] - secondHoleDiameter[0] / 2,
                         0 + secondHoleOffset[1] - secondHoleDiameter[1] / 2,
@@ -1128,7 +1128,7 @@ def makeTerminalBlockVertical(
             p - 1
         ) * rm + thirdHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + thirdHoleOffset[0] - thirdHoleDiameter[0] / 2,
                         0 + thirdHoleOffset[1] - thirdHoleDiameter[1] / 2,
@@ -1155,7 +1155,7 @@ def makeTerminalBlockVertical(
             p - 1
         ) * rm + fourthHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + fourthHoleOffset[0] - fourthHoleDiameter[0] / 2,
                         0 + fourthHoleOffset[1] - fourthHoleDiameter[1] / 2,
@@ -1183,7 +1183,7 @@ def makeTerminalBlockVertical(
     if nibbleSize is not None:
         assert nibblePos is not None
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[l_fab + nibblePos[0], t_fab + nibblePos[1]],
                 end=[
                     l_fab + nibblePos[0] + nibbleSize[0],
@@ -1206,7 +1206,7 @@ def makeTerminalBlockVertical(
 
     # create courtyard
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[DT.roundCrt(l_crt + offset[0]), DT.roundCrt(t_crt + offset[1])],
             end=[
                 DT.roundCrt(l_crt + offset[0] + w_crt),
@@ -1726,7 +1726,7 @@ def makeTerminalBlock45Degree(
             p - 1
         ) * rm + secondHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + secondHoleOffset[0] - secondHoleDiameter[0] / 2,
                         0 + secondHoleOffset[1] - secondHoleDiameter[1] / 2,
@@ -1753,7 +1753,7 @@ def makeTerminalBlock45Degree(
             p - 1
         ) * rm + thirdHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + thirdHoleOffset[0] - thirdHoleDiameter[0] / 2,
                         0 + thirdHoleOffset[1] - thirdHoleDiameter[1] / 2,
@@ -1780,7 +1780,7 @@ def makeTerminalBlock45Degree(
             p - 1
         ) * rm + fourthHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + fourthHoleOffset[0] - fourthHoleDiameter[0] / 2,
                         0 + fourthHoleOffset[1] - fourthHoleDiameter[1] / 2,
@@ -1807,7 +1807,7 @@ def makeTerminalBlock45Degree(
             p - 1
         ) * rm + fifthHoleOffset[0] < l_fab + w_fab:
             kicad_modg.append(
-                RectLine(
+                Rectangle(
                     start=[
                         (p - 1) * rm + fifthHoleOffset[0] - fifthHoleDiameter[0] / 2,
                         0 + fifthHoleOffset[1] - fifthHoleDiameter[1] / 2,
@@ -1855,7 +1855,7 @@ def makeTerminalBlock45Degree(
     if nibbleSize is not None:
         assert nibblePos is not None
         kicad_modg.append(
-            RectLine(
+            Rectangle(
                 start=[l_fab + nibblePos[0], t_fab + nibblePos[1]],
                 end=[
                     l_fab + nibblePos[0] + nibbleSize[0],
@@ -1878,7 +1878,7 @@ def makeTerminalBlock45Degree(
 
     # create courtyard
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[DT.roundCrt(l_crt + offset[0]), DT.roundCrt(t_crt + offset[1])],
             end=[
                 DT.roundCrt(l_crt + offset[0] + w_crt),
@@ -2092,7 +2092,7 @@ def makeScrewTerminalSingleStd(
 
     # create courtyard
     kicad_mod.append(
-        RectLine(
+        Rectangle(
             start=[DT.roundCrt(l_crt + offset[0]), DT.roundCrt(t_crt + offset[1])],
             end=[
                 DT.roundCrt(l_crt + offset[0] + w_crt),

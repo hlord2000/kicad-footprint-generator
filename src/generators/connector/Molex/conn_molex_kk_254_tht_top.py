@@ -96,11 +96,11 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         **optional_pad_params))
 
     # create fab outline
-    kicad_mod.append(RectLine(start=[body_edge['left'], body_edge['top']],\
+    kicad_mod.append(Rectangle(start=[body_edge['left'], body_edge['top']],\
         end=[body_edge['right'], body_edge['bottom']], layer='F.Fab', width=fab_w))
 
     # create silkscreen
-    kicad_mod.append(RectLine(start=[body_edge['left']-nudge, body_edge['top']-nudge],\
+    kicad_mod.append(Rectangle(start=[body_edge['left']-nudge, body_edge['top']-nudge],\
         end=[body_edge['right']+nudge, body_edge['bottom']+nudge], layer='F.SilkS', width=silk_w))
 
     # pin 1 markers
@@ -172,7 +172,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(body_edge['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(body_edge['bottom']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

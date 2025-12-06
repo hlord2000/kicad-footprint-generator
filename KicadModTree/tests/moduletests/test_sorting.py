@@ -6,7 +6,7 @@ from KicadModTree import (
     FootprintType,
     Line,
     Pad,
-    RectLine,
+    Rectangle,
     Translation,
 )
 from KicadModTree.tests.test_utils.fp_file_test import SerialisationTest
@@ -36,9 +36,9 @@ class TestSmallValueSerialisation(SerialisationTest):
         kicad_mod = Footprint("test_sort_copied_elements", FootprintType.SMD)
 
         prototype = Translation(0, 0)
-        # RectLine
+        # Rectangle
         prototype.append(
-            RectLine(
+            Rectangle(
                 start=Vector2D(-1.1, -1.1),
                 end=Vector2D(1.1, 1.1),
                 layer="F.SilkS",

@@ -322,7 +322,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     y1 = 0 - (KeepOutAreaHeight / 2)
     x2 = x1 + KeepOutAreaWidth
     y2 = y1 + KeepOutAreaHeight
-    kicad_mod.append(RectLine(start=[round(x1, 2), round(y1, 2)],
+    kicad_mod.append(Rectangle(start=[round(x1, 2), round(y1, 2)],
         end=[round(x2, 2), round(y2, 2)], layer='Dwgs.User', width=0.1))
     kicad_mod.append(Text(text='KEEPOUT',
         at=[0,0], rotation=90,
@@ -360,7 +360,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

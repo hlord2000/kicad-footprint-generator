@@ -12,7 +12,7 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -220,7 +220,7 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     """
     if row_count == 1:
         kicad_modg.append(
-            RectLine(start=[l_slk, 0.5 * pin_pitch], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=gc.silk_line_width))
+            Rectangle(start=[l_slk, 0.5 * pin_pitch], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=gc.silk_line_width))
     else:
         if isSocket and row_count>1:
             kicad_modg.append(PolygonLine(
@@ -253,7 +253,7 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     ).round_to_grid(outwards=True, grid=gc.courtyard_grid)
 
     kicad_modg.append(
-        RectLine(
+        Rectangle(
             start=crt_rect.top_left,
             end=crt_rect.bottom_right,
             layer="F.CrtYd",

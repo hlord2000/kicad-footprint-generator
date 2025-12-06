@@ -12,7 +12,7 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    RectLine,
+    Rectangle,
     Text,
     Translation,
 )
@@ -271,7 +271,7 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
         ]
         kicad_mod.append(PolygonLine(shape=crt_polygon, layer='F.CrtYd', width=gc.courtyard_line_width))
     else:
-        kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
+        kicad_mod.append(Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
                     roundCrt(t_crt + h_crt)], layer='F.CrtYd', width=gc.courtyard_line_width))
 
     # create pads (first the left row then the right row)

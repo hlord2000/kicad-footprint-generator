@@ -20,7 +20,7 @@ from KicadModTree import (
     Pad,
     PadArray,
     Model,
-    RectLine,
+    Rectangle,
     PolygonLine,
 )
 from generators.tools.footprint.drawing_tools import round_to_grid
@@ -238,7 +238,7 @@ def make_module(generator_name: str, global_config: GC.GlobalConfig, pin_count, 
     cx2 = round_to_grid(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = round_to_grid(bounding_box['bottom']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 

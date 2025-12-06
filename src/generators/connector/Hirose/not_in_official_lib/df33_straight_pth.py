@@ -68,7 +68,7 @@ for pincount in range(2,16):
     y2 += off
 
     #draw the main outline around the footprint
-    kicad_mod.addRectLine({'x':x1,'y':y1},{'x':x2,'y':y2})
+    kicad_mod.addRectangle({'x':x1,'y':y1},{'x':x2,'y':y2})
 
     #add pin-1 marker
 
@@ -153,7 +153,7 @@ for pincount in range(2,16):
     #add a courtyard
     cy = 0.5
 
-    kicad_mod.addRectLine({'x':x1-cy,'y':y1-cy},{'x':x2+cy,'y':y2+cy},"F.CrtYd",0.05)
+    kicad_mod.addRectangle({'x':x1-cy,'y':y1-cy},{'x':x2+cy,'y':y2+cy},"F.CrtYd",0.05)
 
     kicad_mod.model = global_config.model_3d_prefix + lib_name + ".3dshapes/" + footprint_name + global_config.model_3d_suffix
 

@@ -96,7 +96,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     kicad_mod.setTags(tags)
 
     #draw simple outline on F.Fab layer
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=configuration['fab_line_width']))
 
     # set general values
     #kicad_mod.append(Property(name=Property.REFERENCE, text='REF**', at=[x_mid,-3.5], layer='F.SilkS'))
@@ -180,7 +180,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
 
     else:
-        out = RectLine(start=[x1,y1], end=[x2,y2], offset=configuration['silk_fab_offset'],
+        out = Rectangle(start=[x1,y1], end=[x2,y2], offset=configuration['silk_fab_offset'],
             layer='F.SilkS', width=configuration['silk_line_width'])
         kicad_mod.append(out)
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
@@ -194,7 +194,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     if boss and pins == 1:
         cy2 = round_to_grid(boss_y+boss_drill/2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(
+    kicad_mod.append(Rectangle(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
@@ -226,12 +226,12 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     y2 += off
 
     #draw the center tab
-    kicad_mod.append(RectLine(start=[g/2,y1], end=[A-g/2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=[g/2,y1], end=[A-g/2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add left tab
-    kicad_mod.append(RectLine(start=[x1,y1], end=[-g/2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=[x1,y1], end=[-g/2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
     #right tab
-    kicad_mod.append(RectLine(start=[A+g/2,y1], end=[x2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=[A+g/2,y1], end=[x2,y1+w], layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add other line
     line = [

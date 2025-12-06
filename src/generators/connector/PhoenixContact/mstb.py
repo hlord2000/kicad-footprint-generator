@@ -90,9 +90,9 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
     #add an outline around the pins
 
     ################################################# Silk and Fab #################################################
-    kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(Rectangle(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
     if configuration['with_fab_layer']:
-        kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Rectangle(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=configuration['fab_line_width']))
     if params.angled:
         lock_poly=[
             {'x':-1, 'y':0},
@@ -108,9 +108,9 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
             {'x':-1.5/2, 'y':-1.5},
             {'x':-1, 'y':-configuration['silk_fab_offset']}
         ]
-        kicad_mod.append(RectLine(start=[silk_top_left[0],silk_bottom_right[1]-1.5], end=[silk_bottom_right[0], silk_bottom_right[1]-1.5-1.8], layer='F.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Rectangle(start=[silk_top_left[0],silk_bottom_right[1]-1.5], end=[silk_bottom_right[0], silk_bottom_right[1]-1.5-1.8], layer='F.SilkS', width=configuration['silk_line_width']))
         if configuration['inner_details_on_fab']:
-            kicad_mod.append(RectLine(start=[body_top_left[0],silk_bottom_right[1]-1.5], end=[body_bottom_right[0], silk_bottom_right[1]-1.5-1.8],
+            kicad_mod.append(Rectangle(start=[body_top_left[0],silk_bottom_right[1]-1.5], end=[body_bottom_right[0], silk_bottom_right[1]-1.5-1.8],
                 layer='F.Fab', width=configuration['fab_line_width']))
         if params.flanged:
             lock_translation = Translation(mount_hole_left[0], silk_bottom_right[1])
@@ -136,7 +136,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         pi1 = [body_top_left[0]+(length-inner_len)/2.0, body_top_left[1]+1.7] # 1.7mm measured
         top_thickness = pi1[1]-silk_top_left[1]
         pi2 = [body_bottom_right[0]-(length-inner_len)/2.0, pi1[1]+inner_width]
-        #kicad_mod.append(RectLine(start=pi1, end=pi2, layer='F.SilkS'))
+        #kicad_mod.append(Rectangle(start=pi1, end=pi2, layer='F.SilkS'))
 
         first_center = params.pin_pitch/2.0
         line_len = params.pin_pitch-2
@@ -159,14 +159,14 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         lock_rect_fab={'start':[-1,0], 'end':[1,-top_thickness+configuration['silk_fab_offset']], 'layer':'F.Fab', 'width':configuration['fab_line_width']}
         if params.flanged:
             lock_translation = Translation(mount_hole_left[0], pi1[1])
-            lock_translation.append(RectLine(**lock_rect_silk))
+            lock_translation.append(Rectangle(**lock_rect_silk))
             if configuration['inner_details_on_fab']:
-                lock_translation.append(RectLine(**lock_rect_fab))
+                lock_translation.append(Rectangle(**lock_rect_fab))
             kicad_mod.append(lock_translation)
             lock_translation = Translation(mount_hole_right[0], pi1[1])
-            lock_translation.append(RectLine(**lock_rect_silk))
+            lock_translation.append(Rectangle(**lock_rect_silk))
             if configuration['inner_details_on_fab']:
-                lock_translation.append(RectLine(**lock_rect_fab))
+                lock_translation.append(Rectangle(**lock_rect_fab))
             kicad_mod.append(lock_translation)
 
             chamfer_edge = Translation(0, pi1[1]-1)
@@ -183,9 +183,9 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
 
         for i in range(params.num_pins):
             lock_translation = Translation(i*params.pin_pitch, pi1[1])
-            lock_translation.append(RectLine(**lock_rect_silk))
+            lock_translation.append(Rectangle(**lock_rect_silk))
             if configuration['inner_details_on_fab']:
-                lock_translation.append(RectLine(**lock_rect_fab))
+                lock_translation.append(Rectangle(**lock_rect_fab))
             kicad_mod.append(lock_translation)
 
         if params.flanged:
@@ -243,7 +243,7 @@ def generate_one_footprint(generator_name: str, global_config: GC.GlobalConfig, 
         #p1=[p1[0],-seriesParams.pin_Sy/2]
     crtyd_top_left=v_offset(body_top_left, configuration['courtyard_offset']['connector'])
     crtyd_bottom_right=v_offset(body_bottom_right, configuration['courtyard_offset']['connector'])
-    kicad_mod.append(RectLine(start=round_to_grid(crtyd_top_left, configuration['courtyard_grid']), end=round_to_grid(crtyd_bottom_right, configuration['courtyard_grid']), layer='F.CrtYd'))
+    kicad_mod.append(Rectangle(start=round_to_grid(crtyd_top_left, configuration['courtyard_grid']), end=round_to_grid(crtyd_bottom_right, configuration['courtyard_grid']), layer='F.CrtYd'))
 
     if params.mount_hole and configuration['courtyard_for_mountscrews']:
         kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['courtyard_offset']['connector'], layer='B.CrtYd', width=configuration['courtyard_line_width']))
