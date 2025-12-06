@@ -691,6 +691,51 @@ DFN-8-1EP_3x3mm_P0.5mm_EP1.7x2.4mm:
   EP_size_x: 1.65..1.70..1.75
   EP_size_y: 2.35..2.40..2.45
 
+DFN-8-1EP_3x3mm_P0.5mm_EP1.2x2.15mm:
+  size_source: 'https://www.lcsc.com/datasheet/C5382538.pdf'
+  device_type: 'DFN'
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.65
+  overall_height:
+    minimum: 0.70
+    nominal: 0.75
+    maximum: 0.80
+  lead_width:
+    minimum: 0.25
+    nominal: 0.30
+    maximum: 0.35
+  lead_len:
+    minimum: 0.35
+    nominal: 0.40
+    maximum: 0.45
+  EP_size_x:
+    minimum: 1.10
+    nominal: 1.20
+    maximum: 1.30
+  EP_size_y:
+    minimum: 2.05
+    nominal: 2.15
+    maximum: 2.25
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    EP_num_paste_pads: [2, 2]
+    paste_via_clearance: 0.1
+    paste_avoid_via: False
+  compatible_mpns:
+    - 'SIT1057TK3'
+  additional_tags:
+    - SIT-HVSON8
+
 DFN-8-1EP_3x3mm_P0.65mm_EP1.7x2.05mm:
   size_source: 'http://www.ixysic.com/home/pdfs.nsf/www/IX4426-27-28.pdf/$file/IX4426-27-28.pdf'
   device_type: 'DFN'
