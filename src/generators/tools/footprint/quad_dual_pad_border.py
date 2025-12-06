@@ -25,7 +25,7 @@ def create_dual_or_quad_pad_border(
     global_config: GC.GlobalConfig,
     pad_details,
     device_params,
-    pad_overrides=pad_overrides.PadOverrides(),
+    pad_overrides=None,
 ) -> list[PadArray]:
 
     pad_shape_details = {}
@@ -52,7 +52,7 @@ def create_dual_or_quad_pad_border(
     return pad_arrays
 
 
-def add_dual_pad_border_y(pad_details, device_params, pad_shape_details, pad_overrides=pad_overrides.PadOverrides()) -> list[PadArray]:
+def add_dual_pad_border_y(pad_details, device_params, pad_shape_details, pad_overrides=None) -> list[PadArray]:
     init = 1
     increment = get_generator(device_params)
 
@@ -100,7 +100,7 @@ def get_pitches(device_params):
     return pitch_x, pitch_y
 
 
-def add_dual_pad_border_x(pad_details, device_params, pad_shape_details, pad_overrides=pad_overrides.PadOverrides()) -> list[PadArray]:
+def add_dual_pad_border_x(pad_details, device_params, pad_shape_details, pad_overrides=None) -> list[PadArray]:
     #for devices with clockwise numbering
     init = 1
     increment = get_generator(device_params)
@@ -134,7 +134,7 @@ def add_dual_pad_border_x(pad_details, device_params, pad_shape_details, pad_ove
     return pad_arrays
 
 
-def add_quad_pad_border(pad_details, device_params, pad_shape_details, pad_overrides=pad_overrides.PadOverrides()) -> list[PadArray]:
+def add_quad_pad_border(pad_details, device_params, pad_shape_details, pad_overrides=None) -> list[PadArray]:
     chamfer_size = device_params.get('chamfer_edge_pins', 0)
 
     pad_size_red = device_params.get('edge_heel_reduction', 0)

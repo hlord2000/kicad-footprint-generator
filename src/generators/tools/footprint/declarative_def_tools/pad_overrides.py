@@ -74,3 +74,6 @@ class PadOverrides:
     @property
     def overrides(self) -> Dict[int | str, SinglePadOverride]:
         return self._overrides
+    
+    def __bool__(self) -> bool:
+        return True if self._overrides else False

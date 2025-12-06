@@ -26,6 +26,7 @@ from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.Shape import Shape
+from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.nodes.specialized.PolygonLine import PolygonLine
@@ -188,7 +189,7 @@ class CourtyardBuilder:
         if isinstance(node, Shape):
             if node.layer == "F.Fab" and use_fab_layer:
                 if isinstance(node, Rectangle):
-                    self.add_rect(node, offset_fab)
+                    self.add_rectangle(node, offset_fab)
                 elif isinstance(node, Polygon | PolygonLine):
                     self.add_polygon(node, offset_fab)
                 elif isinstance(node, Line):
@@ -219,19 +220,6 @@ class CourtyardBuilder:
                 [rectangle.left - offset, rectangle.bottom + offset],
                 [rectangle.left - offset, rectangle.top - offset],
             ]
-        )
-        self._node = None  # invalidate previous node calculations
-
-    def add_rect(self, rect: Rectangle, offset: float) -> None:
-        """
-        Add a Rectangle to the list of courtyard points.
-        """
-        left = rect.left - offset
-        right = rect.right + offset
-        top = rect.top - offset
-        bottom = rect.bottom + offset
-        self.src_pts.append(
-            [[right, top], [right, bottom], [left, bottom], [left, top]]
         )
         self._node = None  # invalidate previous node calculations
 
@@ -288,17 +276,11 @@ class CourtyardBuilder:
         self.src_pts.append([[pt.x, pt.y] for pt in pts])
         self._node = None  # invalidate previous node calculations
 
-    def add_pad(self, pad: Pad | ExposedPad | ReferencedPad, offset: float) -> None:
+    def add_pad(self, pad: Pad | ExposedPad | ReferencedPad | ChamferedPad, offset: float) -> None:
         """
-        Add a Pad or ExposedPad to the list of courtyard points.
+        Add a pad to the list of courtyard points.
         """
-        left = pad.at.x - pad.size.x / 2 - offset
-        right = pad.at.x + pad.size.x / 2 + offset
-        top = pad.at.y - pad.size.y / 2 - offset
-        bottom = pad.at.y + pad.size.y / 2 + offset
-        self.src_pts.append(
-            [[right, top], [right, bottom], [left, bottom], [left, top]]
-        )
+        self.add_rectangle(pad.bbox(), offset)
         self._node = None  # invalidate previous node calculations
 
     def add_pad_array(self, padarray: PadArray, offset: float) -> None:
@@ -308,15 +290,19 @@ class CourtyardBuilder:
         children = padarray.children
         if not children:
             return
-        bbox_first = children[0].bbox()
-        bbox_last = children[-1].bbox()
-        left = min(bbox_first.left, bbox_last.left) - offset
-        right = max(bbox_first.right, bbox_last.right) + offset
-        top = min(bbox_first.top, bbox_last.top) - offset
-        bottom = max(bbox_first.bottom, bbox_last.bottom) + offset
-        self.src_pts.append(
-            [[right, top], [right, bottom], [left, bottom], [left, top]]
-        )
+        if padarray.modified:
+            for pad in children:
+                self.add_pad(pad, offset)
+        else:
+            bbox_first = children[0].bbox()
+            bbox_last = children[-1].bbox()
+            left = min(bbox_first.left, bbox_last.left) - offset
+            right = max(bbox_first.right, bbox_last.right) + offset
+            top = min(bbox_first.top, bbox_last.top) - offset
+            bottom = max(bbox_first.bottom, bbox_last.bottom) + offset
+            self.src_pts.append(
+                [[right, top], [right, bottom], [left, bottom], [left, top]]
+            )
         self._node = None  # invalidate previous node calculations
 
     @staticmethod
