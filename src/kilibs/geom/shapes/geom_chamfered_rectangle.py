@@ -111,7 +111,6 @@ class GeomChamferedRectangle(GeomShapeClosed):
                 pts.append(Vector2D(tl.x, tl.y + self.chamfer_size))
             else:
                 pts.append(tl)
-            pts.reverse()  # TODO: Remove this line
             shape = GeomPolygon(shape=pts)
             if self.angle:
                 shape.rotate(self.angle, self.center)
