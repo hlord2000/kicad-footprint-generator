@@ -470,3 +470,42 @@ VLGA-4_2.5x2.0mm:
     maximum: 0.70
   lead_center_to_center_x:
     nominal: 1.25
+
+NXP_USON-8_1x1.35mm_P0.35mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT1203.pdf'
+  device_type: 'USON' # Similar to TI's X2SON package, with the leads not at the edge
+  manufacturer: 'NXP'
+  ipc_class: 'qfn_pull_back'
+  lead_to_edge: 0.075 +/- 0.05
+  body_pcb_gap: # Dim "A1"
+    maximum: 0.04
+  body_size_x:
+    mininum: 0.95
+    nominal: 1.0
+    maximum: 1.05
+  body_size_y:
+    mininum: 1.3
+    nominal: 1.35
+    maximum: 1.4
+  overall_height: # Dim "A"
+    maximum: 0.35
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.35 # Dim "e1"
+  lead_width:
+    minimum: 0.12
+    nominal: 0.15
+    maximum: 0.2
+  lead_len: # Dim "L". NOTE: Lead 1 is larger, but this is not reflected in the land pattern
+    minimum: 0.27
+    nominal: 0.30
+    maximum: 0.35
+  # From reference land pattern
+  pad_center_to_center_x: 0.7
+  pad_width: 0.15
+  pad_length: 0.5
+  mask_margin: 0.05
+  additional_tags:
+    - SOT1203
+    - XSON8 # Official designation
+    - XSON-8 # with "dash"
