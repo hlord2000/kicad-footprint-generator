@@ -334,7 +334,6 @@ class TestASTevaluator:
         assert expected == self.ast.eval(input, max_depth=3, suppress_warnings=True)
         expected.b.b.b.a = 4
         assert expected == self.ast.eval(input, max_depth=4)
-        pass
 
     def test_expr_evaluator(self):
         evaluate_expr = ASTexprEvaluator(symbols={"a": 1, "b": 2})

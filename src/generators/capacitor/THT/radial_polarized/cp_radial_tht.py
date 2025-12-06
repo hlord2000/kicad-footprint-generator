@@ -142,7 +142,6 @@ def make_radial_th(params):
         ).fillet(bf)
     except:
         print("Error: Not filleting")
-        pass
 
     # draw the plastic at the bottom
     bottom = (

@@ -227,7 +227,6 @@ def generate_part(params):
         # show(body)
         # show(bar)
         # raise
-        pass
 
     # b_r = D/2.-bd # inner radius of the belt
     # bar = bar.edges(BS((b_r/sqrt(2), 0, bs+bt-0.01),(b_r, -b_r/sqrt(2), bs+bt+bh+0.01))).\

@@ -56,7 +56,6 @@ class Group(Node):
         for mn in member_nodes:
             ts = mn.get_timestamp()
             self._gathered_member_tstamp_str_set.add(str(ts))
-        pass
 
     def get_group_name(self) -> str:
         """Return the group name."""
