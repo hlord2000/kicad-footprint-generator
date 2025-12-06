@@ -61,7 +61,7 @@ class Footprint(Container[Node]):
         # Instance attributes:
         self.name: str
         """Name of the footprint."""
-        self._description: str | None
+        self._description: str
         """Description of the footprint."""
         self._tags: list[str]
         """Tags of the footprint."""
@@ -95,7 +95,7 @@ class Footprint(Container[Node]):
         super().__init__()
         logging.info(name)
         self.name = name
-        self._description = None
+        self._description = ""
         self._tags = []
 
         # These are attrs in the s-exp, but we can be type-safe here and convert to
@@ -122,7 +122,7 @@ class Footprint(Container[Node]):
         self.append(self._embedded_fonts)
 
     @property
-    def description(self) -> str | None:
+    def description(self) -> str:
         """The optional description of the footprint."""
         return self._description
 
