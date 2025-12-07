@@ -1,5 +1,20 @@
 # KiCad footprint and 3D model generators
 
+## Quick start
+
+Checkout the [Setup and workflow page](https://gitlab.com/groups/kicad/libraries/-/wikis/Generators#setup-and-workflow) page on the Wiki for detailed instructions on **Setup**, **Workflow**, and **Running the Generators**.
+
+## Documentation
+
+All project documentation, including details on getting started, running the generators,
+and contribution guidelines, is now maintained on the KiCad Libraries Wiki:
+
+https://gitlab.com/groups/kicad/libraries/-/wikis/home
+
+Find detailed instructions and technical documentation for the generator scripts:
+
+https://gitlab.com/groups/kicad/libraries/-/wikis/Generators
+
 
 ## License
 
@@ -17,17 +32,4 @@ Copies of the full licenses are provided in this repository for your convenience
 - LICENSE.GPL (GPL version 3)
 - LICENSE.LGPL (LGPL version 2)
 - LICENSE.MIT (MIT license)
-
-
-## Documentation
-
-All project documentation, including details on getting started, running the generators,
-and contribution guidelines, is now maintained on the KiCad Libraries Wiki:
-
-https://gitlab.com/groups/kicad/libraries/-/wikis/home
-
-Find detailed instructions and technical documentation for the generator scripts:
-
-https://gitlab.com/groups/kicad/libraries/-/wikis/Generators
-
 
