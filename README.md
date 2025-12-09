@@ -33,9 +33,3 @@ Copies of the full licenses are provided in this repository for your convenience
 - LICENSE.GPL (GPL version 3)
 - LICENSE.LGPL (LGPL version 2)
 - LICENSE.MIT (MIT license)
-
-### Text & data mining
-The content of this repo may not be used for text & data mining according to Article 4
-of the DSM directive.
-
-tdm-reservation: 1
