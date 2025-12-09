@@ -18,9 +18,10 @@ https://gitlab.com/groups/kicad/libraries/-/wikis/Generators
 
 ## License
 
-All files in this repository are licensed under the GNU General Public License, Version
+The files in this repository are licensed under the GNU General Public License, Version
 3 or later (GPL-3.0-or-later), unless explicitly specified otherwise within the
 individual file header.
+New contributions to this repo must be GPL-3.0-or-later.
 
 Alternative licenses used for specific files include:
 
@@ -33,3 +34,8 @@ Copies of the full licenses are provided in this repository for your convenience
 - LICENSE.LGPL (LGPL version 2)
 - LICENSE.MIT (MIT license)
 
+### Text & data mining
+The content of this repo may not be used for text & data mining according to Article 4
+of the DSM directive.
+
+tdm-reservation: 1
