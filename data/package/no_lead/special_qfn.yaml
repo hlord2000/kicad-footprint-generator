@@ -155,7 +155,7 @@ Texas_S-PX2QFN-N14:
     minimum: 0.3
     maximum: 0.5
 
-DHVQFN-14-1EP_2.5x3mm_P0.5mm:
+DHVQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm:
 # Resembles a SON / DFN package, but with 2 leads on top / bottom
   size_source: 'JEDEC MO-241/VAA, https://assets.nexperia.com/documents/package-information/SOT762-1.pdf'
   device_type: 'DHVQFN'
@@ -196,6 +196,22 @@ DHVQFN-14-1EP_2.5x3mm_P0.5mm:
     nominal: 1.50
     maximum: 1.35
   EP_num_paste_pads: [1, 1]
+  thermal_vias:
+    count: [1, 2]
+    drill: 0.2
+    EP_num_paste_pads: [1, 1]
+    paste_avoid_via: False
+
+DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm:
+  inherit: DHVQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm
+  size_source: 'JEDEC MO-241 variation WAA, https://www.ti.com/lit/ml/qfnd686/qfnd686.pdf, https://www.ti.com/lit/ds/symlink/txb0104.pdf#page=43'
+  device_type: 'DHWQFN'
+  compatible_mpns:
+    - Texas_BQA0014A
+  overall_height:
+    minimum: 0.70
+    nominal: 0.75
+    maximum: 0.80
 
 DHVQFN-16-1EP_2.5x3.5mm_P0.5mm:
 # Resembles a SON / DFN package, but with 2 leads on top / bottom
