@@ -291,6 +291,8 @@ def _filter_generators(
         if (include_fp_gens and g.implemented_gens[GEN_IDX_FP])
         or (include_mod_gens and g.implemented_gens[GEN_IDX_MOD])
     ]
+    include_globs = [Path(g).as_posix() for g in include_globs]
+    exclude_globs = [Path(g).as_posix() for g in exclude_globs]
     return list_filter_attr(
         generator_implementations, "name", include_globs, exclude_globs
     )
