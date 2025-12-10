@@ -1,3 +1,4 @@
+# Useful source: https://gct.co/board-to-board-connector/list?pitch=1.27mm&locatingpeg=without+locating+peg&elevated=No
 defaults_PH_THT_Vertical:
   lib_format: 'Connector_PinHeader_{pin_pitch:03.2f}mm'
   class_name: PinHeader
@@ -40,6 +41,7 @@ defaults_PH_SMD_2Row_Vertical:
   mount_text: Surface mounted
   orientation: Vertical
   pin_pitch: 1.27
+
 
 # THT Straight(Vertical) logic:
 THT-1row_Straight_Right:
@@ -106,23 +108,30 @@ SMD-1row_Straight_Left:
   pin1_left: True
   row_count: 1
   pos_range:
-    range: [2, 40] # this brand defines 02-06, 08, 10, 20 but keep compatible with other brands.
+    range: [2, 40]
   body:
-    width:  2.1
+    width:  2.1 # 2.5
     height: 1.0
     offset: 0.0
     overlength: 0.0
   pins:
+    # pp: 5.5 # pin-pin width aka W aka E, for reference only.
     width: 0.4
     drill: 0.0
     offset: 0.0
     length: 4.0
-    smd_length: 2.5 # smd curved underside
+    smd_length: 2.5
+    # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
+    # (5.50 - 0)/2 - 0 = 2.75
   pads:
-    length: 3.0
-    width: 0.65
+    # pp: 6.5 # pad-pad width aka W+1 aka E+1, offset is preferred.
+    length: 3.0 # 3.25
+    width: 0.65 # 0.76
     offset: 1.5
+    # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
+    # (6.5 - 0 - 3.0)/2 = 1.75
   datasheet: https://cdn.harwin.com/pdfs/M50-363.pdf
+  # https://gct.co/files/drawings/bd021.pdf
 
 SMD-1row_Straight_Right:
   inherit: SMD-1row_Straight_Left
@@ -133,20 +142,30 @@ SMD-2row_Straight_Left:
   pin1_left: True
   row_count: 2
   pos_range:
-    range: [1, 40] # this brand defines 2-50 but keep compatible existing footprints.
+    range: [1, 40]
+    # 2x01 is only handsolder though because it will not stay upright during reflow/wave.
   body:
-    width:  3.41
+    width:  3.41 # 3.4
     height: 1.0
     offset: 0.0
     overlength: 0.0
   pins:
+    # pp: 5.5 # 5.7 pin-pin width aka W aka E, for reference only.
     width:  0.4
     drill:  0.0
     offset: 0.0
     length: 4.0
-    smd_length: 2.75 # smd curved underside
+    smd_length: 2.115
+    # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
+    # (5.7 - 1.27)/2 - 0 = 2.215
   pads:
-    length: 2.4   # not matching with datasheet
-    width:  0.74   # not matching with datasheet
-    offset: 1.95  # not matching with datasheet
+    # pp_width: 6.7 # pad-pad width aka W+1 aka E+1, offset is preferred.
+    length: 2.4   # 2.6 Harwin: 2.62
+    width:  0.74   # 0.65 / 0.8
+    offset: 1.315  # not matching with datasheet
+    # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
+    # (6.7 - 1.27 - 2.6)/2 = 1.415
   datasheet: https://cdn.harwin.com/pdfs/M50-360.pdf
+  # https://gct.co/files/drawings/bd095.pdf
+
+# 1.27mm Header SMD-2row_Angled: https://gct.co/files/drawings/bd038.pdf -> only with locating peg?

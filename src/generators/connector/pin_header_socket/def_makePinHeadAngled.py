@@ -21,15 +21,11 @@ import generators.tools.footprint.drawing_tools as DT
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
 
-txt_offset = 1
-
-
 # THT Angled (Horizontal) Pinheader:
 #####################################
-#             <--> body_offset
 #                 <-------> body_width
-#                          <------------------------------> pin_length
-#    <--------> row_pitch
+#    <--------> row_pitch  <------------------------------> pin_length
+#              <-> body_offset
 # +---            +-------+
 # | OOO      OOO  |       +-------------------------------+            ^
 # | OOO ==== OOO  |       |                               +    ^       pin_width
@@ -41,237 +37,84 @@ txt_offset = 1
 #                 +-------+
 #
 def makePinHeadAngled(cfg: FPconfiguration, generator_name: str):
+    # Abbreviations: fab, slk and crt for fabrication, silk and coutryard.
+    # fabb/fabp and slkb/slkp for drawing body and pins (b or p after fab/slk).
+    # _h, _w, _t, _b, _l, _r, _c for height, width, top, bottom, left, right, center (vector)
     gc = GC.GLOBAL_CONFIG
-    pos_count = cfg.pos_count
-    row_count = cfg.row_count
-    pin_pitch = cfg.pin_pitch
-    row_pitch = cfg.row_pitch
-    body_width = cfg.body_width
-    body_offset = cfg.body_offset
-    pin_length = cfg.pins_length
-    pin_width = cfg.pins_width
-    pins_drill = cfg.pins_drill
 
-     # assemble library and footprint name:
-    cfg.lib_name 	= cfg.getLibraryName()	
+    # assemble library and footprint name:
+    cfg.lib_name = cfg.getLibraryName()
     cfg.footpr_name = cfg.getFootprintName()
-    # information about what is generated:
-    # import pprint
-    # pprint.pprint(cfg)
 
-    # init kicad footprint
+    # --- Settings:
+    txt_offset = 1 # similar to text_edge_offset = size / 2 + 0.2 in addTextFields()->_getTextFieldDetails()
+    # fab_text properties (fab_txt_size, fab_txt_thick) are calculated/clamped further down.
+    # silk_pad_offset = gc.silk_pad_offset # = clearance + line_width/2 = 0.2 + 0.06
+    silk_pad_offset = gc.silk_pad_clearance + gc.silk_fab_offset # 0.2 + 0.11
+    # This is set a bit further out than normal, not quite clear why.
+    silk_fab_offset = gc.silk_fab_offset # 0.11
+    crt_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR) # 0.5
+
+    # --- init kicad footprint (SMD origin at center, THT at pin 1):
     kicad_mod = Footprint(cfg.footpr_name, cfg.footpr_type)
     kicad_mod.description = cfg.getDescription()
     # if cfg.datasheet != None:
     #     kicad_mod.description += ", " + cfg.datasheet
     kicad_mod.tags = cfg.getBaseTags()
 
-    # instantiate footprint (SMD origin at center, THT at pin 1)
     offset = Vector2D(0, 0)
     kicad_modg = Translation(offset[0], offset[1])
     kicad_mod.append(kicad_modg)
 
+    # --- Calculate pads center and pin1 offset from origin:
+    half_rows_x = (cfg.row_count - 1) / 2 * cfg.row_pitch
+    half_posn_y = (cfg.pos_count - 1) / 2 * cfg.pin_pitch
     pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
 
-    crtyd_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR)
 
-    # This is set a bit further out than normal, not quite clear why.
-    # silk_pad_offset = gc.silk_pad_offset
-    silk_pad_offset = gc.silk_pad_clearance + gc.silk_fab_offset
+    # --- Calculate body, fabrication, silk and courtyard dimensions/positions:
+    # anchor for SMD-footprints is in the center, for THT-footprints at pin1
+    # See Abbreviations at the top.
 
-    h_fabb = (pos_count - 1) * pin_pitch + pin_pitch / 2 + pin_pitch / 2
-    w_fabb = body_width
-    l_fabb = row_pitch * (row_count - 1) + body_offset
-    t_fabb = -pin_pitch / 2
-    l_fabp = l_fabb + w_fabb
-    t_fabp = -pin_width / 2
+    fabb_h = (cfg.pos_count - 1) * cfg.pin_pitch + cfg.pin_pitch / 2 + cfg.pin_pitch / 2
+    fabb_w = cfg.body_width
+    fabb_t = -(cfg.pin_pitch / 2) - cfg.body_overlength
+    fabb_l = (cfg.row_count - 1) * cfg.row_pitch + cfg.body_offset # should this not be row_count-1.5?
+    fabb_b = fabb_t + fabb_h
+    fabb_r = fabb_l + cfg.body_width
+    fabb_c = Vector2D(fabb_l + (fabb_w / 2), fabb_t + (fabb_h / 2))
+	
+    fabp_t = -cfg.pins_width / 2
+    fabp_l = fabb_l + fabb_w
 
     fab_text_props = gc.get_text_properties_for_layer("F.Fab")
-    fabref_text_size, fabref_text_thickness = fab_text_props.clamp_size(w_fabb * 0.6)
-    # That causes diffs, use the old unrounded calc for now
-    fabref_text_thickness = fabref_text_size.y * 0.15
+    fab_txt_size, fab_txt_thick = fab_text_props.clamp_size(fabb_w * 0.6)
+    # That causes diffs for 1.00mm headers/sockets, 
+	# use the old unrounded calc for now.
+    fab_txt_thick = fab_txt_size.y * 0.15
 
-    w_slkb = w_fabb + 2 * gc.silk_fab_offset
-    l_slkb = l_fabb - gc.silk_fab_offset
-    t_slkb = t_fabb - gc.silk_fab_offset
-    l_slkp = l_slkb + w_slkb
-    l_slk = -pin_pitch / 2
-    t_slk = -pin_pitch / 2
+    slkb_h = fabb_h + 2 * silk_fab_offset
+    slkb_w = fabb_w + 2 * silk_fab_offset
+    slkb_t = fabb_t - silk_fab_offset
+    slkb_l = fabb_l - silk_fab_offset
+    slkb_b = fabb_b + silk_fab_offset
+    slkb_r = fabb_r + silk_fab_offset
+
+    slkp_l = slkb_r
+    slk_t = -cfg.pin_pitch / 2
+    slk_l = -cfg.row_pitch / 2
     body_lines_y = False
 
-    w_crt = pin_pitch / 2 + (row_count - 1) * row_pitch + body_offset + body_width + pin_length + 2 * crtyd_offset
-    h_crt = h_fabb + 2 * crtyd_offset
-    l_crt = -pin_pitch / 2 - crtyd_offset
-    t_crt = -pin_pitch / 2 - crtyd_offset
+    crt_h = fabb_h + 2 * crt_offset
+    crt_w = (cfg.row_count - 1) * cfg.row_pitch + 2 * crt_offset
+    crt_w = crt_w + cfg.row_pitch / 2 + cfg.body_offset + cfg.body_width + cfg.pins_length
+    crt_t = -cfg.pin_pitch / 2 - crt_offset
+    crt_b = crt_t + crt_h
+    crt_l = -cfg.row_pitch / 2 - crt_offset
+    crt_r = crt_l + crt_w
+    crt_c = Vector2D(crt_l + crt_w / 2, crt_t + crt_h / 2)
 
-    # set general values
-    kicad_modg.append(
-        Property(name=Property.REFERENCE, text='REF**', at=[l_crt + w_crt / 2, t_crt + crtyd_offset - txt_offset], layer='F.SilkS'))
-    kicad_modg.append(
-        Text(text='${REFERENCE}', at=[l_fabb + (w_fabb/2), t_crt + offset.y + (h_crt/2)], rotation=90, layer='F.Fab', size=fabref_text_size, thickness=fabref_text_thickness))
-    kicad_modg.append(
-        Property(name=Property.VALUE, text=cfg.footpr_name, at=[l_crt + w_crt / 2, t_crt + h_crt - crtyd_offset + txt_offset],
-             layer='F.Fab'))
-
-    # create FAB-layer
-    chamfer = w_fabb/4
-    kicad_modg.append(Line(start=[l_fabb + chamfer, t_fabb], end=[l_fabb + w_fabb, t_fabb], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[l_fabb + w_fabb, t_fabb], end=[l_fabb + w_fabb, t_fabb+pin_pitch*pos_count], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[l_fabb + w_fabb, t_fabb+pin_pitch*pos_count], end=[l_fabb, t_fabb+pin_pitch*pos_count], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[l_fabb, t_fabb+pin_pitch*pos_count], end=[l_fabb, t_fabb+chamfer], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[l_fabb, t_fabb+chamfer], end=[l_fabb + chamfer, t_fabb], layer='F.Fab', width=gc.fab_line_width))
-    y1 = t_fabb
-    yp = t_fabp
-    for r in range(1, pos_count + 1):
-        kicad_modg.append(Line(start=[-pin_width/2, yp], end=[l_fabb, yp], layer='F.Fab', width=gc.fab_line_width))
-        kicad_modg.append(Line(start=[-pin_width/2, yp], end=[-pin_width/2, yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
-        kicad_modg.append(Line(start=[-pin_width/2, yp + pin_width], end=[l_fabb, yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
-
-        kicad_modg.append(Line(start=[l_fabb + w_fabb, yp], end=[l_fabp + pin_length, yp], layer='F.Fab', width=gc.fab_line_width))
-        kicad_modg.append(Line(start=[l_fabp + pin_length, yp], end=[l_fabp + pin_length, yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
-        kicad_modg.append(Line(start=[l_fabb + w_fabb, yp + pin_width], end=[l_fabp + pin_length, yp + pin_width], layer='F.Fab', width=gc.fab_line_width))
-
-        y1 = y1 + pin_pitch
-        yp = yp + pin_pitch
-
-    # create SILKSCREEN-layer + pin1 marker
-
-    # calculate point to avoid collision with pad clearance
-    pin_line_x = sqrt(((pad.x/2+ silk_pad_offset) * (pad.x/2+ silk_pad_offset) - (pin_width/2+gc.silk_fab_offset) * (pin_width/2+gc.silk_fab_offset)))
-    # Silkscreen body
-    body_min_x_square = pad.x/2+ silk_pad_offset
-    body_min_y_square = pad.y/2+ silk_pad_offset
-
-    if pin_pitch/2 < body_min_y_square:
-        body_min_x_round = sqrt((((pad.x/2+ silk_pad_offset) * (pad.x/2+ silk_pad_offset)) - (pin_pitch/2 * pin_pitch/2)))
-        if l_slkb > body_min_x_round + (row_count-1)*row_pitch and l_slkb < body_min_x_square +(row_count-1)*row_pitch:
-            body_lines_y = sqrt((((pad.x/2+ silk_pad_offset) * (pad.x/2+ silk_pad_offset)) - ((l_slkb-(row_count-1)*row_pitch) * (l_slkb-(row_count-1)*row_pitch))))
-    else:
-        body_min_x_round  = 0
-    if pin_pitch/2+gc.silk_fab_offset < body_min_y_square:
-        bodyend_min_x_round = sqrt((((pad.x/2+ silk_pad_offset) * (pad.x/2+ silk_pad_offset)) - ((pin_pitch/2+gc.silk_fab_offset) * (pin_pitch/2+gc.silk_fab_offset))))
-    else:
-        bodyend_min_x_round = 0
-    # if body is starting outside the pads
-    if l_slkb-gc.silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (row_count-1)*row_pitch:
-        kicad_modg.append(Rectangle(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], layer='F.SilkS', width=gc.silk_line_width))
-    else:
-        if l_slkb < body_min_x_square + (row_count-1)*row_pitch and t_slkb-gc.silk_fab_offset > -(body_min_y_square + (row_count-1)*row_pitch):
-            if row_count == 1:
-                upper_body_x = body_min_x_square
-            else:
-                upper_body_x = bodyend_min_x_round + (row_count-1)*row_pitch
-        else:
-            upper_body_x = l_slkb
-        if pos_count == 1 and row_count == 1:
-            lower_body_x = body_min_x_square  + (row_count-1)*row_pitch
-        elif l_slkb < bodyend_min_x_round + (row_count-1)*row_pitch and t_slkb-gc.silk_fab_offset > -(body_min_y_square + (row_count-1)*row_pitch):
-            lower_body_x = bodyend_min_x_round + (row_count-1)*row_pitch
-        else:
-            lower_body_x = l_slkb
-        if body_lines_y != False:
-            if row_count == 1:
-                kicad_modg.append(PolygonLine(shape=[[upper_body_x, t_slkb], [l_slkp, t_slkb], [l_slkp, t_slkb + pin_pitch * pos_count + gc.silk_fab_offset * 2],
-                                                        [lower_body_x, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], [lower_body_x, t_slkb+pin_pitch*pos_count-pin_pitch/2+gc.silk_fab_offset+body_lines_y]], layer='F.SilkS', width=gc.silk_line_width))
-            else:
-                kicad_modg.append(PolygonLine(shape=[[upper_body_x, -body_lines_y], [upper_body_x, t_slkb], [l_slkp, t_slkb], [l_slkp, t_slkb + pin_pitch * pos_count + gc.silk_fab_offset * 2],
-                                                        [lower_body_x, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2], [lower_body_x, t_slkb+pin_pitch*pos_count-pin_pitch/2+gc.silk_fab_offset+body_lines_y]], layer='F.SilkS', width=gc.silk_line_width))
-        else:
-            kicad_modg.append(PolygonLine(shape=[[upper_body_x, t_slkb], [l_slkp, t_slkb], [l_slkp, t_slkb + pin_pitch * pos_count + gc.silk_fab_offset * 2],
-                                                    [lower_body_x, t_slkb+pin_pitch*pos_count+gc.silk_fab_offset*2]], layer='F.SilkS', width=gc.silk_line_width))
-
-    for r in range(0, pos_count):
-        if r != 0:
-            if r == 1 and pin_pitch / 2 < body_min_y_square and row_count == 1:
-                if l_slkb < body_min_x_square:
-                    kicad_modg.append(Line(start=[body_min_x_square, (r-1)*pin_pitch+pin_pitch/2], end=[l_slkp, (r-1)*pin_pitch+pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
-                else:
-                    kicad_modg.append(Line(start=[l_slkb, (r-1)*pin_pitch+pin_pitch/2], end=[l_slkp, (r-1)*pin_pitch+pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
-            else:
-                # add line between rows
-                if l_slkb < body_min_x_round + (row_count-1)*row_pitch:
-                    kicad_modg.append(Line(start=[body_min_x_round+ (row_count-1)*row_pitch, (r-1)*pin_pitch+pin_pitch/2], end=[l_slkp, (r-1)*pin_pitch+pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
-                else:
-                    kicad_modg.append(Line(start=[l_slkb, (r-1)*pin_pitch+pin_pitch/2], end=[l_slkp, (r-1)*pin_pitch+pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
-                    if body_lines_y != False:
-                        kicad_modg.append(Line(start=[l_slkb, (r-1)*pin_pitch+body_lines_y], end=[l_slkb, (r)*pin_pitch-body_lines_y], layer='F.SilkS',width=gc.silk_line_width))
-
-        # pin outline
-        if r != 0:
-            kicad_modg.append(
-                PolygonLine(
-                    shape=[
-                        [l_slkp, r * pin_pitch - pin_width / 2 - gc.silk_fab_offset],
-                        [l_slkp + pin_length, r * pin_pitch - pin_width / 2 - gc.silk_fab_offset],
-                        [l_slkp + pin_length, r * pin_pitch + pin_width / 2 + gc.silk_fab_offset],
-                        [l_slkp, r * pin_pitch + pin_width / 2 + gc.silk_fab_offset],
-                    ],
-                    layer="F.SilkS",
-                    width=gc.silk_line_width,
-                )
-            )
-        else:
-            # color the first pin
-            kicad_modg.append(
-                Rectangle(
-                    start=Vector2D(l_slkp, -pin_width / 2 - gc.silk_fab_offset),
-                    end=Vector2D(l_slkp + pin_length, pin_width / 2 + gc.silk_fab_offset),
-                    layer="F.SilkS",
-                    width=gc.silk_line_width,
-                    fill=True,
-                )
-            )
-
-        # if body is starting at the pads
-        if l_slkb-gc.silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (row_count-1)*row_pitch:
-            if r == 0 and row_count == 1:
-                # add the lines between pads and silkscreenbody
-                kicad_modg.append(Line(start=[pad.x/2+ silk_pad_offset, r*pin_pitch-pin_width/2-gc.silk_fab_offset],
-                    end=[l_slkb, r*pin_pitch-pin_width/2-gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-                kicad_modg.append(Line(start=[pad.x/2+ silk_pad_offset, r*pin_pitch+pin_width/2+gc.silk_fab_offset],
-                    end=[l_slkb, r*pin_pitch+pin_width/2+gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-            else:
-                # add the lines between pads and silkscreenbody
-                kicad_modg.append(Line(start=[(row_count-1)*row_pitch + pin_line_x, r*pin_pitch-pin_width/2-gc.silk_fab_offset],
-                    end=[l_slkb, r*pin_pitch-pin_width/2-gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-                kicad_modg.append(Line(start=[(row_count-1)*row_pitch + pin_line_x, r*pin_pitch+pin_width/2+gc.silk_fab_offset],
-                    end=[l_slkb, r*pin_pitch+pin_width/2+gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-
-        if row_count > 1:
-            for c in range(1, row_count):
-                # add the lines between pads
-                start_point_x = (c - 1) * row_pitch + pin_line_x
-                end_point_x = c * row_pitch - pin_line_x
-                if start_point_x < end_point_x - gc.silk_line_width:
-                    if r == 0 and c == 1:
-                        kicad_modg.append(Line(start=[pad.x/2 + silk_pad_offset, r*pin_pitch-pin_width/2-gc.silk_fab_offset],
-                            end=[end_point_x, r*pin_pitch-pin_width/2-gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-                        kicad_modg.append(Line(start=[pad.x/2 + silk_pad_offset, r*pin_pitch+pin_width/2+gc.silk_fab_offset],
-                            end=[end_point_x, r*pin_pitch+pin_width/2+gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-                    else:
-                        kicad_modg.append(Line(start=[start_point_x, r*pin_pitch-pin_width/2-gc.silk_fab_offset],
-                        end=[end_point_x, r*pin_pitch-pin_width/2-gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-                        kicad_modg.append(Line(start=[start_point_x, r*pin_pitch+pin_width/2+gc.silk_fab_offset],
-                        end=[end_point_x, r*pin_pitch+pin_width/2+gc.silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
-
-    # pin 1 marker
-    pin1_min = -(pad.x / 2 + silk_pad_offset)
-    if pin1_min < l_slk:
-        pin1_x = pin1_min
-    else:
-        pin1_x = l_slk
-    if pin1_min < t_slk:
-        pin1_y = pin1_min
-    else:
-        pin1_y = t_slk
-    kicad_modg.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
-
-    # create courtyard
-    kicad_mod.append(Rectangle(start=[DT.roundCrt(l_crt + offset.x), DT.roundCrt(t_crt + offset.y)],
-                              end=[DT.roundCrt(l_crt + offset.x + w_crt), DT.roundCrt(t_crt + offset.y + h_crt)],
-                              layer='F.CrtYd', width=gc.courtyard_line_width))
-
-    # create pads
+    # --- Create pads:
     x1 = 0
     y1 = 0
 
@@ -281,24 +124,192 @@ def makePinHeadAngled(cfg: FPconfiguration, generator_name: str):
     pad_layers = Pad.LAYERS_THT
 
     p = 1
-
-    for r in range(1, pos_count + 1):
+    for pos in range(1, cfg.pos_count + 1):
         x1 = 0
-        for c in range(1, row_count + 1):
+        for row in range(1, cfg.row_count + 1):
             if p == 1:
-                kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=pins_drill,
+                kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=cfg.pins_drill,
                                       layers=pad_layers))
             else:
                 kicad_modg.append(
-                    Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=pins_drill,
+                    Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=cfg.pins_drill,
                         layers=pad_layers))
 
-            p = p + 1
-            x1 = x1 + row_pitch
+            p += 1
+            x1 += cfg.row_pitch
 
-        y1 = y1 + pin_pitch
+        y1 += cfg.pin_pitch
 
-    # add model
+    # --- set general values
+    kicad_modg.append(
+        Property(name=Property.REFERENCE, text='REF**', at=[crt_c.x, crt_t + crt_offset - txt_offset], layer='F.SilkS'))
+    kicad_modg.append(
+        Text(text='${REFERENCE}', at=[fabb_c.x, fabb_c.y], rotation=90, layer='F.Fab', size=fab_txt_size, thickness=fab_txt_thick))
+    kicad_modg.append(
+        Property(name=Property.VALUE, text=cfg.footpr_name, at=[crt_c.x, crt_b + crt_offset], layer='F.Fab'))
+
+    # --- create FAB-layer
+    chamfer = fabb_w/4
+    kicad_modg.append(Line(start=[fabb_l + chamfer, fabb_t], end=[fabb_r, fabb_t], layer='F.Fab', width=gc.fab_line_width))
+    kicad_modg.append(Line(start=[fabb_r, fabb_t], end=[fabb_r, fabb_b], layer='F.Fab', width=gc.fab_line_width))
+    kicad_modg.append(Line(start=[fabb_r, fabb_b], end=[fabb_l, fabb_b], layer='F.Fab', width=gc.fab_line_width))
+    kicad_modg.append(Line(start=[fabb_l, fabb_b], end=[fabb_l, fabb_t+chamfer], layer='F.Fab', width=gc.fab_line_width))
+    kicad_modg.append(Line(start=[fabb_l, fabb_t+chamfer], end=[fabb_l + chamfer, fabb_t], layer='F.Fab', width=gc.fab_line_width))
+    y1 = fabb_t
+    yp = fabp_t
+    for pos in range(1, cfg.pos_count + 1):
+        kicad_modg.append(Line(start=[-cfg.pins_width/2, yp], end=[fabb_l, yp], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Line(start=[-cfg.pins_width/2, yp], end=[-cfg.pins_width/2, yp + cfg.pins_width], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Line(start=[-cfg.pins_width/2, yp + cfg.pins_width], end=[fabb_l, yp + cfg.pins_width], layer='F.Fab', width=gc.fab_line_width))
+
+        kicad_modg.append(Line(start=[fabb_r, yp], end=[fabp_l + cfg.pins_length, yp], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Line(start=[fabp_l + cfg.pins_length, yp], end=[fabp_l + cfg.pins_length, yp + cfg.pins_width], layer='F.Fab', width=gc.fab_line_width))
+        kicad_modg.append(Line(start=[fabb_r, yp + cfg.pins_width], end=[fabp_l + cfg.pins_length, yp + cfg.pins_width], layer='F.Fab', width=gc.fab_line_width))
+
+        y1 = y1 + cfg.pin_pitch
+        yp = yp + cfg.pin_pitch
+
+    # --- create SILKSCREEN-layer + pin1 marker
+    # Silkscreen body
+    body_min_x_square = pad.x / 2 + silk_pad_offset
+    body_min_y_square = pad.y / 2 + silk_pad_offset
+    body_min_y_sqpin = cfg.pin_pitch / 2 + silk_fab_offset
+
+    # calculate point to avoid collision with pad clearance
+    pin_line_x = sqrt((body_min_x_square * body_min_x_square - (cfg.pins_width/2+silk_fab_offset) * (cfg.pins_width/2+silk_fab_offset)))
+    if cfg.pin_pitch/2 < body_min_y_square:
+        body_min_x_round = sqrt(((body_min_x_square * body_min_x_square) - (cfg.pin_pitch/2 * cfg.pin_pitch/2)))
+        if slkb_l > body_min_x_round + (cfg.row_count-1)*cfg.row_pitch and slkb_l < body_min_x_square +(cfg.row_count-1)*cfg.row_pitch:
+            body_lines_y = sqrt(((body_min_x_square * body_min_x_square) - ((slkb_l-(cfg.row_count-1)*cfg.row_pitch) * (slkb_l-(cfg.row_count-1)*cfg.row_pitch))))
+    else:
+        body_min_x_round  = 0
+    if body_min_y_sqpin < body_min_y_square:
+        bodyend_min_x_round = sqrt(((body_min_x_square * body_min_x_square) - (body_min_y_sqpin * body_min_y_sqpin)))
+    else:
+        bodyend_min_x_round = 0
+    # if body is starting outside the pads
+    if slkb_l-silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (cfg.row_count-1)*cfg.row_pitch:
+        kicad_modg.append(Rectangle(start=[slkb_l, slkb_t], end=[slkp_l, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+    else:
+        if slkb_l < body_min_x_square + (cfg.row_count-1)*cfg.row_pitch and slkb_t-silk_fab_offset > -(body_min_y_square + (cfg.row_count-1)*cfg.row_pitch):
+            if cfg.row_count == 1:
+                upper_body_x = body_min_x_square
+            else:
+                upper_body_x = bodyend_min_x_round + (cfg.row_count-1)*cfg.row_pitch
+        else:
+            upper_body_x = slkb_l
+        if cfg.pos_count == 1 and cfg.row_count == 1:
+            lower_body_x = body_min_x_square  + (cfg.row_count-1)*cfg.row_pitch
+        elif slkb_l < bodyend_min_x_round + (cfg.row_count-1)*cfg.row_pitch and slkb_t-silk_fab_offset > -(body_min_y_square + (cfg.row_count-1)*cfg.row_pitch):
+            lower_body_x = bodyend_min_x_round + (cfg.row_count-1)*cfg.row_pitch
+        else:
+            lower_body_x = slkb_l
+        if body_lines_y != False:
+            if cfg.row_count == 1:
+                kicad_modg.append(PolygonLine(shape=[[upper_body_x, slkb_t], [slkp_l, slkb_t], [slkp_l, slkb_b],
+                                                        [lower_body_x, slkb_b], [lower_body_x, slkb_b - gc.silk_fab_offset - cfg.pin_pitch/2 + body_lines_y]], layer='F.SilkS', width=gc.silk_line_width))
+            else:
+                kicad_modg.append(PolygonLine(shape=[[upper_body_x, -body_lines_y], [upper_body_x, slkb_t], [slkp_l, slkb_t], [slkp_l, slkb_b],
+                                                        [lower_body_x, slkb_b], [lower_body_x, slkb_b - gc.silk_fab_offset - cfg.pin_pitch/2 + body_lines_y]], layer='F.SilkS', width=gc.silk_line_width))
+        else:
+            kicad_modg.append(PolygonLine(shape=[[upper_body_x, slkb_t], [slkp_l, slkb_t], [slkp_l, slkb_b],
+                                                    [lower_body_x, slkb_b]], layer='F.SilkS', width=gc.silk_line_width))
+
+    for pos in range(0, cfg.pos_count):
+        if pos != 0:
+            if pos == 1 and cfg.pin_pitch / 2 < body_min_y_square and cfg.row_count == 1:
+                if slkb_l < body_min_x_square:
+                    kicad_modg.append(Line(start=[body_min_x_square, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], end=[slkp_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
+                else:
+                    kicad_modg.append(Line(start=[slkb_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], end=[slkp_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
+            else:
+                # add line between rows
+                if slkb_l < body_min_x_round + (cfg.row_count-1)*cfg.row_pitch:
+                    kicad_modg.append(Line(start=[body_min_x_round+ (cfg.row_count-1)*cfg.row_pitch, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], end=[slkp_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
+                else:
+                    kicad_modg.append(Line(start=[slkb_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], end=[slkp_l, (pos-1)*cfg.pin_pitch+cfg.pin_pitch/2], layer='F.SilkS',width=gc.silk_line_width))
+                    if body_lines_y != False:
+                        kicad_modg.append(Line(start=[slkb_l, (pos-1)*cfg.pin_pitch+body_lines_y], end=[slkb_l, (pos)*cfg.pin_pitch-body_lines_y], layer='F.SilkS',width=gc.silk_line_width))
+
+        # pin outline
+        if pos != 0:
+            kicad_modg.append(
+                PolygonLine(
+                    shape=[
+                        [slkp_l, pos * cfg.pin_pitch - cfg.pins_width / 2 - silk_fab_offset],
+                        [slkp_l + cfg.pins_length, pos * cfg.pin_pitch - cfg.pins_width / 2 - silk_fab_offset],
+                        [slkp_l + cfg.pins_length, pos * cfg.pin_pitch + cfg.pins_width / 2 + silk_fab_offset],
+                        [slkp_l, pos * cfg.pin_pitch + cfg.pins_width / 2 + silk_fab_offset],
+                    ],
+                    layer="F.SilkS",
+                    width=gc.silk_line_width,
+                )
+            )
+        else:
+            # color the first pin
+            kicad_modg.append(
+                Rectangle(
+                    start=Vector2D(slkp_l, -cfg.pins_width / 2 - silk_fab_offset),
+                    end=Vector2D(slkp_l + cfg.pins_length, cfg.pins_width / 2 + silk_fab_offset),
+                    layer="F.SilkS",
+                    width=gc.silk_line_width,
+                    fill=True,
+                )
+            )
+
+        # if body is starting at the pads
+        if slkb_l-silk_fab_offset > pad.x/2 + gc.silk_pad_clearance + (cfg.row_count-1)*cfg.row_pitch:
+            if pos == 0 and cfg.row_count == 1:
+                # add the lines between pads and silkscreenbody
+                kicad_modg.append(Line(start=[body_min_x_square, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset],
+                    end=[slkb_l, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_modg.append(Line(start=[body_min_x_square, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset],
+                    end=[slkb_l, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+            else:
+                # add the lines between pads and silkscreenbody
+                kicad_modg.append(Line(start=[(cfg.row_count-1)*cfg.row_pitch + pin_line_x, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset],
+                    end=[slkb_l, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_modg.append(Line(start=[(cfg.row_count-1)*cfg.row_pitch + pin_line_x, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset],
+                    end=[slkb_l, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+
+        if cfg.row_count > 1:
+            for row in range(1, cfg.row_count):
+                # add the lines between pads
+                start_point_x = (row - 1) * cfg.row_pitch + pin_line_x
+                end_point_x = row * cfg.row_pitch - pin_line_x
+                if start_point_x < end_point_x - gc.silk_line_width:
+                    if pos == 0 and row == 1:
+                        kicad_modg.append(Line(start=[body_min_x_square, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset],
+                            end=[end_point_x, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+                        kicad_modg.append(Line(start=[body_min_x_square, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset],
+                            end=[end_point_x, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+                    else:
+                        kicad_modg.append(Line(start=[start_point_x, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset],
+                        end=[end_point_x, pos*cfg.pin_pitch-cfg.pins_width/2-silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+                        kicad_modg.append(Line(start=[start_point_x, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset],
+                        end=[end_point_x, pos*cfg.pin_pitch+cfg.pins_width/2+silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+
+    # pin 1 marker
+    pin1_min = -(pad.x / 2 + silk_pad_offset)
+    if pin1_min < slk_l:
+        pin1_x = pin1_min
+    else:
+        pin1_x = slk_l
+    if pin1_min < slk_t:
+        pin1_y = pin1_min
+    else:
+        pin1_y = slk_t
+    kicad_modg.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
+
+	# --- create courtyard:
+    kicad_mod.append(Rectangle(start=[DT.roundCrt(crt_l + offset.x), DT.roundCrt(crt_t + offset.y)],
+                              end=[DT.roundCrt(crt_r + offset.x), DT.roundCrt(crt_b + offset.y)],
+            layer='F.CrtYd',
+            width=gc.courtyard_line_width
+        )
+    )
+
+    # --- add model
     kicad_modg.append(
         Model(
             filename=gc.model_3d_prefix

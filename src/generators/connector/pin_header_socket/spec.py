@@ -39,6 +39,10 @@ from generators.tools.spec.spec_registry import register_spec
 from generators.tools.footprint.save_footprint import write_footprint
 from pathlib import Path
 
+class ClassName(enum.Enum):
+    PH = "PinHeader"
+    PS = "PinSocket"
+    IDC = "IDC-Header"
 
 class Orientation(enum.Enum):
     VERTICAL = "Vertical"
@@ -49,16 +53,11 @@ class MountType(enum.Enum):
     SMD = "SMD"
     Edge = "Edge"
 
-class ClassName(enum.Enum):
-    PH = "PinHeader"
-    PS = "PinSocket"
-    IDC = "IDC-Header"
-
 @register_spec
 @dataclass
 class FPconfiguration(BaseSpec):
     lib_format: str = ""
-    class_name: str = "" # checked against class ClassName(enum.Enum)
+    class_name: str = "" # Base behavior, checked against class ClassName(enum.Enum)
     class_descr: str = ""
     footpr_format: str = ""
     descr_format: str = ""
@@ -80,6 +79,8 @@ class FPconfiguration(BaseSpec):
     pos_count: int = 0  # filled by generator.
     pin_count: int | None = None  # filled by init: row_count * pos_count
     pin1_left: bool = True
+    isStaggered: bool | None = None # filled by init if missing: True if mount_type == "SMD" and row_count == 1
+    isSocket: bool = False # filled by init depending on class_name
 
     body_width: float = 0.0 # X plane
     body_height: float = 0.0 # Z plane usually
@@ -97,8 +98,8 @@ class FPconfiguration(BaseSpec):
 
     pads_width: float = 0.0
     pads_length: float = 0.0
-    pads_offset: float = 0.0
-    #pads_lp_width: float = 0.0
+    pads_offset: float | None = None # preferred over pads_pp_width, but otherwise can be derived from that.
+    pads_pp: float | None = None # pad-pad outside width, sometimes referred to as E+1 or W+1 where E/W is the pin-pin width
 
     # IDC specific: mounting pad/hole, latches
     mhole_drill: float = 0.0
@@ -190,10 +191,20 @@ class FPconfiguration(BaseSpec):
         # end of parameter parsing
 
         # setting defaults for optional parameters:
+        if self.class_name == "PinSocket":
+            self.isSocket = True
+        if self.isStaggered == None:
+            self.isStaggered = (True if
+                self.mount_type == "SMD" and 
+				self.orientation == "Vertical" and 
+				self.row_count == 1
+                else False)
         if self.row_pitch == None:
             self.row_pitch = self.pin_pitch
         if self.pin_count == None:
             self.pin_count = self.row_count * self.pos_count
+        if self.pads_offset == None and self.pads_pp != None:
+            self.pads_offset = (self.pads_pp - (self.row_count-1)*self.row_pitch - self.pads_length)/2
 
         self.updateTexts("Description")
 

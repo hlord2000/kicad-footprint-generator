@@ -27,6 +27,7 @@ defaults_IDC_SMD:
   orientation: Vertical
   pin_pitch: 2.54
 
+
 # Vertical and horizontal IDC box headers, with latches, with and without mounting holes:
 # from http://multimedia.3m.com/mws/media/22448O/3m-four-wall-header-3000-series-100-x-100-ts-0772.pdf
 # and  http://www.selecom.it/pdf/06din416.pdf

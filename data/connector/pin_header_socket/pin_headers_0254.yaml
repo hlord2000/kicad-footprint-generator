@@ -1,3 +1,4 @@
+# Useful source: https://gct.co/board-to-board-connector/list?pitch=2.54mm&locatingpeg=without+locating+peg&elevated=No
 defaults_PH_THT_Vertical:
   lib_format: 'Connector_PinHeader_{pin_pitch:03.2f}mm'
   class_name: PinHeader
@@ -40,6 +41,7 @@ defaults_PH_SMD_2Row_Vertical:
   mount_text: Surface mounted
   orientation: Vertical
   pin_pitch: 2.54
+
 
 # THT Straight(Vertical) logic:
 THT-1row_Straight_Right:
@@ -107,23 +109,30 @@ SMD-1row_Straight_Left:
   pin1_left: True
   row_count: 1
   pos_range:
-    range: [2, 40] # this brand defines 2-20, 25, 36 but keep compatible with other brands.
+    range: [2, 40]
   body:
     width:  2.54
     height: 2.54
     offset: 0.0
     overlength: 0.0
   pins:
+    # pp: 5.3 # pin-pin width aka W aka E, for reference only.
     width:  0.64
     drill:  0.0
     offset: 0.0
     length: 6.0
-    smd_length: 2.54 # smd curved underside
+    smd_length: 2.54
+    # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
+    # (5.3 - 0)/2 - 0 = 2.65
   pads:
-    length: 2.51
+    # pp: 6.3 # pad-pad width aka W+1 aka E+1, offset is preferred.
+    length: 2.51 # 3.15
     width:  1.0
     offset: 1.655
+    # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
+    # (6.3 - 0 - 3.15)/2 = 1.575
   datasheet: https://cdn.harwin.com/pdfs/M20-877.pdf
+  # https://gct.co/files/drawings/bg055.pdf
 
 SMD-1row_Straight_Right:
   inherit: SMD-1row_Straight_Left
@@ -134,7 +143,7 @@ SMD-2row_Straight_Left:
   pin1_left: True
   row_count: 2
   pos_range:
-    range: [1, 40] # this brand defines 2-20, 25, 36 but keep compatible with other brands.
+    range: [1, 40]
     # 2x01 is only handsolder though because it will not stay upright during reflow/wave.
   body:
     width:  5.08
@@ -142,13 +151,23 @@ SMD-2row_Straight_Left:
     offset: 0.0
     overlength: 0.0
   pins:
+    # pp: 7.38 # pin-pin width aka W aka E, for reference only.
     width:  0.64
     drill:  0.0
     offset: 0.0
     length: 6.0
-    smd_length: 3.6 # smd curved underside
+    smd_length: 2.33
+    # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
+    # (7.38 - 2.54)/2 - 0 = 2.42
   pads:
-    length: 3.15
+    # pp_width: 8.38 # pad-pad width aka W+1 aka E+1, offset is preferred.
+    length: 3.15 # 3.18
     width:  1.0
-    offset: 2.525
+    offset: 1.255
+    # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
+    # (8.38 - 2.54 - 3.18)/2 = 1.33
   datasheet: https://cdn.harwin.com/pdfs/M20-876.pdf
+  # https://gct.co/files/drawings/bg050.pdf
+
+# 2.54mm Header SMD-1row_Angled: https://gct.co/files/drawings/bg080.pdf
+# 2.54mm Header SMD-2row_Angled: https://gct.co/files/drawings/bg065.pdf

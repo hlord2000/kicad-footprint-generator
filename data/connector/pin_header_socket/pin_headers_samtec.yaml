@@ -9,11 +9,14 @@ defaults_Samtec-HPM-THT_Vertical:
   mount_text: Through hole
   orientation: Vertical
   pin_pitch: 5.08
+
 defaults_Samtec-HPM-THT_Horizontal:
   inherit: defaults_Samtec-HPM-THT_Vertical
   footpr_format: "Samtec_HPM-{pos_count:02}-01-x-S-RA_Angled_{row_count}x{pos_count:02}_Pitch{pin_pitch:03.2f}mm"
   descr_format: '{mount_text} angled {class_descr} {pins_length:03.2f}mm post length, {row_count}x{pos_count:02}, {pin_pitch:03.2f}mm pitch{row_text}'
   orientation: Horizontal
+
+
 Samtec-HPM-01-THT_Vertical:
   inherit: defaults_Samtec-HPM-THT_Vertical
   pin1_left: True
