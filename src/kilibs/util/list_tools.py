@@ -15,9 +15,9 @@
 
 from collections.abc import Sequence
 from fnmatch import fnmatch
-from typing import TypeVar
+from typing import Any, TypeVar
 
-_SeqVar = TypeVar("_SeqVar", bound=Sequence[str])
+_SeqVar = TypeVar("_SeqVar", bound=list[str] | tuple[str, Any])
 """Type variable for sequences."""
 
 _T = TypeVar("_T")

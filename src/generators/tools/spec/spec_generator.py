@@ -13,11 +13,13 @@
 
 from __future__ import annotations
 
+import csv
 import os
-from typing import Any
+from pathlib import Path
+from typing import Any, TypeAlias
 
 import yaml
-from pathlib import Path
+
 from generators.tools.cli_args import CLI_ARGS
 from kilibs.util import dict_tools, list_filter, list_filter_idx
 
@@ -25,6 +27,11 @@ from .base_spec import BaseSpec, TypeSpec
 
 DATA_PATH = Path(__file__).resolve().parent.parent.parent.parent.parent / "data"
 """The path of the data folder."""
+
+D: TypeAlias = dict[str, Any]
+DD: TypeAlias = dict[str, dict[str, Any]]
+DDD: TypeAlias = dict[str, dict[Any, dict[str, Any]]]
+
 
 def get_spec_file_names(
     generator_name: str, globs: list[str] = ["*.yaml"]
@@ -54,7 +61,7 @@ def get_spec_file_names(
 
 def get_spec_dicts(
     generator_name: str | None = None, file_name: str | None = None
-) -> list[tuple[str, dict[str, Any]]]:
+) -> list[tuple[str, DD]]:
     """Get the list of the contents of the YAML files for a given generator.
 
     Args:
@@ -67,7 +74,7 @@ def get_spec_dicts(
     Returns:
         A list of tuples, where each tuple represents one YAML file
             * YAML file name: str
-            * YAML file content: dict[str, Any]).
+            * YAML file content: dict[str, dict[str, Any]]).
     """
     specs_raw: list[tuple[str, dict[str, Any]]] = []
     if file_name is None:
@@ -86,7 +93,16 @@ def get_spec_dicts(
                 loader = yaml.CSafeLoader
             else:
                 loader = yaml.SafeLoader  # type: ignore
-            yaml_dict = yaml.load(stream, Loader=loader)
+            yaml_dict: DD = yaml.load(stream, Loader=loader)
+            series_dict: DD = {}
+            del_keys: list[str] = []
+            for id, spec in yaml_dict.items():
+                if id.startswith("series"):
+                    del_keys.append(id)
+                    series_dict.update(get_spec_dict_for_series(spec, file_name))
+            for del_key in del_keys:
+                del yaml_dict[del_key]
+            yaml_dict.update(series_dict)
             dict_tools.dictInherit(yaml_dict)
             specs_raw.append((file_name, yaml_dict))
     return specs_raw
@@ -94,7 +110,7 @@ def get_spec_dicts(
 
 def get_headers_ids_specs(
     generator_name: str | None = None, file_name: str | None = None
-) -> list[tuple[str, dict[str, Any], list[tuple[str, dict[str, Any]]]]]:
+) -> list[tuple[str, D, list[tuple[str, DD]]]]:
     """Extract the file names, headers, IDs, and specs of all the spec files.
 
     Args:
@@ -109,15 +125,15 @@ def get_headers_ids_specs(
             * YAML file header: dict[str, Any]
             * List of entries with:
                 * ID: str
-                * entry: dict[str, Any]
+                * entry: dict[str, dict[str, Any]]
     """
-    ret: list[tuple[str, dict[str, Any], list[tuple[str, dict[str, Any]]]]] = []
+    ret: list[tuple[str, D, list[tuple[str, DD]]]] = []
     for file_name, raw_specs in get_spec_dicts(generator_name, file_name):
         if "FileHeader" in raw_specs.keys():
-            header: dict[str, Any] = raw_specs["FileHeader"]
+            header: D = raw_specs["FileHeader"]
         else:
             header = {}
-        ids_specs: list[tuple[str, dict[str, Any]]] = []
+        ids_specs: list[tuple[str, DD]] = []
         for id, spec in raw_specs.items():
             if id == "FileHeader" or id.startswith("defaults"):
                 continue
@@ -180,3 +196,91 @@ def create_specs(file_name: str, generator_name: str) -> list[BaseSpec]:
             f"No class in {generator_name}/spec.py was decorated with `@register_spec`."
         )
     return get_specs(None, file_name, spec_class)
+
+
+def get_spec_dict_for_series(series_data: D, file_name: str) -> DD:
+    """Get spec dictionary from a series definition.
+
+    Args:
+        series_data: The data of the series.
+        file_name: The name of the YAML file that holds the series.
+
+    Return:
+        A list of tuples containing a generated ID and the specs dictionary.
+    """
+
+    default_parameters: D = series_data.get("default_parameters", {})
+    explicit_definitions: DD = series_data.get("explicit_definitions", {})
+    inferred_parameters: DDD = series_data.get("inferred_parameters", {})
+    csv_file_names: list[str] | str = series_data.get("csv", [])
+    if isinstance(csv_file_names, str):
+        csv_file_names = [csv_file_names]
+    csv_folder = Path(file_name).parent
+    series_dict: DD = {}
+
+    def get_series_part_definition(
+        file_name: str,
+        row_dict: D,
+        default_parameters: D,
+        inferred_parameters: DDD,
+    ) -> DD:
+        part_dict = default_parameters.copy()
+        part_dict.update(row_dict)
+        for inferred_name, inferred_values in inferred_parameters.items():
+            part_value = part_dict[inferred_name]
+            for inferred_value, infered_params in inferred_values.items():
+                if part_value == inferred_value:
+                    part_dict.update(infered_params)
+                    break
+        part_name = file_name[:-4] + "_" + "_".join(str(v) for v in row_dict.values())
+        return {part_name: part_dict}
+
+    def get_part_with_parameter(param_name: str, param_value: Any) -> DD:
+        for part_dict in series_dict.values():
+            if part_dict.get(param_name) == param_value:
+                return part_dict
+        raise KeyError(f"No part definition was found with {param_name}={param_value}.")
+
+    def convert_dict_strings_to_int_or_float(dictionary: dict[str, str]) -> None:
+        for key, value in line_as_dict.items():
+            # Check if the value is non-empty before attempting conversion
+            if value is None or value.strip() == "":
+                continue
+            try:
+                if value.strip().isdigit():
+                    line_as_dict[key] = int(value)
+                    continue
+            except ValueError:
+                pass
+            try:
+                line_as_dict[key] = float(value)
+            except ValueError:
+                continue
+
+    for csv_file_name in csv_file_names:
+        with open(csv_folder / csv_file_name, encoding="utf-8-sig") as f:
+            reader = csv.DictReader(filter(lambda row: not row.startswith("#"), f))
+            for line_as_dict in reader:
+                convert_dict_strings_to_int_or_float(line_as_dict)
+                series_dict.update(
+                    get_series_part_definition(
+                        csv_file_name,
+                        line_as_dict,
+                        default_parameters,
+                        inferred_parameters,
+                    )
+                )
+
+    series_dict_of_inheriting_parts: DD = {}
+    for key, part_dict in explicit_definitions.items():
+        for param_key, value in part_dict.items():
+            if param_key.startswith("inherit_"):
+                inherit_param_name = param_key[len("inherit_") :]
+                inherit_def = get_part_with_parameter(inherit_param_name, value)
+                del part_dict[param_key]
+                series_dict_of_inheriting_parts.update(
+                    {key: dict_tools.dictMerge(inherit_def.copy(), part_dict)}
+                )
+                break
+    series_dict.update(series_dict_of_inheriting_parts)
+    return series_dict
