@@ -2666,6 +2666,126 @@ C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2:
   body_setback_distance: 0.0
   destination_dir : 'Capacitor_THT.3dshapes'
 
+C_Rect_L7.2mm_W2.5mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W2.5mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 6.50 # Body Height
+  L: 7.20 # Body Length
+  W: 2.50 # Body Width
+  d: 0.50 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
+C_Rect_L7.2mm_W3.5mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W3.5mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 7.50 # Body Height
+  L: 7.20 # Body Length
+  W: 3.50 # Body Width
+  d: 0.50 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
+C_Rect_L7.2mm_W4.5mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W4.5mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 9.50 # Body Height
+  L: 7.20 # Body Length
+  W: 4.50 # Body Width
+  d: 0.50 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
+C_Rect_L7.2mm_W5.0mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W5.0mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 10.0 # Body Height
+  L: 7.20 # Body Length
+  W: 5.00 # Body Width
+  d: 0.50 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
+C_Rect_L7.2mm_W6.0mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W6.0mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 11.0 # Body Height
+  L: 7.20 # Body Length
+  W: 6.00 # Body Width
+  d: 0.50 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
+C_Rect_L7.2mm_W7.2mm_P5.00mm:
+  modelName: 'C_Rect_L7.2mm_W7.2mm_P5.00mm'  # Kemet R82
+  model_class: 'c_rect_tht'
+  H: 13.0 # Body Height
+  L: 7.20 # Body Length
+  W: 7.20 # Body Width
+  d: 0.60 # Lead Diameter
+  F: 5.00 # Lead Seperation
+  ll: 4.0 # Lead Length
+  bs: 0.0 # Board Seperation
+  series: 'MKS' # 'MKS' or 'MKT'
+  color_keys: ['white body', 'metal grey pins']
+  body_color_key: 'white body'
+  pins_color_key: 'metal grey pins'
+  suffix: '' # Modelname
+  rotation: 0 # Rotation
+  body_board_distance: 0.0
+  body_setback_distance: 0.0
+  destination_dir : 'Capacitor_THT.3dshapes'
+
 C_Rect_L10.0mm_W2.5mm_P7.50mm_MKS4:
   modelName: 'C_Rect_L10.0mm_W2.5mm_P7.50mm_MKS4'  # from Jan Kriege's 3d models
   model_class: 'c_rect_tht'

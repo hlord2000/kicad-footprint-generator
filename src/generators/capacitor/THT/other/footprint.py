@@ -147,6 +147,12 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         [10.3, 5.7,    9,    7.5,        1,              ["MKS4"],                          "http://www.wima.com/EN/WIMA_MKS_4.pdf"],
         [10.3, 7.2,    9,    7.5,        1,              ["MKS4"],                          "http://www.wima.com/EN/WIMA_MKS_4.pdf"],
 
+        [7.2,  2.5,  6.5,    5.0,     0.75,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
+        [7.2,  3.5,  7.5,    5.0,     0.75,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
+        [7.2,  4.5,  9.5,    5.0,     0.75,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
+        [7.2,  5.0,  10.0,   5.0,     0.75,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
+        [7.2,  6.0,  11.0,   5.0,     0.75,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
+        [7.2,  7.2,  13.0,   5.0,     0.85,              [""],                              "https://content.kemet.com/datasheets/KEM_F3101_R82.pdf", ["R82"]],
     ]
 
     for w in [2.5, 2.6, 2.7, 3.2, 3.3, 3.4, 3.6, 3.8, 3.9, 4.0, 4.2, 4.9, 5.1, 5.7, 6.4, 6.7, 7.7, 8.5, 9.5, 9.8]:
@@ -177,11 +183,15 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         ddrill = c[4]
         add_description = c[6]
         name_additions = c[5]
+        if len(c) > 7:
+            special_tags = specialtags + c[7]
+        else:
+            special_tags = specialtags
 
         makeResistorRadial(generator_name=generator_name, seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=specialtags, classname="C", lib_name="Capacitor_THT", height3d=h3d)
+                                    specialtags=special_tags, classname="C", lib_name="Capacitor_THT", height3d=h3d)
 
     num_fps_generated += len(caps)
 
