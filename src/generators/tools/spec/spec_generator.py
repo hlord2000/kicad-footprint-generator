@@ -25,7 +25,7 @@ from kilibs.util import dict_tools, list_filter, list_filter_idx
 
 from .base_spec import BaseSpec, TypeSpec
 
-DATA_PATH = Path(__file__).resolve().parent.parent.parent.parent.parent / "data"
+_DATA_PATH = Path(__file__).resolve().parent.parent.parent.parent.parent / "data"
 """The path of the data folder."""
 
 D: TypeAlias = dict[str, Any]
@@ -46,17 +46,21 @@ def get_spec_file_names(
     Returns:
         The list of the file names.
     """
-    generator_path = DATA_PATH / generator_name
+    generator_path = _DATA_PATH / generator_name
     # Workaround for legacy generators: We ignore "cq_parameters.yaml". Those files are
     # only used by `create_specs()` in `legacy_model_spec.py`:
     cq_file = generator_path / "cq_parameters.yaml"
     file_names = [
         str(f) for glob in globs for f in generator_path.glob(glob) if f != cq_file
     ]
-    if CLI_ARGS.category or CLI_ARGS.category_exclude:
-        return list_filter(file_names, CLI_ARGS.category, CLI_ARGS.category_exclude)
-    else:
-        return file_names
+    try:
+        if CLI_ARGS.category or CLI_ARGS.category_exclude:
+            return list_filter(file_names, CLI_ARGS.category, CLI_ARGS.category_exclude)
+    except AttributeError:
+        # When CLI_ARGS.category or CLI_ARGS.categorcy_exclude are not defined we don't
+        # filter the list:
+        pass
+    return file_names
 
 
 def get_spec_dicts(
@@ -86,7 +90,7 @@ def get_spec_dicts(
         if generator_name is None or os.path.isabs(file_name):
             file_names = [file_name]
         else:
-            file_names = [str(DATA_PATH / generator_name / file_name)]
+            file_names = [str(_DATA_PATH / generator_name / file_name)]
     for file_name in file_names:
         with open(file_name, "r", encoding="utf-8") as stream:
             if yaml.__with_libyaml__:
@@ -139,10 +143,14 @@ def get_headers_ids_specs(
                 continue
             else:
                 ids_specs.append((id, spec))
-        if CLI_ARGS.part or CLI_ARGS.part_exclude:
+        try:
             ids_specs = list_filter_idx(
                 ids_specs, 0, CLI_ARGS.part, CLI_ARGS.part_exclude
             )
+        except AttributeError:
+            # In case CLI_ARGS.part or CLI_ARGS.part_exclude are not defined we don't
+            # filter the list of ids and specs.
+            pass
         ret.append((file_name, header, ids_specs))
     return ret
 
