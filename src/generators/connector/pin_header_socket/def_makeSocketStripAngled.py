@@ -14,10 +14,9 @@ from KicadModTree import (
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
-from generators.tools.footprint.footprint_generator import FootprintGenerator
-from generators.tools.footprint.save_footprint import write_footprint
 from .spec import FPconfiguration
-from generators.tools.footprint.drawing_tools import roundCrt
+import generators.tools.footprint.drawing_tools as DT
+from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
 
 txt_offset = 1
@@ -145,8 +144,8 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     kicad_modg.append(PolygonLine(shape=[[0, -pin_pitch / 2], [pin_pitch / 2, -pin_pitch / 2], [pin_pitch / 2, 0]], layer='F.SilkS', width=gc.silk_line_width))
 
     # create courtyard
-    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
-                              end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
+    kicad_mod.append(Rectangle(start=[DT.roundCrt(l_crt + offset.x), DT.roundCrt(t_crt + offset.y)],
+                              end=[DT.roundCrt(l_crt + offset.x + w_crt), DT.roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=gc.courtyard_line_width))
 
     # create pads

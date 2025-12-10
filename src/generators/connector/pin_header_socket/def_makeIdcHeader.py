@@ -12,13 +12,12 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    Rectangle,
     Text,
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
 from .spec import FPconfiguration
-from generators.tools.footprint.drawing_tools import roundCrt
+import generators.tools.footprint.drawing_tools as DT
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
 
@@ -255,24 +254,24 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
     if pins_drill == 0 and orientation == "Vertical" and not latching:
         #         l_crt =  -pad.x / 2 - row_pitch/2- crt_offset
         crt_polygon = [
-            (roundCrt(l_fab - crtyd_offset), roundCrt(t_crt)),
-            (roundCrt(l_fab - crtyd_offset), roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
-            (roundCrt(l_crt), roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
-            (roundCrt(l_crt), roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
-            (roundCrt(l_fab - crtyd_offset), roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
-            (roundCrt(l_fab - crtyd_offset), roundCrt(-t_crt)),
-            (roundCrt(-l_fab + crtyd_offset), roundCrt(-t_crt)),
-            (roundCrt(-l_fab + crtyd_offset), roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
-            (roundCrt(-l_crt), roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
-            (roundCrt(-l_crt), roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
-            (roundCrt(-l_fab + crtyd_offset), roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
-            (roundCrt(-l_fab + crtyd_offset), roundCrt(t_crt)),
-            (roundCrt(l_fab - crtyd_offset), roundCrt(t_crt))
+            (DT.roundCrt(l_fab - crtyd_offset), DT.roundCrt(t_crt)),
+            (DT.roundCrt(l_fab - crtyd_offset), DT.roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
+            (DT.roundCrt(l_crt), DT.roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
+            (DT.roundCrt(l_crt), DT.roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
+            (DT.roundCrt(l_fab - crtyd_offset), DT.roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
+            (DT.roundCrt(l_fab - crtyd_offset), DT.roundCrt(-t_crt)),
+            (DT.roundCrt(-l_fab + crtyd_offset), DT.roundCrt(-t_crt)),
+            (DT.roundCrt(-l_fab + crtyd_offset), DT.roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
+            (DT.roundCrt(-l_crt), DT.roundCrt(((pos_count-1)*pin_pitch/2)+pad.y/2 + crtyd_offset)),
+            (DT.roundCrt(-l_crt), DT.roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
+            (DT.roundCrt(-l_fab + crtyd_offset), DT.roundCrt(-((pos_count-1)*pin_pitch/2)-pad.y/2 - crtyd_offset)),
+            (DT.roundCrt(-l_fab + crtyd_offset), DT.roundCrt(t_crt)),
+            (DT.roundCrt(l_fab - crtyd_offset), DT.roundCrt(t_crt))
         ]
         kicad_mod.append(PolygonLine(shape=crt_polygon, layer='F.CrtYd', width=gc.courtyard_line_width))
     else:
-        kicad_mod.append(Rectangle(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
-                    roundCrt(t_crt + h_crt)], layer='F.CrtYd', width=gc.courtyard_line_width))
+        kicad_mod.append(Rectangle(start=[DT.roundCrt(l_crt), DT.roundCrt(t_crt)], end=[DT.roundCrt(l_crt + w_crt),
+                    DT.roundCrt(t_crt + h_crt)], layer='F.CrtYd', width=gc.courtyard_line_width))
 
     # create pads (first the left row then the right row)
     if pins_drill == 0:

@@ -12,13 +12,12 @@ from KicadModTree import (
     PolygonLine,
     Property,
     Rectangle,
-    Rectangle,
     Text,
     Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
 from .spec import FPconfiguration
-from generators.tools.footprint.drawing_tools import roundCrt
+import generators.tools.footprint.drawing_tools as DT
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
 
