@@ -14,7 +14,7 @@
 
 from dataclasses import dataclass
 
-from .spec_generator import DD, get_headers_ids_specs
+from generators.tools.spec.spec_generator import DD, get_headers_ids_specs
 
 
 @dataclass
