@@ -285,6 +285,38 @@ Converter_DCDC_TRACO_TEN40-110xxWIRH_THT:
     ["tht", "6", 17.78, -45.72, 2.5, 2.5, 1.5]
   ]
 
+Converter_DCDC_TRACO_TEP150-721xUIR_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TEP150-721xUIR, 150W, Rev. September 4. 2025"
+  datasheet: "https://www.tracopower.com/products/tep150uir.pdf"
+  tags: "DCDC-Converter TRACO TEP150UIR THT Half-Brick 61x57.9 150W"
+  compatible_mpns:
+    # https://www.tracopower.com/products/tep200uir.pdf
+    - TEP200UIR
+  extratexts: []
+  at: [-12.72, 4.82]
+  size: [61, 57.9]
+  body_position_tolerance: [0.5, 0.5]
+  # For future use
+  height: 13
+  pins: [
+    ["thtr", "1", 0, 0, 3, 3, 1.5],
+    ["tht", "2", 10.16, 0, 3, 3, 1.5],
+    ["tht", "3", 25.4, 0, 3, 3, 1.5],
+    ["tht", "4", 35.56, 0, 3, 3, 1.5],
+    ["tht", "5", 0, -48.26, 5, 5, 2.5],
+    ["tht", "6", 10.16, -48.26, 3, 3, 1.5],
+    ["tht", "7", 17.78, -48.26, 3, 3, 1.5],
+    ["tht", "8", 25.4, -48.26, 3, 3, 1.5],
+    ["tht", "9", 35.56, -48.26, 5, 5, 2.5],
+    ["tht", "10", 17.78, 0, 3, 3, 1.5],
+    ["tht", "11", 21.59, 0, 3, 3, 1.5],
+    ["tht", "12", -7.62, 0, 8, 8, 3.2], # Mounting hole
+    ["tht", "12", 43.18, 0, 8, 8, 3.2], # Mounting hole
+    ["tht", "12", -7.62, -48.26, 8, 8, 3.2], # Mounting hole
+    ["tht", "12", 43.18, -48.26, 8, 8, 3.2] # Mounting hole
+  ]
+
 Converter_DCDC_TRACO_TES1-052x_122x_242x_Dual_SMD:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TES1-052x, TES1-122x, TES1-242x, Dual, 1W, Rev. July 1. 2025"
