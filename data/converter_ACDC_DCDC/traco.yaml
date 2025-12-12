@@ -947,6 +947,32 @@ Converter_DCDC_TRACO_TSR0.5-24xx_TSR0.5-24xxx_THT:
     ["tht", "3", 0, -5.08, 1.8, 1.8, 1.2]
   ]
 
+Converter_DCDC_TRACO_TSR0.5-24xxSM_241xxSM_SMD:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TSR0.5-24xxSM, TSR0.5-241xxSM, 0.5A, Rev. November 12. 2025"
+  datasheet: "https://www.tracopower.com/products/tsr0.5sm.pdf"
+  tags: "DCDC-Converter SWITCHING-REGULATOR STEP-DOWN TRACO TSR0.5SM SMD SMD10 0.5A"
+  smd_tht: smd
+  extratexts: []
+  arrow_points: East
+  at: [-4.8, 7.65]
+  size: [9.6, 15.3]
+  body_position_tolerance: [0.5, 0.5]
+  # For future use
+  height: 9.24
+  pins: [
+    ["smd", "1", -5.85, 5.08, 2.1, 1.2, 0],
+    ["smd", "2", -5.85, 2.54, 2.1, 1.2, 0],
+    ["smd", "3", -5.85, 0, 2.1, 1.2, 0],
+    ["smd", "4", -5.85, -2.54, 2.1, 1.2, 0],
+    ["smd", "5", -5.85, -5.08, 2.1, 1.2, 0],
+    ["smd", "6", 5.85, -5.08, 2.1, 1.2, 0],
+    ["smd", "7", 5.85, -2.54, 2.1, 1.2, 0],
+    ["smd", "8", 5.85, 0, 2.1, 1.2, 0],
+    ["smd", "9", 5.85, 2.54, 2.1, 1.2, 0],
+    ["smd", "10", 5.85, 5.08, 2.1, 1.2, 0],
+  ]
+
 Converter_DCDC_TRACO_TSR0.6-48xxWI_TSR0.6-48xxxWI_THT:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TSR0.6-48xxWI, TSR0.6-48xxxWI, 0.6A, Rev. October 29. 2024"
