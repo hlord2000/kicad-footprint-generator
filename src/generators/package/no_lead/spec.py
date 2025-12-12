@@ -68,7 +68,6 @@ class NoLeadSpec(PackageSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `PackageSpec`.
@@ -77,7 +76,6 @@ class NoLeadSpec(PackageSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
 
@@ -195,7 +193,7 @@ class NoLeadSpec(PackageSpec):
         self.lib_name: str
         """Name of the library."""
 
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
 
         self._extract_generator_independent_data()
         self._extract_general_data()
@@ -206,7 +204,7 @@ class NoLeadSpec(PackageSpec):
         self._extract_marker_data()
         self._compose_device_names()
         self._compose_lib_name()
-        self._has_3D_and_FP_data()
+        self._has_3D_and_FP_data(file_name)
 
     def _extract_generator_independent_data(self) -> None:
         self.metadata = common_metadata.CommonMetadata(self.spec)
@@ -228,9 +226,7 @@ class NoLeadSpec(PackageSpec):
         )
 
     def _extract_general_data(self) -> None:
-        self.device_type = self.spec.get(
-            "device_type", self.header.get("device_type", "") if self.header else ""
-        )
+        self.device_type = self.spec.get("device_type", "")
         self.ipc_density = ipc_rules.IpcDensity.from_str(
             self.spec.get("ipc_density", "nominal")
         )
@@ -502,16 +498,14 @@ class NoLeadSpec(PackageSpec):
             self.fp_name_without_vias = prefix + self.fp_name_without_vias
 
     def _compose_lib_name(self) -> None:
-        self.lib_name = self.spec.get(
-            "library", self.header.get("library", "Package_DFN_QFN")
-        )
+        self.lib_name = self.spec.get("library", "Package_DFN_QFN")
 
-    def _has_3D_and_FP_data(self) -> None:
+    def _has_3D_and_FP_data(self, file_name: str) -> None:
         if self.overall_height.nominal == 0.0:
             self.has_3d_data = False
         else:
             self.has_3d_data = True
-        if self.header:
-            self.has_fp_data = True
-        else:
+        if file_name.endswith("cq_parameters_obsolete.yaml"):
             self.has_fp_data = False
+        else:
+            self.has_fp_data = True

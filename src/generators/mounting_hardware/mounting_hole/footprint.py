@@ -22,7 +22,7 @@ from dataclasses import asdict, dataclass
 from KicadModTree import *  # NOQA
 from kilibs.geom import GeomCircle
 from generators.tools.spec.base_spec import BaseSpec
-from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.spec.spec_generator import get_file_name_ids_specs
 from generators.tools.footprint.footprint_text_fields import addTextFields
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config.global_config import GlobalConfig, GLOBAL_CONFIG
@@ -179,13 +179,13 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         The number of footprints generated.
     """
     num_fps_generated = 0
-    for _, header, ids_specs in get_headers_ids_specs(generator_name):
+    for _, ids_specs in get_file_name_ids_specs(generator_name):
         for id, spec_raw in ids_specs:
-            num_fps_generated += generate_footprint_variants(spec_raw, id, header, generator_name)
+            num_fps_generated += generate_footprint_variants(spec_raw, id, generator_name)
     return num_fps_generated
 
 
-def generate_footprint_variants(spec: dict, pkg_id: str, header_info: dict, generator_name: str) -> int:
+def generate_footprint_variants(spec: dict, pkg_id: str, generator_name: str) -> int:
     num_fps_generated = 0
     fp_config = FPconfiguration(spec, GLOBAL_CONFIG)
     for variant in fp_config.expandVariants():

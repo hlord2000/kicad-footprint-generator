@@ -3,7 +3,7 @@
 # This file cointains QFN with special format or special lead distribution,
 # like JEDEC MO-241 which resembles a SON / DFN package
 
-FileHeader:
+default_parameters:
   library: Package_DFN_QFN
 
 Balun_Johanson_0900FM15K0039:

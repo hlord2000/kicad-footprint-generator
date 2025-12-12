@@ -17,7 +17,7 @@ from KicadModTree import Footprint, FootprintType, Pad
 from kilibs.declarative_defs import SpecDict
 from generators.tools.spec.base_spec import BaseSpec
 from kilibs.config.global_config import GLOBAL_CONFIG
-from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.spec.spec_generator import get_file_name_ids_specs
 from kilibs.geom import Vector2D
 from kilibs.util.toleranced_size import TolerancedSize
 from generators.tools.footprint.declarative_def_tools import common_metadata
@@ -246,17 +246,17 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         The number of footprints generated.
     """
     num_fps_generated = 0
-    for _, header, ids_specs in get_headers_ids_specs(generator_name):
+    for _, ids_specs in get_file_name_ids_specs(generator_name):
         for id, spec in ids_specs:
-            generateFootprint(spec, id, header, generator_name)
+            generateFootprint(spec, id, generator_name)
             num_fps_generated += 1
     return num_fps_generated
 
 
-def generateFootprint(spec: SpecDict, pkg_id: str, header_info: SpecDict, generator_name: str) -> None:
+def generateFootprint(spec: SpecDict, pkg_id: str, generator_name: str) -> None:
     fp_config = GDTProperties(spec)
 
-    lib_name = header_info["library"]
+    lib_name = spec["library"]
 
     fp_type = FootprintType.SMD
 

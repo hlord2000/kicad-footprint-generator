@@ -21,7 +21,7 @@
 # JEITA standards: ED-7311-20, ED-7311-21**, EDR-7314A and EDR-7326A**
 #                  ** packages with top / bottom heat sink (HSSOP), but there are also packages with a 1.27 mm pitch (HSOP), as well as some with maximum height smaller than 1.70 mm (such as TSSOP)
 
-FileHeader:
+default_parameters:
   device_type: 'SSOP'
   library_Suffix: 'SO'
 

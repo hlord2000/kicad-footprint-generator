@@ -1,6 +1,6 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/No-lead
 
-FileHeader:
+default_parameters:
   library: Package_SON # each entry will need this for now (pending move footprits from Package_DFN_QFN to Package_SON later)
 
 ##############################################################################

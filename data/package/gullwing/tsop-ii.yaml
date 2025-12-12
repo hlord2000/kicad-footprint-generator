@@ -7,7 +7,7 @@
 # JEDEC / JEITA standards:
 # - MS-024, MS-025, MO-135, MO-182, MO-249, EDR-7311-2, EDR-7313
 
-FileHeader:
+default_parameters:
   device_type: 'TSOP-II'
   library_Suffix: 'SO'
 

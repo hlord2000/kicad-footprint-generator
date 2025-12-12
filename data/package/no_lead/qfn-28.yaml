@@ -6,7 +6,7 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
-FileHeader:
+default_parameters:
   library: Package_DFN_QFN
 
 OnSemi_VCT-28_3.5x3.5mm_P0.4mm:

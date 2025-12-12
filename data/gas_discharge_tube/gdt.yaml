@@ -1,4 +1,4 @@
-FileHeader:
+default_parameters:
   library: 'Fuse'
 
 defaults-yageo_3R-6:

@@ -108,14 +108,21 @@ def get_spec_dicts(
                 del yaml_dict[del_key]
             yaml_dict.update(series_dict)
             dict_tools.dictInherit(yaml_dict)
+            if "default_parameters" in yaml_dict.keys():
+                default_parameters: D = yaml_dict.pop("default_parameters")
+                for id, spec in yaml_dict.items():
+                    # TODO: Maybe a deep copy is needed instead of a shallow one:
+                    yaml_dict.update(
+                        {id: dict_tools.dictMerge(default_parameters.copy(), spec)}
+                    )
             specs_raw.append((file_name, yaml_dict))
     return specs_raw
 
 
-def get_headers_ids_specs(
+def get_file_name_ids_specs(
     generator_name: str | None = None, file_name: str | None = None
-) -> list[tuple[str, D, list[tuple[str, DD]]]]:
-    """Extract the file names, headers, IDs, and specs of all the spec files.
+) -> list[tuple[str, list[tuple[str, DD]]]]:
+    """Extract the file names, IDs, and specs of all the spec files.
 
     Args:
         generator_name: The generator name. If `None`, `file_name` must be provided.
@@ -126,20 +133,15 @@ def get_headers_ids_specs(
     Returns:
         A list of tuples where each tuple represents one YAML file with:
             * YAML file name: str
-            * YAML file header: dict[str, Any]
             * List of entries with:
                 * ID: str
                 * entry: dict[str, dict[str, Any]]
     """
-    ret: list[tuple[str, D, list[tuple[str, DD]]]] = []
+    ret: list[tuple[str, list[tuple[str, DD]]]] = []
     for file_name, raw_specs in get_spec_dicts(generator_name, file_name):
-        if "FileHeader" in raw_specs.keys():
-            header: D = raw_specs["FileHeader"]
-        else:
-            header = {}
         ids_specs: list[tuple[str, DD]] = []
         for id, spec in raw_specs.items():
-            if id == "FileHeader" or id.startswith("defaults"):
+            if id.startswith("default"):
                 continue
             else:
                 ids_specs.append((id, spec))
@@ -151,7 +153,7 @@ def get_headers_ids_specs(
             # In case CLI_ARGS.part or CLI_ARGS.part_exclude are not defined we don't
             # filter the list of ids and specs.
             pass
-        ret.append((file_name, header, ids_specs))
+        ret.append((file_name, ids_specs))
     return ret
 
 
@@ -175,11 +177,11 @@ def get_specs(
     specs: list[TypeSpec] = []
     make_fps = True if CLI_ARGS.output_dir_footprints else False
     make_mods = True if CLI_ARGS.output_dir_models else False
-    for file_name, header, ids_specs in get_headers_ids_specs(
+    for file_name, ids_specs in get_file_name_ids_specs(
         generator_name, file_name
     ):
         for id, spec in ids_specs:
-            spec = spec_type(id, spec, header, file_name)
+            spec = spec_type(id, spec, file_name)
             if make_fps and spec.has_fp_data or make_mods and spec.has_3d_data:
                 specs.append(spec)
     return specs
@@ -287,6 +289,7 @@ def get_spec_dict_for_series(series_data: D, file_name: str) -> DD:
                 inherit_def = get_part_with_parameter(inherit_param_name, value)
                 del part_dict[param_key]
                 series_dict_of_inheriting_parts.update(
+                    # TODO: Maybe a deep copy is needed instead of a shallow one:
                     {key: dict_tools.dictMerge(inherit_def.copy(), part_dict)}
                 )
                 break

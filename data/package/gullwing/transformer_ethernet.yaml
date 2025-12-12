@@ -2,7 +2,7 @@
 
 # Usage: python3 ipc_gullwing_generator.py size_definitions\transformer_ethernet.yaml
 
-FileHeader:
+default_parameters:
   device_type: 'SO'
   override_lib_name: 'Transformer_SMD'
 

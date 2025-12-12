@@ -3,7 +3,7 @@
 # This originally created since a specific LGA package had a similar footprint to BGA packages, 
 # so it uses the BGA generator instead of the LGA generator defined in Packages/no_lead
 
-FileHeader:
+default_parameters:
   package_type: "LGA"
 
 ublox_LGA-53_4.5x4.5mm_Layout9x9_P0.5mm:

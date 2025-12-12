@@ -1,6 +1,6 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/Gullwing
 
-FileHeader:
+default_parameters:
   device_type: 'SO'
   override_lib_name: 'Sensor_Pressure'
 

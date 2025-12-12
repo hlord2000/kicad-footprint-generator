@@ -25,7 +25,7 @@ from generators.tools.footprint import (
     footprint_text_fields,
 )
 from generators.tools.spec.base_spec import BaseSpec
-from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.spec.spec_generator import get_file_name_ids_specs
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
 from kilibs.config.global_config import GLOBAL_CONFIG
@@ -45,15 +45,15 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         The number of footprints generated.
     """
     num_fps_generated = 0
-    for _, header, ids_specs in get_headers_ids_specs(generator_name):
+    for _, ids_specs in get_file_name_ids_specs(generator_name):
         for id, spec_raw in ids_specs:
-            generateFootprint(spec_raw, id, header, generator_name)
+            generateFootprint(spec_raw, id, generator_name)
             num_fps_generated +=1
     return num_fps_generated
 
 
 def generateFootprint(
-    device_params: dict, pkg_id: str, header_info: dict, generator_name: str
+    device_params: dict, pkg_id: str, generator_name: str
 ):
     _funcs = {
         "makeCrystal": makeCrystal,

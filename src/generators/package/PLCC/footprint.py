@@ -151,7 +151,7 @@ def create_footprints(spec: PlccSpec, generator_name: str) -> int:
         params_inch_to_metric(spec.spec)
     # We recreate a spec because the values might have changed if they were given in inch.
     # The correct implementation would be to use TolerancedSize with units.
-    device_config = PlccSpec(spec.id, spec.spec, spec.header)
+    device_config = PlccSpec(spec.id, spec.spec)
 
     fab_line_width = GLOBAL_CONFIG.fab_line_width
     silk_line_width = GLOBAL_CONFIG.silk_line_width

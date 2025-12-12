@@ -16,7 +16,7 @@ from generators.tools.footprint.drawing_tools import *
 from generators.tools.footprint.footprint_scripts_resistorlike import *
 
 from generators.tools.spec.base_spec import BaseSpec
-from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.spec.spec_generator import get_file_name_ids_specs
 
 
 def create_footprints(spec: BaseSpec, generator_name: str) -> int:
@@ -30,7 +30,7 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         The number of footprints generated.
     """
     num_fps_generated = 0
-    for _, _, ids_specs in get_headers_ids_specs(generator_name):
+    for _, ids_specs in get_file_name_ids_specs(generator_name):
         for id, spec_dict in ids_specs:
             if id == 'base':
                 # Ignore base from which the entries derive

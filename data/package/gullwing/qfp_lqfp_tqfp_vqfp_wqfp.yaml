@@ -7,7 +7,7 @@
 # JEDEC standards: MS-022, MS-026, MS-029, MO-069, MO-071, MO-082, MO-084, MO-086, MO-089, MO-108, MO-112, MO-188, MO-189, MO-204, and others
 # JEITA standards: ED-7311A, ED-7311-12, EDR-7311A
 
-FileHeader:
+default_parameters:
   device_type: 'PQFP'
   library_Suffix: 'QFP'
 

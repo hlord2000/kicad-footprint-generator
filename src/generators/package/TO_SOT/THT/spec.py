@@ -28,7 +28,6 @@ class CommonToSpec(PackageSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `CommonToSpec`.
@@ -37,10 +36,9 @@ class CommonToSpec(PackageSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
 
         try:
             self.pins: int = spec["number_of_pins"]
@@ -78,7 +76,6 @@ class RectangularToSpec(CommonToSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `RectangularToSpec`.
@@ -87,10 +84,9 @@ class RectangularToSpec(CommonToSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
         try:
             self.plastic_dimensions: list[float] = spec["plastic_dimensions_xyz"]  # fmt: skip
             self.pitch: float = spec["pitch"]
@@ -222,7 +218,6 @@ class RoundToSpec(CommonToSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `RoundToSpec`.
@@ -231,10 +226,9 @@ class RoundToSpec(CommonToSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
         try:
             self.pin_circle_diameter: float = spec["pin_circle_diameter"]
             self.diameter_inner: float = spec[
@@ -303,7 +297,7 @@ def create_specs(file_name: str, generator_name: str) -> list[CommonToSpec]:
     for file_name, yaml_content in get_spec_dicts(None, file_name):
         for id, spec in yaml_content.items():
             if "plastic_dimensions_xyz" in spec:
-                specs.append(RectangularToSpec(id, spec, {}, file_name))
+                specs.append(RectangularToSpec(id, spec, file_name))
             elif  "diameter_inner" in spec:
-                specs.append(RoundToSpec(id, spec, {}, file_name))
+                specs.append(RoundToSpec(id, spec, file_name))
     return specs

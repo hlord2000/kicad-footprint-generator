@@ -1,6 +1,6 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/No-lead
 
-FileHeader:
+default_parameters:
   library: Package_LGA
 
 Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:

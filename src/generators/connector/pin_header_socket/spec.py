@@ -153,7 +153,6 @@ class FPconfiguration(BaseSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `BaseSpec`.
@@ -162,10 +161,9 @@ class FPconfiguration(BaseSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
         if Path(file_name).stem.startswith("pin_headers"):
             self.type = "pin_headers"
         elif Path(file_name).stem.startswith("idc_headers"):

@@ -133,10 +133,8 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
     """
     num_fps_generated = 0
     for _, yaml_file in get_spec_dicts(generator_name):
-        for pkg_id, spec in yaml_file.items():
-            if pkg_id == "FileHeader":
-                continue
-            generateFootprint(spec, generator_name)
+        for _, spec_raw in yaml_file.items():
+            generateFootprint(spec_raw, generator_name)
             num_fps_generated += 1
     return num_fps_generated
 

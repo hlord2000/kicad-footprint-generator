@@ -19,7 +19,7 @@ from kilibs.config.global_config import GLOBAL_CONFIG
 from generators.tools.cli_args import CLI_ARGS
 from generators.tools.footprint.declarative_def_tools import common_metadata
 from generators.tools.spec.base_spec import BaseSpec
-from generators.tools.spec.spec_generator import get_headers_ids_specs
+from generators.tools.spec.spec_generator import get_file_name_ids_specs
 from generators.tools.footprint.footprint_scripts_DIP import makeDIP
 
 
@@ -184,7 +184,7 @@ def create_footprints(spec: BaseSpec, generator_name: str) -> int:
         The number of footprints generated.
     """
     num_fps_generated = 0
-    for _, _, ids_specs in get_headers_ids_specs(generator_name):
+    for _, ids_specs in get_file_name_ids_specs(generator_name):
         for _, spec_dict in ids_specs:
             num_fps_generated += make_all_variants_from_device_params(generator_name, spec_dict)
     return num_fps_generated

@@ -1,6 +1,6 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/No-lead
 
-FileHeader:
+default_parameters:
   library: Package_LGA
 
 LGA-8_8x6mm_P1.27mm:

@@ -33,7 +33,7 @@
 # - width 2.80 / 4.40 / 6.10 / 8.00
 # - height equal or smaller than 1.20 mm
 
-FileHeader:
+default_parameters:
   device_type: 'TSSOP'
   library_Suffix: 'SO'
 

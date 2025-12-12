@@ -82,7 +82,6 @@ class GullwingSpec(PackageSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `GullwingSpec`.
@@ -91,7 +90,6 @@ class GullwingSpec(PackageSpec):
             id: The name/identifier of the spec. This is the name of the key of the spec
                 (in the YAML file).
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
         # Instance attributes for generator independent data:
@@ -196,12 +194,12 @@ class GullwingSpec(PackageSpec):
         self.lib_name: str
         """Name of the library."""
 
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
 
-        if header:
-            self.has_fp_data = True
-        else:
+        if file_name.endswith("cq_parameters_obsolete.yaml"):
             self.has_fp_data = False
+        else:
+            self.has_fp_data = True
 
         self._extract_generator_independent_data()
         self._extract_general_data()
@@ -228,9 +226,7 @@ class GullwingSpec(PackageSpec):
         )
 
     def _extract_general_data(self) -> None:
-        self.device_type = self.spec.get(
-            "device_type", self.header.get("device_type", "") if self.header else ""
-        )
+        self.device_type = self.spec.get("device_type", "")
         self.lead_type = self.spec.get("lead_type", "gullwing")
         # only gullwing and flat are supported by this generator
         if self.lead_type not in ["gullwing", "flat_lead"]:
@@ -528,11 +524,9 @@ class GullwingSpec(PackageSpec):
     def _compose_lib_name(self) -> None:
         if "override_lib_name" in self.spec:
             self.lib_name = self.spec["override_lib_name"]
-        elif self.header and "override_lib_name" in self.header:
-            self.lib_name = self.header["override_lib_name"]
         else:
             self.lib_name = PACKAGE_CONFIG["lib_name_format_string"].format(
-                category=self.header["library_Suffix"]
+                category=self.spec["library_Suffix"]
             )
 
     @property

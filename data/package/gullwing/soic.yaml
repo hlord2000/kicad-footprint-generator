@@ -31,7 +31,7 @@
 # - include 'P-SOP', 'SOP', 'SOP-4', 'SOP-8' and others designators in compatible_mpns,
 # - as well put info about JEITA in size_source, example : 'JEITA/EIAJ variation xx-xxx-BBA, ...'
 
-FileHeader:
+default_parameters:
   device_type: 'SOIC' # Use this in each new footprint definition for now, until refactor is completely
   library_Suffix: 'SO'
 

@@ -4,7 +4,7 @@
 # and courtyard creation.
 #
 
-FileHeader:
+default_parameters:
   library_Suffix: 'SO_TEST'
   device_type: 'HTSSOP'
 

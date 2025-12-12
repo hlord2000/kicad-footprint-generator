@@ -4,7 +4,7 @@
 # deleted pins remove a pin location but not pin number (for example, pin 2 is missing from the package but the footprint has pad 2)
 # deleted pins do not support custom numbering schemes https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/merge_requests/371
 
-FileHeader:
+default_parameters:
   library_Suffix: 'TO_SOT_SMD_TEST'
   device_type: 'SOT'
 

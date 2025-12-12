@@ -1,6 +1,6 @@
 # Documentation: https://gitlab.com/groups/kicad/libraries/-/wikis/Footprint-Generators/grid_array
 
-FileHeader:
+default_parameters:
   package_type: BGA
   manufacturer: "Xilinx"
 

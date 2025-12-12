@@ -6,7 +6,7 @@
 # - JEDEC MO-220, MO-248
 # - JEITA ED-7311-22, ED-7324
 
-FileHeader:
+default_parameters:
   library: Package_DFN_QFN
 
 QFN-24-1EP_3x3mm_P0.4mm_EP1.75x1.6mm:

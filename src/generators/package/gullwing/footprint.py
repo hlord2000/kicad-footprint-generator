@@ -256,9 +256,7 @@ def _create_footprint_variant(
             man=gwc.metadata.manufacturer or "",
             package=gwc.device_type,
             category=(
-                gwc.header["override_lib_name"]
-                if "override_lib_name" in gwc.header
-                else gwc.header["library_Suffix"]
+                gwc.spec.get("override_lib_name", gwc.spec.get("library_Suffix", ""))
             ),
         )
         .lstrip()

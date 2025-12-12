@@ -15,7 +15,6 @@ class TerminalBlockBarrierProperties(BaseSpec):
         self,
         id: str = "",
         spec: dict[str, Any] = {},
-        header: dict[str, Any] = {},
         file_name: str = "",
     ) -> None:
         """Create an instance of `PackageSpec`.
@@ -24,10 +23,9 @@ class TerminalBlockBarrierProperties(BaseSpec):
             id: The name/identifier of the spec. Typically, this is the name of the key
                 of the spec (in the YAML file) or the name of the component.
             spec: The dictionary containing the specification of the component.
-            header: The dictionary containing the header (`FileHeader` in YAML files).
             file_name: The name of the YAML file that holds this spec definition.
         """
-        super().__init__(id, spec, header, file_name)
+        super().__init__(id, spec, file_name)
 
         self.name: str = id
 
