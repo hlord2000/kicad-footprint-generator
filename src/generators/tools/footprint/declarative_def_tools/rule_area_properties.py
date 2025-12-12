@@ -118,7 +118,7 @@ class RuleAreaProperties():
         if rule_area_specs is not None:
 
             # process inheritance of the rule area definitions
-            dict_tools.dictInherit(rule_area_specs)
+            dict_tools.dict_inherit(rule_area_specs)
 
             for _, rule_area_spec in rule_area_specs.items():
                 rule_area = RuleAreaProperties(rule_area_spec)

@@ -14,41 +14,31 @@
 """Dictionary tools."""
 
 import copy
-from collections.abc import Mapping
-from typing import Any, cast
+from typing import Any
 
 
-def dictMerge(a: dict[str, Any], b: Mapping[str, Any]) -> dict[str, Any]:
-    """Merge recursively the contents of two `dict` objects.
+def dict_merge(defaults: dict[Any, Any], dictionary: dict[Any, Any]) -> None:
+    """
+    Recursively updates `dictionary` in-place with a deep copy of key-value pairs from
+    `defaults` that `dictionary` does not yet contain.
 
-    This function is similar to the built-in dict.update() method, but instead
-    of clobbering the contents of one dictionary with another, it recursively
-    combines dictionaries. The result is a dictionary containing the combined
-    contents of the arguments. If both dictionaries contain a key with the same
-    name (at the same level), the value in `b` takes precedence.
+    If both `defaults` and `dictionary` contain the same key:
+    - If the values are both dictionaries, they are merged recursively (`dictionary`is
+      completed with a deep copy of the key-value pairs from `default`).
+    - Otherwise, the value in `dictionary` is kept (`dictionary` takes precedence).
 
     Args:
-        a: Base dictionary used as the merge destination.
-        b: Dictionary containing values to merge into `a`.
-
-    Returns:
-        The merged dictionaries (`a` with contents updated from `b`).
-
-    Examples:
-        >>> a = {'a': 1, 'b': 2, 'c': {'a': 1, 'b': 2}}
-        >>> b = {'c': {'b': 3}, 'd': 4}
-        >>> dictMerge(a, b)
-        {'a': 1, 'b': 2, 'c': {'a': 1, 'b': 3}, 'd': 4}
+        defaults: Dictionary providing default/fall-back values.
+        dictionary: Dictionary to be updated in-place (the resulting dictionary).
     """
-    for k, v in b.items():
-        if isinstance(v, Mapping):
-            a[k] = dictMerge(a.get(k, {}), cast(Mapping[str, Any], v))
-        else:
-            a[k] = v
-    return a
+    for key, value in defaults.items():
+        if key not in dictionary:
+            dictionary[key] = copy.deepcopy(value)
+        elif isinstance(value, dict) and isinstance(dictionary[key], dict):
+            dict_merge(value, dictionary[key])  # pyright: ignore
 
 
-def dictInherit(d: dict[str, Any]) -> None:
+def dict_inherit(d: dict[Any, Any]) -> None:
     """Merge recursively dictionaries within a hierarchy using 'inherit' entries.
 
     The top-level dictionary (`d`) can be thought of as a type of "namespace"
@@ -113,20 +103,19 @@ def dictInherit(d: dict[str, Any]) -> None:
             }
     """
 
-    def dictInherit(
-        d: dict[str, Any], child: dict[str, Any], parent: dict[str, Any]
-    ) -> dict[str, Any]:
+    def dict_inherit(
+        d: dict[Any, Any], child: dict[Any, Any], parent: dict[Any, Any]
+    ) -> None:
         if "inherit" not in parent:
             del child["inherit"]
-            p = copy.deepcopy(parent)
-            return dictMerge(p, child)
+            dict_merge(parent, child)
         elif d[parent["inherit"]] is child:
             raise RecursionError
         else:
-            return dictInherit(d, parent, d[parent["inherit"]])
+            dict_inherit(d, parent, d[parent["inherit"]])
 
-    for k, v in d.items():
-        if isinstance(v, Mapping) and "inherit" in v:
-            d[k] = dictInherit(d, cast(dict[str, Any], v), d[v["inherit"]])
+    for v in d.values():
+        if isinstance(v, dict) and "inherit" in v:
+            dict_inherit(d, v, d[v["inherit"]])  # pyright: ignore
         else:
             continue

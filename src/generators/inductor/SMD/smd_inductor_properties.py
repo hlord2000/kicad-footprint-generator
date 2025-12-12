@@ -353,8 +353,8 @@ class InductorSeriesProperties(BaseSpec):
 
             We do this because the series block may contain common parameters that
             all parts should inherit."""
-            combined = dict_tools.dictMerge(series_block, part_block)
-            return SmdInductorProperties(combined)
+            dict_tools.dict_merge(series_block, part_block)
+            return SmdInductorProperties(part_block)
 
         if "csv" in series_block:
             csv_file = series_block["csv"]

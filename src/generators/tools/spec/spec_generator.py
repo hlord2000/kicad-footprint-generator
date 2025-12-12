@@ -107,14 +107,12 @@ def get_spec_dicts(
             for del_key in del_keys:
                 del yaml_dict[del_key]
             yaml_dict.update(series_dict)
-            dict_tools.dictInherit(yaml_dict)
+            dict_tools.dict_inherit(yaml_dict)
             if "default_parameters" in yaml_dict.keys():
                 default_parameters: D = yaml_dict.pop("default_parameters")
                 for id, spec in yaml_dict.items():
-                    # TODO: Maybe a deep copy is needed instead of a shallow one:
-                    yaml_dict.update(
-                        {id: dict_tools.dictMerge(default_parameters.copy(), spec)}
-                    )
+                    dict_tools.dict_merge(default_parameters, spec)
+                    yaml_dict[id] = spec
             specs_raw.append((file_name, yaml_dict))
     return specs_raw
 
@@ -288,10 +286,8 @@ def get_spec_dict_for_series(series_data: D, file_name: str) -> DD:
                 inherit_param_name = param_key[len("inherit_") :]
                 inherit_def = get_part_with_parameter(inherit_param_name, value)
                 del part_dict[param_key]
-                series_dict_of_inheriting_parts.update(
-                    # TODO: Maybe a deep copy is needed instead of a shallow one:
-                    {key: dict_tools.dictMerge(inherit_def.copy(), part_dict)}
-                )
+                dict_tools.dict_merge(inherit_def, part_dict)
+                series_dict_of_inheriting_parts[key] = part_dict
                 break
     series_dict.update(series_dict_of_inheriting_parts)
     return series_dict

@@ -463,11 +463,10 @@ class FPconfiguration():
         pad1_spec = first_pin_spec.get("pad", {})
 
         # The pad1 spec is the normal pad spec, updated with the pin 1 defaults, then the pin 1 spec
-        merged_spec = copy.deepcopy(pad_spec)
-        dict_tools.dictMerge(merged_spec, pad1_defaults)
-        dict_tools.dictMerge(merged_spec, pad1_spec)
+        dict_tools.dict_merge(pad_spec, pad1_defaults)
+        dict_tools.dict_merge(pad1_defaults, pad1_spec)
 
-        self.pad1_properties = PadProperties(merged_spec, global_config)
+        self.pad1_properties = PadProperties(pad1_spec, global_config)
 
         ## body chamfer at pin1 corner
         self.pin1_body_chamfer = first_pin_spec.get("body_chamfer", 0.0)

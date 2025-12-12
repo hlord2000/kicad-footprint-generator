@@ -182,7 +182,7 @@ class AdditionalDrawing(ABC):
         if specs is not None:
 
             # process inheritance of the drawing definitions
-            dict_tools.dictInherit(specs)
+            dict_tools.dict_inherit(specs)
 
             for key_name, rule_area_spec in specs.items():
                 add_dwg = cls(rule_area_spec, key_name)
