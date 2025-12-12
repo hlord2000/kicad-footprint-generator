@@ -176,9 +176,16 @@ Converter_DCDC_TRACO_TEC2-12xxWI_24xxWI_48xxWI_THT:
 
 Converter_DCDC_TRACO_TEC3-24xxUI_THT:
   library_name: 'Converter_DCDC'
-  description: "DCDC-Converter, TRACO, TEC3-24xxUI, 3W, Rev. July 31. 2024"
+  description: "DCDC-Converter, TRACO, TEC3-24xxUI, 3W, Rev. September 17. 2025"
   datasheet: "https://www.tracopower.com/products/tec3ui.pdf"
-  tags: "DCDC-Converter TRACO TEC3UI THT SIP-8 3W"
+  tags: "DCDC-Converter TRACO THT SIP-8 3W TEC3UI"
+  compatible_mpns:
+    # https://www.tracopower.com/products/tec1ui.pdf
+    - TEC1UI
+    # https://www.tracopower.com/products/tec6.pdf
+    - TEC6
+    # https://www.tracopower.com/products/tec6ui.pdf
+    - TEC6UI
   extratexts: []
   arrow_points: East
   at: [-6.6, 2.26]
