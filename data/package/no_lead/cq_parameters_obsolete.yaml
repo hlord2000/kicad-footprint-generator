@@ -596,7 +596,7 @@ AVX_M620720:
   EP_chamfer: 0.0
   marker: "bar"
 
-Diodes_UDFN-10_1.0x2.5mm_P0.5mm:
+Diodes_UDFN-10_1x2.5mm_P0.5mm:
   size_source: 'https://www.diodes.com/assets/Package-Files/U-DFN2510-10-Type-CJ.pdf'
   library: Package_DFN_QFN
   body_size_x: 1.0125
