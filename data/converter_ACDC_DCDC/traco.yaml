@@ -414,9 +414,16 @@ Converter_DCDC_TRACO_THB10-xxxx_Single_THT:
 
 Converter_DCDC_TRACO_THL30-xxxxWI_THT:
   library_name: 'Converter_DCDC'
-  description: "DCDC-Converter, TRACO, THL 30-xxxxWI, 30W, Rev. September 11. 2025"
+  description: "DCDC-Converter, TRACO, THL 30-xxxxWI, 30W, Rev. September 17. 2025"
   datasheet: "https://www.tracopower.com/products/thl30wi.pdf"
-  tags: "DCDC-Converter TRACO THL30WI THT 1\"x1\" 30W"
+  tags: "DCDC-Converter TRACO THT 1\"x1\" 30W THL30WI"
+  compatible_mpns:
+    # https://www.tracopower.com/products/thl25wi.pdf
+    - THL25WI
+    # https://www.tracopower.com/products/thl25.pdf
+    - THL25
+    # https://www.tracopower.com/products/thl15wi.pdf
+    - THL15WI
   extratexts: []
   at: [-10.2, 2.5]
   size: [25.4, 25.4]
