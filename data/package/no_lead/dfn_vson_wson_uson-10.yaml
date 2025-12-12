@@ -575,6 +575,48 @@ WDFN-10-1EP_3x3mm_P0.5mm_EP1.8x2.5mm:
     paste_via_clearance: 0.1
     paste_avoid_via: False
 
+Microchip_USON-10-1EP_3x3mm_P0.5mm_EP1.8x2.5mm:
+  device_type: 'USON'
+  manufacturer: 'Microchip'
+  compatible_mpns:
+    - UDFN-10
+  size_source: 'https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20002281C.pdf#page=14'
+  ipc_class: 'qfn'
+  body_size_x:
+    nominal: 3.0
+    tolerance: 0
+  body_size_y:
+    nominal: 3.0
+    tolerance: 0
+  body_pcb_gap: 0.00 .. 0.05
+  overall_height: 0.45 .. 0.50 .. 0.55
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+  lead_shape: rounded
+  lead_height: 0.127
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+  EP_size_x:
+    minimum: 1.7
+    nominal: 1.8
+    maximum: 1.9
+  EP_size_y:
+    minimum: 2.4
+    nominal: 2.5
+    maximum: 2.6
+  EP_num_paste_pads: [1, 2]
+  thermal_vias:
+    grid: [1, 1]
+    count: [2, 3]
+    drill: 0.2
+
 ##############################################################################
 # Pitch 0.8 mm
 ##############################################################################
