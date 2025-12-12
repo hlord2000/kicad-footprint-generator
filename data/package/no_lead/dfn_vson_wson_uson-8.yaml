@@ -1466,6 +1466,41 @@ WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.0mm:
   EP_size_y: 4.0
   EP_num_paste_pads: [2, 2]
 
+QFN-8-1EP_6x5mm_P1.27mm_EP3.30x3.9mm:
+  library: Package_DFN_QFN # TEMPORARY, needs fix
+#
+# Generating instead: QFN-8-1EP_6x5mm_P1.27mm_EP3.4x4.2mm
+#
+# This is a DFN / SON actually
+  size_source: 'https://help.1nce.com/dev-hub/docs/sim-chips-iot-industrial'
+  device_type: 'QFN'
+  ipc_class: 'qfn'
+  body_size_x:
+    nominal: 6
+    tolerance: 0.15
+  body_size_y:
+    nominal: 5
+    tolerance: 0.15
+  overall_height:
+    nominal: 0.9
+    tolerance: 0.0
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 1.27
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.6
+    tolerance: 0.15
+  EP_size_x:
+    nominal: 3.4
+    tolerance: 0.0
+  EP_size_y:
+    nominal: 4.2
+    tolerance: 0.0
+  EP_num_paste_pads: [2, 2]
+
 WSON-8-1EP_6x5mm_P1.27mm_E3.4x4.3mm:
   size_source: 'http://www.winbond.com/resource-files/w25q32jv%20revg%2003272018%20plus.pdf (page 68)'
   device_type: 'WSON'
