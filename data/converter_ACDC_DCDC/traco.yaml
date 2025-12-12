@@ -851,6 +851,80 @@ Converter_DCDC_TRACO_TMU3-24xx_THT:
     ["tht", "4", 0, -7.62, 1.6, 1.6, 1.1]
   ]
 
+Converter_DCDC_TRACO_TMV-051xD_121xD_Dual_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TMV-051xD, TMV-121xD, Dual, 1W, Rev. October 28. 2025"
+  datasheet: "https://www.tracopower.com/products/tmv.pdf"
+  tags: "DCDC-Converter TRACO THT SIP-7 1W TMV"
+  extratexts: []
+  at: [-4.925, 2.1]
+  size: [6.1, 19.5]
+  body_position_tolerance: [0.25, 0.25]
+  # For future use
+  height: 10.2
+  pins: [
+    ["thtr", "1", 0, 0, 1.8, 1.8, 1],
+    ["tht", "2", 0, -2.54, 1.8, 1.8, 1],
+    ["tht", "5", 0, -10.16, 1.8, 1.8, 1],
+    ["tht", "6", 0, -12.7, 1.8, 1.8, 1],
+    ["tht", "7", 0, -15.24, 1.8, 1.8, 1]
+  ]
+
+Converter_DCDC_TRACO_TMV-051xS_121xS_Single_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TMV-051xS, TMV-121xS, Single, 1W, Rev. October 28. 2025"
+  datasheet: "https://www.tracopower.com/products/tmv.pdf"
+  tags: "DCDC-Converter TRACO THT SIP-7 1W TMV"
+  extratexts: []
+  at: [-4.925, 2.1]
+  size: [6.1, 19.5]
+  body_position_tolerance: [0.25, 0.25]
+  # For future use
+  height: 10.2
+  pins: [
+    ["thtr", "1", 0, 0, 1.8, 1.8, 1],
+    ["tht", "2", 0, -2.54, 1.8, 1.8, 1],
+    ["tht", "5", 0, -10.16, 1.8, 1.8, 1],
+    ["tht", "7", 0, -15.24, 1.8, 1.8, 1]
+  ]
+
+Converter_DCDC_TRACO_TMV-241xD_Dual_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TMV-251xD, Dual, 1W, Rev. October 28. 2025"
+  datasheet: "https://www.tracopower.com/products/tmv.pdf"
+  tags: "DCDC-Converter TRACO THT SIP-7 1W TMV"
+  extratexts: []
+  at: [-5.925, 2.1]
+  size: [7.1, 19.5]
+  body_position_tolerance: [0.25, 0.25]
+  # For future use
+  height: 10.2
+  pins: [
+    ["thtr", "1", 0, 0, 1.8, 1.8, 1],
+    ["tht", "2", 0, -2.54, 1.8, 1.8, 1],
+    ["tht", "5", 0, -10.16, 1.8, 1.8, 1],
+    ["tht", "6", 0, -12.7, 1.8, 1.8, 1],
+    ["tht", "7", 0, -15.24, 1.8, 1.8, 1]
+  ]
+
+Converter_DCDC_TRACO_TMV-241xS_Single_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TMV-241xS, Single, 1W, Rev. October 28. 2025"
+  datasheet: "https://www.tracopower.com/products/tmv.pdf"
+  tags: "DCDC-Converter TRACO THT SIP-7 1W TMV"
+  extratexts: []
+  at: [-5.925, 2.1]
+  size: [7.1, 19.5]
+  body_position_tolerance: [0.25, 0.25]
+  # For future use
+  height: 10.2
+  pins: [
+    ["thtr", "1", 0, 0, 1.8, 1.8, 1],
+    ["tht", "2", 0, -2.54, 1.8, 1.8, 1],
+    ["tht", "5", 0, -10.16, 1.8, 1.8, 1],
+    ["tht", "7", 0, -15.24, 1.8, 1.8, 1]
+  ]
+
 Converter_DCDC_TRACO_TOS06-05SIL_THT:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TOS06-05SIL, 6A, Rev. March 20. 2024"
