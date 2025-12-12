@@ -756,6 +756,27 @@ Converter_ACDC_TRACO_TMPW25_1xx_THT:
     ["tht", "4", 45.7, -21.5, 2.3, 2.3, 1.5]
   ]
 
+Converter_DCDC_TRACO_TMR2-xxxxWI_THT:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TMR2-xxxxWI, 2W, Rev. October 7. 2025"
+  datasheet: "https://www.tracopower.com/products/tmr2wi.pdf"
+  tags: "DCDC-Converter TRACO THT SIP-9 2W TMR2WI"
+  extratexts: []
+  at: [-2, 2.875]
+  size: [25.95, 9.25]
+  body_position_tolerance: [0.5, 0.5]
+  # For future use
+  height: 12.45
+  pins: [
+    ["thtr", "1", 0, 0, 1.8, 1.8, 1],
+    ["tht", "2", 2.54, 0, 1.8, 1.8, 1],
+    ["tht", "3", 5.08, 0, 1.8, 1.8, 1],
+    ["tht", "6", 12.7, 0, 1.8, 1.8, 1],
+    ["tht", "7", 15.24, 0, 1.8, 1.8, 1],
+    ["tht", "8", 17.78, 0, 1.8, 1.8, 1],
+    ["tht", "9", 20.32, 0, 1.8, 1.8, 1]
+  ]
+
 Converter_DCDC_TRACO_TMR4-xxxxWI_THT:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TMR4-xxxxWI, 4W, Rev. December 06. 2023"
