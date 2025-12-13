@@ -26,27 +26,39 @@ from kilibs.geom import Vector2D
 
 
 class IpcRotation(Enum):
+    """The component zero orientation."""
+
     A = "A"
+    """Pin 1 on the top left."""
     B = "B"
+    """Pin 1 on the bottom left."""
 
 
 class PadName(Enum):
+    """Names of the special pads such as mechanical and shield pads."""
+
     MECHANICAL = "mechanical"
+    """The name for mechanical pads."""
     SHIELD = "shield"
+    """The name for shield pads."""
 
 
 class FieldPosition(Enum):
+    """An enum for the position of fields such as text fields."""
+
     INSIDE = "inside"
+    """Place the field inside the component."""
     OUTSIDE_TOP = "outside_top"
+    """Place the field above the component."""
     OUTSIDE_BOTTOM = "outside_bottom"
+    """Place the field below the component."""
 
 
 class LayerTextProperties:
     """
     This describes the properties of text on a given layer.
 
-    Generally it will be the allowed size range, and the thickness ratio
-    for the font.
+    Generally it will be the allowed size range, and the thickness ratio for the font.
     """
 
     def __init__(
@@ -56,7 +68,28 @@ class LayerTextProperties:
         size_min: float,
         thickness_ratio: float,  # usually 0.15
         width_ratio: float,  # usually 1.0 for "square" text
-    ):
+    ) -> None:
+        """Create an instance of `LayerTextProperties`.
+
+        Args:
+            size_nom: The nominal height of the text.
+            size_max: The maximum height of the text.
+            size_min: The minimum height of the text.
+            thickness_ratio: The ratio between the font thickness and its height.
+            width_ratio: The ratio between the text width and its height.
+        """
+        # Instance attributes:
+        self.size_nom: float
+        """The nominal height of the text."""
+        self.size_max: float
+        """The maximum height of the text."""
+        self.size_min: float
+        """The minimum height of the text."""
+        self.thickness_ratio: float
+        """The ratio between the font thickness and its height."""
+        self.width_ratio: float
+        """The ratio between the text width and its height."""
+
         self.size_nom = size_nom
         self.size_max = size_max
         self.size_min = size_min
@@ -64,6 +97,18 @@ class LayerTextProperties:
         self.width_ratio = width_ratio
 
     def clamp_size(self, height: float) -> tuple[Vector2D, float]:
+        """Clamp the height, round it to 2 decimal places and return the width, height
+        and thickness.
+
+        Args:
+            height: The desired height of the text.
+
+        Returns:
+            A tuple containing:
+             * A vector with the width and height of the text in the first argument,
+             * The thickness of the text.
+
+        """
         size = min(self.size_max, max(self.size_min, height))
 
         size = round(size, 2)
@@ -73,13 +118,29 @@ class LayerTextProperties:
 
 
 class FieldProperties:
+    """A class for the properties of a text field."""
 
     def __init__(
         self,
         layer: str,
         position_y: FieldPosition | str,
         autosize: bool,
-    ):
+    ) -> None:
+        """Create an instance of `FieldProperties`.
+
+        Args:
+            layer: The layer.
+            position_y: The position of the text field on the y-axis.
+            autosize: Whether to automatically adjust the size or not.
+        """
+        # Instance attributes:
+        self.layer: str
+        """The layer."""
+        self.position_y: FieldPosition
+        """The position of the text field on the y-axis."""
+        self.autosize: bool
+        """Whether to automatically adjust the size or not."""
+
         self.layer = layer
         self.position_y = FieldPosition(position_y)
         self.autosize = autosize
@@ -97,53 +158,89 @@ class GlobalConfig:
     """
 
     class CourtyardType(Enum):
+        """The type of the courtyard."""
+
         DEFAULT = auto()
+        """Courtyard for default components."""
         BGA = auto()
+        """Courtyard for BGA components."""
         CONNECTOR = auto()
+        """Courtyard for connectors."""
         CRYSTAL = auto()
-
-    courtyard_line_width: float
-    courtyard_grid: float
-
-    silk_line_width: float
-    silk_pad_clearance: float
-    silk_fab_offset: float
-    silk_line_length_min: float
-
-    fab_line_width: float
-    fab_bevel_size_absolute: float
-    fab_bevel_size_relative: float
-    fab_pin1_marker_length: float
-    """The length of a fab-layer pin1 chevron marker (in mm)"""
-
-    edge_cuts_line_width: float
-
-    # The default line width for anything without a specific
-    # default (e.g. silk, fab, etc)
-    default_line_width: float
-
-    # Includes trailing '/'
-    model_3d_prefix: str
-
-    # Includes leading '.'
-    model_3d_suffix: str
-
-    _layer_functions: dict[str, str]
-
-    _pad_names: dict[str, str]
-
-    _layer_text_properties: dict[str, LayerTextProperties]
-
-    reference_fields: list[FieldProperties]
-    value_fields: list[FieldProperties]
-
-    handsoldering_suffix: str
+        """Courtyard for crystal."""
 
     def __init__(self, data: dict[str, Any]):
         """
-        Initialise from some dictonary of data (likely a
-        config_KLC YAML or similar)
+        Initialise from some dictonary of data (likely a config_KLC YAML or similar).
         """
+
+        # Instance attributes:
+        self.courtyard_line_width: float
+        """The line width of the courtyard outline."""
+        self.courtyard_grid: float
+        """The grid of the courtyard."""
+        self.silk_line_width: float
+        """The line width of the silk screen."""
+        self.silk_pad_clearance: float
+        """The minimum clearance between pads and silk."""
+        self.silk_fab_offset: float
+        """The minimum distance between the centers of lines on silk and fab."""
+        self.silk_line_length_min: float
+        """The minimum length of a line on the silk screen."""
+        self.fab_line_width: float
+        """The width of lines on the fab layer."""
+        self.fab_bevel_size_absolute: float
+        """The maximum size of the bevel on the fab outline in mm."""
+        self.fab_bevel_size_relative: float
+        """The relative size of the bevel on the fab outline in mm. The actual bevel
+        size is obtained by multiplying the shorter side of the fab outline with this
+        number.
+        """
+        self.fab_pin1_marker_length: float
+        """The length of a fab-layer pin1 chevron marker (in mm)."""
+        self.edge_cuts_line_width: float
+        """The width of lines on the edge cuts layer."""
+        self.default_line_width: float
+        """The default line width for anything without a specific default (e.g. silk,
+        fab, etc.).
+        """
+        self.model_3d_prefix: str
+        """The prefix of the path to 3D models. Includes trailing '/'."""
+        self.model_3d_suffix: str
+        """The suffix of folders containing 3D models. Includes leading '.'."""
+        self._layer_functions: dict[str, str]
+        """The mapping of functional layers to board layers."""
+        self._pad_names: dict[str, str]
+        """The mapping between the functional names of pads and their names in the
+        footprints."""
+        self._layer_text_properties: dict[str, LayerTextProperties]
+        """Global settings for text properties on given layers."""
+        self.reference_fields: list[FieldProperties]
+        """The list of field properties of reference fields (on fab and silk)."""
+        self.value_fields: list[FieldProperties]
+        """The field properties of the value field."""
+        self.handsoldering_suffix: str
+        """The suffix added to hand soldering versions of footprints."""
+        self.round_rect_default_radius: float
+        """The default radius of round rect pads."""
+        self.round_rect_max_radius: float
+        """The maximum radius of round rect pads."""
+        self._ep_round_rect_default_radius: float
+        """The default radius of round rect exposed pads."""
+        self._ep_round_rect_max_radius: float
+        """The maximum radius of round rect exposed pads."""
+        self._paste_round_rect_default_radius: float
+        """The default radius of the round rect paste."""
+        self._paste_round_rect_max_radius: float
+        """The maximum radius of round rect paste."""
+        self._cy_offs: dict[GlobalConfig.CourtyardType, float]
+        """The mapping of the courtyard types to their clearance."""
+        self._rotation_suffix_pattern: str
+        """The suffix added to the file name when a specific rotation pattern (Level
+        "A" or "B") is selected.
+        """
+        self.raw_data = data
+        """The raw dict of the global config YAML."""
 
         self.courtyard_line_width = float(data["courtyard_line_width"])
         self.courtyard_grid = float(data["courtyard_grid"])
@@ -194,19 +291,22 @@ class GlobalConfig:
         self.reference_fields = [FieldProperties(**field) for field in data["references"]]  # fmt: skip
         self.value_fields = [FieldProperties(**field) for field in data["values"]]
 
-        self._rotation_suffix_pattern: str = data["rotation_suffix_pattern"]
+        self._rotation_suffix_pattern = data["rotation_suffix_pattern"]
 
         self.handsoldering_suffix = data["handsoldering_suffix"]
 
         self.raw_data = data
 
     def get_courtyard_offset(self, courtyard_type: CourtyardType) -> float:
+        """
+        Get the offset for the given courtyard.
+        """
         return self._cy_offs[courtyard_type]
 
     @property
     def roundrect_radius_handler(self) -> RoundRadiusHandler:
         """
-        Get the default pad radius handler for roundrects
+        The default pad radius handler for roundrects.
         """
         return RoundRadiusHandler(
             radius_ratio=self.round_rect_default_radius,
@@ -216,7 +316,7 @@ class GlobalConfig:
     @property
     def ep_roundrect_radius_handler(self) -> RoundRadiusHandler:
         """
-        Get the default pad radius handler for roundrect exposed/thermal pads
+        The default pad radius handler for roundrect exposed/thermal pads.
         """
         return RoundRadiusHandler(
             radius_ratio=self._ep_round_rect_default_radius,
@@ -226,7 +326,7 @@ class GlobalConfig:
     @property
     def paste_roundrect_radius_handler(self) -> RoundRadiusHandler:
         """
-        Get the default pad radius handler for roundrect paste pads
+        The default pad radius handler for roundrect paste pads.
         """
         return RoundRadiusHandler(
             radius_ratio=self._paste_round_rect_default_radius,
@@ -235,8 +335,7 @@ class GlobalConfig:
 
     def get_fab_bevel_size(self, overall_size: float) -> float:
         """
-        Get the bevel size for the fab layer, based on the overall size
-        of the part.
+        Get the bevel size for the fab layer, based on the overall size of the part.
         """
         return min(
             self.fab_bevel_size_absolute, overall_size * self.fab_bevel_size_relative
@@ -245,7 +344,7 @@ class GlobalConfig:
     @property
     def fab_bevel(self) -> ChamferSizeHandler:
         """
-        Get the default fab bevel size handler
+        The default fab bevel size handler.
         """
         return ChamferSizeHandler(
             maximum_chamfer=self.fab_bevel_size_absolute,
@@ -255,18 +354,21 @@ class GlobalConfig:
     @property
     def silk_pad_offset(self) -> float:
         """
-        Get the center offset for silk line centerline from the pad edge.
+        The center offset for silk line centerline from the pad edge.
 
-        This assumes the default silk line width and pad clearance
+        This assumes the default silk line width and pad clearance.
 
-        --------------
-        Silk line     ) ---
-        --------------   ^
-                         | silk-pad offset
-                         v
-        --------+ --------
-        Pad     |
-                |
+        .. aafig::
+
+            -------------+
+            Silk line    |-------
+            -------------+     ^
+                               | silk pad offset
+                               v
+            --------+------------
+            Pad     |
+            --------+
+
         """
 
         return self.silk_pad_clearance + self.silk_line_width / 2
@@ -274,7 +376,7 @@ class GlobalConfig:
     @property
     def silk_fab_clearance(self) -> float:
         """
-        Get the clearance between the silk and fab layers.
+        The clearance between the silk and fab layers.
 
         This is the distance from the silk line centerline to the fab line centerline.
         """
@@ -352,7 +454,7 @@ class GlobalConfig:
         Simple helper to open a global config from some data file.
 
         Args:
-            file_name: The file name.
+            path: The file name.
 
         If the filename is a path (with a YAML extension), use it directly, otherwise
         use the package data with that name.
@@ -375,7 +477,7 @@ class GlobalConfig:
 
 def DefaultGlobalConfig() -> GlobalConfig:
     """
-    Get a default global config object (the current KLC version)
+    Get a default global config object (the current KLC version).
 
     This should be used only for when a generator is not yet ported to
     FootprintGenerator or similar where the global config can be injected

@@ -148,14 +148,16 @@ class Container(Node, Generic[NodeType]):
         primitives.
 
         This method traverses the node hierarchy to:
+
         1. Collect all leaf nodes (or self, if atomic).
         2. Decompose composite nodes into their primitive components.
         3. Apply any active transformations (e.g., :py:class:`Translation`) to the
-            geometry.
+           geometry.
 
         Returns:
             A flat list of atomic nodes ready for serialization.
-            Note: Transformed nodes are returned as new instances (copies)."""
+            Note: Transformed nodes are returned as new instances (copies).
+        """
 
         nodes: list[Node] = []
         for child in self._children:

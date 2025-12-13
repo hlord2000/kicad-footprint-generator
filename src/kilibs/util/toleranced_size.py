@@ -6,11 +6,23 @@ from typing import Any
 
 from kilibs.geom.operations import round_to_grid_nearest
 
+"""Dimensions with tolerances."""
+
 
 class TolerancedSize:
+    """A class for dimensions with tolerances."""
 
     @staticmethod
     def to_metric(value: float, unit: str | None = None) -> float:
+        """Convert the dimension to metric.
+
+        Args:
+            value: The value of the dimension in its own unit.
+            unit: The unit of `value`.
+
+        Returns:
+            The given dimension in mm.
+        """
         if unit == "inch":
             factor = 25.4
         elif unit == "mil":
@@ -27,6 +39,15 @@ class TolerancedSize:
         tolerance: float | list[float] | None = None,
         unit: str | None = None,
     ) -> None:
+        """Initialize an instance of `TolerancedSize`.
+
+        Args:
+            minimum: The minimum dimension.
+            nominal: The nominal dimension.
+            maximum: The maximum dimension.
+            tolerance: The tolerance of the dimension.
+            unit: The unit of the dimension.
+        """
 
         # Instance attributes:
         self.minimum: float
@@ -94,6 +115,12 @@ class TolerancedSize:
         self.minimum_RMS = self.minimum
 
     def update_rms(self, tolerances: list[float]) -> None:
+        """Update the RMS tolerances with the ones passed as argument.
+
+        Args:
+            tolerances: The list of tolerances used to calculate and upate the RMS
+                tolerances of.
+        """
         ipc_tol_RMS = 0.0
         for t in tolerances:
             ipc_tol_RMS += t**2
@@ -115,6 +142,7 @@ class TolerancedSize:
         self.minimum_RMS = self.minimum + (self.ipc_tol - self.ipc_tol_RMS) / 2
 
     def __add__(self, other: int | float | TolerancedSize) -> TolerancedSize:
+        """Add a number or a `TolerancedSize` instance to `TolerancedSize` instance."""
         if isinstance(other, int | float):
             result = TolerancedSize(
                 minimum=self.minimum + other, maximum=self.maximum + other
@@ -128,6 +156,9 @@ class TolerancedSize:
         return result
 
     def __sub__(self, other: int | float | TolerancedSize) -> TolerancedSize:
+        """Subtract a number or a `TolerancedSize` instances from a `TolerancedSize`
+        instance.
+        """
         if isinstance(other, int | float):
             result = TolerancedSize(
                 minimum=self.minimum - other, maximum=self.maximum - other
@@ -141,6 +172,7 @@ class TolerancedSize:
         return result
 
     def __mul__(self, other: int | float) -> TolerancedSize:
+        """Multiply the `TolerancedSize` with a number."""
         if type(other) not in [int, float]:
             raise NotImplementedError(
                 "Only multiplication with int and float is implemented right now."
@@ -152,9 +184,11 @@ class TolerancedSize:
         return result
 
     def __div__(self, other: int | float) -> TolerancedSize:
+        """Divide the `TolerancedSize` by a number."""
         return self.__truediv__(other)
 
     def __truediv__(self, other: int | float) -> TolerancedSize:
+        """Divide the `TolerancedSize` by a number."""
         if type(other) not in [int, float]:
             raise NotImplementedError(
                 "Only multiplication with int and float is implemented right now."
@@ -166,6 +200,7 @@ class TolerancedSize:
         return result
 
     def __floordiv__(self, other: int | float) -> TolerancedSize:
+        """Divide the `TolerancedSize` by a number and floor the result."""
         if type(other) not in [int, float]:
             raise NotImplementedError(
                 "Only multiplication with int and float is implemented right now."
@@ -180,6 +215,15 @@ class TolerancedSize:
     def from_string(
         input: str | int | float, unit: str | None = None
     ) -> TolerancedSize:
+        """Create a `TolerancedSize` from a string or number.
+
+        Args:
+            input: The string or number to create the `TolerancedSize` from.
+            unit: The unit of the input.
+
+        Returns:
+            A new instance of `TolerancedSize` based on the input and unit.
+        """
         minimum = None
         nominal = None
         maximum = None
@@ -246,6 +290,14 @@ class TolerancedSize:
         base_name: str | None = None,
         unit: str | None = None,
     ) -> TolerancedSize:
+        """Create a `TolerancedSize` from a dictionary entry or string.
+
+        Args:
+            yaml: The dictionary or string input.
+            base_name: The base name of the tolerance. That is the name without "_min",
+                "_max" or "_tol" at the end.
+            unit: The unit of the dimension.
+        """
         if base_name is not None and isinstance(yaml, dict):
             if (
                 base_name + "_min" in yaml
@@ -275,15 +327,19 @@ class TolerancedSize:
             return TolerancedSize.from_string(yaml, unit)
 
     def __str__(self) -> str:
+        """Return the string representation of the `TolerancedSize`."""
         return self.__repr__()
 
     def __repr__(self) -> str:
+        """Return the string representation of the `TolerancedSize`."""
         return "nom: {}, min: {}, max: {}  | min_rms: {}, max_rms: {}".format(
             self.nominal, self.minimum, self.maximum, self.minimum_RMS, self.maximum_RMS
         )
 
 
 class TolerancedSizeHandler:
+    """A handler to facilitate extracting toleranced sizes from specs."""
+
     def __init__(self, dictionary: dict[str, Any], unit: str | None = None) -> None:
         """Create an instance of TolerancedSizeHandler.
 

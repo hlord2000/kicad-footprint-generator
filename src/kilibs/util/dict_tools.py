@@ -23,9 +23,17 @@ def dict_merge(defaults: dict[Any, Any], dictionary: dict[Any, Any]) -> None:
     `defaults` that `dictionary` does not yet contain.
 
     If both `defaults` and `dictionary` contain the same key:
-    - If the values are both dictionaries, they are merged recursively (`dictionary`is
-      completed with a deep copy of the key-value pairs from `default`).
-    - Otherwise, the value in `dictionary` is kept (`dictionary` takes precedence).
+
+    * If the values are both dictionaries, they are merged recursively (`dictionary`
+      is completed with a deep copy of the key-value pairs from `default`).
+    * Otherwise, the value in `dictionary` is kept (`dictionary` takes precedence).
+
+    Example:
+        >>> defaults = {"a": 1, "b": {"b1": 2, "b2": 3}}
+        >>> dictionary = {"a": 2, "b": {"b2": 4}}
+        >>> dict_merge(defaults, dictionary)
+        >>> print(dictionary)
+            {"a": 2, "b": {"b1": 2, "b2": 4}}
 
     Args:
         defaults: Dictionary providing default/fall-back values.
