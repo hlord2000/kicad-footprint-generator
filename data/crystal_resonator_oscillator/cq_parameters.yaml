@@ -261,6 +261,26 @@ SMD_1210-4Pin:
   destination_dir: 'Crystal.3dshapes'
   source: 'https://ecsxtal.com/store/pdf/ECX-1048.pdf'
 
+SMD_2016-4Pin_2.0x1.6mm:
+  type: 1
+  file_name: Crystal_SMD_2016-4Pin_2.0x1.6mm
+  L: 2.0
+  W: 1.6
+  H: 0.9
+  A1: 0.0
+  p_cnt: 4
+  p_split_x: 1.27
+  p_split_y: 0.975
+  p_length: 0.57
+  p_width: 0.475
+  body_top_color_key: metal aluminum
+  body_color_key: gold pins
+  bottom_color_key: black body
+  pin_color_key: metal grey pins
+  rotation: 0
+  destination_dir: 'Crystal.3dshapes'
+  source: 'https://image.seapx.com/mall/yangxin/3/20240516/YXC-YSO110TR-datesheet-V2-202654.pdf'
+
 SMD_2520-4Pin:
   type: 1
   file_name: Crystal_SMD_2520-4Pin_2.5x2.0mm
