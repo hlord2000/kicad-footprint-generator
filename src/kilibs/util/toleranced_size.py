@@ -93,7 +93,7 @@ class TolerancedSize:
         self.maximum_RMS = self.maximum
         self.minimum_RMS = self.minimum
 
-    def updateRMS(self, tolerances: list[float]) -> None:
+    def update_rms(self, tolerances: list[float]) -> None:
         ipc_tol_RMS = 0.0
         for t in tolerances:
             ipc_tol_RMS += t**2
@@ -124,7 +124,7 @@ class TolerancedSize:
         result = TolerancedSize(
             minimum=self.minimum + other.minimum, maximum=self.maximum + other.maximum
         )
-        result.updateRMS([self.ipc_tol_RMS, other.ipc_tol_RMS])
+        result.update_rms([self.ipc_tol_RMS, other.ipc_tol_RMS])
         return result
 
     def __sub__(self, other: int | float | TolerancedSize) -> TolerancedSize:
@@ -137,7 +137,7 @@ class TolerancedSize:
         result = TolerancedSize(
             minimum=self.minimum - other.maximum, maximum=self.maximum - other.minimum
         )
-        result.updateRMS([self.ipc_tol_RMS, other.ipc_tol_RMS])
+        result.update_rms([self.ipc_tol_RMS, other.ipc_tol_RMS])
         return result
 
     def __mul__(self, other: int | float) -> TolerancedSize:
@@ -148,7 +148,7 @@ class TolerancedSize:
         result = TolerancedSize(
             minimum=self.minimum * other, maximum=self.maximum * other
         )
-        result.updateRMS([self.ipc_tol_RMS * math.sqrt(other)])
+        result.update_rms([self.ipc_tol_RMS * math.sqrt(other)])
         return result
 
     def __div__(self, other: int | float) -> TolerancedSize:
@@ -162,7 +162,7 @@ class TolerancedSize:
         result = TolerancedSize(
             minimum=self.minimum / other, maximum=self.maximum / other
         )
-        result.updateRMS([self.ipc_tol_RMS / math.sqrt(other)])
+        result.update_rms([self.ipc_tol_RMS / math.sqrt(other)])
         return result
 
     def __floordiv__(self, other: int | float) -> TolerancedSize:
@@ -173,11 +173,13 @@ class TolerancedSize:
         result = TolerancedSize(
             minimum=self.minimum // other, maximum=self.maximum // other
         )
-        result.updateRMS([self.ipc_tol_RMS // math.sqrt(other)])
+        result.update_rms([self.ipc_tol_RMS // math.sqrt(other)])
         return result
 
     @staticmethod
-    def fromString(input: str | int | float, unit: str | None = None) -> TolerancedSize:
+    def from_string(
+        input: str | int | float, unit: str | None = None
+    ) -> TolerancedSize:
         minimum = None
         nominal = None
         maximum = None
@@ -239,7 +241,7 @@ class TolerancedSize:
         )
 
     @staticmethod
-    def fromYaml(
+    def from_yaml(
         yaml: dict[str, Any] | str,
         base_name: str | None = None,
         unit: str | None = None,
@@ -257,7 +259,7 @@ class TolerancedSize:
                     tolerance=yaml.get(base_name + "_tol"),
                 )
             elif (yaml_base := yaml.get(base_name)) is not None:
-                return TolerancedSize.fromYaml(yaml_base, unit=unit)
+                return TolerancedSize.from_yaml(yaml_base, unit=unit)
             else:
                 raise ValueError(f"Could not find {base_name} in the YAML file.")
 
@@ -270,7 +272,7 @@ class TolerancedSize:
                 unit=unit,
             )
         else:
-            return TolerancedSize.fromString(yaml, unit)
+            return TolerancedSize.from_string(yaml, unit)
 
     def __str__(self) -> str:
         return self.__repr__()
@@ -315,7 +317,7 @@ class TolerancedSizeHandler:
         """
         if isinstance(base_name, str):
             try:
-                return TolerancedSize.fromYaml(
+                return TolerancedSize.from_yaml(
                     yaml=self.dictionary, base_name=base_name, unit=self.unit
                 )
             except ValueError:
@@ -323,7 +325,7 @@ class TolerancedSizeHandler:
         else:
             for name in base_name:
                 try:
-                    return TolerancedSize.fromYaml(
+                    return TolerancedSize.from_yaml(
                         yaml=self.dictionary, base_name=name, unit=self.unit
                     )
                 except ValueError:

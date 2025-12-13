@@ -124,10 +124,10 @@ class TwoTerminalSMD:
     @staticmethod
     def deviceDimensions(device_size_data):
         dimensions = {
-            "body_length": TolerancedSize.fromYaml(
+            "body_length": TolerancedSize.from_yaml(
                 device_size_data, base_name="body_length"
             ),
-            "body_width": TolerancedSize.fromYaml(
+            "body_width": TolerancedSize.from_yaml(
                 device_size_data, base_name="body_width"
             ),
         }
@@ -136,7 +136,7 @@ class TwoTerminalSMD:
             and "terminator_spacing_min" in device_size_data
             or "terminator_spacing" in device_size_data
         ):
-            dimensions["terminator_spacing"] = TolerancedSize.fromYaml(
+            dimensions["terminator_spacing"] = TolerancedSize.from_yaml(
                 device_size_data, base_name="terminator_spacing"
             )
         elif (
@@ -144,7 +144,7 @@ class TwoTerminalSMD:
             and "terminal_length_min" in device_size_data
             or "terminal_length" in device_size_data
         ):
-            dimensions["terminal_length"] = TolerancedSize.fromYaml(
+            dimensions["terminal_length"] = TolerancedSize.from_yaml(
                 device_size_data, base_name="terminal_length"
             )
         else:
@@ -157,7 +157,7 @@ class TwoTerminalSMD:
             and "terminal_width_max" in device_size_data
             or "terminal_width" in device_size_data
         ):
-            dimensions["terminal_width"] = TolerancedSize.fromYaml(
+            dimensions["terminal_width"] = TolerancedSize.from_yaml(
                 device_size_data, base_name="terminal_width"
             )
 

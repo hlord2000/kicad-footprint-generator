@@ -71,10 +71,10 @@ def create_footprint(generator_name, name, configuration, ipc_definitions, **kwa
 
     # ensure all provided dimensions are fully toleranced
     device_dimensions = {
-        'body_length': TolerancedSize.fromYaml(kwargs, base_name='body_length'),
-        'body_width': TolerancedSize.fromYaml(kwargs, base_name='body_width'),
-        'body_height': TolerancedSize.fromYaml(kwargs, base_name='body_height'),
-        'body_diameter': TolerancedSize.fromYaml(kwargs, base_name='body_diameter')
+        'body_length': TolerancedSize.from_yaml(kwargs, base_name='body_length'),
+        'body_width': TolerancedSize.from_yaml(kwargs, base_name='body_width'),
+        'body_height': TolerancedSize.from_yaml(kwargs, base_name='body_height'),
+        'body_diameter': TolerancedSize.from_yaml(kwargs, base_name='body_diameter')
     }
 
     # for ease of use, capture nominal body and pad sizes
@@ -140,9 +140,9 @@ def create_footprint(generator_name, name, configuration, ipc_definitions, **kwa
         )
 
         # # fully tolerance lead dimensions; leads are dimensioned like SOIC so use gullwing calculator
-        device_dimensions['lead_width'] = TolerancedSize.fromYaml(kwargs, base_name='lead_width')
-        device_dimensions['lead_spacing'] = TolerancedSize.fromYaml(kwargs, base_name='lead_spacing')
-        device_dimensions['lead_length'] = TolerancedSize.fromYaml(kwargs, base_name='lead_length')
+        device_dimensions['lead_width'] = TolerancedSize.from_yaml(kwargs, base_name='lead_width')
+        device_dimensions['lead_spacing'] = TolerancedSize.from_yaml(kwargs, base_name='lead_spacing')
+        device_dimensions['lead_length'] = TolerancedSize.from_yaml(kwargs, base_name='lead_length')
         device_dimensions['lead_outside'] = TolerancedSize(maximum =
             device_dimensions['lead_spacing'].maximum +
             device_dimensions.get('lead_length').maximum * 2,

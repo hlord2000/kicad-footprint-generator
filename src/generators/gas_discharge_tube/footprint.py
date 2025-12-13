@@ -44,8 +44,8 @@ class GDTBodyPropertiesSMDCylinder(GDTBodyProperties):
     body_diameter: TolerancedSize
 
     def __init__(self, spec: SpecDict):
-        self.body_length = TolerancedSize.fromString(spec["body_length"])
-        self.body_diameter = TolerancedSize.fromString(spec["body_diameter"])
+        self.body_length = TolerancedSize.from_string(spec["body_length"])
+        self.body_diameter = TolerancedSize.from_string(spec["body_diameter"])
         self.num_pads = int(spec["num_pads"])
 
 
@@ -60,11 +60,11 @@ class GDTBodyPropertiesTHTCylinder(GDTBodyProperties):
     lead_diameter: TolerancedSize
 
     def __init__(self, spec: SpecDict):
-        self.body_length = TolerancedSize.fromString(spec["body_length"])
-        self.body_diameter = TolerancedSize.fromString(spec["body_diameter"])
-        self.lead_spacing = TolerancedSize.fromString(spec["lead_spacing"])
-        self.lead_diameter = TolerancedSize.fromString(spec["lead_diameter"])
-        self.total_length = TolerancedSize.fromString(spec["total_length"])
+        self.body_length = TolerancedSize.from_string(spec["body_length"])
+        self.body_diameter = TolerancedSize.from_string(spec["body_diameter"])
+        self.lead_spacing = TolerancedSize.from_string(spec["lead_spacing"])
+        self.lead_diameter = TolerancedSize.from_string(spec["lead_diameter"])
+        self.total_length = TolerancedSize.from_string(spec["total_length"])
 
         self.num_pads = int(spec["num_pads"])
 

@@ -36,13 +36,13 @@ class TopSlugConfiguration:
         if self.shape not in ["rectangle", "cruciform"]:
             raise ValueError(f"Unsupported top slug shape: {self.shape}")
 
-        self.x = TolerancedSize.fromYaml(spec, base_name="x")
-        self.y = TolerancedSize.fromYaml(spec, base_name="y")
+        self.x = TolerancedSize.from_yaml(spec, base_name="x")
+        self.y = TolerancedSize.from_yaml(spec, base_name="y")
 
         self.tail_x = None
 
         if self.shape == "cruciform":
-            self.tail_x = TolerancedSize.fromYaml(spec, base_name="tail_x")
+            self.tail_x = TolerancedSize.from_yaml(spec, base_name="tail_x")
 
     def get_name_suffix(self) -> str:
 

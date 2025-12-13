@@ -47,13 +47,13 @@ class TopSlugConfiguration:
         if self.shape not in ["rectangle", "cruciform"]:
             raise ValueError(f"Unsupported top slug shape: {self.shape}")
 
-        self.x = TolerancedSize.fromYaml(spec, base_name="x")
-        self.y = TolerancedSize.fromYaml(spec, base_name="y")
+        self.x = TolerancedSize.from_yaml(spec, base_name="x")
+        self.y = TolerancedSize.from_yaml(spec, base_name="y")
 
         self.tail_x = None
 
         if self.shape == "cruciform":
-            self.tail_x = TolerancedSize.fromYaml(spec, base_name="tail_x")
+            self.tail_x = TolerancedSize.from_yaml(spec, base_name="tail_x")
 
     def get_name_suffix(self) -> str:
 
@@ -246,29 +246,29 @@ class GullwingSpec(PackageSpec):
     def _extract_dimensions(self) -> None:
         spec = self.spec
 
-        self.body_size_x = TolerancedSize.fromYaml(spec, base_name="body_size_x")
-        self.body_size_y = TolerancedSize.fromYaml(spec, base_name="body_size_y")
-        self.lead_width = TolerancedSize.fromYaml(spec, base_name="lead_width")
+        self.body_size_x = TolerancedSize.from_yaml(spec, base_name="body_size_x")
+        self.body_size_y = TolerancedSize.from_yaml(spec, base_name="body_size_y")
+        self.lead_width = TolerancedSize.from_yaml(spec, base_name="lead_width")
         if "lead_len" in spec:
-            self.lead_len = TolerancedSize.fromYaml(spec, base_name="lead_len")
+            self.lead_len = TolerancedSize.from_yaml(spec, base_name="lead_len")
         else:
             self.lead_len = None
             self.has_fp_data = False
         if "EP_size_x_min" in spec and "EP_size_x_max" in spec or "EP_size_x" in spec:
-            self.ep_size_x = TolerancedSize.fromYaml(spec, base_name="EP_size_x")
-            self.ep_size_y = TolerancedSize.fromYaml(spec, base_name="EP_size_y")
+            self.ep_size_x = TolerancedSize.from_yaml(spec, base_name="EP_size_x")
+            self.ep_size_y = TolerancedSize.from_yaml(spec, base_name="EP_size_y")
             self.has_ep = True
         else:
-            self.ep_size_x = TolerancedSize.fromString("0")
-            self.ep_size_y = TolerancedSize.fromString("0")
+            self.ep_size_x = TolerancedSize.from_string("0")
+            self.ep_size_y = TolerancedSize.from_string("0")
             self.has_ep = False
 
         if "EP_mask_x" in spec and "EP_mask_y" in spec:
-            self.ep_mask_x = TolerancedSize.fromYaml(spec, base_name="EP_mask_x")
-            self.ep_mask_y = TolerancedSize.fromYaml(spec, base_name="EP_mask_y")
+            self.ep_mask_x = TolerancedSize.from_yaml(spec, base_name="EP_mask_x")
+            self.ep_mask_y = TolerancedSize.from_yaml(spec, base_name="EP_mask_y")
         else:
-            self.ep_mask_x = TolerancedSize.fromString("0")
-            self.ep_mask_y = TolerancedSize.fromString("0")
+            self.ep_mask_x = TolerancedSize.from_string("0")
+            self.ep_mask_y = TolerancedSize.from_string("0")
 
         self.heel_reduction = spec.get("heel_reduction", 0.0)
 
@@ -278,19 +278,19 @@ class GullwingSpec(PackageSpec):
                 "(Outside to outside lead dimensions)"
             )
         if "overall_size_x" in spec:
-            self.overall_size_x = TolerancedSize.fromYaml(
+            self.overall_size_x = TolerancedSize.from_yaml(
                 spec, base_name="overall_size_x"
             )
         else:
-            self.overall_size_x = TolerancedSize.fromYaml(
+            self.overall_size_x = TolerancedSize.from_yaml(
                 spec, base_name="overall_size_y"
             )
         if "overall_size_y" in spec:
-            self.overall_size_y = TolerancedSize.fromYaml(
+            self.overall_size_y = TolerancedSize.from_yaml(
                 spec, base_name="overall_size_y"
             )
         else:
-            self.overall_size_y = TolerancedSize.fromYaml(
+            self.overall_size_y = TolerancedSize.from_yaml(
                 spec, base_name="overall_size_x"
             )
 
@@ -333,18 +333,18 @@ class GullwingSpec(PackageSpec):
             float | None, self.spec.get("lead_top_flat_part_length")
         )
         if "lead_height" in self.spec:
-            self.lead_height = TolerancedSize.fromYaml(self.spec, "lead_height").nominal
+            self.lead_height = TolerancedSize.from_yaml(self.spec, "lead_height").nominal
         else:
             self.lead_height = 0.0
             self.has_3d_data = False
         if "lead_radius_top" in self.spec:
-            self.lead_radius_top = TolerancedSize.fromYaml(
+            self.lead_radius_top = TolerancedSize.from_yaml(
                 self.spec, "lead_radius_top"
             ).nominal
         else:
             self.lead_radius_top = 0.75 * self.lead_height
         if "lead_radius_bottom" in self.spec:
-            self.lead_radius_bottom = TolerancedSize.fromYaml(
+            self.lead_radius_bottom = TolerancedSize.from_yaml(
                 self.spec, "lead_radius_bottom"
             ).nominal
         else:
@@ -361,13 +361,13 @@ class GullwingSpec(PackageSpec):
 
         # Body height parameters
         if "body_pcb_gap" in self.spec and "body_height" in self.spec:
-            self.body_pcb_gap = TolerancedSize.fromYaml(
+            self.body_pcb_gap = TolerancedSize.from_yaml(
                 self.spec, "body_pcb_gap"
             ).maximum
-            self.body_height = TolerancedSize.fromYaml(self.spec, "body_height").maximum
+            self.body_height = TolerancedSize.from_yaml(self.spec, "body_height").maximum
             self.overall_height = self.body_pcb_gap + self.body_height
             if "overall_height" in self.spec:
-                overall_height_explicit = TolerancedSize.fromYaml(
+                overall_height_explicit = TolerancedSize.from_yaml(
                     self.spec, "overall_height"
                 ).maximum
                 if abs(self.overall_height - overall_height_explicit) > 0.01:
@@ -379,16 +379,16 @@ class GullwingSpec(PackageSpec):
                         f"overall_height: {overall_height_explicit}"
                     )
         elif "body_pcb_gap" in self.spec and "overall_height" in self.spec:
-            self.body_pcb_gap = TolerancedSize.fromYaml(
+            self.body_pcb_gap = TolerancedSize.from_yaml(
                 self.spec, "body_pcb_gap"
             ).maximum
-            self.overall_height = TolerancedSize.fromYaml(
+            self.overall_height = TolerancedSize.from_yaml(
                 self.spec, "overall_height"
             ).maximum
             self.body_height = self.overall_height - self.body_pcb_gap
         elif "body_height" in self.spec and "overall_height" in self.spec:
-            self.body_height = TolerancedSize.fromYaml(self.spec, "body_height").maximum
-            self.overall_height = TolerancedSize.fromYaml(
+            self.body_height = TolerancedSize.from_yaml(self.spec, "body_height").maximum
+            self.overall_height = TolerancedSize.from_yaml(
                 self.spec, "overall_height"
             ).maximum
             self.body_pcb_gap = self.overall_height - self.body_height

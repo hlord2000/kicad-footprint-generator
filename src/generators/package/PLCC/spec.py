@@ -54,15 +54,15 @@ class PlccSpec(PackageSpec):
 
         unit = spec.get("units", "mm")
 
-        self.lead_width = TolerancedSize.fromYaml(spec, base_name='lead_width', unit=unit)
+        self.lead_width = TolerancedSize.from_yaml(spec, base_name='lead_width', unit=unit)
 
         self.pad_length_addition = float(spec.get("pad_length_addition", 0))
 
-        self.overall_x = TolerancedSize.fromYaml(spec, base_name='overall_size_x', unit=unit)
-        self.overall_y = TolerancedSize.fromYaml(spec, base_name='overall_size_y', unit=unit)
+        self.overall_x = TolerancedSize.from_yaml(spec, base_name='overall_size_x', unit=unit)
+        self.overall_y = TolerancedSize.from_yaml(spec, base_name='overall_size_y', unit=unit)
 
-        self.body_x = TolerancedSize.fromYaml(spec, base_name='body_size_x', unit=unit)
-        self.body_y = TolerancedSize.fromYaml(spec, base_name='body_size_y', unit=unit)
+        self.body_x = TolerancedSize.from_yaml(spec, base_name='body_size_x', unit=unit)
+        self.body_y = TolerancedSize.from_yaml(spec, base_name='body_size_y', unit=unit)
 
         self.lead_inside_x = None
         self.lead_inside_y = None
@@ -71,13 +71,13 @@ class PlccSpec(PackageSpec):
         self.lead_length = None
 
         if "lead_inside_x" in spec:
-            self.lead_inside_x = TolerancedSize.fromYaml(spec, base_name='lead_inside_x', unit=unit)
-            self.lead_inside_y = TolerancedSize.fromYaml(spec, base_name='lead_inside_y', unit=unit)
+            self.lead_inside_x = TolerancedSize.from_yaml(spec, base_name='lead_inside_x', unit=unit)
+            self.lead_inside_y = TolerancedSize.from_yaml(spec, base_name='lead_inside_y', unit=unit)
         elif "lead_center_distance_x" in spec:
-            self.lead_center_distance_x = TolerancedSize.fromYaml(spec, base_name='lead_center_distance_x', unit=unit)
-            self.lead_center_distance_y = TolerancedSize.fromYaml(spec, base_name='lead_center_distance_y', unit=unit)
+            self.lead_center_distance_x = TolerancedSize.from_yaml(spec, base_name='lead_center_distance_x', unit=unit)
+            self.lead_center_distance_y = TolerancedSize.from_yaml(spec, base_name='lead_center_distance_y', unit=unit)
         else:
-            self.lead_length = TolerancedSize.fromYaml(spec, base_name="lead_len", unit=unit)
+            self.lead_length = TolerancedSize.from_yaml(spec, base_name="lead_len", unit=unit)
 
         self.body_chamfer = float(spec["body_chamfer"])
 
