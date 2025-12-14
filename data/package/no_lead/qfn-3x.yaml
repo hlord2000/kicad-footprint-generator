@@ -1604,6 +1604,46 @@ LFCSP-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm:
     paste_via_clearance: 0.1
     paste_avoid_via: False
 
+Texas_REE0036A_WQFN-36-1EP_4x5mm_P0.4mm_EP2.7x3.7mm:
+  size_source: 'https://www.ti.com/lit/ds/symlink/drv8317.pdf#page=66'
+  device_type: 'WQFN'
+  manufacturer: 'Texas'
+  part_number: 'REE0036A'
+  ipc_class: 'qfn'
+  body_size_x:
+    minimum: 3.9
+    maximum: 4.1
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_height:
+    maximum: 0.8
+  num_pins_x: 8
+  num_pins_y: 10
+  pitch: 0.4
+  lead_width:
+    minimum: 0.15
+    maximum: 0.25
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+  chamfer_edge_pins: 0.167
+  EP_size_x:
+    nominal: 2.7
+    tolerance: 0.05
+  EP_size_y:
+    nominal: 3.7
+    tolerance: 0.05
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 3.7
+    tolerance: 0.1
+  EP_paste_coverage: 0.75
+  EP_num_paste_pads: [2,3]
+  thermal_vias:
+    count: [3, 4]
+    drill: 0.2
+
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
