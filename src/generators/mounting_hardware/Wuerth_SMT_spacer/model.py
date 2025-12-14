@@ -104,7 +104,7 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
         if "suffix" in spec.spec:
             suffix = "_{}".format(spec.spec["suffix"])
 
-        file_name = spec.spec["file_name"].format(
+        file_name = "Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}".format(
             series=spec.spec["series_prefix"],
             size_prefix=size_prefix,
             size=size,
@@ -114,12 +114,13 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
             mpn=part,
         )
 
+        lib_name = "Mounting_Wuerth.3dshapes"
         parts: list[cq.Workplane] = [body]
-        color_names: list[str] = [spec.spec["body_color_key"]]
+        color_names: list[str] = ["metal grey pins"]
 
         export_tools.export(
             generator_name=generator_name,
-            lib_name=spec.spec["destination_dir"],
+            lib_name=lib_name,
             model_name=file_name,
             parts=parts,
             color_names=color_names,

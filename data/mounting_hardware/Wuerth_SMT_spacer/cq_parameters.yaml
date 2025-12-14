@@ -1,6 +1,5 @@
 2.25mm:
   series_prefix: WA-SMST
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 3
@@ -56,15 +55,12 @@
     9774080943:
       datasheet: https://www.we-online.com/components/products/datasheet/9774080943R.pdf
       h: 8
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
   include_in_qa:
     parts:
       9774010943: *9774010943
 
 2.7mm:
   series_prefix: WA-SMST
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 3.7
@@ -126,12 +122,9 @@
     9774100951:
       datasheet: https://www.we-online.com/components/products/datasheet/9774100951R.pdf
       h: 10
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 3.3mm:
   series_prefix: WA-SMST
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 4.4
@@ -205,12 +198,9 @@
     9774160960:
       datasheet: https://www.we-online.com/components/products/datasheet/9774160960R.pdf
       h: 16
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 4.5mm:
   series_prefix: WA-SMST
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 5.4
@@ -260,12 +250,9 @@
     9774100982:
       datasheet: https://www.we-online.com/components/products/datasheet/9774100982R.pdf
       h: 10
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M1.6:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 2.1
@@ -328,12 +315,9 @@ M1.6:
       h: 6
       thread_depth: 2
       drill_depth: 3.13 # from 3d model
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M1.6_s:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 1
@@ -389,12 +373,9 @@ M1.6_s:
       h: 6
       thread_depth: 2
       drill_depth: 3.13 # from 3d model
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M1.6_smt:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   suffix: NoNPTH
   footprint:
     ring:
@@ -449,12 +430,9 @@ M1.6_smt:
       h: 6
       thread_depth: 2
       drill_depth: 3.13 # from 3d model
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M2:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 3
@@ -514,12 +492,9 @@ M2:
     9774080243:
       datasheet: https://www.we-online.com/components/products/datasheet/9774080243R.pdf
       h: 8
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M2.5:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 3.7
@@ -603,12 +578,9 @@ M2.5:
     9774100151:
       datasheet: https://www.we-online.com/components/products/datasheet/9774100151R.pdf
       h: 10
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M3:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 4.4
@@ -685,12 +657,9 @@ M3:
     9774160360:
       datasheet: https://www.we-online.com/components/products/datasheet/9774160360R.pdf
       h: 16
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M4:
   series_prefix: WA-SMSI
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 5.4
@@ -740,12 +709,9 @@ M4:
     9774100482:
       datasheet: https://www.we-online.com/components/products/datasheet/9774100482R.pdf
       h: 10
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 3.2R:
   series_prefix: WA-SMSR
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   suffix: ReverseMount
   footprint:
     ring:
@@ -805,12 +771,9 @@ M4:
     9775116960:
       datasheet: https://www.we-online.com/components/products/datasheet/9775116960R.pdf
       h1: 11.6
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 M3R:
   series_prefix: WA-SMSR
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   suffix: ReverseMount
   footprint:
     ring:
@@ -870,12 +833,9 @@ M3R:
     9775116360:
       datasheet: https://www.we-online.com/components/products/datasheet/9775116360R.pdf
       h1: 11.6
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 snap:
   series_prefix: WA-SMSSR
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   suffix: SnapRivet
   footprint:
     ring:
@@ -926,12 +886,9 @@ snap:
     9776100960:
       datasheet: https://www.we-online.com/components/products/datasheet/9776100960R.pdf
       h: 10
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
 
 external_m3:
   series_prefix: WA-SMSE
-  file_name: 'Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}'
   footprint:
     ring:
       id: 1
@@ -992,5 +949,3 @@ external_m3:
     9771150360:
       datasheet: https://www.we-online.com/components/products/datasheet/9771150360R.pdf
       h: 15
-  body_color_key: 'metal grey pins'
-  destination_dir: 'Mounting_Wuerth.3dshapes'
