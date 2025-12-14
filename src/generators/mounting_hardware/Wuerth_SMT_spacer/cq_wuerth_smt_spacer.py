@@ -93,7 +93,7 @@ thread_minor_diameter = {"M1.6": 1.22, "M2": 1.57, "M2.5": 2.01, "M3": 2.46, "M4
 #     }
 
 def generate(series_params, part):  # **kwargs):
-    id = series_params["mechanical"]["id"]
+    id = series_params["mechanical"].get("id")
     od = series_params["mechanical"]["od"]
     od1 = series_params["mechanical"]["od1"]
     h1 = (

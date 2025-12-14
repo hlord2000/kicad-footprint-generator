@@ -82,7 +82,7 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
         if "id" in spec.spec["mechanical"]:
             size = str(spec.spec["mechanical"]["id"])
         elif "ext_thread" in spec.spec["mechanical"]:
-            size = str(spec.spec["mechanical"]["ext_thread"])
+            size = str(spec.spec["mechanical"]["ext_thread"]["od"])
 
         if "M" not in size:
             size = "{}mm".format(size)

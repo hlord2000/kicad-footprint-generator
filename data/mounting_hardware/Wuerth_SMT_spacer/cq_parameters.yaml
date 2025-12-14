@@ -874,7 +874,6 @@ external_m3:
         od: 7.2
     npth: 1
   mechanical:
-    id: 'M3'
     ext_thread:
       od: M3
       L: 6
