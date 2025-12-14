@@ -111,8 +111,8 @@ def generate(series_params, part):  # **kwargs):
         if "drill_depth" in series_params["parts"][part]
         else series_params["mechanical"]["dd"]
     )
-    id1 = series_params["mechanical"]["id1"]
-    t1 = series_params["mechanical"]["t1"]
+    id1 = series_params["mechanical"].get("id1")
+    t1 = series_params["mechanical"].get("t1", 0)
     h = (
         series_params["parts"][part]["h"]
         if "h" in series_params["parts"][part]
