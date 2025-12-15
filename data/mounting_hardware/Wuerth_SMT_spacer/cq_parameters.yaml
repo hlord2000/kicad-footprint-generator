@@ -14,8 +14,6 @@
     od: 4.35
     od1: 2.8
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774010943: &9774010943
       datasheet: https://www.we-online.com/components/products/datasheet/9774010943R.pdf
@@ -73,8 +71,6 @@
     od: 5.1
     od1: 3.5
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774010951:
       datasheet: https://www.we-online.com/components/products/datasheet/9774010951R.pdf
@@ -135,8 +131,6 @@
     od: 6
     od1: 4.2
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774010960:
       datasheet: https://www.we-online.com/components/products/datasheet/9774010960R.pdf
@@ -209,8 +203,6 @@
     od: 8.2
     od1: 5.2
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774010982:
       datasheet: https://www.we-online.com/components/products/datasheet/9774010982R.pdf
@@ -259,8 +251,6 @@ M1.6:
     od: 3.3
     od1: 1.9
     h1: 0.7
-    td: 2
-    dd: 2.5
   parts:
     9774005633:
       datasheet: https://www.we-online.com/components/products/datasheet/9774005633R.pdf
@@ -323,8 +313,6 @@ M1.6_s:
     od: 3.3
     od1: 0.8
     h1: 0.5
-    td: 2
-    dd: 2.5
   parts:
     97730256332:
       datasheet: https://www.we-online.com/components/products/datasheet/97730256332R.pdf
@@ -378,8 +366,6 @@ M1.6_smt:
     od: 3.3
     od1: null
     h1: null
-    td: 2
-    dd: 2.5
   parts:
     97730256330:
       datasheet: https://www.we-online.com/components/products/datasheet/97730256330R.pdf
@@ -433,8 +419,6 @@ M2:
     od: 4.35
     od1: 2.8
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774005243:
       datasheet: https://www.we-online.com/components/products/datasheet/9774005243R.pdf
@@ -493,8 +477,6 @@ M2.5:
     od: 5.1
     od1: 3.5
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774005151:
       datasheet: https://www.we-online.com/components/products/datasheet/9774005151R.pdf
@@ -577,8 +559,6 @@ M3:
     od: 6
     od1: 4.2
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774005360:
       datasheet: https://www.we-online.com/components/products/datasheet/9774005360R.pdf
@@ -654,8 +634,6 @@ M4:
     od: 8.2
     od1: 5.2
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9774010482:
       datasheet: https://www.we-online.com/components/products/datasheet/9774010482R.pdf
@@ -705,8 +683,6 @@ M4:
     od: 6
     od1: 4.2
     h: 1
-    td: 2
-    dd: 2.5
   parts:
     9775026960:
       datasheet: https://www.we-online.com/components/products/datasheet/9775026960R.pdf
@@ -765,8 +741,6 @@ M3R:
     od: 6
     od1: 4.2
     h: 1
-    td: 2
-    dd: 2.5
   parts:
     9775026360:
       datasheet: https://www.we-online.com/components/products/datasheet/9775026360R.pdf
@@ -827,8 +801,6 @@ snap:
     od: 6
     od1: 4.2
     h1: 1.4
-    td: 2
-    dd: 2.5
   parts:
     9776020960:
       datasheet: https://www.we-online.com/components/products/datasheet/9776020960R.pdf
@@ -884,8 +856,6 @@ external_m3:
     od: 6
     od1: 0.8
     h1: 0.5
-    td: null
-    dd: null
   parts:
     9771050360:
       datasheet: https://www.we-online.com/components/products/datasheet/9771050360R.pdf

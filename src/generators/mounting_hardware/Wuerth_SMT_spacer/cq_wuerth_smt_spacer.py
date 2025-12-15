@@ -101,16 +101,8 @@ def generate(series_params, part):  # **kwargs):
         if "h1" in series_params["parts"][part]
         else series_params["mechanical"]["h1"]
     )
-    td = (
-        series_params["parts"][part]["thread_depth"]
-        if "thread_depth" in series_params["parts"][part]
-        else series_params["mechanical"]["td"]
-    )
-    dd = (
-        series_params["parts"][part]["drill_depth"]
-        if "drill_depth" in series_params["parts"][part]
-        else series_params["mechanical"]["dd"]
-    )
+    thread_depth = series_params["parts"][part].get("thread_depth")
+    drill_depth = series_params["parts"][part].get("drill_depth")
     id1 = series_params["mechanical"].get("id1")
     t1 = series_params["mechanical"].get("t1", 0)
     h = (
@@ -187,19 +179,29 @@ def generate(series_params, part):  # **kwargs):
             idf = float(id)
             ch = 0
 
-        if td is not None:
+        cut_thread_hole = ext_thread is None
+        if cut_thread_hole:
             body = (
                 body.faces(">Z")
                 .workplane(-t1, centerOption="CenterOfMass")
                 .circle(idf / 2)
-                .cutBlind(-td + t1)
             )
-            body = (
-                body.faces(">Z")
-                .workplane(-t1, centerOption="CenterOfMass")
-                .circle(idf / 2 - 0.01)
-                .cutBlind(-dd + t1)
-            )
+            if thread_depth is None:
+                # cut through the full body
+                body = body.cutBlind(-(h + h1) + t1)
+            else:
+                # cut only as deep as the thread_depth
+                body = body.cutBlind(-thread_depth + t1)
+
+            # as well as a bit deeper with a marginally smaller diameter
+            # (used together with thread_depth)
+            if drill_depth is not None:
+                body = (
+                    body.faces(">Z")
+                    .workplane(-t1, centerOption="CenterOfMass")
+                    .circle(idf / 2 - 0.01)
+                    .cutBlind(-drill_depth + t1)
+                )
 
             if ch > 0:
                 body = body.edges(
@@ -209,14 +211,7 @@ def generate(series_params, part):  # **kwargs):
                         boundingbox=True,
                     )
                 ).chamfer(ch)
-        else:
-            if ext_thread is None:
-                body = (
-                    body.faces(">Z")
-                    .workplane(-t1, centerOption="CenterOfMass")
-                    .circle(idf / 2)
-                    .cutBlind(-(h + h1 - t1))
-                )
+
         if id1 is not None:
             body = (
                 body.faces(">Z")
