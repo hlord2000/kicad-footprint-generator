@@ -56,10 +56,11 @@ THT-1row_Straight_Right:
     offset: 0.0
     overlength: 0.0
   pins:
-    width:  0.64
+    width:  0.6
+    #thick: 0.2
     drill:  1.0
     offset: 0.0
-    #length: 2.9
+    #length: 2.9 # under the socket
   pads:
     length: 1.7
     width:  1.7
@@ -86,9 +87,10 @@ THT-1row_Angled_Right:
     offset: 1.52
     overlength: 0.0
   pins:
-    width:  0.64
+    width:  0.6
+    #thick: 0.2
     drill:  1.0
-    offset: 0.0
+    offset: 0.2
     length: 2.9
   pads:
     length: 1.7
@@ -96,12 +98,13 @@ THT-1row_Angled_Right:
     offset: 0
   datasheet: from Kicad 4.0.7
 
-THT-2row_Angled_Left:
+THT-2row_Angled_Right:
   inherit: THT-1row_Angled_Right
   row_count: 2
   body:
     height: 5.08
-
+  pins:
+    length: 2.5
 
 # SMD Straight(Vertical) logic:
 SMD-1row_Straight_Right:
@@ -114,23 +117,23 @@ SMD-1row_Straight_Right:
     width:  2.54
     height: 7.1 # 7.5
     offset: 0.0
-    overlength: 0.0
+    overlength: 0.2
   pins:
     # pp: 4.2 # pin-pin width aka W aka E, for reference only.
-    width:  0.64
+    width:  0.6 # 0.64?
     #thick:  0.25
     drill:  0
     offset: 0.0 # not specified, minimum pins_width/2 = 0.64/2, 0.4?
-    smd_length: 2.65
+    smd_length: 2.27
     # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
     # (4.2 - 0)/2 - 0 = 2.1
   pads:
     # pp: 5.2 # pad-pad width aka W+1 aka E+1, offset is preferred.
-    length: 3.0 # 2.7
+    length: 1.9 # 2.7
     width:  1.0
-    offset: 1.25
+    offset: 1.65
     # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
-    # (5.2 - 0 - 2.7)/2 = 1.25
+    # (5.2 - 0 - 1.9)/2 = 1.65, (5.2 - 0 - 2.7)/2 = 1.25
   datasheet: https://cdn.harwin.com/pdfs/M20-786.pdf
   # https://gct.co/files/drawings/bg125.pdf
 
@@ -155,16 +158,16 @@ SMD-2row_Straight_Right:
     #thick:  0.25
     drill:  0
     offset: 0.0 # not specified, minimum (pins_width*2 + pitch)/2 = 3.82/2
-    smd_length: 1.38
+    smd_length: 2.65
     # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
-    # (6.8 - 2.54)/2 - 0 = 2.13
+    # (7.84-2.54)/2 = 2.65, (6.8 - 2.54)/2 - 0 = 2.13
   pads:
     # pp_width: 7.8 # pad-pad width aka W+1 aka E+1, offset is preferred.
     length: 3.0 # 2.5
     width:  1.0
-    offset: -0.02
+    offset: 1.25
     # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
-    # (7.8 - 2.54 - 2.5)/2 = 1.38
+    # (8.04-2.54-3.0)/2 = 1.25, (7.8 - 2.54 - 2.5)/2 = 1.38
   datasheet: from Kicad 4.0.7
   # https://gct.co/files/drawings/bg180.pdf
 

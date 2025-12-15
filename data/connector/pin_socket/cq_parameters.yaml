@@ -8,7 +8,7 @@ THT-1x1.00mm_Vertical:
   body_width: 1.5
   body_height: 2.1
   body_overlength: 0.5
-  body_offset: 0.0
+  body_offset: 0.29
   pins_min: 2
   pins_max: 40
   pin_width: 0.3
@@ -24,6 +24,8 @@ THT-1x1.00mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.00mm.3dshapes'
   source: 'https://gct.co/files/drawings/bc065.pdf'
+  include_in_qa:
+    pins_max: 5
 
 THT-1x1.27mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P1.27mm_Vertical'
@@ -52,7 +54,7 @@ THT-1x1.27mm_Vertical:
   destination_dir : 'Connector_PinSocket_1.27mm.3dshapes'
   source: 'from Kicad 4.0.7'
   include_in_qa:
-    pins_max: 2
+    pins_max: 3
 
 THT-1x2.00mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P2.00mm_Vertical'
@@ -80,6 +82,8 @@ THT-1x2.00mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.00mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 THT-1x2.54mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P2.54mm_Vertical'
@@ -108,6 +112,8 @@ THT-1x2.54mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 THT-2x1.27mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P1.27mm_Vertical'
@@ -190,6 +196,8 @@ THT-2x2.54mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 # THT-1x1.27mm_Horizontal:
 #   model_name: 'PinSocket_{0}x{1}_P1.27mm_Horizontal'
@@ -244,6 +252,8 @@ THT-1x2.00mm_Horizontal:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.00mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 THT-1x2.54mm_Horizontal:
   model_name: 'PinSocket_{0}x{1}_P2.54mm_Horizontal'
@@ -271,6 +281,8 @@ THT-1x2.54mm_Horizontal:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 # THT-2x1.00mm_Horizontal:
 #   model_name: 'PinSocket_{0}x{1}_P1.00mm_Horizontal'
@@ -325,6 +337,8 @@ THT-2x1.27mm_Horizontal:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.27mm.3dshapes'
   source: 'https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD091.pdf&t=1511594177220'
+  include_in_qa:
+    pins_max: 3
 
 THT-2x2.00mm_Horizontal:
   model_name: 'PinSocket_{0}x{1}_P2.00mm_Horizontal'
@@ -379,6 +393,8 @@ THT-2x2.54mm_Horizontal:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 3
 
 #
 # SMD parts
@@ -413,6 +429,8 @@ SMD-1x1.00mm_Vertical_Right:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.00mm.3dshapes'
   source: 'https://gct.co/files/drawings/bc070.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-1x1.00mm_Vertical_Left:
   model_name: 'PinSocket_{0}x{1}_P1.00mm_Vertical_SMD_Pin1Left'
@@ -442,6 +460,8 @@ SMD-1x1.00mm_Vertical_Left:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.00mm.3dshapes'
   source: 'https://gct.co/files/drawings/bc070.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-1x1.27mm_Vertical_Right:
   model_name: 'PinSocket_{0}x{1}_P1.27mm_Vertical_SMD_Pin1Right'
@@ -587,6 +607,8 @@ SMD-1x2.54mm_Vertical_Right:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'https://cdn.harwin.com/pdfs/M20-786.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-1x2.54mm_Vertical_Left:
   model_name: 'PinSocket_{0}x{1}_P2.54mm_Vertical_SMD_Pin1Left'
@@ -616,6 +638,8 @@ SMD-1x2.54mm_Vertical_Left:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'https://cdn.harwin.com/pdfs/M20-786.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-2x1.00mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P1.00mm_Vertical_SMD'
@@ -645,6 +669,8 @@ SMD-2x1.00mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.00mm.3dshapes'
   source: 'https://gct.co/files/drawings/bc085.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-2x1.27mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P1.27mm_Vertical_SMD'
@@ -674,6 +700,8 @@ SMD-2x1.27mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.27mm.3dshapes'
   source: 'https://gct.co/files/drawings/bd064.pdf'
+  include_in_qa:
+    pins_max: 3
 
 SMD-2x2.00mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P2.00mm_Vertical_SMD'
@@ -732,3 +760,5 @@ SMD-2x2.54mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_2.54mm.3dshapes'
   source: 'https://www.we-online.com/components/products/datasheet/61000421821.pdf'
+  include_in_qa:
+    pins_max: 3

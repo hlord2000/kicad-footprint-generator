@@ -52,14 +52,15 @@ THT-1row_Straight_Right:
     range: [1, 40]
   body:
     width:  2.54 # should be 1.27 or 1.8?
-    height: 2.0 # old config 4.4
+    height: 4.4
     offset: 0.0
     overlength: 0.0
   pins:
-    width:  0.4
+    width:  0.5
+    #thick:  0.2
     drill:  0.7
     offset: 0.0
-    #length: 2.4
+    #length: 2.4 # under the socket
   pads:
     length: 1.0
     width:  1.0
@@ -82,16 +83,16 @@ THT-2row_Straight_Right:
   # pos_range:
     # range: [3, 40]
   # body:
-    # width:  1.0
+    # width:  4.3
     # height: 1.8
-    # offset: 2.81
-    # overlength: 0.0
-    #thick:  0.15
+    # offset: 0.15
+    # overlength: 0.35
   # pins:
     # width:  0.42
+    # thick:  0.15
     # drill:  0.65
-    # length: 2.0
     # offset: 0.0
+    # length: 2.0
   # pads:
     # length: 1.0
     # width:  1.0
@@ -105,13 +106,14 @@ THT-2row_Angled_Right:
   pos_range:
     range: [3, 50] # ToDo: should be to 2-40?
   body:
-    width:  1.0
+    width:  4.4
     height: 3.10
-    offset: 2.81
-    overlength: 0.0
+    offset: 0.15
+    # overlength: 0.35 
+    # interestingly, socket_strips.py->pinSocketHorizontalTHT() did not use body_overlength at all.
   pins:
-    width:  0.4
-    drill:  0.7
+    width:  0.5
+    drill:  0.65
     length: 2.0
     offset: 0.15
     #thick:  0.15
@@ -119,7 +121,8 @@ THT-2row_Angled_Right:
     length: 1.0
     width:  1.0
     offset: 0
-  datasheet: https://gct.co/files/drawings/bd091.pdf
+  datasheet: https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD091.pdf&t=1511594177220
+  #datasheet: https://gct.co/files/drawings/bd091.pdf
 
 
 # SMD Straight(Vertical) logic:
@@ -130,28 +133,27 @@ SMD-1row_Straight_Right:
   pos_range:
     range: [2, 40]
   body:
-    width:  1.27
-    height: 0
+    width:  1.8
+    height: 4.6
     offset: 0.0
-    overlength: 0
+    overlength: 0.35
   pins:
     # pp: 3.5 # pin-pin width aka W aka E, for reference only.
-    width:  0.4 # 0.42
+    width:  0.42
     #thick:  0.15
     drill:  0
     offset: 0.0 # not specified, minimum pins_width/2 = 0.4/2
-    smd_length: 1.92
+    smd_length: 1.75
     # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
     # (3.50 - 0)/2 - 0 = 1.75
   pads:
     # pp: 4.5 # pad-pad width aka W+1 aka E+1, offset is preferred.
-    length: 2.1 # 1.8
-    width:  0.75 # 0.65
-    offset: 1.95
+    length: 1.8
+    width:  0.65
+    offset: 1.35
     # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
     # (4.5 - 0 - 1.8)/2 = 1.35
-  datasheet: https://gct.co/files/drawings/bc075.pdf
-  # https://gct.co/files/drawings/bd075.pdf
+  datasheet: https://gct.co/files/drawings/bd075.pdf
 
 SMD-1row_Straight_Left:
   inherit: SMD-1row_Straight_Right
@@ -169,21 +171,21 @@ SMD-2row_Straight_Right:
     offset: 0.0
     overlength: 0.0
   pins:
-    # pp: 4.8 # pin-pin width aka W aka E, for reference only.
+    # pp: 5.11, bd064: 4.8 # pin-pin width aka W aka E, for reference only.
     width:  0.4 # 0.42
     #thick:  0.15
     drill:  0
     offset: 0.0 # not specified, minimum (pins_width + pitch)/2 = 1.68/2
-    smd_length: 1.285
+    smd_length: 1.92
     # smd_length from pins_pp: (pins_pp - (rows-1)*pitch)/2 - pins_offset =
-    # (4.8 - 1.27)/2 - 0 = 1.765
+    # (5.11 - 1.27)/2 - 0 = 1.92,  (4.8 - 1.27)/2 - 0 = 1.765
   pads:
     # pp_width: 5.8 # pad-pad width aka W+1 aka E+1, offset is preferred.
-    length: 2.1 # 2.15
+    length: 2.1
     width:  0.75 # 0.65
-    offset: 1.315
+    offset: 1.165
     # pads_offset smd from pads_pp: (pads_pp - (rows-1)*pitch - pads_length)/2 =
-    # (5.8 - 1.27 - 2.1)/2 = 1.215
+    # (5.7 - 1.27 - 2.1)/2 = 1.165, (5.8 - 1.27 - 2.1)/2 = 1.215
   datasheet: from Kicad 4.0.7!
   # https://gct.co/files/drawings/bd064.pdf
 
