@@ -95,21 +95,13 @@ thread_minor_diameter = {"M1.6": 1.22, "M2": 1.57, "M2.5": 2.01, "M3": 2.46, "M4
 def generate(series_params, part):  # **kwargs):
     id = series_params["mechanical"].get("id")
     od = series_params["mechanical"]["od"]
-    od1 = series_params["mechanical"]["od1"]
-    h1 = (
-        series_params["parts"][part]["h1"]
-        if "h1" in series_params["parts"][part]
-        else series_params["mechanical"]["h1"]
-    )
+    od1 = series_params["mechanical"].get("od1")
+    h1 = series_params["parts"][part].get("h1", series_params["mechanical"].get("h1", 0))
     thread_depth = series_params["parts"][part].get("thread_depth")
     drill_depth = series_params["parts"][part].get("drill_depth")
     id1 = series_params["mechanical"].get("id1")
     t1 = series_params["mechanical"].get("t1", 0)
-    h = (
-        series_params["parts"][part]["h"]
-        if "h" in series_params["parts"][part]
-        else series_params["mechanical"]["h"]
-    )
+    h = series_params["parts"][part].get("h", series_params["mechanical"].get("h"))
     ext_thread = series_params["mechanical"].get("ext_thread")
     # id = kwargs.get('id')
     # od = kwargs['od']
