@@ -504,3 +504,34 @@ Relay_SPDT_CUI_SR5:
   pin_color_key: metal grey pins
   destination_dir: Relay_THT.3dshapes
   source: 'https://www.sameskydevices.com/product/resource/sr5.pdf#page=3'
+
+Relay_DPDT_FCL_FTR-B4C:
+  model_name: Relay_DPDT_FCL_FTR-B4C
+  roundbelly: 0
+  L: 6.0
+  W: 10.9
+  H: 9.3
+  rim: [0.5, 0.5, 0.5]
+  pinpadsize: 0.5
+  pinpadh: 3.5
+  pintype: tht
+  rotation: 0
+  pin1corner: [ -1.40, -1.65 ]
+  pin: [
+    [ 0.0, 0.0, 'rect', 0.2, 0.4 ],
+    [ 3.2, 0.0, 'rect', 0.2, 0.4 ],
+    [ 0.0, 3.2, 'rect', 0.2, 0.4 ],
+    [ 0.0, 5.4, 'rect', 0.2, 0.4 ],
+    [ 0.0, 7.6, 'rect', 0.2, 0.4 ],
+    [ 3.2, 3.2, 'rect', 0.2, 0.4 ],
+    [ 3.2, 5.4, 'rect', 0.2, 0.4 ],
+    [ 3.2, 7.6, 'rect', 0.2, 0.4 ],
+  ]
+  A1: 0.02
+  corner: none
+  show_top: 0
+  body_color_key: white body
+  body_top_color_key: white body
+  pin_color_key: metal grey pins
+  destination_dir: Relay_THT.3dshapes
+  source: "https://www.fcl-components.com/downloads/MICRO/fcai/relays/ftr-b4.pdf"
