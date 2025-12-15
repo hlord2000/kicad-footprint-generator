@@ -13,7 +13,6 @@ from KicadModTree import (
     Property,
     Rectangle,
     Text,
-    Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
 from .spec import FPconfiguration
@@ -57,10 +56,6 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
     if cfg.datasheet != None:
         kicad_mod.description += ", " + cfg.datasheet
     kicad_mod.tags = cfg.getBaseTags()
-
-    offset = Vector2D(0, 0)
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
 
     # --- Calculate pads center and pin1 offset from origin:
     half_rows_x = (cfg.row_count - 1) / 2 * cfg.row_pitch
@@ -142,12 +137,12 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
     if cfg.mount_type == "SMD":
         # For SMD footprints, pad 1 location is not (0,0)
         for start_pos, initial in zip([-cfg.row_pitch/2, cfg.row_pitch/2], range(1, cfg.row_count + 1)):
-            kicad_modg.append(PadArray(pincount=cfg.pos_count, spacing=[0,cfg.pin_pitch], start=[start_pos,-(cfg.pos_count-1)*cfg.pin_pitch/2], initial=initial, increment=cfg.row_count,
+            kicad_mod.append(PadArray(pincount=cfg.pos_count, spacing=[0,cfg.pin_pitch], start=[start_pos,-(cfg.pos_count-1)*cfg.pin_pitch/2], initial=initial, increment=cfg.row_count,
                 type=pad_type, shape=pad_shape, size=pad, drill=cfg.pins_drill, layers=pad_layers,
                 round_radius_handler=gc.roundrect_radius_handler))
     else:
         for start_pos, initial in zip([0, cfg.row_pitch], range(1, cfg.row_count + 1)):
-            kicad_modg.append(PadArray(pincount=cfg.pos_count, spacing=[0,cfg.pin_pitch], start=[start_pos,0], initial=initial, increment=cfg.row_count,
+            kicad_mod.append(PadArray(pincount=cfg.pos_count, spacing=[0,cfg.pin_pitch], start=[start_pos,0], initial=initial, increment=cfg.row_count,
                 type=pad_type, shape=pad_shape, size=pad, drill=cfg.pins_drill, layers=pad_layers,
                 round_radius_handler=gc.roundrect_radius_handler))
 
@@ -157,14 +152,14 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
 
     if mh_present:
         for mh_y_offset in mh_y:
-            kicad_modg.append(Pad(number=mhole_nr, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[cfg.mhole_offset, mh_y_offset], size=mhole_pad,
+            kicad_mod.append(Pad(number=mhole_nr, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[cfg.mhole_offset, mh_y_offset], size=mhole_pad,
                 drill=cfg.mhole_drill, layers=Pad.LAYERS_THT))
 
 
     # --- set general values
-    kicad_modg.append(Property(name=Property.REFERENCE, text='REF**', at=[center_fp.x, crt_t - fab_txt_size.y / 2], layer='F.SilkS'))
-    kicad_modg.append(Text(text='${REFERENCE}', at=[center_fab.x, center_fab.y], rotation=90, layer='F.Fab', size=fab_txt_size, thickness=fab_txt_thick))
-    kicad_modg.append(Property(name=Property.VALUE, text=cfg.footpr_name, at=[center_fp.x, crt_t + crt_h + fab_txt_size.y / 2], layer='F.Fab'))
+    kicad_mod.append(Property(name=Property.REFERENCE, text='REF**', at=[center_fp.x, crt_t - fab_txt_size.y / 2], layer='F.SilkS'))
+    kicad_mod.append(Text(text='${REFERENCE}', at=[center_fab.x, center_fab.y], rotation=90, layer='F.Fab', size=fab_txt_size, thickness=fab_txt_thick))
+    kicad_mod.append(Property(name=Property.VALUE, text=cfg.footpr_name, at=[center_fp.x, crt_t + crt_h + fab_txt_size.y / 2], layer='F.Fab'))
 
 
     # --- create FAB-layer, SILKSCREEN-layer + pin1 marker
@@ -227,7 +222,7 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
                         (fabb_l - lyr_offset, fabb_t + chamfer - lyr_offset)]
                     kicad_mod.append(PolygonLine(shape=body_polygon, layer=layer, width=line_width))
         if chamfer > 0 and not (cfg.orientation == 'Horizontal' and cfg.latch_enable):
-            kicad_modg.append(Line(start=[fabb_l, fabb_t + chamfer], end=[fabb_l + chamfer, fabb_t], layer=layer, width=line_width))
+            kicad_mod.append(Line(start=[fabb_l, fabb_t + chamfer], end=[fabb_l + chamfer, fabb_t], layer=layer, width=line_width))
 
         # vertical mating connector outline (this is the same for both layers)
         if cfg.orientation == "Vertical":
@@ -250,8 +245,8 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
 
         # horizontal mating connector 'notch' lines
         if cfg.orientation == 'Horizontal' and not cfg.latch_enable:
-            kicad_modg.append(Line(start=[cfg.body_offset - lyr_offset, center_fab.y - cfg.body_notch_width / 2], end=[fabb_l + fabb_w + lyr_offset, center_fab.y - cfg.body_notch_width / 2], layer=layer, width=line_width))
-            kicad_modg.append(Line(start=[cfg.body_offset - lyr_offset, center_fab.y + cfg.body_notch_width / 2], end=[fabb_l + fabb_w + lyr_offset, center_fab.y + cfg.body_notch_width / 2], layer=layer, width=line_width))
+            kicad_mod.append(Line(start=[cfg.body_offset - lyr_offset, center_fab.y - cfg.body_notch_width / 2], end=[fabb_l + fabb_w + lyr_offset, center_fab.y - cfg.body_notch_width / 2], layer=layer, width=line_width))
+            kicad_mod.append(Line(start=[cfg.body_offset - lyr_offset, center_fab.y + cfg.body_notch_width / 2], end=[fabb_l + fabb_w + lyr_offset, center_fab.y + cfg.body_notch_width / 2], layer=layer, width=line_width))
 
         # vertical latches (horizontal latches are off the PCB and not shown)
         if cfg.orientation == "Vertical" and cfg.latch_enable and cfg.latch_length > 0:
@@ -280,7 +275,7 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
         for pos in range(cfg.pos_count):
             horiz_pin_polygon = [(cfg.body_offset, cfg.pin_pitch * pos - cfg.pins_width / 2), (-cfg.pins_width / 2, cfg.pin_pitch * pos - cfg.pins_width / 2),
                 (-cfg.pins_width / 2, cfg.pin_pitch * pos + cfg.pins_width / 2), (cfg.body_offset, cfg.pin_pitch * pos + cfg.pins_width / 2)]
-            kicad_modg.append(PolygonLine(shape=horiz_pin_polygon, layer='F.Fab', width=gc.fab_line_width))
+            kicad_mod.append(PolygonLine(shape=horiz_pin_polygon, layer='F.Fab', width=gc.fab_line_width))
 
     # silk pin 1 mark (triangle to the left of pin 1)
     slk_mark_height = 1
@@ -331,7 +326,7 @@ def makeIdcHeader(cfg: FPconfiguration, generator_name: str):
         )
 
     # --- add model (even if there are mounting holes on the footprint do not include that in the 3D model)
-    kicad_modg.append(
+    kicad_mod.append(
         Model(
             filename=gc.model_3d_prefix
             + cfg.lib_name

@@ -11,7 +11,6 @@ from KicadModTree import (
     Property,
     Rectangle,
     Text,
-    Translation,
 )
 from kilibs.geom import Vec2DCompatible, Vector2D
 from .spec import FPconfiguration
@@ -60,10 +59,6 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     # if cfg.datasheet != None:
     #     kicad_mod.description += " (" + cfg.datasheet + "), script generated"
     kicad_mod.tags = cfg.getBaseTags()
-
-    offset = Vector2D(0, 0)
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
 
     # --- Calculate pads center and pin1 offset from origin:
     half_rows_x = (cfg.row_count - 1) / 2 * cfg.row_pitch
@@ -123,10 +118,10 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
         x1 = 0
         for row in range(1, cfg.row_count + 1):
             if p == 1:
-                kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=cfg.pins_drill,
+                kicad_mod.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=cfg.pins_drill,
                                       layers=pad_layers))
             else:
-                kicad_modg.append(
+                kicad_mod.append(
                     Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=cfg.pins_drill,
                         layers=pad_layers))
 
@@ -136,19 +131,19 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
         y1 += cfg.pin_pitch
 
     # --- set general values
-    kicad_modg.append(
+    kicad_mod.append(
         Property(name=Property.REFERENCE, text='REF**', at=[crt_c.x, crt_t - crt_offset], layer='F.SilkS'))
-    kicad_modg.append(
+    kicad_mod.append(
         Text(text='${REFERENCE}', at=[crt_c.x, crt_t - crt_offset], layer='F.Fab'))
-    kicad_modg.append(
+    kicad_mod.append(
         Property(name=Property.VALUE, text=cfg.footpr_name, at=[crt_c.x, crt_b + crt_offset], layer='F.Fab'))
 
     # --- create FAB-layer
     y1 = fabb_t
     yp = fabp_t
     for pos in range(1, cfg.pos_count + 1):
-        kicad_modg.append(Rectangle(start=[fabb_r, y1], end=[fabb_l, y1 + cfg.pin_pitch], layer='F.Fab', width=gc.fab_line_width))
-        kicad_modg.append(
+        kicad_mod.append(Rectangle(start=[fabb_r, y1], end=[fabb_l, y1 + cfg.pin_pitch], layer='F.Fab', width=gc.fab_line_width))
+        kicad_mod.append(
             Rectangle(start=[0, yp], end=[fabb_r , yp + cfg.pins_width], layer='F.Fab', width=gc.fab_line_width))
         y1 = y1 + cfg.pin_pitch
         yp = yp + cfg.pin_pitch
@@ -158,46 +153,49 @@ def makeSocketStripAngled(cfg: FPconfiguration, generator_name: str):
     yp = slkp_t
     for pos in range(1, cfg.pos_count + 1):
         if cfg.pos_count == 1 and pos == 1:
-            kicad_modg.append(
+            kicad_mod.append(
                 Rectangle(start=[slkb_r, y1], end=[slkp_r, y1 + cfg.pin_pitch + 2 * gc.silk_fab_offset], layer='F.SilkS',
                          width=gc.silk_line_width))
         if (pos == 1 or pos == cfg.pos_count):
-            kicad_modg.append(Rectangle(start=[slkb_r, y1], end=[slkp_r, y1 + cfg.pin_pitch + silk_fab_offset], layer='F.SilkS',
+            kicad_mod.append(Rectangle(start=[slkb_r, y1], end=[slkp_r, y1 + cfg.pin_pitch + silk_fab_offset], layer='F.SilkS',
                                        width=gc.silk_line_width))
             y1 = y1 + silk_fab_offset
         else:
-            kicad_modg.append(Rectangle(start=[slkb_r, y1], end=[slkp_r, y1 + cfg.pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Rectangle(start=[slkb_r, y1], end=[slkp_r, y1 + cfg.pin_pitch], layer='F.SilkS', width=gc.silk_line_width))
 
-        kicad_modg.append(Line(start=[-((cfg.row_count - 1) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp], end=[slkb_r, yp], layer='F.SilkS',width=gc.silk_line_width))
-        kicad_modg.append(Line(start=[-((cfg.row_count - 1) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp + cfg.pins_width + 2 * silk_fab_offset],end=[slkb_r, yp + cfg.pins_width + 2 * silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_mod.append(Line(start=[-((cfg.row_count - 1) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp], end=[slkb_r, yp], layer='F.SilkS',width=gc.silk_line_width))
+        kicad_mod.append(Line(start=[-((cfg.row_count - 1) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp + cfg.pins_width + 2 * silk_fab_offset],end=[slkb_r, yp + cfg.pins_width + 2 * silk_fab_offset], layer='F.SilkS', width=gc.silk_line_width))
         if cfg.row_count > 1:
             for row in range(2, cfg.row_count + 1):
-                kicad_modg.append(Line(start=[-((row - 2) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp],
+                kicad_mod.append(Line(start=[-((row - 2) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp],
                                        end=[-((row - 1) * cfg.row_pitch - pad.x / 2 - silk_fab_offset-gc.silk_line_width), yp], layer='F.SilkS',
                                        width=gc.silk_line_width))
-                kicad_modg.append(
+                kicad_mod.append(
                     Line(start=[-((row - 2) * cfg.row_pitch + pad.x / 2 + silk_fab_offset+gc.silk_line_width), yp + cfg.pins_width + 2 * silk_fab_offset],
                          end=[-((row - 1) * cfg.row_pitch - pad.x / 2 - silk_fab_offset-gc.silk_line_width), yp + cfg.pins_width + 2 * silk_fab_offset],
                          layer='F.SilkS', width=gc.silk_line_width))
         if pos == 1:
             y = y1 + gc.silk_line_width
             while y < y1 + cfg.pin_pitch + 2 * silk_fab_offset:
-                kicad_modg.append(Line(start=[slkb_r, y], end=[slkp_r, y], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_mod.append(Line(start=[slkb_r, y], end=[slkp_r, y], layer='F.SilkS', width=gc.silk_line_width))
                 y = y + gc.silk_line_width
         y1 = y1 + cfg.pin_pitch
         yp = yp + cfg.pin_pitch
 
-    kicad_modg.append(PolygonLine(shape=[[0, -cfg.pin_pitch / 2], [cfg.pin_pitch / 2, -cfg.pin_pitch / 2], [cfg.pin_pitch / 2, 0]], layer='F.SilkS', width=gc.silk_line_width))
+    kicad_mod.append(PolygonLine(shape=[[0, -cfg.pin_pitch / 2], [cfg.pin_pitch / 2, -cfg.pin_pitch / 2], [cfg.pin_pitch / 2, 0]], layer='F.SilkS', width=gc.silk_line_width))
 
 	# --- create courtyard:
-    kicad_mod.append(Rectangle(start=[DT.roundCrt(crt_r + offset.x), DT.roundCrt(crt_t + offset.y)],
-                              end=[DT.roundCrt(crt_l + offset.x), DT.roundCrt(crt_b + offset.y)],
-                              layer='F.CrtYd', width=gc.courtyard_line_width
+    kicad_mod.append(
+        Rectangle(
+            start=[DT.roundCrt(crt_r), DT.roundCrt(crt_t)],
+            end=[DT.roundCrt(crt_l), DT.roundCrt(crt_b)],
+            layer='F.CrtYd',
+            width=gc.courtyard_line_width
         )
     )
 
     # --- add model
-    kicad_modg.append(
+    kicad_mod.append(
         Model(
             filename=gc.model_3d_prefix
             + cfg.lib_name

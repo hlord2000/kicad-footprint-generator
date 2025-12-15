@@ -13,9 +13,8 @@ from KicadModTree import (
     Property,
     Rectangle,
     Text,
-    Translation,
 )
-from kilibs.geom import Vec2DCompatible, Vector2D
+from kilibs.geom import Vec2DCompatible, Vector2D, GeomLine
 from .spec import FPconfiguration
 import generators.tools.footprint.drawing_tools as DT
 from generators.tools.footprint.save_footprint import write_footprint
@@ -54,6 +53,7 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     silk_pad_offset = gc.silk_pad_clearance + gc.silk_fab_offset # 0.2 + 0.11
     # This is set a bit further out than normal, not quite clear why.
     silk_fab_offset = gc.silk_fab_offset # 0.11
+    silk_grid = 1e-6
     crt_offset = gc.get_courtyard_offset(GC.GlobalConfig.CourtyardType.CONNECTOR) # 0.5
     crt_grid = gc.courtyard_grid # 0.01
 
@@ -64,23 +64,23 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     #    kicad_mod.description += " (" + cfg.datasheet + "), script generated"
     kicad_mod.tags = cfg.getBaseTags()
 
-    offset = Vector2D(0, 0)
-    if cfg.isSocket and cfg.row_count > 1:
-        offset.x = -(cfg.row_count-1) * cfg.row_pitch
-    kicad_modg = Translation(offset[0], offset[1])
-    kicad_mod.append(kicad_modg)
-
     # --- Calculate pads center and pin1 offset from origin:
     half_rows_x = (cfg.row_count - 1) / 2 * cfg.row_pitch
     half_posn_y = (cfg.pos_count - 1) / 2 * cfg.pin_pitch
     pad = Vector2D(cfg.pads_length, cfg.pads_width) # x=length, y=width
 
-    #if cfg.pin1_left: # THT
-    # This works for both pinheaders and sockets because of translation
-    p1offset = Vector2D(0, 0)
-    pads_c = Vector2D(half_rows_x, half_posn_y)
-    #elif cfg.isSocket: # THT
-    #    pads_c = Vector2D(-half_rows_x, half_posn_y)
+    # if cfg.mount_type == "SMD" and cfg.pin1_left:
+    #     p1offset = Vector2D(-half_rows_x, -half_posn_y)
+    #     pads_c = Vector2D(0, 0)
+    # elif cfg.mount_type == "SMD" and not cfg.pin1_left:
+    #     p1offset = Vector2D(half_rows_x, -half_posn_y)
+    #     pads_c = Vector2D(0, 0)
+    if cfg.pin1_left: # THT
+        p1offset = Vector2D(0, 0)
+        pads_c = Vector2D(half_rows_x, half_posn_y)
+    else: # THT
+        p1offset = Vector2D(0, 0)
+        pads_c = Vector2D(-half_rows_x, half_posn_y)
 
     # --- Calculate body, fabrication, silk and courtyard dimensions/positions:
     # anchor for SMD-footprints is in the center, for THT-footprints at pin1
@@ -93,7 +93,13 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     fabb_h = (cfg.pos_count - 1) * cfg.pin_pitch + overlen_top + overlen_bot
     fabb_w = cfg.body_width
     fabb_t = -(cfg.pin_pitch / 2) - cfg.body_overlength
-    fabb_l = -(cfg.body_width / 2) + half_rows_x + cfg.body_offset
+    #if cfg.mount_type == "SMD":
+    #    fabb_t = -(h_fab/2.0) # in case top/bot overlength are symmetrical
+    #    fabb_l = -(cfg.body_width/2.0) + cfg.body_offset # - body_offset for sockets?
+    if cfg.isSocket:
+        fabb_l = -(cfg.body_width / 2) - half_rows_x - cfg.body_offset
+    else:
+        fabb_l = -(cfg.body_width / 2) + half_rows_x + cfg.body_offset
     fabb_b = fabb_t + fabb_h
     fabb_r = fabb_l + fabb_w
     if cfg.isSocket:
@@ -136,20 +142,22 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     keepouts_silk = DT.getKeepoutsForPads(pads=padlist, clearance=silk_pad_offset) # ToDo: gc.silk_pad_clearance should be enough
 
     # --- set general values
-    kicad_modg.append(
+    kicad_mod.append(
         Property(name=Property.REFERENCE, text='REF**', at=[pads_c.x, slkb_t - txt_offset], layer='F.SilkS'))
-    kicad_modg.append(
-        Text(text='${REFERENCE}', at=[pads_c.x, crt_c.y + offset.x], rotation=90, layer='F.Fab', size=fab_txt_size, thickness=fab_txt_thick))
-    kicad_modg.append(
+        # REF** should be at the center of silk instead of center of pads?
+    ref_offset = cfg.pin_pitch if (cfg.isSocket and cfg.row_count > 1) else 0
+    kicad_mod.append(
+        Text(text='${REFERENCE}', at=[pads_c.x, crt_c.y - ref_offset], rotation=90, layer='F.Fab', size=fab_txt_size, thickness=fab_txt_thick))
+    kicad_mod.append(
         Property(name=Property.VALUE, text=cfg.footpr_name, at=[pads_c.x, slkb_b + txt_offset], layer='F.Fab'))
 
     # --- create FAB-layer
     chamfer = fabb_w/4
-    kicad_modg.append(Line(start=[fabb_l + chamfer, fabb_t], end=[fabb_r, fabb_t], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[fabb_r, fabb_t], end=[fabb_r, fabb_b], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[fabb_r, fabb_b], end=[fabb_l, fabb_b], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[fabb_l, fabb_b], end=[fabb_l, fabb_t+chamfer], layer='F.Fab', width=gc.fab_line_width))
-    kicad_modg.append(Line(start=[fabb_l, fabb_t+chamfer], end=[fabb_l + chamfer, fabb_t], layer='F.Fab', width=gc.fab_line_width))
+    kicad_mod.append(Line(start=[fabb_l + chamfer, fabb_t], end=[fabb_r, fabb_t], layer='F.Fab', width=gc.fab_line_width))
+    kicad_mod.append(Line(start=[fabb_r, fabb_t], end=[fabb_r, fabb_b], layer='F.Fab', width=gc.fab_line_width))
+    kicad_mod.append(Line(start=[fabb_r, fabb_b], end=[fabb_l, fabb_b], layer='F.Fab', width=gc.fab_line_width))
+    kicad_mod.append(Line(start=[fabb_l, fabb_b], end=[fabb_l, fabb_t+chamfer], layer='F.Fab', width=gc.fab_line_width))
+    kicad_mod.append(Line(start=[fabb_l, fabb_t+chamfer], end=[fabb_l + chamfer, fabb_t], layer='F.Fab', width=gc.fab_line_width))
 
     # --- create SILKSCREEN-layer + pin1 marker
     # Silkscreen body
@@ -158,16 +166,19 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
 
     # drawing bottom line:
     if (cfg.pos_count-1)*cfg.pin_pitch + body_min_y_square < slkb_b:
-        kicad_modg.append(Line(start=[slkb_l, slkb_b], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_mod.append(Line(start=[slkb_l, slkb_b], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
     else:
         if cfg.pos_count == 1:
-            kicad_modg.append(Line(start=[slkb_l, body_min_y_square], end=[slkb_r, body_min_y_square], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_l, body_min_y_square], end=[slkb_r, body_min_y_square], layer='F.SilkS', width=gc.silk_line_width))
         else:
-            body_min_x_round = sqrt((body_min_x_square * body_min_x_square - (overlen_bot + silk_fab_offset) * (overlen_bot + silk_fab_offset)))
-            kicad_modg.append(Line(start=[slkb_l, slkb_b], end=[-body_min_x_round, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
-            kicad_modg.append(Line(start=[(cfg.row_count-1)*cfg.row_pitch+body_min_x_round, slkb_b], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
-            for row in range(0, (cfg.row_count-1)):
-                kicad_modg.append(Line(start=[row*cfg.row_pitch+body_min_x_round, slkb_b], end=[(row+1)*cfg.row_pitch-body_min_x_round, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+            segments = DT.applyKeepouts([GeomLine(start=[slkb_l, slkb_b], end=[slkb_r, slkb_b])], keepouts_silk)
+            DT.addLinesToSilk(kicad_mod, segments, gc.silk_line_width, silk_grid)
+            # body_min_x_round = sqrt((body_min_x_square * body_min_x_square - (overlen_bot + silk_fab_offset) * (overlen_bot + silk_fab_offset)))
+            # kicad_mod.append(Line(start=[slkb_l, slkb_b], end=[-body_min_x_round, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+            # kicad_mod.append(Line(start=[(cfg.row_count-1)*cfg.row_pitch+body_min_x_round, slkb_b], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+            # for x in range(0, (cfg.row_count-1)):
+            #     kicad_mod.append(Line(start=[x*cfg.row_pitch+body_min_x_round, slkb_b], end=[(x+1)*cfg.row_pitch-body_min_x_round, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+
     # drawing sidelines
     # calculate top Y position
     if cfg.pin_pitch < body_min_y_square * 2:
@@ -177,74 +188,114 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
         shoulder_y_pos = cfg.pin_pitch / 2
         shoulder_y_lines = 1
     if cfg.row_pitch < body_min_x_square * 2:
-        top_x_pos = body_min_x_square
+        top_x_pos = body_min_x_square if cfg.pin1_left else -body_min_x_square
         top_x_lines = 2
     else:
-        top_x_pos = cfg.row_pitch / 2
+        top_x_pos = cfg.row_pitch/2 if cfg.pin1_left else -cfg.row_pitch/2
         top_x_lines = 1
-    if slkb_r  > body_min_x_square+(cfg.row_count-1)*cfg.row_pitch:
+    def printshoulderinfo():
+        print(f'pitch: {cfg.pin_pitch} body_min[x:{body_min_x_square:.3f}, y:{body_min_y_square:.3f}] ' +
+        f'shoulder lines[x:{top_x_lines} y:{shoulder_y_lines}] pos[x:{top_x_pos:.3f}, y:{shoulder_y_pos:.3f}] ' +
+        f'left/top/right:{slkb_l:.3f}/{slkb_t:.3f}/{slkb_r:.3f}')
+    # printshoulderinfo()
+
+    if (
+        (not(cfg.isSocket) and slkb_r  > body_min_x_square+(cfg.row_count-1)*cfg.row_pitch) or
+        (cfg.isSocket and slkb_l  < body_min_x_square-(cfg.row_count-1)*cfg.row_pitch)
+    ):
         # left vertical side line: shoulder-bottom
-        kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
         if cfg.row_count == 1:
             # right vertical side line: shoulder-bottom
-            kicad_modg.append(Line(start=[slkb_r, shoulder_y_pos], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_r, shoulder_y_pos], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
         else:
             # right vertical side line: top-bottom
-            kicad_modg.append(Line(start=[slkb_r, slkb_t], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_r, slkb_t], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
     elif cfg.pos_count != 1:
-        # left vertical side line: shoulder-bottom
-        body_min_y_round = sqrt((body_min_x_square * body_min_x_square - slkb_l * slkb_l))
-        kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=gc.silk_line_width))
-        kicad_modg.append(Line(start=[slkb_l, (cfg.pos_count-1)*cfg.pin_pitch+body_min_y_round], end=[slkb_l, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
+        # left vertical side line: shoulder to bottom
+        segments = DT.applyKeepouts([GeomLine(start=[slkb_l, shoulder_y_pos], end=[slkb_l, slkb_b])], keepouts_silk)
+        DT.addLinesToSilk(kicad_mod, segments, gc.silk_line_width, silk_grid)
+        # slkb_l_adj = slkb_l - (cfg.row_count-1) * cfg.row_pitch if isSocket else 0
+        # body_min_y_round = sqrt((body_min_x_square * body_min_x_square - slkb_l * slkb_l))
+        # kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=silk_line_width))
+        # kicad_mod.append(Line(start=[slkb_l, (cfg.pos_count-1)*cfg.pin_pitch+body_min_y_round], end=[slkb_l, slkb_b], layer='F.SilkS', width=silk_line_width))
         if cfg.row_count == 1:
-            # right vertical side line: shoulder-bottom
-            kicad_modg.append(Line(start=[slkb_r, shoulder_y_pos], end=[slkb_r, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=gc.silk_line_width))
+            # right vertical side line: shoulder to bottom
+            # kicad_mod.append(Line(start=[slkb_r, shoulder_y_pos], end=[slkb_r, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=silk_line_width))
+            segments = DT.applyKeepouts([GeomLine(start=[slkb_r, shoulder_y_pos], end=[slkb_r, slkb_b])], keepouts_silk)
+            DT.addLinesToSilk(kicad_mod, segments, gc.silk_line_width, silk_grid)
         else:
-            # right vertical side line: body_min_y_square -> pitch-body_min_y_round
-            kicad_modg.append(Line(start=[slkb_r, body_min_y_square], end=[slkb_r, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=gc.silk_line_width))
-        kicad_modg.append(Line(start=[slkb_r, (cfg.pos_count-1)*cfg.pin_pitch+body_min_y_round], end=[slkb_r, slkb_b], layer='F.SilkS', width=gc.silk_line_width))
-        for pos in range(1, (cfg.pos_count-1)):
-            kicad_modg.append(Line(start=[slkb_l, pos*cfg.pin_pitch+body_min_y_round], end=[slkb_l, (pos+1)*cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=gc.silk_line_width))
-            kicad_modg.append(Line(start=[slkb_r, pos*cfg.pin_pitch+body_min_y_round], end=[slkb_r, (pos+1)*cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=gc.silk_line_width))
-    # drawin top
+            # right vertical side line: body_min_y_square to bottom
+            # kicad_mod.append(Line(start=[slkb_r, body_min_y_square], end=[slkb_r, cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=silk_line_width))
+            segments = DT.applyKeepouts([GeomLine(start=[slkb_r, body_min_y_square], end=[slkb_r, slkb_b])], keepouts_silk)
+            DT.addLinesToSilk(kicad_mod, segments, silk_line_width, silk_grid)
+        # kicad_mod.append(Line(start=[slkb_r, (cfg.pos_count-1)*cfg.pin_pitch+body_min_y_round], end=[slkb_r, slkb_b], layer='F.SilkS', width=silk_line_width))
+        # for x in range(1, (cfg.pos_count-1)):
+        #     kicad_mod.append(Line(start=[slkb_l, x*cfg.pin_pitch+body_min_y_round], end=[slkb_l, (x+1)*cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=silk_line_width))
+        #     kicad_mod.append(Line(start=[slkb_r, x*cfg.pin_pitch+body_min_y_round], end=[slkb_r, (x+1)*cfg.pin_pitch-body_min_y_round], layer='F.SilkS', width=silk_line_width))
 
+    # drawing top
     if cfg.row_count == 1:
+        # shoulder horizontal line: left to right
         if shoulder_y_lines == 1:
-            kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_r, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_r, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
         elif shoulder_y_lines == 2:
             top_x_round = sqrt((body_min_x_square * body_min_x_square - (shoulder_y_pos-cfg.pin_pitch) * (shoulder_y_pos-cfg.pin_pitch)))
-            kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l + slkb_w/2-top_x_round, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
-            kicad_modg.append(Line(start=[slkb_l + slkb_w/2 + top_x_round, shoulder_y_pos], end=[slkb_r, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[slkb_l + slkb_w/2-top_x_round, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_l + slkb_w/2 + top_x_round, shoulder_y_pos], end=[slkb_r, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
     else:
+        # shoulder horizontal line: left to top_x_pos
         if shoulder_y_lines == 1:
-            kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[top_x_pos, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[top_x_pos, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
         elif shoulder_y_lines == 2:
             top_x_round = sqrt((body_min_x_square * body_min_x_square - (shoulder_y_pos-cfg.pin_pitch) * (shoulder_y_pos-cfg.pin_pitch)))
-            if top_x_pos > cfg.row_pitch-top_x_round:
+            if cfg.pin1_left and top_x_pos > cfg.row_pitch-top_x_round:
                 top_x_end = cfg.row_pitch-top_x_round
+            elif not(cfg.pin1_left) and top_x_pos < -cfg.row_pitch + top_x_round:
+                top_x_end = -cfg.row_pitch - top_x_round # ToDo: check after canvas
             else:
                 top_x_end = top_x_pos
-            kicad_modg.append(Line(start=[slkb_l, shoulder_y_pos], end=[-top_x_round, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            # printshoulderinfo()
+            # print(f'top_x_round: {top_x_round} top_x_end: {top_x_end}')
+            if cfg.pin1_left:
+                kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[-top_x_round, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+            else:
+                kicad_mod.append(Line(start=[slkb_l, shoulder_y_pos], end=[top_x_end, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
             if top_x_round*2 + gc.silk_line_width*2 < pad.x:
-                kicad_modg.append(Line(start=[top_x_round, shoulder_y_pos], end=[top_x_end, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_mod.append(Line(start=[top_x_round, shoulder_y_pos], end=[top_x_end, shoulder_y_pos], layer='F.SilkS', width=gc.silk_line_width))
+
         # vertical line between row 1 and 2
         if top_x_lines == 1:
-            kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
         elif top_x_lines == 2:
-            shoulder_y_round = sqrt((body_min_x_square * body_min_x_square - (cfg.row_pitch-top_x_pos) * (cfg.row_pitch-top_x_pos)))
-            if shoulder_y_pos > cfg.pin_pitch-shoulder_y_round:
-                shoulder_y_pos = cfg.pin_pitch-shoulder_y_round
-            if shoulder_y_round*2 + gc.silk_line_width*2 < pad.y:
-                kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, shoulder_y_round], layer='F.SilkS', width=gc.silk_line_width))
-                kicad_modg.append(Line(start=[top_x_pos, -shoulder_y_round], end=[top_x_pos, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            if cfg.pin1_left or cfg.row_count == 1: # ToDo: check if can be simplified to just the else
+                shoulder_y_round = sqrt((body_min_x_square * body_min_x_square - (cfg.row_pitch-top_x_pos) * (cfg.row_pitch-top_x_pos)))
+                if shoulder_y_pos > cfg.pin_pitch-shoulder_y_round:
+                    shoulder_y_pos = cfg.pin_pitch-shoulder_y_round
+                if shoulder_y_round*2 + gc.silk_line_width*2 < pad.y:
+                    kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, shoulder_y_round], layer='F.SilkS', width=gc.silk_line_width))
+                    kicad_modg.append(Line(start=[top_x_pos, -shoulder_y_round], end=[top_x_pos, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            else:
+                shoulder_y_round = sqrt((body_min_x_square * body_min_x_square - (cfg.row_pitch+top_x_pos) * (cfg.row_pitch+top_x_pos)))
+                if shoulder_y_pos < shoulder_y_round:
+                    shoulder_y_pos = shoulder_y_round
+                if shoulder_y_round*2 + gc.silk_line_width*2 < pad.y:
+                    kicad_mod.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, shoulder_y_round], layer='F.SilkS', width=gc.silk_line_width))
+                    kicad_mod.append(Line(start=[top_x_pos, -shoulder_y_round], end=[top_x_pos, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+
         # highest horizontal line
         if abs(slkb_t) > body_min_y_square:
-            kicad_modg.append(Line(start=[top_x_pos, slkb_t], end=[slkb_r, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            kicad_mod.append(Line(start=[top_x_pos, slkb_t], end=[slkb_r, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
         else:
             top_x_round = sqrt((body_min_x_square * body_min_x_square - (abs(slkb_t)) * (abs(slkb_t))))
-            if top_x_pos > cfg.row_pitch-top_x_round + 2*gc.silk_line_width:
-                kicad_modg.append(Line(start=[top_x_pos, slkb_t], end=[cfg.row_pitch-top_x_round, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
-            kicad_modg.append(Line(start=[cfg.row_pitch+top_x_round, slkb_t], end=[slkb_r, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            if cfg.pin1_left:
+                if top_x_pos > cfg.row_pitch-top_x_round + 2*gc.silk_line_width:
+                    kicad_mod.append(Line(start=[top_x_pos, slkb_t], end=[cfg.row_pitch-top_x_round, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_mod.append(Line(start=[cfg.row_pitch+top_x_round, slkb_t], end=[slkb_r, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+            else:
+                if top_x_pos < -(cfg.row_pitch-top_x_round + 2*gc.silk_line_width):
+                    kicad_mod.append(Line(start=[top_x_pos, slkb_t], end=[cfg.row_pitch-top_x_round, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
+                kicad_mod.append(Line(start=[top_x_round, slkb_t], end=[slkb_r, slkb_t], layer='F.SilkS', width=gc.silk_line_width))
 
     # pin 1 marker
     pin1_min = -body_min_x_square
@@ -257,12 +308,12 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     else:
         pin1_y = slkb_t
     if cfg.isSocket and cfg.row_count>1:
-        kicad_modg.append(PolygonLine(shape=[[pin1_x + slkb_w, 0], [pin1_x + slkb_w, pin1_y], [pin1_x + slkb_w - cfg.pin_pitch / 2, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_mod.append(PolygonLine(shape=[[pin1_x + slkb_w, 0], [pin1_x + slkb_w, pin1_y], [pin1_x + slkb_w - cfg.pin_pitch / 2, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
     else:
-        kicad_modg.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
+        kicad_mod.append(PolygonLine(shape=[[pin1_x, 0], [pin1_x, pin1_y], [0, pin1_y]], layer='F.SilkS', width=gc.silk_line_width))
 
 	# --- create courtyard:
-    kicad_modg.append(
+    kicad_mod.append(
         Rectangle(
             start=[DT.roundCrt(crt_l), DT.roundCrt(crt_t)],
             end=[DT.roundCrt(crt_r), DT.roundCrt(crt_b)],
@@ -272,7 +323,7 @@ def makePinHeadStraight(cfg: FPconfiguration, generator_name: str):
     )
 
     # --- add model
-    kicad_modg.append(
+    kicad_mod.append(
         Model(
             filename=gc.model_3d_prefix
             + cfg.lib_name
