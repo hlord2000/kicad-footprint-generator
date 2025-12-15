@@ -121,7 +121,7 @@ def add_argparse_arguments(parser: ArgumentParser) -> None:
     )
     parser.add_argument(
         "-u",
-        "--update-sorted-footprint-generators-list",
+        "--update-sorted-generators-list",
         action="store_true",
         help=f"Update the files that contains the list of the generators sorted by the "
         "execution time of their slowest work package. Executing the generators in "

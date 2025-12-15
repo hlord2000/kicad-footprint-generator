@@ -365,7 +365,7 @@ def _run_generators(
         success &= _run_all_generators_of_same_type(
             i, executor, num_workers, generator_stats, args
         )
-        if args.update_sorted_footprint_generators_list:
+        if args.update_sorted_generators_list:
             _save_sorted_generator_list(i, generator_stats, args)
         wall_times[i] = time.perf_counter() - start_time
     if executor is not None:
@@ -628,6 +628,12 @@ def _save_sorted_generator_list(
     )
     path = GENERATORS_PATH / FILE_NAMES_SORTED_GEN_LIST[gen_idx]
     with open(path, "w") as f:
+        f.write(
+            "# This file defines the execution order for the generators. Generators\n"
+            "# are prioritized in descending order of runtime (slowest first).\n"
+            "# This list is automatically updated by the generator runner when\n"
+            "# executed with the `-u` option and a full generator run is performed.\n"
+        )
         for generator_stats in sorted_generator_stats_list:
             if generator_stats.implemented_gens[gen_idx]:
                 f.write(generator_stats.name + "\n")
@@ -658,7 +664,8 @@ def sort_generator_stats_for_minimum_wall_time(
         path = GENERATORS_PATH / FILE_NAMES_SORTED_GEN_LIST[gen_idx]
         with open(path, "r") as f:
             for line in f:
-                sorted_names_list.append(line.strip())
+                if not line.startswith("#"):
+                    sorted_names_list.append(line.strip())
         name_to_rank = {name: index for index, name in enumerate(sorted_names_list)}
         generator_stats_list.sort(
             key=lambda stats_item: (

@@ -1,3 +1,7 @@
+# This file defines the execution order for the generators. Generators
+# are prioritized in descending order of runtime (slowest first).
+# This list is automatically updated by the generator runner when
+# executed with the `-u` option and a full generator run is performed.
 connector/pin_socket
 connector/pin_header/other
 package/gullwing
