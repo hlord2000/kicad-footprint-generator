@@ -992,6 +992,27 @@ Converter_DCDC_TRACO_TRI1-xxxx_THT:
     ["tht", "7", 0, -15.24, 1.5, 1.5, 1]
   ]
 
+Converter_DCDC_TRACO_TRI1-xxxxSM_SMD:
+  library_name: 'Converter_DCDC'
+  description: "DCDC-Converter, TRACO, TRI1-xxxxSM, 1W, Rev. August 27. 2025"
+  datasheet: "https://www.tracopower.com/products/tri1sm.pdf"
+  tags: "DCDC-Converter TRACO TRI1SM SMD SMD14 1W"
+  smd_tht: smd
+  extratexts: []
+  at: [-6.85, 9.45]
+  size: [13.7, 18.9]
+  body_position_tolerance: [0.5, 0.5]
+  # For future use
+  height: 10.2
+  pins: [
+    ["smd", "1", -8.075, 7.62, 2.45, 1.6, 0],
+    ["smd", "6", -8.075, -5.08, 2.45, 1.6, 0],
+    ["smd", "7", -8.075, -7.62, 2.45, 1.6, 0],
+    ["smd", "8", 8.075, -7.62, 2.45, 1.6, 0],
+    ["smd", "9", 8.075,  -5.08, 2.45, 1.6, 0],
+    ["smd", "14", 8.075, 7.62, 2.45, 1.6, 0]
+  ]
+
 Converter_DCDC_TRACO_TRI10_Dual_THT:
   library_name: 'Converter_DCDC'
   description: "DCDC-Converter, TRACO, TRI 10, Dual, 10W, Rev. March 11. 2025"
