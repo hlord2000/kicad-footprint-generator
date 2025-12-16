@@ -300,6 +300,7 @@ QFN-32-1EP_4x4mm_P0.4mm_EP2.9x2.9mm:
   lead_len:
     minimum: 0.3
     maximum: 0.4
+  lead_height: 0.15  # nominal: A - A2
   EP_size_x:
     minimum: 2.7
     nominal: 2.8
