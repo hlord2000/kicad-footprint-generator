@@ -461,9 +461,12 @@ Converter_DCDC_TRACO_THL40-xxxxWI_THT:
 
 Converter_DCDC_TRACO_THN10-xxxxUIR_THT:
   library_name: 'Converter_DCDC'
-  description: "DCDC-Converter, TRACO, THN 10-xxxxUIR, 10W, Rev. July 3. 2025"
+  description: "DCDC-Converter, TRACO, THN 10-xxxxUIR, 10W, Rev. August 28. 2025"
   datasheet: "https://www.tracopower.com/products/thn10uir.pdf"
-  tags: "DCDC-Converter TRACO THN10UIR THT 1\"x1\" 10W"
+  tags: "DCDC-Converter TRACO THT 1\"x1\" 10W THN10UIR"
+  compatible_mpns:
+    # https://www.tracopower.com/products/thn15uir.pdf
+    - THN15UIR
   extratexts: []
   at: [-2.5, 2.5]
   size: [25.4, 25.4]
