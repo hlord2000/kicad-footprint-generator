@@ -15,8 +15,8 @@
 # For development, from the root of the repository:
 # - Enable the vitual env: .\venv\Scripts\Activate or on Windows Powershell: .\venv\Scripts\Activate.ps1
 # - cd to ./src/generators
-# - python ./generate.py -f ../../../footprints -g connector/pin_header_socket -j1 -v -t --all
-# Thist generates the IDC/Pinheaders, on only 1 thread, verbose output, a strategic test subset, and also the PinSockets old style
+# - python ./generate.py -f ../../../footprints -g connector/pin_header_socket -j1 -v -t
+# This generates the IDC/Pinheaders/Pinsockets, on only 1 thread, verbose output and only a strategic test subset.
 # Notes: connector/pin_socket will be integrated automatically after re-merge. 
 # - Optional: Disable virtual env: .\venv\Scripts\Deactivate or on Windows Powershell: & {. .\venv\Scripts\Activate.ps1; deactivate}
 
@@ -39,8 +39,7 @@ def create_footprints(spec: FPconfiguration, generator_name: str) -> int:
         The number of footprints generated.
     """
     genFunction = None
-    if spec.class_name == "PinHeader" or (CLI_ARGS.headers_all and spec.class_name == "PinSocket"):
-    # if spec.class_name == "PinHeader" or spec.class_name == "PinSocket":
+    if spec.class_name == "PinHeader" or spec.class_name == "PinSocket":
         if spec.orientation == "Vertical":
             if spec.mount_type == "THT":
                 genFunction = makePinHeadStraight
@@ -56,7 +55,7 @@ def create_footprints(spec: FPconfiguration, generator_name: str) -> int:
         (spec.mount_type == "SMD" and spec.orientation == "Vertical")
     ):
         genFunction = makeIdcHeader
-    if genFunction == None and not(spec.class_name == "PinSocket"):
+    if genFunction == None:
         raise ValueError(
             f"Unsupported mount/orientation combination: {spec.mount_type}/{spec.orientation}"
         )

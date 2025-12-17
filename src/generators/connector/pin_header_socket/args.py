@@ -24,8 +24,3 @@ def add_argparse_arguments(parser: ArgumentParser) -> None:
 		action='store_true',
 		help='[conector/pin_header_socket] For development test, generate a subset of position counts.'
     )
-    parser.add_argument(
-		'--headers-all',
-		action='store_true',
-		help='Temporary: also generate Pinsockets'
-    )
