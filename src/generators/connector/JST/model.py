@@ -60,6 +60,7 @@ from .cq_models import (
     conn_jst_eh_models,
     conn_jst_gh_models,
     conn_jst_ph_models,
+    conn_jst_sh_models,
     conn_jst_xh_models,
 )
 
@@ -88,6 +89,8 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
             cqm = conn_jst_gh_models
         elif spec.spec["series"] == "PH":
             cqm = conn_jst_ph_models
+        elif spec.spec["series"] == "SH":
+            cqm = conn_jst_sh_models
         elif spec.spec["series"] == "XH" or spec.spec["series"] == "XHVS":
             cqm = conn_jst_xh_models
         else:
