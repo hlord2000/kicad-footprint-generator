@@ -114,6 +114,9 @@ def get_spec_dicts(
                     for id, spec in yaml_dict.items():
                         dict_tools.dict_merge(default_parameters, spec)
                         yaml_dict[id] = spec
+                yaml_dict = {
+                    k:v for k, v in yaml_dict.items() if not k.startswith("defaults")
+                }
                 specs_raw.append((file_name, yaml_dict))
         except FileNotFoundError:
             return specs_raw
@@ -142,10 +145,7 @@ def get_file_name_ids_specs(
     for file_name, raw_specs in get_spec_dicts(generator_name, file_name):
         ids_specs: list[tuple[str, DD]] = []
         for id, spec in raw_specs.items():
-            if id.startswith("default"):
-                continue
-            else:
-                ids_specs.append((id, spec))
+            ids_specs.append((id, spec))
         try:
             ids_specs = list_filter_idx(
                 ids_specs, 0, CLI_ARGS.part, CLI_ARGS.part_exclude
