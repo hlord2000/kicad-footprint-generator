@@ -617,6 +617,37 @@ Microchip_USON-10-1EP_3x3mm_P0.5mm_EP1.8x2.5mm:
     count: [2, 3]
     drill: 0.2
 
+ST_DFN-10-1EP_3x3mm_P0.5mm_EP0.62x0.98mm:
+  library: Package_DFN_QFN # TEMPORARY
+  size_source: 'https://www.st.com/resource/en/datasheet/l7983.pdf'
+  manufacturer: 'ST'
+  device_type: 'DFN'
+  body_size_x: 3.00 # No tolerance given (3.00 BSC)
+  body_size_y: 3.00 # No tolerance given (3.00 BSC)
+  overall_height: 0.70 .. 0.75 .. 0.80
+  body_pcb_gap: 0.00 .. 0.02 .. 0.05
+  num_pins_x: 0
+  num_pins_y: 5
+  pitch: 0.5
+  lead_width: 0.16 .. 0.23 .. 0.28
+  lead_len: 0.30 .. 0.40 .. 0.50
+  pad_width: 0.25
+  lead_height: 0.2  # ref
+  pad_length: 0.60
+  pad_center_to_center_x: 2.60
+  EP_size_x: 0.27 .. 0.42 .. 0.52
+  EP_size_y: 0.63 .. 0.78 .. 0.88
+  EP_size_x_overwrite: 0.62
+  EP_size_y_overwrite: 0.98
+  EP_center_y: -0.15
+  EP_num_paste_pads: [1, 1]
+  thermal_vias:
+    count: [1, 2]
+    grid: [1, 0.55]
+    drill: 0.2
+    EP_num_paste_pads: [1, 1]
+    EP_paste_coverage: 1 # The via holes are reltively speaking rather large.
+
 ##############################################################################
 # Pitch 0.8 mm
 ##############################################################################
