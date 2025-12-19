@@ -229,3 +229,64 @@ PRODTech_1065:
     - 'PDMCAT1065'
   w: 13
   w2: 1.5
+
+PRODTech_PDMCAT18107-102ML: &PRODTech_PDMCAT18107
+  <<: *base
+  add_description: https://www.lcsc.com/datasheet/C2831472.pdf
+  ddrill: 1.5 # 1.2+/-0.1 pin dia => 1.3mm 
+  h: 12
+  # These two are just for graphics, but possibly relevant for 3D
+  # So we make them match the toroid dims
+  innerh: 12
+  innerw: 22
+  name_additions:
+    - PRODTech
+    - PDMCAT18107-102ML
+  rm: 9
+  rm2: 8
+  specialtags:
+    - PRODTech
+    - PDMCAT18107-102ML
+  w: 22
+  w2: 1.5
+
+PRODTech_PDMCAT18107-202ML:
+  <<: *PRODTech_PDMCAT18107
+  ddrill: 1.3 # 1.0+/-0.1 pin dia
+  name_additions:
+    - PRODTech
+    - PDMCAT18107-202ML
+  specialtags:
+    - PRODTech
+    - PDMCAT18107-202ML
+
+PRODTech_PDMCAT18107-502ML:
+  <<: *PRODTech_PDMCAT18107
+  ddrill: 1.05 # 0.75+/-0.1 pin dia
+  name_additions:
+    - PRODTech
+    - PDMCAT18107-502ML
+  specialtags:
+    - PRODTech
+    - PDMCAT18107-502ML
+
+PRODTech_PDMCAT18107-103ML:
+  <<: *PRODTech_PDMCAT18107
+  ddrill: 0.9 # 0.6+/-0.1 pin dia
+  name_additions:
+    - PRODTech
+    - PDMCAT18107-103ML
+  specialtags:
+    - PRODTech
+    - PDMCAT18107-103ML
+  
+PRODTech_PDMCAT18107-203ML:
+  <<: *PRODTech_PDMCAT18107
+  ddrill: 0.7 # 0.5+/-0.1 pin dia
+  name_additions:
+    - PRODTech
+    - PDMCAT18107-203ML
+  specialtags:
+    - PRODTech
+    - PDMCAT18107-203ML
+  
