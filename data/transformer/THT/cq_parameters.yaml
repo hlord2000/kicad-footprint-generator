@@ -25,6 +25,7 @@ Transformer_37x44:
   rotation: 0  # Rotation if required
   destination_dir: Transformer_THT.3dshapes  # Destination directory
   source: 'N/A'
+  include_in_qa: True
 
 Transformer_Breve_TEZ-22x24:
   model_name: Transformer_Breve_TEZ-22x24

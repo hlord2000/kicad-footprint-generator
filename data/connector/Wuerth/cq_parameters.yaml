@@ -150,7 +150,7 @@ smd:
     offset: 1.93
     drill: 1.1
   parts:
-    610004243021:
+    610004243021: &610004243021
       datasheet: https://katalog.we-online.de/em/datasheet/610004243021.pdf
       rows: 2
       pins: 4
@@ -202,3 +202,6 @@ smd:
       datasheet: https://katalog.we-online.de/em/datasheet/610034243021.pdf
       rows: 2
       pins: 34
+  include_in_qa:
+    parts:
+      610004243021: *610004243021

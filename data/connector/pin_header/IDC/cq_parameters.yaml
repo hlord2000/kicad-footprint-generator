@@ -3,6 +3,7 @@ IDC-Header_2x03_P2.54mm_Horizontal:
   is_angled: true
   body_color_key: "black body"
   pins_color_key: "gold pins"
+  include_in_qa: True
 IDC-Header_2x03_P2.54mm_Vertical:
   pins: 3
   is_angled: false
@@ -13,6 +14,7 @@ IDC-Header_2x04_P2.54mm_Horizontal:
   is_angled: true
   body_color_key: "black body"
   pins_color_key: "gold pins"
+  include_in_qa: True
 IDC-Header_2x04_P2.54mm_Vertical:
   pins: 4
   is_angled: false

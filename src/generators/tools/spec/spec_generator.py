@@ -16,7 +16,7 @@ from __future__ import annotations
 import csv
 import os
 from pathlib import Path
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, cast
 
 import yaml
 
@@ -117,6 +117,14 @@ def get_spec_dicts(
                 yaml_dict = {
                     k:v for k, v in yaml_dict.items() if not k.startswith("defaults")
                 }
+                if CLI_ARGS.quality_assurance_set is True:
+                    qa_yaml_dict = {}
+                    for id, spec in yaml_dict.items():
+                        if include_in_qa := spec.get("include_in_qa"):
+                            if isinstance(include_in_qa, dict):
+                                spec.update(cast(dict[Any, Any], include_in_qa))
+                            qa_yaml_dict[id] = spec
+                    yaml_dict = qa_yaml_dict
                 specs_raw.append((file_name, yaml_dict))
         except FileNotFoundError:
             specs_raw.append((file_name, {}))
@@ -178,9 +186,7 @@ def get_specs(
     specs: list[TypeSpec] = []
     make_fps = True if CLI_ARGS.output_dir_footprints else False
     make_mods = True if CLI_ARGS.output_dir_models else False
-    for file_name, ids_specs in get_file_name_ids_specs(
-        generator_name, file_name
-    ):
+    for file_name, ids_specs in get_file_name_ids_specs(generator_name, file_name):
         for id, spec in ids_specs:
             spec = spec_type(id, spec, file_name)
             if make_fps and spec.has_fp_data or make_mods and spec.has_3d_data:

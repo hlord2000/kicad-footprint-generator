@@ -11,6 +11,7 @@ L_01005_0402Metric:
   pin_color_key: 'metal grey pins'
   destination_dir: 'Inductor_SMD.3dshapes'
   source: 'http://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM0222C1C121JA02-01.pdf'
+  include_in_qa: True
 
 L_0201_0603Metric:
   model_name: 'L_0201_0603Metric'

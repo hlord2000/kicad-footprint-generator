@@ -13,6 +13,7 @@ C_Axial_L3.8mm_D2.6mm_P7.50mm_Horizontal:
   body_color_key: 'yellow body'
   pins_color_key: 'metal grey pins'
   destination_dir : 'Capacitor_THT.3dshapes'
+  include_in_qa: True
 
 C_Axial_L3.8mm_D2.6mm_P10.00mm_Horizontal:
   modelName: 'C_Axial_L3.8mm_D2.6mm_P10.00mm_Horizontal' # from Jan Kriege's 3d models

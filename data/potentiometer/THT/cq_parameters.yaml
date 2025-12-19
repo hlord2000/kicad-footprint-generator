@@ -20,6 +20,7 @@ Bourns_3005:
   pinmark_color_key: 'green body'
   destination_dir: 'Potentiometer_THT.3dshapes'
   source: 'https://www.bourns.com/pdfs/3005.pdf'
+  include_in_qa: True
 
 Bourns_3006P:
   package_type: 'Bourns_3005'

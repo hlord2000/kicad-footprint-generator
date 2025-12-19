@@ -5,6 +5,7 @@ ucon_17809_02x02_1.27mm:
   pin_pitch: 1.27
   pin_y_pitch: 2.54
   source: 'N/A'
+  include_in_qa: True
 
 ucon_17809_02x03_1.27mm:
   series_name: 17809

@@ -135,6 +135,7 @@ Nidec_Copal_SH-7040B:
     [ 5.0,  2.54,   0],
     [ 5.0, -2.54,   0],
   ]
+  include_in_qa: True
 
 Nidec_Copal_SH-7010C:
   <<: *Nidec_Copal_SH-7010A

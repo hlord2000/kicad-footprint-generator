@@ -17,6 +17,10 @@ PinHeader_1xyy_P2.54mm_Vertical:
   body_color_key: "black body"
   destination_dir: 'Connector_PinHeader_2.54mm.3dshapes'
   source: 'http://katalog.we-online.de/em/datasheet/6130xx11121.pdf'
+  include_in_qa:
+    pins:
+      from: 1
+      to: 2
 
 PinHeader_2xyy_P2.54mm_Vertical:
   type: 'Vertical_THT'

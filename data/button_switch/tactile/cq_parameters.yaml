@@ -305,6 +305,7 @@ SW_TH_Tactile_Omron_B3F-102x:
   actuator_height: 5.0
 
   actuator_color_key: black body
+  include_in_qa: True
 
 SW_TH_Tactile_Omron_B3F-106x:
   <<: *SW_TH_Tactile_Omron_B3F-100x

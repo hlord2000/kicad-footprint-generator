@@ -18,6 +18,7 @@ L16_D5_p05:
   pin_color_key: 'metal grey pins'
   top_color_key: 'metal grey pins'
   source: 'http://industrial.panasonic.com/lecs/www-data/pdf/ABA0000/ABA0000PE369.pdf'
+  include_in_qa: True
 
 L10_D5_p05:
   L: 10.0

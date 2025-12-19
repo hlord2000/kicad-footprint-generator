@@ -25,6 +25,7 @@ Valve_Noval-B9A_Belton-VT9-PT_Socket:
   rotation: 0  # Rotation if required
   destination_dir: Valve.3dshapes  # Destination directory
   source: 'http://www.belton.co.kr/inc/downfile.php?seq=58&file=pdf'
+  include_in_qa: True
 
 Valve_Noval-B9A_Belton-VT9-PT-C_Socket:
   model_name: Valve_Noval-B9A_Belton-VT9-PT-C_Socket

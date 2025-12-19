@@ -13,6 +13,7 @@ RV_Disc_D12mm_W3.9mm_P7.5mm:
   rotation: 0  # Rotation if required
   destination_dir: Varistor.3dshapes  # Destination directory
   source: 'N/A'
+  include_in_qa: True
 
 RV_Disc_D12mm_W4.2mm_P7.5mm:
   model_name: RV_Disc_D12mm_W4.2mm_P7.5mm

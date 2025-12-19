@@ -14,6 +14,7 @@ AT310_Horizontal:
   pin_color_key: metal silver  # Pin color
   rotation: 0  # Rotation if required
   destination_dir: 'Crystal.3dshapes'  # Destination directory
+  include_in_qa: True
 
 AT310_Horizontal_1EP_1:
   type: 1

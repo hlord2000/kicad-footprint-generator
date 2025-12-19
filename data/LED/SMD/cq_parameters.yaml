@@ -17,6 +17,7 @@ LED_01005_0402Metric:
   pinmark: True
   destination_dir: 'LED_SMD.3dshapes'
   source: 'could not find any'
+  include_in_qa: True
 
 LED_0201_0603Metric:
   model_name: 'LED_0201_0603Metric'

@@ -20,6 +20,7 @@ D_0603_1608Metric:
   lead_height: 0.8
   EP_chamfer: 0.2
   marker: "bar"
+  include_in_qa: True
 
 D_0805_2012Metric:
   size_source: 'http://datasheets.avx.com/schottky.pdf'
@@ -176,6 +177,7 @@ AMS_LGA-10-1EP_2.7x4mm_P0.6mm:
   EP_size_x: 1.2
   EP_size_y: 2.4
   EP_chamfer: 0.2
+  include_in_qa: True
 
 ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y:
   size_source: 'https://www.st.com/resource/en/datasheet/lps22hh.pdf'
@@ -192,6 +194,7 @@ ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y:
   lead_len: 0.275
   lead_to_edge: 0.1
   lead_height: 0.2
+  include_in_qa: True
 
 LGA-12_2x2mm_P0.5mm:
   size_source: 'N/A'

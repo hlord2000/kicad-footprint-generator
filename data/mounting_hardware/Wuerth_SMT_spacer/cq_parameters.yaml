@@ -21,7 +21,7 @@
     t1: 0
     ext_thread: null
   parts:
-    9774010943:
+    9774010943: &9774010943
       datasheet: https://www.we-online.com/components/products/datasheet/9774010943R.pdf
       h: 1
     9774015943:
@@ -59,6 +59,9 @@
       h: 8
   body_color_key: 'metal grey pins'
   destination_dir: 'Mounting_Wuerth.3dshapes'
+  include_in_qa:
+    parts:
+      9774010943: *9774010943
 
 2.7mm:
   series_prefix: WA-SMST

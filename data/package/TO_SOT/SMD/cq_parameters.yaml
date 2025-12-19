@@ -396,6 +396,7 @@ TO-268:
             centre_pin: ['cut']
             keywords: 'D3PAK-3 TO-268-3'
             datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf
+    include_in_qa: True
 
 # ATPAK SMD packages
 ATPAK:

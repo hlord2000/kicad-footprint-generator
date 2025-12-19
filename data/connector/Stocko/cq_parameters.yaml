@@ -27,6 +27,7 @@ Stocko_MKS_1651:
   outline_x: 3.6
   top_cutout: False
   pins: 2
+  include_in_qa: True
 
 Stocko_MKS_1652:
   inherit: defaults
@@ -39,6 +40,7 @@ Stocko_MKS_1653:
   pins: 3
   top_cutout: False
   outline_x: 3.6
+  include_in_qa: True
 
 Stocko_MKS_1654:
   inherit: defaults

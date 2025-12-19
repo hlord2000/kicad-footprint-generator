@@ -19,6 +19,7 @@ SW_DIP_x1_W5.08mm_Slide_Copal_CHS-A:
   pin_color_key: metal grey pins  # Pin colour
   destination_dir: 'Switch_SMD_packages.3dshapes'
   source: 'N/A'
+  include_in_qa: True
 
 SW_DIP_x1_W7.62mm_Slide_Copal_CHS-B:
   L: 5.0

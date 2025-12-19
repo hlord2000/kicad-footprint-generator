@@ -23,6 +23,8 @@ TerminalBlock_Barrier_HB9500_*:
   manufacturer: "Ningbo-Kagnex"
   part_number: "HB9500"
   datasheet: https://lcsc.com/datasheet/lcsc_datasheet_2304140030_Ningbo-Kangnex-Elec-HB9500-9-5-4P_C72338.pdf
+  include_in_qa: 
+    pins: 2-3
 
 TerminalBlock_Barrier_HB9500M_*:
   name_template: "{lib_name}_HB9500M_1x{n_pin}_P{pitch}mm"

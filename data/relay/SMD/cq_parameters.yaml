@@ -25,6 +25,7 @@ Relay_DPDT_Kemet_EE2_NU:
   pin_color_key: metal grey pins
   destination_dir: Relay_SMD.3dshapes
   source: 'https://content.kemet.com/datasheets/KEM_R7002_EC2_EE2.pdf'
+  include_in_qa: True
 
 Relay_DPDT_Kemet_EE2_NU_DoubleCoil:
   model_name: Relay_DPDT_Kemet_EE2_NU_DoubleCoil

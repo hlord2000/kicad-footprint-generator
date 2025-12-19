@@ -11,6 +11,7 @@ Altech_AK300_1x02_P5.00mm_45-Degree:
   PF: "rect"  # Pin form
   SW: 2.7  # Blender width
   rotation: 0  # Rotation
+  include_in_qa: True
 
 Altech_AK300_1x03_P5.00mm_45-Degree:
   W: 12.5
@@ -25,6 +26,7 @@ Altech_AK300_1x03_P5.00mm_45-Degree:
   PF: "rect"
   SW: 2.7
   rotation: 0
+  include_in_qa: True
 
 Altech_AK300_1x04_P5.00mm_45-Degree:
   W: 12.5

@@ -136,6 +136,12 @@ def add_argparse_arguments(parser: ArgumentParser) -> None:
         "display the names of the generated footprints (if used '-f DUMMY_PATH' is "
         "used) or models (if '-m DUMMY_PATH' is used).",
     )
+    parser.add_argument(
+        "-q",
+        "--quality-assurance-set",
+        action="store_true",
+        help="Generate only the subset of parts that are marked for quality assurance.",
+    )
 
     # Arugments for the footprint generators:
     parser_fp_group = parser.add_argument_group("Footprint generator arguments")

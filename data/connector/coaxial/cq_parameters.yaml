@@ -27,6 +27,7 @@ SMA_Amphenol_132134_Vertical:
   translate: null
   destination_dir: 'Connector_Coaxial.3dshapes' # destination directory
   source: 'https://www.amphenolrf.com/library/download/link/link_id/593003/parent/132134/'
+  include_in_qa: True
 
 SMA_Amphenol_901-144_Vertical:
   model_name: 'SMA_Amphenol_901-144_Vertical'    # modelName

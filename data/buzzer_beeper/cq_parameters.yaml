@@ -23,6 +23,7 @@ Buzzer_12x9.5RM7.6:
   npth_pin_color_key: 'grey body'                 # NPTH Pin color
   rotation: 0                                     # Rotation if required
   destination_dir: 'Buzzer_Beeper.3dshapes'       # destination directory
+  include_in_qa: True
 
 #
 # Valve

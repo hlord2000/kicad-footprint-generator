@@ -23,6 +23,7 @@ EIA-1608-08:
   pin_color_key: 'metal grey pins'
   file_name: '{prefix:s}_EIA-{code_metric:s}_{code_letter:s}'
   destination_dir: 'Capacitor_Tantalum_SMD.3dshapes'
+  include_in_qa: True
 
 EIA-1608-10:
   modelName_old: CP_Tantalum_Case-L_EIA-1608-10

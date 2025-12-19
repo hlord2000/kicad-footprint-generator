@@ -475,7 +475,7 @@ def _get_work_package_chunks(
             wps = [wp for wp in wps if wp.has_fp_data]
             # Simple workaround for legacy footprint generators that don't have a spec
             # generator - we create a dummy spec for those:
-            if not wps:
+            if not wps and not args.quality_assurance_set:
                 base_spec = BaseSpec()
                 base_spec.has_3d_data = False
                 base_spec.has_fp_data = True
@@ -485,7 +485,7 @@ def _get_work_package_chunks(
             wps = [wp for wp in wps if wp.has_3d_data]
             # Simple workaround for legacy model generators that don't have a spec
             # generator - we create a list of LegacyModelSpec from "cq_parameters.yaml":
-            if not wps:
+            if not generator_stats.implemented_gens[GEN_IDX_SPEC]:
                 from generators.tools.spec import legacy_model_spec
 
                 wps = legacy_model_spec.create_specs(generator_stats.name)

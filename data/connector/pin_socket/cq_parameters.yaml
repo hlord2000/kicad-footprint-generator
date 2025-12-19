@@ -51,6 +51,8 @@ THT-1x1.27mm_Vertical:
   pins_color_key: 'gold pins'
   destination_dir : 'Connector_PinSocket_1.27mm.3dshapes'
   source: 'from Kicad 4.0.7'
+  include_in_qa:
+    pins_max: 2
 
 THT-1x2.00mm_Vertical:
   model_name: 'PinSocket_{0}x{1}_P2.00mm_Vertical'

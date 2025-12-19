@@ -7,6 +7,7 @@
   pin_color_key: 'metal grey pins'  # Pin color
   destination_dir: 'Fuse.3dshapes'  # Destination directory
   source: 'https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf'
+  include_in_qa: True
 
 0ZRE0008FF:
   model_name: Fuse_BelFuse_0ZRE_0ZRE0008FF_L8.3mm_W3.8mm

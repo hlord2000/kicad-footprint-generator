@@ -11,6 +11,7 @@ CP_Radial_Tantal_D4.5mm_P2.50mm:
   mark_color_key: 'light brown body'
   pin_color_key: 'metal grey pins'
   destination_dir: 'Capacitor_THT.3dshapes'  # destination directory prefix
+  include_in_qa: True
 
 CP_Radial_Tantal_D4.5mm_P5.00mm:
   L: 4.5

@@ -16,6 +16,7 @@ DIP-8_W7.62mm:
   body_color_key: 'black body'
   pin_color_key: 'metal grey pins'
   destination_dir: 'Package_DIP.3dshapes'
+  include_in_qa: True
 
 DIP-4_W7.62mm:
   D: 4.93

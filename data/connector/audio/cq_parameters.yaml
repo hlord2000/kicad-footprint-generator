@@ -20,6 +20,7 @@ Jack_3.5mm_CUI_SJ1-3533NG_Horizontal:
   rotation: 180                                 # Rotation if required
   destination_dir: 'Connector_Audio.3dshapes'   # destination directory
   source: 'https://www.cui.com/product/resource/sj1-353xng.pdf'
+  include_in_qa: True
 
 Jack_3.5mm_Ledino_KB3SPRS_Horizontal:
   model_name: 'Jack_3.5mm_Ledino_KB3SPRS_Horizontal' # modelName

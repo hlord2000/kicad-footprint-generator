@@ -20,6 +20,8 @@ Series_502250:
   latch_color_key: 'black body'
   destination_dir: 'Connector_FFC-FPC.3dshapes'
   source: 'http://www.molex.com/pdm_docs/sd/5022501791_sd.pdf'
+  include_in_qa:
+    pin_range: [17]
 
 KK_396_5273:
   series: 'KK-396'

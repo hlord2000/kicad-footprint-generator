@@ -9,6 +9,7 @@ FF_9.0mm_D5.0:
   destination_dir: Spacers.3dshapes
   body_color_key: 'metal grey pins'
   source: 'http://katalog.we-online.de/em/datasheet/6130xx11121.pdf'
+  include_in_qa: True
 
 Standoff_Height_13.0mm_HEX:
   OD: 5.5

@@ -36,6 +36,7 @@
   destination_dir: Connector_Dsub.3dshapes
   model_name: DSUB-9_{}_Vertical_P2.77x2.84mm_MountingHoles
   source: 'https://disti-assets.s3.amazonaws.com/tonar/files/datasheets/16730.pdf#page=16'
+  include_in_qa: True
 
 15_Vertical_P2.77x2.84mm:
   pin: ['round', 15, 2.77, 2.84, 0.64, 3.9]

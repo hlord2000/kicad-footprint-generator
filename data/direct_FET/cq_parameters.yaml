@@ -13,6 +13,7 @@ DirectFET_L8:
   body_color_key: 'metal grey pins'
   die_color_key: 'brown body'
   destination_dir: 'Package_DirectFET.3dshapes'
+  include_in_qa: True
 
 DirectFET_ME:
   A: 6.3

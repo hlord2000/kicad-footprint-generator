@@ -8,6 +8,7 @@ PowerIntegrations_eSIP-7C:
   rotation: 0  # Rotation if required
   destination_dir: Package_SIP.3dshapes  # Destination directory
   source: 'http://www.belton.co.kr/inc/downfile.php?seq=58&file=pdf'
+  include_in_qa: True
 
 PowerIntegrations_eSIP-7F:
   model_name: PowerIntegrations_eSIP-7F

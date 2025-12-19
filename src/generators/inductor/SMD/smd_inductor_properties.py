@@ -21,6 +21,7 @@ from typing import Any, cast
 
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from generators.tools.spec.base_spec import BaseSpec
+from generators.tools.cli_args import CLI_ARGS
 from kilibs.geom import Vector3D
 from kilibs.util import dict_tools
 
@@ -240,9 +241,12 @@ class SmdInductorProperties:
         self.body: InductorBodyParameters
         """The body parameters of the inductor, which determine both how the
         footprint may be drawn and how the 3D model is generated."""
+        self.include_in_qa: bool
+        """Whether to include this part in the QA set."""
 
         self.part_number = part_block["PartNumber"]
         self.datasheet = part_block.get("datasheet", None)
+        self.include_in_qa = part_block.get("include_in_qa", False)  # type: ignore
 
         body_type_key = cast(int | str, part_block.get("3d", {}).get("type", 1))  # type: ignore
 
@@ -372,3 +376,8 @@ class InductorSeriesProperties(BaseSpec):
             self.parts = [construct_part_properties(x) for x in series_block["parts"]]
         else:
             raise RuntimeError("Data block must contain a 'csv' or 'parts' key")
+
+        # If we are building only the QA set, then we should keep only the parts marked
+        # for inclusion in the QA set:
+        if CLI_ARGS.quality_assurance_set:
+            self.parts = [p for p in self.parts if p.include_in_qa]

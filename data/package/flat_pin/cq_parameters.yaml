@@ -27,6 +27,7 @@ D_SOD-323F:
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
   source: 'http://www.nxp.com/documents/outline_drawing/SOD323F.pdf'
+  include_in_qa: True
 
 D_PowerDI-123:
   the: 4.0

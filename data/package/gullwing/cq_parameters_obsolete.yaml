@@ -24,6 +24,7 @@ D_SOD-123:
   num_pins_y: 1
   override_lib_name: 'Diode_SMD'
   size_source: 'https://assets.nexperia.com/documents/package-information/SOD123.pdf#page=2'
+  include_in_qa: True
 
 D_SOD-323:
   body_angle: 8.0
@@ -206,6 +207,7 @@ TQFP-48-1EP_7x7mm_P0.5mm_EP5x5mm:
   EP_size_y: 5.0
   override_lib_name: 'Package_QFP'
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  include_in_qa: True
 
 SO-6L_10x3.84mm_P1.27mm:
   body_angle: 9.0

@@ -24,6 +24,7 @@ Relay_SPST_Panasonic_ADW11:
   pin_color_key: metal grey pins
   destination_dir: Relay_THT.3dshapes
   source: 'https://api.pim.na.industrial.panasonic.com/file_stream/main/fileversion/270'
+  include_in_qa: True
 
 Relay_DPDT_Hongfa_HF115F-2Z-x4:
   model_name: Relay_DPDT_Hongfa_HF115F-2Z-x4

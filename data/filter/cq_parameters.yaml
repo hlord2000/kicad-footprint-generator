@@ -12,6 +12,7 @@ Filter_1411-5_1.4x1.1mm:
   pin_color_key: 'metal grey pins'  # Pin color
   destination_dir: 'Filter.3dshapes'  # Destination directory
   source: 'https://global.kyocera.com/prdct/electro/product/pdf/sf14_tdlte.pdf'
+  include_in_qa: True
 
 # This was a duplicate in the original source code
 # SF14-1575F5UUC1:

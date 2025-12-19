@@ -12,6 +12,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical:
   mark_color_key: 'white body'
   destination_dir: 'Resistors_THT.3dshapes'
   source: 'N/A'
+  include_in_qa: True
 
 R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical:
   body_color_key: light brown body

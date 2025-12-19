@@ -5,6 +5,7 @@ Wago_734-132_1x02_P3.50mm_Vertical:
   body_color_key: 'white body'
   pin_color_key: 'gold pins'
   destination_dir: 'Connector_Wago_734.3dshapes'
+  include_in_qa: True
 Wago_734-133_1x03_P3.50mm_Vertical:
   model_name: 'Wago_734-133_1x03_P3.50mm_Vertical'
   num_pins : 3
@@ -12,6 +13,7 @@ Wago_734-133_1x03_P3.50mm_Vertical:
   body_color_key: 'white body'
   pin_color_key: 'gold pins'
   destination_dir: 'Connector_Wago_734.3dshapes'
+  include_in_qa: True
 Wago_734-134_1x04_P3.50mm_Vertical:
   model_name: 'Wago_734-134_1x04_P3.50mm_Vertical'
   num_pins : 4

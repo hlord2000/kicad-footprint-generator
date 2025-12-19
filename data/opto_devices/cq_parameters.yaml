@@ -11,6 +11,7 @@ Vishay_CNY70:
   pin_color_key: 'metal grey pins'
   destination_dir: 'OptoDevice.3dshapes'
   source: 'https://www.vishay.com/docs/83751/cny70.pdf'
+  include_in_qa: True
 
 Vishay_TCRT5000:
   model_name: 'Vishay_TCRT5000'

@@ -13,6 +13,7 @@ Johanson_2450AT18x100:
   mark_color_key: 'light brown label'
   destination_dir: 'RF_Antenna.3dshapes'
   source: 'https://www.johansontechnology.com/datasheets/2450AT18A100/2450AT18A100.pdf'
+  include_in_qa: True
 
 Johanson_2450AT43F0100:
   model_name: 'Johanson_2450AT43F0100'

@@ -17,6 +17,7 @@ R_Array_Concave_2x0603:
   body_top_color_key: 'resistor black body'
   destination_dir: 'Resistor_array_SMD.3dshapes'
   source: 'http://www.vishay.com/docs/31047/cra06p.pdf'
+  include_in_qa: True
 
 R_Array_Concave_4x0402:
   L: 2.0

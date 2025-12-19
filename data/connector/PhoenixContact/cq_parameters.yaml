@@ -42,6 +42,8 @@ MKDS_1_5:
   pin_color_key: metal grey pins  # Pin colour
   destination_dir: TerminalBlock_Phoenix.3dshapes  # Destination directory
   source: 'N/A'
+  include_in_qa:
+    num_pins: [2, 3]
 
 MC_01x02_G_3.5mm:
   series_name: MC-G

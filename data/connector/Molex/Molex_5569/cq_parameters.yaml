@@ -33,6 +33,8 @@
   pin_color_key: 'metal grey pins'
   destination_dir: 'Connector_Molex.3dshapes'
   source: 'N/A'
+  include_in_qa:
+    body_length: [5.4]
 
 5569-4A2:
   N: 4

@@ -24,6 +24,7 @@ Converter_DCDC_Cincon_EC5BExx_Single_THT:
   pin_color_key: metal grey pins  # Pin colour
   destination_dir: Converter_DCDC.3dshapes # Destination directory
   model_name: Converter_DCDC_Cincon_EC5BExx_Single_THT
+  include_in_qa: True
 
 Converter_DCDC_Cincon_EC5BExx_Dual_THT:
   modelName: Converter_DCDC_Cincon_EC5BExx_Dual_THT

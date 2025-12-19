@@ -17,6 +17,7 @@ C_Trimmer_Murata_TZC3:
   rotation: 0                               # Rotation if required
   destination_dir: 'Capacitor_SMD.3dshapes' # destination directory
   source: 'https://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb'
+  include_in_qa: True
 
 C_Trimmer_Murata_TZB4-A:
   modelName: 'C_Trimmer_Murata_TZB4-A'      # modelName

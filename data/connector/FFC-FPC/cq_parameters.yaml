@@ -39,6 +39,8 @@ M84952:
   latch_ear_width: 1.025
 
   destination_dir: 'Connector_FFC-FPC.3dshapes'                # destination directory
+  include_in_qa:
+    pin_range: [4, 5]
 
 M84953:
   series: "84953"

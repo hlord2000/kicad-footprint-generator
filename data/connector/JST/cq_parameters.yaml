@@ -36,6 +36,8 @@ JST_EH_V:
   pin_color_key: 'metal grey pins'
   destination_dir: 'Connector_JST.3dshapes'
   source: 'http://www.jst-mfg.com/product/pdf/eng/eEH.pdf'
+  include_in_qa:
+    pin_range: [2, 3]
 
 JST_EH_H:
   series: 'EH'

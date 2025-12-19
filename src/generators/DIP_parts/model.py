@@ -90,7 +90,7 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
         The number of models generated.
     """
     # Make a model for each type of DIP part
-    pin_range = range(0, 15)
+    pin_range = range(spec.spec["pin_range_min"], spec.spec["pin_range_max"])
     for i in pin_range:
         # Choose the right module/method
         if i == 0:

@@ -18,6 +18,7 @@ Converter_ACDC_Hahn_HS-400xx_THT:
   pin_color_key: 'metal grey pins'  # Pin colour
   destination_dir: 'Converter_ACDC.3dshapes'  # Destination directory
   model_name: 'Converter_ACDC_Hahn_HS-400xx_THT'
+  include_in_qa: True
 
 Converter_ACDC_Murata_BAC05SxxDC_THT:
   roundbelly: 1

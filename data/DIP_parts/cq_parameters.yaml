@@ -1,3 +1,7 @@
+default_parameters:
+  pin_range_min: 0
+  pin_range_max: 15
+
 DIP-4:
   pin_rows_distance: 7.62  # distance between pin rows
   num_pins: 4  # number of pins
@@ -7,6 +11,8 @@ DIP-4:
   button_color_key: 'white body'  # button color
   pin_color_key: 'metal grey pins'  # pin color
   destination_dir: 'Button_Switch_THT.3dshapes'  # destination directory
+  include_in_qa:
+    pin_range_max: 2
 
 DIP-4_Wide:
   pin_rows_distance: 10.16

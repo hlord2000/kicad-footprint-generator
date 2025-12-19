@@ -19,6 +19,7 @@ BatteryHolder_Bulgin_BX0036_1xC:
   rotation: 0                                                     # Rotation if required
   body_color_key: "black body"                                    # Body color
   pins_color_key: "metal grey pins"                                # Pin color
+  include_in_qa: True
 
 BatteryHolder_Keystone_103_1x20mm:
   modelname: 'BatteryHolder_Keystone_103_1x20mm'

@@ -14,6 +14,7 @@ D_SMA:
   pin_color_key: 'metal grey pins' # pin color
   destination_dir: 'Diodes_SMD.3dshapes' #destination directory
   source: 'https://www.microcrystal.com/fileadmin/Media/Products/32kHz/Datasheet/CC1V-T1A.pdf'
+  include_in_qa: True
 
 D_SMB:
   L: 5.3

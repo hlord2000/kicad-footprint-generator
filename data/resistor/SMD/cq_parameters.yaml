@@ -7,6 +7,7 @@ R_01005_0402Metric:
   edge_fillet: 'auto'
   rotation: 0
   source: 'http://www.vishay.com/docs/20056/crcw01005e3.pdf'
+  include_in_qa: True
 
 R_0201_0603Metric:
   length: 0.6

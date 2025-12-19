@@ -15,6 +15,7 @@ Fujitsu_WLP-15_2.28x3.092mm_Layout3x5_P0.4mm:
   layout_y: 5
   layout_x: 3
   staggered: x
+  include_in_qa: True
 
 BGA-9_1.6x1.6mm_Layout3x3_P0.5mm:
 # from http://www.ti.com/lit/ds/symlink/bq27421-g1.pdf
@@ -26,6 +27,7 @@ BGA-9_1.6x1.6mm_Layout3x3_P0.5mm:
   pitch: 0.5
   layout_y: 3
   layout_x: 3
+  include_in_qa: True
 
 Maxim_WLP-12:
 # W121B2+1 from http://pdfserv.maximintegrated.com/package_dwgs/21-0009.PDF
