@@ -552,7 +552,7 @@ def _print_stats(
         rows.append(
             (
                 generator_stats.name,
-                "Succes" if success else "Failure",
+                "Success" if success else "Failure",
                 spec_gen_runtime,
                 fp_gen_runtime,
                 mod_gen_runtime,
