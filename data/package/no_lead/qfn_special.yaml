@@ -487,6 +487,64 @@ Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm:
     generator: 'increment'
     offset: 1 # non-standard numbering 2, 3, ..., 10, 1
 
+Texas_RNX0012C_VQFN-14-11-1EP_2x3mm_P0.5mm_EP0.25x1.825mm:
+  device_type: 'VQFN'
+  manufacturer: 'Texas'
+  part_number: 'RNX0012C'
+  size_source: 'https://www.ti.com/cn/lit/ml/qfnd580a/qfnd580a.pdf'
+  ipc_class: 'qfn'
+  body_size_x:
+    minimum: 1.9
+    maximum: 2.1
+  body_size_y:
+    minimum: 2.9
+    maximum: 3.1
+  overall_height:
+    maximum: 0.9
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+  pad_width: 0.25
+  pad_length: 0.60
+  pad_center_to_center_x: 1.80
+  pad_center_to_center_y: 2.8  # set the distance from centerline to bottom row pads to 1.4 mm
+
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 4
+  deleted_pins: [12, 13, 14]
+
+  EP_size_x: 0.20 .. 0.25 .. 0.30
+  EP_size_y: 1.525 .. 1.725
+  EP_size_x_overwrite: 0.25
+  EP_size_y_overwrite: 1.825
+  EP_center_y: -0.7875
+  EP_num_paste_pads: [1, 1]
+  EP_paste_coverage: 0.88  # manufacturer specifies 88% solder paste coverage with 2 paste pads - this is as good as it gets (with 1 pad only as the 2 pads would be too close together)
+  EP_pin_number: 12
+
+  # All these pad overrides as the pins are not centered on the part
+  pad_overrides:
+    1:
+      move: [null, -0.375]
+    2:
+      move: [null, -0.225]
+    11:
+      move: [null, -0.375]
+    10:
+      move: [null, -0.225]
+    3:
+      move: [null, -0.075]
+    4:
+      move: [null, -0.075]
+    9:
+      move: [null, -0.075]
+    8:
+      move: [null, -0.075]
+
 ##############################################################################
 # Please do not place other QFN packages below here, temporary section
 ##############################################################################
