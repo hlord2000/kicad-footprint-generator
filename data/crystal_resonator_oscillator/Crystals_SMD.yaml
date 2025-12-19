@@ -1402,3 +1402,101 @@ Crystal_SMD_TXC_9HT11-2Pin_2.0x1.2mm_HandSoldering:
   - 1.1
   pad_sep_x: 1.85
   pad_sep_y: 0.0
+
+Crystal_SMD_WurthElektronik_1210-4Pin_1.2x1.0mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_IQXC-240
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 0.8
+  pad_sep_y: 0.7
+  pad: [0.5, 0.4]
+  pack_width: 1.2
+  pack_height: 1.0
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/IQXC-240"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_1612-4Pin_1.6x1.2mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_IQXC-26
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 1.05
+  pad_sep_y: 0.8
+  pad: [0.75, 0.6]
+  pack_width: 1.6
+  pack_height: 1.2
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/IQXC-26"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_2016-4Pin_2.0x1.6mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_IQXC-42
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 1.28
+  pad_sep_y: 0.98
+  pad: [0.88, 0.78]
+  pack_width: 2.0
+  pack_height: 1.6
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/IQXC-42"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_2520-4Pin_2.5x2.0mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_CFPX-218
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 1.65
+  pad_sep_y: 1.25
+  pad: [1.0, 0.9]
+  pack_width: 2.5
+  pack_height: 2.0
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/CFPX-218"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_3225-4Pin_3.2x2.5mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_CFPX-180
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 2.2
+  pad_sep_y: 1.7
+  pad: [1.4, 1.2]
+  pack_width: 3.2
+  pack_height: 2.5
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/CFPX-180"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_5032-4Pin_5.0x3.2mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_CFPX-104
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 3.8
+  pad_sep_y: 2.3
+  pad: [1.6, 1.4]
+  pack_width: 5.0
+  pack_height: 3.2
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/CFPX-104"
+  manufacturer: "Wurth Elektronik"
+
+Crystal_SMD_WurthElektronik_7050-4Pin_7.0x5.0mm:
+  func: "makeSMDCrystal"
+  footprint_name: Crystal_SMD_WE_12SMX
+  addSizeFootprintName: true
+  pins: 4
+  pad_sep_x: 5.8
+  pad_sep_y: 2.54
+  pad: [1.6, 1.4]
+  pack_width: 7.0
+  pack_height: 5.0
+  pack_bevel: 0.1
+  datasheet: "https://www.we-online.com/en/components/products/WE-XTAL#/articles/WE-XTAL-12SMX"
+  manufacturer: "Wurth Elektronik"
