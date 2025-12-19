@@ -92,28 +92,31 @@ def get_spec_dicts(
         else:
             file_names = [str(_DATA_PATH / generator_name / file_name)]
     for file_name in file_names:
-        with open(file_name, "r", encoding="utf-8") as stream:
-            if yaml.__with_libyaml__:
-                loader = yaml.CSafeLoader
-            else:
-                loader = yaml.SafeLoader  # type: ignore
-            yaml_dict: DD = yaml.load(stream, Loader=loader)
-            series_dict: DD = {}
-            del_keys: list[str] = []
-            for id, spec in yaml_dict.items():
-                if id.startswith("series"):
-                    del_keys.append(id)
-                    series_dict.update(get_spec_dict_for_series(spec, file_name))
-            for del_key in del_keys:
-                del yaml_dict[del_key]
-            yaml_dict.update(series_dict)
-            dict_tools.dict_inherit(yaml_dict)
-            if "default_parameters" in yaml_dict.keys():
-                default_parameters: D = yaml_dict.pop("default_parameters")
+        try:
+            with open(file_name, "r", encoding="utf-8") as stream:
+                if yaml.__with_libyaml__:
+                    loader = yaml.CSafeLoader
+                else:
+                    loader = yaml.SafeLoader  # type: ignore
+                yaml_dict: DD = yaml.load(stream, Loader=loader)
+                series_dict: DD = {}
+                del_keys: list[str] = []
                 for id, spec in yaml_dict.items():
-                    dict_tools.dict_merge(default_parameters, spec)
-                    yaml_dict[id] = spec
-            specs_raw.append((file_name, yaml_dict))
+                    if id.startswith("series"):
+                        del_keys.append(id)
+                        series_dict.update(get_spec_dict_for_series(spec, file_name))
+                for del_key in del_keys:
+                    del yaml_dict[del_key]
+                yaml_dict.update(series_dict)
+                dict_tools.dict_inherit(yaml_dict)
+                if "default_parameters" in yaml_dict.keys():
+                    default_parameters: D = yaml_dict.pop("default_parameters")
+                    for id, spec in yaml_dict.items():
+                        dict_tools.dict_merge(default_parameters, spec)
+                        yaml_dict[id] = spec
+                specs_raw.append((file_name, yaml_dict))
+        except FileNotFoundError:
+            return specs_raw
     return specs_raw
 
 
