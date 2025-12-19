@@ -1893,6 +1893,20 @@ BGA-24_6x8mm_Layout_5x5_P1.0mm:
   layout_x: 5
   row_skips: [[1], [], [], [], []]
 
+BGA-24_8x8mm_Layout5x5_P1.0mm:
+  size_source: "https://www.infineon.com/assets/row/public/packages/73/package_outline_download/infineon-pg-bga-24-804-spo-pdf-package-en.pdf"
+  description: "BGA-24"
+  body_size_y: 8
+  body_size_x: 8
+  overall_height: 1.0
+  body_pcb_gap: 0.2
+  ball_diameter: 0.4
+  ball_type: 'collapsible'
+  pitch: 1.0
+  layout_y: 5
+  layout_x: 5
+  pad_skips: [A1]
+
 Microchip_FCSG325_BGA-325_11x11mm_Layout21x21_P0.5mm:
   size_source: "https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDocuments/UserGuides/microchip_polarfire_soc_fpga_packaging_and_pin_descriptions_user_guide_vb.pdf"
   description: "FCSG325"
