@@ -14,7 +14,7 @@
 
 from dataclasses import dataclass
 
-from generators.tools.spec.spec_generator import DD, get_spec_dicts
+from generators.tools.spec.spec_generator import DD, get_file_name_ids_specs
 
 
 @dataclass
@@ -78,6 +78,6 @@ def compare_specs_in_files(file_new: str, file_old: str) -> SpecIdsDiff:
         A `SpecIdsDiff` that contains the IDs of the new, deleted, modified and
         identical specs.
     """
-    ids_specs_old = get_spec_dicts(file_name=file_old)
-    ids_specs_new = get_spec_dicts(file_name=file_new)
+    _, ids_specs_old = get_file_name_ids_specs(file_name=file_old)[0]
+    _, ids_specs_new = get_file_name_ids_specs(file_name=file_new)[0]
     return compare_specs(ids_specs_new, ids_specs_old)

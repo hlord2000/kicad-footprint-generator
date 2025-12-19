@@ -119,7 +119,7 @@ def get_spec_dicts(
                 }
                 specs_raw.append((file_name, yaml_dict))
         except FileNotFoundError:
-            return specs_raw
+            specs_raw.append((file_name, {}))
     return specs_raw
 
 
