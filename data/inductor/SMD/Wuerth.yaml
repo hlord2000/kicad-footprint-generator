@@ -58,3 +58,17 @@
   - Würth
     -SMT
   library_name: Inductor_SMD
+
+- series: PMCI
+  manufacturer: Wuerth
+  datasheet: "https://www.we-online.com/en/components/products/WE-PMCI"
+  csv: Wuerth_pmci.csv
+  3d:
+    type: 1
+    bodyColor: black body
+    pinColor: metal grey pins
+    padThickness: 0.05
+  tags:
+    - Würth
+     -SMT
+  library_name: Inductor_SMD
