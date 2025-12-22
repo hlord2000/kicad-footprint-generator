@@ -1,72 +1,70 @@
-- series: XAL
+default_parameters:
   manufacturer: Coilcraft
+  library_name: Inductor_SMD
+
+series_XAL:
+  default_parameters:
+    3d:
+      type: 1
+      bodyColor: black body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - xal
   csv: coilcraft_xal.csv
-  3d:
-    type: 1
-    bodyColor: black body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - xal
-  library_name: Inductor_SMD
 
-- series: HQ
-  manufacturer: Coilcraft
+series_HQ:
+  default_parameters:
+    # This is a kind of 3D model which isn't supported yet:
+    # Square U-shaped coilform with an expoxy PnP cap
+    # 3d:
+    tags:
+      - hq
+    has_orientation: true
   csv: coilcraft_hq.csv
-  # This is a kind of 3D model which isn't supported yet:
-  # Square U-shaped coilform with an expoxy PnP cap
-  # 3d:
-  tags:
-    - hq
-  has_orientation: true
-  library_name: Inductor_SMD
 
-- series: MSS
-  manufacturer: Coilcraft
+series_MSS_rounded_rectangular_base:
+  default_parameters:
+    3d:
+      type: shielded_drum_rounded_rectangular_base
+      bodyColor: black body
+      pinColor: metal grey pins
+      padThickness: 0.635
+    tags:
+      - mss
+    has_orientation: true
   csv: coilcraft_mss_rounded_rectangular_base.csv
-  3d:
-    type: shielded_drum_rounded_rectangular_base
-    bodyColor: black body
-    pinColor: metal grey pins
-    padThickness: 0.635
-  tags:
-    - mss
-  has_orientation: true
-  library_name: Inductor_SMD
 
-- series: MSS
-  manufacturer: Coilcraft
+series_MSS_circular_base:
+  default_parameters:
+    tags:
+      - mss
+    has_orientation: true
   csv: coilcraft_mss_circular_base.csv
-  tags:
-    - mss
-  has_orientation: true
-  library_name: Inductor_SMD
 
-- series: MSS
-  manufacturer: Coilcraft
+series_MSS_octagonal_base:
+  default_parameters:
+    tags:
+      - mss
+    has_orientation: true
   csv: coilcraft_mss_octagonal_base.csv
-  tags:
-    - mss
-  has_orientation: true
-  library_name: Inductor_SMD
 
-- series: MSS
-  manufacturer: Coilcraft
+series_MSS_rounded_chamfered_rectangular_base:
+  default_parameters:
+    tags:
+      - mss
+    has_orientation: true
   csv: coilcraft_mss_rounded_chamfered_rectangular_base.csv
-  tags:
-    - mss
-  has_orientation: true
-  library_name: Inductor_SMD
 
-- series: SQ
-  manufacturer: Coilcraft
-  datasheet: "https://www.coilcraft.com/getmedia/a4eed406-a97e-4630-9d8e-771bb470867f/1515sq.pdf"
+series_SQ:
+  default_parameters:
+    datasheet: "https://www.coilcraft.com/getmedia/a4eed406-a97e-4630-9d8e-771bb470867f/1515sq.pdf"
+    footShape: d_section
+    3d:
+      type: horizontal_air_core
+      wireColor: metal copper
+      pinColor: metal grey pins
+    tags:
+      - sq
+    library_name: Inductor_SMD
   csv: coilcraft_sq.csv
-  footShape: d_section
-  3d:
-    type: horizontal_air_core
-    wireColor: metal copper
-    pinColor: metal grey pins
-  tags:
-    - sq
-  library_name: Inductor_SMD

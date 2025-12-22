@@ -1,102 +1,99 @@
-- series: HCI
+default_parameters:
   manufacturer: Wuerth
-  datasheet: "https://www.we-online.com/en/components/products/WE-HCI"
-  # There are two 1890 series, the only difference is the lead width
-  # (4.2 and 3.2mm). FPs are the same. Include the wider one.
+  library_name: Inductor_SMD
+
+series_HCI:
+  default_parameters:
+    datasheet: "https://www.we-online.com/en/components/products/WE-HCI"
+    # There are two 1890 series, the only difference is the lead width
+    # (4.2 and 3.2mm). FPs are the same. Include the wider one.
+    3d:
+      type: 2
+      bodyColor: dark grey body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - flat-wire
+      - shielded
+      - Würth
+      - SMT
   csv: Wuerth_hci.csv
-  3d:
-    type: 2
-    bodyColor: dark grey body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - flat-wire
-    - shielded
-    - Würth
-    - SMT
-  library_name: Inductor_SMD
 
-- series: HCM
-  manufacturer: Wuerth
-  datasheet: "https://www.we-online.com/en/components/products/WE-HCM"
+series_HCM:
+  default_parameters:
+    datasheet: "https://www.we-online.com/en/components/products/WE-HCM"
+    3d:
+      type: 2
+      bodyColor: dark grey body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - shielded
+      - Würth
+      - SMT
   csv: Wuerth_hcm.csv
-  3d:
-    type: 2
-    bodyColor: dark grey body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - shielded
-    - Würth
-    - SMT
-  library_name: Inductor_SMD
 
-- series: MAPI
-  manufacturer: Wuerth
-  datasheet: "https://www.we-online.com/en/components/products/WE-MAPI?kicad"
+series_MAPI:
+  default_parameters:
+    datasheet: "https://www.we-online.com/en/components/products/WE-MAPI?kicad"
+    3d:
+      type: 2
+      bodyColor: dark grey body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - Würth
+      - SMT
   csv: Wuerth_mapi.csv
-  3d:
-    type: 2
-    bodyColor: dark grey body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - Würth
-     -SMT
-  library_name: Inductor_SMD
 
-- series: XHMI
-  manufacturer: Wuerth
-  datasheet: "https://www.we-online.com/en/components/products/WE-XHMI"
+series_XHMI:
+  default_parameters:
+    datasheet: "https://www.we-online.com/en/components/products/WE-XHMI"
+    3d:
+      type: 2
+      bodyColor: dark grey body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - Würth
+      - SMT
   csv: Wuerth_xhmi.csv
-  3d:
-    type: 2
-    bodyColor: dark grey body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-  - Würth
-    -SMT
-  library_name: Inductor_SMD
 
-- series: PMCI
-  manufacturer: Wuerth
-  datasheet: "https://www.we-online.com/en/components/products/WE-PMCI"
+series_PMCI:
+  default_parameters:
+    datasheet: "https://www.we-online.com/en/components/products/WE-PMCI"
+    3d:
+      type: 1
+      bodyColor: black body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - Würth
+      - SMT
   csv: Wuerth_pmci.csv
-  3d:
-    type: 1
-    bodyColor: black body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - Würth
-     -SMT
-  library_name: Inductor_SMD
 
-- series: LQFS
-  manufacturer: Wuerth
-  #datasheet: "https://www.we-online.com/en/components/products/WE-LQFS"
+series_LQFS:
+  default_parameters:
+    #datasheet: "https://www.we-online.com/en/components/products/WE-LQFS"
+    3d:
+      type: 2
+      bodyColor: dark grey body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - Würth
+      - SMT
   csv: Wuerth_lqfs.csv
-  3d:
-    type: 2
-    bodyColor: dark grey body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - Würth
-     -SMT
-  library_name: Inductor_SMD
 
-- series: PMFI
-  manufacturer: Wuerth
-  #datasheet: "https://www.we-online.com/en/components/products/WE-PMFI"
+series_PMFI:
+  default_parameters:
+    #datasheet: "https://www.we-online.com/en/components/products/WE-PMFI"
+    3d:
+      type: 1
+      bodyColor: black body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - Würth
+      - SMT
   csv: Wuerth_pmfi.csv
-  3d:
-    type: 1
-    bodyColor: black body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - Würth
-     -SMT
-  library_name: Inductor_SMD

@@ -1,14 +1,17 @@
-- series: BMRx
+default_parameters:
   manufacturer: Chilisin
-  datasheet: "https://www.chilisin.com/upload/media/product/power/file/BMRx_Series.pdf"
-  csv: chilisin_bmrx.csv
-  3d:
-    type: 2
-    bodyColor: black body
-    pinColor: metal grey pins
-    padThickness: 0.05
-  tags:
-    - bmrx
-    # mchi was the old series namecode
-    - mchi
   library_name: Inductor_SMD
+
+series_BMRx:
+  default_parameters:
+    datasheet: "https://www.chilisin.com/upload/media/product/power/file/BMRx_Series.pdf"
+    3d:
+      type: 2
+      bodyColor: black body
+      pinColor: metal grey pins
+      padThickness: 0.05
+    tags:
+      - bmrx
+      # mchi was the old series namecode
+      - mchi
+  csv: chilisin_bmrx.csv

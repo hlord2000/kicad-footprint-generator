@@ -1,44 +1,44 @@
-- series: PA4332
+default_parameters:
   manufacturer: Pulse
-  datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/pa4332.222nlt"
+  library_name: Inductor_SMD
+
+series_PA4332:
+  default_parameters:
+    datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/pa4332.222nlt"
+    3d:
+      type: 2
+      bodyColor: black body
+      pinColor: metal grey pins
+    tags:
+      - Pulse
+      - SMT
+      - PA4332
   csv: pulse_pa4332.csv
-  3d:
-    type: 2
-    bodyColor: black body
-    pinColor: metal grey pins
-  tags:
-    - Pulse
-    - SMT
-    - PA4332
-  library_name: Inductor_SMD
 
-- series: PA4340
-  manufacturer: Pulse
-  datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/PA4340.183NLT"
+series_PA4340:
+  default_parameters:
+    datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/PA4340.183NLT"
+    3d:
+      type: 2
+      bodyColor: black body
+      pinColor: metal grey pins
+    tags:
+      - Pulse
+      - SMT
+      - PA4340
   csv: pulse_pa4340.csv
-  3d:
-    type: 2
-    bodyColor: black body
-    pinColor: metal grey pins
-  tags:
-    - Pulse
-    - SMT
-    - PA4340
-  library_name: Inductor_SMD
 
-- series: PA5402
-  manufacturer: Pulse
+PA5402:
   datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/PM5402.222NLT"
-  parts:
-    - PartNumber: PA5402
-      lengthY: 4.06 # B
-      widthX: 4.45 # A
-      height: 1.8 # C
-      padX: 0.76 # D
-      padY: 2.0 # E
-      landingOutsideX: 5.2 # L
-      landingInsideX: 2.2 # G
-      landingY: 2.4 # H
+  PartNumber: PA5402
+  lengthY: 4.06 # B
+  widthX: 4.45 # A
+  height: 1.8 # C
+  padX: 0.76 # D
+  padY: 2.0 # E
+  landingOutsideX: 5.2 # L
+  landingInsideX: 2.2 # G
+  landingY: 2.4 # H
   3d:
     type: 2
     bodyColor: black body
@@ -47,22 +47,19 @@
     - Pulse
     - SMT
     - PA5402
-  library_name: Inductor_SMD
 
-- series: PA4341
-  manufacturer: Pulse
+PA4341:
   datasheet: "https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/pa4341.102anlt"
-  parts:
-    - PartNumber: PA4341
-      widthX: 6.4 # A'
-      lengthY: 6.6 # B
-      height: 2.8 # C
-      padY: 3.0 # E
-      padOutsideX: 7.1 # A
-      padX: 1.6 # D
-      landingY: 3.4 # H
-      landingOutsideX: 8.0 # L
-      landingInsideX: 3.7 # G
+  PartNumber: PA4341
+  widthX: 6.4 # A'
+  lengthY: 6.6 # B
+  height: 2.8 # C
+  padY: 3.0 # E
+  padOutsideX: 7.1 # A
+  padX: 1.6 # D
+  landingY: 3.4 # H
+  landingOutsideX: 8.0 # L
+  landingInsideX: 3.7 # G
   3d:
     type: 2
     bodyColor: black body
@@ -71,4 +68,3 @@
     - Pulse
     - SMT
     - PA4341
-  library_name: Inductor_SMD

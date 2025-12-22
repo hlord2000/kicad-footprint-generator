@@ -1,37 +1,39 @@
-- series: ANR
+default_parameters:
   manufacturer: APV
-  # Complete ANR series datasheet
-  # Website: http://en.apvind.com/ANRseries/?keywords=ANR
-  datasheet: "http://en.apvind.com/public/upload/20240407/3375c395e460caa8519b4d637d9113ce.pdf"
+  library_name: Inductor_SMD
+
+series_ANR:
+  default_parameters:
+    # Complete ANR series datasheet
+    # Website: http://en.apvind.com/ANRseries/?keywords=ANR
+    datasheet: "http://en.apvind.com/public/upload/20240407/3375c395e460caa8519b4d637d9113ce.pdf"
+    3d:
+      # best effort, it's wirewound, not really the classic block style
+      # also, the series describes three body styles.
+      type: 2
+    tags:
+      - wirewound
+      - power
+      - shielded
   # Fields have same order as in the datasheet.
   # Data has been extracted from PDF using ChatGPT
   csv: apv_anr.csv
-  3d:
-    # best effort, it's wirewound, not really the classic block style
-    # also, the series describes three body styles.
-    type: 2
-  tags:
-    - wirewound
-    - power
-    - shielded
-  library_name: Inductor_SMD
 
-- series: APH
-  manufacturer: APV
-  # Complete APH series datasheet
-  # Website: http://en.apvind.com/ANRseries/?keywords=APH
-  datasheet: "http://en.apvind.com/public/upload/20240408/996aafa961154ed753e4983e7eb80fa7.pdf"
+series_APH:
+  default_parameters:
+    # Complete APH series datasheet
+    # Website: http://en.apvind.com/ANRseries/?keywords=APH
+    datasheet: "http://en.apvind.com/public/upload/20240408/996aafa961154ed753e4983e7eb80fa7.pdf"
+    3d:
+      # best effort, it's wirewound, not really the classic block style
+      # also, the series describes three body styles.
+      type: 2
+    tags:
+      - molded
+      - power
+      - shielded
   # Body width is assumed to be 0.2mm smaller than
   #   (i.e. 0.1mm contact width per side)
   # padInsideX is computed as [OriginalB - 2*D]
   # Original data has been extracted from PDF using ChatGPT
   csv: apv_aph.csv
-  3d:
-    # best effort, it's wirewound, not really the classic block style
-    # also, the series describes three body styles.
-    type: 2
-  tags:
-    - molded
-    - power
-    - shielded
-  library_name: Inductor_SMD
