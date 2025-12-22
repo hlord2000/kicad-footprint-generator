@@ -34,7 +34,7 @@ DDD: TypeAlias = dict[str, dict[Any, dict[str, Any]]]
 
 
 def get_spec_file_names(
-    generator_name: str, globs: list[str] = ["*.yaml"]
+    generator_name: str, globs: list[str] = ["*.yaml"], data_path: Path | None = None
 ) -> list[str]:
     """Get the list of the names of the YAML files containing the specs for a given
     generator.
@@ -42,11 +42,15 @@ def get_spec_file_names(
     Args:
         globs: The list of the globs the file names need to match with.
         generator_name: The generator name.
+        data_path: The path to the "data" folder. If `None`, the path is automatically
+            inferred relative to the location of this script.
 
     Returns:
         The list of the file names.
     """
-    generator_path = _DATA_PATH / generator_name
+    if data_path is None:
+        data_path = _DATA_PATH
+    generator_path = data_path / generator_name
     # Workaround for legacy generators: We ignore "cq_parameters.yaml". Those files are
     # only used by `create_specs()` in `legacy_model_spec.py`:
     cq_file = generator_path / "cq_parameters.yaml"
@@ -64,7 +68,9 @@ def get_spec_file_names(
 
 
 def get_spec_dicts(
-    generator_name: str | None = None, file_name: str | None = None
+    generator_name: str | None = None,
+    file_name: str | None = None,
+    data_path: Path | None = None,
 ) -> list[tuple[str, DD]]:
     """Get the list of the contents of the YAML files for a given generator.
 
@@ -74,6 +80,8 @@ def get_spec_dicts(
             `generator_name` must be provided. In that case all specs of that generator
             are loaded. If `file_name` is a relative path, then `generator_name` must
             be provided.
+        data_path: The path to the "data" folder. If `None`, the path is automatically
+            inferred relative to the location of this script.
 
     Returns:
         A list of tuples, where each tuple represents one YAML file
@@ -83,7 +91,7 @@ def get_spec_dicts(
     specs_raw: list[tuple[str, dict[str, Any]]] = []
     if file_name is None:
         if generator_name is not None:
-            file_names = get_spec_file_names(generator_name)
+            file_names = get_spec_file_names(generator_name, data_path=data_path)
         else:
             raise ValueError("Either `file_name` or `generator_name` must be provided.")
     else:
@@ -115,16 +123,21 @@ def get_spec_dicts(
                         dict_tools.dict_merge(default_parameters, spec)
                         yaml_dict[id] = spec
                 yaml_dict = {
-                    k:v for k, v in yaml_dict.items() if not k.startswith("defaults")
+                    k: v for k, v in yaml_dict.items() if not k.startswith("defaults")
                 }
-                if CLI_ARGS.quality_assurance_set is True:
-                    qa_yaml_dict = {}
-                    for id, spec in yaml_dict.items():
-                        if include_in_qa := spec.get("include_in_qa"):
-                            if isinstance(include_in_qa, dict):
-                                spec.update(cast(dict[Any, Any], include_in_qa))
-                            qa_yaml_dict[id] = spec
-                    yaml_dict = qa_yaml_dict
+                try:
+                    if CLI_ARGS.quality_assurance_set is True:
+                        qa_yaml_dict = {}
+                        for id, spec in yaml_dict.items():
+                            if include_in_qa := spec.get("include_in_qa"):
+                                if isinstance(include_in_qa, dict):
+                                    spec.update(cast(dict[Any, Any], include_in_qa))
+                                qa_yaml_dict[id] = spec
+                        yaml_dict = qa_yaml_dict
+                except AttributeError:
+                    # In case CLI_ARGS.quality_assurance_set is not defined we treat it
+                    # as if it as set to False (nothing to do).
+                    pass
                 specs_raw.append((file_name, yaml_dict))
         except FileNotFoundError:
             specs_raw.append((file_name, {}))
@@ -132,7 +145,9 @@ def get_spec_dicts(
 
 
 def get_file_name_ids_specs(
-    generator_name: str | None = None, file_name: str | None = None
+    generator_name: str | None = None,
+    file_name: str | None = None,
+    data_path: Path | None = None,
 ) -> list[tuple[str, list[tuple[str, DD]]]]:
     """Extract the file names, IDs, and specs of all the spec files.
 
@@ -141,6 +156,8 @@ def get_file_name_ids_specs(
         file_name: Optional name of the file to load the specs from. If `None`, then
             `generator_name` must be provided. In that case all specs of that generator
             are loaded.
+        data_path: The path to the "data" folder. If `None`, the path is automatically
+            inferred relative to the location of this script.
 
     Returns:
         A list of tuples where each tuple represents one YAML file with:
@@ -150,7 +167,7 @@ def get_file_name_ids_specs(
                 * entry: dict[str, dict[str, Any]]
     """
     ret: list[tuple[str, list[tuple[str, DD]]]] = []
-    for file_name, raw_specs in get_spec_dicts(generator_name, file_name):
+    for file_name, raw_specs in get_spec_dicts(generator_name, file_name, data_path):
         ids_specs: list[tuple[str, DD]] = []
         for id, spec in raw_specs.items():
             ids_specs.append((id, spec))

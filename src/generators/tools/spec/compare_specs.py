@@ -13,8 +13,9 @@
 
 
 from dataclasses import dataclass
+from pathlib import Path
 
-from generators.tools.spec.spec_generator import DD, get_file_name_ids_specs
+from generators.tools.spec.spec_generator import DD, get_spec_dicts
 
 
 @dataclass
@@ -32,52 +33,58 @@ class SpecIdsDiff:
 
 
 def compare_specs(
-    ids_specs_new: list[tuple[str, DD]],
-    ids_specs_old: list[tuple[str, DD]],
+    file_names_specs_new: list[tuple[str, DD]],
+    file_names_specs_old: list[tuple[str, DD]],
 ) -> SpecIdsDiff:
     """Compare two lists of ID-spec pairs.
 
     Args:
-        ids_specs_new: The new list of ID-spec pairs.
-        ids_specs_old: The old list of ID-spec pairs.
+        file_names_specs_new: The new list of file names and specs.
+        file_names_specs_old: The old list of file names and specs.
 
     Returns:
         A `SpecIdsDiff` that contains the IDs of the new, deleted, modified and
         identical specs.
     """
-    ids_old: list[str] = [id_spec_new[0] for id_spec_new in ids_specs_old]
-    specs_old: list[DD] = [id_spec_new[1] for id_spec_new in ids_specs_old]
+    specs_new = {k: v for _, d in file_names_specs_new for k, v in d.items()}
+    specs_old = {k: v for _, d in file_names_specs_old for k, v in d.items()}
+
     new_ids: list[str] = []
     deleted_ids: list[str] = []
     modified_ids: list[str] = []
     identical_ids: list[str] = []
-    for id_new, spec_new in ids_specs_new:
+    for id_new, spec_new in specs_new.items():
         try:
-            idx = ids_old.index(id_new)
-            spec_old = specs_old[idx]
+            spec_old = specs_old[id_new]
             if spec_new == spec_old:
                 identical_ids.append(id_new)
             else:
                 modified_ids.append(id_new)
-            del ids_old[idx]
-            del specs_old[idx]
-        except ValueError:
+            del specs_old[id_new]
+        except KeyError:
             new_ids.append(id_new)
-    deleted_ids = ids_old
+    deleted_ids = [id for id in specs_old.keys()]
     return SpecIdsDiff(new_ids, deleted_ids, modified_ids, identical_ids)
 
 
-def compare_specs_in_files(file_new: str, file_old: str) -> SpecIdsDiff:
+def compare_specs_of_generator(
+    generator_name: str, folder_new: Path, folder_old: Path
+) -> SpecIdsDiff:
     """Compare the specs of two files.
 
     Args:
-        file_new: The path of the file with the new specs.
-        file_old: The path of the file with the old specs.
+        generator_name: The name of the generator.
+        folder_new: The root folder containing the specs of the new generator.
+        folder_old: The root folder containing the specs of the old generator.
 
     Returns:
         A `SpecIdsDiff` that contains the IDs of the new, deleted, modified and
         identical specs.
     """
-    _, ids_specs_old = get_file_name_ids_specs(file_name=file_old)[0]
-    _, ids_specs_new = get_file_name_ids_specs(file_name=file_new)[0]
-    return compare_specs(ids_specs_new, ids_specs_old)
+    file_names_specs_old = get_spec_dicts(
+        generator_name=generator_name, data_path=folder_old
+    )
+    file_names_specs_new = get_spec_dicts(
+        generator_name=generator_name, data_path=folder_new
+    )
+    return compare_specs(file_names_specs_old, file_names_specs_new)
