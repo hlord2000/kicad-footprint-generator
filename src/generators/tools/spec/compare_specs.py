@@ -87,4 +87,4 @@ def compare_specs_of_generator(
     file_names_specs_new = get_spec_dicts(
         generator_name=generator_name, data_path=folder_new
     )
-    return compare_specs(file_names_specs_old, file_names_specs_new)
+    return compare_specs(file_names_specs_new, file_names_specs_old)
