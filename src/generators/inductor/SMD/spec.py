@@ -14,16 +14,13 @@
 """Classes for SMD inductor properties."""
 
 import abc
-import csv
 import logging
-from pathlib import Path
 from typing import Any, cast
 
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 from generators.tools.spec.base_spec import BaseSpec
-from generators.tools.cli_args import CLI_ARGS
+from generators.tools.spec.spec_registry import register_spec
 from kilibs.geom import Vector3D
-from kilibs.util import dict_tools
 
 
 def _get_key_as_float_or_none(d: dict[str, Any], key: str) -> float | None:
@@ -220,75 +217,29 @@ class ShieldedDrumRoundedRectBlockParameters(TwoPadInductorParameters):
         self.corner_radius = float(data["cornerRadius"])
 
 
-class SmdInductorProperties:
+@register_spec
+class SmdInductorSpec(BaseSpec):
     """Object that represents the definition of a single inductor part.
 
     This is a complete defintion of a single inductor, which may be being
     constructed from a merged dictionary of series and part definitions.
     """
 
-    def __init__(self, part_block: dict[str, str]) -> None:
-        """Create an instance of `SmdInductorProperties`.
+    def __init__(
+        self,
+        id: str = "",
+        spec: dict[str, Any] = {},
+        file_name: str = "",
+    ) -> None:
+        """Create an instance of `SmdInductorSpec`.
 
         Args:
-            part_block: The dictionary containing the properties of the inductor.
-        """
-
-        self.part_number: str
-        """Part number of the inductor."""
-        self.datasheet: str | None
-        """Datasheet of the inductor or `None` if the series datasheet is used."""
-        self.body: InductorBodyParameters
-        """The body parameters of the inductor, which determine both how the
-        footprint may be drawn and how the 3D model is generated."""
-        self.include_in_qa: bool
-        """Whether to include this part in the QA set."""
-
-        self.part_number = part_block["PartNumber"]
-        self.datasheet = part_block.get("datasheet", None)
-        self.include_in_qa = part_block.get("include_in_qa", False)  # type: ignore
-
-        body_type_key = cast(int | str, part_block.get("3d", {}).get("type", 1))  # type: ignore
-
-        # Switch the inductor type based on the 'type' key
-        match body_type_key:
-            case 1 | 2:  # "cuboid":
-                self.body = CuboidParameters(part_block, body_type_key == 1)
-            case "horizontal_air_core":
-                self.body = HorizontalAirCoreParameters(part_block)
-            case "shielded_drum_rounded_rectangular_base":
-                self.body = ShieldedDrumRoundedRectBlockParameters(part_block)
-            case _:
-                raise ValueError(
-                    f"Unknown inductor type '{body_type_key}' for part {self.part_number}"
-                )
-
-
-class InductorSeriesProperties(BaseSpec):
-    """Object that represents the definition of a series of inductors, read from a dict,
-    probably from a YAML file.
-
-    A series is a collection of inductors that share some common properties,
-    and can be generated from one CSV file or list of part definitions.
-
-    A series may or may not correspond one-to-one with a manufacturer's series.
-    For example, a manufacturer may have a series that contains different
-    shapes of inductors and we can define a 'series' for each one, but they
-    are all part of the same series in the manufacturer's catalog.
-    """
-
-    def __init__(self, series_block: dict[str, Any], csv_dir: Path | None) -> None:
-        """Create an instance of `InductorSeriesProperties` by loading the data from
-        the given dictionary (and optionally additional CSV files).
-
-        Args:
-            series_block: The dictionary from which to extract the data of the series.
-            csv_dir: Optionally, the path of the directory containing the CSV files that
-                might be referenced by the dictionary.
+            id: The name/identifier of the spec. This is the name of the key
+                of the spec (in the YAML file) or the name of the component.
+            spec: The dictionary containing the specification of the component.
+            file_name: The name of the YAML file that holds this spec definition.
         """
         # General instance attributes
-        self.id: str
-        """The name of the series."""
         self.manufacturer: str
         """The manufacturer of the inductors."""
         self.tags: list[str]
@@ -304,8 +255,6 @@ class InductorSeriesProperties(BaseSpec):
         """Optional additional description for the series, used in the footprint
         description, after the series. Can be useful when the 'series' def is only
         a subset of the manufacturer-described series."""
-        self.parts: list[SmdInductorProperties]
-        """List of the part definitions in the series."""
 
         # Instance attributes for the 3D model
         self.has_3d_data: bool
@@ -319,65 +268,53 @@ class InductorSeriesProperties(BaseSpec):
         self.coil_color: str | None
         """Color of the coil, if drawn"""
 
-        super().__init__()
+        # Instance attributes for the inductor 
+        self.part_number: str
+        """Part number of the inductor."""
+        self.datasheet: str | None
+        """Datasheet of the inductor or `None` if the series datasheet is used."""
+        self.body: InductorBodyParameters
+        """The body parameters of the inductor, which determine both how the
+        footprint may be drawn and how the 3D model is generated."""
+        self.include_in_qa: bool
+        """Whether to include this part in the QA set."""
 
-        self.id = series_block["series"]
-        self.manufacturer = series_block["manufacturer"]
+        super().__init__(id, spec, file_name)
+
+        self.manufacturer = spec["manufacturer"]
         # space delimited list of the tags
-        self.tags = series_block.get("tags", [])
-        self.series_description = series_block.get("series_description", None)
-        self.additional_description = series_block.get("additional_description", None)
+        self.tags = spec.get("tags", [])
+        self.series_description = spec.get("series_description", None)
+        self.additional_description = spec.get("additional_description", None)
 
-        self.has_orientation = series_block.get("has_orientation", False)
-        self.library_name = series_block["library_name"]
+        self.has_orientation = spec.get("has_orientation", False)
+        self.library_name = spec["library_name"]
 
-        if "3d" in series_block:
+        if "3d" in spec:
             self.has_3d_data = True
         else:
             self.has_3d_data = False
-        block_3d = series_block.get("3d", {})
+        block_3d = spec.get("3d", {})
         self.body_color = block_3d.get("bodyColor", "black body")
         self.coil_color = block_3d.get("wireColor", "metal dark cu")
         self.pad_color = block_3d.get("pinColor", "metal grey pins")
         self.pad_thickness = block_3d.get("padThickness", 0.05)
 
-        def csv_line_filter(line: str) -> bool:
-            """Filter function to remove lines that are comments or empty."""
-            if line.startswith("#"):
-                return False
-            if not line.strip():
-                return False
-            return True
+        self.part_number = spec["PartNumber"]
+        self.datasheet = spec.get("datasheet", None)
+        self.include_in_qa = spec.get("include_in_qa", False)  # type: ignore
 
-        def construct_part_properties(
-            part_block: dict[str, str],
-        ) -> SmdInductorProperties:
-            """Combine the part dictionary with the series block to create a complete
-            part definition.
+        body_type_key = cast(int | str, spec.get("3d", {}).get("type", 1))  # type: ignore
 
-            We do this because the series block may contain common parameters that
-            all parts should inherit."""
-            dict_tools.dict_merge(series_block, part_block)
-            return SmdInductorProperties(part_block)
-
-        if "csv" in series_block:
-            csv_file = series_block["csv"]
-            if csv_dir is not None:
-                csv_file = csv_dir / csv_file
-            with open(csv_file, encoding="utf-8-sig") as f:
-                # Filter out rows that start with "#"
-                filtered_rows = filter(csv_line_filter, f)
-                # Read the CSV file and create SmdInductorProperties instances from each row
-                self.parts = [
-                    construct_part_properties(x) for x in csv.DictReader(filtered_rows)
-                ]
-        elif "parts" in series_block:
-            # Load directly from the YAML (for a single-size series, for example)
-            self.parts = [construct_part_properties(x) for x in series_block["parts"]]
-        else:
-            raise RuntimeError("Data block must contain a 'csv' or 'parts' key")
-
-        # If we are building only the QA set, then we should keep only the parts marked
-        # for inclusion in the QA set:
-        if CLI_ARGS.quality_assurance_set:
-            self.parts = [p for p in self.parts if p.include_in_qa]
+        # Switch the inductor type based on the 'type' key
+        match body_type_key:
+            case 1 | 2:  # "cuboid":
+                self.body = CuboidParameters(spec, body_type_key == 1)
+            case "horizontal_air_core":
+                self.body = HorizontalAirCoreParameters(spec)
+            case "shielded_drum_rounded_rectangular_base":
+                self.body = ShieldedDrumRoundedRectBlockParameters(spec)
+            case _:
+                raise ValueError(
+                    f"Unknown inductor type '{body_type_key}' for part {self.part_number}"
+                )

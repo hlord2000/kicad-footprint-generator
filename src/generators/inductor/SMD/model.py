@@ -55,48 +55,38 @@ import abc
 import cadquery as cq
 
 from generators.tools.model import export_tools
-from generators.tools.cli_args import CLI_ARGS
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
 
 from .model_coil import DSectionFootAirCoreCoil
-from .smd_inductor_properties import (
+from .spec import (
     CuboidParameters,
     HorizontalAirCoreParameters,
-    InductorSeriesProperties,
+    SmdInductorSpec,
     ShieldedDrumRoundedRectBlockParameters,
-    SmdInductorProperties,
 )
 
 
-def create_models(spec: InductorSeriesProperties, generator_name: str) -> int:
+def create_models(spec: SmdInductorSpec, generator_name: str) -> int:
+    """Create the 3D models.
 
-    if not spec.has_3d_data:
-        # This series does not have 3D properties
-        # (presumably a footprint-only definition)
-        return 0
+    Args:
+        spec: The spec of the part to generate.
+        generator_name: The name of the generator.
 
-    for part_data in spec.parts:
-        _generate_model(spec, part_data, generator_name)
-    return len(spec.parts)
-
-
-def _generate_model(
-    series_data: InductorSeriesProperties,
-    part_data: SmdInductorProperties,
-    generator_name: str,
-):
-
+    Returns:
+        The number of models generated.
+    """
     model_builder: InductorModelBuilder
 
     # Dispatch the body type to the appropriate function
-    if isinstance(part_data.body, CuboidParameters):
-        model_builder = CubicInductorBuilder(part_data, series_data)
-    elif isinstance(part_data.body, HorizontalAirCoreParameters):
-        model_builder = HoriziontalAirCoreBuilder(part_data)
-    elif isinstance(part_data.body, ShieldedDrumRoundedRectBlockParameters):
-        model_builder = ShieldedDrumModelBuilder(part_data, series_data)
+    if isinstance(spec.body, CuboidParameters):
+        model_builder = CubicInductorBuilder(spec)
+    elif isinstance(spec.body, HorizontalAirCoreParameters):
+        model_builder = HoriziontalAirCoreBuilder(spec)
+    elif isinstance(spec.body, ShieldedDrumRoundedRectBlockParameters):
+        model_builder = ShieldedDrumModelBuilder(spec)
     else:
-        raise ValueError(f"Invalid body_type: {type(part_data.body)}")
+        raise ValueError(f"Invalid body_type: {type(spec.body)}")
 
     model_parts = model_builder.build()
 
@@ -105,21 +95,22 @@ def _generate_model(
 
     if model_parts.case is not None:
         parts.append(model_parts.case)
-        color_names.append(series_data.body_color)
+        color_names.append(spec.body_color)
     if model_parts.coil is not None:
         parts.append(model_parts.coil)
-        color_names.append(series_data.coil_color)  # type: ignore
+        color_names.append(spec.coil_color)  # type: ignore
     if model_parts.pins is not None:
         parts.append(model_parts.pins)
-        color_names.append(series_data.pad_color)
+        color_names.append(spec.pad_color)
 
     export_tools.export(
         generator_name=generator_name,
-        lib_name=series_data.library_name,
-        model_name=f"L_{series_data.manufacturer}_{part_data.part_number}",
+        lib_name=spec.library_name,
+        model_name=f"L_{spec.manufacturer}_{spec.part_number}",
         parts=parts,
         color_names=color_names,
     )
+    return 1
 
 
 def build_pins(
@@ -184,11 +175,8 @@ class InductorModelBuilder(abc.ABC):
     Abstract base class for building inductor models.
     """
 
-    def __init__(
-        self, part_data: SmdInductorProperties, series_data: InductorSeriesProperties
-    ):
-        self.part_data = part_data
-        self.series_data = series_data
+    def __init__(self, spec: SmdInductorSpec) -> None:
+        self.spec = spec
 
     @abc.abstractmethod
     def build(self) -> InductorParts:
@@ -200,16 +188,12 @@ class InductorModelBuilder(abc.ABC):
 
 class CubicInductorBuilder(InductorModelBuilder):
 
-    def __init__(
-        self,
-        part_data: SmdInductorProperties,
-        series_data: InductorSeriesProperties,
-    ):
-        super().__init__(part_data, series_data)
+    def __init__(self, spec: SmdInductorSpec) -> None:
+        super().__init__(spec)
 
     def build(self) -> InductorParts:
 
-        body_data = self.part_data.body
+        body_data = self.spec.body
         assert isinstance(body_data, CuboidParameters)
 
         # Physical dimensions
@@ -256,7 +240,7 @@ class CubicInductorBuilder(InductorModelBuilder):
         if not body_data.bottom_pads:  # Exposed "wings"
             pad_thickness = min(3, height * 0.3)
         else:
-            pad_thickness = self.series_data.pad_thickness
+            pad_thickness = self.spec.pad_thickness
 
         pins = build_pins(pad_dims, pad_thickness, widthX)
         case = case.cut(pins)
@@ -272,14 +256,11 @@ class HoriziontalAirCoreBuilder(InductorModelBuilder):
     Builder for horizontal air core D-section foot inductors.
     """
 
-    def __init__(
-        self,
-        part_data: SmdInductorProperties,
-    ):
-        assert isinstance(part_data.body, HorizontalAirCoreParameters)
-        assert part_data.body.foot_shape == "d_section"
+    def __init__(self, spec: SmdInductorSpec) -> None:
+        assert isinstance(spec.body, HorizontalAirCoreParameters)
+        assert spec.body.foot_shape == "d_section"
 
-        self.coil_builder = DSectionFootAirCoreCoil(part_data.body)
+        self.coil_builder = DSectionFootAirCoreCoil(spec.body)
 
     def build(self) -> InductorParts:
         # Create the coil model
@@ -289,16 +270,12 @@ class HoriziontalAirCoreBuilder(InductorModelBuilder):
 
 class ShieldedDrumModelBuilder(InductorModelBuilder):
 
-    def __init__(
-        self,
-        part_data: SmdInductorProperties,
-        series_data: InductorSeriesProperties,
-    ):
-        super().__init__(part_data, series_data)
+    def __init__(self, spec: SmdInductorSpec) -> None:
+        super().__init__(spec)
 
     def build(self) -> InductorParts:
 
-        body = self.part_data.body
+        body = self.spec.body
         assert isinstance(body, ShieldedDrumRoundedRectBlockParameters)
 
         # Create a baseplate for the inductor to rest on
@@ -373,7 +350,7 @@ class ShieldedDrumModelBuilder(InductorModelBuilder):
         # Create the pins
         pins = build_pins(
             body.device_pad_dims,
-            self.series_data.pad_thickness,
+            self.spec.pad_thickness,
             body.width_x,
         )
 
