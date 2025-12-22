@@ -203,7 +203,14 @@ def _create_footprint_variant(
     else:
         EP_size = Vector2D.zero()
 
-    if {"pad_width", "pad_length"}.issubset(spec.keys()):
+    KEYS = "pad_width", "pad_length", "pad_center_to_center_x", "pad_center_to_center_y"
+    if num_matching_keys := sum(key in KEYS for key in spec.keys()):
+        if num_matching_keys < 3:
+            raise KeyError(
+                "When using a 'pad_*' parameter to explicitly define a pad dimension, "
+                "both 'pad_width' and 'pad_length' and at least one of "
+                "'pad_center_to_center_x' or 'pad_center_to_center_y' must be provided."
+            )
         pad_width = tsh.get("pad_width", 0.0).nominal
         pad_length = tsh.get("pad_length", 0.0).nominal
         pad_pos_x = tsh.get("pad_center_to_center_x", 0.0).nominal / 2
