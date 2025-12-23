@@ -166,6 +166,52 @@ Texas_QFN-24_RMQ0024A:
     paste_via_clearance: 0.1
     paste_avoid_via: False
 
+Texas_RRW0024A_WQFN-24-1EP_3x3mm_P0.4mm_EP1.9x1.9mm:
+  size_source: 'Texas RRW0024A, https://www.ti.com/lit/ml/mpqf657a/mpqf657a.pdf, https://www.ti.com/lit/ds/symlink/drv8311.pdf#page=91'
+  device_type: 'WQFN'
+  manufacturer: 'Texas'
+  part_number: 'RRW0024A'
+  ipc_class: 'qfn'
+  body_size_x: 2.9 .. 3.1
+  body_size_y: 2.9 .. 3.1
+  overall_height: 0.7 .. 0.8
+  body_pcb_gap: 0.00 .. 0.05
+  num_pins_x: 5
+  num_pins_y: 7
+  pitch: 0.4
+  lead_width: 0.15 .. 0.25
+  lead_len: 0.17 .. 0.37
+  lead_height: 0.1
+  # land pattern overrides from Texas, necessary to get 0.20 mm clearance between pads 12 & 13, 19 & 20:
+  pad_length: 0.47
+  pad_width: 0.20
+  pad_center_to_center_x: 2.93
+  pad_center_to_center_y: 2.93
+  pad_overrides:
+    8: &move_in_x # .yaml anchor, we will use same value here in others pins
+      move: [+0.13, null]
+    9: *move_in_x # .yaml alias, used to refer to the anchor
+    10: *move_in_x
+    11: *move_in_x
+    12: *move_in_x
+    20: *move_in_x
+    21: *move_in_x
+    22: *move_in_x
+    23: *move_in_x
+    24: *move_in_x
+  EP_size_x:
+    minimum: 1.85
+    maximum: 1.95
+  EP_size_y:
+    minimum: 1.85
+    maximum: 1.95
+  EP_num_paste_pads: [2, 2]
+  thermal_vias:
+    count: [3, 3]
+    grid: [0.7, 0.7]
+    drill: 0.2
+    remove_corner_vias: True # Texas suggests 5 vias in cross shape
+
 QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
   size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_20_05-08-1742.pdf'
   device_type: 'QFN'
