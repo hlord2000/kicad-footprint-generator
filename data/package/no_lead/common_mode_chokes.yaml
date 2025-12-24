@@ -230,3 +230,23 @@ L_CommonModeChoke_Coilank_ACM4532:
   pad_width: 1.55 # (d-c)/2
   pad_length: 1.15 # (b-a)/2
   pad_center_to_center_x: 3.65 # (b+a)/2
+
+L_CommonModeChoke_Bourns_SRF1260:
+  size_source: 'https://www.bourns.com/docs/Product-Datasheets/SRF1260.pdf'
+  custom_name_format: 'L_CommonModeChoke_{man:s}_SRF1260'
+  manufacturer: 'Bourns'
+  body_size_x:
+    maximum: 12.5
+  body_size_y:
+    maximum: 12.5
+  overall_height:
+    nominal: 6.0
+    tolerance: 0.2
+  num_pins_x: 0
+  num_pins_y: 2
+  pitch: 3.4 # (1.8+5.0)/2
+  lead_width: 1.6 # (5.0-1.8)/2
+  lead_len: 3.75 # (12.5-5)/2
+  pad_width: 2.15
+  pad_length: 4.50
+  pad_center_to_center_x: 8.5 # (13.0-4.5)/2
