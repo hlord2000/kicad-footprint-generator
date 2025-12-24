@@ -98,7 +98,9 @@ def get_spec_dicts(
         if generator_name is None or os.path.isabs(file_name):
             file_names = [file_name]
         else:
-            file_names = [str(_DATA_PATH / generator_name / file_name)]
+            if data_path is None:
+                data_path = _DATA_PATH
+            file_names = [str(data_path / generator_name / file_name)]
     for file_name in file_names:
         try:
             with open(file_name, "r", encoding="utf-8") as stream:

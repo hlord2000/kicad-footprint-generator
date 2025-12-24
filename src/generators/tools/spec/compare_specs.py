@@ -87,4 +87,12 @@ def compare_specs_of_generator(
     file_names_specs_new = get_spec_dicts(
         generator_name=generator_name, data_path=folder_new
     )
+    # Add manually the "cq_parameter.yaml" as it is otherwise ignored (for backward
+    # compatibility with legacy 3D generators):
+    file_names_specs_old += get_spec_dicts(
+        generator_name=generator_name, file_name="cq_parameters.yaml", data_path=folder_old
+    )
+    file_names_specs_new += get_spec_dicts(
+        generator_name=generator_name, file_name="cq_parameters.yaml", data_path=folder_new
+    )
     return compare_specs(file_names_specs_new, file_names_specs_old)
