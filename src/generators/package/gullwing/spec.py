@@ -337,18 +337,26 @@ class GullwingSpec(PackageSpec):
         else:
             self.lead_height = 0.0
             self.has_3d_data = False
-        if "lead_radius_top" in self.spec:
-            self.lead_radius_top = TolerancedSize.from_yaml(
-                self.spec, "lead_radius_top"
-            ).nominal
-        else:
-            self.lead_radius_top = 0.75 * self.lead_height
         if "lead_radius_bottom" in self.spec:
             self.lead_radius_bottom = TolerancedSize.from_yaml(
                 self.spec, "lead_radius_bottom"
             ).nominal
         else:
             self.lead_radius_bottom = 0.75 * self.lead_height
+            if isinstance(self.lead_len, TolerancedSize):
+                self.lead_radius_bottom = min(
+                    self.lead_radius_bottom, self.lead_len.nominal - self.lead_height - 0.01
+                )
+            if self.lead_radius_bottom < 0.0:
+                raise ValueError("Given parameters result in negative bending radius.")
+        if "lead_radius_top" in self.spec:
+            self.lead_radius_top = TolerancedSize.from_yaml(
+                self.spec, "lead_radius_top"
+            ).nominal
+        else:
+            self.lead_radius_top = min(0.75 * self.lead_height, self.lead_radius_bottom)
+            if self.lead_radius_top < 0.0:
+                raise ValueError("Given parameters result in negative bending radius.")
         self.lead_angle = cast(float | None, self.spec.get("lead_angle"))
 
         # Body parameters (except from height)
