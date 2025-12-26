@@ -1275,26 +1275,6 @@ SC-59:
   override_lib_name: 'Package_TO_SOT_SMD'
   size_source: 'http://www.infineon.com/dgdl/SC59-Package_Overview.pdf?fileId=5546d462580663ef0158069ca21703c1'
 
-SC-70-8:
-  body_angle: 8.0
-  body_size_top_delta: 0.05
-  lead_height: 0.15
-  lead_radius_top: 0.1
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.0
-  corners_chamfer: 0.12
-  body_size_y: 2.0
-  body_size_x: 1.25
-  overall_size_x: 2.1
-  body_pcb_gap: 0.1
-  body_height: 0.9
-  lead_width: 0.22
-  pitch: 0.5
-  num_pins_y: 4
-  num_pins_x: 0
-  override_lib_name: 'Package_TO_SOT_SMD'
-  size_source: 'http://cds.linear.com/docs/en/packaging/SOT_8_05-08-1639.pdf'
-
 SC-74:
   body_angle: 8.0
   body_size_top_delta: 0.05
@@ -1425,95 +1405,6 @@ SOT-223:
   deleted_pins: [2, 3, 5, 6, 8, 9, 13, 14]
   override_lib_name: 'Package_TO_SOT_SMD'
   size_source: 'http://www.nxp.com/documents/outline_drawing/SOT223.pdf'
-
-SOT-323_SC-70:
-  body_angle: 8.0
-  body_size_top_delta: 0.05
-  lead_height: 0.15
-  lead_radius_top: 0.05
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.0
-  lead_len: 0.36
-  marker: "none"
-  corners_chamfer: 0.12
-  body_size_y: 2.0
-  body_size_x: 1.25
-  overall_size_x: 2.1
-  body_pcb_gap: 0.1
-  body_height: 0.95
-  lead_width: 0.3
-  pitch: 0.65
-  num_pins_y: 3
-  num_pins_x: 0
-  deleted_pins: [2, 4, 6]
-  override_lib_name: 'Package_TO_SOT_SMD'
-  size_source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
-
-SOT-343_SC-70-4:
-  body_angle: 8.0
-  body_size_top_delta: 0.05
-  lead_height: 0.15
-  lead_radius_top: 0.05
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.0
-  lead_len: 0.36
-  corners_chamfer: 0.12
-  body_size_y: 2.0
-  body_size_x: 1.25
-  overall_size_x: 2.1
-  body_pcb_gap: 0.1
-  body_height: 0.95
-  lead_width: 0.3
-  pitch: 0.65
-  num_pins_y: 3
-  num_pins_x: 0
-  deleted_pins: [2, 5]
-  override_lib_name: 'Package_TO_SOT_SMD'
-  size_source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
-
-SOT-353_SC-70-5:
-  body_angle: 8.0
-  body_size_top_delta: 0.05
-  lead_height: 0.15
-  lead_radius_top: 0.05
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.0
-  lead_len: 0.36
-  marker: "none"
-  corners_chamfer: 0.12
-  body_size_y: 2.0
-  body_size_x: 1.25
-  overall_size_x: 2.1
-  body_pcb_gap: 0.1
-  body_height: 0.95
-  lead_width: 0.3
-  pitch: 0.65
-  num_pins_y: 3
-  num_pins_x: 0
-  deleted_pins: [5,]
-  override_lib_name: 'Package_TO_SOT_SMD'
-  size_source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
-
-SOT-363_SC-70-6:
-  body_angle: 8.0
-  body_size_top_delta: 0.05
-  lead_height: 0.15
-  lead_radius_top: 0.05
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.0
-  lead_len: 0.36
-  corners_chamfer: 0.12
-  body_size_y: 2.0
-  body_size_x: 1.25
-  overall_size_x: 2.1
-  body_pcb_gap: 0.1
-  body_height: 0.95
-  lead_width: 0.3
-  pitch: 0.65
-  num_pins_y: 3
-  num_pins_x: 0
-  override_lib_name: 'Package_TO_SOT_SMD'
-  size_source: 'http://www.ti.com/lit/ml/mpds114c/mpds114c.pdf'
 
 TSOT-23:
   body_angle: 8.0
