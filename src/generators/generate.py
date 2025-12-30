@@ -128,7 +128,11 @@ def run(default_args: list[str] = []) -> None:
     implemented_generators, args_files = _scan_for_generators()
     argparser = _create_arg_parser(args_files)
     args = argparser.parse_args(sys.argv[1:] + default_args)
-    if args.help or not (
+    if len(sys.argv) == 1:
+        # Print the usage and exit:
+        argparser.print_usage()
+        sys.exit(0)
+    elif args.help or not (
         args.output_dir_footprints or args.output_dir_models or args.list
     ):
         # Print the help and exit:
@@ -200,8 +204,14 @@ def _create_arg_parser(args_files: list[str]) -> ArgumentParser:
     """
     import importlib
 
+    EPILOG = (
+        "example: python generate.py -f ../../../FOOTPRINTS_FOLDER "
+        "-m ../../../3DMODELS_FOLDER -g package/gullwing -p SOT-23"
+    )
     argparser = ArgumentParser(
-        description="Generate KiCad footprints and models.", add_help=False
+        description="Generate KiCad footprints and models.",
+        add_help=False,
+        epilog=EPILOG,
     )
     # Root-level args.py
     import generators.args as root_args
