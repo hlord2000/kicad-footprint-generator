@@ -27,6 +27,7 @@ from KicadModTree.nodes.Container import Container
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.Shape import Shape
 from KicadModTree.nodes.specialized.ChamferedPad import ChamferedPad
+from KicadModTree.nodes.specialized.ChamferedRectangle import ChamferedRectangle
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.nodes.specialized.PolygonLine import PolygonLine
@@ -34,6 +35,7 @@ from kilibs.geom.bounding_box import BoundingBox
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
+from kilibs.geom.shapes.geom_chamfered_rectangle import GeomChamferedRectangle
 from kilibs.geom.shapes.geom_shape import GeomShape, GeomShapeClosed
 from kilibs.geom.operations import is_polygon_clockwise, round_to_grid_increasing_area
 from kilibs.geom.vector import Vector2D
@@ -194,6 +196,8 @@ class CourtyardBuilder:
                     self.add_polygon(node, offset_fab)
                 elif isinstance(node, Line):
                     self.add_line(node, offset_fab)
+                elif isinstance(node, ChamferedRectangle):
+                    self.add_element(node.get_shapes()[0], offset_fab)
         elif isinstance(node, GeomShape | BoundingBox):
             if isinstance(node, GeomRectangle | BoundingBox):
                 self.add_rectangle(node, offset_fab)
@@ -201,6 +205,8 @@ class CourtyardBuilder:
                 self.add_polygon(node, offset_fab)
             elif isinstance(node, GeomLine):
                 self.add_line(node, offset_fab)
+            elif isinstance(node, GeomChamferedRectangle):
+                self.add_element(node.get_shapes()[0], offset_fab)
         else:
             if isinstance(node, Pad | ExposedPad | ReferencedPad):
                 self.add_pad(node, offset_pads)
