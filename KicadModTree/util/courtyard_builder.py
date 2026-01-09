@@ -31,15 +31,15 @@ from KicadModTree.nodes.specialized.ChamferedRectangle import ChamferedRectangle
 from KicadModTree.nodes.specialized.ExposedPad import ExposedPad
 from KicadModTree.nodes.specialized.PadArray import PadArray
 from KicadModTree.nodes.specialized.PolygonLine import PolygonLine
+from kilibs.config.global_config import GlobalConfig
 from kilibs.geom.bounding_box import BoundingBox
+from kilibs.geom.operations import is_polygon_clockwise, round_to_grid_increasing_area
+from kilibs.geom.shapes.geom_chamfered_rectangle import GeomChamferedRectangle
 from kilibs.geom.shapes.geom_line import GeomLine
 from kilibs.geom.shapes.geom_polygon import GeomPolygon
 from kilibs.geom.shapes.geom_rectangle import GeomRectangle
-from kilibs.geom.shapes.geom_chamfered_rectangle import GeomChamferedRectangle
 from kilibs.geom.shapes.geom_shape import GeomShape, GeomShapeClosed
-from kilibs.geom.operations import is_polygon_clockwise, round_to_grid_increasing_area
 from kilibs.geom.vector import Vector2D
-from kilibs.config.global_config import GlobalConfig
 
 
 class CourtyardBuilder:
@@ -282,7 +282,9 @@ class CourtyardBuilder:
         self.src_pts.append([[pt.x, pt.y] for pt in pts])
         self._node = None  # invalidate previous node calculations
 
-    def add_pad(self, pad: Pad | ExposedPad | ReferencedPad | ChamferedPad, offset: float) -> None:
+    def add_pad(
+        self, pad: Pad | ExposedPad | ReferencedPad | ChamferedPad, offset: float
+    ) -> None:
         """
         Add a pad to the list of courtyard points.
         """
