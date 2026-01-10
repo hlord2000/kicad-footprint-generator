@@ -93,13 +93,13 @@ class GeomChamferedRectangle(GeomShapeClosed):
             if self.corners.top_left:
                 pts.append(Vector2D(tl.x + self.chamfer_size, tl.y))
             if self.corners.top_right:
-                pts.append(Vector2D(br.x, tl.y + self.chamfer_size))
                 pts.append(Vector2D(br.x - self.chamfer_size, tl.y))
+                pts.append(Vector2D(br.x, tl.y + self.chamfer_size))
             else:
                 pts.append(Vector2D(br.x, tl.y))
             if self.corners.bottom_right:
-                pts.append(Vector2D(br.x - self.chamfer_size, br.y))
                 pts.append(Vector2D(br.x, br.y - self.chamfer_size))
+                pts.append(Vector2D(br.x - self.chamfer_size, br.y))
             else:
                 pts.append(br)
             if self.corners.bottom_left:
