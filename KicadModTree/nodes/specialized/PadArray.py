@@ -151,11 +151,11 @@ class PadArray(Container[Pad | ReferencedPad]):
 
         super().__init__()
         self.increment = increment
-        self.modified = True if hidden_pins or deleted_pins or pad_overrides else False
         self._init_pincount(pincount, hidden_pins, deleted_pins)
         self._init_initial_number(initial)
         self._init_spacing(spacing, x_spacing, y_spacing)
         self._init_starting_position(start, center)
+        self.modified = True if pad_overrides else False
 
         # Create pads:
         self.size = Vector2D(size)
@@ -271,6 +271,8 @@ class PadArray(Container[Pad | ReferencedPad]):
                         drill=drill,
                     )
                     self.append(reference_pad)
+            else:
+                self.modified = True
 
     def _init_pincount(
         self, pincount: int, hidden_pins: Iterable[int], deleted_pins: Iterable[int]
