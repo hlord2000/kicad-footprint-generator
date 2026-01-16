@@ -183,8 +183,16 @@ class KicadFileHandler(FileHandler):
             attributes.append("allow_missing_courtyard")
         if kicad_mod.dnp:
             attributes.append("dnp")
+
         if attributes:
             self.serializer.add_symbols("attr", attributes)
+
+        # More modern "typed" attributes come after the (attr) list
+        self.serializer.add_bool(
+            "duplicate_pad_numbers_are_jumpers",
+            kicad_mod.duplicate_pad_numbers_are_jumpers,
+        )
+
         # Serialize the ordered nodes:
         for node in self.nodes:
             KicadFileHandler._get_serializer_func(type(node))(self.serializer, node)

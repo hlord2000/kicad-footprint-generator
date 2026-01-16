@@ -89,6 +89,8 @@ class Footprint(Container[Node]):
         """If `True` solder mask bridges are allowed in the footprint."""
         self.allow_missing_courtyard: bool
         """If `True` the courtyard can be omitted."""
+        self.duplicate_pad_numbers_are_jumpers: bool
+        """If `True` duplicate pad numbers are treated as jumpers."""
         self.dnp: bool
         """If `True` the component is not populated."""
 
@@ -106,6 +108,7 @@ class Footprint(Container[Node]):
         self.excludeFromPositionFiles = False
         self.allow_soldermask_bridges = False
         self.allow_missing_courtyard = False
+        self.duplicate_pad_numbers_are_jumpers = False
         self.dnp = False
 
         self.maskMargin = None
