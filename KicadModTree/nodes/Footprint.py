@@ -91,6 +91,9 @@ class Footprint(Container[Node]):
         """If `True` the courtyard can be omitted."""
         self.duplicate_pad_numbers_are_jumpers: bool
         """If `True` duplicate pad numbers are treated as jumpers."""
+        self.jumper_pad_groups: list[list[str]] = []
+        """Explicit jumper groups."""
+
         self.dnp: bool
         """If `True` the component is not populated."""
 

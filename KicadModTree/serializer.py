@@ -462,20 +462,26 @@ class Serializer:
         clean_string = string.replace('"', '\\"')
         self.content.append(f'{self.indent}({designator} "{clean_string}")\n')
 
-    def add_strings(self, designator: str, strings: list[str]) -> None:
+    def add_strings(self, designator: str | None, strings: list[str]) -> None:
         """Add a list of strings to the serializer.
 
         Strings are quoted in the output.
 
         Args:
-            designator: The designator.
+            designator: The designator. None if no designator is to be used.
             strings: The list of strings.
         """
         symbol_list: list[str] = []
         for string in strings:
             clean_string = string.replace('"', '\\"')
-            symbol_list.append(f' "{clean_string}"')
-        self.content.append(f"{self.indent}({designator}{''.join(symbol_list)})\n")
+            symbol_list.append(f'"{clean_string}"')
+
+        if designator is None:
+            designator = ""
+        elif strings:
+            designator += " "
+
+        self.content.append(f"{self.indent}({designator}{' '.join(symbol_list)})\n")
 
     @staticmethod
     def _float_to_str(number: float) -> str:

@@ -193,6 +193,14 @@ class KicadFileHandler(FileHandler):
             kicad_mod.duplicate_pad_numbers_are_jumpers,
         )
 
+        if kicad_mod.jumper_pad_groups:
+            self.serializer.start_block("jumper_pad_groups")
+
+            for group in kicad_mod.jumper_pad_groups:
+                self.serializer.add_strings(None, group)
+
+            self.serializer.end_block()
+
         # Serialize the ordered nodes:
         for node in self.nodes:
             KicadFileHandler._get_serializer_func(type(node))(self.serializer, node)
