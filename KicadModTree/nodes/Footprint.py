@@ -93,6 +93,8 @@ class Footprint(Container[Node]):
         """If `True` duplicate pad numbers are treated as jumpers."""
         self.jumper_pad_groups: list[list[str]] = []
         """Explicit jumper groups."""
+        self.net_tie_pad_groups: list[list[str]] = []
+        """Explicit net tie groups."""
 
         self.dnp: bool
         """If `True` the component is not populated."""

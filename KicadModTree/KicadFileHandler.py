@@ -187,6 +187,12 @@ class KicadFileHandler(FileHandler):
         if attributes:
             self.serializer.add_symbols("attr", attributes)
 
+        if kicad_mod.net_tie_pad_groups:
+            # Unlike jumper_pad_groups, net_tie_pad_groups are comma-separated strings
+            # at least as of V10.
+            group_strings = [",".join(group) for group in kicad_mod.net_tie_pad_groups]
+            self.serializer.add_strings("net_tie_pad_groups", group_strings)
+
         # More modern "typed" attributes come after the (attr) list
         self.serializer.add_bool(
             "duplicate_pad_numbers_are_jumpers",
