@@ -12,6 +12,7 @@
 # (C) The KiCad Librarian Team
 
 from KicadModTree import *  # NOQA
+from KicadModTree.nodes import Point
 from generators.tools.footprint.drawing_tools import *  # NOQA
 from kilibs.config import global_config as GC
 from generators.tools.footprint.save_footprint import write_footprint
@@ -123,10 +124,10 @@ def makeDIP(generator_name, pins, rm, pinrow_distance_in, package_width, overlen
     kicad_mod.setTags(tags)
 
     # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-    offset = [0, 0]
+    offset = Vector2D(0, 0)
     if (smd_pads):
-        offset = [-pinrow_distance / 2, -(pins / 2 - 1) * rm / 2]
-        kicad_modg = Translation(offset[0], offset[1])
+        offset = Vector2D(-pinrow_distance / 2, -(pins / 2 - 1) * rm / 2)
+        kicad_modg = Translation(offset)
         kicad_mod.append(kicad_modg)
     else:
         kicad_modg = kicad_mod
@@ -167,8 +168,8 @@ def makeDIP(generator_name, pins, rm, pinrow_distance_in, package_width, overlen
             Rectangle(start=[l_slks, t_slks], end=[l_slks + w_slks, t_slks + h_slks], layer='F.SilkS', width=lw_slk))
 
     # create courtyard
-    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
-                              end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+                              end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=lw_crt))
 
     # create pads
@@ -233,6 +234,16 @@ def makeDIP(generator_name, pins, rm, pinrow_distance_in, package_width, overlen
 
         y1 = y1 + rm
         y2 = y2 - rm
+
+    # Add a centroid point if the offset is not zero
+    if offset.is_nullvec:
+        kicad_mod.append(
+            Point(
+                at=body_centre,
+                size=rm / 2,
+                layer=global_config.get_layer_for_function("centroid")
+            )
+        )
 
     # add model
     kicad_modg.append(
@@ -339,10 +350,10 @@ def makeDIPSwitch(generator_name, pins, rm, pinrow_distance, package_width, over
     kicad_mod.setTags(tags)
 
     # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-    offset = [0, 0]
+    offset = Vector2D(0, 0)
     if (smd_pads):
-        offset = [-pinrow_distance / 2, -(pins / 2 - 1) * rm / 2]
-        kicad_modg = Translation(offset[0], offset[1])
+        offset = Vector2D(-pinrow_distance / 2, -(pins / 2 - 1) * rm / 2)
+        kicad_modg = Translation(offset)
         kicad_mod.append(kicad_modg)
     else:
         kicad_modg = kicad_mod
@@ -477,10 +488,18 @@ def makeDIPSwitch(generator_name, pins, rm, pinrow_distance, package_width, over
                          width=lw_slk))
 
     # create courtyard
-    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
-                              end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],
+    kicad_mod.append(Rectangle(start=[roundCrt(l_crt + offset.x), roundCrt(t_crt + offset.y)],
+                              end=[roundCrt(l_crt + offset.x + w_crt), roundCrt(t_crt + offset.y + h_crt)],
                               layer='F.CrtYd', width=lw_crt))
 
+    if offset.is_nullvec:
+        kicad_mod.append(
+            Point(
+                at=Vector2D(pinrow_distance / 2, t_fab + (h_fab / 2)),
+                size=rm / 2,
+                layer=global_config.get_layer_for_function("centroid")
+            )
+        )
 
     # add model
     kicad_modg.append(
