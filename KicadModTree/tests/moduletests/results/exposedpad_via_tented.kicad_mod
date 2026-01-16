@@ -1,8 +1,9 @@
 (footprint "exposedpad_via_tented"
-	(version 20241229)
+	(version 20260206)
 	(generator "kicad-footprint-generator")
 	(layer "F.Cu")
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(pad "" smd rect
 		(at -2 -2.5)
 		(size 1.61 0.81)
