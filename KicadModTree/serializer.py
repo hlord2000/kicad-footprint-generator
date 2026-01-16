@@ -185,6 +185,17 @@ class SerializerPriority:
         return [
             SerializerPriority._NodePriority.TEXT.value,
             SerializerPriority.get_layer_priority(text.layer),
+            round(text.at.x, 6),
+            round(text.at.y, 6),
+            round(text.rotation, 6),
+            round(text.size.x, 6),
+            round(text.size.y, 6),
+            round(text.thickness, 6),
+            # Bold
+            # Italic
+            text.mirror,
+            # Line spacing
+            text.text,
         ]
 
     @staticmethod
