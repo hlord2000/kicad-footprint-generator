@@ -547,6 +547,16 @@ class Serializer:
         """
         self.content.append(f"{self.indent}({designator} {'yes' if b else 'no'})\n")
 
+    def add_optional_bool(self, designator: str, b: bool | None) -> None:
+        """Add an optional boolean to the serializer (yes/no/none).
+
+        See KICAD_FORMAT::FormatOptBool in KiCad
+        """
+        if b is not None:
+            self.add_bool(designator, b)
+        else:
+            self.add_symbol(designator, "none")
+
     def _add_stroke(self, node: Shape) -> None:
         """Serialize a stroke.
 
@@ -1209,6 +1219,16 @@ class Serializer:
 
         if pad.thermal_gap is not None and abs(pad.thermal_gap) > TOL_MM:
             ser.add_float("thermal_gap", pad.thermal_gap)
+
+        # KiCad writes this only if either side is set explicitly
+        if (
+            pad.padstack.front_mask_props.has_solder_mask is not None
+            or pad.padstack.back_mask_props.has_solder_mask is not None
+        ):
+            ser.start_block("tenting")
+            ser.add_optional_bool("front", pad.padstack.front_mask_props.has_solder_mask)
+            ser.add_optional_bool("back", pad.padstack.back_mask_props.has_solder_mask)
+            ser.end_block()
 
         return ser.to_string()
 

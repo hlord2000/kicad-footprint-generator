@@ -25,6 +25,7 @@ from collections.abc import Sequence
 from typing import Any
 
 from KicadModTree.nodes.Node import Node
+from KicadModTree.nodes.base.Padstack import Padstack
 from KicadModTree.nodes.Shape import Shape
 from KicadModTree.util.corner_handling import ChamferSizeHandler, RoundRadiusHandler
 from kilibs.geom import (
@@ -459,6 +460,9 @@ class Pad(Node):
         self.shape = shape
         if self.shape not in Pad._SHAPES:
             raise ValueError(f"{shape} is an invalid shape for pads")
+
+        self.padstack = Padstack()
+
         self.at = Vector2D(at)
         self.rotation = rotation
         self.size = Vector2D(size)

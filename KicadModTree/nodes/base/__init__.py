@@ -21,6 +21,7 @@ from .Group import Group
 from .Line import Line
 from .Model import Model
 from .Pad import Pad, ReferencedPad
+from .Padstack import Padstack
 from .Polygon import Polygon
 from .Rectangle import Rectangle
 from .Text import Property, Text
@@ -36,6 +37,7 @@ __all__ = [
     "Model",
     "Pad",
     "ReferencedPad",
+    "Padstack",
     "Polygon",
     "Rectangle",
     "Property",
