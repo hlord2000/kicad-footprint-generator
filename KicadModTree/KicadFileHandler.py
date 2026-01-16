@@ -28,6 +28,7 @@ from KicadModTree.nodes.base.Group import Group
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Model import Model
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
+from KicadModTree.nodes.base.Point import Point
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.base.Text import Property, Text
@@ -67,6 +68,7 @@ class KicadFileHandler(FileHandler):
         EmbeddedFonts: SerializerPriority.get_sort_key_embedded_fonts,
         Model: SerializerPriority.get_sort_key_model,
         Group: SerializerPriority.get_sort_key_group,
+        Point: SerializerPriority.get_sort_key_point,
     }
 
     _NODE_SERIALIZER_MAP: dict[type[Node], Callable[[Serializer, Any], None]] = {
@@ -83,6 +85,7 @@ class KicadFileHandler(FileHandler):
         EmbeddedFonts: Serializer.add_embedded_fonts,
         Model: Serializer.add_model,
         Group: Serializer.add_group,
+        Point: Serializer.add_point,
     }
 
     def __init__(self, kicad_mod: Footprint) -> None:

@@ -239,6 +239,8 @@ class GlobalConfig:
         """The suffix added to the file name when a specific rotation pattern (Level
         "A" or "B") is selected.
         """
+        self.centroid_layer: str
+        """The layer to use for the centroid point, if any"""
         self.raw_data = data
         """The raw dict of the global config YAML."""
 

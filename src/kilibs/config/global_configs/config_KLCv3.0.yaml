@@ -68,6 +68,7 @@ paste_round_rect_radius_ratio: 0.25
 layer_functions:
     # Mechanical drawings (e.g. physical object outlines)
     mechanical: Cmts.User
+    centroid: F.Fab
 
 pad_names:
     mechanical: MP

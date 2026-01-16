@@ -26,6 +26,7 @@ from KicadModTree.nodes.base.Group import Group
 from KicadModTree.nodes.base.Line import Line
 from KicadModTree.nodes.base.Model import Model
 from KicadModTree.nodes.base.Pad import Pad, ReferencedPad
+from KicadModTree.nodes.base.Point import Point
 from KicadModTree.nodes.base.Polygon import Polygon
 from KicadModTree.nodes.base.Rectangle import Rectangle
 from KicadModTree.nodes.base.Text import Property, Text
@@ -66,6 +67,8 @@ class SerializerPriority:
         """Priority of text nodes."""
         PAD = 300
         """Priority of pad nodes."""
+        POINT = 350
+        """Priority of point nodes."""
         ZONE = 400
         """Priority of zone nodes."""
         GROUP = 600
@@ -381,6 +384,17 @@ class SerializerPriority:
         if member_nodes := group.get_group_member_nodes():
             keys += [len(member_nodes)]
         return keys
+
+    @staticmethod
+    def get_sort_key_point(point: Point) -> list[Any]:
+        """Return the sort key of the point."""
+        return [
+            SerializerPriority._NodePriority.POINT.value,
+            SerializerPriority.get_layer_priority(point.layer),
+            round(point.at.x, 6),
+            round(point.at.y, 6),
+            round(point.size, 6),
+        ]
 
     @staticmethod
     def get_sort_key_model(model: Model) -> list[Any]:
@@ -1297,6 +1311,18 @@ class Serializer:
             grp_member_ids.append(gid)
         grp_member_ids.sort()  # sort IDs, this is what KiCad does. ToDo: check order
         self.add_strings("members", grp_member_ids)
+
+    def add_point(self, point: Point) -> None:
+        """Serialize a point.
+
+        Args:
+            point: The point.
+        """
+        self.start_block("point")
+        self.add_2_floats("at", point.at.x, point.at.y)
+        self.add_float("size", point.size)
+        self.add_string("layer", point.layer)
+        self.end_block()
 
     def add_model(self, model: Model) -> None:
         """Serialize a model.
