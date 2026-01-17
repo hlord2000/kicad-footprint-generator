@@ -400,28 +400,36 @@ VSSOP-8_2.3x2mm_P0.5:
 ##############################################################################
 
 MSOP-10_3x3mm_P0.5mm:
+# JEDEC MO-187F
+# it could be called 'MO187BA_TSSOP-10', 'MSOP' seems to be vendor-driven marketing/industry term
 # it was previously in msop.yaml file, height A = 1.10 mm maximum
-  size_source: 'https://www.jedec.org/system/files/docs/mo-187F.pdf variant BA'
+  size_source: 'JEDEC MO-187 variation BA, 0.85mm body thickness, https://www.jedec.org/system/files/docs/mo-187F.pdf'
   compatible_mpns:
-    - Texas_DGS0010A # https://www.ti.com/lit/ml/mpds035c/mpds035c.pdf
+    - 'TSSOP-10_3x3mm_P0.5mm'
   device_type: 'MSOP'
-  force_small_pitch_ipc_definition: True
-  body_size_x: 3 +/-0.2 # value "E1" in MO-187F variant BA
-  body_size_y: 3 +/-0.2 # value "D" in MO-187F variant BA
+  # force_small_pitch_ipc_definition: True # disabled, no change if True
+  body_size_x: 3.00 # value "E1", JEDEC is 'BSC', no tolerances
+  body_size_y: 3.00 # value "D"
   body_height: 0.75 .. 0.85 .. 0.95
   body_pcb_gap: 0.00 .. 0.15
-  overall_size_x: 4.9 +/-0.25 # value "E" in MO-187F variant BA
-  lead_width: 0.17.. 0.33 # value "b" in MO-187F variant BA
-  lead_len: 0.4 .. 0.6 .. 0.8 # value "L" in MO-187F variant BA
+  overall_size_x: 4.90 # value "E"
+  lead_width: 0.17.. 0.33 # value "b"
+  lead_len: 0.40 .. 0.60 .. 0.80 # value "L"
   lead_height: 0.08 .. 0.23
-  pitch: 0.5 # value "e" in MO-187F variant BA
+  pitch: 0.5 # value "e"
   num_pins_x: 0
   num_pins_y: 5
 
-VSSOP-10_3x3mm_P0.5mm:
-# this is TSSOP actually (height = 1.1mm max), it was previously in vssop.yaml file
-  size_source: 'http://www.ti.com/lit/ds/symlink/ads1115.pdf'
-  device_type: 'VSSOP'
+TSSOP-10_3x3mm_P0.5mm:
+# similar to JEDEC MO-187, variation BA, but Texas / NXP sizes and tolerances
+# both Texas and NXP dimensions generates the same IPC footprint! See: https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/merge_requests/2011
+  size_source: 'https://www.ti.com/lit/ml/mpds035c/mpds035c.pdf, https://www.ti.com/lit/ds/symlink/ads1115.pdf#page=50, https://www.nxp.com/docs/en/package-information/SOT552-1.pdf'
+  compatible_mpns:
+    - 'Texas_DGS0010A Texas_VSSOP-10'
+    - 'NXP_SOT552-1'
+    - 'MSOP-10_3x3mm_P0.5mm' # vendor-driven term
+    - 'VSSOP-10_3x3mm_P0.5mm' # Old but compatible name for this package
+  device_type: 'TSSOP'
   body_size_x:
     minimum: 2.90
     maximum: 3.10
@@ -431,8 +439,14 @@ VSSOP-10_3x3mm_P0.5mm:
   overall_height: 1.1  # maximum
   body_pcb_gap: 0.05 .. 0.15
   overall_size_y:
-    minimum: 4.85 #Datasheet value is 4.75 and 5.05 but this generate a 4.3 pin separation
-    maximum: 5.15 #by adding 0.1 in both pin separation is correct.
+    minimum: 4.75
+    maximum: 5.05
+  # Size HACK to generate texas recommended footprint, see
+  # https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/merge_requests/2011
+  # Hack sizes commented, this generates a Texas recommended footprint (see land-pattern example page):
+  #overall_size_y:
+    #minimum: 4.85 #Datasheet value is 4.75 and 5.05 but this generate a 4.3 pin separation --> HACK
+    #maximum: 5.15 #by adding 0.1 in both pin separation is correct.
   lead_width:
     minimum: 0.17
     maximum: 0.27

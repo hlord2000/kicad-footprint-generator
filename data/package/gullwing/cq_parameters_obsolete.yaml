@@ -1858,26 +1858,6 @@ TSSOP-8_3x3mm_P0.65mm:
   override_lib_name: 'Package_SO'
   size_source: 'http://www.nxp.com/documents/outline_drawing/SOT505-1.pdf'
 
-TSSOP-10_3x3mm_P0.5mm:
-  body_angle: 12.0
-  body_size_top_delta: 0.1
-  lead_height: 0.15
-  lead_radius_top: 0.1
-  lead_radius_bottom: 0.1
-  lead_top_flat_part_length: 0.2
-  corners_chamfer: 0.25
-  body_size_y: 3.0
-  body_size_x: 3.0
-  overall_size_x: 4.9
-  body_pcb_gap: 0.1
-  body_height: 0.9
-  lead_width: 0.23
-  pitch: 0.5
-  num_pins_y: 5
-  num_pins_x: 0
-  override_lib_name: 'Package_SO'
-  size_source: 'http://www.nxp.com/documents/outline_drawing/SOT552-1.pdf'
-
 TSSOP-16-1EP_4.4x5mm_P0.65mm:
   body_angle: 10.0
   body_size_top_delta: 0.1
