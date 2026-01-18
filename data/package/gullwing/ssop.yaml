@@ -135,6 +135,34 @@ SSOP-14_5.3x6.2mm_P0.65mm:
   body_size_y: 5.90 .. 6.20 .. 6.50 # D
   num_pins_y: 7
 
+SSOP-16_3.9x4.9mm_P0.635mm:
+  # According to NXP, this has no JEDECT source
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT519-1.pdf#page=2'
+  device_type: 'SSOP' # temporary
+  body_size_x:
+    minimum: 3.8
+    maximum: 4.0
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0
+  body_height: 1.40..1.55 # A2
+  body_pcb_gap: 0.10..0.25 # A1
+  overall_size_x: # He
+    minimum: 5.8
+    maximum: 6.2
+  lead_width: #bp
+    minimum: 0.20
+    maximum: 0.31
+  lead_len: # Lp
+    minimum: 0.41
+    maximum: 0.89
+  lead_height: 0.25 # A3
+  pitch: 0.635
+  num_pins_x: 0
+  num_pins_y: 8
+  compatible_mpns:
+    - NXP_SOT519-1
+
 SSOP-16_5.3x6.2mm_P0.65mm:
 # similar to MO-150 variation AC, height A = 2.00mm max
   size_source: 'https://assets.nexperia.com/documents/data-sheet/74HC_HCT165.pdf#page=14'
