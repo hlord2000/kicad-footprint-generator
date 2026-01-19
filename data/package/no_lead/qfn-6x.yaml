@@ -732,6 +732,41 @@ QFN-68-1EP_8x8mm_P0.4mm_EP6.4x6.4mm:
     EP_paste_coverage: 0.6
     paste_via_clearance: 0.1
 
+VQFN-68_1EP_8x8mm_P0.4mm_EP4.3x4.3mm:
+# similar to JEDEC MO-220 variation VLLE-1, but nominal height, lead_len and EP are different
+  size_source: 'https://ftdichip.com/wp-content/uploads/2025/09/DS_FT2233HP.pdf#page=49'
+  device_type: 'VQFN'
+  ipc_class: 'qfn'
+  body_size_x:
+    nominal: 8.00
+  body_size_y:
+    nominal: 8.00
+  overall_height:
+    minimum: 0.80
+    nominal: 0.85
+    maximum: 0.90
+  body_pcb_gap: 0.00 .. 0.02 .. 0.05 # A1
+  num_pins_x: 17
+  num_pins_y: 17
+  pitch: 0.40
+  lead_width:
+    minimum: 0.15
+    nominal: 0.20
+    maximum: 0.25
+  lead_len:
+    minimum: 0.35
+    nominal: 0.40
+    maximum: 0.45
+  EP_size_x:
+    minimum: 4.25
+    nominal: 4.30
+    maximum: 4.35
+  EP_size_y:
+    minimum: 4.25
+    nominal: 4.30
+    maximum: 4.35
+  EP_num_paste_pads: [3, 3]
+
 ##############################################################################
 # 'CSP' / 'LFCSP' packages, these packages are actually QFN under
 # manufacturers own names, this section is temporary
