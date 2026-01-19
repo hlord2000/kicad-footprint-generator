@@ -12,6 +12,7 @@
 # (C) The KiCad Librarian Team
 
 """Class definition for a geometric rectangle."""
+
 from __future__ import annotations
 
 from typing import Self

@@ -12,6 +12,7 @@
 # (C) The KiCad Librarian Team
 
 """Class for a bounding box."""
+
 from __future__ import annotations
 
 from kilibs.geom.vector import Vec2DCompatible, Vector2D

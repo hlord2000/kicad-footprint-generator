@@ -12,6 +12,7 @@
 # (C) The KiCad Librarian Team
 
 """Definition of aliases for the geometric shapes."""
+
 from __future__ import annotations
 
 from .geom_arc import GeomArc

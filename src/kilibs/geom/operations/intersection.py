@@ -13,7 +13,6 @@
 
 """Intersection function."""
 
-
 from typing import cast
 
 from kilibs.geom import (
@@ -97,7 +96,7 @@ def intersect(
             for other_atom in handle.atoms[1]:
                 other_atom_type = type(other_atom)
                 if atom_type == other_atom_type:
-                    if atom.is_equal(other_atom):  # type:ignore
+                    if atom.is_equal(other_atom):  # type: ignore
                         atoms_inside.append(other_atom)
                         break
     for i, atom in enumerate(handle.atoms[1]):

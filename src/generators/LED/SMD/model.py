@@ -75,7 +75,7 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
         The number of models generated.
     """
     # Make the parts of the model
-    (body, top, pins, pinmark, package_found) = make_chip(spec.spec)
+    body, top, pins, pinmark, package_found = make_chip(spec.spec)
 
     # Make sure that the package was found before we do anything else
     if not package_found:

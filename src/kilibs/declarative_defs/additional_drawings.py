@@ -12,7 +12,6 @@
 # (C) The KiCad Librarian Team
 """Classes for working with additional drawings in YAML files."""
 
-
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Generator
 from itertools import product

@@ -12,6 +12,7 @@
 # (C) The KiCad Librarian Team
 
 """Geometric shapes."""
+
 from .geom_arc import GeomArc
 from .geom_chamfered_rectangle import GeomChamferedRectangle
 from .geom_circle import GeomCircle
