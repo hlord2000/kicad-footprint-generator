@@ -960,6 +960,7 @@ class Serializer:
             Pad.FabProperty.FIDUCIAL_GLOBAL: "pad_prop_pad_prop_heatsink",
             Pad.FabProperty.FIDUCIAL_LOCAL: "pad_prop_fiducial_loc",
             Pad.FabProperty.HEATSINK: "pad_prop_heatsink",
+            Pad.FabProperty.MECHANICAL: "pad_prop_mechanical",
             Pad.FabProperty.TESTPOINT: "pad_prop_testpoint",
             Pad.FabProperty.CASTELLATED: "pad_prop_castellated",
         }

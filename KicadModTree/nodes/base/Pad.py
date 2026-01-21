@@ -252,6 +252,8 @@ class Pad(Node):
         """Fab property: test point."""
         HEATSINK = "heatsink"
         """Fab property: heatsink."""
+        MECHANICAL = "mechanical"
+        """Fab property: mechanical."""
         CASTELLATED = "castellated"
         """Fab property: castellated."""
 
