@@ -75,6 +75,24 @@ Nexperia_WLCSP-15_2.37x1.17mm_Layout6x3_P0.4mmP0.8mm:
       layout_y: 1
       row_names: [B]
 
+WLCSP-6_1.46x1.1mm_Layout2x3_P0.4mm: 
+  size_source: 'https://look.ams-osram.com/m/19562c0de86ac97e/original/AS5510-DS000318.pdf#page=23'
+  compatible_mpns:
+    - 'DSBGA-6' # DSBGA: die-size ball grid array
+    - 'UFBGA-6' # JEDEC like
+  description: "ams OSRAM 6-pin WLCSP / Wafer-Level Chip-Scale Package"
+  device_type: "WLCSP"
+  body_size_y: 1.1
+  body_size_x: 1.46
+  overall_height: 0.600 # tolerance: +/- 0.030
+  body_pcb_gap: 0.200
+  ball_diameter: 0.27
+  ball_type: 'collapsible'
+  pitch: 0.4
+  layout_y: 2
+  layout_x: 3
+  mask_margin: 0.05
+
 WLCSP-12_1.403x1.555mm_Layout6x4_P0.4mm_Stagger:
   size_source: "http://ww1.microchip.com/downloads/en/devicedoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf#page=208"
   description: "WLCSP-12, staggered array"
