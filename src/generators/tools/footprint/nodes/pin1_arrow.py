@@ -134,12 +134,10 @@ class Pin1SilkScreenArrow45Deg(SilkscreenArrow):
         gpoly = GeomPolygon(shape=arrow_pts)
 
         if isinstance(angle, Direction):
-            angle = angle.value
-
-        # SE (315) is the default
-        angle = angle - Direction.SOUTHEAST.value
+            # Arrow is drawn in SE (315) direction, so Direction.SOUTHEAST -> angle 0
+            angle = Direction.SOUTHEAST.value - angle.value
 
         if angle != 0:
-            gpoly.rotate(-angle, origin=apex_position)
+            gpoly.rotate(angle, origin=apex_position)
 
         super().__init__(shape=gpoly, layer=layer, width=line_width_mm, fill=True)
