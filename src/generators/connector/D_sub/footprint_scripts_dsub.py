@@ -357,7 +357,8 @@ def makeDSubStraight(
         else:
             x1 = x1 - rmx
 
-    if hasMountingHoles and mountingpad > 0:
+    if hasMountingHoles:
+        assert mountingpad > 0
         kicad_modg.append(
             Pad(
                 number=0,
@@ -382,41 +383,6 @@ def makeDSubStraight(
                 shape=pad_shapeother,
                 at=[mountingdistance / 2, 0],
                 size=[mountingpad, mountingpad],
-                drill=mountingdrill,
-                layers=pad_layers,
-            )
-        )
-        keepouts = keepouts + addKeepoutRound(
-            mountingdistance / 2,
-            0,
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-        )
-    if hasMountingHoles and mountingpad <= 0:
-        kicad_modg.append(
-            Pad(
-                number=0,
-                type=hole_type,
-                shape=pad_shapeother,
-                at=[-mountingdistance / 2, 0],
-                size=[0, 0],
-                drill=mountingdrill,
-                layers=pad_layers,
-            )
-        )
-        keepouts = keepouts + addKeepoutRound(
-            -mountingdistance / 2,
-            0,
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-        )
-        kicad_modg.append(
-            Pad(
-                number=0,
-                type=hole_type,
-                shape=pad_shapeother,
-                at=[mountingdistance / 2, 0],
-                size=[0, 0],
                 drill=mountingdrill,
                 layers=pad_layers,
             )
@@ -1409,7 +1375,8 @@ def makeDSubAngled(
             x1 = x1 - rmx
 
     # mounting holes
-    if hasMountingHoles and mountingpad > 0:
+    if hasMountingHoles:
+        assert mountingpad > 0
         kicad_modg.append(
             Pad(
                 number=0,
@@ -1434,41 +1401,6 @@ def makeDSubAngled(
                 shape=pad_shapeother,
                 at=[mountingdistance / 2, ypcb_edge - mounting_pcb_distance],
                 size=[mountingpad, mountingpad],
-                drill=mountingdrill,
-                layers=pad_layers,
-            )
-        )
-        keepouts = keepouts + addKeepoutRound(
-            mountingdistance / 2,
-            ypcb_edge - mounting_pcb_distance,
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-        )
-    if hasMountingHoles and mountingpad <= 0 and backbox_width * backbox_height == 0:
-        kicad_modg.append(
-            Pad(
-                number=0,
-                type=hole_type,
-                shape=pad_shapeother,
-                at=[-mountingdistance / 2, ypcb_edge - mounting_pcb_distance],
-                size=[0, 0],
-                drill=mountingdrill,
-                layers=pad_layers,
-            )
-        )
-        keepouts = keepouts + addKeepoutRound(
-            -mountingdistance / 2,
-            ypcb_edge - mounting_pcb_distance,
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-            mountingpad + (slk_pad_offset + 2 * lw_slk),
-        )
-        kicad_modg.append(
-            Pad(
-                number=0,
-                type=hole_type,
-                shape=pad_shapeother,
-                at=[mountingdistance / 2, ypcb_edge - mounting_pcb_distance],
-                size=[0, 0],
                 drill=mountingdrill,
                 layers=pad_layers,
             )
