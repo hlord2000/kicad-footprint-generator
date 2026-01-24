@@ -69,7 +69,7 @@ kicad_naming_params_sot = {
         excluded_pins=(2, 4, 6),  # no pin excluded
         modelName="DRT-3",  # modelName
         rotation=0,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "HVSOF5": Params(  # from http://rohmfs.rohm.com/en/products/databook/datasheet/ic/sensor/hall/bu52002gul-e.pdf
         the=4.0,  # body angle in degrees
@@ -94,7 +94,7 @@ kicad_naming_params_sot = {
         excluded_pins=(5,),  # no pin excluded
         modelName="HVSOF5",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "HVSOF6": Params(  # from http://rohmfs.rohm.com/en/products/databook/datasheet/ic/audio_video/video_amplifier/bh76106hfv-e.pdf
         the=4.0,  # body angle in degrees
@@ -119,7 +119,7 @@ kicad_naming_params_sot = {
         excluded_pins=None,  # no pin excluded
         modelName="HVSOF6",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-543": Params(  # from https://www.centralsemi.com/PDFS/CASE/SOT-543PD.PDF
         the=4.0,  # body angle in degrees
@@ -144,7 +144,7 @@ kicad_naming_params_sot = {
         excluded_pins=None,  # no pin excluded
         modelName="SOT-543",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-665": Params(  # from http://www.nxp.com/documents/outline_drawing/SOT665.pdf
         the=4.0,  # body angle in degrees
@@ -169,7 +169,7 @@ kicad_naming_params_sot = {
         excluded_pins=(5,),  # no pin excluded
         modelName="SOT-665",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-666": Params(  # from http://www.nxp.com/documents/outline_drawing/SOT666.pdf
         the=4.0,  # body angle in degrees
@@ -194,7 +194,7 @@ kicad_naming_params_sot = {
         excluded_pins=None,  # no pin excluded
         modelName="SOT-666",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-963": Params(  # from https://www.centralsemi.com/PDFS/CASE/SOT-963_PD.PDF
         the=4.0,  # body angle in degrees
@@ -219,7 +219,7 @@ kicad_naming_params_sot = {
         excluded_pins=None,  # no pin excluded
         modelName="SOT-963",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "TDSON-8-1": Params(  # from http://www.infineon.com/dgdl/PG-TDSON-8-1,-2,-3-Package_Overview.pdf?fileId=db3a30431c69a49d011cdbc468254110
         the=3.0,  # body angle in degrees
@@ -244,7 +244,7 @@ kicad_naming_params_sot = {
         excluded_pins=None,  # no pin excluded
         modelName="TDSON-8-1",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "VSOF5": Params(  # from http://rohmfs.rohm.com/en/products/databook/datasheet/ic/power/voltage_detector/bd48xxg-e.pdf
         the=3.0,  # body angle in degrees
@@ -269,7 +269,7 @@ kicad_naming_params_sot = {
         excluded_pins=(5,),  # no pin excluded
         modelName="VSOF5",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-553": Params(  # from http://www.goodark.com/en/products/outline/s5779.html
         the=3.0,  # body angle in degrees
@@ -294,7 +294,7 @@ kicad_naming_params_sot = {
         excluded_pins=(5,),  # pin 5 excluded
         modelName="SOT-553",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
     "SOT-563": Params(  # from http://www.goodark.com/en/products/outline/s5779.html
         the=3.0,  # body angle in degrees
@@ -319,6 +319,6 @@ kicad_naming_params_sot = {
         excluded_pins=(),  # no pin excluded
         modelName="SOT-563",  # modelName
         rotation=-90,  # rotation if required
-        dest_dir_prefix="../TO_SOT_Packages_SMD.3dshapes/",
+        dest_dir_prefix="../Package_TO_SOT_SMD.3dshapes/",
     ),
 }

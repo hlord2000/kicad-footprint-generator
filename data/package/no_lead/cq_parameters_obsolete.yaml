@@ -2216,7 +2216,7 @@ DFN-14-1EP_3x3mm_Pitch0.4mm:
 
 SOT-886:
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT886.pdf'
-  library: TO_SOT_Packages_SMD
+  library: Package_TO_SOT_SMD
   body_size_x: 1.0
   body_size_y: 1.45
   body_pcb_gap: 0.02
@@ -2232,7 +2232,7 @@ SOT-886:
 
 SOT-383F:
   size_source: 'https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/408/CPDVR085V0UA-HF.pdf'
-  library: TO_SOT_Packages_SMD
+  library: Package_TO_SOT_SMD
   body_size_x: 1.6
   body_size_y: 2.1
   body_pcb_gap: 0.02
@@ -2250,7 +2250,7 @@ SOT-383F:
 
 SOT-1334-1:
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT1334-1.pdf'
-  library: TO_SOT_Packages_SMD
+  library: Package_TO_SOT_SMD
   body_size_x: 4.0
   body_size_y: 2.0
   body_pcb_gap: 0.02
@@ -2266,7 +2266,7 @@ SOT-1334-1:
 
 SOT-1333-1:
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT1333-1.pdf'
-  library: TO_SOT_Packages_SMD
+  library: Package_TO_SOT_SMD
   body_size_x: 2.5
   body_size_y: 2.0
   body_pcb_gap: 0.02

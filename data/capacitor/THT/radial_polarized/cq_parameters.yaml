@@ -9,9 +9,9 @@ L16_D5_p05:
   pin3: null  # third pin (width, x offset, y offset)
   pol: True  # If it is polarized or not
   xoffset: null  # None for F/2
-  modelName: c_el_th_L16_D5_p05  # modelName
+  modelName: C_Radial_D5.0mm_H16.0mm_P2.00mm  # modelName
   rotation: -90  # rotation if required
-  destination_dir: 'Capacitor.3dshapes'  #destination dir prefix
+  destination_dir: 'Capacitor_THT.3dshapes'  #destination dir prefix
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -31,9 +31,9 @@ L10_D5_p05:
   pin3: null
   pol: True
   xoffset: null
-  modelName: c_el_th_L10_D5_p05
+  modelName: C_Radial_D5.0mm_H10.0mm_P2.00mm
   rotation: -90
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -52,9 +52,9 @@ L11_5_D08_p05:
   pin3: null
   pol: True
   xoffset: null
-  modelName: c_el_th_L11_5_D08_p05
+  modelName: C_Radial_D8.0mm_H11.5mm_P3.50mm
   rotation: -90
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -73,9 +73,9 @@ L18_D15_p075:
   pin3: null
   pol: True
   xoffset: null
-  modelName: c_el_th_L18_D15_p075
+  modelName: C_Radial_D15.0mm_H18.0mm_P7.50mm
   rotation: -90
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -94,9 +94,9 @@ L18_D20_p075:
   pin3: null
   pol: True
   xoffset: null
-  modelName: c_el_th_L18_D20_p075
+  modelName: C_Radial_D20.0mm_H18.0mm_P7.50mm
   rotation: -90
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -115,9 +115,9 @@ L35_D12.5_p05:
   pin3: null
   pol: True
   xoffset: null
-  modelName: c_el_th_L35_D12.5_p05
+  modelName: C_Radial_D12.5mm_H35.0mm_P5.00mm
   rotation: -90
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -138,7 +138,7 @@ CP_Radial_D10.0mm_P5.00mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -159,7 +159,7 @@ CP_Radial_D8.0mm_P40.00mm:
   xoffset: null
   modelName: CP_Radial_D8.0mm_P40.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -180,7 +180,7 @@ CP_Radial_D10.0mm_P30.00mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P30.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -201,7 +201,7 @@ C_Radial_D4.0mm_H5.0mm_P1.50mm:
   xoffset: null
   modelName: C_Radial_D4.0mm_H5.0mm_P1.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -222,7 +222,7 @@ C_Radial_D4.0mm_H7.0mm_P1.50mm:
   xoffset: null
   modelName: C_Radial_D4.0mm_H7.0mm_P1.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -243,7 +243,7 @@ C_Radial_D5.0mm_H5.0mm_P2.00mm:
   xoffset: null
   modelName: C_Radial_D5.0mm_H5.0mm_P2.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -264,7 +264,7 @@ C_Radial_D5.0mm_H7.0mm_P2.00mm:
   xoffset: null
   modelName: C_Radial_D5.0mm_H7.0mm_P2.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -285,7 +285,7 @@ C_Radial_D5.0mm_H11.0mm_P2.00mm:
   xoffset: null
   modelName: C_Radial_D5.0mm_H11.0mm_P2.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -306,7 +306,7 @@ C_Radial_D6.3mm_H5.0mm_P2.50mm:
   xoffset: null
   modelName: C_Radial_D6.3mm_H5.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -327,7 +327,7 @@ C_Radial_D6.3mm_H7.0mm_P2.50mm:
   xoffset: null
   modelName: C_Radial_D6.3mm_H7.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -348,7 +348,7 @@ C_Radial_D6.3mm_H11.0mm_P2.50mm:
   xoffset: null
   modelName: C_Radial_D6.3mm_H11.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -369,7 +369,7 @@ C_Radial_D8.0mm_H7.0mm_P3.50mm:
   xoffset: null
   modelName: C_Radial_D8.0mm_H7.0mm_P3.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -390,7 +390,7 @@ C_Radial_D8.0mm_H11.5mm_P3.50mm:
   xoffset: null
   modelName: C_Radial_D8.0mm_H11.5mm_P3.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -411,7 +411,7 @@ C_Radial_D10.0mm_H12.5mm_P5.00mm:
   xoffset: null
   modelName: C_Radial_D10.0mm_H12.5mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -432,7 +432,7 @@ C_Radial_D10.0mm_H16.0mm_P5.00mm:
   xoffset: null
   modelName: C_Radial_D10.0mm_H16.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -453,7 +453,7 @@ C_Radial_D10.0mm_H20.0mm_P5.00mm:
   xoffset: null
   modelName: C_Radial_D10.0mm_H20.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -474,7 +474,7 @@ C_Radial_D12.5mm_H20.0mm_P5.00mm:
   xoffset: null
   modelName: C_Radial_D12.5mm_H20.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -495,7 +495,7 @@ C_Radial_D12.5mm_H25.0mm_P5.00mm:
   xoffset: null
   modelName: C_Radial_D12.5mm_H25.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -516,7 +516,7 @@ C_Radial_D16.0mm_H25.0mm_P7.50mm:
   xoffset: null
   modelName: C_Radial_D16.0mm_H25.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -537,7 +537,7 @@ C_Radial_D16.0mm_H31.5mm_P7.50mm:
   xoffset: null
   modelName: C_Radial_D16.0mm_H31.5mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -558,7 +558,7 @@ C_Radial_D18.0mm_H35.5mm_P7.50mm:
   xoffset: null
   modelName: C_Radial_D18.0mm_H35.5mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -579,7 +579,7 @@ CP_Radial_D4.0mm_P1.50mm:
   xoffset: null
   modelName: CP_Radial_D4.0mm_P1.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -600,7 +600,7 @@ CP_Radial_D4.0mm_P2.00mm:
   xoffset: null
   modelName: CP_Radial_D4.0mm_P2.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -621,7 +621,7 @@ CP_Radial_D5.0mm_P2.00mm:
   xoffset: null
   modelName: CP_Radial_D5.0mm_P2.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -642,7 +642,7 @@ CP_Radial_D5.0mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D5.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -663,7 +663,7 @@ CP_Radial_D6.3mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D6.3mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -684,7 +684,7 @@ CP_Radial_D7.5mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D7.5mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -705,7 +705,7 @@ CP_Radial_D8.0mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D8.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -726,7 +726,7 @@ CP_Radial_D8.0mm_P3.50mm:
   xoffset: null
   modelName: CP_Radial_D8.0mm_P3.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -747,7 +747,7 @@ CP_Radial_D8.0mm_P3.80mm:
   xoffset: null
   modelName: CP_Radial_D8.0mm_P3.80mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -768,7 +768,7 @@ CP_Radial_D8.0mm_P5.00mm:
   xoffset: null
   modelName: CP_Radial_D8.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -789,7 +789,7 @@ CP_Radial_D10.0mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -810,7 +810,7 @@ CP_Radial_D10.0mm_P2.50mm_P5.00mm:
   xoffset: 1.25
   modelName: CP_Radial_D10.0mm_P2.50mm_P5.00mm
   rotation: 140
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -831,7 +831,7 @@ CP_Radial_D10.0mm_P3.50mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P3.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -852,7 +852,7 @@ CP_Radial_D10.0mm_P3.80mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P3.80mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -873,7 +873,7 @@ CP_Radial_D10.0mm_P5.00mm_P7.50mm:
   xoffset: 2.5
   modelName: CP_Radial_D10.0mm_P5.00mm_P7.50mm
   rotation: 148
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -894,7 +894,7 @@ CP_Radial_D10.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D10.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -915,7 +915,7 @@ CP_Radial_D12.5mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D12.5mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -936,7 +936,7 @@ CP_Radial_D12.5mm_P5.00mm:
   xoffset: null
   modelName: CP_Radial_D12.5mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -957,7 +957,7 @@ CP_Radial_D12.5mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D12.5mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -978,7 +978,7 @@ CP_Radial_D13.0mm_P2.50mm:
   xoffset: null
   modelName: CP_Radial_D13.0mm_P2.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -999,7 +999,7 @@ CP_Radial_D13.0mm_P5.00mm:
   xoffset: null
   modelName: CP_Radial_D13.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1020,7 +1020,7 @@ CP_Radial_D13.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D13.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1041,7 +1041,7 @@ CP_Radial_D14.0mm_P5.00mm:
   xoffset: null
   modelName: CP_Radial_D14.0mm_P5.00mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1062,7 +1062,7 @@ CP_Radial_D14.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D14.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1083,7 +1083,7 @@ CP_Radial_D16.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D16.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1104,7 +1104,7 @@ CP_Radial_D17.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D17.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1125,7 +1125,7 @@ CP_Radial_D18.0mm_P7.50mm:
   xoffset: null
   modelName: CP_Radial_D18.0mm_P7.50mm
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1146,7 +1146,7 @@ CP_Radial_D22.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D22.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1167,7 +1167,7 @@ CP_Radial_D22.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D22.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1188,7 +1188,7 @@ CP_Radial_D24.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D24.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1209,7 +1209,7 @@ CP_Radial_D24.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D24.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1230,7 +1230,7 @@ CP_Radial_D25.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D25.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1251,7 +1251,7 @@ CP_Radial_D25.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D25.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1272,7 +1272,7 @@ CP_Radial_D26.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D26.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1293,7 +1293,7 @@ CP_Radial_D26.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D26.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1314,7 +1314,7 @@ CP_Radial_D30.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D30.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1335,7 +1335,7 @@ CP_Radial_D30.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D30.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1356,7 +1356,7 @@ CP_Radial_D35.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D35.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1377,7 +1377,7 @@ CP_Radial_D35.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D35.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1398,7 +1398,7 @@ CP_Radial_D40.0mm_P10.00mm_3pin_SnapIn:
   xoffset: null
   modelName: CP_Radial_D40.0mm_P10.00mm_3pin_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'
@@ -1419,7 +1419,7 @@ CP_Radial_D40.0mm_P10.00mm_SnapIn:
   xoffset: null
   modelName: CP_Radial_D40.0mm_P10.00mm_SnapIn
   rotation: 180
-  destination_dir: 'Capacitor.3dshapes'
+  destination_dir: 'Capacitor_THT.3dshapes'
   body_color_key: 'blue body'
   base_color_key: 'black body'
   mark_color_key: 'light brown label'

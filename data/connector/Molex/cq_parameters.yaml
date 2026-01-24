@@ -5,7 +5,7 @@ Series_502250:
   orientation: 'Horizontal'
   pin_range: [17, 21, 23, 27, 33, 35, 39, 41, 51]
   number_of_rows: 2
-  fp_name_format_string: '{man}_502250-{pincount}91_{num_rows}Rows-{pincount}Pins-1MP_P{pitch}mm_{orientation}'
+  fp_name_format_string: '{man}_502250-{pincount}91_{num_rows}Rows-{pincount}Pins-1MP_P{pitch}0mm_{orientation}'
   mount_pin: ''
   half_pitch: 0.3
   pitch: 0.6

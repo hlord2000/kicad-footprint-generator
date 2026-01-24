@@ -263,7 +263,7 @@ DRT-3:
   color_pin_mark: true
   place_pinMark: true
   rotation: 0
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -293,7 +293,7 @@ HVSOF5:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -323,7 +323,7 @@ HVSOF6:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -383,7 +383,7 @@ SOT-543:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -413,7 +413,7 @@ SOT-665:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -443,7 +443,7 @@ SOT-666:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -473,7 +473,7 @@ SOT-963:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -503,7 +503,7 @@ TDSON-8-1:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -533,7 +533,7 @@ VSOF5:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -563,7 +563,7 @@ SOT-553:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -593,7 +593,7 @@ SOT-563:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'
@@ -623,7 +623,7 @@ SOT-583-8:
   color_pin_mark: true
   place_pinMark: true
   rotation: -90
-  destination_dir: TO_SOT_Packages_SMD.3dshapes
+  destination_dir: Package_TO_SOT_SMD.3dshapes
   body_color_key: 'black body'
   mark_color_key: 'light brown label'
   pin_color_key: 'metal grey pins'

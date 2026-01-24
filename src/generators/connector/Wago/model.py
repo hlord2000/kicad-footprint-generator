@@ -90,6 +90,8 @@ def create_models(spec: LegacyModelSpec, generator_name: str) -> int:
         spec.spec["pin_color_key"],
     ]
 
+    print(spec.spec["destination_dir"])
+
     export_tools.export(
         generator_name=generator_name,
         lib_name=spec.spec["destination_dir"],

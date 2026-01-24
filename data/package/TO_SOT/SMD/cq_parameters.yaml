@@ -1,6 +1,6 @@
 # TO-252/DPAK SMD packages
 TO-252:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: TO-252
         description: 'TO-252/DPAK SMD package'
@@ -138,7 +138,7 @@ TO-252:
 
 # TO-263/D2PAK SMD packages
 TO-263:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: TO-263
         description: 'TO-263/D2PAK/DDPAK SMD package'
@@ -348,7 +348,7 @@ TO-263:
 
 # TO-268/D3PAK SMD packages
 TO-268:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: TO-268
         description: 'TO-268/D3PAK SMD package'
@@ -400,7 +400,7 @@ TO-268:
 
 # ATPAK SMD packages
 ATPAK:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: ATPAK
         description: 'ATPAK SMD package'
@@ -451,7 +451,7 @@ ATPAK:
 
 # Infineon HSOF-8 SMD packages
 HSOF8 :
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: HSOF-8
         description: 'Infineon PG-HSOF-8 SMD package'
@@ -502,7 +502,7 @@ HSOF8 :
 
 # NXP LFPAK56 SMD packages
 LFPAK56:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: LFPAK56
         description: 'NXP SOT-669 LFPAK56 Power-SO8 SMD package'
@@ -554,7 +554,7 @@ LFPAK56:
 
 # LFPAK88 / PowerPAK SO-8 x 8L BWL / SOT-1235 SMD package
 LFPAK88:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: SOT-1235
         description: 'LFPAK88 PowerPAK 8 x 8L BWL Single SOT-1235'
@@ -619,7 +619,7 @@ LFPAK88:
 
 # SOT-89-3 SMD package
 SOT89:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: SOT-89
         description: 'SOT-89-3 SMD package'
@@ -669,7 +669,7 @@ SOT89:
             datasheet: https://www.onsemi.com/pub/Collateral/2SB1122-D.PDF
 
 Infineon_PG_TO_220_7Lead_TabPin8:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: Infineon_PG-TO-220-7Lead_TabPin8
         description: 'Infineon PG-TO-220-7, Tab as Pin 8, see e.g. https://www.infineon.com/dgdl/Infineon-BTS50055-1TMC-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa9b0007235e9'
@@ -720,7 +720,7 @@ Infineon_PG_TO_220_7Lead_TabPin8:
             datasheet: https://www.infineon.com/dgdl/Infineon-BTS50055-1TMC-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa9b0007235e9
 
 Rohm_HRP7:
-    destination_dir: 'TO_SOT_Packages_SMD.3dshapes'
+    destination_dir: 'Package_TO_SOT_SMD.3dshapes'
     base:
         series: Rohm_HRP7
         description: 'Rohm HRP7 SMD package, http://rohmfs.rohm.com/en/techdata_basic/ic/package/hrp7_1-e.pdf, http://rohmfs.rohm.com/en/products/databook/datasheet/ic/motor/dc/bd621x-e.pdf'

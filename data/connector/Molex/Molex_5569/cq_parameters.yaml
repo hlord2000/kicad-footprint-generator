@@ -1,7 +1,7 @@
 5569-2A2:
   N: 2
   model_name: 'Molex_5569-2A2'  # Model Name
-  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}mm_Horizontal'
+  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}0mm_Horizontal'
   body_height: 9.6
   body_width: 12.8
   body_length: [5.4, 9.6, 13.8, 18.0, 22.2, 26.4, 30.6, 34.8, 39.0]
@@ -39,7 +39,7 @@
 5569-4A2:
   N: 4
   model_name: 'Molex_5569-4A2'  # Model Name
-  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}mm_Horizontal'
+  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}0mm_Horizontal'
   body_height: 9.6
   body_width: 12.8
   body_length: [5.4, 9.6, 13.8, 18.0, 22.2, 26.4, 30.6, 34.8, 39.0]
@@ -75,7 +75,7 @@
 5569-6A2:
   N: 6
   model_name: 'Molex_5569-6A2'  # Model Name
-  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}mm_Horizontal'
+  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}0mm_Horizontal'
   body_height: 9.6
   body_width: 12.8
   body_length: [5.4, 9.6, 13.8, 18.0, 22.2, 26.4, 30.6, 34.8, 39.0]
@@ -111,7 +111,7 @@
 5569-8A2:
   N: 8
   model_name: 'Molex_5569-8A2'  # Model Name
-  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}mm_Horizontal'
+  fp_name_format_string: 'Molex_Mini-Fit_Jr_5569-{pincount}A2_{num_rows}x{halfpadpincount}_P{pitch}0mm_Horizontal'
   body_height: 9.6
   body_width: 12.8
   body_length: [5.4, 9.6, 13.8, 18.0, 22.2, 26.4, 30.6, 34.8, 39.0]

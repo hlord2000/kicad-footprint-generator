@@ -10,7 +10,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical:
   shape: din  # "din", "power", "box", "array", "radial", "shunt", "bare"
   orient: v  # 'v' or 'h' (for vertical, horizontal)
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
   include_in_qa: True
 
@@ -26,7 +26,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal:
@@ -41,7 +41,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical:
@@ -56,7 +56,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal:
@@ -71,7 +71,7 @@ R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal:
@@ -86,7 +86,7 @@ R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0207_L6.3mm_D2.5mm_P15.24mm_Horizontal:
@@ -101,7 +101,7 @@ R_Axial_DIN0207_L6.3mm_D2.5mm_P15.24mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical:
@@ -116,7 +116,7 @@ R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical:
@@ -131,7 +131,7 @@ R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal:
@@ -146,7 +146,7 @@ R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal:
@@ -161,7 +161,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P15.24mm_Horizontal:
@@ -176,7 +176,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P15.24mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical:
@@ -191,7 +191,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P20.32mm_Horizontal:
@@ -206,7 +206,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P25.40mm_Horizontal:
@@ -221,7 +221,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Horizontal:
@@ -236,7 +236,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Horizontal:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical:
@@ -251,7 +251,7 @@ R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical:
@@ -266,7 +266,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal:
@@ -281,7 +281,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P15.24mm_Horizontal:
@@ -296,7 +296,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P15.24mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P20.32mm_Horizontal:
@@ -311,7 +311,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P25.40mm_Horizontal:
@@ -326,7 +326,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical:
@@ -341,7 +341,7 @@ R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_Horizontal:
@@ -356,7 +356,7 @@ R_Axial_DIN0414_L11.9mm_D4.5mm_P15.24mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0414_L11.9mm_D4.5mm_P20.32mm_Horizontal:
@@ -371,7 +371,7 @@ R_Axial_DIN0414_L11.9mm_D4.5mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0414_L11.9mm_D4.5mm_P25.40mm_Horizontal:
@@ -386,7 +386,7 @@ R_Axial_DIN0414_L11.9mm_D4.5mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical:
@@ -401,7 +401,7 @@ R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical:
@@ -416,7 +416,7 @@ R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal:
@@ -431,7 +431,7 @@ R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0516_L15.5mm_D5.0mm_P25.40mm_Horizontal:
@@ -446,7 +446,7 @@ R_Axial_DIN0516_L15.5mm_D5.0mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0516_L15.5mm_D5.0mm_P30.48mm_Horizontal:
@@ -461,7 +461,7 @@ R_Axial_DIN0516_L15.5mm_D5.0mm_P30.48mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical:
@@ -476,7 +476,7 @@ R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical:
@@ -491,7 +491,7 @@ R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0614_L14.3mm_D5.7mm_P15.24mm_Horizontal:
@@ -506,7 +506,7 @@ R_Axial_DIN0614_L14.3mm_D5.7mm_P15.24mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0614_L14.3mm_D5.7mm_P20.32mm_Horizontal:
@@ -521,7 +521,7 @@ R_Axial_DIN0614_L14.3mm_D5.7mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0614_L14.3mm_D5.7mm_P25.40mm_Horizontal:
@@ -536,7 +536,7 @@ R_Axial_DIN0614_L14.3mm_D5.7mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical:
@@ -551,7 +551,7 @@ R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical:
@@ -566,7 +566,7 @@ R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0617_L17.0mm_D6.0mm_P20.32mm_Horizontal:
@@ -581,7 +581,7 @@ R_Axial_DIN0617_L17.0mm_D6.0mm_P20.32mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0617_L17.0mm_D6.0mm_P25.40mm_Horizontal:
@@ -596,7 +596,7 @@ R_Axial_DIN0617_L17.0mm_D6.0mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0617_L17.0mm_D6.0mm_P30.48mm_Horizontal:
@@ -611,7 +611,7 @@ R_Axial_DIN0617_L17.0mm_D6.0mm_P30.48mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical:
@@ -626,7 +626,7 @@ R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical:
@@ -641,7 +641,7 @@ R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0918_L18.0mm_D9.0mm_P22.86mm_Horizontal:
@@ -656,7 +656,7 @@ R_Axial_DIN0918_L18.0mm_D9.0mm_P22.86mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0918_L18.0mm_D9.0mm_P25.40mm_Horizontal:
@@ -671,7 +671,7 @@ R_Axial_DIN0918_L18.0mm_D9.0mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0918_L18.0mm_D9.0mm_P30.48mm_Horizontal:
@@ -686,7 +686,7 @@ R_Axial_DIN0918_L18.0mm_D9.0mm_P30.48mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical:
@@ -701,7 +701,7 @@ R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0922_L20.0mm_D9.0mm_P25.40mm_Horizontal:
@@ -716,7 +716,7 @@ R_Axial_DIN0922_L20.0mm_D9.0mm_P25.40mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0922_L20.0mm_D9.0mm_P30.48mm_Horizontal:
@@ -731,7 +731,7 @@ R_Axial_DIN0922_L20.0mm_D9.0mm_P30.48mm_Horizontal:
   shape: din
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical:
@@ -746,7 +746,7 @@ R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical:
   shape: din
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L20.0mm_W6.4mm_P22.40mm:
@@ -761,7 +761,7 @@ R_Axial_Power_L20.0mm_W6.4mm_P22.40mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L20.0mm_W6.4mm_P25.40mm:
@@ -776,7 +776,7 @@ R_Axial_Power_L20.0mm_W6.4mm_P25.40mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L20.0mm_W6.4mm_P30.48mm:
@@ -791,7 +791,7 @@ R_Axial_Power_L20.0mm_W6.4mm_P30.48mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L20.0mm_W6.4mm_P5.08mm_Vertical:
@@ -806,7 +806,7 @@ R_Axial_Power_L20.0mm_W6.4mm_P5.08mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L20.0mm_W6.4mm_P7.62mm_Vertical:
@@ -821,7 +821,7 @@ R_Axial_Power_L20.0mm_W6.4mm_P7.62mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W6.4mm_P27.94mm:
@@ -836,7 +836,7 @@ R_Axial_Power_L25.0mm_W6.4mm_P27.94mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W6.4mm_P30.48mm:
@@ -851,7 +851,7 @@ R_Axial_Power_L25.0mm_W6.4mm_P30.48mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W9.0mm_P10.16mm_Vertical:
@@ -866,7 +866,7 @@ R_Axial_Power_L25.0mm_W9.0mm_P10.16mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W9.0mm_P27.94mm:
@@ -881,7 +881,7 @@ R_Axial_Power_L25.0mm_W9.0mm_P27.94mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W9.0mm_P30.48mm:
@@ -896,7 +896,7 @@ R_Axial_Power_L25.0mm_W9.0mm_P30.48mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L25.0mm_W9.0mm_P7.62mm_Vertical:
@@ -911,7 +911,7 @@ R_Axial_Power_L25.0mm_W9.0mm_P7.62mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L38.0mm_W6.4mm_P40.64mm:
@@ -926,7 +926,7 @@ R_Axial_Power_L38.0mm_W6.4mm_P40.64mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L38.0mm_W6.4mm_P45.72mm:
@@ -941,7 +941,7 @@ R_Axial_Power_L38.0mm_W6.4mm_P45.72mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L38.0mm_W9.0mm_P40.64mm:
@@ -956,7 +956,7 @@ R_Axial_Power_L38.0mm_W9.0mm_P40.64mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L38.0mm_W9.0mm_P45.72mm:
@@ -971,7 +971,7 @@ R_Axial_Power_L38.0mm_W9.0mm_P45.72mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L48.0mm_W12.5mm_P10.16mm_Vertical:
@@ -986,7 +986,7 @@ R_Axial_Power_L48.0mm_W12.5mm_P10.16mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L48.0mm_W12.5mm_P55.88mm:
@@ -1001,7 +1001,7 @@ R_Axial_Power_L48.0mm_W12.5mm_P55.88mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L48.0mm_W12.5mm_P60.96mm:
@@ -1016,7 +1016,7 @@ R_Axial_Power_L48.0mm_W12.5mm_P60.96mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L48.0mm_W12.5mm_P7.62mm_Vertical:
@@ -1031,7 +1031,7 @@ R_Axial_Power_L48.0mm_W12.5mm_P7.62mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L50.0mm_W9.0mm_P55.88mm:
@@ -1046,7 +1046,7 @@ R_Axial_Power_L50.0mm_W9.0mm_P55.88mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L50.0mm_W9.0mm_P60.96mm:
@@ -1061,7 +1061,7 @@ R_Axial_Power_L50.0mm_W9.0mm_P60.96mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L60.0mm_W14.0mm_P10.16mm_Vertical:
@@ -1076,7 +1076,7 @@ R_Axial_Power_L60.0mm_W14.0mm_P10.16mm_Vertical:
   shape: power
   orient: v
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L60.0mm_W14.0mm_P66.04mm:
@@ -1091,7 +1091,7 @@ R_Axial_Power_L60.0mm_W14.0mm_P66.04mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L60.0mm_W14.0mm_P71.12mm:
@@ -1106,7 +1106,7 @@ R_Axial_Power_L60.0mm_W14.0mm_P71.12mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L75.0mm_W9.0mm_P81.28mm:
@@ -1121,7 +1121,7 @@ R_Axial_Power_L75.0mm_W9.0mm_P81.28mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Power_L75.0mm_W9.0mm_P86.36mm:
@@ -1136,7 +1136,7 @@ R_Axial_Power_L75.0mm_W9.0mm_P86.36mm:
   shape: power
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Shunt_L22.2mm_W8.0mm_PS14.30mm_P25.40mm:
@@ -1151,7 +1151,7 @@ R_Axial_Shunt_L22.2mm_W8.0mm_PS14.30mm_P25.40mm:
   shape: shunt
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.vishay.com/docs/30217/cpsl.pdf'
 
 R_Axial_Shunt_L22.2mm_W9.5mm_PS14.30mm_P25.40mm:
@@ -1166,7 +1166,7 @@ R_Axial_Shunt_L22.2mm_W9.5mm_PS14.30mm_P25.40mm:
   shape: shunt
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Shunt_L35.3mm_W9.5mm_PS25.40mm_P38.10mm:
@@ -1181,7 +1181,7 @@ R_Axial_Shunt_L35.3mm_W9.5mm_PS25.40mm_P38.10mm:
   shape: shunt
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Shunt_L47.6mm_W12.7mm_PS34.93mm_P50.80mm:
@@ -1196,7 +1196,7 @@ R_Axial_Shunt_L47.6mm_W12.7mm_PS34.93mm_P50.80mm:
   shape: shunt
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Axial_Shunt_L47.6mm_W9.5mm_PS34.93mm_P50.80mm:
@@ -1211,7 +1211,7 @@ R_Axial_Shunt_L47.6mm_W9.5mm_PS34.93mm_P50.80mm:
   shape: shunt
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Bare_Metal_Element_L12.4mm_W4.8mm_P11.40mm:
@@ -1226,7 +1226,7 @@ R_Bare_Metal_Element_L12.4mm_W4.8mm_P11.40mm:
   shape: bare
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.arcolresistors.com/wp-content/uploads/2011/07/MSR-6-11.272.pdf'
 
 R_Bare_Metal_Element_L16.3mm_W4.8mm_P15.30mm:
@@ -1241,7 +1241,7 @@ R_Bare_Metal_Element_L16.3mm_W4.8mm_P15.30mm:
   shape: bare
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Bare_Metal_Element_L21.3mm_W4.8mm_P20.30mm:
@@ -1256,7 +1256,7 @@ R_Bare_Metal_Element_L21.3mm_W4.8mm_P20.30mm:
   shape: bare
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Box_L13.0mm_W4.0mm_P9.00mm:
@@ -1271,7 +1271,7 @@ R_Box_L13.0mm_W4.0mm_P9.00mm:
   shape: box
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Box_L14.0mm_W5.0mm_P9.00mm:
@@ -1286,7 +1286,7 @@ R_Box_L14.0mm_W5.0mm_P9.00mm:
   shape: box
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Box_L26.0mm_W5.0mm_P20.00mm:
@@ -1301,7 +1301,7 @@ R_Box_L26.0mm_W5.0mm_P20.00mm:
   shape: box
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.produktinfo.conrad.com/datenblaetter/425000-449999/443860-da-01-de-METALLBAND_WIDERSTAND_0_1_OHM_5W_5Pr.pdf'
 
 R_Box_L8.4mm_W2.5mm_P5.08mm:
@@ -1316,7 +1316,7 @@ R_Box_L8.4mm_W2.5mm_P5.08mm:
   shape: box
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.vishay.com/docs/60051/cns020.pdf'
 
 R_Radial_Power_L11.0mm_W7.0mm_P5.00mm:
@@ -1331,7 +1331,7 @@ R_Radial_Power_L11.0mm_W7.0mm_P5.00mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.vishay.com/docs/30218/cpcx.pdf'
 
 R_Radial_Power_L12.0mm_W8.0mm_P5.00mm:
@@ -1346,7 +1346,7 @@ R_Radial_Power_L12.0mm_W8.0mm_P5.00mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Radial_Power_L13.0mm_W9.0mm_P5.00mm:
@@ -1361,7 +1361,7 @@ R_Radial_Power_L13.0mm_W9.0mm_P5.00mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Radial_Power_L16.1mm_W9.0mm_P7.37mm:
@@ -1376,7 +1376,7 @@ R_Radial_Power_L16.1mm_W9.0mm_P7.37mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Radial_Power_L7.0mm_W8.0mm_Px2.40mm_Py2.30mm:
@@ -1391,7 +1391,7 @@ R_Radial_Power_L7.0mm_W8.0mm_Px2.40mm_Py2.30mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.vitrohm.com/content/files/vitrohm_series_kvs_-_201702.pdf'
 
 R_Radial_Power_L9.0mm_W10.0mm_Px2.70mm_Py2.30mm:
@@ -1406,7 +1406,7 @@ R_Radial_Power_L9.0mm_W10.0mm_Px2.70mm_Py2.30mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Array_SIP:
@@ -1421,7 +1421,7 @@ R_Array_SIP:
   shape: array
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'https://www.vishay.com/docs/31509/csc.pdf'
 
 R_Radial_Power_L11.0mm_W3.5mm_P5.00mm:
@@ -1436,7 +1436,7 @@ R_Radial_Power_L11.0mm_W3.5mm_P5.00mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'http://www.vishay.com/docs/30116/cpcc.pdf'
 
 R_Radial_Power_L13.0mm_W9.0mm_P5.0mm:
@@ -1451,7 +1451,7 @@ R_Radial_Power_L13.0mm_W9.0mm_P5.0mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Radial_Power_L16.0mm_W12.0mm_P7.50mm:
@@ -1466,7 +1466,7 @@ R_Radial_Power_L16.0mm_W12.0mm_P7.50mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'
 
 R_Radial_Power_L13.0mm_W10.0mm_P5.00mm:
@@ -1481,5 +1481,5 @@ R_Radial_Power_L13.0mm_W10.0mm_P5.00mm:
   shape: radial
   orient: h
   mark_color_key: 'white body'
-  destination_dir: 'Resistors_THT.3dshapes'
+  destination_dir: 'Resistor_THT.3dshapes'
   source: 'N/A'

@@ -2,7 +2,7 @@ JST_EH_V:
   series: 'EH'
   manufacturer: 'JST'
   number_of_rows: 1
-  file_name: 'JST_EH_B{num_pins}B-EH-A_1x{padded_pins}_2.50mm_Vertical'
+  file_name: 'JST_EH_B{num_pins}B-EH-A_1x{padded_pins}_P2.50mm_Vertical'
   mpn_format_string: 'B{pincount:d}B-EH-A'
   orientation: 'V'
   angled: False
@@ -43,7 +43,7 @@ JST_EH_H:
   series: 'EH'
   manufacturer: 'JST'
   number_of_rows: 1
-  file_name: 'JST_EH_S{num_pins}B-EH-A_1x{padded_pins}_2.50mm_Horizontal'
+  file_name: 'JST_EH_S{num_pins}B-EH-A_1x{padded_pins}_P2.50mm_Horizontal'
   mpn_format_string: 'S{pincount:d}B-EH-A'
   orientation: 'H'
   angled: True

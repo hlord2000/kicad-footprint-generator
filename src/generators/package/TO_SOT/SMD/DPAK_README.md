@@ -95,9 +95,9 @@ tab:
     colour: 'metal grey pins'    # 3D
 ```
 
-These define the size of the body and tab. Tab `x_mm` includes the part of the tab under the body. 
+These define the size of the body and tab. Tab `x_mm` includes the part of the tab under the body.
 `project_x_mm` denotes the part of the tab that projects outside the body. In case the tab is hidden
-below the body, `project_x_mm` is negative and denotes the offset from the body edge to the tab edge.    
+below the body, `project_x_mm` is negative and denotes the offset from the body edge to the tab edge.
 
 If `project_x_mm` less or equal zero, no tab will be drawn.
 
@@ -117,7 +117,7 @@ pins:
 Used for the 3D model. See below for configuration data for the pins on each variant.
 
 ```
-3d_prefix: '${KICAD7_3DMODEL_DIR}/TO_SOT_Packages_SMD.3dshapes'
+3d_prefix: '${KICAD7_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes'
 ```
 
 This string is added to the module to set the path to the 3D models folder.
@@ -159,4 +159,3 @@ This parameter contains either one or both of `'cut'` or '`uncut`'. If both are 
 ```
 
 These strings are added to the base-level description and keywords (see above) and are included in the module.
-

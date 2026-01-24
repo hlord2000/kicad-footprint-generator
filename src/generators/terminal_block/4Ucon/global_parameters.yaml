@@ -1,5 +1,5 @@
 globals:
-  destination_dir: 'Connectors_4UCON.3dshapes'
+  destination_dir: 'TerminalBlock_4Ucon.3dshapes'
   body_color_key: 'dark grey body'
   pin_color_key: 'metal grey pins'
   contact_color_key: 'metal grey pins'
