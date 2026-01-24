@@ -757,7 +757,7 @@ def makeResistorAxialVertical(
             rmdisp, snfp
         )
     elif deco == "diode_KUP":
-        footprint_name = classname + "{1}_P{0:0.2f}mm_Vertical_KathodeUp".format(
+        footprint_name = classname + "{1}_P{0:0.2f}mm_Vertical_CathodeUp".format(
             rmdisp, snfp
         )
     else:
