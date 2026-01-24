@@ -201,7 +201,6 @@ def makeDSubStraight(
     )
 
     # create pads
-    p1 = int(1)
     x1 = 0
     y1 = 0
 
@@ -581,7 +580,6 @@ def makeDSubEdge(
             tags = tags + " " + t
 
     pinstop = int((pins + 1) / 2)
-    pinsbot = int((pins - 1) / 2)
 
     y1 = -pad[1] / 2
     x10 = -(pinstop - 1) / 2 * rmx
@@ -633,7 +631,6 @@ def makeDSubEdge(
     )
 
     # create pads
-    p1 = int(1)
     x1 = 0
     y1 = 0
 
@@ -642,7 +639,6 @@ def makeDSubEdge(
     pad_layers_top = Pad.LAYERS_SMT
     pad_layers_bot = ["B.Cu", "B.Paste", "B.Mask"]
     slk_layers_top = "F.SilkS"
-    slk_layers_bot = "B.SilkS"
     keepouts = []
 
     y1 = 0
@@ -1045,7 +1041,6 @@ def makeDSubAngled(
         tags = tags + " socket"
         footprint_name = footprint_name + "_Socket"
 
-    rmy_default = 2.84
     description = description + ", pitch {:g}x{:g}mm, pin-PCB-offset {:g}mm".format(
         rmx, rmy, pin_pcb_distance
     )
@@ -1181,7 +1176,6 @@ def makeDSubAngled(
     )
 
     # create pads
-    p1 = int(1)
     x1 = 0
     y1 = 0
 
