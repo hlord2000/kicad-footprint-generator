@@ -26,7 +26,7 @@ from generators.tools.footprint.footprint_global_properties import (
 )
 from KicadModTree import *  # NOQA
 from KicadModTree import RoundRectangle, Trapezoid
-from kilibs.config.global_config import GlobalConfig
+from kilibs.config.global_config import GlobalConfig, PadName
 
 
 def makeDSubStraight(
@@ -359,9 +359,12 @@ def makeDSubStraight(
 
     if hasMountingHoles:
         assert mountingpad > 0
+
+        mounting_hole_num = global_config.get_pad_name(PadName.SHIELD)
+
         kicad_modg.append(
             Pad(
-                number=0,
+                number=mounting_hole_num,
                 type=pad_type,
                 shape=pad_shapeother,
                 at=[-mountingdistance / 2, 0],
@@ -378,7 +381,7 @@ def makeDSubStraight(
         )
         kicad_modg.append(
             Pad(
-                number=0,
+                number=mounting_hole_num,
                 type=pad_type,
                 shape=pad_shapeother,
                 at=[mountingdistance / 2, 0],
@@ -1377,9 +1380,12 @@ def makeDSubAngled(
     # mounting holes
     if hasMountingHoles:
         assert mountingpad > 0
+
+        mounting_hole_num = global_config.get_pad_name(PadName.SHIELD)
+
         kicad_modg.append(
             Pad(
-                number=0,
+                number=mounting_hole_num,
                 type=pad_type,
                 shape=pad_shapeother,
                 at=[-mountingdistance / 2, ypcb_edge - mounting_pcb_distance],
@@ -1396,7 +1402,7 @@ def makeDSubAngled(
         )
         kicad_modg.append(
             Pad(
-                number=0,
+                number=mounting_hole_num,
                 type=pad_type,
                 shape=pad_shapeother,
                 at=[mountingdistance / 2, ypcb_edge - mounting_pcb_distance],
