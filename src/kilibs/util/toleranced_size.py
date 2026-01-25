@@ -102,7 +102,7 @@ class TolerancedSize:
 
         if self.maximum < self.minimum:
             raise ValueError(
-                "Maximum is smaller than minimum. Tolerance ranges given wrong or parameters confused."
+                f"Maximum of {self.maximum} is smaller than minimum {self.minimum} (nominal: {self.nominal}). Tolerance ranges given wrong or parameters confused."
             )
 
         self.minimum = TolerancedSize.to_metric(self.minimum, unit)
