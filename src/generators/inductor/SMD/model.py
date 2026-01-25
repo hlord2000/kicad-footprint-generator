@@ -51,8 +51,11 @@ __Comment__ = """This generator loads cadquery model scripts and generates step/
 ___ver___ = "2.0.0"
 
 import abc
+import copy
 
 import cadquery as cq
+
+from kilibs.geom import Vector2D
 
 from generators.tools.model import export_tools
 from kilibs.declarative_defs.packages.two_pad_dimensions import TwoPadDimensions
@@ -63,6 +66,7 @@ from .spec import (
     HorizontalAirCoreParameters,
     SmdInductorSpec,
     ShieldedDrumRoundedRectBlockParameters,
+    ShieldedDrumFlatBaseParameters,
 )
 
 
@@ -85,30 +89,19 @@ def create_models(spec: SmdInductorSpec, generator_name: str) -> int:
         model_builder = HoriziontalAirCoreBuilder(spec)
     elif isinstance(spec.body, ShieldedDrumRoundedRectBlockParameters):
         model_builder = ShieldedDrumModelBuilder(spec)
+    elif isinstance(spec.body, ShieldedDrumFlatBaseParameters):
+        model_builder = ShieldedDrumFlatBaseModelBuilder(spec)
     else:
         raise ValueError(f"Invalid body_type: {type(spec.body)}")
 
     model_parts = model_builder.build()
 
-    parts: list[cq.Workplane] = []
-    color_names: list[str] = []
-
-    if model_parts.case is not None:
-        parts.append(model_parts.case)
-        color_names.append(spec.body_color)
-    if model_parts.coil is not None:
-        parts.append(model_parts.coil)
-        color_names.append(spec.coil_color)  # type: ignore
-    if model_parts.pins is not None:
-        parts.append(model_parts.pins)
-        color_names.append(spec.pad_color)
-
     export_tools.export(
         generator_name=generator_name,
         lib_name=spec.library_name,
         model_name=f"L_{spec.manufacturer}_{spec.part_number}",
-        parts=parts,
-        color_names=color_names,
+        parts=[part[0] for part in model_parts.parts],
+        color_names=[part[1] for part in model_parts.parts],
     )
     return 1
 
@@ -154,22 +147,6 @@ def build_pins(
     return pin1.union(pin2)
 
 
-class InductorParts:
-
-    def __init__(
-        self,
-        case: cq.Workplane | None,
-        pins: cq.Workplane | None,
-        coil: cq.Workplane | None,
-    ):
-        self.case = case
-        """The case of the inductor, if there is one"""
-        self.pins = pins
-        """The pins of the inductor"""
-        self.coil = coil
-        """The coil of the inductor, if applicable"""
-
-
 class InductorModelBuilder(abc.ABC):
     """
     Abstract base class for building inductor models.
@@ -179,7 +156,7 @@ class InductorModelBuilder(abc.ABC):
         self.spec = spec
 
     @abc.abstractmethod
-    def build(self) -> InductorParts:
+    def build(self) -> export_tools.AssemblyParts:
         """
         Build the inductor model and return the case and pins.
         """
@@ -191,7 +168,7 @@ class CubicInductorBuilder(InductorModelBuilder):
     def __init__(self, spec: SmdInductorSpec) -> None:
         super().__init__(spec)
 
-    def build(self) -> InductorParts:
+    def build(self) -> export_tools.AssemblyParts:
 
         body_data = self.spec.body
         assert isinstance(body_data, CuboidParameters)
@@ -248,7 +225,12 @@ class CubicInductorBuilder(InductorModelBuilder):
         case = case.rotate((0, 0, 0), (0, 0, 1), rotation)
         pins = pins.rotate((0, 0, 0), (0, 0, 1), rotation)
 
-        return InductorParts(case, pins, None)
+        return export_tools.AssemblyParts(
+            [
+                (case, self.spec.body_color),
+                (pins, self.spec.pad_color),
+            ]
+        )
 
 
 class HoriziontalAirCoreBuilder(InductorModelBuilder):
@@ -257,15 +239,21 @@ class HoriziontalAirCoreBuilder(InductorModelBuilder):
     """
 
     def __init__(self, spec: SmdInductorSpec) -> None:
+        super().__init__(spec)
         assert isinstance(spec.body, HorizontalAirCoreParameters)
         assert spec.body.foot_shape == "d_section"
 
         self.coil_builder = DSectionFootAirCoreCoil(spec.body)
 
-    def build(self) -> InductorParts:
+    def build(self) -> export_tools.AssemblyParts:
         # Create the coil model
         coil, pins = self.coil_builder.make_coil()
-        return InductorParts(None, pins, coil)
+        return export_tools.AssemblyParts(
+            [
+                (pins, self.spec.pad_color),
+                (coil, self.spec.coil_color),
+            ],
+        )
 
 
 class ShieldedDrumModelBuilder(InductorModelBuilder):
@@ -273,7 +261,7 @@ class ShieldedDrumModelBuilder(InductorModelBuilder):
     def __init__(self, spec: SmdInductorSpec) -> None:
         super().__init__(spec)
 
-    def build(self) -> InductorParts:
+    def build(self) -> export_tools.AssemblyParts:
 
         body = self.spec.body
         assert isinstance(body, ShieldedDrumRoundedRectBlockParameters)
@@ -356,4 +344,165 @@ class ShieldedDrumModelBuilder(InductorModelBuilder):
 
         case = case.cut(pins)
 
-        return InductorParts(case, pins, None)
+        return export_tools.AssemblyParts(
+            [
+                (case, self.spec.body_color),
+                (pins, self.spec.pad_color),
+            ],
+        )
+
+
+class ShieldedDrumFlatBaseModelBuilder(InductorModelBuilder):
+    r"""
+    Builder for shielded drum inductors with a flat base.
+
+    Basically, these are a cyclindrical drum sitting on a square, flat base.
+    """
+
+    def __init__(
+        self,
+        spec: SmdInductorSpec
+    ):
+        super().__init__(spec)
+
+        assert isinstance(self.spec.body, ShieldedDrumFlatBaseParameters)
+
+    def build(self) -> export_tools.AssemblyParts:
+
+        body = self.spec.body
+        assert isinstance(body, ShieldedDrumFlatBaseParameters)
+
+        parts = export_tools.AssemblyParts()
+
+        base = (
+            cq.Workplane("XY")
+            .box(
+                body.width_x,
+                body.length_y,
+                body.base_thickness,
+                centered=(True, True, False),
+            )
+            .edges("|Z")
+            .fillet(body.base_corner_radius)
+        )
+
+        if body.pin1_corner_notch_size > 0.0:
+
+            y_offset_sign = 1 if body.pin1_corner_notch_at_top_y else -1
+
+            # Add a notch in the corner of the base for pin 1
+            notch = (
+                cq.Workplane("XY")
+                .box(
+                    body.pin1_corner_notch_size * 2,
+                    body.pin1_corner_notch_size * 2,
+                    body.base_thickness + 0.01,  # Slightly larger to ensure cut
+                    centered=(True, True, False),
+                )
+                .translate(
+                    (
+                        -body.width_x / 2,
+                        y_offset_sign * body.length_y / 2,
+                        0,
+                    )
+                )
+            )
+            base = base.cut(notch)
+
+        cylinder = (
+            cq.Workplane("XY")
+            .circle(body.core_diameter / 2)
+            .extrude(body.height - body.top_cap_z_height)
+            .edges(">Z")
+            .chamfer(body.top_edge_chamfer)
+        )
+
+        # If there's a painted ring, add it here
+        if body.top_cap_ring_color is not None:
+            ring = (
+                cylinder
+                .faces(">Z")
+                .workplane()
+                .circle(body.core_diameter / 2 - body.top_edge_chamfer)
+                .extrude(0.01, combine=False)
+            )
+
+            parts.append(ring, body.top_cap_ring_color)
+
+        # Add the little top cap
+        if body.top_cap_z_height > 0:
+            assert body.top_cap_diameter > 0
+            cylinder = (
+                cylinder.faces(">Z")
+                .workplane()
+                .circle(body.top_cap_diameter / 2)
+                .extrude(body.top_cap_z_height)
+            )
+
+        orientation_mark = None
+        if body.orientation_mark == "dot":
+            # Add a dot on top to indicate orientation
+            dot_diameter = body.core_diameter / 10
+            dot_height = 0.01
+
+            orientation_mark = (
+                cylinder.faces(">Z")
+                .workplane()
+                .transformed(offset=(-body.core_diameter / 2 + dot_diameter * 2.5, 0, 0))
+                .circle(dot_diameter / 2)
+                .extrude(dot_height, combine=False)
+            )
+
+        parts.append(orientation_mark, "light brown label")
+
+        case = base.union(cylinder)
+
+        # Make a cutout for the pins for when the pins are inset
+        if body.device_pad_dims.spacing_outside < body.width_x:
+            pins_cutout_dims = copy.copy(body.device_pad_dims)
+            # Cutout extends to the outside of the body
+            pins_cutout_dims.spacing_outside = body.width_x
+
+            pins_cutout = build_pins(
+                pins_cutout_dims,
+                body.base_thickness,
+                body.width_x,
+            )
+
+            case = case.cut(pins_cutout)
+
+        pins = build_pins(
+            body.device_pad_dims,
+            body.base_thickness,
+            body.width_x,
+        )
+
+        parts.append(case, self.spec.body_color)
+        parts.append(pins, self.spec.pad_color)
+
+        if body.has_visible_coil_ends:
+
+            # extend halfway from the cylinder to the corner
+            corner_dist = Vector2D(body.width_x, body.length_y).norm()
+            lead_len = (corner_dist + body.core_diameter) / 2
+            # Make the lead prejection roughly square
+            lead_w = (lead_len - body.core_diameter) / 2
+            lead_fillet_z = lead_w / 4
+            lead_height_z = body.base_thickness
+
+            # Rotate to avoid the pin 1 notch
+            lead_rotate_deg = 45 * (1 if body.pin1_corner_notch_at_top_y else -1)
+
+            lead = (
+                base.faces(">Z")
+                    .workplane()
+                    .rect(lead_len, lead_w)
+                    .extrude(lead_height_z, combine=False)
+                    .edges("|Z")
+                    .fillet(lead_fillet_z)
+                    .rotate((0,0,0), (0, 0, 1), lead_rotate_deg)
+            )
+
+            parts.append(lead, self.spec.pad_color)
+
+        return parts

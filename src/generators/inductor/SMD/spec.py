@@ -217,6 +217,83 @@ class ShieldedDrumRoundedRectBlockParameters(TwoPadInductorParameters):
         self.corner_radius = float(data["cornerRadius"])
 
 
+class ShieldedDrumFlatBaseParameters(TwoPadInductorParameters):
+    r"""
+    Parameters for the shielded drum flat base inductor model.
+
+    Example series for this type: TDK SLF series:
+    https://product.tdk.com/en/system/files/dam/doc/product/inductor/inductor/smd/catalog/inductor_commercial_power_slf6025_en.pdf
+
+        +--------------+
+        |              |
+        |              |
+    ++--+--------------+--++
+    ++--------------------++
+
+     +--------------------+
+     |  /              \  |
+     | /                \ |
+    +|/                  \|+
+    |||                  |||
+    +|\                  /|+
+     | \                / |
+     |  \              /  |
+     +--------------------+
+    """
+
+    def __init__(self, data: dict[str, Any]):
+
+        super().__init__(data)
+        self.core_diameter: float
+        """Diameter of the core of the inductor."""
+        self.base_thickness: float
+        """Thickness of the base of the inductor."""
+        self.base_corner_radius: float
+        """Corner radius of the base of the inductor."""
+        self.top_cap_z_height: float
+        """Height of the top cap of the inductor. 0 for no cap."""
+        self.top_cap_diameter: float
+        """Diameter of the top cap of the inductor."""
+        self.top_edge_chamfer: float
+        """Chamfer of the top edge of the inductor (not the cap, the shield)."""
+        self.top_cap_ring_color: str | None
+        """Color of the top cap ring, if given (else no colored ring)"""
+        self.pin1_corner_notch_size: float
+        """Size of the notch in the corner of the base for pin 1, if any, 0 for no notch."""
+        self.pin1_corner_notch_at_top_y: bool
+        """Whether the notch for pin 1 is at the top or bottom of the base (in y)."""
+        self.orientation_mark: str | None
+        """The type of orientation mark to use, e.g. 'dot'"""
+        self.has_visible_coil_ends: bool
+        """Whether the coil ends are visible above the base."""
+
+        self.core_diameter = float(data["coreDiameter"])
+        self.base_thickness = float(data["baseThickness"])
+        self.base_corner_radius = float(data.get("baseCornerRadius", 0.5))
+        self.top_cap_z_height = float(data.get("topCapZHeight", 0.0))
+
+        if "topCapDiameterProportion" in data:
+            # If the top cap diameter is given as a proportion of the core diameter,
+            # then calculate it.
+            self.top_cap_diameter = self.core_diameter * float(
+                data["topCapDiameterProportion"]
+            )
+        else:
+            # Otherwise, use the given top cap diameter, or turn it off
+            self.top_cap_diameter = float(data.get("topCapDiameter", 0.0))
+
+        self.top_cap_ring_color = data.get("topCapRingColor", None)
+
+        self.top_edge_chamfer = float(data.get("topEdgeChamfer", 0.2))
+
+        self.pin1_corner_notch_size = float(data.get("pin1CornerNotchSize", 0.0))
+        self.pin1_corner_notch_at_top_y = bool(data.get("pin1CornerNotchAtTopY"))
+
+        self.has_visible_coil_ends = bool(data.get("hasVisibleCoilEnds"))
+
+        self.orientation_mark = data.get("orientationMark", None)
+
+
 @register_spec
 class SmdInductorSpec(BaseSpec):
     """Object that represents the definition of a single inductor part.
@@ -268,7 +345,7 @@ class SmdInductorSpec(BaseSpec):
         self.coil_color: str | None
         """Color of the coil, if drawn"""
 
-        # Instance attributes for the inductor 
+        # Instance attributes for the inductor
         self.part_number: str
         """Part number of the inductor."""
         self.datasheet: str | None
@@ -314,6 +391,8 @@ class SmdInductorSpec(BaseSpec):
                 self.body = HorizontalAirCoreParameters(spec)
             case "shielded_drum_rounded_rectangular_base":
                 self.body = ShieldedDrumRoundedRectBlockParameters(spec)
+            case "shielded_drum_flat_base":
+                self.body = ShieldedDrumFlatBaseParameters(spec)
             case _:
                 raise ValueError(
                     f"Unknown inductor type '{body_type_key}' for part {self.part_number}"

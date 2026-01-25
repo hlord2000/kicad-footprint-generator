@@ -11,6 +11,28 @@ from generators.tools.model.stepreduce import stepreduce  # type: ignore
 from generators.tools.cli_args import CLI_ARGS
 
 
+class AssemblyParts:
+    """
+    A group of parts in an assembly, including a colour definition key for each.
+    """
+    def __init__(self, parts: list[tuple[cq.Workplane | None, str]] = []):
+        """
+        Construct a list of parts.
+
+        Any entry that has a None part is discarded.
+        """
+        self.parts: list[tuple[cq.Workplane, str]]
+
+        self.parts = [p for p in parts if parts[0] is not None]
+
+    def append(self, part: cq.Workplane | None, color: str) -> None:
+
+        if part is None:
+            return
+
+        self.parts.append((part, color))
+
+
 def export(
     generator_name: str,
     lib_name: str,

@@ -101,6 +101,13 @@ class TwoPadDimensions:
         """Distance in mm between the two outer edges of the pads."""
         return self.spacing_inside + (self.size_inline * 2)
 
+    @spacing_outside.setter
+    def spacing_outside(self, value: float) -> None:
+        """Set the spacing outside and derive the size_inline."""
+        if value < self.spacing_inside:
+            raise ValueError("Spacing outside cannot be less than spacing inside")
+        self.spacing_inside = value - (self.size_inline * 2)
+
     @property
     def spacing_centre(self) -> float:
         """Distance in mm between the two centers of the pads."""
