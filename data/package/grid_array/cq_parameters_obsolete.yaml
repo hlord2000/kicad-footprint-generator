@@ -191,7 +191,7 @@ BGA-144_7.0x7.0mm_Layout13x13_P0.5mm_Ball0.3mm_Pad0.25mm_NSMD:
   layout_x: 13
   area_skips: [[e,5,j,9]]
 
-BGA-144_12x12_13.0x13.0mm_Pitch1.0mm:
+BGA-144_13.0x13.0mm_Layout12x12_P1.0mm:
 # from http://www.topline.tv/drawings/pdf/BGA%201,0mm%20pitch/LBGA144T1.0-DC128.pdf
   body_size_y: 13.0
   body_size_x: 13.0
@@ -287,19 +287,6 @@ BGA-352_35.0x35.0mm_Layout26x26_P1.27mm:
   area_skips: [[e,5,ab,22]]
   mold: True
 
-BGA-400_17.0x17.0mm_Layout20x20_P0.8mm:
-# from https://www.xilinx.com/support/documentation/user_guides/ug865-Zynq-7000-Pkg-Pinout.pdf
-  body_size_y: 17.0
-  body_size_x: 17.0
-  mold_size_y: 15.2
-  mold_size_x: 15.2
-  body_pcb_gap: 0.4
-  overall_height: 1.47
-  ball_diameter: 0.5
-  pitch: 0.8
-  layout_y: 20
-  layout_x: 20
-
 BGA-400_21.0x21.0mm_Layout20x20_P1.0mm:
 # from https://www.xilinx.com/support/documentation/package_specs/fg400.pdf
   first_corner_chamfer: 0.4
@@ -370,7 +357,7 @@ BGA-1023_33.0x33.0mm_Layout32x32_P1.0mm:
   pad_skips: [A1]
   mold: True
 
-BGA-1156_34x34_35.0x35.0mm_Pitch1.0mm:
+BGA-1156_35.0x35.0mm_Layout34x34_P1.0mm:
 # from https://www.xilinx.com/support/documentation/package_specs/pk401_FF_G_1156.pdf
   first_corner_chamfer: 0.7
   corner_chamfer: 0.2
