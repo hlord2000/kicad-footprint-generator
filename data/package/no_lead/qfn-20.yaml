@@ -475,6 +475,30 @@ QFN-20-1EP_3x4mm_P0.5mm_EP1.65x2.65mm:
     paste_via_clearance: 0.1
     paste_avoid_via: False
 
+Texas_RVC0020A_WQFN-20-1EP_3x4mm_P0.5mm_EP1.6x2.6mm:
+  inherit: QFN-20-1EP_3x4mm_P0.5mm_EP1.65x2.65mm
+  size_source: 'https://www.ti.com/lit/ds/symlink/tps25810.pdf#page=35'
+  device_type: 'WQFN'
+  manufacturer: 'Texas'
+  part_number: 'RVC0020A'
+  overall_height:
+    maximum: 0.8
+  lead_width:
+    minimum: 0.15
+    maximum: 0.25
+  lead_len:
+    minimum: 0.35
+    maximum: 0.45
+  EP_size_x:
+    nominal: 1.6
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.6
+    tolerance: 0.1
+  EP_num_paste_pads: [1, 2]
+  thermal_vias:
+    EP_num_paste_pads: [1, 2]
+
 QFN-20-1EP_3.5x3.5mm_P0.5mm_EP2x2mm:
   size_source: 'http://www.ti.com/lit/ml/mpqf239/mpqf239.pdf'
   device_type: 'QFN'
