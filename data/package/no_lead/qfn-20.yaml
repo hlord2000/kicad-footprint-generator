@@ -489,6 +489,10 @@ Texas_RVC0020A_WQFN-20-1EP_3x4mm_P0.5mm_EP1.6x2.6mm:
   lead_len:
     minimum: 0.35
     maximum: 0.45
+  pad_length: 0.6 # overrides IPC, let's follow Texas land pattern
+  pad_width: 0.2
+  pad_center_to_center_x: 2.8
+  pad_center_to_center_y: 3.8
   EP_size_x:
     nominal: 1.6
     tolerance: 0.1
@@ -497,6 +501,7 @@ Texas_RVC0020A_WQFN-20-1EP_3x4mm_P0.5mm_EP1.6x2.6mm:
     tolerance: 0.1
   EP_num_paste_pads: [1, 2]
   thermal_vias:
+    grid: [1.0, 1.0]
     EP_num_paste_pads: [1, 2]
 
 QFN-20-1EP_3.5x3.5mm_P0.5mm_EP2x2mm:
