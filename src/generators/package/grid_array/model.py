@@ -131,7 +131,7 @@ def create_models(spec: GridArraySpec, generator_name: str) -> int:
     for layout_data in spec.layout_data_list:
         for pad_data in layout_data.pad_data_list:
             pos = pad_data.position
-            pin_positions.append(cq.Location(cq.Vector(pos.x, pos.y)))
+            pin_positions.append(cq.Location(cq.Vector(pos.x, -pos.y)))
 
     # Create all pins in a single, efficient operation
     merged_pins = (
