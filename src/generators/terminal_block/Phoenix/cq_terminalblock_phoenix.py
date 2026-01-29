@@ -10,11 +10,11 @@ screw_down = 0.20
 def make_pin(i, bs):
 
     # make pin
-    pinsize = 1.0
     px = 1.0
     py = 1.0
     if "pin_size" in bs:
         px = bs["pin_size"]
+        py = bs["pin_size"]
     if "pin_sizex" in bs:
         px = bs["pin_sizex"]
     if "pin_sizey" in bs:

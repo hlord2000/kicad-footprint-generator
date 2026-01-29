@@ -73,6 +73,39 @@ bodystyles:
         key_l: 0.57
         key_h: 3.30
         key_off: 1.90
+    phoenix_mkds_1_381:
+        pitch: 3.81
+        height: 8.50
+        width: 7.30
+        backoffset: 3.70
+        endpadding: 0
+        color: 'green'
+        chf: true
+        chf_z: 3.40
+        chf_y: 0.90
+        chf_ins: 0.74
+        chb: true
+        chb_z: 5.69
+        chb_y: 1.85
+        chb_ins: 0.00
+        opening_w: 1.60
+        opening_h: 1.80
+        opening_z: 1.20
+        terminal_d: 4.00
+        terminal_hole: 'rect'
+        terminal_hole_h: 1.50
+        terminal_hole_w: 1.30
+        terminal_hole_z: 2.10
+        terminal_hole_r: 0
+        screw_dia: 2.90
+        screw_y: -0.05
+        screw_cross: false
+        pin_shape: 'rect'
+        pin_sizex: 0.90
+        pin_sizey: 0.50
+        pin_l: 3.50
+        pinslot: 0
+        key: 'none'
     phoenix_mkds_15_508:
         pitch: 5.08
         height: 13.80
