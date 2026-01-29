@@ -180,6 +180,11 @@ def run(default_args: list[str] = []) -> None:
             include_globs=args.generator,
             exclude_globs=args.generator_exclude,
         )
+
+        if not implemented_generators:
+            print("No generators selected after filtering. Exiting.")
+            sys.exit(2)
+
         success = _run_generators(implemented_generators, args)
 
         if success:
