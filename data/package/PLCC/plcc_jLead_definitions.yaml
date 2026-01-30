@@ -1,3 +1,19 @@
+PLCC_20:
+  device_type: 'PLCC'
+  units: 'inch'
+  size_source: 'http://www.nxp.com/docs/en/package-information/SOT380-1.pdf'
+  overall_size_x: 0.385 .. 0.39 .. 0.395
+  overall_size_y: 0.385 .. 0.39 .. 0.395
+  body_size_x: 0.35 .. 0.353 .. 0.356
+  body_size_y: 0.35 .. 0.353 .. 0.356
+  body_chamfer: 0.045
+  lead_width: 0.013 .. 0.021
+  lead_inside_x: 0.29 .. 0.31 .. 0.33
+  lead_inside_y: 0.29 .. 0.31 .. 0.33
+  pitch: 0.05
+  num_pins_x: 5
+  num_pins_y: 5
+
 PLCC_32:
   device_type: 'PLCC'
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc0015.pdf'
