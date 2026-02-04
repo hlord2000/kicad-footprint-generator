@@ -655,6 +655,24 @@ DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm:
   EP_chamfer: 0.3
   EP_num_paste_pads: [2, 2]
 
+DFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.5mm:
+  library: Package_DFN_QFN
+  size_source: 'https://ww1.microchip.com/downloads/en/DeviceDoc/AT24C64D-I%C2%B2C-Compatible-(2-Wire)-Serial-EEPROM-64-Kbit-(8,192x8)-20005937C.pdf'
+  device_type: 'DFN'
+  body_size_x: 2.9 .. 3.0 .. 3.1
+  body_size_y: 1.9 .. 2.0 .. 2.1
+  body_pcb_gap: 0.0 .. 0.05
+  overall_height: 0.5 .. 0.55 .. 0.6
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.5
+  lead_width: 0.18 .. 0.25 .. 0.30
+  lead_len: 0.25 .. 0.35 .. 0.45
+  lead_height: 0.152
+  EP_size_x: 1.2 .. 1.3 .. 1.4
+  EP_size_y: 1.4 .. 1.5 .. 1.6
+  EP_num_paste_pads: [2, 2]
+
 Maxim_WSON-8-1EP_3x2mm_P0.5mm_EP1.75x1.63mm:
   library: Package_DFN_QFN # TEMPORARY
   size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tdfn-ep/21-0174.pdf, https://www.analog.com/media/en/package-pcb-resources/land-pattern/tdfn-ep/90-0091.pdf'
