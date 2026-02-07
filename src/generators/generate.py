@@ -128,6 +128,10 @@ def run(default_args: list[str] = []) -> None:
     implemented_generators, args_files = _scan_for_generators()
     argparser = _create_arg_parser(args_files)
     args = argparser.parse_args(sys.argv[1:] + default_args)
+
+    if args.export_vrml:
+        logging.warning("VRML export is deprecated and may be removed in the future.")
+
     if len(sys.argv) == 1:
         # Print the usage and exit:
         argparser.print_usage()

@@ -177,8 +177,9 @@ def add_argparse_arguments(parser: ArgumentParser) -> None:
     parser_mod_group = parser.add_argument_group("3D model generator arguments")
     parser_mod_group.add_argument(
         "--export-vrml",
+        # deprecated=True, # needs minimum Python 3.13
         action="store_true",
-        help="Export also VRML files in addition to the STEP files.",
+        help="Export also VRML files in addition to the STEP files. Deprecated and may be removed in the future.",
     )
     parser_mod_group.add_argument(
         "--quick",
