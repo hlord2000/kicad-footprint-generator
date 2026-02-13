@@ -18,7 +18,7 @@
 # then on their own (and also for internal technical happiness to avoid spamming
 # hardcoded values into hundreds of scripts).
 
-3d_model_prefix: '${KICAD9_3DMODEL_DIR}/'
+3d_model_prefix: '${KICAD10_3DMODEL_DIR}/'
 3d_model_suffix: '.step'
 
 # When a rotation "Level" (A or B) is defined in the name,
