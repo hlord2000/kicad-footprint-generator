@@ -1084,9 +1084,17 @@ Infineon_PG-DSO-8-24:
   lead_len:
     nominal: 0.64
     tolerance: 0.25
+  lead_height:
+    nominal: 0.19
+    tolerance: [0, +0.06]
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
+  overall_height:
+    maximum: 1.75
+  body_pcb_gap:
+    nominal: 0.175
+    tolerance: 0.07
 
 SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
 # it was previously in sop.yaml file
