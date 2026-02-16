@@ -26,6 +26,7 @@ from generators.tools.footprint.footprint_global_properties import (
 )
 from KicadModTree import *  # NOQA
 from KicadModTree import RoundRectangle, Trapezoid
+from KicadModTree.nodes import Point
 from kilibs.config.global_config import GlobalConfig, PadName
 
 
@@ -418,6 +419,15 @@ def makeDSubStraight(
             corner_radius=outline_cornerradius + slk_offset,
             layer="F.SilkS",
             width=lw_slk,
+        )
+    )
+
+    # Add a snap-point
+    kicad_mod.append(
+        Point(
+            at=offset,
+            size=2,
+            layer=global_config.get_layer_for_function("centroid"),
         )
     )
 
@@ -944,6 +954,14 @@ def makeDSubEdge(
             thickness=text_t / 2,
         )
     )
+    # Add a snap-point
+    kicad_mod.append(
+        Point(
+            at=Vector2D(0, ypcb_edge),
+            size=2,
+            layer=global_config.get_layer_for_function("centroid"),
+        )
+    )
 
     return kicad_mod
 
@@ -1421,6 +1439,15 @@ def makeDSubAngled(
     # PCB edge marker
     # kicad_modg.append(Line(start=[-shield_width/2, ypcb_edge], end=[shield_width/2, ypcb_edge], layer='Dwgs.User', width=lw_crt))
     # kicad_modg.append(Text(text='PCB edge', at=[-shield_width/2+5*text_size[0], ypcb_edge-text_size[1]*2/3], layer='Dwgs.User', size=[text_size[0]/2,text_size[1]/2] ,thickness=text_t/2))
+
+    # Add a snap-point
+    kicad_mod.append(
+        Point(
+            at=Vector2D(offset) + Vector2D(0, ypcb_edge),
+            size=2,
+            layer=global_config.get_layer_for_function("centroid"),
+        )
+    )
 
     # outline
     if not hasNoBackBox:
