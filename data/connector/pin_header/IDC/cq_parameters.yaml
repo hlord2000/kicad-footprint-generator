@@ -91,12 +91,12 @@ IDC-Header_2x11_P2.54mm_Vertical:
   body_color_key: "black body"
   pins_color_key: "gold pins"
 IDC-Header_2x12_P2.54mm_Horizontal:
-  pins: 10
+  pins: 12
   is_angled: true
   body_color_key: "black body"
   pins_color_key: "gold pins"
 IDC-Header_2x12_P2.54mm_Vertical:
-  pins: 10
+  pins: 12
   is_angled: false
   body_color_key: "black body"
   pins_color_key: "gold pins"
