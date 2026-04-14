@@ -32,6 +32,7 @@ from .config import ROW_NAMES
 class PadData(NamedTuple):
     name: str
     position: Vector2D
+    angle: float = 0.0
 
 
 class LayoutData(NamedTuple):
@@ -75,6 +76,7 @@ class GridArraySpec(PackageSpec):
 
         # Instance attributes for pad details:
         self.layout_data_list: list[LayoutData]
+        self.has_explicit_pads: bool
 
         # Instance attributes related to the dimensions of the package:
         self.body_size_x: float
@@ -135,6 +137,7 @@ class GridArraySpec(PackageSpec):
 
         self.marker = spec.get("marker")
         self.layout_data_list = []
+        self.has_explicit_pads = False
 
         self._extract_generator_independent_data()
         self._extract_dimension_data()
@@ -239,8 +242,28 @@ class GridArraySpec(PackageSpec):
         self, layout_dict: dict[str, Any], x_center: float = 0.0, y_center: float = 0.0
     ) -> int:
         pad_data_list: list[PadData] = []
+        if "pads" in layout_dict:
+            pad_rotation = layout_dict.get("pad_rotation", 0.0)
+            for explicit_pad in layout_dict.get("pads", []):
+                position = explicit_pad.get("position", explicit_pad.get("at"))
+                if position is None:
+                    raise KeyError("Explicit pads must define 'position' or 'at'.")
+                pad_data_list.append(
+                    PadData(
+                        name=str(explicit_pad["name"]),
+                        position=Vector2D(position[0], position[1]),
+                        angle=explicit_pad.get("rotation", pad_rotation),
+                    )
+                )
+            self.has_explicit_pads = True
+            self.layout_data_list.append(
+                LayoutData(layout_dict=layout_dict, pad_data_list=pad_data_list)
+            )
+            return len(pad_data_list)
+
         layout_x: int = layout_dict["layout_x"]
         layout_y: int = layout_dict["layout_y"]
+        pad_rotation = layout_dict.get("pad_rotation", 0.0)
         row_names = layout_dict.get(
             "row_names", self.spec.get("row_names", ROW_NAMES)
         )
@@ -308,6 +331,7 @@ class GridArraySpec(PackageSpec):
                             x_pad_left + (col - first_col) * pitch_x,
                             y_pad_top + rowNum * pitch_y,
                         ),
+                        angle=pad_rotation,
                     )
                 )
 
@@ -399,4 +423,4 @@ class GridArraySpec(PackageSpec):
         )
 
     def _compose_lib_name(self) -> None:
-        self.lib_name = f"Package_{self.package_type}"
+        self.lib_name = self.spec.get("library", f"Package_{self.package_type}")

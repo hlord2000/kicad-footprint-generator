@@ -33,6 +33,7 @@ from kilibs.geom import Direction, Vector2D
 from generators.tools.footprint.declarative_def_tools import (
     ast_evaluator,
     fp_additional_drawing,
+    rule_area_properties,
 )
 from generators.tools.footprint.save_footprint import write_footprint
 from kilibs.config import global_config as GC
@@ -51,12 +52,15 @@ def create_footprints(spec: GridArraySpec, generator_name: str) -> int:
     if not spec.has_fp_data:
         return 0
 
-    if "pad_diameter" in spec.spec:
-        pad_diameter = spec.spec["pad_diameter"]
+    if "pad_size" in spec.spec:
+        pad_size = spec.spec["pad_size"]
         logging.debug(
             f"Pad size of {id} is set by the footprint definition. "
             "This should only be done for manufacturer-specific footprints."
         )
+    elif "pad_diameter" in spec.spec:
+        pad_diameter = spec.spec["pad_diameter"]
+        pad_size = [pad_diameter, pad_diameter]
     elif "ball_type" in spec.spec and "ball_diameter" in spec.spec:
         ball_diameter = spec.spec["ball_diameter"]
         ball_type = spec.spec["ball_type"]
@@ -71,6 +75,7 @@ def create_footprints(spec: GridArraySpec, generator_name: str) -> int:
                 "'collapsible' and 'non-collapsible' are accepted values. "
                 "Aborting."
             )
+        pad_size = [pad_diameter, pad_diameter]
     elif "ball_type" in spec.spec and "ball_diameter" not in spec.spec:
         raise KeyError(f"{id}: Ball diameter is missing. Aborting.")
     elif "ball_diameter" in spec.spec and "ball_type" not in spec.spec:
@@ -78,11 +83,43 @@ def create_footprints(spec: GridArraySpec, generator_name: str) -> int:
     else:
         raise KeyError(
             f"{id}: The config file must include 'ball_type' and "
-            "'ball_diameter' or 'pad_diameter'. Aborting."
+            "'ball_diameter', 'pad_diameter', or 'pad_size'. Aborting."
         )
-    spec.spec["pad_size"] = [pad_diameter, pad_diameter]
+    spec.spec["pad_size"] = pad_size
     _create_footprint_variant(spec, generator_name)
     return 1
+
+
+def _pad_top_left_edge(config: GridArraySpec, spec: dict) -> tuple[float, float]:
+    x_pad_left_edge = math.inf
+    y_pad_top_edge = math.inf
+
+    for layout_data in config.layout_data_list:
+        pad_size = layout_data.layout_dict.get("pad_size") or spec["pad_size"]
+        half_x = pad_size[0] / 2.0
+        half_y = pad_size[1] / 2.0
+
+        for pad_data in layout_data.pad_data_list:
+            angle = pad_data.angle % 180
+            if angle == 90:
+                extent_x = half_y
+                extent_y = half_x
+            elif angle == 0:
+                extent_x = half_x
+                extent_y = half_y
+            else:
+                angle_rad = math.radians(angle)
+                extent_x = half_x * abs(math.cos(angle_rad)) + half_y * abs(
+                    math.sin(angle_rad)
+                )
+                extent_y = half_x * abs(math.sin(angle_rad)) + half_y * abs(
+                    math.cos(angle_rad)
+                )
+
+            x_pad_left_edge = min(x_pad_left_edge, pad_data.position.x - extent_x)
+            y_pad_top_edge = min(y_pad_top_edge, pad_data.position.y - extent_y)
+
+    return x_pad_left_edge, y_pad_top_edge
 
 def _create_footprint_variant(config: GridArraySpec, generator_name: str) -> None:
     # Pull out the old-style parameter dictionary
@@ -107,11 +144,11 @@ def _create_footprint_variant(config: GridArraySpec, generator_name: str) -> Non
     s1 = [1.0, 1.0]
     if pkg_x < 4.3 and pkg_y > pkg_x:
         s2 = [
-            min(1.0, round(pkg_y / 4.3, 2))
+            max(0.5, min(1.0, round(pkg_y / 4.3, 2)))
         ] * 2  # Y size is greater, so rotate F.Fab reference
         f_fab_ref_rot = -90.0
     else:
-        s2 = [min(1.0, round(pkg_x / 4.3, 2))] * 2
+        s2 = [max(0.5, min(1.0, round(pkg_x / 4.3, 2)))] * 2
 
     t1 = 0.15 * s1[0]
     t2 = 0.15 * s2[0]
@@ -157,8 +194,7 @@ def _create_footprint_variant(config: GridArraySpec, generator_name: str) -> Non
     wSilkS = GC.GLOBAL_CONFIG.silk_line_width
 
     # silkOffset should comply with pad clearance as well
-    yPadTopEdge = yPadTop - spec["pad_size"][1] / 2.0
-    xPadLeftEdge = xPadLeft - spec["pad_size"][0] / 2.0
+    xPadLeftEdge, yPadTopEdge = _pad_top_left_edge(config, spec)
 
     xSilkOffset = max(
         GC.GLOBAL_CONFIG.silk_fab_offset,
@@ -277,29 +313,50 @@ def _create_footprint_variant(config: GridArraySpec, generator_name: str) -> Non
         config.additional_drawings, GC.GLOBAL_CONFIG, fp_evaluator
     )
     f.extend(dwg_nodes)
+    zones = rule_area_properties.create_rule_area_zones(  # pyright: ignore
+        config.rule_areas, fp_evaluator
+    )
+    f.extend(zones)
 
-    if staggered:
+    if config.has_explicit_pads:
+        description_parts = [
+            config.metadata.description if config.metadata.description else "",
+            f"{pkg_x}x{pkg_y}mm",
+            f"{config.num_balls} Pad",
+            f"generated with kicad-footprint-generator ipc_bga_generator.py",  # For zero-diff. Replace with generator_name later.
+        ]
+    elif staggered:
         pdesc = str(spec.get("pitch")) if "pitch" in spec else f"{pitchX}x{pitchY}"
         sdesc = f"{staggered.upper()}-staggered "
+        description_parts = [
+            config.metadata.description if config.metadata.description else "",
+            f"{pkg_x}x{pkg_y}mm",
+            f"{config.num_balls} Ball",
+            f"{sdesc}{config.layout_x}x{config.layout_y} Layout",
+            f"{pdesc}mm Pitch",
+            f"generated with kicad-footprint-generator ipc_bga_generator.py",  # For zero-diff. Replace with generator_name later.
+        ]
     else:
         pdesc = str(pitchX) if pitchX == pitchY else f"{pitchX}x{pitchY}"
         sdesc = ""
-
-    description_parts = [
-        config.metadata.description if config.metadata.description else "",
-        f"{pkg_x}x{pkg_y}mm",
-        f"{config.num_balls} Ball",
-        f"{sdesc}{config.layout_x}x{config.layout_y} Layout",
-        f"{pdesc}mm Pitch",
-        f"generated with kicad-footprint-generator ipc_bga_generator.py",  # For zero-diff. Replace with generator_name later.
-    ]
+        description_parts = [
+            config.metadata.description if config.metadata.description else "",
+            f"{pkg_x}x{pkg_y}mm",
+            f"{config.num_balls} Ball",
+            f"{sdesc}{config.layout_x}x{config.layout_y} Layout",
+            f"{pdesc}mm Pitch",
+            f"generated with kicad-footprint-generator ipc_bga_generator.py",  # For zero-diff. Replace with generator_name later.
+        ]
 
     if config.metadata.datasheet:
         description_parts.append(config.metadata.datasheet)
 
     f.description = ", ".join(description_parts)
 
-    f.tags = [config.package_type, str(config.num_balls), pdesc]
+    if config.has_explicit_pads:
+        f.tags = [config.package_type, str(config.num_balls)]
+    else:
+        f.tags = [config.package_type, str(config.num_balls), pdesc]
     f.tags += config.metadata.compatible_mpns
     f.tags += config.metadata.additional_tags
 
@@ -320,6 +377,16 @@ def _make_pad_grid(
 
     pad_shape = layout_dict.get("pad_shape", spec.get("pad_shape", "circle"))
     paste_shape = layout_dict.get("paste_shape", spec.get("paste_shape"))
+    round_radius_ratio = layout_dict.get(
+        "round_radius_ratio", spec.get("round_radius_ratio")
+    )
+    if round_radius_ratio is None:
+        round_radius_handler = GC.GLOBAL_CONFIG.roundrect_radius_handler
+    else:
+        round_radius_handler = RoundRadiusHandler(
+            radius_ratio=round_radius_ratio,
+            maximum_radius=GC.GLOBAL_CONFIG.roundrect_radius_handler.maximum_radius,
+        )
 
     if paste_shape and paste_shape != pad_shape:
         layers = ["F.Cu", "F.Mask"]
@@ -332,9 +399,10 @@ def _make_pad_grid(
         fab_property=Pad.FabProperty.BGA,
         shape=pad_shape,
         at=pad_data_list[0].position,
+        rotation=pad_data_list[0].angle,
         size=layout_dict.get("pad_size") or spec["pad_size"],
         layers=layers,
-        radius_ratio=GC.GLOBAL_CONFIG.roundrect_radius_handler,  # type: ignore
+        round_radius_handler=round_radius_handler,
     )
     f.append(ref_pad)
 
@@ -350,7 +418,7 @@ def _make_pad_grid(
 
         pasteMargin = layout_dict.get("paste_margin", spec.get("paste_margin", 0))
         size = list(layout_dict.get("pad_size") or spec["pad_size"])
-        corner_ratio = GC.GLOBAL_CONFIG.roundrect_radius_handler.radius_ratio
+        corner_ratio = round_radius_handler.radius_ratio
 
         if paste_shape == "circle":
             size[0] += 2 * pasteMargin
@@ -399,6 +467,7 @@ def _make_pad_grid(
                 reference_pad=ref_pad,
                 number=pad_data_list[i].name,
                 at=pad_data_list[i].position,
+                angle=pad_data_list[i].angle,
             )
         )
         if ref_paste_pad is not None:
@@ -407,5 +476,6 @@ def _make_pad_grid(
                     reference_pad=ref_paste_pad,
                     number="",
                     at=pad_data_list[i].position,
+                    angle=pad_data_list[i].angle,
                 )
             )

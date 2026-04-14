@@ -1,0 +1,32 @@
+QFN-52-1EP_6x6mm_P0.4mm_EP4.7x4.7mm:
+  library: nordic-lib-kicad-nrf54l
+  device_type: QFN
+  datasheet: "https://www.nordicsemi.com/products/nrf54l15"
+  ipc_class: qfn
+  body_size_x: 6.0
+  body_size_y: 6.0
+  overall_height: 0.8 .. 0.85 .. 0.9
+  num_pins_x: 13
+  num_pins_y: 13
+  pitch: 0.4
+  lead_width: 0.15 .. 0.2 .. 0.25
+  lead_len: 0.3 .. 0.4 .. 0.5
+  pad_width: 0.2
+  pad_length: 0.6
+  pad_center_to_center_x: 5.8
+  pad_center_to_center_y: 5.8
+  EP_size_x: 4.7
+  EP_size_y: 4.7
+  EP_size_x_overwrite: 4.7
+  EP_size_y_overwrite: 4.7
+  EP_num_paste_pads: [4, 4]
+  EP_paste_coverage: 0.130828
+  thermal_vias_only: true
+  thermal_vias:
+    count: [3, 3]
+    grid: [1.175, 1.175]
+    drill: 0.29375
+    min_annular_ring: 0.15
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    bottom_min_size: 4.7

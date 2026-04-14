@@ -1,0 +1,2482 @@
+default_parameters:
+  package_type: "LGA"
+
+E73-2G4M08S1C:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf52-modules"
+  device_type: "LGA"
+  body_size_x: 13.0
+  body_size_y: 18.0
+  body_pcb_gap: 0.0
+  overall_height: 0.8
+  ball_diameter: 0.3
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://www.ebyte.com/product/1317.html"
+  description: "Ebyte E73-2G4M08S1C module"
+  pad_shape: "roundrect"
+  pad_size: [1, 0.8]
+  pads:
+    - name: "1"
+      at: [-6, -5.03]
+    - name: "2"
+      at: [-6, -3.76]
+    - name: "3"
+      at: [-6, -2.49]
+    - name: "4"
+      at: [-6, -1.22]
+    - name: "5"
+      at: [-6, 0.05]
+    - name: "6"
+      at: [-6, 1.32]
+    - name: "7"
+      at: [-6, 2.59]
+    - name: "8"
+      at: [-6, 3.86]
+    - name: "9"
+      at: [-6, 5.13]
+    - name: "10"
+      at: [-6, 6.4]
+    - name: "26"
+      at: [6, 6.4]
+    - name: "27"
+      at: [6, 5.13]
+    - name: "29"
+      at: [6, 3.86]
+    - name: "31"
+      at: [6, 2.59]
+    - name: "33"
+      at: [6, 1.32]
+    - name: "35"
+      at: [6, 0.05]
+    - name: "37"
+      at: [6, -1.22]
+    - name: "39"
+      at: [6, -2.49]
+    - name: "41"
+      at: [6, -3.76]
+    - name: "43"
+      at: [6, -5.03]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [1, 0.8]
+      pad_rotation: 90
+      pads:
+        - name: "11"
+          at: [-4.44, 8.5]
+        - name: "13"
+          at: [-3.17, 8.5]
+        - name: "15"
+          at: [-1.9, 8.5]
+        - name: "17"
+          at: [-0.63, 8.5]
+        - name: "19"
+          at: [0.64, 8.5]
+        - name: "21"
+          at: [1.91, 8.5]
+        - name: "23"
+          at: [3.18, 8.5]
+        - name: "25"
+          at: [4.45, 8.5]
+    - pad_shape: "roundrect"
+      pad_size: [0.8, 0.8]
+      pad_rotation: 90
+      pads:
+        - name: "12"
+          at: [-3.81, 6.9]
+        - name: "14"
+          at: [-2.54, 6.9]
+        - name: "16"
+          at: [-1.27, 6.9]
+        - name: "18"
+          at: [0, 6.9]
+        - name: "20"
+          at: [1.27, 6.9]
+        - name: "22"
+          at: [2.54, 6.9]
+        - name: "24"
+          at: [3.81, 6.9]
+        - name: "28"
+          at: [4.4, 4.495]
+        - name: "30"
+          at: [4.4, 3.225]
+        - name: "32"
+          at: [4.4, 1.955]
+        - name: "34"
+          at: [4.4, 0.685]
+        - name: "36"
+          at: [4.4, -0.585]
+        - name: "38"
+          at: [4.4, -1.855]
+        - name: "40"
+          at: [4.4, -3.125]
+        - name: "42"
+          at: [4.4, -4.395]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: ["*.Cu", "Dwgs.User"]
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: deny
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -8.25]
+          size: [17, 5.5]
+
+E73-2G4M08S1C_simple:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf52-modules"
+  device_type: "LGA"
+  body_size_x: 13.0
+  body_size_y: 18.0
+  body_pcb_gap: 0.0
+  overall_height: 0.8
+  ball_diameter: 0.3
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://www.ebyte.com/product/1317.html"
+  description: "Ebyte E73-2G4M08S1C module, reduced pad variant"
+  pad_shape: "roundrect"
+  pad_size: [1, 0.8]
+  pads:
+    - name: "1"
+      at: [-6, -5.03]
+    - name: "2"
+      at: [-6, -3.76]
+    - name: "3"
+      at: [-6, -2.49]
+    - name: "4"
+      at: [-6, -1.22]
+    - name: "5"
+      at: [-6, 0.05]
+    - name: "6"
+      at: [-6, 1.32]
+    - name: "7"
+      at: [-6, 2.59]
+    - name: "8"
+      at: [-6, 3.86]
+    - name: "9"
+      at: [-6, 5.13]
+    - name: "10"
+      at: [-6, 6.4]
+    - name: "26"
+      at: [6, 6.4]
+    - name: "27"
+      at: [6, 5.13]
+    - name: "29"
+      at: [6, 3.86]
+    - name: "31"
+      at: [6, 2.59]
+    - name: "33"
+      at: [6, 1.32]
+    - name: "35"
+      at: [6, 0.05]
+    - name: "37"
+      at: [6, -1.22]
+    - name: "39"
+      at: [6, -2.49]
+    - name: "41"
+      at: [6, -3.76]
+    - name: "43"
+      at: [6, -5.03]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [1, 0.8]
+      pad_rotation: 90
+      pads:
+        - name: "11"
+          at: [-4.44, 8.5]
+        - name: "13"
+          at: [-3.17, 8.5]
+        - name: "15"
+          at: [-1.9, 8.5]
+        - name: "17"
+          at: [-0.63, 8.5]
+        - name: "19"
+          at: [0.64, 8.5]
+        - name: "21"
+          at: [1.91, 8.5]
+        - name: "23"
+          at: [3.18, 8.5]
+        - name: "25"
+          at: [4.45, 8.5]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: ["*.Cu", "Dwgs.User"]
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: deny
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -8.25]
+          size: [17, 5.5]
+
+ISP1907_8x8mm_LGA:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf52-modules"
+  device_type: "LGA"
+  body_size_x: 8.0
+  body_size_y: 8.0
+  body_pcb_gap: 0.0
+  overall_height: 1.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://www.insightsip.com/fichiers_insightsip/pdf/ble/ISP1907/isp_ble_DS1907.pdf"
+  description: "Insight SiP ISP1907-LL module"
+  pad_shape: "roundrect"
+  pad_size: [0.8, 0.8]
+  round_radius_ratio: 0.05
+  pads:
+    - name: "1"
+      at: [-3.5, -3.5]
+    - name: "7"
+      at: [-3.5, -0.4]
+    - name: "25"
+      at: [3.5, -0.4]
+    - name: "31"
+      at: [3.5, -3.5]
+    - name: "52"
+      at: [-3.5, 3.5]
+    - name: "59"
+      at: [3.5, 3.5]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.4, 0.4]
+      round_radius_ratio: 0.05
+      pads:
+        - name: "2"
+          at: [-3.7, -2.6]
+        - name: "3"
+          at: [-3.05, -2.275]
+        - name: "4"
+          at: [-3.7, -1.95]
+        - name: "5"
+          at: [-3.05, -1.625]
+        - name: "6"
+          at: [-3.7, -1.3]
+        - name: "8"
+          at: [-2.6, -0.2]
+        - name: "9"
+          at: [-2.275, -0.85]
+        - name: "10"
+          at: [-1.95, -0.2]
+        - name: "11"
+          at: [-1.625, -0.85]
+        - name: "12"
+          at: [-1.3, -0.2]
+        - name: "13"
+          at: [-0.975, -0.85]
+        - name: "14"
+          at: [-0.65, -0.2]
+        - name: "15"
+          at: [-0.325, -0.85]
+        - name: "16"
+          at: [0, -0.2]
+        - name: "17"
+          at: [0.325, -0.85]
+        - name: "18"
+          at: [0.65, -0.2]
+        - name: "19"
+          at: [0.975, -0.85]
+        - name: "20"
+          at: [1.3, -0.2]
+        - name: "21"
+          at: [1.625, -0.85]
+        - name: "22"
+          at: [1.95, -0.2]
+        - name: "23"
+          at: [2.275, -0.85]
+        - name: "24"
+          at: [2.6, -0.2]
+        - name: "32"
+          at: [2.6, -3.7]
+        - name: "33"
+          at: [2.275, -3.05]
+        - name: "34"
+          at: [1.95, -3.7]
+        - name: "35"
+          at: [1.625, -3.05]
+        - name: "36"
+          at: [1.3, -3.7]
+        - name: "37"
+          at: [0.975, -3.05]
+        - name: "38"
+          at: [0.65, -3.7]
+        - name: "39"
+          at: [0.325, -3.05]
+        - name: "40"
+          at: [0, -3.7]
+        - name: "41"
+          at: [-0.325, -3.05]
+        - name: "42"
+          at: [-0.65, -3.7]
+        - name: "43"
+          at: [-0.975, -3.05]
+        - name: "44"
+          at: [-1.3, -3.7]
+        - name: "45"
+          at: [-1.625, -3.05]
+        - name: "46"
+          at: [-1.95, -3.7]
+        - name: "47"
+          at: [-2.275, -3.05]
+        - name: "48"
+          at: [-2.6, -3.7]
+        - name: "49"
+          at: [-3.65, 0.55]
+        - name: "50"
+          at: [-3.65, 1.55]
+        - name: "51"
+          at: [-3.65, 2.55]
+        - name: "53"
+          at: [-2.5, 3.7]
+        - name: "54"
+          at: [-1.5, 3.7]
+        - name: "55"
+          at: [-0.5, 3.7]
+        - name: "56"
+          at: [0.5, 3.7]
+        - name: "57"
+          at: [1.5, 3.7]
+        - name: "58"
+          at: [2.5, 3.7]
+        - name: "60"
+          at: [3.7, 2.55]
+        - name: "61"
+          at: [3.7, 1.55]
+        - name: "62"
+          at: [3.7, 0.55]
+    - pad_shape: "roundrect"
+      pad_size: [0.4, 0.4]
+      pad_rotation: 180
+      round_radius_ratio: 0.05
+      pads:
+        - name: "26"
+          at: [3.7, -1.3]
+        - name: "27"
+          at: [3.05, -1.625]
+        - name: "28"
+          at: [3.7, -1.95]
+        - name: "29"
+          at: [3.05, -2.275]
+        - name: "30"
+          at: [3.7, -2.6]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: ["*.Cu", "Dwgs.User"]
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, 2.3]
+          size: [9, 4.4]
+
+E83-2G4M03S_16x16mm_LGA:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf53-modules"
+  device_type: "LGA"
+  body_size_x: 16.0
+  body_size_y: 16.0
+  body_pcb_gap: 0.0
+  overall_height: 1.2
+  ball_diameter: 0.3
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://www.cdebyte.com/products/E83-2G4M03S"
+  description: "Ebyte E83-2G4M03S module"
+  pad_shape: "roundrect"
+  pad_size: [0.81, 0.81]
+  round_radius_ratio: 0.1
+  pads:
+    - name: "1"
+      at: [-7.3, -5.715]
+    - name: "2"
+      at: [-7.3, -4.445]
+    - name: "3"
+      at: [-7.3, -3.175]
+    - name: "4"
+      at: [-7.3, -1.905]
+    - name: "5"
+      at: [-7.3, -0.635]
+    - name: "6"
+      at: [-7.3, 0.635]
+    - name: "7"
+      at: [-7.3, 1.905]
+    - name: "8"
+      at: [-7.3, 3.175]
+    - name: "9"
+      at: [-7.3, 4.445]
+    - name: "10"
+      at: [-7.3, 5.715]
+    - name: "11"
+      at: [-6.03, -5.08]
+    - name: "12"
+      at: [-6.03, -3.81]
+    - name: "13"
+      at: [-6.03, -2.54]
+    - name: "14"
+      at: [-6.03, -1.27]
+    - name: "15"
+      at: [-6.03, 0]
+    - name: "16"
+      at: [-6.03, 1.27]
+    - name: "17"
+      at: [-6.03, 2.54]
+    - name: "18"
+      at: [-6.03, 3.81]
+    - name: "19"
+      at: [-5.715, 7.3]
+    - name: "20"
+      at: [-4.445, 7.3]
+    - name: "21"
+      at: [-3.175, 7.3]
+    - name: "22"
+      at: [-1.905, 7.3]
+    - name: "23"
+      at: [-0.635, 7.3]
+    - name: "24"
+      at: [0.635, 7.3]
+    - name: "25"
+      at: [1.905, 7.3]
+    - name: "26"
+      at: [3.175, 7.3]
+    - name: "27"
+      at: [4.445, 7.3]
+    - name: "28"
+      at: [5.715, 7.3]
+    - name: "29"
+      at: [-5.08, 6.03]
+    - name: "30"
+      at: [-3.81, 6.03]
+    - name: "31"
+      at: [-2.54, 6.03]
+    - name: "32"
+      at: [-1.27, 6.03]
+    - name: "33"
+      at: [0, 6.03]
+    - name: "34"
+      at: [1.27, 6.03]
+    - name: "35"
+      at: [2.54, 6.03]
+    - name: "36"
+      at: [3.81, 6.03]
+    - name: "37"
+      at: [5.08, 6.03]
+    - name: "38"
+      at: [7.3, 5.715]
+    - name: "39"
+      at: [7.3, 4.445]
+    - name: "40"
+      at: [7.3, 3.175]
+    - name: "41"
+      at: [7.3, 1.905]
+    - name: "42"
+      at: [7.3, 0.635]
+    - name: "43"
+      at: [7.3, -0.635]
+    - name: "44"
+      at: [7.3, -1.905]
+    - name: "45"
+      at: [7.3, -3.175]
+    - name: "46"
+      at: [7.3, -4.445]
+    - name: "47"
+      at: [7.3, -5.715]
+    - name: "48"
+      at: [6.03, 3.81]
+    - name: "49"
+      at: [6.03, 2.54]
+    - name: "50"
+      at: [6.03, 1.27]
+    - name: "51"
+      at: [6.03, 0]
+    - name: "52"
+      at: [6.03, -1.27]
+    - name: "53"
+      at: [6.03, -2.54]
+    - name: "54"
+      at: [6.03, -3.81]
+    - name: "55"
+      at: [6.03, -5.08]
+    - name: "56"
+      at: [5.715, -7.3]
+    - name: "57"
+      at: [4.445, -7.3]
+    - name: "58"
+      at: [3.175, -7.3]
+    - name: "59"
+      at: [1.905, -7.3]
+    - name: "60"
+      at: [0.635, -7.3]
+    - name: "61"
+      at: [-0.635, -7.3]
+    - name: "62"
+      at: [-1.905, -7.3]
+    - name: "63"
+      at: [-3.175, -7.3]
+    - name: "64"
+      at: [-4.445, -7.3]
+    - name: "65"
+      at: [-5.715, -7.3]
+
+ISP2053_8x8mm_LGA:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf53-modules"
+  device_type: "LGA"
+  body_size_x: 8.0
+  body_size_y: 8.0
+  body_pcb_gap: 0.0
+  overall_height: 1.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  description: "Insight SiP ISP2053-AX module"
+  size_source: "https://www.insightsip.com/iot-products/combo-smart-modules/isp2053"
+  pad_shape: "roundrect"
+  pad_size: [0.6, 0.6]
+  pads:
+    - name: "A1"
+      at: [-3.35, -3.35]
+    - name: "A11"
+      at: [3.35, -3.35]
+    - name: "L1"
+      at: [-3.35, 3.35]
+    - name: "L11"
+      at: [3.35, 3.35]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.4, 0.4]
+      pads:
+        - name: "A2"
+          at: [-2.6, -3.35]
+        - name: "A3"
+          at: [-1.95, -3.35]
+        - name: "A4"
+          at: [-1.3, -3.35]
+        - name: "A5"
+          at: [-0.65, -3.35]
+        - name: "A6"
+          at: [0, -3.35]
+        - name: "A7"
+          at: [0.65, -3.35]
+        - name: "A8"
+          at: [1.3, -3.35]
+        - name: "A9"
+          at: [1.95, -3.35]
+        - name: "A10"
+          at: [2.6, -3.35]
+        - name: "B2"
+          at: [-2.6, -2.7]
+        - name: "B3"
+          at: [-1.95, -2.7]
+        - name: "B4"
+          at: [-1.3, -2.7]
+        - name: "B5"
+          at: [-0.65, -2.7]
+        - name: "B6"
+          at: [0, -2.7]
+        - name: "B7"
+          at: [0.65, -2.7]
+        - name: "B8"
+          at: [1.3, -2.7]
+        - name: "B9"
+          at: [1.95, -2.7]
+        - name: "B10"
+          at: [2.6, -2.7]
+        - name: "C1"
+          at: [-3.25, -2.05]
+        - name: "C2"
+          at: [-2.6, -2.05]
+        - name: "C3"
+          at: [-1.95, -2.05]
+        - name: "C4"
+          at: [-1.3, -2.05]
+        - name: "C5"
+          at: [-0.65, -2.05]
+        - name: "C6"
+          at: [0, -2.05]
+        - name: "C7"
+          at: [0.65, -2.05]
+        - name: "C8"
+          at: [1.3, -2.05]
+        - name: "C9"
+          at: [1.95, -2.05]
+        - name: "C10"
+          at: [2.6, -2.05]
+        - name: "C11"
+          at: [3.25, -2.05]
+        - name: "D1"
+          at: [-3.25, -1.4]
+        - name: "D2"
+          at: [-2.6, -1.4]
+        - name: "D3"
+          at: [-1.95, -1.4]
+        - name: "D4"
+          at: [-1.3, -1.4]
+        - name: "D5"
+          at: [-0.65, -1.4]
+        - name: "D6"
+          at: [0, -1.4]
+        - name: "D7"
+          at: [0.65, -1.4]
+        - name: "D8"
+          at: [1.3, -1.4]
+        - name: "D9"
+          at: [1.95, -1.4]
+        - name: "D10"
+          at: [2.6, -1.4]
+        - name: "D11"
+          at: [3.25, -1.4]
+        - name: "E1"
+          at: [-3.25, -0.75]
+        - name: "E2"
+          at: [-2.6, -0.75]
+        - name: "E3"
+          at: [-1.95, -0.75]
+        - name: "E4"
+          at: [-1.3, -0.75]
+        - name: "E5"
+          at: [-0.65, -0.75]
+        - name: "E6"
+          at: [0, -0.75]
+        - name: "E7"
+          at: [0.65, -0.75]
+        - name: "E8"
+          at: [1.3, -0.75]
+        - name: "E9"
+          at: [1.95, -0.75]
+        - name: "E10"
+          at: [2.6, -0.75]
+        - name: "E11"
+          at: [3.25, -0.75]
+        - name: "F1"
+          at: [-3.25, -0.1]
+        - name: "F2"
+          at: [-2.6, -0.1]
+        - name: "F3"
+          at: [-1.95, -0.1]
+        - name: "F4"
+          at: [-1.3, -0.1]
+        - name: "F5"
+          at: [-0.65, -0.1]
+        - name: "F6"
+          at: [0, -0.1]
+        - name: "F7"
+          at: [0.65, -0.1]
+        - name: "F8"
+          at: [1.3, -0.1]
+        - name: "F9"
+          at: [1.95, -0.1]
+        - name: "F10"
+          at: [2.6, -0.1]
+        - name: "F11"
+          at: [3.25, -0.1]
+        - name: "H1"
+          at: [-3.25, 1.1]
+        - name: "H11"
+          at: [3.25, 1.1]
+        - name: "K1"
+          at: [-3.25, 2.4]
+        - name: "K11"
+          at: [3.25, 2.4]
+        - name: "L3"
+          at: [-1.95, 3.45]
+        - name: "L5"
+          at: [-0.65, 3.45]
+        - name: "L7"
+          at: [0.65, 3.45]
+        - name: "L9"
+          at: [1.95, 3.45]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: ["*.Cu", "Dwgs.User"]
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, 2.3]
+          size: [9, 4.4]
+
+BC15C-LGA-36_6x12.4mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf54-modules"
+  device_type: "LGA"
+  body_size_x: 6.0
+  body_size_y: 12.4
+  body_pcb_gap: 0.0
+  overall_height: 2.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://fanstel.squarespace.com/s/BC15M-Product-Specifications-dkay.pdf"
+  description: "Fanstel BC15C module"
+  pad_shape: "roundrect"
+  pad_size: [0.75, 0.4]
+  round_radius_ratio: 0.1
+  pads:
+    - name: "A1"
+      at: [-2.625, 1]
+    - name: "A2"
+      at: [-2.625, 1.9]
+    - name: "A3"
+      at: [-2.625, 2.8]
+    - name: "A4"
+      at: [-2.625, 3.7]
+    - name: "A5"
+      at: [-2.625, 4.6]
+    - name: "F1"
+      at: [2.625, 1]
+    - name: "F2"
+      at: [2.625, 1.9]
+    - name: "F3"
+      at: [2.625, 2.8]
+    - name: "F4"
+      at: [2.625, 3.7]
+    - name: "F5"
+      at: [2.625, 4.6]
+  secondary_layouts:
+    - pad_shape: "circle"
+      pad_size: [0.4, 0.4]
+      pads:
+        - name: "A1"
+          at: [-2.25, 1]
+        - name: "A2"
+          at: [-2.25, 1.9]
+        - name: "A3"
+          at: [-2.25, 2.8]
+        - name: "A4"
+          at: [-2.25, 3.7]
+        - name: "A5"
+          at: [-2.25, 4.6]
+        - name: "A6"
+          at: [-2.25, 5.5]
+        - name: "B1"
+          at: [-1.35, 1]
+        - name: "B2"
+          at: [-1.35, 1.9]
+        - name: "B3"
+          at: [-1.35, 2.8]
+        - name: "B4"
+          at: [-1.35, 3.7]
+        - name: "B5"
+          at: [-1.35, 4.6]
+        - name: "B6"
+          at: [-1.35, 5.5]
+        - name: "C1"
+          at: [-0.45, 1]
+        - name: "C2"
+          at: [-0.45, 1.9]
+        - name: "C3"
+          at: [-0.45, 2.8]
+        - name: "C4"
+          at: [-0.45, 3.7]
+        - name: "C5"
+          at: [-0.45, 4.6]
+        - name: "C6"
+          at: [-0.45, 5.5]
+        - name: "D1"
+          at: [0.45, 1]
+        - name: "D2"
+          at: [0.45, 1.9]
+        - name: "D3"
+          at: [0.45, 2.8]
+        - name: "D4"
+          at: [0.45, 3.7]
+        - name: "D5"
+          at: [0.45, 4.6]
+        - name: "D6"
+          at: [0.45, 5.5]
+        - name: "E1"
+          at: [1.35, 1]
+        - name: "E2"
+          at: [1.35, 1.9]
+        - name: "E3"
+          at: [1.35, 2.8]
+        - name: "E4"
+          at: [1.35, 3.7]
+        - name: "E5"
+          at: [1.35, 4.6]
+        - name: "E6"
+          at: [1.35, 5.5]
+        - name: "F1"
+          at: [2.25, 1]
+        - name: "F2"
+          at: [2.25, 1.9]
+        - name: "F3"
+          at: [2.25, 2.8]
+        - name: "F4"
+          at: [2.25, 3.7]
+        - name: "F5"
+          at: [2.25, 4.6]
+        - name: "F6"
+          at: [2.25, 5.5]
+    - pad_shape: "roundrect"
+      pad_size: [0.7, 0.4]
+      pad_rotation: 90
+      round_radius_ratio: 0.1
+      pads:
+        - name: "A6"
+          at: [-2.25, 5.85]
+        - name: "B6"
+          at: [-1.35, 5.85]
+        - name: "C6"
+          at: [-0.45, 5.85]
+        - name: "D6"
+          at: [0.45, 5.85]
+        - name: "E6"
+          at: [1.35, 5.85]
+        - name: "F6"
+          at: [2.25, 5.85]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: "*.Cu"
+      keepouts:
+        tracks: deny
+        vias: allow
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -3.5]
+          size: [10, 7]
+
+BC15M-LGA-36_6x9.6mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf54-modules"
+  device_type: "LGA"
+  body_size_x: 6.0
+  body_size_y: 9.6
+  body_pcb_gap: 0.0
+  overall_height: 2.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://fanstel.squarespace.com/s/BC15M-Product-Specifications-dkay.pdf"
+  description: "Fanstel BC15M module"
+  pad_shape: "roundrect"
+  pad_size: [0.75, 0.4]
+  round_radius_ratio: 0.1
+  pads:
+    - name: "A1"
+      at: [-2.625, -0.4]
+    - name: "A2"
+      at: [-2.625, 0.5]
+    - name: "A3"
+      at: [-2.625, 1.4]
+    - name: "A4"
+      at: [-2.625, 2.3]
+    - name: "A5"
+      at: [-2.625, 3.2]
+    - name: "F1"
+      at: [2.625, -0.4]
+    - name: "F2"
+      at: [2.625, 0.5]
+    - name: "F3"
+      at: [2.625, 1.4]
+    - name: "F4"
+      at: [2.625, 2.3]
+    - name: "F5"
+      at: [2.625, 3.2]
+  secondary_layouts:
+    - pad_shape: "circle"
+      pad_size: [0.4, 0.4]
+      pads:
+        - name: "A1"
+          at: [-2.25, -0.4]
+        - name: "A2"
+          at: [-2.25, 0.5]
+        - name: "A3"
+          at: [-2.25, 1.4]
+        - name: "A4"
+          at: [-2.25, 2.3]
+        - name: "A5"
+          at: [-2.25, 3.2]
+        - name: "A6"
+          at: [-2.25, 4.1]
+        - name: "B1"
+          at: [-1.35, -0.4]
+        - name: "B2"
+          at: [-1.35, 0.5]
+        - name: "B3"
+          at: [-1.35, 1.4]
+        - name: "B4"
+          at: [-1.35, 2.3]
+        - name: "B5"
+          at: [-1.35, 3.2]
+        - name: "B6"
+          at: [-1.35, 4.1]
+        - name: "C1"
+          at: [-0.45, -0.4]
+        - name: "C2"
+          at: [-0.45, 0.5]
+        - name: "C3"
+          at: [-0.45, 1.4]
+        - name: "C4"
+          at: [-0.45, 2.3]
+        - name: "C5"
+          at: [-0.45, 3.2]
+        - name: "C6"
+          at: [-0.45, 4.1]
+        - name: "D1"
+          at: [0.45, -0.4]
+        - name: "D2"
+          at: [0.45, 0.5]
+        - name: "D3"
+          at: [0.45, 1.4]
+        - name: "D4"
+          at: [0.45, 2.3]
+        - name: "D5"
+          at: [0.45, 3.2]
+        - name: "D6"
+          at: [0.45, 4.1]
+        - name: "E1"
+          at: [1.35, -0.4]
+        - name: "E2"
+          at: [1.35, 0.5]
+        - name: "E3"
+          at: [1.35, 1.4]
+        - name: "E4"
+          at: [1.35, 2.3]
+        - name: "E5"
+          at: [1.35, 3.2]
+        - name: "E6"
+          at: [1.35, 4.1]
+        - name: "F1"
+          at: [2.25, -0.4]
+        - name: "F2"
+          at: [2.25, 0.5]
+        - name: "F3"
+          at: [2.25, 1.4]
+        - name: "F4"
+          at: [2.25, 2.3]
+        - name: "F5"
+          at: [2.25, 3.2]
+        - name: "F6"
+          at: [2.25, 4.1]
+    - pad_shape: "roundrect"
+      pad_size: [0.7, 0.4]
+      pad_rotation: 90
+      round_radius_ratio: 0.1
+      pads:
+        - name: "A6"
+          at: [-2.25, 4.45]
+        - name: "B6"
+          at: [-1.35, 4.45]
+        - name: "C6"
+          at: [-0.45, 4.45]
+        - name: "D6"
+          at: [0.45, 4.45]
+        - name: "E6"
+          at: [1.35, 4.45]
+        - name: "F6"
+          at: [2.25, 4.45]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: "*.Cu"
+      keepouts:
+        tracks: deny
+        vias: allow
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -3.5]
+          size: [10, 5]
+
+BL54Lxx-LGA-39_14x10mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf54-modules"
+  device_type: "LGA"
+  body_size_x: 10.0
+  body_size_y: 14.0
+  body_pcb_gap: 0.0
+  overall_height: 1.6
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6661/453-00001R_new.pdf"
+  description: "Nordic BL54Lxx module"
+  pad_shape: "roundrect"
+  pad_size: [0.6, 0.45]
+  round_radius_ratio: 0.15
+  pads:
+    - name: "1"
+      at: [4.497, -4.8]
+    - name: "2"
+      at: [4.497, -4.05]
+    - name: "3"
+      at: [4.497, -3.3]
+    - name: "4"
+      at: [4.497, -2.55]
+    - name: "5"
+      at: [4.497, -1.8]
+    - name: "6"
+      at: [4.497, -1.05]
+    - name: "7"
+      at: [4.497, -0.3]
+    - name: "8"
+      at: [4.497, 0.45]
+    - name: "9"
+      at: [4.497, 1.2]
+    - name: "10"
+      at: [4.497, 1.95]
+    - name: "11"
+      at: [4.497, 2.7]
+    - name: "12"
+      at: [4.497, 3.45]
+    - name: "13"
+      at: [4.497, 4.2]
+    - name: "14"
+      at: [4.497, 4.95]
+    - name: "15"
+      at: [4.497, 5.7]
+    - name: "16"
+      at: [4.497, 6.45]
+    - name: "28"
+      at: [-4.5, 6.45]
+    - name: "29"
+      at: [-4.5, 5.7]
+    - name: "30"
+      at: [-4.5, 4.95]
+    - name: "31"
+      at: [-4.5, 4.2]
+    - name: "32"
+      at: [-4.5, 3.45]
+    - name: "33"
+      at: [-4.5, 2.7]
+    - name: "34"
+      at: [-4.5, 1.95]
+    - name: "35"
+      at: [-4.5, 1.2]
+    - name: "36"
+      at: [-4.5, 0.45]
+    - name: "37"
+      at: [-4.5, -0.3]
+    - name: "38"
+      at: [-4.5, -1.05]
+    - name: "39"
+      at: [-4.5, -1.8]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.6, 0.45]
+      pad_rotation: 270
+      round_radius_ratio: 0.15
+      pads:
+        - name: "17"
+          at: [3.75, 6.5]
+        - name: "18"
+          at: [3, 6.5]
+        - name: "19"
+          at: [2.25, 6.5]
+        - name: "20"
+          at: [1.5, 6.5]
+        - name: "21"
+          at: [0.75, 6.5]
+        - name: "22"
+          at: [0, 6.5]
+        - name: "23"
+          at: [-0.75, 6.5]
+        - name: "24"
+          at: [-1.5, 6.5]
+        - name: "25"
+          at: [-2.25, 6.5]
+        - name: "26"
+          at: [-3, 6.5]
+        - name: "27"
+          at: [-3.75, 6.5]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: ["F.Cu", "B.Cu", "In1.Cu", "In2.Cu", "In3.Cu", "In4.Cu", "In5.Cu", "In6.Cu", "In7.Cu", "In8.Cu", "In9.Cu", "In10.Cu", "In11.Cu", "In12.Cu", "In13.Cu", "In14.Cu", "In15.Cu", "In16.Cu", "In17.Cu", "In18.Cu", "In19.Cu", "In20.Cu", "In21.Cu", "In22.Cu", "In23.Cu", "In24.Cu", "In25.Cu", "In26.Cu", "In27.Cu", "In28.Cu", "In29.Cu", "In30.Cu"]
+      keepouts:
+        tracks: allow
+        vias: allow
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [-3.25, -4.5]
+          size: [13.5, 5]
+
+BM15x-LGA-45_15.8x10mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf54-modules"
+  device_type: "LGA"
+  body_size_x: 10.0
+  body_size_y: 15.8
+  body_pcb_gap: 0.0
+  overall_height: 2.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://fanstel.squarespace.com/s/BM15C-Product-Specifications-st4d.pdf"
+  description: "Fanstel BM15x module"
+  pad_shape: "circle"
+  pad_size: [0.4, 0.4]
+  pads:
+    - name: "A1"
+      at: [-4.05, 0.2]
+    - name: "A3"
+      at: [-4.05, 2]
+    - name: "A9"
+      at: [-4.05, 7.4]
+    - name: "B1"
+      at: [-3.15, 0.2]
+    - name: "B2"
+      at: [-3.15, 1.1]
+    - name: "B3"
+      at: [-3.15, 2]
+    - name: "B4"
+      at: [-3.15, 2.9]
+    - name: "B5"
+      at: [-3.15, 3.8]
+    - name: "B6"
+      at: [-3.15, 4.7]
+    - name: "B7"
+      at: [-3.15, 5.6]
+    - name: "B8"
+      at: [-3.15, 6.5]
+    - name: "B9"
+      at: [-3.15, 7.4]
+    - name: "C8"
+      at: [-2.25, 6.5]
+    - name: "C9"
+      at: [-2.25, 7.4]
+    - name: "D1"
+      at: [-1.35, 0.2]
+    - name: "D8"
+      at: [-1.35, 6.5]
+    - name: "D9"
+      at: [-1.35, 7.4]
+    - name: "E1"
+      at: [-0.45, 0.2]
+    - name: "E8"
+      at: [-0.45, 6.5]
+    - name: "E9"
+      at: [-0.45, 7.4]
+    - name: "F1"
+      at: [0.45, 0.2]
+    - name: "F8"
+      at: [0.45, 6.5]
+    - name: "F9"
+      at: [0.45, 7.4]
+    - name: "G2"
+      at: [1.35, 1.1]
+    - name: "G8"
+      at: [1.35, 6.5]
+    - name: "G9"
+      at: [1.35, 7.4]
+    - name: "H2"
+      at: [2.25, 1.1]
+    - name: "H8"
+      at: [2.25, 6.5]
+    - name: "H9"
+      at: [2.25, 7.4]
+    - name: "J2"
+      at: [3.15, 1.1]
+    - name: "J3"
+      at: [3.15, 2]
+    - name: "J4"
+      at: [3.15, 2.9]
+    - name: "J5"
+      at: [3.15, 3.8]
+    - name: "J6"
+      at: [3.15, 4.7]
+    - name: "J7"
+      at: [3.15, 5.6]
+    - name: "J8"
+      at: [3.15, 6.5]
+    - name: "J9"
+      at: [3.15, 7.4]
+    - name: "K2"
+      at: [4.05, 1.1]
+    - name: "K3"
+      at: [4.05, 2]
+    - name: "K4"
+      at: [4.05, 2.9]
+    - name: "K5"
+      at: [4.05, 3.8]
+    - name: "K6"
+      at: [4.05, 4.7]
+    - name: "K7"
+      at: [4.05, 5.6]
+    - name: "K8"
+      at: [4.05, 6.5]
+    - name: "K9"
+      at: [4.05, 7.4]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.4, 0.5]
+      round_radius_ratio: 0.1
+      pads:
+        - name: "A9"
+          at: [-4.05, 7.65]
+        - name: "B9"
+          at: [-3.15, 7.65]
+        - name: "C9"
+          at: [-2.25, 7.65]
+        - name: "D9"
+          at: [-1.35, 7.65]
+        - name: "E9"
+          at: [-0.45, 7.65]
+        - name: "F9"
+          at: [0.45, 7.65]
+        - name: "G9"
+          at: [1.35, 7.65]
+        - name: "H9"
+          at: [2.25, 7.65]
+        - name: "J9"
+          at: [3.15, 7.65]
+        - name: "K9"
+          at: [4.05, 7.65]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: "*.Cu"
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -5.35]
+          size: [11, 6.1]
+
+BM20x-LGA-90_15.8x10mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf54-modules"
+  device_type: "LGA"
+  body_size_x: 10.0
+  body_size_y: 15.8
+  body_pcb_gap: 0.0
+  overall_height: 2.0
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  size_source: "https://fanstel.squarespace.com/s/BM20C-Product-Specifications-pfhl.pdf"
+  description: "Fanstel BM20x module"
+  pad_shape: "circle"
+  pad_size: [0.4, 0.4]
+  pads:
+    - name: "A1"
+      at: [-4.05, 0.2]
+    - name: "A2"
+      at: [-4.05, 1.1]
+    - name: "A3"
+      at: [-4.05, 2]
+    - name: "A4"
+      at: [-4.05, 2.9]
+    - name: "A5"
+      at: [-4.05, 3.8]
+    - name: "A6"
+      at: [-4.05, 4.7]
+    - name: "A7"
+      at: [-4.05, 5.6]
+    - name: "A8"
+      at: [-4.05, 6.5]
+    - name: "A9"
+      at: [-4.05, 7.4]
+    - name: "B1"
+      at: [-3.15, 0.2]
+    - name: "B2"
+      at: [-3.15, 1.1]
+    - name: "B3"
+      at: [-3.15, 2]
+    - name: "B4"
+      at: [-3.15, 2.9]
+    - name: "B5"
+      at: [-3.15, 3.8]
+    - name: "B6"
+      at: [-3.15, 4.7]
+    - name: "B7"
+      at: [-3.15, 5.6]
+    - name: "B8"
+      at: [-3.15, 6.5]
+    - name: "B9"
+      at: [-3.15, 7.4]
+    - name: "C1"
+      at: [-2.25, 0.2]
+    - name: "C2"
+      at: [-2.25, 1.1]
+    - name: "C3"
+      at: [-2.25, 2]
+    - name: "C4"
+      at: [-2.25, 2.9]
+    - name: "C5"
+      at: [-2.25, 3.8]
+    - name: "C6"
+      at: [-2.25, 4.7]
+    - name: "C7"
+      at: [-2.25, 5.6]
+    - name: "C8"
+      at: [-2.25, 6.5]
+    - name: "C9"
+      at: [-2.25, 7.4]
+    - name: "D1"
+      at: [-1.35, 0.2]
+    - name: "D2"
+      at: [-1.35, 1.1]
+    - name: "D3"
+      at: [-1.35, 2]
+    - name: "D4"
+      at: [-1.35, 2.9]
+    - name: "D5"
+      at: [-1.35, 3.8]
+    - name: "D6"
+      at: [-1.35, 4.7]
+    - name: "D7"
+      at: [-1.35, 5.6]
+    - name: "D8"
+      at: [-1.35, 6.5]
+    - name: "D9"
+      at: [-1.35, 7.4]
+    - name: "E1"
+      at: [-0.45, 0.2]
+    - name: "E2"
+      at: [-0.45, 1.1]
+    - name: "E3"
+      at: [-0.45, 2]
+    - name: "E4"
+      at: [-0.45, 2.9]
+    - name: "E5"
+      at: [-0.45, 3.8]
+    - name: "E6"
+      at: [-0.45, 4.7]
+    - name: "E7"
+      at: [-0.45, 5.6]
+    - name: "E8"
+      at: [-0.45, 6.5]
+    - name: "E9"
+      at: [-0.45, 7.4]
+    - name: "F1"
+      at: [0.45, 0.2]
+    - name: "F2"
+      at: [0.45, 1.1]
+    - name: "F3"
+      at: [0.45, 2]
+    - name: "F4"
+      at: [0.45, 2.9]
+    - name: "F5"
+      at: [0.45, 3.8]
+    - name: "F6"
+      at: [0.45, 4.7]
+    - name: "F7"
+      at: [0.45, 5.6]
+    - name: "F8"
+      at: [0.45, 6.5]
+    - name: "F9"
+      at: [0.45, 7.4]
+    - name: "G1"
+      at: [1.35, 0.2]
+    - name: "G2"
+      at: [1.35, 1.1]
+    - name: "G3"
+      at: [1.35, 2]
+    - name: "G4"
+      at: [1.35, 2.9]
+    - name: "G5"
+      at: [1.35, 3.8]
+    - name: "G6"
+      at: [1.35, 4.7]
+    - name: "G7"
+      at: [1.35, 5.6]
+    - name: "G8"
+      at: [1.35, 6.5]
+    - name: "G9"
+      at: [1.35, 7.4]
+    - name: "H1"
+      at: [2.25, 0.2]
+    - name: "H2"
+      at: [2.25, 1.1]
+    - name: "H3"
+      at: [2.25, 2]
+    - name: "H4"
+      at: [2.25, 2.9]
+    - name: "H5"
+      at: [2.25, 3.8]
+    - name: "H6"
+      at: [2.25, 4.7]
+    - name: "H7"
+      at: [2.25, 5.6]
+    - name: "H8"
+      at: [2.25, 6.5]
+    - name: "H9"
+      at: [2.25, 7.4]
+    - name: "J1"
+      at: [3.15, 0.2]
+    - name: "J2"
+      at: [3.15, 1.1]
+    - name: "J3"
+      at: [3.15, 2]
+    - name: "J4"
+      at: [3.15, 2.9]
+    - name: "J5"
+      at: [3.15, 3.8]
+    - name: "J6"
+      at: [3.15, 4.7]
+    - name: "J7"
+      at: [3.15, 5.6]
+    - name: "J8"
+      at: [3.15, 6.5]
+    - name: "J9"
+      at: [3.15, 7.4]
+    - name: "K1"
+      at: [4.05, 0.2]
+    - name: "K2"
+      at: [4.05, 1.1]
+    - name: "K3"
+      at: [4.05, 2]
+    - name: "K4"
+      at: [4.05, 2.9]
+    - name: "K5"
+      at: [4.05, 3.8]
+    - name: "K6"
+      at: [4.05, 4.7]
+    - name: "K7"
+      at: [4.05, 5.6]
+    - name: "K8"
+      at: [4.05, 6.5]
+    - name: "K9"
+      at: [4.05, 7.4]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.4, 0.5]
+      round_radius_ratio: 0.1
+      pads:
+        - name: "A9"
+          at: [-4.05, 7.65]
+        - name: "B9"
+          at: [-3.15, 7.65]
+        - name: "C9"
+          at: [-2.25, 7.65]
+        - name: "D9"
+          at: [-1.35, 7.65]
+        - name: "E9"
+          at: [-0.45, 7.65]
+        - name: "F9"
+          at: [0.45, 7.65]
+        - name: "G9"
+          at: [1.35, 7.65]
+        - name: "H9"
+          at: [2.25, 7.65]
+        - name: "J9"
+          at: [3.15, 7.65]
+        - name: "K9"
+          at: [4.05, 7.65]
+  rule_areas:
+    keepout_1:
+      name: "Keepout"
+      layers: "*.Cu"
+      keepouts:
+        tracks: deny
+        vias: deny
+        copperpour: deny
+        pads: allow
+        footprints: allow
+      shapes:
+        - type: rect
+          center: [0, -5.35]
+          size: [11, 6.1]
+
+LGA_9151_12.1x11.1mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf9"
+  device_type: "LGA"
+  body_size_x: 12.1
+  body_size_y: 11.1
+  body_pcb_gap: 0.0
+  overall_height: 1.256
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  description: "Nordic nRF9151 SiP"
+  size_source: "https://docs.nordicsemi.com/bundle/ps_nrf9151/page/nRF9151_html5_keyfeatures.html"
+  pad_shape: "roundrect"
+  pad_size: [0.7, 0.7]
+  round_radius_ratio: 0.05
+  pads:
+    - name: "1"
+      at: [-5.5, -5]
+    - name: "20"
+      at: [-5.5, 5]
+    - name: "41"
+      at: [5.5, 5]
+    - name: "60"
+      at: [5.5, -5]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.45, 0.3]
+      round_radius_ratio: 0.05
+      pads:
+        - name: "2"
+          at: [-5.625, -4.25037]
+        - name: "3"
+          at: [-5.625, -3.75037]
+        - name: "4"
+          at: [-5.625, -3.25037]
+        - name: "5"
+          at: [-5.625, -2.75037]
+        - name: "6"
+          at: [-5.625, -2.25037]
+        - name: "7"
+          at: [-5.625, -1.75037]
+        - name: "8"
+          at: [-5.625, -1.25037]
+        - name: "9"
+          at: [-5.625, -0.75037]
+        - name: "10"
+          at: [-5.625, -0.25037]
+        - name: "11"
+          at: [-5.625, 0.24963]
+        - name: "12"
+          at: [-5.625, 0.74963]
+        - name: "13"
+          at: [-5.625, 1.24963]
+        - name: "14"
+          at: [-5.625, 1.74963]
+        - name: "15"
+          at: [-5.625, 2.24963]
+        - name: "16"
+          at: [-5.625, 2.74963]
+        - name: "17"
+          at: [-5.625, 3.24963]
+        - name: "18"
+          at: [-5.625, 3.74963]
+        - name: "19"
+          at: [-5.625, 4.24999]
+        - name: "42"
+          at: [5.625, 4.25]
+        - name: "43"
+          at: [5.625, 3.75]
+        - name: "44"
+          at: [5.625, 3.25]
+        - name: "45"
+          at: [5.625, 2.75]
+        - name: "46"
+          at: [5.625, 2.25]
+        - name: "47"
+          at: [5.625, 1.75]
+        - name: "48"
+          at: [5.625, 1.25]
+        - name: "49"
+          at: [5.625, 0.75]
+        - name: "50"
+          at: [5.625, 0.25]
+        - name: "51"
+          at: [5.625, -0.25]
+        - name: "52"
+          at: [5.625, -0.75001]
+        - name: "53"
+          at: [5.625, -1.25]
+        - name: "54"
+          at: [5.625, -1.75]
+        - name: "55"
+          at: [5.625, -2.25]
+        - name: "56"
+          at: [5.625, -2.75]
+        - name: "57"
+          at: [5.625, -3.25]
+        - name: "58"
+          at: [5.625, -3.75]
+        - name: "59"
+          at: [5.625, -4.25]
+    - pad_shape: "roundrect"
+      pad_size: [0.45, 0.3]
+      pad_rotation: 90
+      round_radius_ratio: 0.05
+      pads:
+        - name: "21"
+          at: [-4.75, 5.125]
+        - name: "22"
+          at: [-4.25, 5.125]
+        - name: "23"
+          at: [-3.74997, 5.125]
+        - name: "24"
+          at: [-3.24997, 5.125]
+        - name: "25"
+          at: [-2.74997, 5.125]
+        - name: "26"
+          at: [-2.24997, 5.125]
+        - name: "27"
+          at: [-1.74997, 5.125]
+        - name: "28"
+          at: [-1.25, 5.125]
+        - name: "29"
+          at: [-0.75, 5.125]
+        - name: "30"
+          at: [-0.25, 5.125]
+        - name: "31"
+          at: [0.25, 5.125]
+        - name: "32"
+          at: [0.75, 5.125]
+        - name: "33"
+          at: [1.25002, 5.125]
+        - name: "34"
+          at: [1.75003, 5.125]
+        - name: "35"
+          at: [2.25003, 5.125]
+        - name: "36"
+          at: [2.75003, 5.125]
+        - name: "37"
+          at: [3.25003, 5.125]
+        - name: "38"
+          at: [3.75002, 5.125]
+        - name: "39"
+          at: [4.25003, 5.125]
+        - name: "40"
+          at: [4.75003, 5.125]
+        - name: "61"
+          at: [4.75, -5.12501]
+    - pad_shape: "roundrect"
+      pad_size: [0.45, 0.3]
+      pad_rotation: 270
+      round_radius_ratio: 0.05
+      pads:
+        - name: "62"
+          at: [4.25, -5.12501]
+        - name: "63"
+          at: [3.74997, -5.12501]
+        - name: "64"
+          at: [3.24997, -5.12501]
+        - name: "65"
+          at: [2.74997, -5.12501]
+        - name: "66"
+          at: [2.24997, -5.12501]
+        - name: "67"
+          at: [1.74998, -5.12501]
+        - name: "68"
+          at: [1.24997, -5.12501]
+        - name: "69"
+          at: [0.75, -5.12501]
+        - name: "70"
+          at: [0.25, -5.12501]
+        - name: "71"
+          at: [-0.25, -5.12501]
+        - name: "72"
+          at: [-0.75, -5.12501]
+        - name: "73"
+          at: [-1.25, -5.12501]
+        - name: "74"
+          at: [-1.75, -5.12501]
+        - name: "75"
+          at: [-2.25, -5.12501]
+        - name: "76"
+          at: [-2.75, -5.12501]
+        - name: "77"
+          at: [-3.25, -5.12501]
+        - name: "78"
+          at: [-3.75, -5.12501]
+        - name: "79"
+          at: [-4.25, -5.12501]
+        - name: "80"
+          at: [-4.75, -5.12501]
+    - pad_shape: "roundrect"
+      pad_size: [0.3, 0.3]
+      pad_rotation: 270
+      round_radius_ratio: 0.05
+      pads:
+        - name: "81"
+          at: [-4.1, -3.40001]
+        - name: "82"
+          at: [-4.1, -2.85]
+        - name: "83"
+          at: [-4.1, -2.30001]
+        - name: "84"
+          at: [-4.1, -0.55]
+        - name: "85"
+          at: [-4.1, 0]
+        - name: "86"
+          at: [-4.1, 0.54999]
+        - name: "87"
+          at: [-4.1, 2.3]
+        - name: "88"
+          at: [-4.1, 2.84999]
+        - name: "89"
+          at: [-4.1, 3.4]
+        - name: "102"
+          at: [0.55, -2.15001]
+        - name: "103"
+          at: [0, -2.15001]
+        - name: "104"
+          at: [-0.55, -2.15001]
+    - pad_shape: "roundrect"
+      pad_size: [0.3, 0.3]
+      pad_rotation: 90
+      round_radius_ratio: 0.05
+      pads:
+        - name: "90"
+          at: [-0.55, 2.15]
+        - name: "91"
+          at: [0, 2.15]
+        - name: "92"
+          at: [0.55, 2.15]
+        - name: "93"
+          at: [4.1, 3.4]
+        - name: "94"
+          at: [4.1, 2.84999]
+        - name: "95"
+          at: [4.1, 2.3]
+        - name: "96"
+          at: [4.1, 0.54999]
+        - name: "97"
+          at: [4.1, 0]
+        - name: "98"
+          at: [4.1, -0.55]
+        - name: "99"
+          at: [4.1, -2.30001]
+        - name: "100"
+          at: [4.1, -2.85]
+        - name: "101"
+          at: [4.1, -3.40001]
+    - pad_shape: "roundrect"
+      pad_size: [1.6, 1.6]
+      round_radius_ratio: 0.05
+      pads:
+        - name: "105"
+          at: [-2.85, -2.85]
+        - name: "106"
+          at: [-2.85, 0]
+        - name: "107"
+          at: [-2.85, 2.84999]
+        - name: "109"
+          at: [2.85, 2.84999]
+        - name: "110"
+          at: [2.85, 0]
+        - name: "111"
+          at: [2.85, -2.85]
+        - name: "113"
+          at: [0, 0]
+    - pad_shape: "roundrect"
+      pad_size: [1.6, 1.95]
+      round_radius_ratio: 0.05
+      pads:
+        - name: "108"
+          at: [0, 3.57499]
+        - name: "112"
+          at: [0, -3.57501]
+
+LGA_9160_16.0x10.5mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf9"
+  device_type: "LGA"
+  body_size_x: 16.0
+  body_size_y: 10.5
+  body_pcb_gap: 0.0
+  overall_height: 1.2
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  description: "Nordic nRF9160 SiP"
+  size_source: "https://docs.nordicsemi.com/bundle/ps_nrf9160/page/nRF9160_html5_keyfeatures.html"
+  paste_ratio: -0.15
+  pad_shape: "roundrect"
+  pad_size: [0.3, 0.3]
+  pads:
+    - name: "1"
+      at: [-7.75, -5]
+    - name: "2"
+      at: [-7.75, -4.5]
+    - name: "3"
+      at: [-7.75, -4]
+    - name: "4"
+      at: [-7.75, -3.5]
+    - name: "5"
+      at: [-7.75, -3]
+    - name: "6"
+      at: [-7.75, -2.5]
+    - name: "7"
+      at: [-7.75, -2]
+    - name: "8"
+      at: [-7.75, -1.5]
+    - name: "9"
+      at: [-7.75, -1]
+    - name: "10"
+      at: [-7.75, -0.5]
+    - name: "11"
+      at: [-7.75, 0]
+    - name: "12"
+      at: [-7.75, 0.5]
+    - name: "13"
+      at: [-7.75, 1]
+    - name: "14"
+      at: [-7.75, 1.5]
+    - name: "15"
+      at: [-7.75, 2]
+    - name: "16"
+      at: [-7.75, 2.5]
+    - name: "17"
+      at: [-7.75, 3]
+    - name: "18"
+      at: [-7.75, 3.5]
+    - name: "19"
+      at: [-7.75, 4]
+    - name: "20"
+      at: [-7.75, 4.5]
+    - name: "21"
+      at: [-7.75, 5]
+    - name: "22"
+      at: [-7.25, 5]
+    - name: "23"
+      at: [-6.75, 5]
+    - name: "24"
+      at: [-6.25, 5]
+    - name: "25"
+      at: [-5.75, 5]
+    - name: "26"
+      at: [-5.25, 5]
+    - name: "27"
+      at: [-4.75, 5]
+    - name: "28"
+      at: [-4.25, 5]
+    - name: "29"
+      at: [-3.75, 5]
+    - name: "30"
+      at: [-3.25, 5]
+    - name: "31"
+      at: [-2.75, 5]
+    - name: "32"
+      at: [-2.25, 5]
+    - name: "33"
+      at: [-1.75, 5]
+    - name: "34"
+      at: [-1.25, 5]
+    - name: "35"
+      at: [-0.75, 5]
+    - name: "36"
+      at: [-0.25, 5]
+    - name: "37"
+      at: [0.25, 5]
+    - name: "38"
+      at: [0.75, 5]
+    - name: "39"
+      at: [1.25, 5]
+    - name: "40"
+      at: [1.75, 5]
+    - name: "41"
+      at: [2.25, 5]
+    - name: "42"
+      at: [2.75, 5]
+    - name: "43"
+      at: [3.25, 5]
+    - name: "44"
+      at: [3.75, 5]
+    - name: "45"
+      at: [4.25, 5]
+    - name: "46"
+      at: [4.75, 5]
+    - name: "47"
+      at: [5.25, 5]
+    - name: "48"
+      at: [5.75, 5]
+    - name: "49"
+      at: [6.25, 5]
+    - name: "50"
+      at: [6.75, 5]
+    - name: "51"
+      at: [7.25, 5]
+    - name: "52"
+      at: [7.75, 5]
+    - name: "53"
+      at: [7.75, 4.5]
+    - name: "54"
+      at: [7.75, 4]
+    - name: "55"
+      at: [7.75, 3.5]
+    - name: "56"
+      at: [7.75, 3]
+    - name: "57"
+      at: [7.75, 2.5]
+    - name: "58"
+      at: [7.75, 2]
+    - name: "59"
+      at: [7.75, 1.5]
+    - name: "60"
+      at: [7.75, 1]
+    - name: "61"
+      at: [7.75, 0.5]
+    - name: "62"
+      at: [7.75, 0]
+    - name: "63"
+      at: [7.75, -0.5]
+    - name: "64"
+      at: [7.75, -1]
+    - name: "65"
+      at: [7.75, -1.5]
+    - name: "66"
+      at: [7.75, -2]
+    - name: "67"
+      at: [7.75, -2.5]
+    - name: "68"
+      at: [7.75, -3]
+    - name: "69"
+      at: [7.75, -3.5]
+    - name: "70"
+      at: [7.75, -4]
+    - name: "71"
+      at: [7.75, -4.5]
+    - name: "72"
+      at: [7.75, -5]
+    - name: "73"
+      at: [7.25, -5]
+    - name: "74"
+      at: [6.75, -5]
+    - name: "75"
+      at: [6.25, -5]
+    - name: "76"
+      at: [5.75, -5]
+    - name: "77"
+      at: [5.25, -5]
+    - name: "78"
+      at: [4.75, -5]
+    - name: "79"
+      at: [4.25, -5]
+    - name: "80"
+      at: [3.75, -5]
+    - name: "81"
+      at: [3.25, -5]
+    - name: "82"
+      at: [2.75, -5]
+    - name: "83"
+      at: [2.25, -5]
+    - name: "84"
+      at: [1.75, -5]
+    - name: "85"
+      at: [1.25, -5]
+    - name: "86"
+      at: [0.75, -5]
+    - name: "87"
+      at: [0.25, -5]
+    - name: "88"
+      at: [-0.25, -5]
+    - name: "89"
+      at: [-0.75, -5]
+    - name: "90"
+      at: [-1.25, -5]
+    - name: "91"
+      at: [-1.75, -5]
+    - name: "92"
+      at: [-2.25, -5]
+    - name: "93"
+      at: [-2.75, -5]
+    - name: "94"
+      at: [-3.25, -5]
+    - name: "95"
+      at: [-3.75, -5]
+    - name: "96"
+      at: [-4.25, -5]
+    - name: "97"
+      at: [-4.75, -5]
+    - name: "98"
+      at: [-5.25, -5]
+    - name: "99"
+      at: [-5.75, -5]
+    - name: "100"
+      at: [-6.25, -5]
+    - name: "101"
+      at: [-6.75, -5]
+    - name: "102"
+      at: [-7.25, -5]
+    - name: "104"
+      at: [-5.75, 4.35]
+    - name: "105"
+      at: [-5.25, 4.35]
+    - name: "106"
+      at: [-4.75, 4.35]
+    - name: "107"
+      at: [-4.25, 4.35]
+    - name: "108"
+      at: [-1.75, 4.35]
+    - name: "109"
+      at: [-1.25, 4.35]
+    - name: "110"
+      at: [-0.75, 4.35]
+    - name: "111"
+      at: [-0.25, 4.35]
+    - name: "112"
+      at: [3.25, 4.35]
+    - name: "113"
+      at: [3.75, 4.35]
+    - name: "114"
+      at: [4.25, 4.35]
+    - name: "115"
+      at: [4.75, 4.35]
+    - name: "116"
+      at: [4.75, -4.35]
+    - name: "117"
+      at: [4.25, -4.35]
+    - name: "118"
+      at: [3.75, -4.35]
+    - name: "119"
+      at: [3.25, -4.35]
+    - name: "120"
+      at: [-0.25, -4.35]
+    - name: "121"
+      at: [-0.75, -4.35]
+    - name: "122"
+      at: [-1.25, -4.35]
+    - name: "123"
+      at: [-1.75, -4.35]
+    - name: "124"
+      at: [-4.25, -4.35]
+    - name: "125"
+      at: [-4.75, -4.35]
+    - name: "126"
+      at: [-5.25, -4.35]
+    - name: "127"
+      at: [-5.75, -4.35]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.8, 0.8]
+      pads:
+        - name: "103"
+          at: [-6, -3.2]
+        - name: "103"
+          at: [-6, -1.6]
+        - name: "103"
+          at: [-6, 0]
+        - name: "103"
+          at: [-6, 1.6]
+        - name: "103"
+          at: [-6, 3.2]
+        - name: "103"
+          at: [-4, -3.2]
+        - name: "103"
+          at: [-4, -1.6]
+        - name: "103"
+          at: [-4, 0]
+        - name: "103"
+          at: [-4, 1.6]
+        - name: "103"
+          at: [-4, 3.2]
+        - name: "103"
+          at: [-2, -3.2]
+        - name: "103"
+          at: [-2, -1.6]
+        - name: "103"
+          at: [-2, 0]
+        - name: "103"
+          at: [-2, 1.6]
+        - name: "103"
+          at: [-2, 3.2]
+        - name: "103"
+          at: [0, -3.2]
+        - name: "103"
+          at: [0, -1.6]
+        - name: "103"
+          at: [0, 0]
+        - name: "103"
+          at: [0, 1.6]
+        - name: "103"
+          at: [0, 3.2]
+        - name: "103"
+          at: [2, -3.2]
+        - name: "103"
+          at: [2, -1.6]
+        - name: "103"
+          at: [2, 0]
+        - name: "103"
+          at: [2, 1.6]
+        - name: "103"
+          at: [2, 3.2]
+        - name: "103"
+          at: [4, -3.2]
+        - name: "103"
+          at: [4, -1.6]
+        - name: "103"
+          at: [4, 0]
+        - name: "103"
+          at: [4, 1.6]
+        - name: "103"
+          at: [4, 3.2]
+        - name: "103"
+          at: [6, -3.2]
+        - name: "103"
+          at: [6, -1.6]
+        - name: "103"
+          at: [6, 0]
+        - name: "103"
+          at: [6, 1.6]
+        - name: "103"
+          at: [6, 3.2]
+
+LGA_9161_16.0x10.5mm:
+  name_equal_to_key: true
+  library: "nordic-lib-kicad-nrf9"
+  device_type: "LGA"
+  body_size_x: 16.0
+  body_size_y: 10.5
+  body_pcb_gap: 0.0
+  overall_height: 1.2
+  ball_diameter: 0.25
+  layout_x: 1
+  layout_y: 1
+  pitch: 1.0
+  description: "Nordic nRF9161 SiP"
+  size_source: "https://docs.nordicsemi.com/bundle/ps_nrf9161/page/nRF9161_html5_keyfeatures.html"
+  paste_ratio: -0.15
+  pad_shape: "roundrect"
+  pad_size: [0.3, 0.3]
+  pads:
+    - name: "1"
+      at: [-7.75, -5]
+    - name: "2"
+      at: [-7.75, -4.5]
+    - name: "3"
+      at: [-7.75, -4]
+    - name: "4"
+      at: [-7.75, -3.5]
+    - name: "5"
+      at: [-7.75, -3]
+    - name: "6"
+      at: [-7.75, -2.5]
+    - name: "7"
+      at: [-7.75, -2]
+    - name: "8"
+      at: [-7.75, -1.5]
+    - name: "9"
+      at: [-7.75, -1]
+    - name: "10"
+      at: [-7.75, -0.5]
+    - name: "11"
+      at: [-7.75, 0]
+    - name: "12"
+      at: [-7.75, 0.5]
+    - name: "13"
+      at: [-7.75, 1]
+    - name: "14"
+      at: [-7.75, 1.5]
+    - name: "15"
+      at: [-7.75, 2]
+    - name: "16"
+      at: [-7.75, 2.5]
+    - name: "17"
+      at: [-7.75, 3]
+    - name: "18"
+      at: [-7.75, 3.5]
+    - name: "19"
+      at: [-7.75, 4]
+    - name: "20"
+      at: [-7.75, 4.5]
+    - name: "21"
+      at: [-7.75, 5]
+    - name: "22"
+      at: [-7.25, 5]
+    - name: "23"
+      at: [-6.75, 5]
+    - name: "24"
+      at: [-6.25, 5]
+    - name: "25"
+      at: [-5.75, 5]
+    - name: "26"
+      at: [-5.25, 5]
+    - name: "27"
+      at: [-4.75, 5]
+    - name: "28"
+      at: [-4.25, 5]
+    - name: "29"
+      at: [-3.75, 5]
+    - name: "30"
+      at: [-3.25, 5]
+    - name: "31"
+      at: [-2.75, 5]
+    - name: "32"
+      at: [-2.25, 5]
+    - name: "33"
+      at: [-1.75, 5]
+    - name: "34"
+      at: [-1.25, 5]
+    - name: "35"
+      at: [-0.75, 5]
+    - name: "36"
+      at: [-0.25, 5]
+    - name: "37"
+      at: [0.25, 5]
+    - name: "38"
+      at: [0.75, 5]
+    - name: "39"
+      at: [1.25, 5]
+    - name: "40"
+      at: [1.75, 5]
+    - name: "41"
+      at: [2.25, 5]
+    - name: "42"
+      at: [2.75, 5]
+    - name: "43"
+      at: [3.25, 5]
+    - name: "44"
+      at: [3.75, 5]
+    - name: "45"
+      at: [4.25, 5]
+    - name: "46"
+      at: [4.75, 5]
+    - name: "47"
+      at: [5.25, 5]
+    - name: "48"
+      at: [5.75, 5]
+    - name: "49"
+      at: [6.25, 5]
+    - name: "50"
+      at: [6.75, 5]
+    - name: "51"
+      at: [7.25, 5]
+    - name: "52"
+      at: [7.75, 5]
+    - name: "53"
+      at: [7.75, 4.5]
+    - name: "54"
+      at: [7.75, 4]
+    - name: "55"
+      at: [7.75, 3.5]
+    - name: "56"
+      at: [7.75, 3]
+    - name: "57"
+      at: [7.75, 2.5]
+    - name: "58"
+      at: [7.75, 2]
+    - name: "59"
+      at: [7.75, 1.5]
+    - name: "60"
+      at: [7.75, 1]
+    - name: "61"
+      at: [7.75, 0.5]
+    - name: "62"
+      at: [7.75, 0]
+    - name: "63"
+      at: [7.75, -0.5]
+    - name: "64"
+      at: [7.75, -1]
+    - name: "65"
+      at: [7.75, -1.5]
+    - name: "66"
+      at: [7.75, -2]
+    - name: "67"
+      at: [7.75, -2.5]
+    - name: "68"
+      at: [7.75, -3]
+    - name: "69"
+      at: [7.75, -3.5]
+    - name: "70"
+      at: [7.75, -4]
+    - name: "71"
+      at: [7.75, -4.5]
+    - name: "72"
+      at: [7.75, -5]
+    - name: "73"
+      at: [7.25, -5]
+    - name: "74"
+      at: [6.75, -5]
+    - name: "75"
+      at: [6.25, -5]
+    - name: "76"
+      at: [5.75, -5]
+    - name: "77"
+      at: [5.25, -5]
+    - name: "78"
+      at: [4.75, -5]
+    - name: "79"
+      at: [4.25, -5]
+    - name: "80"
+      at: [3.75, -5]
+    - name: "81"
+      at: [3.25, -5]
+    - name: "82"
+      at: [2.75, -5]
+    - name: "83"
+      at: [2.25, -5]
+    - name: "84"
+      at: [1.75, -5]
+    - name: "85"
+      at: [1.25, -5]
+    - name: "86"
+      at: [0.75, -5]
+    - name: "87"
+      at: [0.25, -5]
+    - name: "88"
+      at: [-0.25, -5]
+    - name: "89"
+      at: [-0.75, -5]
+    - name: "90"
+      at: [-1.25, -5]
+    - name: "91"
+      at: [-1.75, -5]
+    - name: "92"
+      at: [-2.25, -5]
+    - name: "93"
+      at: [-2.75, -5]
+    - name: "94"
+      at: [-3.25, -5]
+    - name: "95"
+      at: [-3.75, -5]
+    - name: "96"
+      at: [-4.25, -5]
+    - name: "97"
+      at: [-4.75, -5]
+    - name: "98"
+      at: [-5.25, -5]
+    - name: "99"
+      at: [-5.75, -5]
+    - name: "100"
+      at: [-6.25, -5]
+    - name: "101"
+      at: [-6.75, -5]
+    - name: "102"
+      at: [-7.25, -5]
+    - name: "104"
+      at: [-5.75, 4.35]
+    - name: "105"
+      at: [-5.25, 4.35]
+    - name: "106"
+      at: [-4.75, 4.35]
+    - name: "107"
+      at: [-4.25, 4.35]
+    - name: "108"
+      at: [-1.75, 4.35]
+    - name: "109"
+      at: [-1.25, 4.35]
+    - name: "110"
+      at: [-0.75, 4.35]
+    - name: "111"
+      at: [-0.25, 4.35]
+    - name: "112"
+      at: [3.25, 4.35]
+    - name: "113"
+      at: [3.75, 4.35]
+    - name: "114"
+      at: [4.25, 4.35]
+    - name: "115"
+      at: [4.75, 4.35]
+    - name: "116"
+      at: [4.75, -4.35]
+    - name: "117"
+      at: [4.25, -4.35]
+    - name: "118"
+      at: [3.75, -4.35]
+    - name: "119"
+      at: [3.25, -4.35]
+    - name: "120"
+      at: [-0.25, -4.35]
+    - name: "121"
+      at: [-0.75, -4.35]
+    - name: "122"
+      at: [-1.25, -4.35]
+    - name: "123"
+      at: [-1.75, -4.35]
+    - name: "124"
+      at: [-4.25, -4.35]
+    - name: "125"
+      at: [-4.75, -4.35]
+    - name: "126"
+      at: [-5.25, -4.35]
+    - name: "127"
+      at: [-5.75, -4.35]
+  secondary_layouts:
+    - pad_shape: "roundrect"
+      pad_size: [0.8, 0.8]
+      pads:
+        - name: "103"
+          at: [-6, -3.2]
+        - name: "103"
+          at: [-6, -1.6]
+        - name: "103"
+          at: [-6, 0]
+        - name: "103"
+          at: [-6, 1.6]
+        - name: "103"
+          at: [-6, 3.2]
+        - name: "103"
+          at: [-4, -3.2]
+        - name: "103"
+          at: [-4, -1.6]
+        - name: "103"
+          at: [-4, 0]
+        - name: "103"
+          at: [-4, 1.6]
+        - name: "103"
+          at: [-4, 3.2]
+        - name: "103"
+          at: [-2, -3.2]
+        - name: "103"
+          at: [-2, -1.6]
+        - name: "103"
+          at: [-2, 0]
+        - name: "103"
+          at: [-2, 1.6]
+        - name: "103"
+          at: [-2, 3.2]
+        - name: "103"
+          at: [0, -3.2]
+        - name: "103"
+          at: [0, -1.6]
+        - name: "103"
+          at: [0, 0]
+        - name: "103"
+          at: [0, 1.6]
+        - name: "103"
+          at: [0, 3.2]
+        - name: "103"
+          at: [2, -3.2]
+        - name: "103"
+          at: [2, -1.6]
+        - name: "103"
+          at: [2, 0]
+        - name: "103"
+          at: [2, 1.6]
+        - name: "103"
+          at: [2, 3.2]
+        - name: "103"
+          at: [4, -3.2]
+        - name: "103"
+          at: [4, 0]
+        - name: "103"
+          at: [4, 3.2]
+        - name: "103"
+          at: [6, -3.2]
+        - name: "103"
+          at: [6, 0]
+        - name: "103"
+          at: [6, 3.2]
+    - pad_shape: "roundrect"
+      pad_size: [1.6, 0.8]
+      pads:
+        - name: "103"
+          at: [5, -1.6]
+        - name: "103"
+          at: [5, 1.6]

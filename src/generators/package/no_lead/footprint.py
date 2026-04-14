@@ -53,8 +53,12 @@ def create_footprints(spec: NoLeadSpec, generator_name: str) -> int:
         if spec.has_ep and "thermal_vias" in spec.spec:
             _create_footprint_variant(spec, True, generator_name)
             num_fps_generated += 1
-        _create_footprint_variant(spec, False, generator_name)
-        num_fps_generated += 1
+            if not spec.spec.get("thermal_vias_only", False):
+                _create_footprint_variant(spec, False, generator_name)
+                num_fps_generated += 1
+        else:
+            _create_footprint_variant(spec, False, generator_name)
+            num_fps_generated += 1
     return num_fps_generated
 
 

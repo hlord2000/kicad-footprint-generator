@@ -2100,3 +2100,276 @@ NXP_SOT2162-1_VFBGA-59_4x4mm_Layout9x9_P0.4mm:
   pad_diameter: 0.24
   mask_margin: 0.04
   paste_margin: 0.0175
+
+BGA-47_7x7_2.451x2.245mm:
+  size_source: "https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/keyfeatures_html5.html"
+  description: "Nordic BGA-47"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf54l"
+  body_size_y: 2.245
+  body_size_x: 2.451
+  body_pcb_gap: 0.0
+  overall_height: 0.42
+  ball_diameter: 0.17
+  pitch: 0.3
+  layout_y: 7
+  layout_x: 7
+  pad_skips: [B2, C1]
+  pad_diameter: 0.17
+  offset_x: 0.072
+  offset_y: -0.013
+
+BGA-16_4x4_1.9175x1.8975mm:
+  size_source: "https://www.nordicsemi.com/products/nPM2100"
+  description: "Nordic BGA-16_4x4_1.9175x1.8975mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-npm"
+  body_size_y: 1.8975
+  body_size_x: 1.9175
+  body_pcb_gap: 0.0
+  overall_height: 0.439
+  ball_diameter: 0.22
+  pitch: 0.44
+  layout_y: 4
+  layout_x: 4
+  pad_diameter: 0.22
+
+BGA-25_5x5_2.075x2.075mm:
+  size_source: "https://docs-be.nordicsemi.com/bundle/ps_npm1100/attach/nPM1100_PS_v1.4.pdf?_LANG=enus"
+  description: "Nordic BGA-25_5x5_2.075x2.075mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-npm"
+  body_size_y: 2.075
+  body_size_x: 2.075
+  body_pcb_gap: 0.0
+  overall_height: 0.45
+  ball_diameter: 0.225
+  pitch: 0.4
+  layout_y: 5
+  layout_x: 5
+  pad_diameter: 0.225
+
+BGA-35_7x5_3.077x2.3775mm:
+  size_source: "https://docs.nordicsemi.com/bundle/ps_npm1300"
+  description: "Nordic BGA-35_7x5_3.077x2.3775mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-npm"
+  body_size_y: 2.3775
+  body_size_x: 3.077
+  body_pcb_gap: 0.0
+  overall_height: 0.464
+  ball_diameter: 0.225
+  pitch: 0.419
+  layout_y: 5
+  layout_x: 7
+  pad_diameter: 0.225
+
+BGA-44_7x7_2.531x2.531mm:
+  size_source: "https://docs-be.nordicsemi.com/bundle/ps_nrf52820/attach/nRF52820_PS_v1.5.pdf?_LANG=enus"
+  description: "Nordic BGA-44_7x7_2.531x2.531mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 2.531
+  body_size_x: 2.531
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.214
+  pitch: 0.35
+  layout_y: 7
+  layout_x: 7
+  pad_skips: [B1, B2, C3, D1, D2]
+  pad_diameter: 0.214
+
+BGA-76_9x9_3.175x3.175mm:
+  size_source: "https://docs-be.nordicsemi.com/bundle/ps_nrf52833/attach/nRF52833_PS_v1.7.pdf?_LANG=enus"
+  description: "Nordic BGA-76_9x9_3.175x3.175mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 3.175
+  body_size_x: 3.175
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.2
+  pitch: 0.35
+  layout_y: 9
+  layout_x: 9
+  pad_skips: [B1, C3, D1, D2, G7]
+  pad_diameter: 0.2
+  offset_x: 0.025
+  offset_y: 0.025
+
+BGA-94_10x10_3.544x3.607mm:
+  size_source: "https://docs-be.nordicsemi.com/bundle/ps_nrf52840/attach/nRF52840_PS_v1.11.pdf?_LANG=enus"
+  description: "Nordic BGA-94_10x10_3.544x3.607mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 3.607
+  body_size_x: 3.544
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.214
+  pitch: 0.35
+  layout_y: 10
+  layout_x: 10
+  pad_skips: [B1, B2, C3, D1, D2, H3]
+  pad_diameter: 0.214
+
+BGA-132_12x11_4.39x3.994mm:
+  size_source: "https://docs-be.nordicsemi.com/bundle/ps_nrf5340/attach/nRF5340_PS_v1.5.pdf"
+  description: "Nordic BGA-132_12x11_4.39x3.994mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf53"
+  body_size_y: 3.994
+  body_size_x: 4.39
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.15
+  pitch: 0.35
+  layout_y: 11
+  layout_x: 12
+  pad_skips: [A4, A6, A8, A10, B3, C1, C3, C12, D3, D4, D5, D6, D7, D8, D9, E1, E9, E12, F4, F9, G1, G4, G9, G12, H4, H5, H6, H7, H8, H9, J1, J12, L2, L4, L6, L8, L10]
+  pad_diameter: 0.15
+
+BGA-51_7x8_2.956x3.226mm:
+  size_source: "https://docs.nordicsemi.com/bundle/nRF52832_PS_v1.9/resource/nRF52832_PS_v1.9.pdf"
+  description: "Nordic BGA-51_7x8_2.956x3.226mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 3.226
+  body_size_x: 2.956
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.2
+  pitch: 0.4
+  layout_y: 8
+  layout_x: 7
+  pad_skips: [B1, C1, D4, D5, E4, E5]
+  pad_diameter: 0.2
+
+BGA-33_6x6_2.482x2.464mm:
+  size_source: "https://docs.nordicsemi.com/bundle/nRF52810_PS_v1.5/resource/nRF52810_PS_v1.5.pdf"
+  description: "Nordic BGA-33_6x6_2.482x2.464mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 2.464
+  body_size_x: 2.482
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.227
+  pitch: 0.4
+  layout_y: 6
+  layout_x: 6
+  row_names: [A, B, D, E, F, G]
+  pad_skips: [B1, B2, D1, D2]
+  pad_diameter: 0.227
+  secondary_layouts:
+    - layout_x: 1
+      layout_y: 1
+      row_names: [C]
+      pitch: 0.4
+      offset_x: -1.0
+      offset_y: -0.4
+
+BGA-28_6x6_2.482x2.464mm:
+  size_source: "https://docs.nordicsemi.com/bundle/nRF52805_PS_v1.4/resource/nRF52805_PS_v1.4.pdf"
+  description: "Nordic BGA-28_6x6_2.482x2.464mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf52"
+  body_size_y: 2.464
+  body_size_x: 2.482
+  body_pcb_gap: 0.0
+  overall_height: 0.5
+  ball_diameter: 0.227
+  pitch: 0.4
+  layout_y: 6
+  layout_x: 6
+  row_names: [A, B, D, E, F, G]
+  pad_skips: [B1, B2, B5, D1, D2, E2, E5, E6, F3]
+  pad_diameter: 0.227
+  secondary_layouts:
+    - layout_x: 1
+      layout_y: 1
+      row_names: [C]
+      pitch: 0.4
+      offset_x: -1.0
+      offset_y: -0.4
+
+BGA-90_10x9_3.7495x3.385mm:
+  size_source: "https://docs.nordicsemi.com/bundle/ps_nrf7002/page/keyfeatures_html5.html"
+  description: "Nordic BGA-90_10x9_3.7495x3.385mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-nrf7"
+  body_size_y: 3.385
+  body_size_x: 3.7495
+  body_pcb_gap: 0.0
+  overall_height: 0.48
+  ball_diameter: 0.2
+  pitch_x: 0.175045
+  pitch_y: 0.3501
+  layout_y: 9
+  layout_x: 20
+  row_names: [A, B, C, D, E, F, J, K, L]
+  pad_skips: [A2, A4, A6, A8, A10, A12, A14, A15, A17, A19, B1, B3, B5, B7, B9, B11, B13, B14, B16, B18, B20, C2, C4, C6, C8, C10, C12, C14, C15, C17, C19, D2, D4, D6, D8, D10, D12, D14, D15, D17, D19, E1, E2, E4, E6, E8, E10, E12, E14, E15, E17, E18, E19, E20, F2, F4, F6, F8, F10, F12, F14, F15, F16, F17, F18, F19, F20, J2, J4, J6, J8, J10, J12, J13, J15, J16, J17, J18, J19, J20, K2, K4, K6, K8, K10, K12, K14, K15, K17, K18, K19, L2, L4, L6, L8, L10, L12, L14, L15, L17, L19]
+  pad_diameter: 0.2
+  offset_x: 0.1364475
+  offset_y: -0.02159
+  secondary_layouts:
+    - layout_x: 1
+      layout_y: 1
+      row_names: [G]
+      first_column: 16
+      pitch_x: 0.175045
+      pitch_y: 0.3501
+      offset_x: 0.9242
+      offset_y: 0.3915
+    - layout_x: 1
+      layout_y: 1
+      row_names: [H]
+      first_column: 20
+      pitch_x: 0.175045
+      pitch_y: 0.3501
+      offset_x: 1.62441
+      offset_y: 0.41148
+
+BGA-45_5x9_2.175x3.635mm:
+  size_source: "https://docs.nordicsemi.com/bundle/ps_npm6001"
+  description: "Nordic BGA-45_5x9_2.175x3.635mm"
+  device_type: "BGA"
+  manufacturer: "Nordic"
+  name_equal_to_key: True
+  library: "nordic-lib-kicad-npm"
+  body_size_y: 3.635
+  body_size_x: 2.175
+  body_pcb_gap: 0.0
+  overall_height: 0.46
+  ball_diameter: 0.21
+  pitch_x: 0.42
+  pitch_y: 0.39
+  layout_y: 9
+  layout_x: 5
+  row_names: [A, B, C, D, E, F, G, H, I]
+  pad_diameter: 0.21

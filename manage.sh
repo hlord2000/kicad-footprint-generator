@@ -9,22 +9,50 @@ fi
 
 PYTHONPATH=$BASE_DIR
 KICADMODTREE_DIR="$BASE_DIR/KicadModTree"
+VENV_DIR="$BASE_DIR/.venv"
+UV_PYTHON="$VENV_DIR/bin/python"
+VENV_BIN="$VENV_DIR/bin"
 ACTION=$1
 
+require_uv() {
+    command -v uv >/dev/null 2>&1 || {
+        echo >&2 "uv not found. Install from https://docs.astral.sh/uv/getting-started/installation/"
+        exit 1
+    }
+}
+
+ensure_venv() {
+    if [ ! -x "$UV_PYTHON" ]; then
+        require_uv
+        uv venv "$VENV_DIR"
+    fi
+}
+
+uv_install() {
+    ensure_venv
+    uv pip install --python "$UV_PYTHON" --upgrade "$@"
+}
+
+activate_venv() {
+    ensure_venv
+    export VIRTUAL_ENV="$VENV_DIR"
+    export PATH="$VENV_BIN:$PATH"
+}
+
 update_packages() {
-    pip3 install --upgrade -e .
+    uv_install -e .
 }
 
 update_dev_packages() {
-    pip3 install --upgrade -e '.[dev]'
+    uv_install -e '.[dev]'
 }
 
 update_3d_packages() {
-    pip3 install --upgrade -e '.[3d]'
+    uv_install -e '.[3d]'
 }
 
 update_doc_packages() {
-    pip3 install --upgrade -e '.[documentation]'
+    uv_install -e '.[documentation]'
 }
 
 format_check() {
@@ -132,6 +160,7 @@ Commands
 #    && help "action not found" \
 #    || $ACTION
 if [ -n "$(type -t $ACTION)" ] && [ "$(type -t $ACTION)" = function ]; then
+     [ "$ACTION" = "help" ] || activate_venv
      $ACTION
  else
      help "action not found"
