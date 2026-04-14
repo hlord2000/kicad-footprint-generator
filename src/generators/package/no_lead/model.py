@@ -82,14 +82,19 @@ def create_models(spec: NoLeadSpec, generator_name: str) -> int:
     # Make the parts of the model
     (body, pins, epad, mark) = make_qfn(spec)
 
+    body_color = spec.spec.get("body_color_key", "black body")
+    pin_color = spec.spec.get("pin_color_key", "metal grey pins")
+    epad_color = spec.spec.get("epad_color_key", pin_color)
+    mark_color = spec.spec.get("mark_color_key", "light brown label")
+
     parts: list[cq.Workplane] = [body, pins]
-    color_names: list[str] = ["black body", "metal grey pins"]
+    color_names: list[str] = [body_color, pin_color]
     if epad:
         parts.append(epad)
-        color_names.append("metal grey pins")
+        color_names.append(epad_color)
     if mark:
         parts.append(mark)
-        color_names.append("light brown label")
+        color_names.append(mark_color)
 
     export_tools.export(
         generator_name=generator_name,

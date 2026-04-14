@@ -237,11 +237,16 @@ def create_models(spec: GridArraySpec, generator_name: str) -> int:
             raise ValueError(f"Mark is '{spec.marker}', however no such pin was found.")
     case = case.cut(pinmark)
 
+    body_color = spec.spec.get("body_color_key", "black body")
+    pin_color = spec.spec.get("pin_color_key", "metal grey pins")
+    mark_color = spec.spec.get("mark_color_key", "light brown label")
+    case_bot_color = spec.spec.get("case_bot_color_key", "dark green body")
+
     parts: list[cq.Workplane] = [case, merged_pins, pinmark]
-    color_names: list[str] = ["black body", "metal grey pins", "light brown label"]
+    color_names: list[str] = [body_color, pin_color, mark_color]
     if case_bot is not None:
         parts.append(case_bot)
-        color_names.append("dark green body")
+        color_names.append(case_bot_color)
 
     export_tools.export(
         generator_name=generator_name,
